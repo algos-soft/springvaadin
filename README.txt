@@ -16,14 +16,14 @@ Nel WAR finale (runtime) occorre (credo) inserire dei servlet di context diversi
 Vaad8springApplication ha le Annotation:
 - @SpringBootApplication
 - @EnableAutoConfiguration
-- @ComponentScan("it.algos.vaad8spring")
+- @ComponentScan("it.algos.springvaadin")
     - Senza questa non vede le Annotation tipo @SpringView delle classi che sono
       in una directory diversa da quella che contiene Vaad8springApplication
 Vaad8springApplication non fa praticamente niente se non avere le Annotation citate
 
-Vaadin8springUI è la classe di UI che 'parte' all'inizio dell'applicazione
-Vaadin8springUI extends UI e implements ViewDisplay
-Vaadin8springUI è identificata dall'Annotation @SpringUI()
+SpringVaadinUI è la classe di UI che 'parte' all'inizio dell'applicazione
+SpringVaadinUI extends UI e implements ViewDisplay
+SpringVaadinUI è identificata dall'Annotation @SpringUI()
 - @SpringUI() deve essere utilizzata in una sola classe dell'applicazione che estenda UI
 
 I DataSource setting vanno regolati in resources.application.properties
@@ -41,7 +41,7 @@ Remember to also map the path “/VAADIN/” to the Vaadin servlet for serving s
 
 Un Navigator esplicito non serve. SpringBoot usa SpringNavigator che 'legge' tutte le classi con @SpringView
     e mantiene uno SpringViewProvider utilizzato da getNavigator().navigateTo(address)
-Le vaire view sono automaticamente disponibili nel codice del programma per navigare da una all'altra
+Le varie view sono automaticamente disponibili nel codice del programma per navigare da una all'altra
 Per consentire all'utente lo spostamente occorre comunque creare una MenuBar coi nomi delle View
     (letti da una property statica della classe) e creare il comando getNavigator().navigateTo(viewName);
 
@@ -55,7 +55,7 @@ Se si mappa con @Autowired una property che richiama un Interfaccia ed esiste un
 implementazione di quella interfaccia, la classe concreta viene creata.
 Se c'è più di un'implementazione dell'interfaccia richiesta, si ottiene: 'expected single matching bean'
 
-Gle eventi vengono gestiti da @EventListener (che mi sembra uno sviluppo di @Observes)
+Gli eventi vengono gestiti da @EventListener (che mi sembra uno sviluppo di @Observes)
 
     The model is an interface defining the data to be displayed or otherwise acted upon in the user interface.
     The view is a passive interface that displays data (the model) and routes user commands (events) to the presenter to act upon that data.
@@ -72,19 +72,19 @@ Leggi: https://www.voxxed.com/blog/2017/03/21-improvements-vaadin-8/
 
 Costanti dell'applicazione
 1) Costanti globali dell'applicazione. Non modificabili (final static).
+    . PRIMA della chiamata del browser
+    . Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
+    . Stanno nella classe Cost.
+2) Costanti globali dell'applicazione. Non modificabili (final static).
     . Regolate in fase di costruzione del framework.
     . Application is coming up and is ready to server requests
     . PRIMA della chiamata del browser
     . Stanno in AlgosApp.
-2) Costanti globali dell'applicazione. Business logic. Modificabili (static).
+3) Costanti globali dell'applicazione. Business logic. Modificabili (static).
     . Application received the server requests
     . DOPO la chiamata del browser
     . Fixed in AlgosSpringBoot.afterPropertiesSet()
     . Can be overwritten on local xxxSpringBoot.afterPropertiesSet() method
-3) Costanti globali dell'applicazione. Non modificabili (final static).
-    . PRIMA della chiamata del browser
-    . Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
-    . Stanno nella classe Cost.
 4) Costanti globali dell'interfaccia. Modificabili (static).
      * Regolate nel metodo @PostConstruct di AlgosUI.inizia()
      * Pussono essere modificate in @PostConstruct.inizia() della sottoclasse concreta xxxUI
