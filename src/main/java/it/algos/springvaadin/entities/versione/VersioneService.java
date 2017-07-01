@@ -43,25 +43,17 @@ public class VersioneService extends AlgosService {
     private Versione versioneModel;
 
 
-    @PostConstruct
-    public void inizia() {
+    @Override
+    protected void regolaParametri() {
         super.tableName = "versione";
 
         //--casting per gestire la property generica
         super.modelClass = Versione.class;
-
-        if (nonEsiste()) {
-            creaTable();
-        }// end of if cycle
-        if (vuota()) {
-            SpringVaadinData.creaVersione(this);
-        }// end of if cycle
-
     }// end of method
 
-
+@Override
     public void creaTable() {
-        String query = "CREATE TABLE algostest.versione (" +
+        String query = "CREATE TABLE versione (" +
                 "  id INT NOT NULL AUTO_INCREMENT," +
                 "  ordine INT NULL," +
                 "  titolo TEXT NULL," +
@@ -70,6 +62,12 @@ public class VersioneService extends AlgosService {
                 "  PRIMARY KEY (id))";
 
         jdbcTemplate.execute(query);
+    }// end of method
+
+
+    @Override
+    protected void creaDatiIniziali() {
+        SpringVaadinData.creaVersione(this);
     }// end of method
 
 

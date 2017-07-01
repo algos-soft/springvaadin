@@ -1,6 +1,8 @@
 package it.algos.springvaadin.service;
 
 import com.sun.deploy.util.StringUtils;
+import it.algos.springvaadin.bootstrap.SpringVaadinData;
+import it.algos.springvaadin.entities.versione.Versione;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosModel;
@@ -12,6 +14,7 @@ import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,7 @@ public abstract class AlgosService {
     @Lazy
     protected JdbcTemplate jdbcTemplate;
 
+
     //--tavola di riferimento
     //--regolata nella sottoclasse concreta
     protected String tableName;
@@ -41,6 +45,20 @@ public abstract class AlgosService {
     //--classem del modello dati
     //--regolata nella sottoclasse concreta
     protected Class modelClass;
+
+
+    @PostConstruct
+    public void inizia() {
+        regolaParametri();
+
+        if (nonEsiste()) {
+            creaTable();
+        }// end of if cycle
+
+        if (vuota()) {
+            creaDatiIniziali();
+        }// end of if cycle
+    }// end of method
 
 
     protected boolean nonEsiste() {
@@ -62,6 +80,15 @@ public abstract class AlgosService {
         return count() == 0;
     }// end of method
 
+
+    protected void regolaParametri() {
+    }// end of method
+
+    protected void creaTable() {
+    }// end of method
+
+    protected void creaDatiIniziali() {
+    }// end of method
 
     /**
      * Conteggio di tutti i records della tavola
@@ -125,10 +152,10 @@ public abstract class AlgosService {
         for (String campo : map.keySet()) {
             campi += campo + "=?, ";
         }// end of for cycle
-        campi= LibText.levaCoda(campi,",");
+        campi = LibText.levaCoda(campi, ",");
 
         query += campi + " WHERE id=?";
-        map.put("id",entityBean.getId());
+        map.put("id", entityBean.getId());
         jdbcTemplate.update(query, map.values().toArray());
     }// end of method
 
@@ -169,7 +196,7 @@ public abstract class AlgosService {
      */
     //        String[] array = {"ordine", "titolo", "descrizione", "modifica"};//@todo esempio per la sottoclasse
     //        return LibArray.fromString(array);
-    public  List<String> getListColumns() {
+    public List<String> getListColumns() {
         return LibArray.getKeyFromMap(getBeanMap(null));
     }// end of method
 

@@ -35,37 +35,37 @@ public class CompanyService extends AlgosService {
     private Company companyModel;
 
 
-    @PostConstruct
-    public void inizia() {
+    @Override
+    protected void regolaParametri() {
         super.tableName = "company";
 
         //--casting per gestire la property generica
         super.modelClass = Company.class;
-
-        if (nonEsiste()) {
-            creaTable();
-        }// end of if cycle
-        if (vuota()) {
-            SpringVaadinData.creaCompany(this);
-        }// end of if cycle
     }// end of method
 
 
+    @Override
     public void creaTable() {
-        String query = "CREATE TABLE `algostest`.`company` (" +
-                "  `id` INT NOT NULL AUTO_INCREMENT," +
-                "  `sigla` TEXT NULL," +
-                "  `descrizione` TEXT NULL," +
-                "  `email` TEXT NULL," +
-                "  `indirizzo` TEXT NULL," +
-                "  `contatto` TEXT NULL," +
-                "  `telefono` TEXT NULL," +
-                "  `cellulare` TEXT NULL," +
-                "  `note` TEXT NULL," +
-                "  `partenza` DATE NULL," +
+        String query = "CREATE TABLE company (" +
+                "  id INT NOT NULL AUTO_INCREMENT," +
+                "  sigla TEXT NULL," +
+                "  descrizione TEXT NULL," +
+                "  email TEXT NULL," +
+                "  indirizzo TEXT NULL," +
+                "  contatto TEXT NULL," +
+                "  telefono TEXT NULL," +
+                "  cellulare TEXT NULL," +
+                "  note TEXT NULL," +
+                "  partenza DATE NULL," +
                 "  PRIMARY KEY (`id`))";
 
         jdbcTemplate.execute(query);
+    }// end of method
+
+
+    @Override
+    protected void creaDatiIniziali() {
+        SpringVaadinData.creaCompany(this);
     }// end of method
 
 

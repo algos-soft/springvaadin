@@ -31,25 +31,18 @@ public class LogService extends AlgosService {
     private Log logModel;
 
 
-    @PostConstruct
-    public void inizia() {
+    @Override
+    protected void regolaParametri() {
         super.tableName = "log";
 
         //--casting per gestire la property generica
         super.modelClass = Log.class;
-
-        if (nonEsiste()) {
-            creaTable();
-        }// end of if cycle
-        if (vuota()) {
-            SpringVaadinData.creaLog(this);
-        }// end of if cycle
-
     }// end of method
 
 
+    @Override
     public void creaTable() {
-        String query = "CREATE TABLE algostest.log (" +
+        String query = "CREATE TABLE log (" +
                 " id INT NOT NULL AUTO_INCREMENT," +
                 " company_id int NULL," +
                 " livello TEXT NULL," +
@@ -59,6 +52,11 @@ public class LogService extends AlgosService {
                 " PRIMARY KEY (id))";
 
         jdbcTemplate.execute(query);
+    }// end of method
+
+
+    @Override
+    protected void creaDatiIniziali() {
     }// end of method
 
 
