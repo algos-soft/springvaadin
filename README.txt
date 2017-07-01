@@ -1,0 +1,90 @@
+Vaadin and SpringBoot
+Architettura MVP (Model, View, Presenter)
+Applicazione finale in JAR, con Tomcat embedded.
+Alternativamente si può avere l'uscita in WAR. Modifiche possibili, non ancora provate
+Usa Vaadin 8.0.5 e IntelliJ Idea 2017.1.3 e SpringBoot 1.5.3
+Usa le dependencies:
+- Core: Cache, DevTools
+- Web: Web, Web Services, Vaadin
+- SQL: JPA, MySQL, H2
+- I/O: Mail
+
+Vaad8springApplication contiene il metodo 'main' che è il punto di ingresso dell'applicazione Java
+In fase di sviluppo si possono avere diverse configurazioni, ognuna delle quali punta un ''main' diverso
+Nel JAR finale (runtime) si può avere una sola classe col metodo 'main'.
+Nel WAR finale (runtime) occorre (credo) inserire dei servlet di context diversi
+Vaad8springApplication ha le Annotation:
+- @SpringBootApplication
+- @EnableAutoConfiguration
+- @ComponentScan("it.algos.vaad8spring")
+    - Senza questa non vede le Annotation tipo @SpringView delle classi che sono
+      in una directory diversa da quella che contiene Vaad8springApplication
+Vaad8springApplication non fa praticamente niente se non avere le Annotation citate
+
+Vaadin8springUI è la classe di UI che 'parte' all'inizio dell'applicazione
+Vaadin8springUI extends UI e implements ViewDisplay
+Vaadin8springUI è identificata dall'Annotation @SpringUI()
+- @SpringUI() deve essere utilizzata in una sola classe dell'applicazione che estenda UI
+
+I DataSource setting vanno regolati in resources.application.properties
+
+La porta del Tomcat embedded è di default 8080, ma si può regolare in diversi modi:
+- In VM options della configurazione -> -Dserver.port=8090
+
+La struttura generata dal pom di Maven ha una sua tipicità
+Vedi: https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html
+Occorre una directory (a livello base nella cartella java) ‘webapp’
+    dove metterci una directory VAADIN (maiuscola) con dentro i ‘themes’
+ATTENZIONE: Vaadin/SpringBoot/Maven legge automaticamente come baseDir quella dove c’è la cartella VAADIN.
+    Le immagini ed i dati demo, vanno messi qui.
+Remember to also map the path “/VAADIN/” to the Vaadin servlet for serving static resources
+
+Un Navigator esplicito non serve. SpringBoot usa SpringNavigator che 'legge' tutte le classi con @SpringView
+    e mantiene uno SpringViewProvider utilizzato da getNavigator().navigateTo(address)
+Le vaire view sono automaticamente disponibili nel codice del programma per navigare da una all'altra
+Per consentire all'utente lo spostamente occorre comunque creare una MenuBar coi nomi delle View
+    (letti da una property statica della classe) e creare il comando getNavigator().navigateTo(viewName);
+
+Per ogni classe che si vuole iniettare, occorre usare @SpringComponent nella classe e @Autowired per la property
+
+Le classi di tipo 'bean' devono usare @Component
+
+In SpringBoot, Pay attention to the order of annotations
+
+Se si mappa con @Autowired una property che richiama un Interfaccia ed esiste una (ed una sola)
+implementazione di quella interfaccia, la classe concreta viene creata.
+Se c'è più di un'implementazione dell'interfaccia richiesta, si ottiene: 'expected single matching bean'
+
+Gle eventi vengono gestiti da @EventListener (che mi sembra uno sviluppo di @Observes)
+
+    The model is an interface defining the data to be displayed or otherwise acted upon in the user interface.
+    The view is a passive interface that displays data (the model) and routes user commands (events) to the presenter to act upon that data.
+    The presenter acts upon the model and the view. It retrieves data from repositories (the model), and formats it for display in the view.
+
+    When a user triggers an event method of the view, it does nothing
+    but invoke a method of the presenter that has no parameters and no return value.
+    The presenter then retrieves data from the view through methods defined by the view interface.
+    Finally, the presenter operates on the model and updates the view with the results of the operation
+
+Spring Data is not compatible with the architecture of JPAContainer.
+
+Leggi: https://www.voxxed.com/blog/2017/03/21-improvements-vaadin-8/
+
+Costanti dell'applicazione
+1) Costanti globali dell'applicazione. Non modificabili (final static).
+    . Regolate in fase di costruzione del framework.
+    . Application is coming up and is ready to server requests
+    . PRIMA della chiamata del browser
+    . Stanno in AlgosApp.
+2) Costanti globali dell'applicazione. Business logic. Modificabili (static).
+    . Application received the server requests
+    . DOPO la chiamata del browser
+    . Fixed in AlgosSpringBoot.afterPropertiesSet()
+    . Can be overwritten on local xxxSpringBoot.afterPropertiesSet() method
+3) Costanti globali dell'applicazione. Non modificabili (final static).
+    . PRIMA della chiamata del browser
+    . Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
+    . Stanno nella classe Cost.
+4) Costanti globali dell'interfaccia. Modificabili (static).
+     * Regolate nel metodo @PostConstruct di AlgosUI.inizia()
+     * Pussono essere modificate in @PostConstruct.inizia() della sottoclasse concreta xxxUI
