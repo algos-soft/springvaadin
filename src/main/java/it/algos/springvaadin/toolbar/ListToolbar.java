@@ -2,9 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import it.algos.springvaadin.events.Bottone;
-import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.event.Bottone;
 
 import javax.annotation.PostConstruct;
 

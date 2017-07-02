@@ -2,10 +2,9 @@ package it.algos.springvaadin.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entities.company.CompanyView;
-import it.algos.springvaadin.entities.log.LogView;
-import it.algos.springvaadin.entities.versione.VersioneView;
+import it.algos.springvaadin.entity.company.CompanyView;
+import it.algos.springvaadin.entity.log.LogView;
+import it.algos.springvaadin.entity.versione.VersioneView;
 import it.algos.springvaadin.help.HelpView;
 import it.algos.springvaadin.home.HomeView;
 import it.algos.springvaadin.lib.LibParams;

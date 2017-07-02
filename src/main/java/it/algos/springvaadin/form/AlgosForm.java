@@ -1,19 +1,15 @@
 package it.algos.springvaadin.form;
 
-import com.vaadin.data.Binder;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entities.versione.Versione;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.FormToolbar;
-import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**

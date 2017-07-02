@@ -5,17 +5,12 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entities.versione.Versione;
-import it.algos.springvaadin.entities.versione.VersionePresenter;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.form.AlgosForm;
-import it.algos.springvaadin.grid.AlgosGridOld;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.service.AlgosService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.PostConstruct;
 import java.util.List;

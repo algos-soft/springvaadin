@@ -1,20 +1,10 @@
 package it.algos.springvaadin.spring;
 
-import com.vaadin.ui.Label;
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.controller.AppErrorController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 30/05/17.
@@ -29,9 +19,9 @@ import javax.annotation.PostConstruct;
  * Questa classe non fa praticamente niente se non avere le Annotation riportate qui
  */
 @SpringBootApplication
-@EnableJpaRepositories("it.algos.springvaadin.entities.versione.*")
+@EnableJpaRepositories("it.algos.springvaadin.entity.versione.*")
 @ComponentScan("it.algos.springvaadin.*")
-@EntityScan("it.algos.springvaadin.entities.versione.*")
+@EntityScan("it.algos.springvaadin.entity.versione.*")
 public class SpringvaadinApplication {
 
     /**
@@ -43,20 +33,5 @@ public class SpringvaadinApplication {
         SpringApplication.run(SpringvaadinApplication.class, args);
     }// end of constructor
 
-    /**
-     * Sovrascrive alcune variabili statiche della classe generale,
-     * per modificarne il comportamento solo in questa applicazione
-     */
-    @PostConstruct
-    protected void inizia() {
-        AlgosApp.USE_MULTI_COMPANY = true;
-    }// end of method
-
-
-//	@Autowired
-//	private ErrorAttributes errorAttributes;
-//
-//	@Bean
-//	public AppErrorController appErrorController(){return new AppErrorController(errorAttributes);}
 
 }// end of main class

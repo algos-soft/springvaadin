@@ -1,14 +1,9 @@
 package it.algos.springvaadin.field;
 
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import it.algos.springvaadin.entities.log.Livello;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import it.algos.springvaadin.entity.log.Livello;
 
 /**
  * Created by gac on 30/06/17

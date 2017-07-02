@@ -1,8 +1,6 @@
 package it.algos.springvaadin.service;
 
 import com.sun.deploy.util.StringUtils;
-import it.algos.springvaadin.bootstrap.SpringVaadinData;
-import it.algos.springvaadin.entities.versione.Versione;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosModel;

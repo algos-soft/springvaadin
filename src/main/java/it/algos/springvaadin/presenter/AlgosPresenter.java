@@ -1,26 +1,16 @@
 package it.algos.springvaadin.presenter;
 
-import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Notification;
-import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.entities.versione.Versione;
-import it.algos.springvaadin.entities.versione.VersioneView;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Set;
-
-import it.algos.springvaadin.entities.versione.VersioneRepository;
 
 /**
  * Created by gac on 14/06/17.
@@ -61,9 +51,6 @@ public class AlgosPresenter extends AlgosPresenterEvents {
 
 
     boolean newRecord = false;
-
-//    @Autowired
-//    private VersioneRepository versioneRepository;
 
 
     /**

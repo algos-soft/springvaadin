@@ -88,3 +88,10 @@ Costanti dell'applicazione
 4) Costanti globali dell'interfaccia. Modificabili (static).
      * Regolate nel metodo @PostConstruct di AlgosUI.inizia()
      * Pussono essere modificate in @PostConstruct.inizia() della sottoclasse concreta xxxUI
+
+==Spring Data==
+Spring Boot JDBC usa JdbcTemplate (basso livello, architettura più semplice, uso più macchinoso)
+Spring Boot JPA usa le Repository (alto livello, architettura automatica molto più complessa, uso banale ed elegante)
+Per il momento uso JDBC per passare poi a JPA.
+Metto nei Service solo la definizione dei dati e la logica di manipolazione
+Separo nelle Repository l'implementazione JDBC, così per passare a JPA non devo cambiare nulla dei Service

@@ -3,20 +3,13 @@ package it.algos.springvaadin.grid;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.components.grid.SingleSelectionModel;
-import it.algos.springvaadin.entities.versione.Versione;
-import it.algos.springvaadin.events.*;
+import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.ui.AlgosUIParams;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Lazy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 

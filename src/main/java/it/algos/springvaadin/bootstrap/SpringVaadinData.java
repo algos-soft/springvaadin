@@ -1,12 +1,8 @@
 package it.algos.springvaadin.bootstrap;
 
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entities.company.CompanyService;
-import it.algos.springvaadin.entities.log.LogService;
-import it.algos.springvaadin.entities.versione.VersioneService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDate;
+import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.log.LogService;
+import it.algos.springvaadin.entity.versione.VersioneService;
 
 /**
  * Created by gac on 22/06/17

@@ -2,27 +2,14 @@ package it.algos.springvaadin.lib;
 
 
 import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
-import it.algos.springvaadin.entities.company.CompanyService;
-import it.algos.springvaadin.entities.log.Livello;
-import it.algos.springvaadin.entities.log.Log;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.service.AlgosService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.PluralAttribute;
-import javax.persistence.metamodel.SingularAttribute;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by gac on 18 ott 2016.

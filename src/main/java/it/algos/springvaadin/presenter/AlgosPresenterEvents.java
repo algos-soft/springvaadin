@@ -2,9 +2,8 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.events.*;
+import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

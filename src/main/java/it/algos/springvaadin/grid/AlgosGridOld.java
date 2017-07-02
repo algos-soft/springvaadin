@@ -6,7 +6,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
-import it.algos.springvaadin.entities.versione.Versione;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibColumn;
 import it.algos.springvaadin.lib.LibSession;
 import org.springframework.context.annotation.Lazy;

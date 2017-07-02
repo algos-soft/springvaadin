@@ -2,22 +2,12 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
-import it.algos.springvaadin.entities.versione.Versione;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.model.AlgosModel;
-import org.springframework.context.annotation.Bean;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.swing.*;
-import java.awt.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
