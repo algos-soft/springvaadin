@@ -29,9 +29,9 @@ import javax.annotation.PostConstruct;
  * Questa classe non fa praticamente niente se non avere le Annotation riportate qui
  */
 @SpringBootApplication
-@EnableJpaRepositories("it.algos.springvaadin.*")
+@EnableJpaRepositories("it.algos.springvaadin.entities.versione.*")
 @ComponentScan("it.algos.springvaadin.*")
-//@EntityScan("it.algos.springvaadin.*")
+@EntityScan("it.algos.springvaadin.entities.versione.*")
 public class SpringvaadinApplication {
 
     /**

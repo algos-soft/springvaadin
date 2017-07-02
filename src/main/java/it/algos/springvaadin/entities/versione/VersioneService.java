@@ -42,6 +42,8 @@ public class VersioneService extends AlgosService {
     @Lazy
     private Versione versioneModel;
 
+    @Autowired
+    private VersioneRepository versioneRepository;
 
     @Override
     protected void regolaParametri() {
@@ -49,9 +51,10 @@ public class VersioneService extends AlgosService {
 
         //--casting per gestire la property generica
         super.modelClass = Versione.class;
+
     }// end of method
 
-@Override
+    @Override
     public void creaTable() {
         String query = "CREATE TABLE versione (" +
                 "  id INT NOT NULL AUTO_INCREMENT," +
@@ -129,6 +132,7 @@ public class VersioneService extends AlgosService {
 
         return versioneModel;
     }// end of method
+
 
     /**
      * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist

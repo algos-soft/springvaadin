@@ -22,10 +22,10 @@ public class StaticContextAccessor {
     @PostConstruct
     public void registerInstance() {
         instance = this;
-    }
+    }// end of method
 
     public static <T> T getBean(Class<T> clazz) {
         return instance.applicationContext.getBean(clazz);
-    }
+    }// end of method
 
-}
+}// end of class
