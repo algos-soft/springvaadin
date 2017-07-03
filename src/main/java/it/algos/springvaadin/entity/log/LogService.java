@@ -2,8 +2,10 @@ package it.algos.springvaadin.entity.log;
 
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,11 @@ public class LogService extends AlgosService {
     @Lazy
     private Log logModel;
 
+
+    @Autowired
+    public LogService(@Qualifier("log") AlgosJDBCRepository repository) {
+        super(repository);
+    }// fine del metodo costruttore Autowired
 
     @Override
     protected void regolaParametri() {

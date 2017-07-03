@@ -3,8 +3,10 @@ package it.algos.springvaadin.entity.company;
 import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,12 @@ public class CompanyService extends AlgosService {
     @Autowired
     @Lazy
     private Company companyModel;
+
+
+    @Autowired
+    public CompanyService(@Qualifier("company") AlgosJDBCRepository repository) {
+        super(repository);
+    }// fine del metodo costruttore Autowired
 
 
     @Override

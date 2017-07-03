@@ -4,7 +4,11 @@ import com.sun.deploy.util.StringUtils;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import it.algos.springvaadin.repository.AlgosJDBCRepositoryImpl;
+import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +28,9 @@ import java.util.Map;
  */
 @Service
 public abstract class AlgosService {
+
+
+    protected AlgosRepository repository;
 
 
     @Autowired
@@ -45,14 +53,28 @@ public abstract class AlgosService {
     protected Class modelClass;
 
 
+    public AlgosService(AlgosJDBCRepository repository) {
+        this.repository = repository;
+    }// fine del metodo costruttore Autowired
+
+
+    /**
+     * Indicates a method to be invoked AFTER a bean has been created and dependency injection is complete.
+     * Used to perform any initialization work necessary.
+     * Performing the initialization in a constructor is not suggested
+     * Possono esserci diversi metodi con @PostConstruct ma l'ordine con cui vengono chiamati NON è garantito
+     */
     @PostConstruct
     public void inizia() {
+        //--indispensabile passare dalla sottoclasse, se non altro per il nome della tavola
         regolaParametri();
 
+        //--test di esistenza per invocare il metodo specifico di creazione della tavola
         if (nonEsiste()) {
             creaTable();
         }// end of if cycle
 
+        //--test per popolare (opzionale) la tavola specifica se è vuota
         if (vuota()) {
             creaDatiIniziali();
         }// end of if cycle
@@ -108,13 +130,30 @@ public abstract class AlgosService {
 
 
     /**
-     * Recupera tutti i records della tavola
+     * Returns all instances of the type.
+     * <p>
      * Senza filtri
      * Ordinati per ID
+     * <p>
+     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
+     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+     * Eseguo qui la conversione, che rimane trasparente al resto del programma
+     *
+     * @return all entity
      */
     public List findAll() {
-        String query = "SELECT * FROM " + tableName;
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper(modelClass));
+        List target = new ArrayList();
+        Iterable iterable = repository.findAll();
+
+        if (iterable != null) {
+            if (iterable instanceof List) {
+                target = (List) iterable;
+            } else {
+                iterable.forEach(target::add);
+            }// end of if/else cycle
+        }// end of if cycle
+
+        return target;
     }// end of method
 
 

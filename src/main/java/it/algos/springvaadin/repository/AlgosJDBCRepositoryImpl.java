@@ -1,8 +1,10 @@
 package it.algos.springvaadin.repository;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.versione.Versione;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.PostConstruct;
@@ -11,16 +13,14 @@ import java.io.Serializable;
 /**
  * Created by gac on 02/07/17
  * <p>
- * Repository per utilizzare JdbcTemplate
- * La logica di selezione, controllo e manipolazione dei dati risiede nei Service
- * Nelle Repository c'è l'implementazione specifica di un collegamento al DB
- * <p>
- * Questa Repository è alternativa a AlgosJPARepository
- * Possono essere scambiate facilmente lasciando inalterati i Service
- *
- * @see https://spring.io/guides/gs/relational-data-access/
+ * Implementazione concreta e completa dell'interfaccia AlgosJDBCRepository (che deriva da AlgosRepositoryOld)
+ * Deve garantire l'implementazione di tutti i metodi dell'interfaccia
+ * Le sottoclassi Repository regolano alcuni parametri (nel metodo @PostConstruct)
+ * Le sottoclassi specifiche possono implementare ulteriori metodi non di uso generalizzato
+ * (sconsigliato perché obbliga un casting dell'interfaccia)
  */
-//@SpringComponent
+@Lazy
+@SpringComponent
 public class AlgosJDBCRepositoryImpl implements AlgosJDBCRepository {
 
 
@@ -35,7 +35,7 @@ public class AlgosJDBCRepositoryImpl implements AlgosJDBCRepository {
 
 
     /**
-     *
+     * Costruttore nel quale SpringBoot inietta automaticamente il riferimento a JdbcTemplate
      */
     @Autowired
     public AlgosJDBCRepositoryImpl(JdbcTemplate jdbcTemplate) {
@@ -43,21 +43,35 @@ public class AlgosJDBCRepositoryImpl implements AlgosJDBCRepository {
     }// fine del metodo costruttore Autowired
 
 
+    /**
+     * Indicates a method to be invoked AFTER a bean has been created and dependency injection is complete.
+     * Used to perform any initialization work necessary.
+     * Performing the initialization in a constructor is not suggested
+     * Possono esserci diversi metodi con @PostConstruct ma l'ordine con cui vengono chiamati NON è garantito
+     */
     @PostConstruct
     public void inizia() {
+        //--indispensabile passare dalla sottoclasse, se non altro per il nome della tavola
         regolaParametri();
 
+        //--test di esistenza per invocare il metodo specifico di creazione della tavola
         if (nonEsiste()) {
             creaTable();
         }// end of if cycle
 
+        //--test per popolare (opzionale) la tavola specifica se è vuota
         if (vuota()) {
             creaDatiIniziali();
         }// end of if cycle
     }// end of method
 
 
-    protected boolean nonEsiste() {
+    /**
+     * Controlla l'esistenza della tavola
+     * Usa un metodo qualsiasi
+     * Se va in errore, la tavola non esiste
+     */
+    private boolean nonEsiste() {
         boolean nonEsiste = false;
 
         String query = "SELECT * FROM " + tableName + " LIMIT 1;";
@@ -72,19 +86,31 @@ public class AlgosJDBCRepositoryImpl implements AlgosJDBCRepository {
     }// end of method
 
 
-    protected boolean vuota() {
+    /**
+     * Controlla se la tavola contiene dei records
+     */
+    private boolean vuota() {
         return count() == 0;
     }// end of method
 
 
+    /**
+     * Regolazione specifica dei parametri generali
+     */
     protected void regolaParametri() {
     }// end of method
 
 
+    /**
+     * Creazione specifica della tavola
+     */
     protected void creaTable() {
     }// end of method
 
 
+    /**
+     * Creazione specifica dei dati iniziali
+     */
     protected void creaDatiIniziali() {
     }// end of method
 
@@ -123,8 +149,9 @@ public class AlgosJDBCRepositoryImpl implements AlgosJDBCRepository {
      */
     @Override
     public Iterable findAll() {
-        return null;
-    }
+        String query = "SELECT * FROM " + tableName;
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper(Versione.class));//@todo errore
+    }// end of method
 
     /**
      * Returns all instances of the type with the given IDs.

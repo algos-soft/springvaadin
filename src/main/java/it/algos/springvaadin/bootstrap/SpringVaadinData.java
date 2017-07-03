@@ -3,6 +3,7 @@ package it.algos.springvaadin.bootstrap;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.versione.VersioneService;
+import it.algos.springvaadin.repository.AlgosRepository;
 
 /**
  * Created by gac on 22/06/17
@@ -28,9 +29,9 @@ public class SpringVaadinData {
      */
     public static void creaCompany(CompanyService service) {
         service.crea("gaps", "Gruppo Accoglienza Pronto Soccorso");
-        service.crea("crf", "CRI - Comitato Locale di Fidenza","cl.fidenza@cri.it","via la Bionda, 3 - 43036 Fidenza (PR)","Alessandro Aniello");
-        service.crea("pap", "Pubblica assistenza Pianoro","presidente@pubblicapianoro.it","Via del Lavoro 15 - 40065 Pianoro (BO)","Silvano Piana");
-        service.crea("crpt", "CRI - Comitato Locale di Ponte Taro","presidente@cripontetaro.it","Via Gramsci, 1 - 43010 Ponte Taro (PR)","Mauro Michelini","339 7894839","339 7894839","",null);
+        service.crea("crf", "CRI - Comitato Locale di Fidenza", "cl.fidenza@cri.it", "via la Bionda, 3 - 43036 Fidenza (PR)", "Alessandro Aniello");
+        service.crea("pap", "Pubblica assistenza Pianoro", "presidente@pubblicapianoro.it", "Via del Lavoro 15 - 40065 Pianoro (BO)", "Silvano Piana");
+        service.crea("crpt", "CRI - Comitato Locale di Ponte Taro", "presidente@cripontetaro.it", "Via Gramsci, 1 - 43010 Ponte Taro (PR)", "Mauro Michelini", "339 7894839", "339 7894839", "", null);
     }// end of method
 
 

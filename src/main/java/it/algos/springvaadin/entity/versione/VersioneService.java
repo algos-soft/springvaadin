@@ -3,8 +3,10 @@ package it.algos.springvaadin.entity.versione;
 
 import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,13 @@ public class VersioneService extends AlgosService {
 
 //    @Autowired
 //    private VersioneRepository versioneRepository;
+
+
+    @Autowired
+    public VersioneService(@Qualifier("versione") AlgosJDBCRepository repository) {
+        super(repository);
+    }// fine del metodo costruttore Autowired
+
 
     @Override
     protected void regolaParametri() {
