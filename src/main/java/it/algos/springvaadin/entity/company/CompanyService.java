@@ -4,6 +4,7 @@ import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +34,7 @@ public class CompanyService extends AlgosService {
 
 
     @Autowired
-    public CompanyService(@Qualifier("company") AlgosJDBCRepository repository) {
+    public CompanyService(@Qualifier("company") AlgosRepository repository) {
         super(repository);
     }// fine del metodo costruttore Autowired
 
@@ -47,23 +48,6 @@ public class CompanyService extends AlgosService {
     }// end of method
 
 
-    @Override
-    public void creaTable() {
-        String query = "CREATE TABLE company (" +
-                "  id INT NOT NULL AUTO_INCREMENT," +
-                "  sigla TEXT NULL," +
-                "  descrizione TEXT NULL," +
-                "  email TEXT NULL," +
-                "  indirizzo TEXT NULL," +
-                "  contatto TEXT NULL," +
-                "  telefono TEXT NULL," +
-                "  cellulare TEXT NULL," +
-                "  note TEXT NULL," +
-                "  partenza DATE NULL," +
-                "  PRIMARY KEY (`id`))";
-
-        jdbcTemplate.execute(query);
-    }// end of method
 
 
     @Override

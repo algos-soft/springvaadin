@@ -1,14 +1,12 @@
 package it.algos.springvaadin.service;
 
 import com.sun.deploy.util.StringUtils;
+import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.repository.AlgosJDBCRepository;
-import it.algos.springvaadin.repository.AlgosJDBCRepositoryImpl;
 import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -53,7 +51,7 @@ public abstract class AlgosService {
     protected Class modelClass;
 
 
-    public AlgosService(AlgosJDBCRepository repository) {
+    public AlgosService(AlgosRepository repository) {
         this.repository = repository;
     }// fine del metodo costruttore Autowired
 
@@ -70,8 +68,8 @@ public abstract class AlgosService {
         regolaParametri();
 
         //--test di esistenza per invocare il metodo specifico di creazione della tavola
-        if (nonEsiste()) {
-            creaTable();
+        if (!esisteTable()) {
+            repository.creaTable();
         }// end of if cycle
 
         //--test per popolare (opzionale) la tavola specifica se è vuota
@@ -81,18 +79,8 @@ public abstract class AlgosService {
     }// end of method
 
 
-    protected boolean nonEsiste() {
-        boolean nonEsiste = false;
-
-        String query = "SELECT 1 FROM " + tableName + " LIMIT 1;";
-
-        try { // prova ad eseguire il codice
-            jdbcTemplate.execute(query);
-        } catch (Exception unErrore) { // intercetta l'errore
-            nonEsiste = true;
-        }// fine del blocco try-catch
-
-        return nonEsiste;
+    protected boolean esisteTable() {
+        return repository.exists();
     }// end of method
 
 
@@ -104,8 +92,6 @@ public abstract class AlgosService {
     protected void regolaParametri() {
     }// end of method
 
-    protected void creaTable() {
-    }// end of method
 
     protected void creaDatiIniziali() {
     }// end of method
@@ -114,9 +100,8 @@ public abstract class AlgosService {
      * Conteggio di tutti i records della tavola
      * Senza filtri
      */
-    public int count() {
-        String query = "select count(*) from " + tableName;
-        return jdbcTemplate.queryForObject(query, Integer.class);
+    public long count() {
+        return repository.count();
     }// end of method
 
 
@@ -124,8 +109,7 @@ public abstract class AlgosService {
      * Recupera il singolo bean
      */
     public AlgosModel findById(long id) {
-        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
-        return (AlgosModel) jdbcTemplate.queryForObject(query, new Object[]{id}, new BeanPropertyRowMapper(modelClass));
+        return  (AlgosModel)repository.findOne(id);
     }// end of method
 
 
@@ -158,27 +142,21 @@ public abstract class AlgosService {
 
 
     /**
-     * Cancella il singolo bean
-     */
-    public void delete(AlgosModel bean) {
-        jdbcTemplate.update("DELETE FROM " + tableName + " WHERE id = ?", new Object[]{bean.getId()});
-    }// end of method
-
-
-    /**
      * Creazione di un nuovo bean
      * Utilizza la mappa della sottoclasse
      */
-    public int insert(AlgosModel entityBean) {
-        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-        String campi = StringUtils.join(map.keySet(), ",");
-        String valori = LibText.repeat("?", ",", map.size());
-        campi = LibText.setTonde(campi);
-        valori = " values" + LibText.setTonde(valori);
-        String query = "INSERT INTO " + tableName + campi + valori;
-
-        return jdbcTemplate.update(query, map.values().toArray());
+    public void insert(AlgosModel entityBean) {
+        repository.save(entityBean);
+//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
+//        String campi = StringUtils.join(map.keySet(), ",");
+//        String valori = LibText.repeat("?", ",", map.size());
+//        campi = LibText.setTonde(campi);
+//        valori = " values" + LibText.setTonde(valori);
+//        String query = "INSERT INTO " + tableName + campi + valori;
+//
+//        return jdbcTemplate.update(query, map.values().toArray());
     }// end of method
+
 
 
     public void update(AlgosModel entityBean) {
@@ -194,6 +172,14 @@ public abstract class AlgosService {
         query += campi + " WHERE id=?";
         map.put("id", entityBean.getId());
         jdbcTemplate.update(query, map.values().toArray());
+    }// end of method
+
+
+    /**
+     * Cancella il singolo bean
+     */
+    public void delete(AlgosModel bean) {
+        jdbcTemplate.update("DELETE FROM " + tableName + " WHERE id = ?", new Object[]{bean.getId()});
     }// end of method
 
 

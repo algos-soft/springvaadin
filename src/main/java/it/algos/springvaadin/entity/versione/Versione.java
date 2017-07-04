@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 
 /**
  * Created by gac on 01/06/17
@@ -114,6 +115,17 @@ public class Versione extends AlgosModel {
         this.setModifica(modifica != null ? modifica : LocalDateTime.now());
     }// end of constructor
 
+
+    public LinkedHashMap<String, Object> getMap() {
+        LinkedHashMap<String, Object> map = new LinkedHashMap();
+
+        map.put("ordine", this.getOrdine());
+        map.put("titolo", this.getTitolo());
+        map.put("descrizione", this.getDescrizione());
+        map.put("modifica", this.getModifica() != null ? this.getModifica() : LocalDateTime.now());
+
+        return map;
+    }// end of method
 
     /**
      * Returns a string representation of the object. In general, the

@@ -1,18 +1,24 @@
 package it.algos.springvaadin.repository;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.presenter.AlgosPresenterInterface;
+import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
 
 /**
  * Created by gac on 02/07/17
  * <p>
- * Interfaccia generica di collegamento tra i Service ed il DataBase
- * La logica di selezione, controllo e manipolazione dei dati risiede nei Service
- * Nelle Repository c'è l'implementazione specifica di un collegamento al DB
- * Questa interfaccia stabilisce il 'contratto' tra i Service ed il DB
- * Riporta tutti i metodi sicuramente presenti (con la stessa firma) nelle varie implementazioni di collegamento
- * Le interfaccie (con le loro implementazioni) possono essere di vari tipi:
+ * Interfaccia generica di collegamento o 'contratto' tra il Service ed il DataBase
+ * Si chiama Repository per comodità, anche se le classi Repository sarebbero specifiche di Spring Boot JPA
+ * La logica di selezione, controllo e manipolazione dei dati risiede nel Service
+ * Nelle Repository c'è la metodologia specifica di un collegamento al DB (ce ne sono diverse)
+ * <p>
+ * Estende una interfaccia specifica esistente, CrudRepository, con un pacchetto base di metodi
+ * Possono essere aggiunte altre interfacce esistenti (PagingAndSortingRepository, JpaRepository)
+ * Qui vengono inseriti ed aggiunti i 'contratti' specifici di questa applicazione SpringVaadin
+ * <p>
+ * Le metodologie concrete specifiche, possono essere di vari tipi:
  * - Spring Boot JDBC usa JdbcTemplate (basso livello, architettura più semplice, uso più macchinoso)
  * - Spring Boot JPA usa le Repository (alto livello, architettura automatica molto più complessa, uso facile ed elegante)
  * Possono essere scambiate facilmente lasciando inalterati i Service
@@ -27,115 +33,20 @@ import java.io.Serializable;
  * @see https://springframework.guru/spring-boot-web-application-part-3-spring-data-jpa/
  */
 @SpringComponent
-public interface AlgosRepository {
+public interface AlgosRepository extends CrudRepository {
 
     /**
-     * Returns whether an entity with the given id exists.
+     * Returns whether a table exists.
      *
-     * @param serializable must not be {@literal null}.
-     *
-     * @return true if an entity with the given id exists, {@literal false} otherwise
-     *
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     * @return true if an table exists, {@literal false} otherwise
      */
-    public boolean exists(Serializable serializable);
+    public boolean exists();
 
 
     /**
-     * Returns the number of entity available.
-     *
-     * @return the number of entity
+     * Creazione iniziale di una tavola
      */
-    public long count();
-
-
-    /**
-     * Returns all instances of the type.
-     *
-     * @return all entity
-     */
-    public Iterable findAll();
-
-
-    /**
-     * Returns all instances of the type with the given IDs.
-     *
-     * @param iterable
-     *
-     * @return
-     */
-    public Iterable findAll(Iterable iterable);
-
-
-    /**
-     * Retrieves an entity by its id.
-     *
-     * @param serializable must not be {@literal null}.
-     *
-     * @return the entity with the given id or {@literal null} if none found
-     *
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    public Object findOne(Serializable serializable);
-
-
-    /**
-     * Saves a given entity. Use the returned instance for further operations as the save operation might have changed the
-     * entity instance completely.
-     *
-     * @param entity
-     *
-     * @return the saved entity
-     */
-    public Object save(Object entity);
-
-
-    /**
-     * Saves all given entity.
-     *
-     * @param entities
-     *
-     * @return the saved entity
-     *
-     * @throws IllegalArgumentException in case the given entity is {@literal null}.
-     */
-    public Iterable save(Iterable entities);
-
-
-    /**
-     * Deletes the entity with the given id.
-     *
-     * @param serializable must not be {@literal null}.
-     *
-     * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
-     */
-    public void delete(Serializable serializable);
-
-
-    /**
-     * Deletes a given entity.
-     *
-     * @param entity
-     *
-     * @throws IllegalArgumentException in case the given entity is {@literal null}.
-     */
-    public void delete(Object entity);
-
-
-    /**
-     * Deletes the given entity.
-     *
-     * @param entities
-     *
-     * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
-     */
-    public void delete(Iterable entities);
-
-
-    /**
-     * Deletes all entity managed by the repository.
-     */
-    public void deleteAll();
+    public void creaTable();
 
 
 }// end of interface

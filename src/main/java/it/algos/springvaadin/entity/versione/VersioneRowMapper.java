@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.DateConvertUtils;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -13,14 +14,13 @@ import java.sql.SQLException;
 public class VersioneRowMapper implements RowMapper {
 
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-//        Versione vers = new Versione();
-//        vers.setId(rs.getLong("id"));
-//        vers.setOrdine(rs.getInt("ordine"));
-//        vers.setTitolo(rs.getString("titolo"));
-//        vers.setDescrizione(rs.getString("descrizione"));
-//        vers.setModifica(DateConvertUtils.asLocalDateTime(rs.getTimestamp("modifica")));
-//        return vers;
-        return null;
+        Versione vers = new Versione();
+        vers.setId(rs.getLong("id"));
+        vers.setOrdine(rs.getInt("ordine"));
+        vers.setTitolo(rs.getString("titolo"));
+        vers.setDescrizione(rs.getString("descrizione"));
+        vers.setModifica(DateConvertUtils.asLocalDateTime(rs.getTimestamp("modifica")));
+        return vers;
     }// end of method
 
 }// end of class

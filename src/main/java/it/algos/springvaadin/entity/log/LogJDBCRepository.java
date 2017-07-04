@@ -1,8 +1,9 @@
 package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.repository.AlgosJDBCRepositoryImpl;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -11,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 @SpringComponent
 @Qualifier("log")
-public class LogJDBCRepository extends AlgosJDBCRepositoryImpl {
+public class LogJDBCRepository extends AlgosJDBCRepository {
 
 
     public LogJDBCRepository(JdbcTemplate jdbcTemplate) {
@@ -21,6 +22,17 @@ public class LogJDBCRepository extends AlgosJDBCRepositoryImpl {
     @Override
     protected void regolaParametri() {
         super.tableName = "log";
+
+        super.createQuery  = "CREATE TABLE log (" +
+                " id INT NOT NULL AUTO_INCREMENT," +
+                " company_id int NULL," +
+                " livello TEXT NULL," +
+                " titolo TEXT NULL," +
+                " descrizione TEXT NULL," +
+                " modifica DATE NULL," +
+                " PRIMARY KEY (id))";
+
+        super.rowMapper = new BeanPropertyRowMapper(Log.class);
     }// end of method
 
 

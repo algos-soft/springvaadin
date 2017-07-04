@@ -4,6 +4,7 @@ package it.algos.springvaadin.entity.versione;
 import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,7 +32,7 @@ public class VersioneService extends AlgosService {
 
 
     @Autowired
-    public VersioneService(@Qualifier("versione") AlgosJDBCRepository repository) {
+    public VersioneService(@Qualifier("versione") AlgosRepository repository) {
         super(repository);
     }// fine del metodo costruttore Autowired
 
@@ -42,20 +43,6 @@ public class VersioneService extends AlgosService {
 
         //--casting per gestire la property generica
         super.modelClass = Versione.class;
-
-    }// end of method
-
-    @Override
-    public void creaTable() {
-        String query = "CREATE TABLE versione (" +
-                "  id INT NOT NULL AUTO_INCREMENT," +
-                "  ordine INT NULL," +
-                "  titolo TEXT NULL," +
-                "  descrizione TEXT NULL," +
-                "  modifica DATE NULL," +
-                "  PRIMARY KEY (id))";
-
-        jdbcTemplate.execute(query);
     }// end of method
 
 
@@ -99,7 +86,6 @@ public class VersioneService extends AlgosService {
             map.put("descrizione", vers.getDescrizione());
             map.put("modifica", vers.getModifica() != null ? vers.getModifica() : LocalDateTime.now());
         } else {//nuovo record
-            vers = versioneModel;
             map.put("ordine", getOrdine());
             map.put("titolo", "");
             map.put("descrizione", "");

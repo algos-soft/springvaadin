@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.log;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +30,7 @@ public class LogService extends AlgosService {
 
 
     @Autowired
-    public LogService(@Qualifier("log") AlgosJDBCRepository repository) {
+    public LogService(@Qualifier("log") AlgosRepository repository) {
         super(repository);
     }// fine del metodo costruttore Autowired
 
@@ -42,19 +43,6 @@ public class LogService extends AlgosService {
     }// end of method
 
 
-    @Override
-    public void creaTable() {
-        String query = "CREATE TABLE log (" +
-                " id INT NOT NULL AUTO_INCREMENT," +
-                " company_id int NULL," +
-                " livello TEXT NULL," +
-                " titolo TEXT NULL," +
-                " descrizione TEXT NULL," +
-                " modifica DATE NULL," +
-                " PRIMARY KEY (id))";
-
-        jdbcTemplate.execute(query);
-    }// end of method
 
 
     @Override
