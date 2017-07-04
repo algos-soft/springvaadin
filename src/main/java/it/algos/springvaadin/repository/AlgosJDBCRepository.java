@@ -4,6 +4,7 @@ import com.sun.deploy.util.StringUtils;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibSql;
 import it.algos.springvaadin.lib.LibText;
@@ -13,6 +14,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
@@ -187,10 +190,11 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
-    public Object findOne(Serializable id) {
+    public AlgosModel findOne(Serializable id) {
         String query = "SELECT * FROM " + tableName + " WHERE id = ?";
         return (AlgosModel) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
     }// end of method
+
 
     /**
      * Saves a given entity.
@@ -202,7 +206,7 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @return the saved entity
      */
     @Override
-    public Object save(Object entity) {
+    public AlgosModel save(Object entity) {
 
         if (entity != null && entity instanceof AlgosModel && ((AlgosModel) entity).getId() != null && ((AlgosModel) entity).getId() > 0) {
             return update((AlgosModel) entity);
@@ -214,29 +218,43 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
 
     /**
      * Creazione di una nuova entity
-     * Utilizza la mappa della sottoclasse
+     *
+     * @param entity da registrare/creare
+     *
+     * @return entity DOPO la registrazione (the save operation might have changed the entity instance completely)
      */
-    public int insert(AlgosModel entityBean) {
-        String query = LibSql.getQueryInsert(tableName, new String[]{"ordine", "titolo", "descrizione", "modifica"});
-        Versione vers = (Versione) entityBean;
+    public AlgosModel insert(AlgosModel entity) {
+        AlgosModel entityCreated = null;
+        SimpleJdbcInsert insert;
+        Number key;
 
-//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-//        String campi = StringUtils.join(map.keySet(), ",");
-//        String valori = LibText.repeat("?", ",", map.size());
-//        campi = LibText.setTonde(campi);
-//        valori = " values" + LibText.setTonde(valori);
-//        String query = "INSERT INTO " + tableName + campi + valori;
+        insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(tableName).usingGeneratedKeyColumns(Cost.PROPERTY_ID);
+        key = insert.executeAndReturnKey(new BeanPropertySqlParameterSource(entity));
 
-//        return jdbcTemplate.update(query, map.values().toArray());
-        jdbcTemplate.update(query, new Object[]{vers.getOrdine(), vers.getTitolo(), vers.getDescrizione(), vers.getModifica()});
-        return 0;
+        if (key != null) {
+            entityCreated = findOne(key);
+        }// end of if cycle
+
+        return entityCreated;
     }// end of method
 
 
-    public AlgosModel update(AlgosModel entityBean) {
+    /**
+     * Modifica di una entity esistente
+     * parameter values from bean properties of a given JavaBean object
+     *
+     * @param entity da registrare/modificare
+     *
+     * @return entity DOPO la registrazione (the save operation might have changed the entity instance completely)
+     */
+    public AlgosModel update(AlgosModel entity) {
+        AlgosModel entitySaved = null;
+        SimpleJdbcInsert update;
+
+
         String query = "UPDATE " + tableName + " SET ";
         String campi = "";
-        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
+        LinkedHashMap<String, Object> map = this.getBeanMap(entity);
 
         for (String campo : map.keySet()) {
             campi += campo + "=?, ";
@@ -244,8 +262,24 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
         campi = LibText.levaCoda(campi, ",");
 
         query += campi + " WHERE id=?";
-        map.put("id", entityBean.getId());
-        jdbcTemplate.update(query, map.values().toArray());
+        map.put("id", entity.getId());
+        Object alfetta = jdbcTemplate.update(query, new BeanPropertySqlParameterSource(entity));
+//        Object alfetta2=    jdbcTemplate.update(query, rowMapper);
+        BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entity);
+        Object a[] = bean.getReadablePropertyNames();
+        int aaa = 87;
+//        String query = "UPDATE " + tableName + " SET ";
+//        String campi = "";
+//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
+//
+//        for (String campo : map.keySet()) {
+//            campi += campo + "=?, ";
+//        }// end of for cycle
+//        campi = LibText.levaCoda(campi, ",");
+//
+//        query += campi + " WHERE id=?";
+//        map.put("id", entityBean.getId());
+//        jdbcTemplate.update(query, map.values().toArray());
 
         return null;//@todo occhio
     }// end of method

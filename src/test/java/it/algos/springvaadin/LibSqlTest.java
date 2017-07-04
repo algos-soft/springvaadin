@@ -1,8 +1,12 @@
 package it.algos.springvaadin;
 
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibSql;
 import it.algos.springvaadin.lib.LibText;
 import org.junit.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.*;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -90,6 +94,44 @@ public class LibSqlTest {
         previsto = "INSERT INTO versione (ordine, titolo, descrizione, modifica) VALUES (?,?,?,?)";
         ottenuto = LibSql.getQueryInsert(tableName, columns);
         assertEquals(ottenuto, previsto);
+    }// end of single test
+
+    /**
+     * Get the query string for INSERT
+     *
+     * @param tableName   in cui inserire la nuova entity
+     * @param columnsName delle property
+     */
+    @Test
+    public void getQueryInsert2() {
+        String tableName = "versione";
+        ArrayList<String> columns = new ArrayList();
+
+        columns.add("ordine");
+        previsto = "INSERT INTO versione (ordine) VALUES (?)";
+        ottenuto = LibSql.getQueryInsert(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("titolo");
+        previsto = "INSERT INTO versione (ordine, titolo) VALUES (?,?)";
+        ottenuto = LibSql.getQueryInsert(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("descrizione");
+        previsto = "INSERT INTO versione (ordine, titolo, descrizione) VALUES (?,?,?)";
+        ottenuto = LibSql.getQueryInsert(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("modifica");
+        previsto = "INSERT INTO versione (ordine, titolo, descrizione, modifica) VALUES (?,?,?,?)";
+        ottenuto = LibSql.getQueryInsert(tableName, columns);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+    @Test
+    public void getQueryInsert233() {
+        Versione vers= mock(Versione.class);
+        vers.
     }// end of single test
 
 }// end of class

@@ -146,7 +146,9 @@ public abstract class AlgosService {
      * Utilizza la mappa della sottoclasse
      */
     public void insert(AlgosModel entityBean) {
-        repository.save(entityBean);
+        AlgosModel entity;
+        entity=  (AlgosModel)repository.save(entityBean);
+        int a=87;
 //        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
 //        String campi = StringUtils.join(map.keySet(), ",");
 //        String valori = LibText.repeat("?", ",", map.size());
@@ -160,18 +162,19 @@ public abstract class AlgosService {
 
 
     public void update(AlgosModel entityBean) {
-        String query = "UPDATE " + tableName + " SET ";
-        String campi = "";
-        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-
-        for (String campo : map.keySet()) {
-            campi += campo + "=?, ";
-        }// end of for cycle
-        campi = LibText.levaCoda(campi, ",");
-
-        query += campi + " WHERE id=?";
-        map.put("id", entityBean.getId());
-        jdbcTemplate.update(query, map.values().toArray());
+        repository.save(entityBean);
+//        String query = "UPDATE " + tableName + " SET ";
+//        String campi = "";
+//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
+//
+//        for (String campo : map.keySet()) {
+//            campi += campo + "=?, ";
+//        }// end of for cycle
+//        campi = LibText.levaCoda(campi, ",");
+//
+//        query += campi + " WHERE id=?";
+//        map.put("id", entityBean.getId());
+//        jdbcTemplate.update(query, map.values().toArray());
     }// end of method
 
 

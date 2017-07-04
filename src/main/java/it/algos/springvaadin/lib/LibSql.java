@@ -66,36 +66,17 @@ public class LibSql {
     }// end of static method
 
 
-//    /**
-//     * Get the query string for INSERT
-//     *
-//     * @param tableName   in cui inserire la nuova entity
-//     * @param columnsName delle property
-//     */
-//    public static String getQueryInsert(String tableName, ArrayList columnsName) {
-//        String query = "";
-//        String virgola = ",";
-//        String space = " ";
-//
-//        String campi = "";
-//        for (String column : columnsName) {
-//            campi += column;
-//            campi += virgola;
-//            campi += space;
-//        }// end of for cycle
-//        campi = LibText.levaCoda(campi, virgola);
-//        campi = LibText.setTonde(campi);
-//
-//        query += "INSERT INTO";
-//        query += space;
-//        query += tableName;
-//        query += space;
-//        query += campi;
-//        query += space;
-//        query += repeatValue(columnsName.size());
-//
-//        return query;
-//    }// end of static method
+
+
+    /**
+     * Get the query string for INSERT
+     *
+     * @param tableName   in cui inserire la nuova entity
+     * @param columnsName delle property
+     */
+    public static String getQueryInsert(String tableName, ArrayList<String> columnsName) {
+        return getQueryInsert(tableName, columnsName.toArray(new String[columnsName.size()]));
+    }// end of static method
 
 
     /**

@@ -116,7 +116,7 @@ public class Versione extends AlgosModel {
     }// end of constructor
 
 
-    public LinkedHashMap<String, Object> getMap() {
+    public LinkedHashMap<String, Object> ritornaMappa() {
         LinkedHashMap<String, Object> map = new LinkedHashMap();
 
         map.put("ordine", this.getOrdine());
