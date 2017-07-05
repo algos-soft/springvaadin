@@ -52,25 +52,25 @@ public class VersioneJDBCRepository extends AlgosJDBCRepository {
 
 
 
-    protected LinkedHashMap<String, Object> getBeanMap(AlgosModel entityBean) {
-        LinkedHashMap<String, Object> map = new LinkedHashMap();
-        Versione vers = null;
-
-        if (entityBean != null) {//record esistente
-            vers = (Versione) entityBean;
-            map.put("ordine", vers.getOrdine() != 0 ? vers.getOrdine() : 27);//@todo errore
-            map.put("titolo", vers.getTitolo());
-            map.put("descrizione", vers.getDescrizione());
-            map.put("modifica", vers.getModifica() != null ? vers.getModifica() : LocalDateTime.now());
-        } else {//nuovo record
-//            vers = versioneModel;
-            map.put("ordine", 28);//@todo errore
-            map.put("titolo", "");
-            map.put("descrizione", "");
-            map.put("modifica", LocalDateTime.now());
-        }// end of if/else cycle
-
-        return map;
-    }// end of method
+//    protected LinkedHashMap<String, Object> getBeanMap(AlgosModel entityBean) {
+//        LinkedHashMap<String, Object> map = new LinkedHashMap();
+//        Versione vers = null;
+//
+//        if (entityBean != null) {//record esistente
+//            vers = (Versione) entityBean;
+//            map.put("ordine", vers.getOrdine() != 0 ? vers.getOrdine() : 27);//@todo errore
+//            map.put("titolo", vers.getTitolo());
+//            map.put("descrizione", vers.getDescrizione());
+//            map.put("modifica", vers.getModifica() != null ? vers.getModifica() : LocalDateTime.now());
+//        } else {//nuovo record
+////            vers = versioneModel;
+//            map.put("ordine", 28);//@todo errore
+//            map.put("titolo", "");
+//            map.put("descrizione", "");
+//            map.put("modifica", LocalDateTime.now());
+//        }// end of if/else cycle
+//
+//        return map;
+//    }// end of method
 
 }// end of class

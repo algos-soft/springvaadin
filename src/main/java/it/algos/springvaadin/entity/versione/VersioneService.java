@@ -27,9 +27,6 @@ public class VersioneService extends AlgosService {
     @Lazy
     private Versione versioneModel;
 
-//    @Autowired
-//    private VersioneRepository versioneRepository;
-
 
     @Autowired
     public VersioneService(@Qualifier("versione") AlgosRepository repository) {

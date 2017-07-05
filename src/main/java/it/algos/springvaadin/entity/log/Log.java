@@ -30,11 +30,15 @@ import java.time.LocalDateTime;
  * Estende la Entity astratta AlgosModel che contiene la key property ID
  * <p>
  * Tipicamente usata da un admin per verificare i logs
+ * Prevede la differenziazione per Company. Se l'applicazione non usa le company, la property è sempre nulla.
  */
 @Entity
 @Table(name = "log")
 @SpringComponent
 public class Log extends AlgosModel {
+
+    //--versione della classe per la serializzazione
+    private final static long serialVersionUID = 1L;
 
 
     @AIField(type = AFType.combo, clazz = CompanyService.class, width = "12em", caption = "Company")
@@ -117,47 +121,74 @@ public class Log extends AlgosModel {
         this.setTitolo(titolo);
         this.setDescrizione(descrizione);
         this.setModifica((modifica != null) ? modifica : LocalDateTime.now());
-    }// end of constructor
+    }// end of general constructor
+
+
+    /**
+     * Returns a string representation of the object. In general, the
+     * {@code toString} method returns a string that
+     * "textually represents" this object. The result should
+     * be a concise but informative representation that is easy for a
+     * person to read.
+     * It is recommended that all subclasses override this method.
+     * <p>
+     * The {@code toString} method for class {@code Object}
+     * returns a string consisting of the name of the class of which the
+     * object is an instance, the at-sign character `{@code @}', and
+     * the unsigned hexadecimal representation of the hash code of the
+     * object. In other words, this method returns a string equal to the
+     * value of:
+     * <blockquote>
+     * <pre>
+     * getClass().getName() + '@' + Integer.toHexString(hashCode())
+     * </pre></blockquote>
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return getTitolo() + "-" + getDescrizione();
+    }// end of method
 
 
     public Company getCompany() {
         return company;
-    }
+    }// end of getter method
 
     public void setCompany(Company company) {
         this.company = company;
-    }
+    }// end of setter method
 
     public Livello getLivello() {
         return livello;
-    }
+    }// end of getter method
 
     public void setLivello(Livello livello) {
         this.livello = livello;
-    }
+    }// end of setter method
 
     public String getTitolo() {
         return titolo;
-    }
+    }// end of getter method
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
-    }
+    }// end of setter method
 
     public String getDescrizione() {
         return descrizione;
-    }
+    }// end of getter method
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
-    }
+    }// end of setter method
 
     public LocalDateTime getModifica() {
         return modifica;
-    }
+    }// end of getter method
 
     public void setModifica(LocalDateTime modifica) {
         this.modifica = modifica;
-    }
+    }// end of setter method
 
 }// end of class

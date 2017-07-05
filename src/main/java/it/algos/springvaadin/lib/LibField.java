@@ -6,6 +6,7 @@ import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.service.AlgosService;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;

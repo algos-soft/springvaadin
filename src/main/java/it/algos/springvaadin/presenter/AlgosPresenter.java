@@ -286,12 +286,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
 
         if (view != null) {
             entityBean = view.getForm().getBean();
-
-            if (entityBean != null && entityBean.getId() != null && entityBean.getId() > 0) {
-                service.update(entityBean);
-            } else {
-                service.insert(entityBean);
-            }// end of if/else cycle
+            service.update(entityBean);
 
             if (LibParams.usaSeparateFormDialog()) {
                 view.getForm().closeWindow();

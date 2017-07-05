@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  * AlgosInterfaceField (AIField)
  * Annotation to add some property for a single field.
  */
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD) //can use in field only.
 public @interface AIField {

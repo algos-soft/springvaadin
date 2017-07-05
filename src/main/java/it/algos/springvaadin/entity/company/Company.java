@@ -27,7 +27,7 @@ import java.time.LocalDate;
  * If there isn't a @Table annotation, this entity will be mapped to a table named as the class
  * Estende la Entity astratta AlgosModel che contiene la key property ID
  * <p>
- * Usata dalle applicazioni che implementano AlgosApp.USE_MULTI_COMPANY
+ * Usata dalle applicazioni che hanno il flag AlgosApp.USE_MULTI_COMPANY=true
  */
 @Entity
 @Table(name = "company")
@@ -150,7 +150,8 @@ public class Company extends AlgosModel {
         this.setCellulare(cellulare);
         this.setNote(note);
         this.setPartenza((partenza != null) ? partenza : LocalDate.now());
-    }// end of constructor
+    }// end of general constructor
+
 
     /**
      * Returns a string representation of the object. In general, the
@@ -181,75 +182,76 @@ public class Company extends AlgosModel {
 
     public String getSigla() {
         return sigla;
-    }
+    }// end of getter method
 
     public void setSigla(String sigla) {
         this.sigla = sigla;
-    }
+    }// end of setter method
 
     public String getDescrizione() {
         return descrizione;
-    }
+    }// end of getter method
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
-    }
+    }// end of setter method
 
     public String getEmail() {
         return email;
-    }
+    }// end of getter method
 
     public void setEmail(String email) {
         this.email = email;
-    }
+    }// end of setter method
 
     public String getIndirizzo() {
         return indirizzo;
-    }
+    }// end of getter method
 
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
-    }
+    }// end of setter method
 
     public String getContatto() {
         return contatto;
-    }
+    }// end of getter method
 
     public void setContatto(String contatto) {
         this.contatto = contatto;
-    }
+    }// end of setter method
 
     public String getTelefono() {
         return telefono;
-    }
+    }// end of getter method
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
+    }// end of setter method
 
     public String getCellulare() {
         return cellulare;
-    }
+    }// end of getter method
 
     public void setCellulare(String cellulare) {
         this.cellulare = cellulare;
-    }
+    }// end of setter method
 
     public String getNote() {
         return note;
-    }
+    }// end of getter method
 
     public void setNote(String note) {
         this.note = note;
-    }
+    }// end of setter method
 
     public LocalDate getPartenza() {
         return partenza;
-    }
+    }// end of getter method
 
     public void setPartenza(LocalDate partenza) {
         this.partenza = partenza;
-    }
+    }// end of setter method
+
 
 }// end of entity class
 

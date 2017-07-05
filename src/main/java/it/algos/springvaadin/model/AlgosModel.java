@@ -2,14 +2,11 @@ package it.algos.springvaadin.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
  * Created by gac on 14/06/17
- * .
- */
-/**
+ * <p>
  * Classi di tipo JavaBean
  * <p>
  * 1) le sottoclassi concrete devono avere un costruttore senza argomenti
@@ -17,7 +14,7 @@ import java.io.Serializable;
  * 3) le classi devono implementare l'interfaccia Serializable (tramite questa superclasse astratta)
  * 4) le classi non devono contenere nessun metodo per la gestione degli eventi
  */
-public abstract class AlgosModel implements Serializable{
+public abstract class AlgosModel implements Serializable {
 
     @Id
     @GeneratedValue

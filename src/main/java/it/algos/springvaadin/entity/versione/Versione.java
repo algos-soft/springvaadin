@@ -7,6 +7,7 @@ import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosModel;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,9 +31,9 @@ import java.util.LinkedHashMap;
  * Estende la Entity astratta AlgosModel che contiene la key property ID
  * <p>
  * Tipicamente usata dal developer per gestire le versioni, patch e release dell'applicazione
+ * Non prevede la differenziazione per Company
  */
 @Entity
-//@Scope("prototype")
 @Table(name = "versione")
 @SpringComponent
 public class Versione extends AlgosModel {
@@ -115,19 +116,19 @@ public class Versione extends AlgosModel {
         this.setTitolo(titolo);
         this.setDescrizione(descrizione);
         this.setModifica(modifica != null ? modifica : LocalDateTime.now());
-    }// end of constructor
+    }// end of general constructor
 
 
-    public LinkedHashMap<String, Object> ritornaMappa() {
-        LinkedHashMap<String, Object> map = new LinkedHashMap();
-
-        map.put("ordine", this.getOrdine());
-        map.put("titolo", this.getTitolo());
-        map.put("descrizione", this.getDescrizione());
-        map.put("modifica", this.getModifica() != null ? this.getModifica() : LocalDateTime.now());
-
-        return map;
-    }// end of method
+//    public LinkedHashMap<String, Object> ritornaMappa() {
+//        LinkedHashMap<String, Object> map = new LinkedHashMap();
+//
+//        map.put("ordine", this.getOrdine());
+//        map.put("titolo", this.getTitolo());
+//        map.put("descrizione", this.getDescrizione());
+//        map.put("modifica", this.getModifica() != null ? this.getModifica() : LocalDateTime.now());
+//
+//        return map;
+//    }// end of method
 
     /**
      * Returns a string representation of the object. In general, the
@@ -158,35 +159,35 @@ public class Versione extends AlgosModel {
 
     public String getTitolo() {
         return titolo;
-    }
+    }// end of getter method
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
-    }
+    }// end of setter method
 
     public String getDescrizione() {
         return descrizione;
-    }
+    }// end of getter method
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
-    }
+    }// end of setter method
 
     public int getOrdine() {
         return ordine;
-    }
+    }// end of getter method
 
     public void setOrdine(int ordine) {
         this.ordine = ordine;
-    }
+    }// end of setter method
 
     public LocalDateTime getModifica() {
         return modifica;
-    }
+    }// end of getter method
 
     public void setModifica(LocalDateTime modifica) {
         this.modifica = modifica;
-    }
+    }// end of setter method
 
 
 }// end of entity class
