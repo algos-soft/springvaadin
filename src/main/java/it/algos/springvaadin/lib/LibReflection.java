@@ -331,12 +331,12 @@ public abstract class LibReflection {
      *
      * @return arry dei valori, in ordine alfabetico delle chiavi della mappa
      */
-    public static Object[] getArgs(AlgosModel entity) {
+    public static Object[] getValues(AlgosModel entity) {
         Object[] args = null;
         LinkedHashMap<String, Object> mappa = LibReflection.getBeanMap(entity);
 
         if (mappa != null && mappa.size() > 0) {
-            args = LibReflection.getArgs(mappa);
+            args = LibReflection.getValues(mappa);
         }// end of if cycle
 
         return args;
@@ -350,7 +350,7 @@ public abstract class LibReflection {
      *
      * @return arry dei valori, in ordine alfabetico delle chiavi della mappa
      */
-    public static Object[] getArgs(LinkedHashMap<String, Object> mappa) {
+    public static Object[] getValues(LinkedHashMap<String, Object> mappa) {
         Object[] args = null;
         int k = 0;
 

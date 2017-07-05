@@ -161,7 +161,7 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      */
     @Override
     public long count() {
-        String query = "select count(*) from " + tableName;
+        String query = LibSql.getQueryCount(tableName);
         return jdbcTemplate.queryForObject(query, Long.class);
     }// end of method
 
@@ -173,9 +173,10 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      */
     @Override
     public Iterable findAll() {
-        String query = "SELECT * FROM " + tableName;
+        String query = LibSql.getQueryFindAll(tableName);
         return jdbcTemplate.query(query, rowMapper);
     }// end of method
+
 
     /**
      * Retrieves an entity by its id.
@@ -188,7 +189,7 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      */
     @Override
     public AlgosModel findOne(Serializable id) {
-        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+        String query = LibSql.getQueryFindOne(tableName);
         return (AlgosModel) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
     }// end of method
 
@@ -212,6 +213,7 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
         }// end of if/else cycle
 
     }// end of method
+
 
     /**
      * Creazione di una nuova entity
@@ -249,9 +251,9 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
         int ritorno;
         long key = entity.getId();
         String query = LibSql.getQueryUpdate(entity);
-        Object[] args = LibReflection.getArgs(entity);
+        Object[] values = LibReflection.getValues(entity);
 
-        ritorno = jdbcTemplate.update(query, args);
+        ritorno = jdbcTemplate.update(query, values);
 
         if (ritorno == 1) {
             entityUpdated = findOne(key);
@@ -260,8 +262,17 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
         return entityUpdated;
     }// end of method
 
-    protected LinkedHashMap<String, Object> getBeanMap(AlgosModel entityBean) {
-        return null;
+    /**
+     * Deletes the entity with the given id.
+     *
+     * @param serializable must not be {@literal null}.
+     *
+     * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
+     */
+    @Override
+    public void delete(Serializable serializable) {
+        String query = LibSql.getQueryDelete(tableName);
+        jdbcTemplate.update(query, new Object[]{serializable});
     }// end of method
 
 }// end of class

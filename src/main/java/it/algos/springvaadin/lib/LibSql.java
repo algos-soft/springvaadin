@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class LibSql {
 
+    private static String SPACE = " ";
+    private static String VIRGOLA = ",";
+    private static String UGUALE = "=";
+    private static String INTERROGATIVO = "?";
 
     /**
      * Get the query string for INSERT
@@ -22,7 +26,6 @@ public class LibSql {
     @Deprecated
     public static String getQueryInsert(String tableName, AlgosModel entity) {
         String query = "";
-        String space = " ";
 
 //        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
 //        String campi = StringUtils.join(map.keySet(), ",");
@@ -48,7 +51,6 @@ public class LibSql {
     @Deprecated
     public static String getQueryInsert(String tableName, Collection keySet) {
         String query = "";
-        String space = " ";
 
         String campi = StringUtils.join(keySet, ",");
         String valori = LibText.repeat("?", ",", keySet.size());
@@ -56,12 +58,68 @@ public class LibSql {
         valori = "values" + LibText.setTonde(valori);
 
         query += "INSERT INTO";
-        query += space;
+        query += SPACE;
         query += tableName;
-        query += space;
+        query += SPACE;
         query += campi;
-        query += space;
+        query += SPACE;
         query += valori;
+
+        return query;
+    }// end of static method
+
+
+    /**
+     * Get the query string for COUNT
+     *
+     * @param tableName da conteggiare
+     *
+     * @return stringa della query
+     */
+    public static String getQueryCount(String tableName) {
+        String query = "";
+
+        query += "SELECT COUNT(*) FROM";
+        query += SPACE;
+        query += tableName;
+
+        return query;
+    }// end of static method
+
+
+    /**
+     * Get the query string for SELECT ALL entities
+     *
+     * @param tableName da cui estrarre le entities
+     *
+     * @return stringa della query
+     */
+    public static String getQueryFindAll(String tableName) {
+        String query = "";
+
+        query += "SELECT * FROM";
+        query += SPACE;
+        query += tableName;
+
+        return query;
+    }// end of static method
+
+
+    /**
+     * Get the query string for SELECT one entity
+     *
+     * @param tableName da cui estrarre la entity
+     *
+     * @return stringa della query
+     */
+    public static String getQueryFindOne(String tableName) {
+        String query = "";
+
+        query += "SELECT * FROM";
+        query += SPACE;
+        query += tableName;
+        query += SPACE;
+        query += "WHERE id=?";
 
         return query;
     }// end of static method
@@ -90,24 +148,22 @@ public class LibSql {
      */
     public static String getQueryInsert(String tableName, String[] columnsName) {
         String query = "";
-        String virgola = ",";
-        String space = " ";
 
         String campi = "";
         for (String column : columnsName) {
             campi += column;
-            campi += virgola;
-            campi += space;
+            campi += VIRGOLA;
+            campi += SPACE;
         }// end of for cycle
-        campi = LibText.levaCoda(campi, virgola);
+        campi = LibText.levaCoda(campi, VIRGOLA);
         campi = LibText.setTonde(campi);
 
         query += "INSERT INTO";
-        query += space;
+        query += SPACE;
         query += tableName;
-        query += space;
+        query += SPACE;
         query += campi;
-        query += space;
+        query += SPACE;
         query += repeatValue(columnsName.length);
 
         return query;
@@ -161,29 +217,45 @@ public class LibSql {
      */
     public static String getQueryUpdate(String tableName, List<String> columnsName) {
         String query = "";
-        String uguale = "=";
-        String interrogativo = "?";
-        String virgola = ",";
-        String space = " ";
 
         String campi = "";
         for (String column : columnsName) {
             campi += column;
-            campi += uguale;
-            campi += interrogativo;
-            campi += virgola;
-            campi += space;
+            campi += UGUALE;
+            campi += INTERROGATIVO;
+            campi += VIRGOLA;
+            campi += SPACE;
         }// end of for cycle
-        campi = LibText.levaCoda(campi, virgola);
+        campi = LibText.levaCoda(campi, VIRGOLA);
 
         query += "UPDATE";
-        query += space;
+        query += SPACE;
         query += tableName;
-        query += space;
+        query += SPACE;
         query += "SET";
-        query += space;
+        query += SPACE;
         query += campi;
-        query += space;
+        query += SPACE;
+        query += "WHERE id=?";
+
+        return query;
+    }// end of static method
+
+
+    /**
+     * Get the query string for DELETE
+     *
+     * @param tableName in cui cancellare la entity
+     *
+     * @return stringa della query
+     */
+    public static String getQueryDelete(String tableName) {
+        String query = "";
+
+        query += "DELETE FROM";
+        query += SPACE;
+        query += tableName;
+        query += SPACE;
         query += "WHERE id=?";
 
         return query;
@@ -222,8 +294,8 @@ public class LibSql {
      * @return stringaBase ripetuta n volte, con n-1 separatori; inserita dentro due parentesi tonde
      */
     public static String repeatValue(int numRipetizioni) {
-        String stringaBase = "?";
-        String separatore = ",";
+        String stringaBase = INTERROGATIVO;
+        String separatore = VIRGOLA;
 
         String stringaOut = repeat(stringaBase, separatore, numRipetizioni);
 

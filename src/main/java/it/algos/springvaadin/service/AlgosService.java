@@ -100,8 +100,15 @@ public abstract class AlgosService {
      * Conteggio di tutti i records della tavola
      * Senza filtri
      */
-    public long count() {
-        return repository.count();
+    public int count() {
+        int totaleInt = 0;
+        Long totaleLong = repository.count();
+
+        if (totaleLong != null && totaleLong > 0) {
+            totaleInt = totaleLong.intValue();
+        }// end of if cycle
+
+        return totaleInt;
     }// end of method
 
 
@@ -109,7 +116,7 @@ public abstract class AlgosService {
      * Recupera il singolo bean
      */
     public AlgosModel findById(long id) {
-        return  (AlgosModel)repository.findOne(id);
+        return (AlgosModel) repository.findOne(id);
     }// end of method
 
 
@@ -146,43 +153,32 @@ public abstract class AlgosService {
      * Utilizza la mappa della sottoclasse
      */
     public void insert(AlgosModel entityBean) {
-        AlgosModel entity;
-        entity=  (AlgosModel)repository.save(entityBean);
-        int a=87;
-//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-//        String campi = StringUtils.join(map.keySet(), ",");
-//        String valori = LibText.repeat("?", ",", map.size());
-//        campi = LibText.setTonde(campi);
-//        valori = " values" + LibText.setTonde(valori);
-//        String query = "INSERT INTO " + tableName + campi + valori;
-//
-//        return jdbcTemplate.update(query, map.values().toArray());
+        repository.save(entityBean);
     }// end of method
-
 
 
     public void update(AlgosModel entityBean) {
         repository.save(entityBean);
-//        String query = "UPDATE " + tableName + " SET ";
-//        String campi = "";
-//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-//
-//        for (String campo : map.keySet()) {
-//            campi += campo + "=?, ";
-//        }// end of for cycle
-//        campi = LibText.levaCoda(campi, ",");
-//
-//        query += campi + " WHERE id=?";
-//        map.put("id", entityBean.getId());
-//        jdbcTemplate.update(query, map.values().toArray());
     }// end of method
 
 
     /**
      * Cancella il singolo bean
      */
-    public void delete(AlgosModel bean) {
-        jdbcTemplate.update("DELETE FROM " + tableName + " WHERE id = ?", new Object[]{bean.getId()});
+    public boolean delete(AlgosModel entity) {
+        boolean cancellato = false;
+        int totalePrima;
+        int totaleDopo;
+
+        totalePrima = count();
+        repository.delete(entity.getId());
+        totaleDopo = count();
+
+        if (totaleDopo != totalePrima) {
+            cancellato = true;
+        }// end of if cycle
+
+        return cancellato;
     }// end of method
 
 
@@ -220,8 +216,6 @@ public abstract class AlgosService {
      * Può essere modificato
      * La colonna ID normalmente non si visualizza
      */
-    //        String[] array = {"ordine", "titolo", "descrizione", "modifica"};//@todo esempio per la sottoclasse
-    //        return LibArray.fromString(array);
     public List<String> getListColumns() {
         return LibArray.getKeyFromMap(getBeanMap(null));
     }// end of method
@@ -234,27 +228,6 @@ public abstract class AlgosService {
      */
     public List<String> getFormFields() {
         return LibArray.getKeyFromMap(getBeanMap(null));
-    }// end of method
-
-
-    /**
-     * Conteggio di tutti i records della tavola
-     * Senza filtri
-     */
-    @Deprecated
-    public int countOld() {
-        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();  // not reusable
-        jdbcTemplate.query("select * from " + tableName, countCallback);
-        return countCallback.getRowCount();
-    }// end of method
-
-    /**
-     * Recupera il singolo bean
-     */
-    @Deprecated
-    public AlgosModel findByIdOld(long id) {
-        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
-        return (AlgosModel) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
     }// end of method
 
 

@@ -91,6 +91,59 @@ public class LibSqlTest {
 
 
     /**
+     * Get the query string for COUNT
+     *
+     * @param tableName da conteggiare
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryCount() {
+        String tableName = "versione";
+
+        previsto = "SELECT COUNT(*) FROM versione";
+        ottenuto = LibSql.getQueryCount(tableName);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+
+    /**
+     * Get the query string for SELECT ALL entities
+     *
+     * @param tableName da cui estrarre le entities
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryFindAll() {
+        String tableName = "versione";
+
+        previsto = "SELECT * FROM versione";
+        ottenuto = LibSql.getQueryFindAll(tableName);
+        assertEquals(ottenuto, previsto);
+    }// end of static method
+
+
+    /**
+     * Get the query string for SELECT one entity
+     *
+     * @param tableName da cui estrarre la entity
+     * @param id        key della entity da recuperare
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryFindOne() {
+        String tableName = "versione";
+
+        previsto = "SELECT * FROM versione WHERE id=?";
+        ottenuto = LibSql.getQueryFindOne(tableName);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+
+
+    /**
      * Get the query string for INSERT
      *
      * @param tableName   in cui inserire la nuova entity
@@ -233,6 +286,23 @@ public class LibSqlTest {
 
         previsto = "UPDATE versione SET descrizione=?, modifica=?, ordine=?, titolo=? WHERE id=?";
         ottenuto = LibSql.getQueryUpdate(tableName,vers);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+
+    /**
+     * Get the query string for DELETE
+     *
+     * @param tableName   in cui cancellare la entity
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryDelete() {
+        String tableName = "versione";
+
+        previsto = "DELETE FROM versione WHERE id=?";
+        ottenuto=  LibSql.getQueryDelete(tableName);
         assertEquals(ottenuto, previsto);
     }// end of single test
 

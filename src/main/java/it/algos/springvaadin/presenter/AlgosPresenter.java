@@ -210,11 +210,22 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      * Cancella il/i record/s selezionato/i
      */
     private void cancellazione(List<AlgosModel> beanList) {
+        boolean cancellato = false;
+
         if (beanList != null && beanList.size() > 0) {
             for (AlgosModel entityBean : beanList) {
-                service.delete(entityBean);
+
+                if (service.delete(entityBean)) {
+                    cancellato = true;
+                }// end of if cycle
+
             }// end of for cycle
         }// end of if cycle
+
+        if (cancellato) {
+            this.presentaLista();
+        }// end of if cycle
+
     }// end of method
 
 
