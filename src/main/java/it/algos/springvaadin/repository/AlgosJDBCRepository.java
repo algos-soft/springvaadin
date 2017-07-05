@@ -4,10 +4,7 @@ import com.sun.deploy.util.StringUtils;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.lib.LibSql;
-import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -248,40 +245,19 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @return entity DOPO la registrazione (the save operation might have changed the entity instance completely)
      */
     public AlgosModel update(AlgosModel entity) {
-        AlgosModel entitySaved = null;
-        SimpleJdbcInsert update;
+        AlgosModel entityUpdated = entity;
+        int ritorno;
+        long key = entity.getId();
+        String query = LibSql.getQueryUpdate(entity);
+        Object[] args = LibReflection.getArgs(entity);
 
+        ritorno = jdbcTemplate.update(query, args);
 
-        String query = "UPDATE " + tableName + " SET ";
-        String campi = "";
-        LinkedHashMap<String, Object> map = this.getBeanMap(entity);
+        if (ritorno == 1) {
+            entityUpdated = findOne(key);
+        }// end of if cycle
 
-        for (String campo : map.keySet()) {
-            campi += campo + "=?, ";
-        }// end of for cycle
-        campi = LibText.levaCoda(campi, ",");
-
-        query += campi + " WHERE id=?";
-        map.put("id", entity.getId());
-        Object alfetta = jdbcTemplate.update(query, new BeanPropertySqlParameterSource(entity));
-//        Object alfetta2=    jdbcTemplate.update(query, rowMapper);
-        BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entity);
-        Object a[] = bean.getReadablePropertyNames();
-        int aaa = 87;
-//        String query = "UPDATE " + tableName + " SET ";
-//        String campi = "";
-//        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
-//
-//        for (String campo : map.keySet()) {
-//            campi += campo + "=?, ";
-//        }// end of for cycle
-//        campi = LibText.levaCoda(campi, ",");
-//
-//        query += campi + " WHERE id=?";
-//        map.put("id", entityBean.getId());
-//        jdbcTemplate.update(query, map.values().toArray());
-
-        return null;//@todo occhio
+        return entityUpdated;
     }// end of method
 
     protected LinkedHashMap<String, Object> getBeanMap(AlgosModel entityBean) {

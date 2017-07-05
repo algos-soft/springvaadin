@@ -3,9 +3,14 @@ package it.algos.springvaadin;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibSql;
 import it.algos.springvaadin.lib.LibText;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+
 import static org.mockito.Mockito.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +29,27 @@ public class LibSqlTest {
     protected int numSorgente = 0;
     protected int numPrevisto = 0;
     protected int numOttenuto = 0;
+
+    private static Versione vers;
+
+    /**
+     * SetUp iniziale eseguito solo una volta alla creazione della classe
+     */
+    @BeforeClass
+    public static void setUpInizialeStaticoEseguitoSoloUnaVoltaAllaCreazioneDellaClasse() {
+        vers = mock(Versione.class);
+        long id = 27;
+        int ordine = 45;
+        String titolo = "Prova";
+        String descrizione = "Testo lungo";
+        LocalDateTime modifica = LocalDateTime.now();
+
+        vers.setId(id);
+        vers.setOrdine(ordine);
+        vers.setTitolo(titolo);
+        vers.setDescrizione(descrizione);
+        vers.setModifica(modifica);
+    } // end of setup statico iniziale della classe
 
     /**
      * Ripete n volte una stringa, con un separatore
@@ -69,6 +95,8 @@ public class LibSqlTest {
      *
      * @param tableName   in cui inserire la nuova entity
      * @param columnsName delle property
+     *
+     * @return stringa della query
      */
     @Test
     public void getQueryInsert() {
@@ -101,6 +129,8 @@ public class LibSqlTest {
      *
      * @param tableName   in cui inserire la nuova entity
      * @param columnsName delle property
+     *
+     * @return stringa della query
      */
     @Test
     public void getQueryInsert2() {
@@ -128,10 +158,82 @@ public class LibSqlTest {
         assertEquals(ottenuto, previsto);
     }// end of single test
 
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param tableName   in cui modificare la entity
+     * @param columnsName delle property
+     *
+     * @return stringa della query
+     */
     @Test
-    public void getQueryInsert233() {
-        Versione vers= mock(Versione.class);
-        vers.
+    public void getQueryUpdate() {
+        String tableName = "versione";
+        String[] columns;
+
+        columns = new String[]{"ordine"};
+        previsto = "UPDATE versione SET ordine=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns = new String[]{"ordine", "titolo"};
+        previsto = "UPDATE versione SET ordine=?, titolo=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns = new String[]{"ordine", "titolo", "descrizione"};
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns = new String[]{"ordine", "titolo", "descrizione", "modifica"};
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, modifica=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param tableName   in cui modificare la entity
+     * @param columnsName delle property
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryUpdate2() {
+        String tableName = "versione";
+        ArrayList<String> columns = new ArrayList();
+
+        columns.add("ordine");
+        previsto = "UPDATE versione SET ordine=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("titolo");
+        previsto = "UPDATE versione SET ordine=?, titolo=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("descrizione");
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+
+        columns.add("modifica");
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, modifica=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName, columns);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+
+    @Test
+    public void getQueryUpdate3() {
+        String tableName = "versione";
+
+        previsto = "UPDATE versione SET descrizione=?, modifica=?, ordine=?, titolo=? WHERE id=?";
+        ottenuto = LibSql.getQueryUpdate(tableName,vers);
+        assertEquals(ottenuto, previsto);
     }// end of single test
 
 }// end of class

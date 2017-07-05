@@ -2,6 +2,7 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.dialog.ConfirmDialog;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AlgosModel;
@@ -10,6 +11,7 @@ import it.algos.springvaadin.view.AlgosView;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Table;
 import java.util.List;
 
 /**

@@ -8,6 +8,7 @@ import it.algos.springvaadin.view.AlgosView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by gac on 04/07/17
@@ -66,15 +67,15 @@ public class LibSql {
     }// end of static method
 
 
-
-
     /**
      * Get the query string for INSERT
      *
      * @param tableName   in cui inserire la nuova entity
      * @param columnsName delle property
+     *
+     * @return stringa della query
      */
-    public static String getQueryInsert(String tableName, ArrayList<String> columnsName) {
+    public static String getQueryInsert(String tableName, List<String> columnsName) {
         return getQueryInsert(tableName, columnsName.toArray(new String[columnsName.size()]));
     }// end of static method
 
@@ -84,6 +85,8 @@ public class LibSql {
      *
      * @param tableName   in cui inserire la nuova entity
      * @param columnsName delle property
+     *
+     * @return stringa della query
      */
     public static String getQueryInsert(String tableName, String[] columnsName) {
         String query = "";
@@ -106,6 +109,82 @@ public class LibSql {
         query += campi;
         query += space;
         query += repeatValue(columnsName.length);
+
+        return query;
+    }// end of static method
+
+
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param entity da modificare
+     *
+     * @return stringa della query
+     */
+    public static String getQueryUpdate(AlgosModel entity) {
+        return getQueryUpdate(LibReflection.getTable(entity), entity);
+    }// end of static method
+
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param tableName in cui modificare la entity
+     * @param entity    da modificare
+     *
+     * @return stringa della query
+     */
+    public static String getQueryUpdate(String tableName, AlgosModel entity) {
+        return getQueryUpdate(tableName, LibReflection.getProperties(entity));
+    }// end of static method
+
+
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param tableName   in cui modificare la entity
+     * @param columnsName delle property
+     *
+     * @return stringa della query
+     */
+    public static String getQueryUpdate(String tableName, String[] columnsName) {
+        return getQueryUpdate(tableName, LibArray.fromString(columnsName));
+    }// end of static method
+
+
+    /**
+     * Get the query string for UPDATE
+     *
+     * @param tableName   in cui modificare la entity
+     * @param columnsName delle property
+     *
+     * @return stringa della query
+     */
+    public static String getQueryUpdate(String tableName, List<String> columnsName) {
+        String query = "";
+        String uguale = "=";
+        String interrogativo = "?";
+        String virgola = ",";
+        String space = " ";
+
+        String campi = "";
+        for (String column : columnsName) {
+            campi += column;
+            campi += uguale;
+            campi += interrogativo;
+            campi += virgola;
+            campi += space;
+        }// end of for cycle
+        campi = LibText.levaCoda(campi, virgola);
+
+        query += "UPDATE";
+        query += space;
+        query += tableName;
+        query += space;
+        query += "SET";
+        query += space;
+        query += campi;
+        query += space;
+        query += "WHERE id=?";
 
         return query;
     }// end of static method
