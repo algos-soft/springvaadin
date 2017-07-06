@@ -26,57 +26,29 @@ import javax.annotation.PostConstruct;
 @SpringView(name = CompanyView.VIEW_NAME)
 public class CompanyView extends AlgosView {
 
+    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
     public static final String VIEW_NAME = "comp";
+
+    //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.OFFICE;
 
-
-    //--il presenter viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private CompanyPresenter companyPresenter;
-
-
-    //--la lista viene iniettata in questa classe
-    //--viene iniettata qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private CompanyList companyList;
-
-
-    //--il form viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private CompanyForm companyForm;
-
-
     /**
-     * Metodo invocato subito DOPO il costruttore
-     * <p>
-     * Performing the initialization in a constructor is not suggested
-     * as the state of the UI is not properly set up when the constructor is invoked.
-     * <p>
-     * Ci possono essere diversi metodi con @PostConstruct e firme diverse e funzionano tutti,
-     * ma l'ordine con cui vengono chiamati NON è garantito
+     * Presenter specifico, iniettato in questa classe
+     * Lista specifica, iniettata in questa classe
+     * Form specifico, iniettato in questa classe
+     * Vengono iniettati qui per avere le classi specifiche.
+     * Nella superclasse vengono gestite le properties generiche.
      */
-    @PostConstruct
-    @Override
-    protected void inizia() {
-        super.inizia();
-
-        //--casting per gestire la property generica
-        presenter = companyPresenter;
-
-        //--casting per gestire la property generica
-        list = companyList;
-
-        //--casting per gestire la property generica
-        form = companyForm;
+    @Autowired
+    public CompanyView(CompanyPresenter presenter, CompanyList list, CompanyForm form) {
+        super.presenter = presenter;
+        super.list = list;
+        super.form = form;
 
         //--eventuali intestazioni informative per List e Form
-        //--valori standard che possono essere sovrascritti nella classi specifiche
         super.captionList = "Elenco di tutte le company";
         super.captionFormCreate = "Nuova company";
         super.captionFormEdit = "Modifica company";
-    }// end of method
-
+    }// fine del metodo costruttore Autowired
 
 }// end of class

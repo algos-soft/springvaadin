@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by gac on 30/06/17.
+ * Created by gac on 01/06/17
  * <p>
  * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
  * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
@@ -26,57 +26,29 @@ import javax.annotation.PostConstruct;
 @SpringView(name = LogView.VIEW_NAME)
 public class LogView extends AlgosView {
 
+    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
     public static final String VIEW_NAME = "log";
+
+    //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.TAG;
 
-
-    //--il presenter viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private LogPresenter logPresenter;
-
-
-    //--la lista viene iniettata in questa classe
-    //--viene iniettata qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private LogList logList;
-
-
-    //--il form viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private LogForm logForm;
-
-
     /**
-     * Metodo invocato subito DOPO il costruttore
-     * <p>
-     * Performing the initialization in a constructor is not suggested
-     * as the state of the UI is not properly set up when the constructor is invoked.
-     * <p>
-     * Ci possono essere diversi metodi con @PostConstruct e firme diverse e funzionano tutti,
-     * ma l'ordine con cui vengono chiamati NON è garantito
+     * Presenter specifico, iniettato in questa classe
+     * Lista specifica, iniettata in questa classe
+     * Form specifico, iniettato in questa classe
+     * Vengono iniettati qui per avere le classi specifiche.
+     * Nella superclasse vengono gestite le properties generiche.
      */
-    @PostConstruct
-    @Override
-    protected void inizia() {
-        super.inizia();
-
-        //--casting per gestire la property generica
-        presenter = logPresenter;
-
-        //--casting per gestire la property generica
-        list = logList;
-
-        //--casting per gestire la property generica
-        form = logForm;
+    @Autowired
+    public LogView(LogPresenter presenter, LogList list, LogForm form) {
+        super.presenter = presenter;
+        super.list = list;
+        super.form = form;
 
         //--eventuali intestazioni informative per List e Form
-        //--valori standard che possono essere sovrascritti nella classi specifiche
         super.captionList = "Elenco di tutti i logs";
         super.captionFormCreate = "Nuovo log";
         super.captionFormEdit = "Modifica log";
-    }// end of method
-
+    }// fine del metodo costruttore Autowired
 
 }// end of class

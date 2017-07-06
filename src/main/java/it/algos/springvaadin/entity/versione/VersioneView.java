@@ -51,5 +51,4 @@ public class VersioneView extends AlgosView {
         super.captionFormEdit = "Modifica versione";
     }// fine del metodo costruttore Autowired
 
-
 }// end of class
