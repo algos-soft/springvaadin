@@ -13,7 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-
 /**
  * Created by gac on 01/06/17
  * <p>

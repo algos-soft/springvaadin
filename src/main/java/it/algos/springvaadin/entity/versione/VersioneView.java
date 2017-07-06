@@ -26,57 +26,30 @@ import javax.annotation.PostConstruct;
 @SpringView(name = VersioneView.VIEW_NAME)
 public class VersioneView extends AlgosView {
 
+    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
     public static final String VIEW_NAME = "vers";
+
+    //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.DIPLOMA;
 
-
-    //--il presenter viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private VersionePresenter versionePresenter;
-
-
-    //--la lista viene iniettata in questa classe
-    //--viene iniettata qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private VersioneList versioneList;
-
-
-    //--il form viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private VersioneForm versioneForm;
-
-
     /**
-     * Metodo invocato subito DOPO il costruttore
-     * <p>
-     * Performing the initialization in a constructor is not suggested
-     * as the state of the UI is not properly set up when the constructor is invoked.
-     * <p>
-     * Ci possono essere diversi metodi con @PostConstruct e firme diverse e funzionano tutti,
-     * ma l'ordine con cui vengono chiamati NON è garantito
+     * Presenter specifico, iniettato in questa classe
+     * Lista specifica, iniettata in questa classe
+     * Form specifico, iniettato in questa classe
+     * Vengono iniettati qui per avere le classi specifiche.
+     * Nella superclasse vengono gestite le properties generiche.
      */
-    @PostConstruct
-    @Override
-    protected void inizia() {
-        super.inizia();
-
-        //--casting per gestire la property generica
-        presenter = versionePresenter;
-
-        //--casting per gestire la property generica
-        list = versioneList;
-
-        //--casting per gestire la property generica
-        form = versioneForm;
+    @Autowired
+    public VersioneView(VersionePresenter presenter, VersioneList list, VersioneForm form) {
+        super.presenter = presenter;
+        super.list = list;
+        super.form = form;
 
         //--eventuali intestazioni informative per List e Form
-        //--valori standard che possono essere sovrascritti nella classi specifiche
         super.captionList = "Elenco di tutte le versioni";
         super.captionFormCreate = "Nuova versione";
         super.captionFormEdit = "Modifica versione";
-    }// end of method
+    }// fine del metodo costruttore Autowired
 
 
 }// end of class
