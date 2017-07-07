@@ -1,6 +1,7 @@
 package it.algos.springvaadin.list;
 
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by gac on 20/06/17
  * .
  */
+@SpringComponent
 public class AlgosList extends VerticalLayout {
 
     private Label label;
@@ -33,22 +35,25 @@ public class AlgosList extends VerticalLayout {
     @Autowired
     private ListToolbar toolbar;
 
+    //--eventuali intestazioni informative per List e Form
+    //--valori standard che possono essere sovrascritti nella classi specifiche
+    protected String captionList;
+    private final static String CAPTION_DEFAULT = "Elenco di tutte le entities";
+
+
 
     /**
      */
     public void inizia(Class<? extends AlgosModel> clazz, List items, List<String> colonneVisibili) {
-        inizia(clazz, "", items, colonneVisibili);
-    }// end of method
-
-
-    /**
-     */
-    public void inizia(Class<? extends AlgosModel> clazz, String caption, List items, List<String> colonneVisibili) {
         this.setMargin(false);
 
         this.removeAllComponents();
 
-        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
+        if (captionList == null || captionList.equals("")) {
+            captionList = CAPTION_DEFAULT;
+        }// end of if cycle
+
+        label = new Label(LibText.setRossoBold(captionList), ContentMode.HTML);
         this.addComponent(label);
 
         grid.inizia(clazz, items, colonneVisibili);

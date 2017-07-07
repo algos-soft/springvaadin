@@ -30,6 +30,13 @@ public class AlgosForm extends VerticalLayout {
     protected AlgosModel entityBean;
     protected AlgosService service;
 
+    //--eventuali intestazioni informative per List e Form
+    //--valori standard che possono essere sovrascritti nella classi specifiche
+    protected String captionCreate;
+    protected String captionEdit;
+    private final static String CAPTION_CREATE_DEFAULT = "Nuova scheda";
+    private final static String CAPTION_EDIT_DEFAULT = "Modifica scheda";
+
     /**
      * Metodo invocato subito DOPO il costruttore
      * <p>
@@ -40,7 +47,7 @@ public class AlgosForm extends VerticalLayout {
      * ma l'ordine con cui vengono chiamati NON è garantito
      */
     @PostConstruct
-    public void inizia() {
+    protected void inizia() {
         this.setMargin(false);
 
         if (AlgosApp.USE_DEBUG) {
@@ -52,30 +59,31 @@ public class AlgosForm extends VerticalLayout {
     }// end of method
 
 
-    public void iniziaCreate(AlgosService service, String caption, List<String> campiVisibili) {
+    public void iniziaCreate(AlgosService service, List<String> campiVisibili) {
         this.service = service;
-        inizia(true, (AlgosModel) null, caption, campiVisibili);
+        inizia(true, (AlgosModel) null, campiVisibili);
     }// end of method
 
 
-    public void iniziaEdit(AlgosModel entityBean, AlgosService service, String caption, List<String> campiVisibili) {
+    public void iniziaEdit(AlgosModel entityBean, AlgosService service, List<String> campiVisibili) {
         this.service = service;
-        inizia(false, entityBean, caption, campiVisibili);
+        inizia(false, entityBean, campiVisibili);
     }// end of method
 
 
-    private void inizia(boolean newRecord, AlgosModel entityBean, String caption, List<String> campiVisibili) {
+    private void inizia(boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
 
         if (LibParams.usaSeparateFormDialog()) {
-            usaSeparateFormDialog(newRecord, entityBean, caption, campiVisibili);
+            usaSeparateFormDialog(newRecord, entityBean, campiVisibili);
         } else {
-            usaAllScreen(newRecord, entityBean, caption, campiVisibili);
+            usaAllScreen(newRecord, entityBean, campiVisibili);
         }// end of if/else cycle
 
     }// end of method
 
 
-    private void usaSeparateFormDialog(boolean newRecord, AlgosModel entityBean, String caption, List<String> campiVisibili) {
+    private void usaSeparateFormDialog(boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
+        String caption = "";
         this.removeAllComponents();
 
         if (window != null) {
@@ -90,6 +98,18 @@ public class AlgosForm extends VerticalLayout {
         window.setHeightUndefined();
 
         VerticalLayout layout = new VerticalLayout();
+
+        if (newRecord) {
+            if (captionCreate == null || captionCreate.equals("")) {
+                captionCreate = CAPTION_CREATE_DEFAULT;
+            }// end of if cycle
+            caption = captionCreate;
+        } else {
+            if (captionEdit == null || captionEdit.equals("")) {
+                captionEdit = CAPTION_EDIT_DEFAULT;
+            }// end of if cycle
+            caption = captionEdit;
+        }// end of if/else cycle
 
         label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         layout.addComponent(label);
@@ -115,8 +135,21 @@ public class AlgosForm extends VerticalLayout {
     }// end of method
 
 
-    private void usaAllScreen(boolean newRecord, AlgosModel entityBean, String caption, List<String> campiVisibili) {
+    private void usaAllScreen(boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
+        String caption = "";
         this.removeAllComponents();
+
+        if (newRecord) {
+            if (captionCreate == null || captionCreate.equals("")) {
+                captionCreate = CAPTION_CREATE_DEFAULT;
+            }// end of if cycle
+            caption = captionCreate;
+        } else {
+            if (captionEdit == null || captionEdit.equals("")) {
+                captionEdit = CAPTION_EDIT_DEFAULT;
+            }// end of if cycle
+            caption = captionEdit;
+        }// end of if/else cycle
 
         label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         this.addComponent(label);

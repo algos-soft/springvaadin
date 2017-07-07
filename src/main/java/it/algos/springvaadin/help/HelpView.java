@@ -6,6 +6,9 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Label;
+import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +37,10 @@ public class HelpView extends AlgosView {
         addComponent(new Label(""));
         addComponent(new Label("Da sviluppare"));
     }// end of method
+
+//    public HelpView(AlgosPresenter presenter, AlgosList list, AlgosForm form) {
+//        super(presenter, list, form);
+//    }// fine del metodo costruttore Autowired
 
 //    @Override
 //    public ApplicationEventPublisher getApplicationEventPublisher() {

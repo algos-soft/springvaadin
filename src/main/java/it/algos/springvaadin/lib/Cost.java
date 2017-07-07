@@ -19,4 +19,8 @@ public abstract class Cost {
     public final static String PROPERTY_ID = "id";
     public final static String PROPERTY_EXCLUDED = "serialVersionUID";
 
+    public final static String TAG_VERS = "versione";
+    public final static String TAG_COMP = "company";
+    public final static String TAG_LOG = "log";
+
 }// end of static class

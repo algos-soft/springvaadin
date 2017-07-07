@@ -8,6 +8,7 @@ import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Set;
  */
 @Lazy
 @ViewScope
+//@Scope("prototype")
 @SpringComponent
 public class AlgosGrid extends Grid {
 
@@ -47,8 +49,9 @@ public class AlgosGrid extends Grid {
         this.setHeightByRows(numeroRighe);
         this.setSelectionMode(LibParams.gridSelectionMode());
         this.setColumns(colonneVisibili);
+        presenter = LibSpring.getPresenter();
 
-        //--aggiunge lla Gride tutte le azioni possibili; verranno intercettate e gestire dal presenter
+        //--aggiunge alla Grid tutte le azioni possibili; verranno intercettate e gestire dal presenter
         Azione.addAllListeners(presenter, this);
 
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid

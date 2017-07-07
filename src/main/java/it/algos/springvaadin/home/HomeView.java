@@ -7,6 +7,9 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Label;
+import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -22,25 +25,29 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 //@Scope()
 @SpringView(name = HomeView.VIEW_NAME)
-public class HomeView extends AlgosView {
+public class HomeView  extends AlgosView{
 
     public static final String VIEW_NAME = "home";
     public static final Resource VIEW_ICON = VaadinIcons.HOME;
 
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+//    @Override
+//    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+//
+//    }
 
-    }
-
-    @PostConstruct
-    protected void inizia() {
-        addComponent(new Label("SplashScreen"));
-        addComponent(new Label("Vuota"));
-        addComponent(new Label("Righe di aiuto"));
-        addComponent(new Label("Icona nel menu/bottone: " + VaadinIcons.HOME));
-        addComponent(new Label(""));
-        addComponent(new Label("Da sviluppare"));
-    }// end of method
+//    public HomeView(AlgosPresenter presenter, AlgosList list, AlgosForm form) {
+//        super(presenter, list, form);
+//    }// fine del metodo costruttore Autowired
+//
+//    @PostConstruct
+//    protected void inizia() {
+//        addComponent(new Label("SplashScreen"));
+//        addComponent(new Label("Vuota"));
+//        addComponent(new Label("Righe di aiuto"));
+//        addComponent(new Label("Icona nel menu/bottone: " + VaadinIcons.HOME));
+//        addComponent(new Label(""));
+//        addComponent(new Label("Da sviluppare"));
+//    }// end of method
 
 //    @Override
 //    public ApplicationEventPublisher getApplicationEventPublisher() {

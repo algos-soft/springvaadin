@@ -6,11 +6,15 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.entity.versione.VersioneForm;
+import it.algos.springvaadin.entity.versione.VersioneList;
+import it.algos.springvaadin.entity.versione.VersionePresenter;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.service.AlgosService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -49,11 +53,35 @@ public abstract class AlgosView extends VerticalLayout implements View {
     //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
     protected AlgosForm form;
 
-    //--eventuali intestazioni informative per List e Form
-    //--valori standard che possono essere sovrascritti nella classi specifiche
-    protected String captionList;
-    protected String captionFormCreate;
-    protected String captionFormEdit;
+
+    public AlgosView() {
+    }// fine del metodo costruttore
+
+//    /**
+//     * Presenter specifico, iniettato in questa classe
+//     * Lista specifica, iniettata in questa classe
+//     * Form specifico, iniettato in questa classe
+//     * Vengono iniettati qui per avere le classi specifiche.
+//     * Nella superclasse vengono gestite le properties generiche.
+//     */
+//    @Autowired//@todo funziona anche levando @Autowired :-) Non capisco
+//    public AlgosView(AlgosPresenter presenter) {
+//        this.presenter = presenter;
+//        this.list = list;
+//        this.form = form;
+//    }// fine del metodo costruttore Autowired
+
+    /**
+     * Questa classe (View) è la prima del gruppo (modulo) invocata da SpringNavigator
+     * Deve  quindi iniettarsi il riferimento al gestore principale (Presenter)
+     */
+    @Autowired//@todo funziona anche levando @Autowired :-) Non capisco
+    public AlgosView(AlgosPresenter presenter) {
+        this.presenter = presenter;
+
+        //--riferimento incrociato
+        presenter.setView(this);
+    }// fine del metodo costruttore Autowired
 
     /**
      * Metodo invocato subito DOPO il costruttore
@@ -84,7 +112,7 @@ public abstract class AlgosView extends VerticalLayout implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        presenter.enter(this);
+        presenter.enter();
     }// end of method
 
 
@@ -99,7 +127,7 @@ public abstract class AlgosView extends VerticalLayout implements View {
      */
     public void setList(Class<? extends AlgosModel> clazz, List items, List<String> colonneVisibili) {
         removeAllComponents();
-        list.inizia(clazz, captionList, items, colonneVisibili);
+        list.inizia(clazz, items, colonneVisibili);
         addComponent(list);
     }// end of method
 
@@ -112,9 +140,9 @@ public abstract class AlgosView extends VerticalLayout implements View {
      *
      * @param campiVisibili e ordinati del form
      */
-    public void setForm(Class<? extends AlgosModel> entityBean, AlgosService service,List<String> campiVisibili) {
+    public void setForm(Class<? extends AlgosModel> entityBean, AlgosService service, List<String> campiVisibili) {
         removeAllComponents();
-        form.iniziaCreate( service, captionFormCreate, campiVisibili);
+        form.iniziaCreate(service, campiVisibili);
         addComponent(form);
     }// end of method
 
@@ -127,9 +155,9 @@ public abstract class AlgosView extends VerticalLayout implements View {
      *
      * @param campiVisibili e ordinati del form
      */
-    public void setForm(AlgosModel entityBean, AlgosService service,List<String> campiVisibili) {
+    public void setForm(AlgosModel entityBean, AlgosService service, List<String> campiVisibili) {
         removeAllComponents();
-        form.iniziaEdit(entityBean, service, captionFormEdit, campiVisibili);
+        form.iniziaEdit(entityBean, service, campiVisibili);
         addComponent(form);
     }// end of method
 

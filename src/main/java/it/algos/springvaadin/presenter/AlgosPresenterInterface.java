@@ -16,6 +16,6 @@ public interface AlgosPresenterInterface extends
     /**
      * Metodo invocato dalla view ogni volta che questa diventa attiva
      */
-    public void enter(AlgosView view);
+    public void enter();
 
 }// end of interface

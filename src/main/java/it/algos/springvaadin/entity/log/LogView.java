@@ -4,10 +4,12 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 01/06/17
@@ -23,32 +25,30 @@ import javax.annotation.PostConstruct;
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 @SpringComponent
+@Qualifier(Cost.TAG_LOG)
 @SpringView(name = LogView.VIEW_NAME)
-public class LogView extends AlgosView {
+public class LogView  extends AlgosView{
+
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
     public static final String VIEW_NAME = "log";
 
+
     //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.TAG;
 
-    /**
-     * Presenter specifico, iniettato in questa classe
-     * Lista specifica, iniettata in questa classe
-     * Form specifico, iniettato in questa classe
-     * Vengono iniettati qui per avere le classi specifiche.
-     * Nella superclasse vengono gestite le properties generiche.
-     */
-    @Autowired
-    public LogView(LogPresenter presenter, LogList list, LogForm form) {
-        super.presenter = presenter;
-        super.list = list;
-        super.form = form;
 
-        //--eventuali intestazioni informative per List e Form
-        super.captionList = "Elenco di tutti i logs";
-        super.captionFormCreate = "Nuovo log";
-        super.captionFormEdit = "Modifica log";
-    }// fine del metodo costruttore Autowired
-
+//    /**
+//     * In questa sottoclasse di AlgosView vwengono iniettati i riferimenti alle altre classi
+//     * Si usano i @Qualifier(), per avere le sottoclassi specifiche
+//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+//     * Nella superclasse AlgosView vengono gestite le classi generiche
+//     */
+//    public LogView(
+//            @Qualifier(Cost.TAG_LOG) AlgosPresenter presenter,
+//            @Qualifier(Cost.TAG_LOG) AlgosList list,
+//            @Qualifier(Cost.TAG_LOG) AlgosForm form) {
+//        super(presenter, list, form);
+//    }// fine del metodo costruttore (Autowired nella superclasse)
+//
 }// end of class

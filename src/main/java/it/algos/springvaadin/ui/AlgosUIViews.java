@@ -57,7 +57,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
     protected void addAllViste() {
         //--l'eventuale menu Home è sempre il primo
         if (usaItemMenuHome) {
-            menuLayout.addView(HomeView.class);
+//            menuLayout.addView(HomeView.class);// @todo rimettere
         }// end of if cycle
 
         this.addVisteStandard();
@@ -81,10 +81,10 @@ public abstract class AlgosUIViews extends AlgosUIParams {
             menuLayout.addView(VersioneView.class);
         }// end of if cycle
         if (LibParams.useMultiCompany()) {
-            menuLayout.addView(CompanyView.class);
+//            menuLayout.addView(CompanyView.class);// @todo rimettere
         }// end of if cycle
         if (LibParams.useLog()) {
-            menuLayout.addView(LogView.class);
+//            menuLayout.addView(LogView.class);// @todo rimettere
         }// end of if cycle
     }// end of method
 

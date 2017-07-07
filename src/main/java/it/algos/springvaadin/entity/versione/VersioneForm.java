@@ -4,11 +4,14 @@ import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibField;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
+import javax.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import java.util.List;
  * Presenta i dati di una entity o bean, sotto forma di un Form
  */
 @Lazy
+@Qualifier(Cost.TAG_VERS)
 @SpringComponent
 public class VersioneForm extends AlgosForm {
 
@@ -26,14 +30,17 @@ public class VersioneForm extends AlgosForm {
     private VersioneService versioneService;
 
 
-    //--il modello dati viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    @Lazy
-    private Versione versioneModel;
-
-
     public Binder<Versione> binder;
+
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void caption() {
+        super.captionCreate = "Nuova versione";
+        super.captionEdit = "Modifica versione";
+    }// end of method
 
 
     @Override

@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.versione;
 
 
 import it.algos.springvaadin.bootstrap.SpringVaadinData;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import it.algos.springvaadin.repository.AlgosRepository;
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 
 //@Lazy
 @Service
+@Qualifier(Cost.TAG_VERS)
 @Scope(value = "singleton")
 public class VersioneService extends AlgosService {
 

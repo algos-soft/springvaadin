@@ -4,10 +4,12 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 01/06/17
@@ -23,32 +25,30 @@ import javax.annotation.PostConstruct;
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 @SpringComponent
+@Qualifier(Cost.TAG_COMP)
 @SpringView(name = CompanyView.VIEW_NAME)
-public class CompanyView extends AlgosView {
+public class CompanyView  extends AlgosView{
+
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
     public static final String VIEW_NAME = "comp";
 
+
     //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.OFFICE;
 
-    /**
-     * Presenter specifico, iniettato in questa classe
-     * Lista specifica, iniettata in questa classe
-     * Form specifico, iniettato in questa classe
-     * Vengono iniettati qui per avere le classi specifiche.
-     * Nella superclasse vengono gestite le properties generiche.
-     */
-    @Autowired
-    public CompanyView(CompanyPresenter presenter, CompanyList list, CompanyForm form) {
-        super.presenter = presenter;
-        super.list = list;
-        super.form = form;
 
-        //--eventuali intestazioni informative per List e Form
-        super.captionList = "Elenco di tutte le company";
-        super.captionFormCreate = "Nuova company";
-        super.captionFormEdit = "Modifica company";
-    }// fine del metodo costruttore Autowired
+//    /**
+//     * In questa sottoclasse di AlgosView vwengono iniettati i riferimenti alle altre classi
+//     * Si usano i @Qualifier(), per avere le sottoclassi specifiche
+//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+//     * Nella superclasse AlgosView vengono gestite le classi generiche
+//     */
+//    public CompanyView(
+//            @Qualifier(Cost.TAG_COMP) AlgosPresenter presenter,
+//            @Qualifier(Cost.TAG_COMP) AlgosList list,
+//            @Qualifier(Cost.TAG_COMP) AlgosForm form) {
+//        super(presenter, list, form);
+//    }// fine del metodo costruttore (Autowired nella superclasse)
 
 }// end of class

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.company;
 
 import it.algos.springvaadin.bootstrap.SpringVaadinData;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Lazy
 @Service
+@Qualifier(Cost.TAG_COMP)
 @Scope(value = "singleton")
 public class CompanyService extends AlgosService {
 

@@ -115,7 +115,7 @@ public class AlgosPresenterEvents implements AlgosPresenterInterface {
      * Metodo invocato dalla view ogni volta che questa diventa attiva
      */
     @Override
-    public void enter(AlgosView view) {
+    public void enter() {
     }// end of method
 
 

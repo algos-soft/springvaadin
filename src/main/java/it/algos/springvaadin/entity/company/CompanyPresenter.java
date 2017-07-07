@@ -1,8 +1,10 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
  * + application: Scopes a single bean definition to the lifecycle of a ServletContext (Only valid in the context of a web-aware Spring ApplicationContext).
  */
 @SpringComponent
+@Qualifier(Cost.TAG_COMP)
 @Scope(value = "singleton")
 public class CompanyPresenter extends AlgosPresenter {
 

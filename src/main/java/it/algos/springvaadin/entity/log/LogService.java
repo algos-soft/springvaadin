@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.log;
 
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import it.algos.springvaadin.repository.AlgosRepository;
@@ -19,6 +20,7 @@ import java.util.LinkedHashMap;
  */
 @Lazy
 @Service
+@Qualifier(Cost.TAG_LOG)
 @Scope(value = "singleton")
 public class LogService extends AlgosService {
 

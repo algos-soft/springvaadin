@@ -1,8 +1,10 @@
 package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +14,7 @@ import javax.annotation.PostConstruct;
  *
  */
 @SpringComponent
+@Qualifier(Cost.TAG_LOG)
 @Scope(value = "singleton")
 public class LogPresenter extends AlgosPresenter {
 

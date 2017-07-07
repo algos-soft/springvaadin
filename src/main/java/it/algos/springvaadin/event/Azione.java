@@ -1,5 +1,6 @@
 package it.algos.springvaadin.event;
 
+import com.vaadin.event.Action;
 import com.vaadin.event.selection.MultiSelectionEvent;
 import com.vaadin.event.selection.MultiSelectionListener;
 import com.vaadin.event.selection.SingleSelectionEvent;
@@ -14,6 +15,8 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
+
+import java.util.Collection;
 
 /**
  * Created by gac on 04/06/17

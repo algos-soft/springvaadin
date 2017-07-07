@@ -32,8 +32,8 @@ import java.util.List;
  *
  * @see http://javasampleapproach.com/spring-framework/spring-bean-scope-using-annotation-singleton-prototype-request-session-global-session-application
  */
-@SpringComponent
 @Scope
+@SpringComponent
 public class AlgosPresenter extends AlgosPresenterEvents {
 
 
@@ -75,7 +75,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      * Recupera i dati dal DB
      * Passa i dati alla view
      */
-    public void enter(AlgosView view) {
+    public void enter() {
         this.view = view;
         this.presentaLista();
     }// end of method
@@ -353,4 +353,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
         return model;
     }// end of method
 
+    public void setView(AlgosView view) {
+        this.view = view;
+    }
 }// end of class
