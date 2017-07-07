@@ -1,21 +1,11 @@
-package it.algos.springvaadin.entity.versione;
+package it.algos.springvaadin.nav;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Resource;
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringView;
-import it.algos.springvaadin.grid.AlgosGrid;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.nav.AlgosNavView;
+import it.algos.springvaadin.entity.versione.VersionePresenter;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
-import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 07/07/17
@@ -30,16 +20,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * che richiama questa classe, possa visualizzare la view effettiva
  * <p>
  */
-@SpringView(name = VersioneNavView.VIEW_NAME)
-public class VersioneNavView extends AlgosNavView {
+public abstract class AlgosNavView implements View {
 
 
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "versione";
+    //--gestore principale del modulo
+    private AlgosPresenter presenter;
 
 
-    //--icona del Menu
-    public static final Resource VIEW_ICON = VaadinIcons.DIPLOMA;
+    //--vista effettiva da usare/visualizzare
+    private AlgosView linkedView;
 
 
     /**
@@ -48,9 +37,26 @@ public class VersioneNavView extends AlgosNavView {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenter presenter) {
-        super(presenter);
+    @Autowired
+    public AlgosNavView(AlgosPresenter presenter) {
+        this.presenter = presenter;
+        linkedView = presenter.view;
     }// fine del metodo costruttore (Autowired nella superclasse)
+
+
+    /**
+     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+     * Passa il controllo alla classe xxxPresenter che gestisce la business logic
+     */
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        presenter.enter();
+    }// end of method
+
+
+    public AlgosView getLinkedView() {
+        return linkedView;
+    }// end of getter method
 
 
 }// end of class

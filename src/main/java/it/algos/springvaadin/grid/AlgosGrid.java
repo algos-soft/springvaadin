@@ -75,7 +75,7 @@ public class AlgosGrid extends Grid {
         if (LibSession.isDeveloper()) {
             lar = LibColumn.addColumns(this);
         } else {
-            lar = LibColumn.addColumns(presenter.getModel().getClass(),this, colonneVisibili);
+            lar = LibColumn.addColumns(presenter.getModel().getClass(), this, colonneVisibili);
         }// end of if/else cycle
 
         //--spazio per la colonna automatica di selezione
@@ -164,5 +164,9 @@ public class AlgosGrid extends Grid {
         } // fine del blocco switch
 
     }// end of method
+
+//    public void setBeanType(Class beanType) {
+//        this.setBeanType(beanType);
+//    }// end of method
 
 }// end of class

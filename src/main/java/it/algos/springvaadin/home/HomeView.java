@@ -11,6 +11,7 @@ import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
@@ -25,7 +26,7 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 //@Scope()
 @SpringView(name = HomeView.VIEW_NAME)
-public class HomeView  extends AlgosView{
+public abstract class HomeView  extends AlgosViewImpl {
 
     public static final String VIEW_NAME = "home";
     public static final Resource VIEW_ICON = VaadinIcons.HOME;

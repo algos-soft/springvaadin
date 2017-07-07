@@ -10,6 +10,7 @@ import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
@@ -24,7 +25,7 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 //@Scope()
 @SpringView(name = HelpView.VIEW_NAME)
-public class HelpView extends AlgosView {
+public abstract class HelpView extends AlgosViewImpl {
 
     public static final String VIEW_NAME = "help";
     public static final Resource VIEW_ICON = VaadinIcons.QUESTION;
@@ -32,10 +33,10 @@ public class HelpView extends AlgosView {
 
     @PostConstruct
     protected void inizia() {
-        addComponent(new Label("Help view"));
-        addComponent(new Label("Icona nel menu/bottone: " + VaadinIcons.HEART));
-        addComponent(new Label(""));
-        addComponent(new Label("Da sviluppare"));
+//        addComponent(new Label("Help view"));
+//        addComponent(new Label("Icona nel menu/bottone: " + VaadinIcons.HEART));
+//        addComponent(new Label(""));
+//        addComponent(new Label("Da sviluppare"));
     }// end of method
 
 //    public HelpView(AlgosPresenter presenter, AlgosList list, AlgosForm form) {

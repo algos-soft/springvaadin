@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import it.algos.springvaadin.entity.company.CompanyView;
 import it.algos.springvaadin.entity.log.LogView;
+import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.entity.versione.VersioneView;
 import it.algos.springvaadin.help.HelpView;
 import it.algos.springvaadin.home.HomeView;
@@ -65,7 +66,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
 
         //--l'eventuale menu Help è sempre l'ultimo
         if (usaItemMenuHelp) {
-            menuLayout.addView(HelpView.class);
+//            menuLayout.addView(HelpView.class);
         }// end of if cycle
     }// end of method
 
@@ -78,7 +79,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      */
     protected void addVisteStandard() {
         if (LibParams.useVers()) {
-            menuLayout.addView(VersioneView.class);
+            menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
         if (LibParams.useMultiCompany()) {
 //            menuLayout.addView(CompanyView.class);// @todo rimettere

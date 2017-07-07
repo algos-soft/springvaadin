@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.view.ViewPlaceholder;
@@ -162,9 +163,15 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      * Visualizza la view nel placeholder
      */
     public void showView(View view) {
+        View navView=view;
+        if (view instanceof VersioneNavView) {
+            navView=((VersioneNavView)view).getLinkedView();
+        }// end of if cycle
+
+
         if (usaViewTreComponenti) {
             creaViewTreComponenti();
-            viewPlaceholder.setContent((Component) view);
+            viewPlaceholder.setContent((Component) navView);
 
 //            root.removeAllComponents();
 //            root.addComponent(menuLayout);

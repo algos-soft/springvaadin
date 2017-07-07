@@ -25,7 +25,7 @@ public class LibVaadin {
         AlgosView view = getCurrentView();
 
         if (view != null) {
-            presenter = view.getPresenter();
+//            presenter = view.getPresenter();
         }// end of if cycle
 
         return presenter;

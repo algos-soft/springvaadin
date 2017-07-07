@@ -6,6 +6,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,10 +30,8 @@ import javax.annotation.PostConstruct;
  * + globalSession: one instance for a global HTTP Session. Typically only valid when used in a Portlet context.
  * + application: Scopes a single bean definition to the lifecycle of a ServletContext (Only valid in the context of a web-aware Spring ApplicationContext).
  */
-@Lazy
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)
-//@Scope(value = "singleton")
 public class VersionePresenter extends AlgosPresenter {
 
 
@@ -48,10 +47,13 @@ public class VersionePresenter extends AlgosPresenter {
     private VersioneService versioneService;
 
     @Autowired
-    public VersionePresenter(
-            @Qualifier(Cost.TAG_VERS) AlgosList list,
-            @Qualifier(Cost.TAG_VERS) AlgosForm form) {
-        super.view=view;
+    private VersioneView versioneView;
+
+//    @Autowired
+//    @Qualifier(Cost.TAG_VERS)
+//    private VersioneView versioneView;
+
+    public VersionePresenter(){
     }// fine del metodo costruttore (Autowired nella superclasse)
 
     /**
@@ -73,6 +75,9 @@ public class VersionePresenter extends AlgosPresenter {
 
         //--casting per gestire la property generica
         service = versioneService;
+
+        //--casting per gestire la property generica
+        view = versioneView;
     }// end of method
 
 

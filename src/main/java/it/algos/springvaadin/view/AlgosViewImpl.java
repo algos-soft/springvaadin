@@ -1,7 +1,8 @@
 package it.algos.springvaadin.view;
 
-import com.vaadin.navigator.View;
-import it.algos.springvaadin.lib.LibParams;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.service.AlgosService;
@@ -10,13 +11,14 @@ import java.util.List;
 
 /**
  * Created by gac on 07/07/17
- * <p>
- * Contratto d'interfaccia con i metodi che la View rende disponibili all'applicazione,
- * in particolare ad AlgosPresenter
- * Implementati nella classe concreta AlgosViewImpl
+ * .
  */
-public interface AlgosView extends View{
+public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView {
 
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
+    }// end of method
 
     /**
      * Costruisce una Grid
@@ -25,7 +27,9 @@ public interface AlgosView extends View{
      * @param items   da visualizzare nella Grid
      * @param columns visibili ed ordinate della lista
      */
-    public void setList(Class<? extends AlgosEntity> clazz, List items, List<String> columns);
+    @Override
+    public void setList(Class<? extends AlgosEntity> clazz, List items, List<String> columns) {
+    }// end of method
 
 
     /**
@@ -34,8 +38,9 @@ public interface AlgosView extends View{
      * @param entity di riferimento
      * @param fields visibili ed ordinati del Form
      */
-    public void setForm(AlgosEntity entity, List<String> fields);
-
+    @Override
+    public void setForm(AlgosEntity entity, List<String> fields) {
+    }// end of method
 
 
     /**
@@ -43,61 +48,77 @@ public interface AlgosView extends View{
      *
      * @return numero di righe selezionate
      */
-    public int numRigheSelezionate();
-
+    @Override
+    public int numRigheSelezionate() {
+        return 0;
+    }// end of method
 
     /**
      * Una riga selezionata nella grid
      *
      * @return true se è selezionata una ed una sola riga nella Grid
      */
-    public boolean isUnaRigaSelezionata();
-
+    @Override
+    public boolean isUnaRigaSelezionata() {
+        return false;
+    }// end of method
 
     /**
      * Abilita il bottone Registra del Form
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneRegistra(boolean status);
+    @Override
+    public void setBottoneRegistra(boolean status) {
 
+    }// end of method
 
     /**
      * Abilita il bottone Edit dela Grid
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneEdit(boolean status);
+    @Override
+    public void setBottoneEdit(boolean status) {
 
+    }// end of method
 
     /**
      * Abilita il bottone Delet della Grid
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneDelete(boolean status);
+    @Override
+    public void setBottoneDelete(boolean status) {
 
+    }// end of method
 
     /**
      * Chiude l'eventuale finestra separata nel Form
      */
-    public void closeFormWindow();
+    @Override
+    public void closeFormWindow() {
 
+    }// end of method
 
     /**
      * La entity del Form
      *
      * @return la entity del Form
      */
-    public AlgosEntity getEntityForm();
-
+    @Override
+    public AlgosEntity getEntityForm() {
+        return null;
+    }// end of method
 
     /**
      * Una entity selezionata nella Grid
      *
      * @return la entity della singola riga selezionata o null se nessuna riga è selezionata
      */
-    public AlgosEntity getEntityList();
+    @Override
+    public AlgosEntity getEntityList() {
+        return null;
+    }// end of method
 
-
-}// end of interface
+}// end of class

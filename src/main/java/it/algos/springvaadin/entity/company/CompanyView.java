@@ -9,6 +9,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @SpringComponent
 @Qualifier(Cost.TAG_COMP)
 @SpringView(name = CompanyView.VIEW_NAME)
-public class CompanyView  extends AlgosView{
+public abstract class CompanyView  extends AlgosViewImpl {
 
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista

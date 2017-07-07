@@ -44,7 +44,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
 
     //--la vista specifica viene iniettata nella sottoclasse concreta
     //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
-    protected AlgosView view;
+    public AlgosView view;
 
 
     //--il service (dao, repository) viene iniettato nella sottoclasse concreta
@@ -143,14 +143,14 @@ public class AlgosPresenter extends AlgosPresenterEvents {
             Class<? extends AlgosModel> clazz = model.getClass();
             List<String> fields = service.getFormFields();
             if (entityBean == null) {
-                view.setForm(clazz, service, fields);
+//                view.setForm(clazz, service, fields);
             } else {
                 if (entityBean.getId() > 0) {
                     entityBean = service.findById(entityBean.getId());
                 }// end of if cycle
-                view.setForm(entityBean, service, fields);
+//                view.setForm(entityBean, service, fields);
             }// end of if/else cycle
-            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
+//            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
         }// end of if cycle
 
     }// end of method
@@ -165,7 +165,8 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void delete() {
         if (service != null && view != null) {
-            List<AlgosModel> beanList = view.getList().getGrid().getBeans();
+            List<AlgosModel> beanList = null;
+//            List<AlgosModel> beanList = view.getList().getGrid().getBeans();
 
             if (LibParams.chiedeConfermaPrimaDiCancellare()) {
                 chiedeConfermaPrimaDiCancellare(beanList);
@@ -238,7 +239,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     public void annulla() {
         if (LibParams.usaSeparateFormDialog()) {
             if (view != null) {
-                view.getForm().closeWindow();
+//                view.getForm().closeWindow();
             }// end of if cycle
         }// end of if cycle
 
@@ -257,7 +258,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
             Class<? extends AlgosModel> clazz = model.getClass();
             List items = service.findAll();
             List<String> columns = service.getListColumns();
-            view.setList(clazz, items, columns);
+//            view.setList(clazz, items, columns);
         }// end of if cycle
     }// end of method
 
@@ -282,14 +283,14 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      */
     public void registraModifiche() {
         AlgosModel bean;
-        AlgosModel entityBean;
+        AlgosModel entityBean=null;
 
         if (view != null) {
-            entityBean = view.getForm().getBean();
+//            entityBean = view.getForm().getBean();
             service.update(entityBean);
 
             if (LibParams.usaSeparateFormDialog()) {
-                view.getForm().closeWindow();
+//                view.getForm().closeWindow();
             }// end of if cycle
         }// end of if cycle
     }// end of method
@@ -305,34 +306,34 @@ public class AlgosPresenter extends AlgosPresenterEvents {
         boolean unaSolaRigaSelezionata = false;
         int numRigheSelezionate = 0;
 
-        if (view != null) {
-            //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
-            unaSolaRigaSelezionata = view.unaRigaSelezionata();
-            view.getList().getToolbar().buttonEdit.setEnabled(unaSolaRigaSelezionata);
-
-            //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
-            switch (LibParams.gridSelectionMode()) {
-                //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
-                case SINGLE:
-                    unaSolaRigaSelezionata = view.unaRigaSelezionata();
-                    view.getList().getToolbar().buttonDelete.setEnabled(unaSolaRigaSelezionata);
-                    break;
-                //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
-                case MULTI:
-                    numRigheSelezionate = view.numRigheSelezionate();
-                    if (numRigheSelezionate >= 1) {
-                        view.getList().getToolbar().buttonDelete.setEnabled(true);
-                    } else {
-                        view.getList().getToolbar().buttonDelete.setEnabled(false);
-                    }// end of if/else cycle
-                    break;
-                case NONE:
-                    break;
-                default: // caso non definito
-                    break;
-            } // fine del blocco switch
-
-        }// end of if cycle
+//        if (view != null) {
+//            //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
+//            unaSolaRigaSelezionata = view.unaRigaSelezionata();
+//            view.getList().getToolbar().buttonEdit.setEnabled(unaSolaRigaSelezionata);
+//
+//            //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
+//            switch (LibParams.gridSelectionMode()) {
+//                //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
+//                case SINGLE:
+//                    unaSolaRigaSelezionata = view.unaRigaSelezionata();
+//                    view.getList().getToolbar().buttonDelete.setEnabled(unaSolaRigaSelezionata);
+//                    break;
+//                //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
+//                case MULTI:
+//                    numRigheSelezionate = view.numRigheSelezionate();
+//                    if (numRigheSelezionate >= 1) {
+//                        view.getList().getToolbar().buttonDelete.setEnabled(true);
+//                    } else {
+//                        view.getList().getToolbar().buttonDelete.setEnabled(false);
+//                    }// end of if/else cycle
+//                    break;
+//                case NONE:
+//                    break;
+//                default: // caso non definito
+//                    break;
+//            } // fine del blocco switch
+//
+//        }// end of if cycle
 
     }// end of method
 
@@ -343,7 +344,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     @SuppressWarnings("rawtypes")
     private AlgosModel getBean() {
         if (view != null) {
-            return view.getList().getGrid().getBean();
+//            return view.getList().getGrid().getBean();
         }// end of if cycle
 
         return null;

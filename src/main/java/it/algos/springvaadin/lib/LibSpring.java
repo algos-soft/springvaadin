@@ -14,7 +14,8 @@ public class LibSpring {
 
 
     public static AlgosPresenter getPresenter() {
-        return getView().getPresenter();
+//        return getView().getPresenter();
+        return null;
     }// end of static method
 
 
