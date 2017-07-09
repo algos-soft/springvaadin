@@ -2,11 +2,15 @@ package it.algos.springvaadin.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
+import it.algos.springvaadin.entity.company.CompanyNavView;
 import it.algos.springvaadin.entity.company.CompanyView;
+import it.algos.springvaadin.entity.log.LogNavView;
 import it.algos.springvaadin.entity.log.LogView;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.entity.versione.VersioneView;
+import it.algos.springvaadin.help.HelpNavView;
 import it.algos.springvaadin.help.HelpView;
+import it.algos.springvaadin.home.HomeNavView;
 import it.algos.springvaadin.home.HomeView;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -58,7 +62,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
     protected void addAllViste() {
         //--l'eventuale menu Home è sempre il primo
         if (usaItemMenuHome) {
-//            menuLayout.addView(HomeView.class);// @todo rimettere
+            menuLayout.addView(HomeNavView.class);
         }// end of if cycle
 
         this.addVisteStandard();
@@ -66,7 +70,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
 
         //--l'eventuale menu Help è sempre l'ultimo
         if (usaItemMenuHelp) {
-//            menuLayout.addView(HelpView.class);
+            menuLayout.addView(HelpNavView.class);
         }// end of if cycle
     }// end of method
 
@@ -82,10 +86,10 @@ public abstract class AlgosUIViews extends AlgosUIParams {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
         if (LibParams.useMultiCompany()) {
-//            menuLayout.addView(CompanyView.class);// @todo rimettere
+            menuLayout.addView(CompanyNavView.class);
         }// end of if cycle
         if (LibParams.useLog()) {
-//            menuLayout.addView(LogView.class);// @todo rimettere
+            menuLayout.addView(LogNavView.class);
         }// end of if cycle
     }// end of method
 

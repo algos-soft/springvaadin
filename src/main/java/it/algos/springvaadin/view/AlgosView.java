@@ -1,10 +1,7 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.navigator.View;
-import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.service.AlgosService;
 
 import java.util.List;
 

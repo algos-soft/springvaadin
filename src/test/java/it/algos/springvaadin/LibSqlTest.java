@@ -280,14 +280,14 @@ public class LibSqlTest {
     }// end of single test
 
 
-    @Test
-    public void getQueryUpdate3() {
-        String tableName = "versione";
-
-        previsto = "UPDATE versione SET descrizione=?, modifica=?, ordine=?, titolo=? WHERE id=?";
-        ottenuto = LibSql.getQueryUpdate(tableName,vers);
-        assertEquals(ottenuto, previsto);
-    }// end of single test
+//    @Test
+//    public void getQueryUpdate3() {
+//        String tableName = "versione";
+//
+//        previsto = "UPDATE versione SET descrizione=?, modifica=?, ordine=?, titolo=? WHERE id=?";
+//        ottenuto = LibSql.getQueryUpdate(tableName,vers);
+//        assertEquals(ottenuto, previsto);
+//    }// end of single test
 
 
     /**

@@ -1,19 +1,16 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.entity.versione.VersioneForm;
-import it.algos.springvaadin.entity.versione.VersioneList;
-import it.algos.springvaadin.entity.versione.VersionePresenter;
 import it.algos.springvaadin.form.AlgosForm;
-import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.service.AlgosServiceOld;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +43,7 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
 
     //--la lista specifica viene iniettata nella sottoclasse concreta
     //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
-    protected AlgosList list;
+    protected AlgosListImpl list;
 
 
     //--il form specifico viene iniettato nella sottoclasse concreta
@@ -125,9 +122,9 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      * @param items           da visualizzare nella Grid
      * @param colonneVisibili e ordinate della lista
      */
-    public void setList(Class<? extends AlgosModel> clazz, List items, List<String> colonneVisibili) {
+    public void setList(Class<? extends AlgosEntity> clazz, List items, List<String> colonneVisibili) {
         removeAllComponents();
-        list.inizia(clazz, items, colonneVisibili);
+        list.restart(clazz, items, colonneVisibili);
         addComponent(list);
     }// end of method
 
@@ -140,7 +137,7 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      *
      * @param campiVisibili e ordinati del form
      */
-    public void setForm(Class<? extends AlgosModel> entityBean, AlgosService service, List<String> campiVisibili) {
+    public void setForm(Class<? extends AlgosModel> entityBean, AlgosServiceOld service, List<String> campiVisibili) {
         removeAllComponents();
         form.iniziaCreate(service, campiVisibili);
         addComponent(form);
@@ -155,7 +152,7 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      *
      * @param campiVisibili e ordinati del form
      */
-    public void setForm(AlgosModel entityBean, AlgosService service, List<String> campiVisibili) {
+    public void setForm(AlgosModel entityBean, AlgosServiceOld service, List<String> campiVisibili) {
         removeAllComponents();
         form.iniziaEdit(entityBean, service, campiVisibili);
         addComponent(form);
@@ -245,7 +242,7 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
     }
 
 
-    public AlgosList getList() {
+    public AlgosListImpl getList() {
         return list;
     }
 

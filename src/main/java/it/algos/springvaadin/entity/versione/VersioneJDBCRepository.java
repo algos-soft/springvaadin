@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +21,7 @@ import java.util.LinkedHashMap;
  * (sconsigliato perché obbliga un casting dell'interfaccia)
  */
 @SpringComponent
-@Qualifier("versione")
+@Qualifier(Cost.TAG_VERS)
 public class VersioneJDBCRepository extends AlgosJDBCRepository {
 
 

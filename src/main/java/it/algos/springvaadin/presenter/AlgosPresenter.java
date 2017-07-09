@@ -2,71 +2,52 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
  * Created by gac on 14/06/17.
  * <p>
  * Classe che gestisce la business logic di un 'modulo'
- * Viene creata la prima volta dalla View (lazy injected) che a sua volta viene creata dallo SpringNavigator
- * Crea (lazy injection) Modello, View (la view è scope-singleton, quindi la stessa da cui siamo arrivati) e Service
+ * Viene creata la prima volta dalla xxxNavView (injected) che a sua volta viene creata dallo SpringNavigator
  * <p>
- * – We have some type of scope:
- * + singleton: only one instance is created (default scope)
- * + prototype: new instance is created everytime prototype bean is referenced.
- * + request: one instance for a single HTTP request.
- * + session: one instance for an HTTP Session
- * + globalSession: one instance for a global HTTP Session. Typically only valid when used in a Portlet context.
- * + application: Scopes a single bean definition to the lifecycle of a ServletContext
- * + (Only valid in the context of a web-aware Spring ApplicationContext).
- *
- * @see http://javasampleapproach.com/spring-framework/spring-bean-scope-using-annotation-singleton-prototype-request-session-global-session-application
+ * Utilizza una xxxView (da non confondersi con xxxNavView) specifica, iniettata
+ * -(che a sua volta usa una xxxList per la Grid ed una xxxForm per la scheda)
+ * Utilizza un xxxService specifico, iniettato
+ * -(che a sua volta usa una AlgosEntity ed eventualmente una Repository)
  */
-@Scope
 @SpringComponent
-public class AlgosPresenter extends AlgosPresenterEvents {
+public abstract class AlgosPresenter extends AlgosPresenterEvents {
 
 
-    //--il modello dati specifico viene iniettato nella sottoclasse concreta
-    //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
-    protected AlgosModel model;
+    //--la vista specifica viene iniettata dal costruttore della sottoclasse concreta
+    private AlgosView view;
 
 
-    //--la vista specifica viene iniettata nella sottoclasse concreta
-    //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
-    public AlgosView view;
-
-
-    //--il service (dao, repository) viene iniettato nella sottoclasse concreta
-    //--viene poi effettuato un casting (nella sottoclasse) per gestire la property generica
-    protected AlgosService service;
+    //--il service (dao, repository) viene iniettato dal costruttore della sottoclasse concreta
+    private AlgosService service;
 
 
     boolean newRecord = false;
 
-
     /**
-     * Metodo invocato subito DOPO il costruttore
-     * <p>
-     * Performing the initialization in a constructor is not suggested
-     * as the state of the UI is not properly set up when the constructor is invoked.
-     * <p>
-     * Ci possono essere diversi metodi con @PostConstruct e firme diverse e funzionano tutti,
-     * ma l'ordine con cui vengono chiamati NON è garantito
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    @PostConstruct
-    protected void inizia() {
-    }// end of method
+    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
+    public AlgosPresenter(AlgosView view, AlgosService service) {
+        this.view = view;
+        this.service = service;
+    }// end of Spring constructor
 
 
     /**
@@ -75,11 +56,42 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      * Recupera i dati dal DB
      * Passa i dati alla view
      */
+    /**
+     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+     * Passa il controllo alla classe xxxPresenter che gestisce la business logic
+     */
     public void enter() {
-        this.view = view;
         this.presentaLista();
     }// end of method
 
+
+    /**
+     * Metodo invocato dalla view ogni volta che questa diventa attiva
+     * oppure
+     * metodo invocato da un Evento (azione) che necessita di aggiornare e ripresentare la Lista
+     * tipo dopo un delete, dopo un nuovo record, dopo la modifica di un record
+     * <p>
+     * Recupera dal service tutti i dati necessari (aggiornati)
+     * Passa il controllo alla view con i dati necessari
+     */
+    protected void presentaLista() {
+        //patch @todo passa qui due volte (per errore) non trovato perché
+        //la seconda volta il presenter è 'farlocco'
+
+        if (view != null && service != null) {
+
+            //--Recupera dal service tutti i dati necessari (aggiornati)
+            Class<? extends AlgosEntity> clazz = service.getEntityClass();
+            List items = service.findAll();
+            List<String> columns = service.getListColumns();
+
+            //--Passa il controllo alla view con i dati necessari
+            if (clazz != null && columns != null && columns.size() > 0) {
+                view.setList(clazz, items, columns);
+            }// end of if cycle
+
+        }// end of if cycle
+    }// end of method
 
     /**
      * Evento
@@ -92,7 +104,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void create() {
         newRecord = true;
-        modifica((AlgosModel) null);
+        modifica((AlgosEntity) null);
     }// end of method
 
 
@@ -108,7 +120,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void edit() {
         newRecord = false;
-        AlgosModel entityBean = this.getBean();
+        AlgosEntity entityBean = this.getBean();
 
         //patch @todo passa qui due volte (per errore) non trovato perché
         //la seconda volta il presenter è 'farlocco'
@@ -129,7 +141,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void doppioClick(AlgosModel entityBean) {
+    public void doppioClick(AlgosEntity entityBean) {
         modifica(entityBean);
     }// end of method
 
@@ -137,21 +149,21 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     /**
      * Modifica singolo record (entityBean)
      */
-    protected void modifica(AlgosModel entityBean) {
+    protected void modifica(AlgosEntity entityBean) {
 
-        if (model != null && service != null && view != null) {
-            Class<? extends AlgosModel> clazz = model.getClass();
-            List<String> fields = service.getFormFields();
-            if (entityBean == null) {
-//                view.setForm(clazz, service, fields);
-            } else {
-                if (entityBean.getId() > 0) {
-                    entityBean = service.findById(entityBean.getId());
-                }// end of if cycle
-//                view.setForm(entityBean, service, fields);
-            }// end of if/else cycle
-//            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
-        }// end of if cycle
+//        if (model != null && service != null && view != null) {
+//            Class<? extends AlgosModel> clazz = model.getClass();
+//            List<String> fields = service.getFormFields();
+//            if (entityBean == null) {
+////                view.setForm(clazz, service, fields);
+//            } else {
+//                if (entityBean.getId() > 0) {
+//                    entityBean = service.findById(entityBean.getId());
+//                }// end of if cycle
+////                view.setForm(entityBean, service, fields);
+//            }// end of if/else cycle
+////            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
+//        }// end of if cycle
 
     }// end of method
 
@@ -165,7 +177,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void delete() {
         if (service != null && view != null) {
-            List<AlgosModel> beanList = null;
+            List<AlgosEntity> beanList = null;
 //            List<AlgosModel> beanList = view.getList().getGrid().getBeans();
 
             if (LibParams.chiedeConfermaPrimaDiCancellare()) {
@@ -182,7 +194,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     /**
      * Presenta un dialogo di conferma prima della cancellazione effettiva
      */
-    public void chiedeConfermaPrimaDiCancellare(List<AlgosModel> beanList) {
+    public void chiedeConfermaPrimaDiCancellare(List<AlgosEntity> beanList) {
         boolean cancella = false;
         String message;
 
@@ -210,11 +222,11 @@ public class AlgosPresenter extends AlgosPresenterEvents {
     /**
      * Cancella il/i record/s selezionato/i
      */
-    private void cancellazione(List<AlgosModel> beanList) {
+    private void cancellazione(List<AlgosEntity> beanList) {
         boolean cancellato = false;
 
         if (beanList != null && beanList.size() > 0) {
-            for (AlgosModel entityBean : beanList) {
+            for (AlgosEntity entityBean : beanList) {
 
                 if (service.delete(entityBean)) {
                     cancellato = true;
@@ -248,22 +260,6 @@ public class AlgosPresenter extends AlgosPresenterEvents {
 
 
     /**
-     * Recupera i dati dal service
-     * Passa i dati alla view
-     */
-    protected void presentaLista() {
-        //patch @todo passa qui due volte (per errore) non trovato perché
-        //la seconda volta il presenter è 'farlocco'
-        if (model != null && service != null && view != null) {
-            Class<? extends AlgosModel> clazz = model.getClass();
-            List items = service.findAll();
-            List<String> columns = service.getListColumns();
-//            view.setList(clazz, items, columns);
-        }// end of if cycle
-    }// end of method
-
-
-    /**
      * Evento
      * Save (registra) button pressed in form
      * Registra le modifiche nel DB
@@ -283,11 +279,11 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      */
     public void registraModifiche() {
         AlgosModel bean;
-        AlgosModel entityBean=null;
+        AlgosModel entityBean = null;
 
         if (view != null) {
 //            entityBean = view.getForm().getBean();
-            service.update(entityBean);
+//            service.update(entityBean);
 
             if (LibParams.usaSeparateFormDialog()) {
 //                view.getForm().closeWindow();
@@ -342,7 +338,7 @@ public class AlgosPresenter extends AlgosPresenterEvents {
      * Recupera il record selezionato
      */
     @SuppressWarnings("rawtypes")
-    private AlgosModel getBean() {
+    private AlgosEntity getBean() {
         if (view != null) {
 //            return view.getList().getGrid().getBean();
         }// end of if cycle
@@ -350,11 +346,15 @@ public class AlgosPresenter extends AlgosPresenterEvents {
         return null;
     }// end of method
 
-    public AlgosModel getModel() {
-        return model;
+    public AlgosEntity getModel() {
+        return null;
     }// end of method
 
     public void setView(AlgosView view) {
         this.view = view;
+    }
+
+    public AlgosView getView() {
+        return view;
     }
 }// end of class

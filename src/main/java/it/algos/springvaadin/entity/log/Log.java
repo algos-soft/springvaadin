@@ -2,14 +2,18 @@ package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.company.CompanyServiceOld;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,15 +37,16 @@ import java.time.LocalDateTime;
  * Prevede la differenziazione per Company. Se l'applicazione non usa le company, la property è sempre nulla.
  */
 @Entity
-@Table(name = "log")
-@SpringComponent
-public class Log extends AlgosModel {
+@Service
+@Table(name = Cost.TAG_LOG)
+@Qualifier(Cost.TAG_LOG)
+public class Log extends AlgosEntity {
 
     //--versione della classe per la serializzazione
     private final static long serialVersionUID = 1L;
 
 
-    @AIField(type = AFType.combo, clazz = CompanyService.class, width = "12em", caption = "Company")
+    @AIField(type = AFType.combo, clazz = CompanyServiceOld.class, width = "12em", caption = "Company")
     private Company company;
 
 
@@ -96,7 +101,7 @@ public class Log extends AlgosModel {
      * @param logService iniettato direttamente da Spring
      */
     @Autowired
-    public Log(LogService logService) {
+    public Log(LogServiceOld logService) {
         this(logService, (Company) null, (Livello) null, "", "", (LocalDateTime) null);
     }// end of Spring constructor
 
@@ -115,7 +120,7 @@ public class Log extends AlgosModel {
      * @param descrizione descrizione (obbligatoria, non unica)
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      */
-    Log(LogService logService, Company company, Livello livello, String titolo, String descrizione, LocalDateTime modifica) {
+    Log(LogServiceOld logService, Company company, Livello livello, String titolo, String descrizione, LocalDateTime modifica) {
         this.setCompany(LibParams.useMultiCompany() && company != null ? company : null);
         this.setLivello(livello != null ? livello : Livello.info);
         this.setTitolo(titolo);

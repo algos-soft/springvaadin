@@ -11,6 +11,7 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
 import it.algos.springvaadin.menu.MenuLayout;
+import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.view.ViewPlaceholder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -164,8 +165,8 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      */
     public void showView(View view) {
         View navView=view;
-        if (view instanceof VersioneNavView) {
-            navView=((VersioneNavView)view).getLinkedView();
+        if (view instanceof AlgosNavView) {
+            navView=((AlgosNavView)view).getLinkedView();
         }// end of if cycle
 
 

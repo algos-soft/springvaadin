@@ -13,6 +13,7 @@ import com.vaadin.ui.components.grid.MultiSelectionModel;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
@@ -140,8 +141,8 @@ public enum Azione {
         AlgosSpringEvent actionSpringEvent = null;
 
         if (presenter != null) {
-            if (entityBean != null && entityBean instanceof AlgosModel) {
-                actionSpringEvent = new ActionSpringEvent(presenter, this, (AlgosModel) entityBean);
+            if (entityBean != null && entityBean instanceof AlgosEntity) {
+                actionSpringEvent = new ActionSpringEvent(presenter, this, (AlgosEntity) entityBean);
             } else {
                 actionSpringEvent = new ActionSpringEvent(presenter, this);
             }// end of if/else cycle

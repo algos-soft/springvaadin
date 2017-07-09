@@ -1,9 +1,8 @@
 package it.algos.springvaadin.bootstrap;
 
-import it.algos.springvaadin.entity.company.CompanyService;
-import it.algos.springvaadin.entity.log.LogService;
-import it.algos.springvaadin.entity.versione.VersioneService;
-import it.algos.springvaadin.repository.AlgosRepository;
+import it.algos.springvaadin.entity.company.CompanyServiceOld;
+import it.algos.springvaadin.entity.log.LogServiceOld;
+import it.algos.springvaadin.entity.versione.VersioneServiceOld;
 
 /**
  * Created by gac on 22/06/17
@@ -15,7 +14,7 @@ public class SpringVaadinData {
     /**
      * Si attiva SOLO se la tavola è vuota
      */
-    public static void creaVersione(VersioneService service) {
+    public static void creaVersione(VersioneServiceOld service) {
         service.crea("Setup", "Setup iniziale del programma");
         service.crea("Update", "Prima versione");
         service.crea("Update", "Seconda versione");
@@ -27,7 +26,7 @@ public class SpringVaadinData {
     /**
      * Si attiva SOLO se la tavola è vuota
      */
-    public static void creaCompany(CompanyService service) {
+    public static void creaCompany(CompanyServiceOld service) {
         service.crea("gaps", "Gruppo Accoglienza Pronto Soccorso");
         service.crea("crf", "CRI - Comitato Locale di Fidenza", "cl.fidenza@cri.it", "via la Bionda, 3 - 43036 Fidenza (PR)", "Alessandro Aniello");
         service.crea("pap", "Pubblica assistenza Pianoro", "presidente@pubblicapianoro.it", "Via del Lavoro 15 - 40065 Pianoro (BO)", "Silvano Piana");
@@ -38,7 +37,7 @@ public class SpringVaadinData {
     /**
      * Si attiva SOLO se la tavola è vuota
      */
-    public static void creaLog(LogService service) {
+    public static void creaLog(LogServiceOld service) {
     }// end of method
 
 }// end of class

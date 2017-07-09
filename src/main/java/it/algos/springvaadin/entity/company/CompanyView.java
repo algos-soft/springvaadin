@@ -1,14 +1,10 @@
 package it.algos.springvaadin.entity.company;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -27,29 +23,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_COMP)
-@SpringView(name = CompanyView.VIEW_NAME)
-public abstract class CompanyView  extends AlgosViewImpl {
+public  class CompanyView  extends AlgosViewImpl {
 
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "comp";
-
-
-    //--icona del Menu
-    public static final Resource VIEW_ICON = VaadinIcons.OFFICE;
-
-
-//    /**
-//     * In questa sottoclasse di AlgosView vwengono iniettati i riferimenti alle altre classi
-//     * Si usano i @Qualifier(), per avere le sottoclassi specifiche
-//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-//     * Nella superclasse AlgosView vengono gestite le classi generiche
-//     */
-//    public CompanyView(
-//            @Qualifier(Cost.TAG_COMP) AlgosPresenter presenter,
-//            @Qualifier(Cost.TAG_COMP) AlgosList list,
-//            @Qualifier(Cost.TAG_COMP) AlgosForm form) {
-//        super(presenter, list, form);
-//    }// fine del metodo costruttore (Autowired nella superclasse)
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    public CompanyView(@Qualifier(Cost.TAG_COMP) AlgosList list, @Qualifier(Cost.TAG_COMP) AlgosForm form) {
+        super(list, form);
+    }// end of Spring constructor
 
 }// end of class

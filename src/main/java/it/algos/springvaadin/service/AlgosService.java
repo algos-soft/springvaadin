@@ -1,124 +1,80 @@
 package it.algos.springvaadin.service;
 
-import com.sun.deploy.util.StringUtils;
-import it.algos.springvaadin.bootstrap.SpringVaadinData;
-import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.repository.AlgosRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCountCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by gac on 14/06/17
- * .
+ * Created by gac on 07/07/17
+ * <p>
+ * Contratto d'interfaccia con i metodi che il Service rende disponibili all'applicazione,
+ * in particolare ad AlgosPresenter
+ * Implementati nella classe concreta AlgosServiceImpl
  */
-@Service
-public abstract class AlgosService {
-
-
-    protected AlgosRepository repository;
-
-
-    @Autowired
-    @Lazy
-    protected JdbcTemplate jdbcTemplate;
-
-
-    //--tavola di riferimento
-    //--regolata nella sottoclasse concreta
-    protected String tableName;
-
-
-    //--mappatura del modello dati
-    //--regolata nella sottoclasse concreta
-    protected RowMapper rowMapper;
-
-
-    //--classem del modello dati
-    //--regolata nella sottoclasse concreta
-    protected Class modelClass;
-
-
-    public AlgosService(AlgosRepository repository) {
-        this.repository = repository;
-    }// fine del metodo costruttore Autowired
+public interface AlgosService {
 
 
     /**
-     * Indicates a method to be invoked AFTER a bean has been created and dependency injection is complete.
-     * Used to perform any initialization work necessary.
-     * Performing the initialization in a constructor is not suggested
-     * Possono esserci diversi metodi con @PostConstruct ma l'ordine con cui vengono chiamati NON è garantito
+     * Returns whether a table exists.
+     *
+     * @return true if an table exists, {@literal false} otherwise
      */
-    @PostConstruct
-    public void inizia() {
-        //--indispensabile passare dalla sottoclasse, se non altro per il nome della tavola
-        regolaParametri();
-
-        //--test di esistenza per invocare il metodo specifico di creazione della tavola
-        if (!esisteTable()) {
-            repository.creaTable();
-        }// end of if cycle
-
-        //--test per popolare (opzionale) la tavola specifica se è vuota
-        if (vuota()) {
-            creaDatiIniziali();
-        }// end of if cycle
-    }// end of method
-
-
-    protected boolean esisteTable() {
-        return repository.exists();
-    }// end of method
-
-
-    protected boolean vuota() {
-        return count() == 0;
-    }// end of method
-
-
-    protected void regolaParametri() {
-    }// end of method
-
-
-    protected void creaDatiIniziali() {
-    }// end of method
-
-    /**
-     * Conteggio di tutti i records della tavola
-     * Senza filtri
-     */
-    public int count() {
-        int totaleInt = 0;
-        Long totaleLong = repository.count();
-
-        if (totaleLong != null && totaleLong > 0) {
-            totaleInt = totaleLong.intValue();
-        }// end of if cycle
-
-        return totaleInt;
-    }// end of method
+    public boolean exists();
 
 
     /**
-     * Recupera il singolo bean
+     * Creazione iniziale di una tavola
      */
-    public AlgosModel findById(long id) {
-        return (AlgosModel) repository.findOne(id);
-    }// end of method
+    public boolean creaTable();
 
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entity
+     *
+     * @return the saved entity
+     */
+    public AlgosEntity save(AlgosEntity entity);
+
+
+    /**
+     * Saves all given entities.
+     *
+     * @param entities
+     *
+     * @return the saved entities
+     *
+     * @throws IllegalArgumentException in case the given entity is {@literal null}.
+     */
+    public List<AlgosEntity> save(List<AlgosEntity> entities);
+
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param id must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public AlgosEntity findById(long id);
+
+
+    /**
+     * Returns whether an entity with the given id exists.
+     *
+     * @param serializable must not be {@literal null}.
+     *
+     * @return true if an entity with the given id exists, {@literal false} otherwise
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public boolean exists(Serializable serializable);
 
     /**
      * Returns all instances of the type.
@@ -130,85 +86,66 @@ public abstract class AlgosService {
      * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
      * Eseguo qui la conversione, che rimane trasparente al resto del programma
      *
-     * @return all entity
+     * @return all entities
      */
-    public List findAll() {
-        List target = new ArrayList();
-        Iterable iterable = repository.findAll();
+    public List<AlgosEntity> findAll();
 
-        if (iterable != null) {
-            if (iterable instanceof List) {
-                target = (List) iterable;
-            } else {
-                iterable.forEach(target::add);
-            }// end of if/else cycle
-        }// end of if cycle
+    /**
+     * Returns all instances of the type with the given IDs.
+     * <p>
+     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
+     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+     * Eseguo qui la conversione, che rimane trasparente al resto del programma
+     *
+     * @param iterable
+     *
+     * @return
+     */
+    public Iterable findAll(Iterable iterable);
 
-        return target;
-    }// end of method
+    /**
+     * Returns the number of entities available.
+     *
+     * @return the number of entities
+     */
+    public int count();
 
 
     /**
-     * Creazione di un nuovo bean
-     * Utilizza la mappa della sottoclasse
+     * Deletes the entity with the given id.
+     *
+     * @param id key, must not be {@literal null}.
+     *
+     * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
      */
-    public void insert(AlgosModel entityBean) {
-        repository.save(entityBean);
-    }// end of method
 
+    public boolean delete(long id);
 
-    public void update(AlgosModel entityBean) {
-        repository.save(entityBean);
-    }// end of method
+    /**
+     * Deletes a given entity.
+     *
+     * @param entity must not be null
+     *
+     * @throws IllegalArgumentException in case the given entity is {@literal null}.
+     */
+
+    public boolean delete(AlgosEntity entity);
 
 
     /**
-     * Cancella il singolo bean
+     * Deletes the given entities.
+     *
+     * @param entities
+     *
+     * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
      */
-    public boolean delete(AlgosModel entity) {
-        boolean cancellato = false;
-        int totalePrima;
-        int totaleDopo;
-
-        totalePrima = count();
-        repository.delete(entity.getId());
-        totaleDopo = count();
-
-        if (totaleDopo != totalePrima) {
-            cancellato = true;
-        }// end of if cycle
-
-        return cancellato;
-    }// end of method
+    public boolean delete(Iterable entities);
 
 
     /**
-     * Recupera il valore massimo della property indicata
+     * Deletes all entities managed by the repository.
      */
-    public int getMax(String propertyName) {
-        int ordine = 0;
-        Map<String, Object> mappa = null;
-        Object value;
-        String query = "SELECT * FROM " + tableName + " order by " + propertyName + " desc limit 1";
-        List<Map<String, Object>> lista = jdbcTemplate.queryForList(query);
-
-        if (lista != null && lista.size() == 1) {
-            mappa = lista.get(0);
-            if (mappa.containsKey(propertyName)) {
-                value = mappa.get(propertyName);
-                if (value != null && value instanceof Integer) {
-                    ordine = (Integer) value;
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
-
-        return ordine;
-    }// end of method
-
-
-    protected LinkedHashMap getBeanMap(AlgosModel entityBean) {
-        return null;
-    }// end of method
+    public boolean deleteAll();
 
 
     /**
@@ -216,19 +153,15 @@ public abstract class AlgosService {
      * Può essere modificato
      * La colonna ID normalmente non si visualizza
      */
-    public List<String> getListColumns() {
-        return LibArray.getKeyFromMap(getBeanMap(null));
-    }// end of method
-
+    public List<String> getListColumns();
 
     /**
      * Ordine standard di presentazione dei fields nel form
      * Può essere modificato
      * La colonna ID normalmente non si visualizza
      */
-    public List<String> getFormFields() {
-        return LibArray.getKeyFromMap(getBeanMap(null));
-    }// end of method
+    public List<String> getFormFields();
 
+    public Class<? extends AlgosEntity> getEntityClass();
 
-}// end of class
+}// end of interface

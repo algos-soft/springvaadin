@@ -2,11 +2,13 @@ package it.algos.springvaadin;
 
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibReflection;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -24,8 +27,10 @@ public class LibReflectionTest {
 
 
     private static Versione vers;
+    private String sorgente = "";
     private String previsto = "";
     private String ottenuto = "";
+    private Class<? extends AlgosEntity> entityClazz = Versione.class;
 
     /**
      * SetUp iniziale eseguito solo una volta alla creazione della classe
@@ -46,6 +51,82 @@ public class LibReflectionTest {
         vers.setModifica(modifica);
     } // end of setup statico iniziale della classe
 
+
+    /**
+     * Field property di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     * @param publicFieldName property name
+     */
+    @Test
+    public void getField() {
+        Field field;
+        String publicFieldName = "titolo";
+        previsto = "titolo";
+
+        field = LibReflection.getField(entityClazz, publicFieldName);
+        assertNotNull(field);
+        ottenuto = field.getName();
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
+    /**
+     * All fields properties di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     */
+    @Test
+    public void getAllFields() {
+        List<Field> fields;
+
+        fields = LibReflection.getAllFields(entityClazz);
+        assertNotNull(fields);
+        assertEquals(fields.size(), 4);
+    }// end of single test
+
+
+    /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames, elencati in ordine di inserimento nella AlgosEntity
+     */
+    @Test
+    public void getAllFieldName() {
+        List<String> fieldNames;
+
+        fieldNames = LibReflection.getAllFieldName(entityClazz);
+        assertNotNull(fieldNames);
+        assertEquals(fieldNames.size(), 4);
+        assertEquals(fieldNames.get(0), "ordine");
+        assertEquals(fieldNames.get(1), "titolo");
+        assertEquals(fieldNames.get(2), "descrizione");
+        assertEquals(fieldNames.get(3), "modifica");
+    }// end of single test
+
+
+    /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames, elencati in ordine alfabetico
+     */
+    @Test
+    public void getAllFieldName2() {
+        List<String> fieldNames;
+
+        fieldNames = LibReflection.getAllFieldNameAlfabetico(entityClazz);
+        assertNotNull(fieldNames);
+        assertEquals(fieldNames.size(), 4);
+        assertEquals(fieldNames.get(0), "descrizione");
+        assertEquals(fieldNames.get(1), "modifica");
+        assertEquals(fieldNames.get(2), "ordine");
+        assertEquals(fieldNames.get(3), "titolo");
+    }// end of single test
+
+
     /**
      * Properties di una entity
      *
@@ -53,7 +134,7 @@ public class LibReflectionTest {
      *
      * @return tutte le properties, elencate in ordine alfabetico
      */
-    @Test
+//    @Test
     public void getAllProperties() {
         String[] risultato;
 
@@ -70,20 +151,36 @@ public class LibReflectionTest {
     }// end of single test
 
     /**
-     * Properties di una entity. Solo i campi dichiarati.
+     * Properties di una entity class
+     *
+     * @param entityClass da esaminare
+     *
+     * @return tutte le properties, elencate in ordine alfabetico
+     */
+//    @Test
+    public void getAllProperties2() {
+        String[] risultato;
+
+        risultato = LibReflection.getAllProperties(Versione.class);
+        assert risultato != null;
+        assertEquals(risultato.length, 40);
+    }// end of single test
+
+    /**
+     * Properties di una entity class. Solo i campi dichiarati.
      * Escluso 'callbacks'
      * Escluso 'class'
      * Escluso 'id'
      *
-     * @param entity da esaminare
+     * @param entityClass da esaminare
      *
      * @return properties, elencate in ordine alfabetico
      */
-    @Test
+//    @Test
     public void getProperties() {
         List risultato;
 
-        risultato = LibReflection.getProperties(vers);
+        risultato = LibReflection.getProperties(Versione.class);
         assert risultato != null;
         assertEquals(risultato.size(), 4);
         assertEquals(risultato.get(0), "descrizione");
@@ -94,9 +191,9 @@ public class LibReflectionTest {
 
 
     /**
-     * Table di una entity. Inserita (opzionale) come Annotation.
+     * Table di una classe entity. Inserita (opzionale) come Annotation.
      *
-     * @param entity da esaminare
+     * @param entityClazz su cui operare la riflessione
      *
      * @return tableName dichiarato nella Annotation @Table
      */
@@ -111,6 +208,7 @@ public class LibReflectionTest {
     /**
      * Metodo getter di una classe entity.
      *
+     * @param entity       da esaminare
      * @param propertyName per estrarre il metodo
      *
      * @return method pubblico
@@ -145,11 +243,74 @@ public class LibReflectionTest {
 
 
     /**
+     * Metodo getter di una classe entity.
+     *
+     * @param entity       da esaminare
+     * @param propertyName per estrarre il metodo
+     *
+     * @return method pubblico
+     */
+    @Test
+    public void getMethod2() {
+        Method metodoPrevisto = null;
+        Method metodoOttenuto = null;
+        String metodoPrevistoName = "";
+        Class metodoPrevistoTipo = null;
+        String metodoOttenutoName = "";
+        Class metodoOttenutoTipo = null;
+
+        metodoPrevistoName = "getDescrizione";
+        metodoPrevistoTipo = String.class;
+        metodoOttenuto = LibReflection.getMethod(entityClazz, "descrizione");
+        assert metodoOttenuto != null;
+        metodoOttenutoName = metodoOttenuto.getName();
+        assertEquals(metodoOttenutoName, metodoPrevistoName);
+        metodoOttenutoTipo = metodoOttenuto.getReturnType();
+        assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
+
+        metodoPrevistoName = "getModifica";
+        metodoPrevistoTipo = LocalDateTime.class;
+        metodoOttenuto = LibReflection.getMethod(entityClazz, "modifica");
+        assert metodoOttenuto != null;
+        metodoOttenutoName = metodoOttenuto.getName();
+        assertEquals(metodoOttenutoName, metodoPrevistoName);
+        metodoOttenutoTipo = metodoOttenuto.getReturnType();
+        assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
+    }// end of single test
+
+//    /**
+//     * Metodi getter di una classe entity.
+//     *
+//     * @param entity da esaminare
+//     *
+//     * @return tutti i metodi getter, in ordine alfabetico
+//     */
+//    @Test
+//    public void getMethods() {
+//        List<Method> listaMetodiOttenuta;
+//        String metodoPrevistoName = "getOrdine";
+//        String metodoOttenutoName = "";
+//        Class metodoPrevistoTipo = LocalDateTime.class;
+//        Class metodoOttenutoTipo = null;
+//
+//        listaMetodiOttenuta = LibReflection.getMethods(vers);
+//        assert listaMetodiOttenuta != null;
+//        assertEquals(listaMetodiOttenuta.size(), 4);
+//
+//        metodoOttenutoName = listaMetodiOttenuta.get(2).getName();
+//        assertEquals(metodoOttenutoName, metodoPrevistoName);
+//
+//        metodoOttenutoTipo = listaMetodiOttenuta.get(1).getReturnType();
+//        assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
+//    }// end of single test
+
+
+    /**
      * Metodi getter di una classe entity.
      *
-     * @param entity da esaminare
+     * @param entityClazz su cui operare la riflessione
      *
-     * @return tutti i metodi getter, in ordine alfabetico
+     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
      */
     @Test
     public void getMethods() {
@@ -159,17 +320,16 @@ public class LibReflectionTest {
         Class metodoPrevistoTipo = LocalDateTime.class;
         Class metodoOttenutoTipo = null;
 
-        listaMetodiOttenuta = LibReflection.getMethods(vers);
+        listaMetodiOttenuta = LibReflection.getMethods(Versione.class);
         assert listaMetodiOttenuta != null;
         assertEquals(listaMetodiOttenuta.size(), 4);
 
-        metodoOttenutoName = listaMetodiOttenuta.get(2).getName();
+        metodoOttenutoName = listaMetodiOttenuta.get(0).getName();
         assertEquals(metodoOttenutoName, metodoPrevistoName);
 
-        metodoOttenutoTipo = listaMetodiOttenuta.get(1).getReturnType();
+        metodoOttenutoTipo = listaMetodiOttenuta.get(3).getReturnType();
         assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
     }// end of single test
-
 
 
 }// end of class

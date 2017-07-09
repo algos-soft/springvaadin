@@ -1,4 +1,8 @@
-package it.algos.springvaadin.entity.versione;
+package it.algos.springvaadin.help;
+
+/**
+ * Created by gac on 08/07/17.
+ */
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
@@ -20,16 +24,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Il metodo getLinkedView() fornisce, tramite xxxPresenter,
  * la view effettiva da visualizzare richiesta da AlgosUI.showView()
  */
-@SpringView(name = VersioneNavView.VIEW_NAME)
-public class VersioneNavView extends AlgosNavView {
+@SpringView(name = HelpNavView.VIEW_NAME)
+public class HelpNavView extends AlgosNavView {
 
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "versione";
+    public static final String VIEW_NAME = Cost.TAG_HELP;
 
 
     //--icona del Menu
-    public static final Resource VIEW_ICON = VaadinIcons.DIPLOMA;
+    public static final Resource VIEW_ICON = VaadinIcons.QUESTION;
 
 
     /**
@@ -39,7 +43,7 @@ public class VersioneNavView extends AlgosNavView {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenter presenter) {
+    public HelpNavView(@Qualifier(Cost.TAG_HELP) AlgosPresenter presenter) {
         super(presenter);
     }// end of Spring constructor
 

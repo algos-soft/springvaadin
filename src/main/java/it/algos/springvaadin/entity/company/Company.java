@@ -4,10 +4,14 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -29,9 +33,10 @@ import java.time.LocalDate;
  * Usata dalle applicazioni che hanno il flag AlgosApp.USE_MULTI_COMPANY=true
  */
 @Entity
-@Table(name = "company")
-@SpringComponent
-public class Company extends AlgosModel {
+@Service
+@Table(name = Cost.TAG_COMP)
+@Qualifier(Cost.TAG_COMP)
+public class Company extends AlgosEntity {
 
     //--versione della classe per la serializzazione
     private final static long serialVersionUID = 1L;
@@ -116,7 +121,7 @@ public class Company extends AlgosModel {
      * @param companyService iniettato direttamente da Spring
      */
     @Autowired
-    public Company(CompanyService companyService) {
+    public Company(CompanyServiceOld companyService) {
         this(companyService, "", "", "", "", "", "", "", "", (LocalDate) null);
     }// end of Spring constructor
 
@@ -139,7 +144,7 @@ public class Company extends AlgosModel {
      * @param note        eventuali (facoltativo)
      * @param partenza    inserimento iniziale (facoltativo)
      */
-    Company(CompanyService companyService, String sigla, String descrizione, String email, String indirizzo, String contatto, String telefono, String cellulare, String note, LocalDate partenza) {
+    Company(CompanyServiceOld companyService, String sigla, String descrizione, String email, String indirizzo, String contatto, String telefono, String cellulare, String note, LocalDate partenza) {
         this.setSigla(sigla);
         this.setDescrizione(descrizione);
         this.setEmail(email);

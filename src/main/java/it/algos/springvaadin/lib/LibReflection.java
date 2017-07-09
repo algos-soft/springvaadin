@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractField;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
@@ -21,12 +22,92 @@ import java.util.List;
  */
 public abstract class LibReflection {
 
+
+    /**
+     * Field property di una EntityClass
+     *
+     * @param entityClazz     su cui operare la riflessione
+     * @param publicFieldName property name
+     */
+    public static Field getField(Class<? extends AlgosEntity> entityClazz, final String publicFieldName) {
+        Field field = null;
+
+        try { // prova ad eseguire il codice
+            field = entityClazz.getDeclaredField(publicFieldName);
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return field;
+    }// end of static method
+
+
+    /**
+     * All fields properties di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     */
+    public static List<Field> getAllFields(Class<? extends AlgosEntity> entityClazz) {
+        List<Field> fieldsList = null;
+        Field[] fieldsArray = null;
+        String fieldName = "";
+
+        try { // prova ad eseguire il codice
+            fieldsArray = entityClazz.getDeclaredFields();
+            fieldsList = new ArrayList<>();
+            for (Field field : fieldsArray) {
+                fieldName = field.getName();
+                if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                    fieldsList.add(field);
+                }// end of if cycle
+            }// end of for cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return fieldsList;
+    }// end of static method
+
+
+    /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames, elencati in ordine di inserimento nella AlgosEntity
+     */
+    public static List<String> getAllFieldName(final Class<? extends AlgosEntity> entityClazz) {
+        List<String> nameList = null;
+        List<Field> fieldsList = getAllFields(entityClazz);
+
+        if (fieldsList != null && fieldsList.size() > 0) {
+            nameList = new ArrayList<>();
+            for (Field field : fieldsList) {
+                nameList.add(field.getName());
+            }// end of for cycle
+        }// end of if cycle
+
+        return nameList;
+    }// end of static method
+
+
+    /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames, elencati in ordine alfabetico
+     */
+    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AlgosEntity> entityClazz) {
+        return LibArray.sort((ArrayList) getAllFieldName(entityClazz));
+    }// end of static method
+
+
     /**
      * Valore della property statica di una classe
      *
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public static String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
         String value = "";
         Object obj = getPropertyValus(clazz, publicFieldName);
@@ -44,6 +125,7 @@ public abstract class LibReflection {
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public static Resource getPropertyRes(final Class<?> clazz, final String publicFieldName) {
         Resource value = null;
         Object obj = getPropertyValus(clazz, publicFieldName);
@@ -81,6 +163,7 @@ public abstract class LibReflection {
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public static Object getPropertyValus(final Class<?> clazz, final String publicFieldName) {
         Object value = "";
 
@@ -92,46 +175,6 @@ public abstract class LibReflection {
         return value;
     }// end of static method
 
-
-    /**
-     * Tutte le property di una classe
-     *
-     * @param clazz classe su cui operare la riflessione
-     */
-    public static List<Field> getAllFields(final Class<?> clazz) {
-        Field[] array = null;
-
-        try { // prova ad eseguire il codice
-            array = clazz.getDeclaredFields();
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return (ArrayList<Field>) (ArrayList<?>) (LibArray.fromObj(array));
-    }// end of static method
-
-    /**
-     * Tutte le property di una classe
-     *
-     * @param clazz classe su cui operare la riflessione
-     */
-    public static List<String> getAllPropertyName(final Class<?> clazz) {
-        List<String> lista = new ArrayList();
-        Field[] array = null;
-        String fieldName = "";
-
-        try { // prova ad eseguire il codice
-            array = clazz.getDeclaredFields();
-            for (Field field : array) {
-                fieldName = field.getName();
-                if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
-                    lista.add(field.getName());
-                }// end of if cycle
-            }// end of for cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return lista;
-    }// end of static method
 
 //    /**
 //     * Property statica di una classe
@@ -150,23 +193,6 @@ public abstract class LibReflection {
 //        return field;
 //    }// end of method
 
-    /**
-     * Property statica di una classe
-     *
-     * @param clazz           classe su cui operare la riflessione
-     * @param publicFieldName property statica e pubblica
-     */
-    public static Field getField(final Class<?> clazz, final String publicFieldName) {
-        Field field = null;
-
-        try { // prova ad eseguire il codice
-            field = clazz.getDeclaredField(publicFieldName);
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return field;
-    }// end of static method
-
 
     /**
      * Properties di una entity
@@ -175,10 +201,29 @@ public abstract class LibReflection {
      *
      * @return tutte le properties, elencate in ordine alfabetico
      */
-    public static String[] getAllProperties(AlgosModel entity) {
+    @Deprecated
+    public static String[] getAllProperties(AlgosEntity entity) {
         String[] propertyNames = null;
 
         BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entity);
+        propertyNames = bean.getReadablePropertyNames();
+
+        return propertyNames;
+    }// end of static method
+
+
+    /**
+     * Properties di una entity class
+     *
+     * @param entityClazz da esaminare
+     *
+     * @return tutte le properties, elencate in ordine alfabetico
+     */
+    @Deprecated
+    public static String[] getAllProperties(Class<? extends AlgosEntity> entityClazz) {
+        String[] propertyNames = null;
+
+        BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entityClazz);
         propertyNames = bean.getReadablePropertyNames();
 
         return propertyNames;
@@ -194,9 +239,39 @@ public abstract class LibReflection {
      *
      * @return properties, elencate in ordine alfabetico
      */
-    public static List<String> getProperties(AlgosModel entity) {
+    @Deprecated
+    public static List<String> getProperties(AlgosEntity entity) {
         List<String> propertyNames = null;
         String[] propertyNamesAll = getAllProperties(entity);
+
+        if (propertyNamesAll != null && propertyNamesAll.length > 0) {
+            propertyNames = new ArrayList<>();
+            for (String property : propertyNamesAll) {
+                if (!property.equals("callbacks") && !property.equals("class") && !property.equals("id")) {
+                    propertyNames.add(property);
+                }// end of if cycle
+            }// end of for cycle
+        }// end of if cycle
+
+        return propertyNames;
+    }// end of static method
+
+    /**
+     * Properties di una entity. Solo i campi dichiarati.
+     * Escluso 'callbacks'
+     * Escluso 'class'
+     *
+     * @param entityClazz da esaminare
+     *
+     * @return properties, elencate in ordine alfabetico
+     */
+    @Deprecated
+    public static List<String> getProperties(Class<? extends AlgosEntity> entityClazz) {
+        List<String> propertyNames = null;
+        String[] propertyNamesAll = getAllProperties(entityClazz);
+
+        Object alfa = entityClazz.getFields();
+        Object beta = entityClazz.getDeclaredFields();
 
         if (propertyNamesAll != null && propertyNamesAll.length > 0) {
             propertyNames = new ArrayList<>();
@@ -214,11 +289,11 @@ public abstract class LibReflection {
     /**
      * Table di una entity. Inserita (opzionale) come Annotation.
      *
-     * @param entity da esaminare
+     * @param entity su cui operare la riflessione
      *
      * @return tableName dichiarato nella Annotation @Table
      */
-    public static String getTable(AlgosModel entity) {
+    public static String getTable(AlgosEntity entity) {
         return getTable(entity.getClass());
     }// end of static method
 
@@ -226,13 +301,13 @@ public abstract class LibReflection {
     /**
      * Table di una classe entity. Inserita (opzionale) come Annotation.
      *
-     * @param clazz da esaminare
+     * @param entityClazz su cui operare la riflessione
      *
      * @return tableName dichiarato nella Annotation @Table
      */
-    public static String getTable(Class<?> clazz) {
+    public static String getTable(Class<? extends AlgosEntity> entityClazz) {
         String tableName = "";
-        Table table = clazz.getAnnotation(Table.class);
+        Table table = entityClazz.getAnnotation(Table.class);
 
         if (table != null) {
             tableName = table.name();
@@ -250,16 +325,29 @@ public abstract class LibReflection {
      *
      * @return method pubblico
      */
-    public static Method getMethod(AlgosModel entity, String propertyName) {
+    public static Method getMethod(AlgosEntity entity, String propertyName) {
+        return getMethod(entity.getClass(), propertyName);
+    }// end of static method
+
+
+    /**
+     * Metodo getter di una classe entity.
+     *
+     * @param entityClazz  su cui operare la riflessione
+     * @param propertyName per estrarre il metodo
+     *
+     * @return method pubblico
+     */
+    public static Method getMethod(Class<? extends AlgosEntity> entityClazz, String propertyName) {
         Method method = null;
         String methodNameGet = "get" + LibText.primaMaiuscola(propertyName);
         String methodNameIs = "is" + LibText.primaMaiuscola(propertyName);
 
         try { // prova ad eseguire il codice
-            method = entity.getClass().getMethod(methodNameGet);
+            method = entityClazz.getMethod(methodNameGet);
         } catch (Exception unErrore) { // intercetta l'errore
             try { // prova ad eseguire il codice
-                method = entity.getClass().getMethod(methodNameIs);
+                method = entityClazz.getMethod(methodNameIs);
             } catch (Exception unErrore2) { // intercetta l'errore
             }// fine del blocco try-catch
         }// fine del blocco try-catch
@@ -273,16 +361,27 @@ public abstract class LibReflection {
      *
      * @param entity da esaminare
      *
-     * @return tutti i metodi getter, in ordine alfabetico
+     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
      */
-    public static List<Method> getMethods(AlgosModel entity) {
+    public static List<Method> getMethods(AlgosEntity entity) {
+        return getMethods(entity.getClass());
+    }// end of static method
+
+    /**
+     * Metodi getter di una classe entity.
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
+     */
+    public static List<Method> getMethods(Class<? extends AlgosEntity> entityClazz) {
         List<Method> methods = null;
-        List<String> propertyNames = getProperties(entity);
+        List<String> propertyNames = getAllFieldName(entityClazz);
 
         if (propertyNames != null && propertyNames.size() > 0) {
             methods = new ArrayList<>();
             for (String name : propertyNames) {
-                methods.add(getMethod(entity, name));
+                methods.add(getMethod(entityClazz, name));
             }// end of for cycle
         }// end of if cycle
 
@@ -300,7 +399,8 @@ public abstract class LibReflection {
      *
      * @return mappa dei valori attuali della entity, in ordine alfabetico
      */
-    public static LinkedHashMap<String, Object> getBeanMap(AlgosModel entity) {
+    @Deprecated
+    public static LinkedHashMap<String, Object> getBeanMap(AlgosEntity entity) {
         LinkedHashMap<String, Object> map = new LinkedHashMap();
         Method method = null;
         List<String> propertiesName = getProperties(entity);
@@ -331,7 +431,8 @@ public abstract class LibReflection {
      *
      * @return arry dei valori, in ordine alfabetico delle chiavi della mappa
      */
-    public static Object[] getValues(AlgosModel entity) {
+    @Deprecated
+    public static Object[] getValues(AlgosEntity entity) {
         Object[] args = null;
         LinkedHashMap<String, Object> mappa = LibReflection.getBeanMap(entity);
 
@@ -350,6 +451,7 @@ public abstract class LibReflection {
      *
      * @return arry dei valori, in ordine alfabetico delle chiavi della mappa
      */
+    @Deprecated
     public static Object[] getValues(LinkedHashMap<String, Object> mappa) {
         Object[] args = null;
         int k = 0;

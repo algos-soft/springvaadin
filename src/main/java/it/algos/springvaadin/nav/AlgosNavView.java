@@ -16,9 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
  * Passa il controllo alla classe xxxPresenter che gestisce la business logic
  * La classe xxxPresenter costruisce (iniezione) tutte le classi necessarie, tra cui xxxView
- * La vista xxxView viene mantenuta qui perché il metodo showView (Spring),
- * che richiama questa classe, possa visualizzare la view effettiva
- * <p>
+ * Il metodo getLinkedView() fornisce, tramite xxxPresenter,
+ * la view effettiva da visualizzare richiesta da AlgosUI.showView()
  */
 public abstract class AlgosNavView implements View {
 
@@ -27,21 +26,17 @@ public abstract class AlgosNavView implements View {
     private AlgosPresenter presenter;
 
 
-    //--vista effettiva da usare/visualizzare
-    private AlgosView linkedView;
-
-
     /**
+     * Costruttore @Autowired (nella superclasse)
      * Questa classe (View) è la prima del gruppo (modulo) invocata da SpringNavigator
-     * Deve quindi iniettarsi il riferimento al gestore principale (Presenter)
+     * Deve quindi iniettarsi il riferimento al gestore principale (xxxPresenter)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    @Autowired
+    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
     public AlgosNavView(AlgosPresenter presenter) {
         this.presenter = presenter;
-        linkedView = presenter.view;
-    }// fine del metodo costruttore (Autowired nella superclasse)
+    }// end of Spring constructor
 
 
     /**
@@ -54,9 +49,22 @@ public abstract class AlgosNavView implements View {
     }// end of method
 
 
+    /**
+     * Gestore della business logic
+     * Richiesta da LibSpring.getPresenter()
+     */
+    public AlgosPresenter getPresenter() {
+        return presenter;
+    }// end of method
+
+
+    /**
+     * Vista effettiva da usare/visualizzare
+     * Richiesta da AlgosUI.showView()
+     */
     public AlgosView getLinkedView() {
-        return linkedView;
-    }// end of getter method
+        return presenter.getView();
+    }// end of method
 
 
 }// end of class

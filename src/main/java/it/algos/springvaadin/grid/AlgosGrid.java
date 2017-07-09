@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.context.annotation.Lazy;
@@ -19,37 +20,31 @@ import java.util.Set;
  * Semplifica la costruzione di una Grid
  * Costruisce i listener che lanciano (fire) gli eventi
  */
-@Lazy
-@ViewScope
-//@Scope("prototype")
 @SpringComponent
 public class AlgosGrid extends Grid {
 
     private final static int NUMERO_RIGHE_DEFAULT = 15;
 
-    //--recupera il presenter
-    private AlgosPresenter presenter = LibSpring.getPresenter();
-
     /**
      * Metodo invocato DOPO che la classe è stata iniettata da SpringBoot
      */
-    public void inizia(Class<? extends AlgosModel> model, List items, List<String> colonneVisibili) {
-        this.inizia(model, items, colonneVisibili, NUMERO_RIGHE_DEFAULT);
+    public void inizia(Class<? extends AlgosEntity> model, List items, List<String> columns) {
+        this.inizia(model, items, columns, NUMERO_RIGHE_DEFAULT);
     }// end of method
 
 
     /**
      * Metodo invocato DOPO che la classe è stata iniettata da SpringBoot
      */
-    public void inizia(Class<? extends AlgosModel> beanType, List items, List<String> colonneVisibili, int numeroRighe) {
+    public void inizia(Class<? extends AlgosEntity> beanType, List items, List<String> columns, int numeroRighe) {
         this.setBeanType(beanType);
         if (items != null) {
             this.setItems(items);
         }// end of if cycle
         this.setHeightByRows(numeroRighe);
         this.setSelectionMode(LibParams.gridSelectionMode());
-        this.setColumns(colonneVisibili);
-        presenter = LibSpring.getPresenter();
+        this.setColumns(columns);
+        AlgosPresenter  presenter = LibSpring.getPresenter();
 
         //--aggiunge alla Grid tutte le azioni possibili; verranno intercettate e gestire dal presenter
         Azione.addAllListeners(presenter, this);
@@ -75,7 +70,7 @@ public class AlgosGrid extends Grid {
         if (LibSession.isDeveloper()) {
             lar = LibColumn.addColumns(this);
         } else {
-            lar = LibColumn.addColumns(presenter.getModel().getClass(), this, colonneVisibili);
+            lar = LibColumn.addColumns(this.getBeanType(), this, colonneVisibili);
         }// end of if/else cycle
 
         //--spazio per la colonna automatica di selezione

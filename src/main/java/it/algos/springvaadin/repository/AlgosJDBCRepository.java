@@ -5,6 +5,7 @@ import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.*;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -188,9 +189,9 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
     @Override
-    public AlgosModel findOne(Serializable id) {
+    public AlgosEntity findOne(Serializable id) {
         String query = LibSql.getQueryFindOne(tableName);
-        return (AlgosModel) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
+        return (AlgosEntity) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
     }// end of method
 
 
@@ -204,12 +205,12 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @return the saved entity
      */
     @Override
-    public AlgosModel save(Object entity) {
+    public AlgosEntity save(Object entity) {
 
         if (entity != null && entity instanceof AlgosModel && ((AlgosModel) entity).getId() != null && ((AlgosModel) entity).getId() > 0) {
-            return update((AlgosModel) entity);
+            return update((AlgosEntity) entity);
         } else {
-            return insert((AlgosModel) entity);
+            return insert((AlgosEntity) entity);
         }// end of if/else cycle
 
     }// end of method
@@ -222,8 +223,8 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      *
      * @return entity DOPO la registrazione (the save operation might have changed the entity instance completely)
      */
-    public AlgosModel insert(AlgosModel entity) {
-        AlgosModel entityCreated = null;
+    public AlgosEntity insert(AlgosEntity entity) {
+        AlgosEntity entityCreated = null;
         SimpleJdbcInsert insert;
         Number key;
 
@@ -246,8 +247,8 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      *
      * @return entity DOPO la registrazione (the save operation might have changed the entity instance completely)
      */
-    public AlgosModel update(AlgosModel entity) {
-        AlgosModel entityUpdated = entity;
+    public AlgosEntity update(AlgosEntity entity) {
+        AlgosEntity entityUpdated = entity;
         int ritorno;
         long key = entity.getId();
         String query = LibSql.getQueryUpdate(entity);

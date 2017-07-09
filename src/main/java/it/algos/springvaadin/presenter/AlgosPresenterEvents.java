@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.event.*;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.context.ApplicationEventPublisher;
  * Created by gac on 18/06/17
  * .
  */
-public class AlgosPresenterEvents implements AlgosPresenterInterface {
+public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -75,7 +76,7 @@ public class AlgosPresenterEvents implements AlgosPresenterInterface {
 
 
     @Override
-    public void doppioClick(AlgosModel entityBean) {
+    public void doppioClick(AlgosEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("Azione", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -185,7 +186,7 @@ public class AlgosPresenterEvents implements AlgosPresenterInterface {
      *
      * @param azioneRichiesta da eseguire
      */
-    protected void onGridAction(Azione azioneRichiesta, AlgosModel entityBean) {
+    protected void onGridAction(Azione azioneRichiesta, AlgosEntity entityBean) {
         switch (azioneRichiesta) {
             case attach:
                 click();

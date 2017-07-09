@@ -1,11 +1,11 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.service.AlgosService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -15,20 +15,50 @@ import java.util.List;
  */
 public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView {
 
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    //--la lista specifica viene iniettata dal costruttore della sottoclasse concreta
+    private AlgosList list;
 
-    }// end of method
+
+    //--il form specifico viene iniettato dal costruttore della sottoclasse concreta
+    private AlgosForm form;
 
     /**
-     * Costruisce una Grid
-     *
-     * @param clazz   di riferimento, sottoclasse concreta di AlgosEntity
-     * @param items   da visualizzare nella Grid
-     * @param columns visibili ed ordinate della lista
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
+    public AlgosViewImpl(AlgosList list, AlgosForm form) {
+        this.list = list;
+        this.form = form;
+    }// end of Spring constructor
+
+    /**
+     * Metodo inserito per compatibilità con l'interfaccia View, ma non utilizzato
+     * Il flusso dello SpringNavigator passa dal corrispondente metodo della classe AlgosNavView
+     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+     * Passa il controllo alla classe xxxPresenter che gestisce la business logic
      */
     @Override
-    public void setList(Class<? extends AlgosEntity> clazz, List items, List<String> columns) {
+    @Deprecated
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    }// end of method
+
+
+    /**
+     * Metodo invocato da AlgosPresenter
+     * Regola la lista (che usa una Grid)
+     * Visualizza la lista
+     *
+     * @param entityClazz di riferimento, sottoclasse concreta di AlgosEntity
+     * @param items       da visualizzare nella Grid
+     * @param columns     visibili ed ordinate della lista
+     */
+    @Override
+    public void setList(Class<? extends AlgosEntity> entityClazz, List items, List<String> columns) {
+        removeAllComponents();
+        list.restart(entityClazz, items, columns);
+        addComponent(list.getComponent());
     }// end of method
 
 

@@ -19,15 +19,14 @@ import java.util.List;
  * Created by gac on 13/06/17
  * Presenta i dati di una entity o bean, sotto forma di un Form
  */
-@Lazy
-@Qualifier(Cost.TAG_VERS)
 @SpringComponent
+@Qualifier(Cost.TAG_VERS)
 public class VersioneForm extends AlgosForm {
 
     //--il service (dao, repository) viene iniettato in questa classe
     //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
     @Autowired
-    private VersioneService versioneService;
+    private VersioneServiceOld versioneService;
 
 
     public Binder<Versione> binder;
@@ -43,35 +42,35 @@ public class VersioneForm extends AlgosForm {
     }// end of method
 
 
-    @Override
-    public void creaFields(Layout layout, boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
-        binder = new Binder<>(Versione.class);
-        AbstractField field;
-        LinkedHashMap<String, Object> mappa;
-        Object value;
-
-        if (entityBean == null) {
-            entityBean= versioneService.reset();
-        }// end of if cycle
-
-        mappa = versioneService.getBeanMap(entityBean);
-        for (String publicFieldName : campiVisibili) {
-            field = LibField.create(Versione.class, publicFieldName);
-            if (field != null) {
-                layout.addComponent(field);
-                binder.bind(field, publicFieldName);
-                if (newRecord) {
-                    value = mappa.get(publicFieldName);
-                    if (value != null) {
-                        field.setValue(value);
-                    }// end of if cycle
-                }// end of if cycle
-            }// end of if cycle
-        }// end of for cycle
-
-        binder.setBean((Versione) entityBean);
-        super.entityBean =  entityBean;
-    }// end of method
+//    @Override
+//    public void creaFields(Layout layout, boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
+//        binder = new Binder<>(Versione.class);
+//        AbstractField field;
+//        LinkedHashMap<String, Object> mappa;
+//        Object value;
+//
+//        if (entityBean == null) {
+//            entityBean= versioneService.reset();
+//        }// end of if cycle
+//
+//        mappa = versioneService.getBeanMap(entityBean);
+//        for (String publicFieldName : campiVisibili) {
+//            field = LibField.create(Versione.class, publicFieldName);
+//            if (field != null) {
+//                layout.addComponent(field);
+//                binder.bind(field, publicFieldName);
+//                if (newRecord) {
+//                    value = mappa.get(publicFieldName);
+//                    if (value != null) {
+//                        field.setValue(value);
+//                    }// end of if cycle
+//                }// end of if cycle
+//            }// end of if cycle
+//        }// end of for cycle
+//
+//        binder.setBean((Versione) entityBean);
+//        super.entityBean =  entityBean;
+//    }// end of method
 
 
 }// end of class

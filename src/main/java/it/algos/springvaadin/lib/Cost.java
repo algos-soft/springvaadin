@@ -22,5 +22,7 @@ public abstract class Cost {
     public final static String TAG_VERS = "versione";
     public final static String TAG_COMP = "company";
     public final static String TAG_LOG = "log";
+    public final static String TAG_HELP = "help";
+    public final static String TAG_HOME = "home";
 
 }// end of static class

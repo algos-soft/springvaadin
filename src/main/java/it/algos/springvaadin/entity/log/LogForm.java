@@ -7,6 +7,7 @@ import com.vaadin.ui.Layout;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibField;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,7 +28,7 @@ public class LogForm extends AlgosForm {
     //--il service (dao, repository) viene iniettato in questa classe
     //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
     @Autowired
-    private LogService logService;
+    private LogServiceOld logService;
 
     //--il modello dati viene iniettato in questa classe
     //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
@@ -38,35 +39,35 @@ public class LogForm extends AlgosForm {
     public Binder<Log> binder;
 
 
-    @Override
-    public void creaFields(Layout layout, boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
-        binder = new Binder<>(Log.class);
-        super.entityBean =  entityBean;
-        AbstractField field;
-        LinkedHashMap<String, Object> mappa;
-        Object value;
-
-        if (super.entityBean == null) {
-            super.entityBean = logModel;
-        }// end of if cycle
-
-        mappa = logService.getBeanMap(entityBean);
-        for (String publicFieldName : campiVisibili) {
-            field = LibField.create(Log.class, publicFieldName);
-            if (field != null) {
-                layout.addComponent(field);
-                binder.bind(field, publicFieldName);
-                if (newRecord) {
-                    value = mappa.get(publicFieldName);
-                    if (value != null) {
-                        field.setValue(value);
-                    }// end of if cycle
-                }// end of if cycle
-            }// end of if cycle
-        }// end of for cycle
-
-        binder.setBean((Log) super.entityBean);
-    }// end of method
+//    @Override
+//    public void creaFields(Layout layout, boolean newRecord, AlgosEntity entityBean, List<String> campiVisibili) {
+//        binder = new Binder<>(Log.class);
+//        super.entityBean =  entityBean;
+//        AbstractField field;
+//        LinkedHashMap<String, Object> mappa;
+//        Object value;
+//
+//        if (super.entityBean == null) {
+//            super.entityBean = logModel;
+//        }// end of if cycle
+//
+//        mappa = logService.getBeanMap(entityBean);
+//        for (String publicFieldName : campiVisibili) {
+//            field = LibField.create(Log.class, publicFieldName);
+//            if (field != null) {
+//                layout.addComponent(field);
+//                binder.bind(field, publicFieldName);
+//                if (newRecord) {
+//                    value = mappa.get(publicFieldName);
+//                    if (value != null) {
+//                        field.setValue(value);
+//                    }// end of if cycle
+//                }// end of if cycle
+//            }// end of if cycle
+//        }// end of for cycle
+//
+//        binder.setBean((Log) super.entityBean);
+//    }// end of method
 
 
 

@@ -1,57 +1,44 @@
 package it.algos.springvaadin.home;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.Label;
-import it.algos.springvaadin.form.AlgosForm;
-import it.algos.springvaadin.list.AlgosList;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.view.AlgosViewImpl;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on 01/06/17.
- * Home page
- * Può presentare uno splashScreen oppure vuota (col solo menu) oppure righe di aiuto
- * * Se presente, è la prima del menu
+ * Created by gac on 01/06/17
+ * <p>
+ * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
+ * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
+ * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
+ * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
+ * <p>
+ * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
+ * Gestisce due modalità di presentazione dei dati: List e Form
+ * Presenta i componenti grafici passivi
+ * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 @SpringComponent
-//@Scope()
-@SpringView(name = HomeView.VIEW_NAME)
-public abstract class HomeView  extends AlgosViewImpl {
+@Qualifier(Cost.TAG_HOME)
+public class HomeView extends AlgosViewImpl {
 
-    public static final String VIEW_NAME = "home";
-    public static final Resource VIEW_ICON = VaadinIcons.HOME;
+//    /**
+//     * Costruttore @Autowired (nella superclasse)
+//     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+//     */
+//    public HomeView(@Qualifier(Cost.TAG_HOME) AlgosList list, @Qualifier(Cost.TAG_HOME) AlgosForm form) {
+//        super(list, form);
+//    }// end of Spring constructor
 
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-//
-//    }
 
-//    public HomeView(AlgosPresenter presenter, AlgosList list, AlgosForm form) {
-//        super(presenter, list, form);
-//    }// fine del metodo costruttore Autowired
-//
-//    @PostConstruct
-//    protected void inizia() {
-//        addComponent(new Label("SplashScreen"));
-//        addComponent(new Label("Vuota"));
-//        addComponent(new Label("Righe di aiuto"));
-//        addComponent(new Label("Icona nel menu/bottone: " + VaadinIcons.HOME));
-//        addComponent(new Label(""));
-//        addComponent(new Label("Da sviluppare"));
-//    }// end of method
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    public HomeView() {
+        super(null, null);
+    }// end of Spring constructor
 
-//    @Override
-//    public ApplicationEventPublisher getApplicationEventPublisher() {
-//        return null;
-//    }
 }// end of class

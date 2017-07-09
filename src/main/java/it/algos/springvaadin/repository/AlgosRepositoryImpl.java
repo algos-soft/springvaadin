@@ -1,5 +1,6 @@
 package it.algos.springvaadin.repository;
 
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public class AlgosRepositoryImpl implements AlgosRepository {
      * @return the saved entity
      */
     @Override
-    public AlgosModel save(Object entity) {
+    public AlgosEntity save(Object entity) {
         return null;
     }
 

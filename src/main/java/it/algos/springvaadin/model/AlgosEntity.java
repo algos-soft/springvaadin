@@ -1,5 +1,8 @@
 package it.algos.springvaadin.model;
 
+import com.vaadin.spring.annotation.SpringComponent;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -12,6 +15,7 @@ import java.io.Serializable;
  * 3) le classi devono implementare l'interfaccia Serializable (tramite questa superclasse astratta)
  * 4) le classi non devono contenere nessun metodo per la gestione degli eventi
  */
+@Entity
 public abstract class AlgosEntity implements Serializable {
 
     @Id

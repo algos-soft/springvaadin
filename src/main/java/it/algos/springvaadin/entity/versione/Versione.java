@@ -4,18 +4,18 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 
 /**
  * Created by gac on 01/06/17
@@ -34,9 +34,10 @@ import java.util.LinkedHashMap;
  * Non prevede la differenziazione per Company
  */
 @Entity
-@Table(name = "versione")
-@SpringComponent
-public class Versione extends AlgosModel {
+@Service
+@Table(name = Cost.TAG_VERS)
+@Qualifier(Cost.TAG_VERS)
+public class Versione extends AlgosEntity {
 
 
     //--versione della classe per la serializzazione
@@ -92,7 +93,7 @@ public class Versione extends AlgosModel {
      * @param versioneService iniettato direttamente da Spring
      */
     @Autowired
-    public Versione(VersioneService versioneService) {
+    public Versione(VersioneServiceOld versioneService) {
         this(versioneService, 0, "", "", (LocalDateTime) null);
     }// end of Spring constructor
 
@@ -111,7 +112,7 @@ public class Versione extends AlgosModel {
      * @param descrizione     descrizione (obbligatoria, non unica)
      * @param modifica        data di inserimento della versione (obbligatoria, non unica)
      */
-    Versione(VersioneService versioneService, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
+    Versione(VersioneServiceOld versioneService, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
         this.setOrdine(ordine == 0 && versioneService != null ? versioneService.getOrdine() : ordine);
         this.setTitolo(titolo);
         this.setDescrizione(descrizione);

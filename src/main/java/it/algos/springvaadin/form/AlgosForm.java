@@ -5,7 +5,7 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.service.AlgosServiceOld;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,7 +28,7 @@ public class AlgosForm extends VerticalLayout {
     Window window;
 
     protected AlgosModel entityBean;
-    protected AlgosService service;
+    protected AlgosServiceOld service;
 
     //--eventuali intestazioni informative per List e Form
     //--valori standard che possono essere sovrascritti nella classi specifiche
@@ -59,13 +59,13 @@ public class AlgosForm extends VerticalLayout {
     }// end of method
 
 
-    public void iniziaCreate(AlgosService service, List<String> campiVisibili) {
+    public void iniziaCreate(AlgosServiceOld service, List<String> campiVisibili) {
         this.service = service;
         inizia(true, (AlgosModel) null, campiVisibili);
     }// end of method
 
 
-    public void iniziaEdit(AlgosModel entityBean, AlgosService service, List<String> campiVisibili) {
+    public void iniziaEdit(AlgosModel entityBean, AlgosServiceOld service, List<String> campiVisibili) {
         this.service = service;
         inizia(false, entityBean, campiVisibili);
     }// end of method

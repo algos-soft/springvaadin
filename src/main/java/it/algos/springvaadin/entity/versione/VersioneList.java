@@ -1,11 +1,12 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.list.AlgosList;
+import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.PostConstruct;
 
@@ -14,10 +15,18 @@ import javax.annotation.PostConstruct;
  * Presenta i dati di una lista usando una Grid
  * Aggiunge una ToolBar in basso coi bottoni di comando (contenenti già i listener per lanciare gli eventi)
  */
-@Lazy
-@Qualifier(Cost.TAG_VERS)
 @SpringComponent
-public class VersioneList extends AlgosList {
+@Qualifier(Cost.TAG_VERS)
+public class VersioneList extends AlgosListImpl {
+
+
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     */
+    public VersioneList(AlgosGrid grid, ListToolbar toolbar) {
+        super(grid, toolbar);
+    }// end of Spring constructor
+
 
     /**
      * Metodo invocato subito DOPO il costruttore (chiamato da Spring)

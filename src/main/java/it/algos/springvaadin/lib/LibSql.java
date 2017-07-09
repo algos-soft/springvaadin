@@ -1,6 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.sun.deploy.util.StringUtils;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
@@ -177,7 +178,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(AlgosModel entity) {
+    public static String getQueryUpdate(AlgosEntity entity) {
         return getQueryUpdate(LibReflection.getTable(entity), entity);
     }// end of static method
 
@@ -189,7 +190,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(String tableName, AlgosModel entity) {
+    public static String getQueryUpdate(String tableName, AlgosEntity entity) {
         return getQueryUpdate(tableName, LibReflection.getProperties(entity));
     }// end of static method
 

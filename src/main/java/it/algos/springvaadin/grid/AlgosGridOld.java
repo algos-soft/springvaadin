@@ -95,11 +95,11 @@ public class AlgosGridOld extends VerticalLayout {
     public void setColumns(List<String> colonneVisibili) {
         int lar = 0;
 
-        if (LibSession.isDeveloper()) {
-            lar = LibColumn.addColumns(Versione.class, grid);
-        } else {
-            lar = LibColumn.addColumns(Versione.class, grid, colonneVisibili);
-        }// end of if/else cycle
+//        if (LibSession.isDeveloper()) {
+//            lar = LibColumn.addColumns(Versione.class, grid);
+//        } else {
+//            lar = LibColumn.addColumns(Versione.class, grid, colonneVisibili);
+//        }// end of if/else cycle
 
         grid.setWidth(lar + "px");
     }// end of method

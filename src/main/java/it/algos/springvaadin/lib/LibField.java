@@ -5,8 +5,8 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.field.*;
-import it.algos.springvaadin.service.AlgosService;
-import org.springframework.beans.factory.annotation.Value;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.service.AlgosServiceOld;
 
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
@@ -25,13 +25,13 @@ public class LibField {
      * @param attr the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public static AbstractField create(final Class<?> clazz, final String publicFieldName) {
+    public static AbstractField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AbstractField vaadinField = null;
         Field javaField;
         Annotation annotation = null;
         AIField fieldAnnotation = null;
         Object[] items = null;
-        AlgosService service = null;
+        AlgosServiceOld service = null;
 
         javaField = LibReflection.getField(clazz, publicFieldName);
 
@@ -72,9 +72,9 @@ public class LibField {
                 case combo:
                     if (fieldAnnotation.clazz() != null) {
                         Class<? extends Object> classRelated = fieldAnnotation.clazz();
-                        if (AlgosService.class.isAssignableFrom(classRelated)) {
+                        if (AlgosServiceOld.class.isAssignableFrom(classRelated)) {
                             try { // prova ad eseguire il codice
-                                items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
+                                items = ((AlgosServiceOld) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
                                 vaadinField = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
                             } catch (Exception unErrore) { // intercetta l'errore
                             }// fine del blocco try-catch

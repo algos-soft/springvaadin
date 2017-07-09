@@ -4,6 +4,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 
 import java.lang.annotation.Annotation;
@@ -22,7 +23,7 @@ public abstract class LibColumn {
     }// end of method
 
 
-    public static Annotation getAnnotation(final Class<? extends AlgosModel> clazz, String publicFieldName) {
+    public static Annotation getAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
         return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIColumn.class);
     }// end of method
 
@@ -31,7 +32,7 @@ public abstract class LibColumn {
      * Aggiunge una colonna
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumn(final Class<? extends AlgosModel> clazz, Grid grid, String publicFieldName) {
+    public static int addColumn(final Class<? extends AlgosEntity> clazz, Grid grid, String publicFieldName) {
         AIColumn annotation;
         Grid.Column colonna = null;
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
@@ -75,7 +76,7 @@ public abstract class LibColumn {
      * Aggiunge le colonne
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumns(final Class<? extends AlgosModel> clazz, Grid grid, List<String> colonneVisibili) {
+    public static int addColumns(final Class<? extends AlgosEntity> clazz, Grid grid, List<String> colonneVisibili) {
         int lar = 0;
         grid.removeAllColumns();
 
@@ -92,8 +93,8 @@ public abstract class LibColumn {
      * Aggiunge tutte le colonne
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumns(final Class<? extends AlgosModel> beanType, Grid grid) {
-        return addColumns(beanType, grid, LibReflection.getAllPropertyName(beanType));
+    public static int addColumns(final Class<? extends AlgosEntity> beanType, Grid grid) {
+        return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType));
     }// end of method
 
     /**
@@ -115,7 +116,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(Grid grid) {
-        return addColumns(grid, LibReflection.getAllPropertyName(grid.getBeanType()));
+        return addColumns(grid, LibReflection.getAllFieldName(grid.getBeanType()));
     }// end of method
 
 }// end of static class
