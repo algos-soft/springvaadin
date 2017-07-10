@@ -2,6 +2,8 @@ package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSql;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +11,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 
@@ -52,7 +55,6 @@ public class VersioneJDBCRepository extends AlgosJDBCRepository {
     }// end of method
 
 
-
 //    protected LinkedHashMap<String, Object> getBeanMap(AlgosModel entityBean) {
 //        LinkedHashMap<String, Object> map = new LinkedHashMap();
 //        Versione vers = null;
@@ -73,5 +75,43 @@ public class VersioneJDBCRepository extends AlgosJDBCRepository {
 //
 //        return map;
 //    }// end of method
+
+
+    /**
+     * Retrieves an entity by its titolo and descrizione.
+     *
+     * @param id must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public AlgosEntity findOne(Serializable id) {
+        String query = LibSql.getQueryFindOne(tableName);
+        return (AlgosEntity) jdbcTemplate.queryForObject(query, new Object[]{id}, rowMapper);
+    }// end of method
+
+    /**
+     * Controlla l'esistenza di una entity con gli stessi valori delle property indicate, uniche prese insieme
+     *
+     * @param titolo      (obbligatorio, non unico singolarmente)
+     * @param descrizione (obbligatoria, non unica singolarmente)
+     */
+    public boolean isEsisteByTitoloAndDescrizione(String titolo, String descrizione) {
+        String query;
+        int numRec = 0;
+
+        titolo= titolo.replaceAll("'","''");
+        descrizione= descrizione.replaceAll("'","''");
+
+        query = "SELECT COUNT(*) FROM versione WHERE titolo='" + titolo + "' AND descrizione=" + "'" + descrizione + "'";
+
+        try { // prova ad eseguire il codice
+            numRec = jdbcTemplate.queryForObject(query, Integer.class);
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return numRec > 0;
+    }// end of method
 
 }// end of class

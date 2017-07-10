@@ -264,6 +264,31 @@ public class LibSql {
 
 
     /**
+     * Get the max value for propertyName (numeric)
+     *
+     * @param tableName da esaminare
+     * @param propertyName da esaminare
+     *
+     * @return stringa della query
+     */
+    public static String getQueryMax(String tableName, String propertyName) {
+        String query = "";
+
+        query += "SELECT * FROM";
+        query += SPACE;
+        query += tableName;
+        query += SPACE;
+        query += "ORDER BY";
+        query += SPACE;
+        query += propertyName;
+        query += SPACE;
+        query += "DESC LIMIT 1";
+
+        return query;
+    }// end of static method
+
+
+    /**
      * Ripete n volte una stringa, con un separatore
      *
      * @param stringaBase    da ripetere

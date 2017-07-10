@@ -1,7 +1,11 @@
 package it.algos.springvaadin.service;
 
+import it.algos.springvaadin.bootstrap.SpringVaadinData;
+import it.algos.springvaadin.entity.versione.VersioneList;
+import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibReflection;
+import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
@@ -9,9 +13,11 @@ import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static it.algos.springvaadin.lib.LibReflection.getBeanMap;
 
@@ -23,7 +29,7 @@ import static it.algos.springvaadin.lib.LibReflection.getBeanMap;
 public abstract class AlgosServiceImpl implements AlgosService {
 
     private AlgosEntity entity;
-    private AlgosRepository repository;
+    protected AlgosRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -39,10 +45,51 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of Spring constructor
 
 
+    /**
+     * Indicates a method to be invoked AFTER a bean has been created and dependency injection is complete.
+     * Used to perform any initialization work necessary.
+     * Performing the initialization in a constructor is not suggested
+     * Possono esserci diversi metodi con @PostConstruct ma l'ordine con cui vengono chiamati NON è garantito
+     */
+    @PostConstruct
+    public void inizia() {
+        //--test di esistenza per invocare il metodo specifico di creazione della tavola
+        if (!esisteTable()) {
+            repository.creaTable();
+        }// end of if cycle
+
+        //--test per popolare (opzionale) la tavola specifica se è vuota
+        if (vuota()) {
+            creaDatiIniziali();
+        }// end of if cycle
+    }// end of method
+
+
+    protected boolean esisteTable() {
+        return repository.exists();
+    }// end of method
+
+
+    protected boolean vuota() {
+        return count() == 0;
+    }// end of method
+
+
+    protected void creaDatiIniziali() {
+    }// end of method
+
+
     @Override
     public int count() {
-        return 0;
-    }
+        int totaleInt = 0;
+        Long totaleLong = repository.count();
+
+        if (totaleLong != null && totaleLong > 0) {
+            totaleInt = totaleLong.intValue();
+        }// end of if cycle
+
+        return totaleInt;
+    }// end of method
 
     /**
      * Recupera il singolo bean
@@ -51,8 +98,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public AlgosEntity findById(long id) {
-        return null;
-    }
+        return (AlgosEntity) repository.findOne(id);
+    }// end of method
 
     /**
      * Returns all instances of the type.
@@ -88,12 +135,12 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * Creazione di un nuovo bean
      * Utilizza la mappa della sottoclasse
      *
-     * @param entityBean
+     * @param entity
      */
     @Override
-    public AlgosEntity save(AlgosEntity entityBean) {
-        return null;
-    }
+    public AlgosEntity save(AlgosEntity entity) {
+        return (AlgosEntity)repository.save(entity);
+    }// end of method
 
     /**
      * Cancella il singolo bean
@@ -103,13 +150,13 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean delete(AlgosEntity entity) {
         return false;
-    }
+    }// end of method
 
 
     @Override
     public Class<? extends AlgosEntity> getEntityClass() {
         return null;
-    }
+    }// end of method
 
     /**
      * Returns whether a table exists.
@@ -119,7 +166,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean exists() {
         return false;
-    }
+    }// end of method
 
     /**
      * Creazione iniziale di una tavola
@@ -127,7 +174,17 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean creaTable() {
         return false;
-    }
+    }// end of method
+
+    /**
+     * Creazione iniziale di una entity
+     * Vuota, coi valori di default
+     */
+    @Override
+    public AlgosEntity newEntity() {
+        return null;
+    }// end of method
+
 
     /**
      * Saves all given entities.
@@ -141,7 +198,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public List<AlgosEntity> save(List<AlgosEntity> entities) {
         return null;
-    }
+    }// end of method
 
     /**
      * Returns whether an entity with the given id exists.
@@ -155,7 +212,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean exists(Serializable serializable) {
         return false;
-    }
+    }// end of method
 
     /**
      * Returns all instances of the type with the given IDs.
@@ -171,7 +228,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public Iterable findAll(Iterable iterable) {
         return null;
-    }
+    }// end of method
 
     /**
      * Deletes the entity with the given id.
@@ -183,7 +240,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean delete(long id) {
         return false;
-    }
+    }// end of method
 
     /**
      * Deletes the given entities.
@@ -195,7 +252,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean delete(Iterable entities) {
         return false;
-    }
+    }// end of method
 
     /**
      * Deletes all entities managed by the repository.
@@ -203,7 +260,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public boolean deleteAll() {
         return false;
-    }
+    }// end of method
 
 
     /**
@@ -222,7 +279,15 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * La colonna ID normalmente non si visualizza
      */
     public List<String> getFormFields() {
-        return null;
+        return LibReflection.getAllFieldName(entity.getClass());
+    }// end of method
+
+
+    /**
+     * Recupera il valore massimo della property (numerica) indicata
+     */
+    public int getMax(String propertyName) {
+        return repository.getMax(propertyName);
     }// end of method
 
 }// end of class

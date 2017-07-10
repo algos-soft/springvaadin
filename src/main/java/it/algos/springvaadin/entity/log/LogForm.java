@@ -4,11 +4,14 @@ import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Layout;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibField;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -20,24 +23,30 @@ import java.util.List;
  * Created by gac on 30/06/17.
  * Presenta i dati di una entity o bean, sotto forma di un Form
  */
-@Lazy
-@Qualifier(Cost.TAG_LOG)
 @SpringComponent
-public class LogForm extends AlgosForm {
+@Qualifier(Cost.TAG_LOG)
+public class LogForm extends AlgosFormImpl {
 
-    //--il service (dao, repository) viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private LogServiceOld logService;
-
-    //--il modello dati viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    @Lazy
-    private Log logModel;
 
     public Binder<Log> binder;
 
+
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     */
+    public LogForm(FormToolbar toolbar) {
+        super(toolbar);
+    }// end of Spring constructor
+
+
+    /**
+     */
+    protected String fixCaption(AlgosEntity entity) {
+        super.captionCreate = "Nuovo log";
+        super.captionEdit = "Modifica log";
+
+        return super.fixCaption(entity);
+    }// end of method
 
 //    @Override
 //    public void creaFields(Layout layout, boolean newRecord, AlgosEntity entityBean, List<String> campiVisibili) {

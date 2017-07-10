@@ -48,5 +48,11 @@ public interface AlgosRepository extends CrudRepository {
      */
     public void creaTable();
 
+    /**
+     * Recupera il valore massimo della property (numerica) indicata
+     *
+     * @return max value if a property exists, zero otherwise
+     */
+    public int getMax(String propertyName);
 
 }// end of interface

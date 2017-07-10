@@ -83,19 +83,19 @@ public class Versione extends AlgosEntity {
      * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
      */
     protected Versione() {
+        this(0, "", "", (LocalDateTime) null);
     }// end of JavaBean constructor
 
 
-    /**
-     * The default constructor for Spring.
-     * Il service (dao, repository) viene iniettato in questo costruttore
-     *
-     * @param versioneService iniettato direttamente da Spring
-     */
-    @Autowired
-    public Versione(VersioneServiceOld versioneService) {
-        this(versioneService, 0, "", "", (LocalDateTime) null);
-    }// end of Spring constructor
+//    /**
+//     * The default constructor for Spring.
+//     * Il service (dao, repository) viene iniettato in questo costruttore
+//     *
+//     * @param versioneService iniettato direttamente da Spring
+//     */
+//    public Versione() {
+//        this(0, "", "", (LocalDateTime) null);
+//    }// end of Spring constructor
 
 
     /**
@@ -106,14 +106,14 @@ public class Versione extends AlgosEntity {
      * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
-     * @param versioneService iniettato direttamente da Spring
-     * @param ordine          di creazione (obbligatorio, unico)
-     * @param titolo          codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione     descrizione (obbligatoria, non unica)
-     * @param modifica        data di inserimento della versione (obbligatoria, non unica)
+     * @param ordine      di creazione (obbligatorio, unico)
+     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione descrizione (obbligatoria, non unica)
+     * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      */
-    Versione(VersioneServiceOld versioneService, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
-        this.setOrdine(ordine == 0 && versioneService != null ? versioneService.getOrdine() : ordine);
+    Versione(int ordine, String titolo, String descrizione, LocalDateTime modifica) {
+//        this.setOrdine(ordine == 0 && versioneService != null ? versioneService.getOrdine() : ordine);
+        this.setOrdine(ordine);
         this.setTitolo(titolo);
         this.setDescrizione(descrizione);
         this.setModifica(modifica != null ? modifica : LocalDateTime.now());

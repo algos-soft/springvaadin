@@ -46,7 +46,7 @@ public class VersioneServiceOld extends AlgosServiceOld {
 
     @Override
     protected void creaDatiIniziali() {
-        SpringVaadinData.creaVersione(this);
+//        SpringVaadinData.creaVersione(this);
     }// end of method
 
 

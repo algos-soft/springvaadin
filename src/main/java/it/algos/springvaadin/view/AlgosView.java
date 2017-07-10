@@ -56,7 +56,7 @@ public interface AlgosView extends View{
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneRegistra(boolean status);
+    public void enableRegistra(boolean status);
 
 
     /**
@@ -64,7 +64,7 @@ public interface AlgosView extends View{
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneEdit(boolean status);
+    public void enableEdit(boolean status);
 
 
     /**
@@ -72,7 +72,7 @@ public interface AlgosView extends View{
      *
      * @param status true se abilitato, false se disabilitato
      */
-    public void setBottoneDelete(boolean status);
+    public void enableDelete(boolean status);
 
 
     /**

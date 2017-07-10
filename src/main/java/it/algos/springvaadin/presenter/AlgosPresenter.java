@@ -75,21 +75,18 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     protected void presentaLista() {
-        //patch @todo passa qui due volte (per errore) non trovato perché
-        //la seconda volta il presenter è 'farlocco'
+        if (view == null || service == null) {
+            return;
+        }// end of if cycle
 
-        if (view != null && service != null) {
+        //--Recupera dal service tutti i dati necessari (aggiornati)
+        Class<? extends AlgosEntity> clazz = service.getEntityClass();
+        List items = service.findAll();
+        List<String> columns = service.getListColumns();
 
-            //--Recupera dal service tutti i dati necessari (aggiornati)
-            Class<? extends AlgosEntity> clazz = service.getEntityClass();
-            List items = service.findAll();
-            List<String> columns = service.getListColumns();
-
-            //--Passa il controllo alla view con i dati necessari
-            if (clazz != null && columns != null && columns.size() > 0) {
-                view.setList(clazz, items, columns);
-            }// end of if cycle
-
+        //--Passa il controllo alla view con i dati necessari
+        if (clazz != null && columns != null && columns.size() > 0) {
+            view.setList(clazz, items, columns);
         }// end of if cycle
     }// end of method
 
@@ -120,12 +117,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void edit() {
         newRecord = false;
-        AlgosEntity entityBean = this.getBean();
+        AlgosEntity entity = this.getEntityList();
 
         //patch @todo passa qui due volte (per errore) non trovato perché
         //la seconda volta il presenter è 'farlocco'
-        if (entityBean != null) {
-            modifica(entityBean);
+        if (entity != null) {
+            modifica(entity);
         }// end of if cycle
 
     }// end of method
@@ -150,20 +147,22 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     protected void modifica(AlgosEntity entityBean) {
+        if (view == null || service == null) {
+            return;
+        }// end of if cycle
 
-//        if (model != null && service != null && view != null) {
-//            Class<? extends AlgosModel> clazz = model.getClass();
-//            List<String> fields = service.getFormFields();
-//            if (entityBean == null) {
-////                view.setForm(clazz, service, fields);
-//            } else {
-//                if (entityBean.getId() > 0) {
-//                    entityBean = service.findById(entityBean.getId());
-//                }// end of if cycle
-////                view.setForm(entityBean, service, fields);
-//            }// end of if/else cycle
-////            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
-//        }// end of if cycle
+        List<String> fields = service.getFormFields();
+
+        if (entityBean == null) {
+            entityBean = service.newEntity();
+        } else {
+            if (entityBean.getId() > 0) {
+                entityBean = service.findById(entityBean.getId());
+            }// end of if cycle
+        }// end of if/else cycle
+        view.setForm(entityBean, fields);
+
+//            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
 
     }// end of method
 
@@ -302,45 +301,45 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         boolean unaSolaRigaSelezionata = false;
         int numRigheSelezionate = 0;
 
-//        if (view != null) {
-//            //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
-//            unaSolaRigaSelezionata = view.unaRigaSelezionata();
-//            view.getList().getToolbar().buttonEdit.setEnabled(unaSolaRigaSelezionata);
-//
-//            //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
-//            switch (LibParams.gridSelectionMode()) {
-//                //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
-//                case SINGLE:
-//                    unaSolaRigaSelezionata = view.unaRigaSelezionata();
-//                    view.getList().getToolbar().buttonDelete.setEnabled(unaSolaRigaSelezionata);
-//                    break;
-//                //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
-//                case MULTI:
-//                    numRigheSelezionate = view.numRigheSelezionate();
-//                    if (numRigheSelezionate >= 1) {
-//                        view.getList().getToolbar().buttonDelete.setEnabled(true);
-//                    } else {
-//                        view.getList().getToolbar().buttonDelete.setEnabled(false);
-//                    }// end of if/else cycle
-//                    break;
-//                case NONE:
-//                    break;
-//                default: // caso non definito
-//                    break;
-//            } // fine del blocco switch
-//
-//        }// end of if cycle
+        if (view == null) {
+            return;
+        }// end of if cycle
+
+        //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
+        unaSolaRigaSelezionata = view.isUnaRigaSelezionata();
+        view.enableEdit(unaSolaRigaSelezionata);
+
+        //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
+        switch (LibParams.gridSelectionMode()) {
+            //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
+            case SINGLE:
+                view.enableDelete(unaSolaRigaSelezionata);
+                break;
+            //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
+            case MULTI:
+                numRigheSelezionate = view.numRigheSelezionate();
+                if (numRigheSelezionate >= 1) {
+                    view.enableDelete(true);
+                } else {
+                    view.enableDelete(false);
+                }// end of if/else cycle
+                break;
+            case NONE:
+                break;
+            default: // caso non definito
+                break;
+        } // fine del blocco switch
 
     }// end of method
 
 
     /**
-     * Recupera il record selezionato
+     * Recupera il record selezionato nella Grid
      */
     @SuppressWarnings("rawtypes")
-    private AlgosEntity getBean() {
+    private AlgosEntity getEntityList() {
         if (view != null) {
-//            return view.getList().getGrid().getBean();
+            return view.getEntityList();
         }// end of if cycle
 
         return null;

@@ -31,6 +31,14 @@ public interface AlgosService {
 
 
     /**
+     * Creazione iniziale di una entity
+     * Vuota, coi valori di default
+     */
+    public AlgosEntity newEntity();
+
+
+
+    /**
      * Saves a given entity.
      * Use the returned instance for further operations
      * as the save operation might have changed the entity instance completely.
@@ -155,6 +163,7 @@ public interface AlgosService {
      */
     public List<String> getListColumns();
 
+
     /**
      * Ordine standard di presentazione dei fields nel form
      * Può essere modificato
@@ -162,6 +171,14 @@ public interface AlgosService {
      */
     public List<String> getFormFields();
 
+
     public Class<? extends AlgosEntity> getEntityClass();
 
+
+    /**
+     * Recupera il valore massimo della property indicata
+     */
+    public int getMax(String propertyName);
+
 }// end of interface
+

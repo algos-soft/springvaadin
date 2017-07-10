@@ -27,7 +27,7 @@ import java.util.List;
  * Aggiunge una ToolBar in basso coi bottoni di comando (contenenti già i listener per lanciare gli eventi)
  */
 @SpringComponent
-public class AlgosListImpl extends VerticalLayout implements AlgosList{
+public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
     private Label label;
 
@@ -99,14 +99,65 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList{
     }// end of method
 
 
+    /**
+     * Righe selezionate nella Grid
+     *
+     * @return numero di righe selezionate
+     */
+    @Override
     public int numRigheSelezionate() {
         return grid.numRigheSelezionate();
     }// end of method
 
-    public boolean unaRigaSelezionata() {
+    /**
+     * Una riga selezionata nella grid
+     *
+     * @return true se è selezionata una ed una sola riga nella Grid
+     */
+    @Override
+    public boolean isUnaRigaSelezionata() {
         return grid.unaRigaSelezionata();
     }// end of method
 
+    /**
+     * Abilita il bottone Create dela Grid
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableNew(boolean status) {
+        toolbar.enableNew(status);
+    }// end of method
+
+    /**
+     * Abilita il bottone Edit dela Grid
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableEdit(boolean status) {
+        toolbar.enableEdit(status);
+    }// end of method
+
+    /**
+     * Abilita il bottone Delet della Grid
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableDelete(boolean status) {
+        toolbar.enableDelete(status);
+    }// end of method
+
+    /**
+     * Una entity selezionata nella Grid
+     *
+     * @return la entity della singola riga selezionata o null se nessuna riga è selezionata
+     */
+    @Override
+    public AlgosEntity getEntity() {
+        return grid.getEntity();
+    }// end of method
 
     public Label getLabel() {
         return label;
@@ -123,7 +174,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList{
     @Override
     public Component getComponent() {
         return this;
-    }
+    }// end of method
 
     //    public static Annotation getAnnotationForm(String publicFieldName) {
 //        return LibReflection.getField(Versione.class, publicFieldName).getAnnotation(AIField.class);

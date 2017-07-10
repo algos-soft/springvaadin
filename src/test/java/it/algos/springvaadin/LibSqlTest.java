@@ -142,7 +142,6 @@ public class LibSqlTest {
     }// end of single test
 
 
-
     /**
      * Get the query string for INSERT
      *
@@ -293,7 +292,7 @@ public class LibSqlTest {
     /**
      * Get the query string for DELETE
      *
-     * @param tableName   in cui cancellare la entity
+     * @param tableName in cui cancellare la entity
      *
      * @return stringa della query
      */
@@ -302,8 +301,28 @@ public class LibSqlTest {
         String tableName = "versione";
 
         previsto = "DELETE FROM versione WHERE id=?";
-        ottenuto=  LibSql.getQueryDelete(tableName);
+        ottenuto = LibSql.getQueryDelete(tableName);
         assertEquals(ottenuto, previsto);
     }// end of single test
+
+
+    /**
+     * Get the max value for propertyName (numeric)
+     *
+     * @param tableName    da esaminare
+     * @param propertyName da esaminare
+     *
+     * @return stringa della query
+     */
+    @Test
+    public void getQueryMax() {
+        String tableName = "versione";
+        String propertyName = "ordine";
+
+        previsto = "SELECT * FROM versione ORDER BY ordine DESC LIMIT 1";
+        ottenuto = LibSql.getQueryMax(tableName, propertyName);
+        assertEquals(ottenuto, previsto);
+    }// end of single test
+
 
 }// end of class

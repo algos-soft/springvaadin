@@ -70,6 +70,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void setForm(AlgosEntity entity, List<String> fields) {
+        removeAllComponents();
+        form.restart(entity,fields);
+        addComponent(form.getComponent());
     }// end of method
 
 
@@ -90,7 +93,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public boolean isUnaRigaSelezionata() {
-        return false;
+        return list.isUnaRigaSelezionata();
     }// end of method
 
     /**
@@ -99,8 +102,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param status true se abilitato, false se disabilitato
      */
     @Override
-    public void setBottoneRegistra(boolean status) {
-
+    public void enableRegistra(boolean status) {
     }// end of method
 
     /**
@@ -109,8 +111,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param status true se abilitato, false se disabilitato
      */
     @Override
-    public void setBottoneEdit(boolean status) {
-
+    public void enableEdit(boolean status) {
+        list.enableEdit(status);
     }// end of method
 
     /**
@@ -119,8 +121,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param status true se abilitato, false se disabilitato
      */
     @Override
-    public void setBottoneDelete(boolean status) {
-
+    public void enableDelete(boolean status) {
+        list.enableDelete(status);
     }// end of method
 
     /**
@@ -148,7 +150,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public AlgosEntity getEntityList() {
-        return null;
+        return list.getEntity();
     }// end of method
 
 }// end of class

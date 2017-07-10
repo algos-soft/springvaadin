@@ -47,7 +47,7 @@ public abstract class AlgosServiceOld {
     protected RowMapper rowMapper;
 
 
-    //--classem del modello dati
+    //--classe del modello dati
     //--regolata nella sottoclasse concreta
     protected Class modelClass;
 

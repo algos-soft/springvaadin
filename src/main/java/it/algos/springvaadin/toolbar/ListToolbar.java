@@ -13,10 +13,10 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public class ListToolbar extends AlgosToolbar {
 
-    public Button buttonNew;
-    public Button buttonEdit;
-    public Button buttonDelete;
-    public Button buttonSearch;
+    private Button buttonNew;
+    private Button buttonEdit;
+    private Button buttonDelete;
+    private Button buttonSearch;
     private Button buttonAll;
 
     public ListToolbar() {
@@ -31,5 +31,20 @@ public class ListToolbar extends AlgosToolbar {
 //        buttonAll = super.addButton(Bottone.showAll);
     }// end of method
 
+    public void enableNew(boolean status) {
+        this.buttonNew.setEnabled(status);
+    }// end of method
+
+    public void enableEdit(boolean status) {
+        this.buttonEdit.setEnabled(status);
+    }// end of method
+
+    public void enableDelete(boolean status) {
+        this.buttonDelete.setEnabled(status);
+    }// end of method
+
+    public void enableSearch(boolean status) {
+        this.buttonSearch.setEnabled(status);
+    }// end of method
 
 }// end of class

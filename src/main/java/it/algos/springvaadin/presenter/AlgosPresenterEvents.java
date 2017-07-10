@@ -137,7 +137,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     @Override
     public void onApplicationEvent(AlgosSpringEvent event) {
         if (event instanceof ButtonSpringEvent) {
-            onListEvent(((ButtonSpringEvent) event).getBottone());
+
+            Object source = event.getSource();
+            if (source.getClass() == this.getClass()) {
+                onListEvent(((ButtonSpringEvent) event).getBottone());
+            } else {
+                int errore = 87;
+            }// end of if/else cycle
+
         }// end of if cycle
         if (event instanceof ActionSpringEvent) {
             onGridAction(((ActionSpringEvent) event).getAzione(), ((ActionSpringEvent) event).getEntityBean());

@@ -4,9 +4,14 @@ import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.form.AlgosFormImpl;
+import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibField;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import it.algos.springvaadin.toolbar.FormToolbar;
+import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -21,56 +26,56 @@ import java.util.List;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)
-public class VersioneForm extends AlgosForm {
-
-    //--il service (dao, repository) viene iniettato in questa classe
-    //--viene iniettato qui per avere la classe specifica. Nella superclasse viene gestito con la property generica.
-    @Autowired
-    private VersioneServiceOld versioneService;
+public class VersioneForm extends AlgosFormImpl {
 
 
     public Binder<Versione> binder;
 
     /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
+     * Costruttore @Autowired (nella superclasse)
      */
-    @PostConstruct
-    private void caption() {
+    public VersioneForm(FormToolbar toolbar) {
+        super(toolbar);
+    }// end of Spring constructor
+
+
+    /**
+     */
+    protected String fixCaption(AlgosEntity entity) {
         super.captionCreate = "Nuova versione";
         super.captionEdit = "Modifica versione";
+
+        return super.fixCaption(entity);
     }// end of method
 
 
-//    @Override
-//    public void creaFields(Layout layout, boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
-//        binder = new Binder<>(Versione.class);
-//        AbstractField field;
-//        LinkedHashMap<String, Object> mappa;
-//        Object value;
-//
-//        if (entityBean == null) {
-//            entityBean= versioneService.reset();
-//        }// end of if cycle
-//
-//        mappa = versioneService.getBeanMap(entityBean);
-//        for (String publicFieldName : campiVisibili) {
-//            field = LibField.create(Versione.class, publicFieldName);
-//            if (field != null) {
-//                layout.addComponent(field);
-//                binder.bind(field, publicFieldName);
+    @Override
+    public void creaFields(Layout layout, AlgosEntity entity, List<String> fields) {
+        binder = new Binder<>(Versione.class);
+        AbstractField field;
+        LinkedHashMap<String, Object> mappa;
+        Object value;
+
+        if (entity == null) {
+//            entity= versioneService.reset();
+        }// end of if cycle
+
+        for (String publicFieldName : fields) {
+            field = LibField.create(Versione.class, publicFieldName);
+            if (field != null) {
+                layout.addComponent(field);
+                binder.bind(field, publicFieldName);
 //                if (newRecord) {
 //                    value = mappa.get(publicFieldName);
 //                    if (value != null) {
 //                        field.setValue(value);
 //                    }// end of if cycle
 //                }// end of if cycle
-//            }// end of if cycle
-//        }// end of for cycle
-//
-//        binder.setBean((Versione) entityBean);
-//        super.entityBean =  entityBean;
-//    }// end of method
+            }// end of if cycle
+        }// end of for cycle
+
+        binder.setBean((Versione) entity);
+    }// end of method
 
 
 }// end of class

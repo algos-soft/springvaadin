@@ -19,9 +19,7 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Created by gac on 02/07/17
@@ -205,9 +203,9 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
      * @return the saved entity
      */
     @Override
-    public AlgosEntity save(Object entity) {
+    public AlgosEntity save(AlgosEntity entity) {
 
-        if (entity != null && entity instanceof AlgosModel && ((AlgosModel) entity).getId() != null && ((AlgosModel) entity).getId() > 0) {
+        if (entity != null && entity instanceof AlgosEntity && ((AlgosEntity) entity).getId() != null && ((AlgosEntity) entity).getId() > 0) {
             return update((AlgosEntity) entity);
         } else {
             return insert((AlgosEntity) entity);
@@ -274,6 +272,32 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
     public void delete(Serializable serializable) {
         String query = LibSql.getQueryDelete(tableName);
         jdbcTemplate.update(query, new Object[]{serializable});
+    }// end of method
+
+
+    /**
+     * Recupera il valore massimo della property (numerica) indicata
+     *
+     * @param propertyName
+     *
+     * @return max value if a property exists, zero otherwise
+     */
+    @Override
+    public int getMax(String propertyName) {
+        int valore = 0;
+        String query = LibSql.getQueryMax(tableName, propertyName);
+        List<Map<String, Object>> lista = jdbcTemplate.queryForList(query);
+        Number value = 0;
+
+        if (lista != null && lista.size() == 1) {
+            if (lista.get(0) != null) {
+                if (lista.get(0).containsKey(propertyName)) {
+                    valore = (Integer) lista.get(0).get(propertyName);
+                }// end of if cycle
+            }// end of if cycle
+        }// end of if cycle
+
+        return valore;
     }// end of method
 
 }// end of class

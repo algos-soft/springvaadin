@@ -139,8 +139,8 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      */
     public void setForm(Class<? extends AlgosModel> entityBean, AlgosServiceOld service, List<String> campiVisibili) {
         removeAllComponents();
-        form.iniziaCreate(service, campiVisibili);
-        addComponent(form);
+//        form.iniziaCreate(service, campiVisibili);
+//        addComponent(form);
     }// end of method
 
 
@@ -154,8 +154,8 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      */
     public void setForm(AlgosModel entityBean, AlgosServiceOld service, List<String> campiVisibili) {
         removeAllComponents();
-        form.iniziaEdit(entityBean, service, campiVisibili);
-        addComponent(form);
+//        form.iniziaEdit(entityBean, service, campiVisibili);
+//        addComponent(form);
     }// end of method
 
 
@@ -233,7 +233,7 @@ public abstract class AlgosViewOld extends VerticalLayout implements View {
      * Rimana al metodo della Lista
      */
     public boolean unaRigaSelezionata() {
-        return list.unaRigaSelezionata();
+        return list.isUnaRigaSelezionata();
     }// end of method
 
 

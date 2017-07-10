@@ -118,15 +118,15 @@ public class AlgosGrid extends Grid {
     }// end of method
 
 
-    public AlgosModel getBean() {
-        AlgosModel bean = null;
+    public AlgosEntity getEntity() {
+        AlgosEntity bean = null;
 
         if (unaRigaSelezionata()) {
             Set alfa = this.getSelectedItems();
             if (alfa.size() == 1) {
                 Object beta = alfa.toArray()[0];
-                if (beta instanceof AlgosModel) {
-                    bean = (AlgosModel) beta;
+                if (beta instanceof AlgosEntity) {
+                    bean = (AlgosEntity) beta;
                 }// end of if cycle
             }// end of if cycle
         }// end of if cycle

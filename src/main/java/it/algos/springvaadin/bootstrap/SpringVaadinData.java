@@ -2,6 +2,7 @@ package it.algos.springvaadin.bootstrap;
 
 import it.algos.springvaadin.entity.company.CompanyServiceOld;
 import it.algos.springvaadin.entity.log.LogServiceOld;
+import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.entity.versione.VersioneServiceOld;
 
 /**
@@ -14,12 +15,12 @@ public class SpringVaadinData {
     /**
      * Si attiva SOLO se la tavola è vuota
      */
-    public static void creaVersione(VersioneServiceOld service) {
-        service.crea("Setup", "Setup iniziale del programma");
-        service.crea("Update", "Prima versione");
-        service.crea("Update", "Seconda versione");
-        service.crea("Fixbug", "Blocco di numeri negativi");
-        service.crea("Flag", "Aggiunta di un flag di controllo");
+    public static void creaVersione(VersioneService service) {
+//        service.crea("Setup", "Setup iniziale del programma");
+//        service.crea("Update", "Prima versione");
+//        service.crea("Update", "Seconda versione");
+//        service.crea("Fixbug", "Blocco di numeri negativi");
+//        service.crea("Flag", "Aggiunta di un flag di controllo");
     }// end of method
 
 
