@@ -12,7 +12,7 @@ import java.util.List;
  * in particolare ad AlgosPresenter
  * Implementati nella classe concreta AlgosViewImpl
  */
-public interface AlgosView extends View{
+public interface AlgosView extends View {
 
 
     /**
@@ -32,7 +32,6 @@ public interface AlgosView extends View{
      * @param fields visibili ed ordinati del Form
      */
     public void setForm(AlgosEntity entity, List<String> fields);
-
 
 
     /**
@@ -80,6 +79,23 @@ public interface AlgosView extends View{
      */
     public void closeFormWindow();
 
+
+    /**
+     * Esegue il 'commit' nel Form.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     *
+     * @return la entity del Form
+     */
+    public AlgosEntity writeBean();
+
+    /**
+     * Esegue il 'rollback' nel Form
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    public void revertEntity();
 
     /**
      * La entity del Form

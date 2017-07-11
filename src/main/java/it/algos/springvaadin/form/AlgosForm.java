@@ -20,6 +20,31 @@ public interface AlgosForm {
 
 
     /**
+     * Esegue il 'rollback' nel Form
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    public void revertEntity();
+
+
+    /**
+     * Esegue il 'commit'.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     *
+     * @return la entity del Form
+     */
+    public AlgosEntity writeBean();
+
+
+    /**
+     * Chiude la (eventuale) finestra utilizzata nel Form
+     */
+    public void closeWindow();
+
+
+    /**
      * Restituisce il componente concreto
      */
     public Component getComponent();
@@ -30,9 +55,5 @@ public interface AlgosForm {
      */
     public AlgosEntity getEntity();
 
-    /**
-     * Chiude la (eventuale) finestra utilizzata
-     */
-    public void closeWindow();
 
 }// end of interface

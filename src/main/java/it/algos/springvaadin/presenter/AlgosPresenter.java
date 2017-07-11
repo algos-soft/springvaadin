@@ -248,13 +248,19 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      */
     @Override
     public void annulla() {
-        if (LibParams.usaSeparateFormDialog()) {
-            if (view != null) {
-//                view.getForm().closeWindow();
-            }// end of if cycle
-        }// end of if cycle
-
+        view.closeFormWindow();
         this.presentaLista();
+    }// end of method
+
+
+    /**
+     * Evento
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    @Override
+    public void revert() {
+        view.revertEntity();
     }// end of method
 
 
@@ -271,19 +277,18 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
 
 
     /**
-     * Recupera l'entityBean dal Form
-     * Controlla se è un nuovo record oppure no
-     * Registra le modifiche nel DB
-     * Chiude l'eventuale finestra separata
+     * Esegue il 'commit' nel Form.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     * Registra le modifiche nel DB, tramite il service
      */
     public void registraModifiche() {
-        AlgosModel bean;
         AlgosEntity entityBean = null;
 
-        if (view != null) {
-            entityBean = view.getEntityForm();
-            service.save(entityBean);
-            view.closeFormWindow();
+        if (view != null && service != null) {
+            entityBean = view.writeBean(); //commit
+            service.save(entityBean);      //flush
         }// end of if cycle
     }// end of method
 

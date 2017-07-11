@@ -105,6 +105,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     }// end of method
 
     @Override
+    public void revert() {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("Bottone", "Premuto Revert", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
+    @Override
     public void registra() {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("Bottone", "Premuto Registra", Notification.Type.HUMANIZED_MESSAGE);
@@ -175,6 +182,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
                 break;
             case back:
                 annulla();
+                break;
+            case revert:
+                revert();
                 break;
             case registra:
                 registra();

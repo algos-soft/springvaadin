@@ -1,14 +1,19 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.field.AlgosDateTimeField;
 import it.algos.springvaadin.field.AlgosIntegerField;
+import it.algos.springvaadin.field.AlgosTextField;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibField;
+import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.toolbar.FormToolbar;
@@ -54,38 +59,88 @@ public class VersioneForm extends AlgosFormImpl {
     public void creaFields(Layout layout, List<String> fields) {
         binder = new Binder<>(Versione.class);
         AbstractField field;
-        LinkedHashMap<String, Object> mappa;
-        Object value;
+        AbstractValidator validator = null;
+        Object value = null;
 
-        if (entity == null) {
-//            entity= versioneService.reset();
-        }// end of if cycle
+        for (String publicFieldName : fields) {
+            field = LibField.create(Versione.class, publicFieldName);
+            validator = LibField.creaValidator(Versione.class, publicFieldName);
+            if (field != null) {
+                layout.addComponent(field);
 
-//        for (String publicFieldName : fields) {
-//            field = LibField.create(Versione.class, publicFieldName);
-//            if (field != null) {
-//                layout.addComponent(field);
-////                binder.bind(field, publicFieldName);
+                if (field.isEnabled()) {
+                    if (validator != null) {
+                        binder.forField(field)
+                                .withValidator(validator)
+                                .bind(publicFieldName);
+                    } else {
+                        binder.forField(field)
+                                .bind(publicFieldName);
+                    }// end of if/else cycle
+                } else {
+                    value = LibReflection.getValue(entity, publicFieldName);
+                    field.setValue(value);
+                }// end of if/else cycle
+
+            }// end of if cycle
+        }// end of for cycle
+
+        binder.readBean((Versione) entity);
+    }// end of method
+
+
+    /**
+     * Esegue il 'rollback'
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    @Override
+    public void revertEntity() {
+        binder.readBean((Versione) entity);
+    }// end of method
+
+
+    /**
+     * Esegue il 'commit'.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     * Chiude la (eventuale) finestra utilizzata
+     *
+     * @return la entity del Form
+     */
+    @Override
+    public AlgosEntity writeBean() {
+//        Object a = this.getComponent(0);
+//        Label label = (Label) a;
+//        String testo = label.getValue();
 //
-////                binder.forField(field)
-////                        .withValidator(val -> val!=null, "Non può essere nullo")
-////                        .bind(publicFieldName);
+//        Object aa = this.getComponent(1);
+//        AlgosIntegerField fieldInt = (AlgosIntegerField) aa;
+//        int intval = fieldInt.getValue();
 //
-////                if (newRecord) {
-////                    value = mappa.get(publicFieldName);
-////                    if (value != null) {
-////                        field.setValue(value);
-////                    }// end of if cycle
-////                }// end of if cycle
-//            }// end of if cycle
-//        }// end of for cycle
-        field = LibField.create(Versione.class, "titolo");
-        layout.addComponent(field);
-        binder.forField(field)
-                .withValidator(val -> ((String)val).length()!=3, "Non può essere nullo")
-                .bind("titolo");
+//        Object b = this.getComponent(2);
+//        AlgosTextField field2 = (AlgosTextField) b;
+//        String testo2 = field2.getValue();
+//
+//        Object c = this.getComponent(3);
+//        AlgosTextField field3 = (AlgosTextField) c;
+//        String testo3 = field3.getValue();
+//
+//        Object d = this.getComponent(4);
+//        AlgosDateTimeField time = (AlgosDateTimeField) d;
+//        Object valtime = time.getValue();
 
-        binder.setBean((Versione) entity);
+
+        try { // prova ad eseguire il codice
+            binder.writeBean((Versione) entity);
+        } catch (Exception unErrore) { // intercetta l'errore
+            int errore = 87;
+        }// fine del blocco try-catch
+
+        closeWindow();
+
+        return entity;
     }// end of method
 
     public void creaFields2(Layout layout, AlgosEntity entity, List<String> fields) {

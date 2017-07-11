@@ -86,7 +86,7 @@ public class VersioneService extends AlgosServiceImpl {
     public void crea(String titolo, String descrizione) {
 
         //--controllo di univocità dei parametri
-        if (isEsisteByTitoloAndDescrizione(titolo, descrizione)) {
+        if (!isEsisteByTitoloAndDescrizione(titolo, descrizione)) {
             Versione vers = newEntity(titolo, descrizione);
             super.save(vers);
         }// end of if cycle

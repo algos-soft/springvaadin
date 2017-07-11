@@ -11,6 +11,8 @@ public interface FormListener {
 
     public void annulla();
 
+    public void revert();
+
     public void registra();
 
 }// end of interface

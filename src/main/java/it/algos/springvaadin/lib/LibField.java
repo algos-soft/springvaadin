@@ -1,6 +1,7 @@
 package it.algos.springvaadin.lib;
 
 
+import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
@@ -335,6 +336,17 @@ public class LibField {
 //        return field;
 //
 //    }// end of static method
+
+
+    /**
+     * Crea un (eventuale) validator, basato sulle @Annotation della Entity
+     */
+    public static AbstractValidator creaValidator(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        AbstractValidator validator = null;
+
+        return validator;
+    }// end of method
+
 
     /**
      * Restituisce una singola Annotation.

@@ -125,12 +125,36 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         list.enableDelete(status);
     }// end of method
 
+
     /**
      * Chiude la (eventuale) finestra utilizzata nel Form
      */
     @Override
     public void closeFormWindow() {
         form.closeWindow();
+    }// end of method
+
+    /**
+     * Esegue il 'rollback' nel Form
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    @Override
+    public void revertEntity() {
+        form.revertEntity();
+    }// end of method
+
+    /**
+     * Esegue il 'commit' nel Form.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     *
+     * @return la entity del Form
+     */
+    @Override
+    public AlgosEntity writeBean() {
+        return form.writeBean();
     }// end of method
 
     /**

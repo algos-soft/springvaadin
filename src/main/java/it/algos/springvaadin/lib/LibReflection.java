@@ -469,4 +469,26 @@ public abstract class LibReflection {
         return args;
     }// end of static method
 
+
+    /**
+     * Valore di una property della entity.
+     *
+     * @param entityBean      da esaminare
+     * @param publicFieldName da esaminare
+     *
+     * @return valore della property
+     */
+    public static Object getValue(AlgosEntity entityBean, String publicFieldName) {
+        Object value = null;
+        LinkedHashMap<String, Object> mappa = getBeanMap(entityBean);
+
+        if (mappa != null && mappa.size() > 0) {
+            if (mappa.containsKey(publicFieldName)) {
+                value = mappa.get(publicFieldName);
+            }// end of if cycle
+        }// end of if cycle
+
+        return value;
+    }// end of static method
+
 }// end of static class
