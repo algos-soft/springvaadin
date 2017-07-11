@@ -63,8 +63,8 @@ public class Company extends AlgosEntity {
     //--posta elettronica (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @Email
-    @AIColumn(type = AFType.text, width = 270, header = "Mail")
-    @AIField(type = AFType.text, width = "20em", caption = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
+    @AIColumn(type = AFType.email, width = 270, header = "Mail")
+    @AIField(type = AFType.email, width = "20em", caption = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
     private String email;
 
     //--indirizzo postale (facoltativo)

@@ -495,8 +495,7 @@ public abstract class LibReflection {
 
 
     /**
-     * Create a single field.
-     * The field type is chosen according to the annotation.
+     * Get all the annotation of the property.
      *
      * @param attr the metamodel Attribute
      */

@@ -56,7 +56,7 @@ public class Versione extends AlgosEntity {
     @NotEmpty
     @Column(length = 20)
     @AIColumn(type = AFType.text, width = 200, header = "Titolo")
-    @AIField(type = AFType.text, required = true, width = "12em", caption = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
+    @AIField(type = AFType.text, required = true, min = 3, max = 40, width = "12em", caption = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
     private String titolo;
 
     //--descrizione (obbligatoria, non unica)
@@ -64,7 +64,7 @@ public class Versione extends AlgosEntity {
     @NotEmpty
     @Size(min = 2, max = 50)
     @AIColumn(type = AFType.text, width = 500, header = "Descrizione")
-    @AIField(type = AFType.text, required = true, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
+    @AIField(type = AFType.text, required = true, min = 5, max = 80, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
     private String descrizione;
 
     //--momento in cui si effettua la modifica della versione (obbligatoria, non unica)

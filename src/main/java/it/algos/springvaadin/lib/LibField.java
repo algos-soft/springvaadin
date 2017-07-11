@@ -1,7 +1,11 @@
 package it.algos.springvaadin.lib;
 
 
+import com.vaadin.data.ValidationResult;
+import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
@@ -28,20 +32,8 @@ public class LibField {
     @SuppressWarnings("all")
     public static AbstractField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AbstractField vaadinField = null;
-        Field javaField;
-        Annotation annotation = null;
-        AIField fieldAnnotation = null;
+        AIField fieldAnnotation = LibReflection.getFieldAnnotation(clazz, publicFieldName);
         Object[] items = null;
-        AlgosServiceOld service = null;
-        javaField = LibReflection.getField(clazz, publicFieldName);
-
-        if (javaField != null) {
-            annotation = javaField.getAnnotation(AIField.class);
-        }// end of if cycle
-
-        if (annotation != null && annotation instanceof AIField) {
-            fieldAnnotation = (AIField) annotation;
-        }// end of if cycle
 
         if (fieldAnnotation != null) {
             switch (fieldAnnotation.type()) {
@@ -55,6 +47,12 @@ public class LibField {
                     vaadinField = new AlgosIntegerField();
                     if (LibParams.displayToolTips()) {
                         ((AlgosIntegerField) vaadinField).setDescription(fieldAnnotation.help());
+                    }// end of if cycle
+                    break;
+                case email:
+                    vaadinField = new AlgosTextField();
+                    if (LibParams.displayToolTips()) {
+                        ((AlgosTextField) vaadinField).setDescription(fieldAnnotation.help());
                     }// end of if cycle
                     break;
                 case enumeration:
@@ -343,6 +341,44 @@ public class LibField {
      */
     public static AbstractValidator creaValidator(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AbstractValidator validator = null;
+        AIField fieldAnnotation = LibReflection.getFieldAnnotation(clazz, publicFieldName);
+        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        String message = "";
+        int min = 0;
+        int max = 0;
+
+        if (fieldAnnotation != null) {
+            min = fieldAnnotation.min();
+            max = fieldAnnotation.max();
+
+            switch (fieldAnnotation.type()) {
+                case text:
+                    if (fieldAnnotation.required()) {
+                        message = fieldName + " deve essere compreso tra " + (min - 1) + " e " + max + " caratteri";
+                        validator = new StringLengthValidator(message, min, max);
+                    }// end of if cycle
+                    break;
+                case integer:
+                    break;
+                case email:
+                    message = "Indirizzo eMail non valido";
+                    validator = new EmailValidator(message);
+                    break;
+                case checkbox:
+                    break;
+                case date:
+                    break;
+                case time:
+                    break;
+                case password:
+                    break;
+                case combo:
+                    break;
+                case enumeration:
+                    break;
+                default: // caso non definito
+            } // fine del blocco switch
+        }// end of if cycle
 
         return validator;
     }// end of method

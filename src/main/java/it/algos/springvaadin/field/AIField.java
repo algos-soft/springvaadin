@@ -34,6 +34,10 @@ public @interface AIField {
 
     boolean required() default false;
 
+    int min() default 2;
+
+    int max() default 80;
+
     String error() default "";
 
     boolean nullSelectionAllowed() default false;
