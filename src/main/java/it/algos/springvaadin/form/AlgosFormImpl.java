@@ -23,6 +23,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     private Window window;
     private Label label;
     protected AlgosEntity entity;
+    protected Binder binder;
 
     //--eventuali intestazioni informative per List e Form
     //--valori standard che possono essere sovrascritti nella classi specifiche
@@ -102,40 +103,67 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     public void creaFields(Layout layout, List<String> fields) {
-    }// end of method
-////    @Override
-//    public void creaFields(Layout layout, List<String> fields) {
-//        binder = new Binder<>(Versione.class);
-//        AbstractField field;
-//        AbstractValidator validator = null;
-//        Object value = null;
-//
-//        for (String publicFieldName : fields) {
-//            field = LibField.create(Versione.class, publicFieldName);
-//            validator = LibField.creaValidator(Versione.class, publicFieldName);
-//            if (field != null) {
-//                layout.addComponent(field);
-//
-//                if (field.isEnabled()) {
-//                    if (validator != null) {
-//                        binder.forField(field)
-//                                .withValidator(validator)
-//                                .bind(publicFieldName);
-//                    } else {
-//                        binder.forField(field)
-//                                .bind(publicFieldName);
-//                    }// end of if/else cycle
-//                } else {
-//                    value = LibReflection.getValue(entity, publicFieldName);
-//                    field.setValue(value);
-//                }// end of if/else cycle
-//
-//            }// end of if cycle
-//        }// end of for cycle
-//
-//        binder.readBean((Versione) entity);
-//    }// end of method
+        binder = new Binder(entity.getClass());
+        AbstractField field;
+        AbstractValidator validator = null;
+        Object value = null;
 
+        for (String publicFieldName : fields) {
+            field = LibField.create(entity.getClass(), publicFieldName);
+            validator = LibField.creaValidator(entity.getClass(), publicFieldName);
+
+            if (field != null) {
+                layout.addComponent(field);
+
+                if (field.isEnabled()) {
+                    if (validator != null) {
+                        binder.forField(field).withValidator(validator).bind(publicFieldName);
+                    } else {
+                        binder.forField(field).bind(publicFieldName);
+                    }// end of if/else cycle
+                } else {
+                    value = LibReflection.getValue(entity, publicFieldName);
+                    field.setValue(value);
+                }// end of if/else cycle
+
+            }// end of if cycle
+        }// end of for cycle
+
+        binder.readBean(entity);
+    }// end of method
+
+
+    /**
+     * Esegue il 'rollback'
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    public void revertEntity() {
+        binder.readBean(entity);
+    }// end of method
+
+
+    /**
+     * Esegue il 'commit'.
+     * Trasferisce i valori dai campi alla entityBean
+     * Esegue la validazione dei dati
+     * Esegue la trasformazione dei dati
+     * Chiude la (eventuale) finestra utilizzata
+     *
+     * @return la entity del Form
+     */
+    public AlgosEntity writeBean() {
+
+        try { // prova ad eseguire il codice
+            binder.writeBean(entity);
+        } catch (Exception unErrore) { // intercetta l'errore
+            int errore = 87;
+        }// fine del blocco try-catch
+
+        closeWindow();
+
+        return entity;
+    }// end of method
 
     private void usaAllScreen(List<String> fields) {
         String caption = "";
@@ -171,27 +199,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         return caption;
     }// end of method
 
-    /**
-     * Esegue il 'rollback'
-     * Revert (ripristina) button pressed in form
-     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
-     */
-    @Override
-    public void revertEntity() {
-    }// end of method
-
-    /**
-     * Esegue il 'commit'.
-     * Trasferisce i valori dai campi alla entityBean
-     * Esegue la validazione dei dati
-     * Esegue la trasformazione dei dati
-     *
-     * @return la entity del Form
-     */
-    @Override
-    public AlgosEntity writeBean() {
-        return null;
-    }// end of method
 
     /**
      * Chiude la (eventuale) finestra utilizzata
