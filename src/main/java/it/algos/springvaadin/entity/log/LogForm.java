@@ -28,8 +28,6 @@ import java.util.List;
 public class LogForm extends AlgosFormImpl {
 
 
-    public Binder<Log> binder;
-
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -47,37 +45,6 @@ public class LogForm extends AlgosFormImpl {
 
         return super.fixCaption(entity);
     }// end of method
-
-//    @Override
-//    public void creaFields(Layout layout, boolean newRecord, AlgosEntity entityBean, List<String> campiVisibili) {
-//        binder = new Binder<>(Log.class);
-//        super.entityBean =  entityBean;
-//        AbstractField field;
-//        LinkedHashMap<String, Object> mappa;
-//        Object value;
-//
-//        if (super.entityBean == null) {
-//            super.entityBean = logModel;
-//        }// end of if cycle
-//
-//        mappa = logService.getBeanMap(entityBean);
-//        for (String publicFieldName : campiVisibili) {
-//            field = LibField.create(Log.class, publicFieldName);
-//            if (field != null) {
-//                layout.addComponent(field);
-//                binder.bind(field, publicFieldName);
-//                if (newRecord) {
-//                    value = mappa.get(publicFieldName);
-//                    if (value != null) {
-//                        field.setValue(value);
-//                    }// end of if cycle
-//                }// end of if cycle
-//            }// end of if cycle
-//        }// end of for cycle
-//
-//        binder.setBean((Log) super.entityBean);
-//    }// end of method
-
 
 
 

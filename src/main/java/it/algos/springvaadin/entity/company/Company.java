@@ -60,32 +60,32 @@ public class Company extends AlgosEntity {
     @AIField(type = AFType.text, required = true, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della company.", error = "Descrizione obbligatoria")
     private String descrizione;
 
-
+    //--posta elettronica (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @Email
     @AIColumn(type = AFType.text, width = 270, header = "Mail")
     @AIField(type = AFType.text, width = "20em", caption = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
     private String email;
 
-
+    //--indirizzo postale (facoltativo)
     @AIColumn(type = AFType.text, width = 320, header = "Indirizzo")
     @AIField(type = AFType.text, width = "27em", caption = "Indirizzo", help = "Indirizzo postale.")
     private String indirizzo;
 
 
-    // persona di riferimento (facoltativo)
+    //--persona di riferimento (facoltativo)
     @AIColumn(type = AFType.text, width = 170, header = "Contatto")
     @AIField(type = AFType.text, width = "20em", caption = "Riferimento", help = "Persona di riferimento.")
     private String contatto;
 
 
-    // telefono fisso ufficio (facoltativo)
+    //--telefono fisso ufficio (facoltativo)
     @AIColumn(type = AFType.text, width = 140, header = "Tel.")
     @AIField(type = AFType.text, width = "20em", caption = "Telefono", help = "Telefono ufficio.")
     private String telefono;
 
 
-    // cellulare del contatto (facoltativo)
+    //--cellulare del contatto (facoltativo)
     @AIColumn(type = AFType.text, width = 140, header = "Cell.")
     @AIField(type = AFType.text, width = "20em", caption = "Cellulare", help = "Cellulare del contatto.")
     private String cellulare;

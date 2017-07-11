@@ -3,11 +3,13 @@ package it.algos.springvaadin.lib;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractField;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -489,6 +491,32 @@ public abstract class LibReflection {
         }// end of if cycle
 
         return value;
+    }// end of static method
+
+
+    /**
+     * Create a single field.
+     * The field type is chosen according to the annotation.
+     *
+     * @param attr the metamodel Attribute
+     */
+    @SuppressWarnings("all")
+    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        AIField fieldAnnotation = null;
+        Annotation annotation = null;
+        Field javaField = null;
+        Object[] items = null;
+        javaField = LibReflection.getField(clazz, publicFieldName);
+
+        if (javaField != null) {
+            annotation = javaField.getAnnotation(AIField.class);
+        }// end of if cycle
+
+        if (annotation != null && annotation instanceof AIField) {
+            fieldAnnotation = (AIField) annotation;
+        }// end of if cycle
+
+        return fieldAnnotation;
     }// end of static method
 
 }// end of static class

@@ -40,4 +40,23 @@ public class CompanyJDBCRepository extends AlgosJDBCRepository {
     }// end of method
 
 
+    /**
+     * Controlla l'esistenza di una entity con gli stessi valori delle property indicate, uniche prese insieme
+     *
+     * @param sigla sigla di riferimento interna (interna, obbligatoria ed unica)
+     */
+    public boolean isEsisteBySigla(String sigla) {
+        String query;
+        int numRec = 0;
+
+        query = "SELECT COUNT(*) FROM versione WHERE titolo='" + sigla + "'";
+
+        try { // prova ad eseguire il codice
+            numRec = jdbcTemplate.queryForObject(query, Integer.class);
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return numRec > 0;
+    }// end of method
+
 }// end of class

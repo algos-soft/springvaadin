@@ -28,9 +28,6 @@ import java.util.List;
 public class CompanyForm extends AlgosFormImpl {
 
 
-    public Binder<Company> binder;
-
-
     /**
      * Costruttore @Autowired (nella superclasse
      */
@@ -47,35 +44,5 @@ public class CompanyForm extends AlgosFormImpl {
 
         return super.fixCaption(entity);
     }// end of method
-
-//    @Override
-//    public void creaFields(Layout layout, boolean newRecord, AlgosModel entityBean, List<String> campiVisibili) {
-//        binder = new Binder<>(Company.class);
-//        super.entityBean = (Company) entityBean;
-//        AbstractField field;
-//        LinkedHashMap<String, Object> mappa;
-//        Object value;
-//
-//        if (super.entityBean == null) {
-//            super.entityBean = companyModel;
-//        }// end of if cycle
-//
-//        mappa = companyService.getBeanMap(entityBean);
-//        for (String publicFieldName : campiVisibili) {
-//            field = LibField.create(Company.class, publicFieldName);
-//            if (field != null) {
-//                layout.addComponent(field);
-//                binder.bind(field, publicFieldName);
-//                if (newRecord) {
-//                    value = mappa.get(publicFieldName);
-//                    if (value != null) {
-//                        field.setValue(value);
-//                    }// end of if cycle
-//                }// end of if cycle
-//            }// end of if cycle
-//        }// end of for cycle
-//
-//        binder.setBean((Company)super.entityBean);
-//    }// end of method
 
 }// end of class

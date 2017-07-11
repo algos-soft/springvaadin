@@ -35,8 +35,6 @@ import java.util.List;
 public class VersioneForm extends AlgosFormImpl {
 
 
-    public Binder<Versione> binder;
-
     /**
      * Costruttore @Autowired (nella superclasse)
      */
@@ -54,39 +52,5 @@ public class VersioneForm extends AlgosFormImpl {
         return super.fixCaption(entity);
     }// end of method
 
-
-//    /**
-//     * Esegue il 'rollback'
-//     * Revert (ripristina) button pressed in form
-//     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
-//     */
-//    @Override
-//    public void revertEntity() {
-//        binder.readBean((Versione) entity);
-//    }// end of method
-//
-//
-//    /**
-//     * Esegue il 'commit'.
-//     * Trasferisce i valori dai campi alla entityBean
-//     * Esegue la validazione dei dati
-//     * Esegue la trasformazione dei dati
-//     * Chiude la (eventuale) finestra utilizzata
-//     *
-//     * @return la entity del Form
-//     */
-//    @Override
-//    public AlgosEntity writeBean() {
-//
-//        try { // prova ad eseguire il codice
-//            binder.writeBean((Versione) entity);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//            int errore = 87;
-//        }// fine del blocco try-catch
-//
-//        closeWindow();
-//
-//        return entity;
-//    }// end of method
 
 }// end of class
