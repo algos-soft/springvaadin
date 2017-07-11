@@ -76,7 +76,7 @@ public interface AlgosView extends View{
 
 
     /**
-     * Chiude l'eventuale finestra separata nel Form
+     * Chiude la (eventuale) finestra utilizzata nel Form
      */
     public void closeFormWindow();
 

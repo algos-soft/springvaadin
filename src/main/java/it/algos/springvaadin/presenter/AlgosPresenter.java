@@ -278,15 +278,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      */
     public void registraModifiche() {
         AlgosModel bean;
-        AlgosModel entityBean = null;
+        AlgosEntity entityBean = null;
 
         if (view != null) {
-//            entityBean = view.getForm().getBean();
-//            service.update(entityBean);
-
-            if (LibParams.usaSeparateFormDialog()) {
-//                view.getForm().closeWindow();
-            }// end of if cycle
+            entityBean = view.getEntityForm();
+            service.save(entityBean);
+            view.closeFormWindow();
         }// end of if cycle
     }// end of method
 

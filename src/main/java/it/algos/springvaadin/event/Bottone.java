@@ -19,7 +19,8 @@ public enum Bottone {
     annulla("Annulla", VaadinIcons.CLOSE, false),
     accetta("Conferma", VaadinIcons.CHECK, false),
     back("Annulla", VaadinIcons.ARROW_BACKWARD, true),
-    registra("Registra", VaadinIcons.DATABASE, false);
+    revert("Ripristina", VaadinIcons.REFRESH, true),//@todo rimettere a false
+    registra("Registra", VaadinIcons.DATABASE, true);//@todo rimettere a false
 
 
     private String caption;

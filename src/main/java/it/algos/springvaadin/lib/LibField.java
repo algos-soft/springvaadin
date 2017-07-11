@@ -32,7 +32,6 @@ public class LibField {
         AIField fieldAnnotation = null;
         Object[] items = null;
         AlgosServiceOld service = null;
-
         javaField = LibReflection.getField(clazz, publicFieldName);
 
         if (javaField != null) {
@@ -110,6 +109,7 @@ public class LibField {
                 vaadinField.setEnabled(fieldAnnotation.enabled());
                 vaadinField.setCaption(fieldAnnotation.caption());
                 vaadinField.setWidth(fieldAnnotation.width());
+                vaadinField.setRequiredIndicatorVisible(fieldAnnotation.enabled());
 
                 if (LibParams.displayToolTips()) {
                     vaadinField.setDescription(fieldAnnotation.help());

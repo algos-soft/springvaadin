@@ -71,7 +71,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     @Override
     public void setForm(AlgosEntity entity, List<String> fields) {
         removeAllComponents();
-        form.restart(entity,fields);
+        form.restart(entity, fields);
         addComponent(form.getComponent());
     }// end of method
 
@@ -126,11 +126,11 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     }// end of method
 
     /**
-     * Chiude l'eventuale finestra separata nel Form
+     * Chiude la (eventuale) finestra utilizzata nel Form
      */
     @Override
     public void closeFormWindow() {
-
+        form.closeWindow();
     }// end of method
 
     /**
@@ -140,7 +140,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public AlgosEntity getEntityForm() {
-        return null;
+        return form.getEntity();
     }// end of method
 
     /**

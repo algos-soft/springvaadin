@@ -21,6 +21,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     private Window window;
     private Label label;
+    protected AlgosEntity entity;
 
     //--eventuali intestazioni informative per List e Form
     //--valori standard che possono essere sovrascritti nella classi specifiche
@@ -43,21 +44,26 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of Spring constructor
 
     /**
+     * Creazione del form
+     * Pannello a tutto schermo, oppure finestra popup
+     * Ricrea tutto ogni volta che diventa attivo
+     *
      * @param entity
      * @param fields
      */
     @Override
     public void restart(AlgosEntity entity, List<String> fields) {
-        if (LibParams.usaSeparateFormDialog()) {
-            usaSeparateFormDialog(entity, fields);
-        } else {
-            usaAllScreen(entity, fields);
-        }// end of if/else cycle
+        this.entity = entity;
 
+        if (LibParams.usaSeparateFormDialog()) {
+            usaSeparateFormDialog(fields);
+        } else {
+            usaAllScreen(fields);
+        }// end of if/else cycle
     }// end of method
 
 
-    private void usaSeparateFormDialog(AlgosEntity entity, List<String> fields) {
+    private void usaSeparateFormDialog(List<String> fields) {
         String caption = "";
         this.removeAllComponents();
 
@@ -81,7 +87,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaFields(layout, entity, fields);
+        creaFields(layout, fields);
 
         layout.addComponent(new Label());
         toolbar.inizia();
@@ -94,11 +100,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of method
 
 
-    public void creaFields(Layout layout, AlgosEntity entity, List<String> fields) {
+    public void creaFields(Layout layout, List<String> fields) {
     }// end of method
 
 
-    private void usaAllScreen(AlgosEntity entity, List<String> fields) {
+    private void usaAllScreen(List<String> fields) {
         String caption = "";
         this.removeAllComponents();
 
@@ -106,7 +112,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         this.addComponent(label);
 
-        creaFields(this, entity, fields);
+        creaFields(this, fields);
 
         this.addComponent(new Label());
         toolbar.inizia();
@@ -132,9 +138,28 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         return caption;
     }// end of method
 
+    /**
+     * Chiude la (eventuale) finestra utilizzata
+     */
+    @Override
+    public void closeWindow() {
+        if (window != null) {
+            window.close();
+            window = null;
+        }// end of if cycle
+    }// end of method
+
     @Override
     public Component getComponent() {
         return this;
+    }// end of method
+
+    /**
+     * Restituisce la entity utilizzata
+     */
+    @Override
+    public AlgosEntity getEntity() {
+        return entity;
     }// end of method
 
 }// end of class

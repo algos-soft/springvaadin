@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 public class FormToolbar extends AlgosToolbar {
 
     private Button buttonAnnulla;
+    private Button buttonRevert;
     private Button buttonRegistra;
 
     public FormToolbar() {
@@ -22,11 +23,16 @@ public class FormToolbar extends AlgosToolbar {
     @PostConstruct
     public void inizia() {
         buttonAnnulla = super.addButton(Bottone.back);
+        buttonRevert = super.addButton(Bottone.revert);
         buttonRegistra = super.addButton(Bottone.registra);
     }// end of method
 
     public Button getButtonAnnulla() {
         return buttonAnnulla;
+    }
+
+    public Button getButtonRevert() {
+        return buttonRevert;
     }
 
     public Button getButtonRegistra() {

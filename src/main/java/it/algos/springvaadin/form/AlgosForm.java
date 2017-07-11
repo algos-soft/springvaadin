@@ -12,6 +12,9 @@ import java.util.List;
 public interface AlgosForm {
 
     /**
+     * Creazione del form
+     * Pannello a tutto schermo, oppure finestra popup
+     * Ricrea tutto ogni volta che diventa attivo
      */
     public void restart(AlgosEntity entity, List<String> fields);
 
@@ -20,5 +23,16 @@ public interface AlgosForm {
      * Restituisce il componente concreto
      */
     public Component getComponent();
+
+
+    /**
+     * Restituisce la entity utilizzata
+     */
+    public AlgosEntity getEntity();
+
+    /**
+     * Chiude la (eventuale) finestra utilizzata
+     */
+    public void closeWindow();
 
 }// end of interface
