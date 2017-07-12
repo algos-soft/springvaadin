@@ -30,8 +30,8 @@ public enum Azione {
 
     attach("Aggiunge") {
         @Override
-        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            return grid.addAttachListener(new ClientConnector.AttachListener() {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+             grid.addAttachListener(new ClientConnector.AttachListener() {
                 @Override
                 public void attach(ClientConnector.AttachEvent attachEvent) {
                     azione.publish(presenter);
@@ -41,8 +41,8 @@ public enum Azione {
     },// end of single enumeration
     click("Singolo click") {
         @Override
-        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            return grid.addItemClickListener(new ItemClickListener() {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+             grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     if (!itemClick.getMouseEventDetails().isDoubleClick()) {
@@ -54,8 +54,8 @@ public enum Azione {
     },// end of single enumeration
     doppioClick("Doppio click") {
         @Override
-        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            return grid.addItemClickListener(new ItemClickListener() {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+             grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     Object entityBean = itemClick.getItem();
@@ -68,35 +68,37 @@ public enum Azione {
     },// end of single enumeration
     selectionChanged("Modifica") {
         @Override
-        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
             switch (LibParams.gridSelectionMode()) {
                 case SINGLE:
                     SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
-                    return modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
+                     modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
                         @Override
                         public void selectionChange(SingleSelectionEvent singleSelectionEvent) {
                             azione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
+                    break;
                 case MULTI:
                     MultiSelectionModel modelloMultiplo = (MultiSelectionModel) grid.getSelectionModel();
-                    return modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
+                     modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
                         @Override
                         public void selectionChange(MultiSelectionEvent multiSelectionEvent) {
                             azione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
+                    break;
                 case NONE:
-                    return null;
+                    break;
                 default: // caso non definito
-                    return null;
+                    break;
             } // fine del blocco switch
         }// end of method
     },// end of single enumeration
     listener("Listener") {
         @Override
-        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            return grid.addListener(new Component.Listener() {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+             grid.addListener(new Component.Listener() {
                 @Override
                 public void componentEvent(Component.Event event) {
                     azione.publish(presenter);
@@ -116,28 +118,15 @@ public enum Azione {
     /**
      * Costruisce il listener per la singola azione
      */
-    Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-        return null;
+    void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
     }// end of constructor
 
     /**
      * Costruisce tutti i listener possibili per una grid
      */
     public static void addAllListeners(AlgosPresenter presenter, AlgosGrid grid) {
-        Registration reg;
-        int quantiListeners = regs.size();
-        int a = 87;
-
-        for (Registration oldReg : regs) {
-            oldReg.remove();
-            oldReg=null;
-        }// end of for cycle
-        int quantiListeners2 = regs.size();
-        int ab = 87;
-
         for (Azione azione : Azione.values()) {
-            reg = azione.addListener(presenter, grid, azione);
-            regs.add(reg);
+            azione.addListener(presenter, grid, azione);
         }// end of for cycle
     }// end of constructor
 
