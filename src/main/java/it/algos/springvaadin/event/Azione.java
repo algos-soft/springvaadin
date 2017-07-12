@@ -6,6 +6,7 @@ import com.vaadin.event.selection.MultiSelectionListener;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.event.selection.SingleSelectionListener;
 import com.vaadin.server.ClientConnector;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.ItemClickListener;
@@ -17,6 +18,8 @@ import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -27,8 +30,8 @@ public enum Azione {
 
     attach("Aggiunge") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            grid.addAttachListener(new ClientConnector.AttachListener() {
+        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+            return grid.addAttachListener(new ClientConnector.AttachListener() {
                 @Override
                 public void attach(ClientConnector.AttachEvent attachEvent) {
                     azione.publish(presenter);
@@ -38,8 +41,8 @@ public enum Azione {
     },// end of single enumeration
     click("Singolo click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            grid.addItemClickListener(new ItemClickListener() {
+        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+            return grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     if (!itemClick.getMouseEventDetails().isDoubleClick()) {
@@ -51,8 +54,8 @@ public enum Azione {
     },// end of single enumeration
     doppioClick("Doppio click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            grid.addItemClickListener(new ItemClickListener() {
+        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+            return grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     Object entityBean = itemClick.getItem();
@@ -65,37 +68,35 @@ public enum Azione {
     },// end of single enumeration
     selectionChanged("Modifica") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
             switch (LibParams.gridSelectionMode()) {
                 case SINGLE:
                     SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
-                    modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
+                    return modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
                         @Override
                         public void selectionChange(SingleSelectionEvent singleSelectionEvent) {
                             azione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
-                    break;
                 case MULTI:
                     MultiSelectionModel modelloMultiplo = (MultiSelectionModel) grid.getSelectionModel();
-                    modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
+                    return modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
                         @Override
                         public void selectionChange(MultiSelectionEvent multiSelectionEvent) {
                             azione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
-                    break;
                 case NONE:
-                    break;
+                    return null;
                 default: // caso non definito
-                    break;
+                    return null;
             } // fine del blocco switch
         }// end of method
     },// end of single enumeration
     listener("Listener") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
-            grid.addListener(new Component.Listener() {
+        Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+            return grid.addListener(new Component.Listener() {
                 @Override
                 public void componentEvent(Component.Event event) {
                     azione.publish(presenter);
@@ -105,6 +106,7 @@ public enum Azione {
     };// end of single enumeration
 
     private String caption;
+    private static ArrayList<Registration> regs = new ArrayList();
 
     Azione(String caption) {
         this.caption = caption;
@@ -114,15 +116,28 @@ public enum Azione {
     /**
      * Costruisce il listener per la singola azione
      */
-    void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+    Registration addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        return null;
     }// end of constructor
 
     /**
      * Costruisce tutti i listener possibili per una grid
      */
     public static void addAllListeners(AlgosPresenter presenter, AlgosGrid grid) {
+        Registration reg;
+        int quantiListeners = regs.size();
+        int a = 87;
+
+        for (Registration oldReg : regs) {
+            oldReg.remove();
+            oldReg=null;
+        }// end of for cycle
+        int quantiListeners2 = regs.size();
+        int ab = 87;
+
         for (Azione azione : Azione.values()) {
-            azione.addListener(presenter, grid, azione);
+            reg = azione.addListener(presenter, grid, azione);
+            regs.add(reg);
         }// end of for cycle
     }// end of constructor
 

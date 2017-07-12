@@ -21,6 +21,7 @@ import java.util.Set;
  * Costruisce i listener che lanciano (fire) gli eventi
  */
 @SpringComponent
+@Scope("prototype")
 public class AlgosGrid extends Grid {
 
     private final static int NUMERO_RIGHE_DEFAULT = 15;
