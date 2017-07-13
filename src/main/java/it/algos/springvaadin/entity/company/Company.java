@@ -46,8 +46,8 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Column(length = 20, unique = true)
-    @AIColumn(type = AFType.text, header = "Sigla")
-    @AIField(type = AFType.text, required = true, width = "8em", caption = "Sigla", help = "Codice interno.", error = "Codice obbligatorio")
+    @AIColumn(type = AFType.text, name = "Sigla")
+    @AIField(type = AFType.text, required = true, widthEM = 8, name = "Sigla", help = "Codice interno.", error = "Codice obbligatorio")
     private String sigla;
 
 
@@ -56,50 +56,50 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIColumn(type = AFType.text, width = 320, header = "Descrizione")
-    @AIField(type = AFType.text, required = true, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della company.", error = "Descrizione obbligatoria")
+    @AIColumn(type = AFType.text, width = 320, name = "Descrizione")
+    @AIField(type = AFType.text, required = true, widthEM = 30, name = "Descrizione", prompt = "Descrizione", help = "Descrizione della company.", error = "Descrizione obbligatoria")
     private String descrizione;
 
     //--posta elettronica (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @Email
-    @AIColumn(type = AFType.email, width = 270, header = "Mail")
-    @AIField(type = AFType.email, width = "20em", caption = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
+    @AIColumn(type = AFType.email, width = 270, name = "Mail")
+    @AIField(type = AFType.email, widthEM = 20, name = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
     private String email;
 
     //--indirizzo postale (facoltativo)
-    @AIColumn(type = AFType.text, width = 320, header = "Indirizzo")
-    @AIField(type = AFType.text, width = "27em", caption = "Indirizzo", help = "Indirizzo postale.")
+    @AIColumn(type = AFType.text, width = 320, name = "Indirizzo")
+    @AIField(type = AFType.text, widthEM = 27, name = "Indirizzo", help = "Indirizzo postale.")
     private String indirizzo;
 
 
     //--persona di riferimento (facoltativo)
-    @AIColumn(type = AFType.text, width = 170, header = "Contatto")
-    @AIField(type = AFType.text, width = "20em", caption = "Riferimento", help = "Persona di riferimento.")
+    @AIColumn(type = AFType.text, width = 170, name = "Contatto")
+    @AIField(type = AFType.text, widthEM = 20, name = "Riferimento", help = "Persona di riferimento.")
     private String contatto;
 
 
     //--telefono fisso ufficio (facoltativo)
-    @AIColumn(type = AFType.text, width = 140, header = "Tel.")
-    @AIField(type = AFType.text, width = "20em", caption = "Telefono", help = "Telefono ufficio.")
+    @AIColumn(type = AFType.text, width = 140, name = "Tel.")
+    @AIField(type = AFType.text,widthEM = 20, name = "Telefono", help = "Telefono ufficio.")
     private String telefono;
 
 
     //--cellulare del contatto (facoltativo)
-    @AIColumn(type = AFType.text, width = 140, header = "Cell.")
-    @AIField(type = AFType.text, width = "20em", caption = "Cellulare", help = "Cellulare del contatto.")
+    @AIColumn(type = AFType.text, width = 140, name = "Cell.")
+    @AIField(type = AFType.text, widthEM = 20, name = "Cellulare", help = "Cellulare del contatto.")
     private String cellulare;
 
 
     //--eventuali note (facoltativo)
-    @AIColumn(type = AFType.textarea, width = 200, header = "Note")
-    @AIField(type = AFType.textarea, width = "27em", caption = "Note", help = "Eventuali note aggiuntive.")
+    @AIColumn(type = AFType.textarea, width = 200, name = "Note")
+    @AIField(type = AFType.textarea, widthEM = 27, name = "Note", help = "Eventuali note aggiuntive.")
     private String note = "";
 
 
     //--inserimento iniziale (facoltativo)
-    @AIColumn(type = AFType.localdate, width = 200, header = "Inizio")
-    @AIField(type = AFType.localdate, enabled = false, caption = "Inizio", help = "Data di inserimento della company")
+    @AIColumn(type = AFType.localdate, width = 200, name = "Inizio")
+    @AIField(type = AFType.localdate, enabled = false, name = "Inizio", help = "Data di inserimento della company")
     private LocalDate partenza;
 
 

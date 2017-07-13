@@ -5,6 +5,7 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
@@ -32,11 +33,16 @@ public class LibField {
     @SuppressWarnings("all")
     public static AbstractField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AbstractField vaadinField = null;
-        AIField fieldAnnotation = LibReflection.getFieldAnnotation(clazz, publicFieldName);
+        AFType type = LibAnnotation.getType(clazz, publicFieldName);
+        String caption = LibAnnotation.getNameField(clazz, publicFieldName);
+        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         Object[] items = null;
+        int widthEM = LibAnnotation.getWidthEM(clazz, publicFieldName);
+        String width = widthEM + "em";
+        boolean enabled = LibAnnotation.getEnabled(clazz, publicFieldName);
 
-        if (fieldAnnotation != null) {
-            switch (fieldAnnotation.type()) {
+        if (type != null) {
+            switch (type) {
                 case text:
                     vaadinField = new AlgosTextField();
                     if (LibParams.displayToolTips()) {
@@ -105,10 +111,10 @@ public class LibField {
             } // fine del blocco switch
 
             if (vaadinField != null && fieldAnnotation != null) {
-                vaadinField.setEnabled(fieldAnnotation.enabled());
-                vaadinField.setCaption(fieldAnnotation.caption());
-                vaadinField.setWidth(fieldAnnotation.width());
-                vaadinField.setRequiredIndicatorVisible(fieldAnnotation.enabled());
+                vaadinField.setEnabled(enabled);
+                vaadinField.setRequiredIndicatorVisible(enabled);
+                vaadinField.setCaption(caption);
+                vaadinField.setWidth(width);
 
                 if (LibParams.displayToolTips()) {
                     vaadinField.setDescription(fieldAnnotation.help());
@@ -234,8 +240,8 @@ public class LibField {
             } // fine del blocco switch
 
 //            vaadinField.setRequired(fieldAnnotation.required());
-            vaadinField.setCaption(fieldAnnotation.caption());
-            vaadinField.setWidth(fieldAnnotation.width());
+            vaadinField.setCaption(fieldAnnotation.name());
+//            vaadinField.setWidth(fieldAnnotation.width());
 //            vaadinField.setRequiredError(fieldAnnotation.error());
 
             return vaadinField;
@@ -341,11 +347,12 @@ public class LibField {
      */
     public static AbstractValidator creaValidator(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AbstractValidator validator = null;
-        AIField fieldAnnotation = LibReflection.getFieldAnnotation(clazz, publicFieldName);
+        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
         String message = "";
         int min = 0;
         int max = 0;
+        boolean notNull = LibAnnotation.getNull(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
             min = fieldAnnotation.min();
@@ -359,6 +366,10 @@ public class LibField {
                     }// end of if cycle
                     break;
                 case integer:
+                    if (notNull) {
+                        message = fieldName + " non può essere nullo";
+                        validator = new IntegerRangeValidator(message, 1, 99999999);
+                    }// end of if cycle
                     break;
                 case email:
                     message = "Indirizzo eMail non valido";

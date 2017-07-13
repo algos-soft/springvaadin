@@ -1,11 +1,13 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AlgosIntegerField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;

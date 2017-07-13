@@ -39,6 +39,7 @@ public abstract class LibColumn {
 //        DateTimeFormatter formatterOld = DateTimeFormatter
 //                .ofLocalizedDateTime(FormatStyle.MEDIUM)
 //                .withLocale(Locale.ITALY);
+        String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
 
         if (grid == null && LibText.isEmpty(publicFieldName)) {
             return 0;
@@ -48,7 +49,7 @@ public abstract class LibColumn {
         annotation = (AIColumn) getAnnotation(clazz, publicFieldName);
 
         if (annotation != null) {
-            colonna.setCaption(annotation.header());
+            colonna.setCaption(name);
             colonna.setWidth(annotation.width());
 
             if (annotation.type() == AFType.date) {

@@ -46,14 +46,14 @@ public class Log extends AlgosEntity {
     private final static long serialVersionUID = 1L;
 
 
-    @AIField(type = AFType.combo, clazz = CompanyServiceOld.class, width = "12em", caption = "Company")
+    @AIField(type = AFType.combo, clazz = CompanyServiceOld.class,  name = "Company")
     private Company company;
 
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    @AIColumn(type = AFType.enumeration, width = 200, header = "Livello")
-    @AIField(type = AFType.enumeration, clazz = Livello.class, width = "12em", caption = "Livello")
+    @AIColumn(type = AFType.enumeration, width = 200, name = "Livello")
+    @AIField(type = AFType.enumeration, clazz = Livello.class, name = "Livello")
     private Livello livello;
 
 
@@ -61,8 +61,8 @@ public class Log extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Column(length = 20)
-    @AIColumn(type = AFType.text, width = 200, header = "Titolo")
-    @AIField(type = AFType.text, required = true, width = "12em", caption = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
+    @AIColumn(type = AFType.text, width = 200, name = "Titolo")
+    @AIField(type = AFType.text, required = true, name = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
     private String titolo;
 
 
@@ -70,16 +70,16 @@ public class Log extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIColumn(type = AFType.text, width = 500, header = "Descrizione")
-    @AIField(type = AFType.text, required = true, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
+    @AIColumn(type = AFType.text, width = 500, name = "Descrizione")
+    @AIField(type = AFType.text, required = true, widthEM = 30, name = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
     private String descrizione;
 
 
     //--momento in cui si effettua la registrazione del log (obbligatoria, non unica)
     //--inserita automaticamente
     @NotNull
-    @AIColumn(type = AFType.localdatetime, width = 200, header = "Modifica")
-    @AIField(type = AFType.localdatetime, enabled = false, caption = "Modifica", help = "Data di inserimento della versione")
+    @AIColumn(type = AFType.localdatetime, width = 200, name = "Modifica")
+    @AIField(type = AFType.localdatetime, enabled = false, name = "Modifica", help = "Data di inserimento della versione")
     private LocalDateTime modifica;
 
 

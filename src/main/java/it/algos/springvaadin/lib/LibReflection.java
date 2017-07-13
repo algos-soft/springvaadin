@@ -494,28 +494,28 @@ public abstract class LibReflection {
     }// end of static method
 
 
-    /**
-     * Get all the annotation of the property.
-     *
-     * @param attr the metamodel Attribute
-     */
-    @SuppressWarnings("all")
-    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        AIField fieldAnnotation = null;
-        Annotation annotation = null;
-        Field javaField = null;
-        Object[] items = null;
-        javaField = LibReflection.getField(clazz, publicFieldName);
-
-        if (javaField != null) {
-            annotation = javaField.getAnnotation(AIField.class);
-        }// end of if cycle
-
-        if (annotation != null && annotation instanceof AIField) {
-            fieldAnnotation = (AIField) annotation;
-        }// end of if cycle
-
-        return fieldAnnotation;
-    }// end of static method
-
+//    /**
+//     * Get all the annotation of the property.
+//     *
+//     * @param attr the metamodel Attribute
+//     */
+//    @SuppressWarnings("all")
+//    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+//        AIField fieldAnnotation = null;
+//        Annotation annotation = null;
+//        Field javaField = null;
+//        Object[] items = null;
+//        javaField = LibReflection.getField(clazz, publicFieldName);
+//
+//        if (javaField != null) {
+//            annotation = javaField.getAnnotation(AIField.class);
+//        }// end of if cycle
+//
+//        if (annotation != null && annotation instanceof AIField) {
+//            fieldAnnotation = (AIField) annotation;
+//        }// end of if cycle
+//
+//        return fieldAnnotation;
+//    }// end of static method
+//
 }// end of static class

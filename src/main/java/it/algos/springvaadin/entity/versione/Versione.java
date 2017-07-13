@@ -45,33 +45,34 @@ public class Versione extends AlgosEntity {
 
 
     //--ordine di creazione (obbligatorio, unico, con controllo automatico prima del persist se è zero)
-    @GeneratedValue()
     @NotNull
-    @AIColumn(type = AFType.integer, width = 50, header = "#")
-    @AIField(type = AFType.integer, enabled = false, width = "3em", caption = "Ordine", help = "Ordine di creazione. Unico e normalmente progressivo.")
+    @GeneratedValue()
+    @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
+    @AIColumn(name = "#")
     private int ordine;
 
     //--codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
+    @Size(min = 2, max = 50)
     @Column(length = 20)
-    @AIColumn(type = AFType.text, width = 200, header = "Titolo")
-    @AIField(type = AFType.text, required = true, min = 3, max = 40, width = "12em", caption = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
+    @AIField(type = AFType.text, required = true,  help = "Tipologia della versione.")
+    @AIColumn(width = 200)
     private String titolo;
 
     //--descrizione (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIColumn(type = AFType.text, width = 500, header = "Descrizione")
-    @AIField(type = AFType.text, required = true, min = 5, max = 80, width = "30em", caption = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
+    @AIField(type = AFType.text, required = true, widthEM = 30,  help = "Descrizione della versione.")
+    @AIColumn(width = 500)
     private String descrizione;
 
     //--momento in cui si effettua la modifica della versione (obbligatoria, non unica)
     //--inserita automaticamente
     @NotNull
-    @AIColumn(type = AFType.localdatetime, width = 200, header = "Modifica")
-    @AIField(type = AFType.localdatetime, enabled = false, caption = "Modifica", help = "Data di inserimento della versione")
+    @AIField(type = AFType.localdatetime, enabled = false, help = "Data di inserimento della versione.")
+    @AIColumn(width = 200)
     private LocalDateTime modifica;
 
 
