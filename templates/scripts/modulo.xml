@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<project name="modulo" default="creaPackage">
+
+    <property name="newEntity" value="Bolla"/>
+
+
+    <target name="init" description="Converte la directory">
+        <lower string="${newEntity}" to="newDir"/>
+        <primitrecaratteri string="${newEntity}" to="originalTag"/>
+        <upper string="${originalTag}" to="tag"/>
+
+        <property name="baseProject" value="${basedir}/../.."/>
+        <property name="pathIdea" value="src/main/java/"/>
+        <property name="pathEntity" value="it/algos/springvaadin/entity/"/>
+        <property name="pathLib" value="it/algos/springvaadin/lib/"/>
+        <property name="package" value="${newDir}"/>
+        <property name="endFile" value="}// end of static class"/>
+        <property name="pathTemplates" value="templates/sources"/>
+        <property name="srcTemplates" value="${baseProject}/${pathTemplates}"/>
+        <property name="newPathDir" value="${baseProject}/${pathIdea}${pathEntity}${newDir}"/>
+
+        <property name="srcEntity" value="${srcTemplates}/Entity.txt"/>
+        <property name="destEntity" value="${newPathDir}/${newEntity}.java"/>
+        <property name="destCost" value="${baseProject}/${pathIdea}/${pathLib}Cost.java"/>
+    </target>
+
+
+    <target name="creaPackageDirectory" description="Crea la nuova cartella/directory">
+        <mkdir dir="${newPathDir}"/>
+    </target>
+
+
+    <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
+        <copy file="${sourceFile}" tofile="${destFile}" overwrite="true">
+            <filterset>
+                <filter token="PACKAGE" value="${package}"/>
+                <filter token="TAG" value="${tag}"/>
+                <filter token="ENTITY" value="${newEntity}"/>
+            </filterset>
+        </copy>
+        <echo message="Copiato ${sourceFile} in ${destFile}"/>
+    </target>
+
+
+    <target name="creaFiles" description="Crea tutti ifiles">
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcEntity}"/>
+            <param name="destFile" value="${destEntity}"/>
+        </antcall>
+    </target>
+
+
+    <target name="test" depends="init" description="Controllo della variabili">
+        <echo message="basedir = ${basedir}"/>
+        <echo message="newEntity = ${newEntity}"/>
+        <echo message="newDir = ${newDir}"/>
+        <echo message="baseProject = ${baseProject}"/>
+        <echo message="pathIdea = ${pathIdea}"/>
+        <echo message="pathEntity = ${pathEntity}"/>
+        <echo message="package = ${package}"/>
+        <echo message="srcTemplates = ${srcTemplates}"/>
+        <echo message="newPathDir = ${newPathDir}"/>
+        <echo message="srcEntity = ${srcEntity}"/>
+        <echo message="destEntity = ${destEntity}"/>
+        <echo message="originalTag = ${originalTag}"/>
+        <echo message="tag = ${tag}"/>
+
+    </target>
+
+
+    <target name="modificacostanti" depends="init">
+        <replace file="${destCost}" token="${endFile}"
+                 value="public final static String TAG_${tag} = &quot;${newDir}&quot;&#10;&#009;&#009;;${endFile}">
+        </replace>
+    </target>
+
+
+
+    <target name="creaPackage" depends="init,creaPackageDirectory,creaFiles,modificacostanti"
+            description="Crea un nuovo package (modulo)">
+    </target>
+
+
+    <!-- Using Javascript functions to convert the string -->
+    <!-- To lower case -->
+    <scriptdef language="javascript" name="lower">
+        <attribute name="string"/>
+        <attribute name="to"/>
+        project.setProperty(attributes.get("to"),attributes.get("string").toLowerCase());
+    </scriptdef>
+
+    <!-- Using Javascript functions to convert the string -->
+    <!-- To upper case -->
+    <scriptdef language="javascript" name="upper">
+        <attribute name="string"/>
+        <attribute name="to"/>
+        project.setProperty(attributes.get("to"),attributes.get("string").toUpperCase());
+    </scriptdef>
+
+    <!-- Using Javascript functions to convert the string -->
+    <!-- Primi tre caratteri della stringa -->
+    <scriptdef language="javascript" name="primitrecaratteri">
+        <attribute name="string"/>
+        <attribute name="to"/>
+        project.setProperty(attributes.get("to"),attributes.get("string").substring(0,3));
+    </scriptdef>
+
+</project>

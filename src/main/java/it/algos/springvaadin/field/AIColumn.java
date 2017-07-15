@@ -22,7 +22,7 @@ public @interface AIColumn {
 
     //--solo se è diverso da quello indicato in AIField
     //--se manca in entrambe le interfaccie, prende il valore di default di AIField
-    AFType type() default AFType.nullo;
+    AFType type() default AFType.text;
 
     /**
      * (Optional) The name of the field.
@@ -30,7 +30,7 @@ public @interface AIColumn {
      */
     String name() default "";
 
-    double width() default 80;
+    double width() default 200;
 
     String prompt() default "";
 

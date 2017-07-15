@@ -7,6 +7,7 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,9 +50,16 @@ import java.util.Map;
  * Il ritorno dei metodi può essere di svariati tipi (compatibili)
  * Da ogni metodo si può (eventualmente) proseguire per la UI principale; quella con @SpringUI()
  */
-@RestController
-@RequestMapping(value = "/**")
+@Controller
+@RequestMapping(method = RequestMethod.GET)
 public class AlgosController {
+
+    private final static String NAME_APPLICATION = "wam";
+
+    @RequestMapping("/hello/{name}")
+    String hello(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
 
     /**
      * Nome del metodo arbitrario.
@@ -125,9 +133,51 @@ public class AlgosController {
      * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
      */
     @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView seleziono(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String companyName = "";
+        List<String> companies;
+        String[] parti = uri.split("/");
+
+        if (parti != null && parti.length > 0) {
+            companyName = parti[1];
+        }// end of if cycle
+
+        //--l'applicazione usa usaMultiCompany?
+        if (AlgosApp.USE_MULTI_COMPANY) {
+
+            //--se l'applicazione usaMultiCompany, deve esistere una tavola coi nomi delle company (valide)
+            String[] array = {"crf", "pap", "crpt", "gaps"};//@todo provvisorio
+            companies = LibArray.fromString(array);//@todo provvisorio
+
+            //--esiste nel DB la company indicata?
+            if (companies.contains(companyName)) {
+                HashMap<String, String> mappa = new HashMap();
+                mappa.put(Cost.KEY_MAP_COMPANY, companyName);
+                return new ModelAndView(new RedirectView("/"), mappa);
+            } else {
+                //@todo non gestisce bene l'errore. Va alla partenza normale
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.setViewName("/error");
+            }// end of if/else cycle
+        } else {
+            return new ModelAndView(new RedirectView("/", true));
+        }// end of if/else cycle
+
+        return new ModelAndView(new RedirectView("/", true));
+    }// end of method
+
+
+    /**
+     * Il controllo della company deve (DEVE) essere fatto qui,
+     * perché adesso la request è quella originale e contiene il nome della company nell'uri
+     * Quando si arriva nella AlgosUIParams, la request ha come path solo "/"
+     * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
+     */
+    @RequestMapping(value = {"*", "*/*"}, method = RequestMethod.GET)
     public ModelAndView selezionoCompany(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        String companyName="";
+        String companyName = "";
         List<String> companies;
         String[] parti = uri.split("/");
 

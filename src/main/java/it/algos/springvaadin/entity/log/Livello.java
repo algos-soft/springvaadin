@@ -5,5 +5,9 @@ package it.algos.springvaadin.entity.log;
  * .
  */
 public enum Livello {
-    debug, info, warn, error
+    debug, info, warn, error;
+
+    public Object getValue(){
+        return this.toString();
+    }
 } // fine della Enumeration

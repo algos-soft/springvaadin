@@ -127,6 +127,27 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the status required of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean getRequired(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.required();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
      * Get the status enabled of the property.
      *
      * @param clazz           the entity class

@@ -1,0 +1,86 @@
+package it.algos.springvaadin.entity.@PACKAGE@;
+
+import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.*;
+
+/**
+ * Created by gac
+ * <p>
+ * Classe di tipo JavaBean
+ * 1) la classe deve avere un costruttore senza argomenti
+ * 2) le proprietà devono essere private e accessibili solo con get, set e is (usato per i boolena al posto di get)
+ * 3) la classe deve implementare l'interfaccia Serializable (lo fa nella superclasse)
+ * 4) la classe non deve contenere nessun metodo per la gestione degli eventi
+ * <p>
+ * Annotated with @Entity, indicating that it is a JPA entity.
+ * If there isn't a @Table annotation, this entity will be mapped to a table named as the class
+ * Estende la Entity astratta AlgosModel che contiene la key property ID
+ */
+@Entity
+@Service
+@Table(name = Cost.TAG_@TAG@)
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@ extends AlgosEntity {
+
+
+    //--versione della classe per la serializzazione
+    private final static long serialVersionUID = 1L;
+
+
+
+    /**
+     * The default constructor only exists for the sake of JPA.
+     * You won’t use it directly, so it is designated as protected.
+     * Costruttore senza argomenti
+     * Obbligatorio per le specifiche JavaBean
+     * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
+     */
+    protected @ENTITY@() {
+    }// end of JavaBean constructor
+
+
+
+    /**
+     * Costruttore completo (indispensabile per il Service di SpringBoot)
+     * You won’t use it directly, so it is designated as reserved.
+     * Eventuali regolazioni iniziali delle property
+     *
+     */
+
+
+    /**
+     * Returns a string representation of the object. In general, the
+     * {@code toString} method returns a string that
+     * "textually represents" this object. The result should
+     * be a concise but informative representation that is easy for a
+     * person to read.
+     * It is recommended that all subclasses override this method.
+     * <p>
+     * The {@code toString} method for class {@code Object}
+     * returns a string consisting of the name of the class of which the
+     * object is an instance, the at-sign character `{@code @}', and
+     * the unsigned hexadecimal representation of the hash code of the
+     * object. In other words, this method returns a string equal to the
+     * value of:
+     * <blockquote>
+     * <pre>
+     * getClass().getName() + '@' + Integer.toHexString(hashCode())
+     * </pre></blockquote>
+     *
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return "";
+    }// end of method
+
+
+
+}// end of entity class

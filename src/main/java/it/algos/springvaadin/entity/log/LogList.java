@@ -33,7 +33,7 @@ public class LogList extends AlgosListImpl {
      */
     @PostConstruct
     private void caption() {
-        super.captionList = "Elenco di tutte i logs";
+        super.captionList = "Elenco di tutti i logs";
     }// end of method
 
 }// end of class

@@ -174,26 +174,49 @@ public class LibSql {
     /**
      * Get the query string for UPDATE
      *
-     * @param entity da modificare
+     * @param entityBean da modificare
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(AlgosEntity entity) {
-        return getQueryUpdate(LibReflection.getTable(entity), entity);
+    public static String getQueryUpdate(AlgosEntity entityBean) {
+        return getQueryUpdate(LibReflection.getTable(entityBean), entityBean);
     }// end of static method
 
     /**
      * Get the query string for UPDATE
      *
-     * @param tableName in cui modificare la entity
-     * @param entity    da modificare
+     * @param tableName  in cui modificare la entity
+     * @param entityBean da modificare
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(String tableName, AlgosEntity entity) {
-        return getQueryUpdate(tableName, LibReflection.getProperties(entity));
+    public static String getQueryUpdate(String tableName, AlgosEntity entityBean) {
+        return getQueryUpdate(tableName, getAllFieldNameWithValidValue(entityBean));
     }// end of static method
 
+
+    /**
+     * All field names di una Entity, with a valid value (not null)
+     *
+     * @param entityBean su cui operare la riflessione
+     *
+     * @return tutte i fieldNames validi, elencati in ordine alfabetico
+     */
+    private static List<String> getAllFieldNameWithValidValue(final AlgosEntity entityBean) {
+        ArrayList lista = new ArrayList();
+        List<String> allEsistenti = LibReflection.getAllFieldNameAlfabetico(entityBean);
+        Object value;
+
+        for (String name : allEsistenti) {
+            value = LibReflection.getValue(entityBean, name);
+
+            if (value != null) {
+                lista.add(name);
+            }// end of if cycle
+        }// end of for cycle
+
+        return lista;
+    }// end of static method
 
     /**
      * Get the query string for UPDATE
@@ -266,7 +289,7 @@ public class LibSql {
     /**
      * Get the max value for propertyName (numeric)
      *
-     * @param tableName da esaminare
+     * @param tableName    da esaminare
      * @param propertyName da esaminare
      *
      * @return stringa della query

@@ -1,6 +1,5 @@
 package it.algos.springvaadin.entity.versione;
 
-import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
@@ -34,9 +33,10 @@ public class VersioneService extends AlgosServiceImpl {
     }// end of method
 
 
+    @Override
     protected void creaDatiIniziali() {
-        crea("Setup", "Creazione ed installazione iniziale dell'applicazione");
-        crea("Flag", "Regolazione dei flags di controllo");
+        save(newEntity("Setup", "Creazione ed installazione iniziale dell'applicazione"));
+        save(newEntity("Flag", "Regolazione dei flags di controllo"));
     }// end of method
 
 
@@ -83,13 +83,15 @@ public class VersioneService extends AlgosServiceImpl {
      * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione descrizione (obbligatoria, non unica)
      */
-    public void crea(String titolo, String descrizione) {
+    public Versione crea(String titolo, String descrizione) {
 
         //--controllo di univocità dei parametri
         if (!isEsisteByTitoloAndDescrizione(titolo, descrizione)) {
             Versione vers = newEntity(titolo, descrizione);
-            super.save(vers);
-        }// end of if cycle
+            return (Versione)super.save(vers);
+        } else {
+            return null;
+        }// end of if/else cycle
 
     }// end of method
 

@@ -1,15 +1,13 @@
 package it.algos.springvaadin.entity.log;
 
-import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.company.CompanyServiceOld;
+import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,14 +44,13 @@ public class Log extends AlgosEntity {
     private final static long serialVersionUID = 1L;
 
 
-    @AIField(type = AFType.combo, clazz = CompanyServiceOld.class,  name = "Company")
+    @AIField(type = AFType.combo, clazz = CompanyService.class,  name = "Company")
     private Company company;
 
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    @AIColumn(type = AFType.enumeration, width = 200, name = "Livello")
-    @AIField(type = AFType.enumeration, clazz = Livello.class, name = "Livello")
+    @AIField(type = AFType.enumeration, clazz = Livello.class)
     private Livello livello;
 
 
@@ -61,8 +58,7 @@ public class Log extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Column(length = 20)
-    @AIColumn(type = AFType.text, width = 200, name = "Titolo")
-    @AIField(type = AFType.text, required = true, name = "Titolo", prompt = "Titolo", help = "Tipologia della versione.", error = "Titolo obbligatorio")
+    @AIField(type = AFType.text, required = true,  help = "Tipologia della versione.")
     private String titolo;
 
 
@@ -70,16 +66,15 @@ public class Log extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIColumn(type = AFType.text, width = 500, name = "Descrizione")
-    @AIField(type = AFType.text, required = true, widthEM = 30, name = "Descrizione", prompt = "Descrizione", help = "Descrizione della versione.", error = "Descrizione obbligatoria")
+    @AIField(type = AFType.text, required = true, widthEM = 30,  help = "Descrizione della versione.")
+    @AIColumn( width = 500)
     private String descrizione;
 
 
     //--momento in cui si effettua la registrazione del log (obbligatoria, non unica)
     //--inserita automaticamente
     @NotNull
-    @AIColumn(type = AFType.localdatetime, width = 200, name = "Modifica")
-    @AIField(type = AFType.localdatetime, enabled = false, name = "Modifica", help = "Data di inserimento della versione")
+    @AIField(type = AFType.localdatetime, enabled = false,  help = "Data di inserimento della versione")
     private LocalDateTime modifica;
 
 
@@ -91,36 +86,23 @@ public class Log extends AlgosEntity {
      * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
      */
     protected Log() {
+        this( (Company) null, (Livello) null, "", "", (LocalDateTime) null);
     }// end of JavaBean constructor
-
-
-    /**
-     * The default constructor for Spring.
-     * Il service (dao, repository) viene iniettato in questo costruttore
-     *
-     * @param logService iniettato direttamente da Spring
-     */
-    @Autowired
-    public Log(LogServiceOld logService) {
-        this(logService, (Company) null, (Livello) null, "", "", (LocalDateTime) null);
-    }// end of Spring constructor
 
 
     /**
      * Costruttore completo (indispensabile per il Service di SpringBoot)
      * You won’t use it directly, so it is designated as reserved.
      * Eventuali regolazioni iniziali delle property
-     * Eventuale uso del service (fornito)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
-     * @param logService  iniettato direttamente da Spring
      * @param company     di riferimento (puo essere nullo)
      * @param livello     di presentazione (obbligatorio, non unico)
      * @param titolo      codifica di gruppo per identificare la tipologia del log (obbligatoria, non unica)
      * @param descrizione descrizione (obbligatoria, non unica)
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      */
-    Log(LogServiceOld logService, Company company, Livello livello, String titolo, String descrizione, LocalDateTime modifica) {
+    Log( Company company, Livello livello, String titolo, String descrizione, LocalDateTime modifica) {
         this.setCompany(LibParams.useMultiCompany() && company != null ? company : null);
         this.setLivello(livello != null ? livello : Livello.info);
         this.setTitolo(titolo);

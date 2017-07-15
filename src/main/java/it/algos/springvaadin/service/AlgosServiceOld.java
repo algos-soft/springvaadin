@@ -1,17 +1,12 @@
 package it.algos.springvaadin.service;
 
-import com.sun.deploy.util.StringUtils;
-import it.algos.springvaadin.bootstrap.SpringVaadinData;
 import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 

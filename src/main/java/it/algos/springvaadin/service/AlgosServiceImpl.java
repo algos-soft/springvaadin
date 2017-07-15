@@ -1,14 +1,7 @@
 package it.algos.springvaadin.service;
 
-import it.algos.springvaadin.bootstrap.SpringVaadinData;
-import it.algos.springvaadin.entity.versione.VersioneList;
-import it.algos.springvaadin.entity.versione.VersioneService;
-import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +10,6 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static it.algos.springvaadin.lib.LibReflection.getBeanMap;
 
 /**
  * Created by gac on 07/07/17

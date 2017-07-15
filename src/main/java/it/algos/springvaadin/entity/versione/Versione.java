@@ -48,16 +48,15 @@ public class Versione extends AlgosEntity {
     @NotNull
     @GeneratedValue()
     @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
-    @AIColumn(name = "#")
+    @AIColumn(name = "#",width = 80)
     private int ordine;
 
     //--codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @Column(length = 20)
     @AIField(type = AFType.text, required = true,  help = "Tipologia della versione.")
-    @AIColumn(width = 200)
+    @AIColumn()
     private String titolo;
 
     //--descrizione (obbligatoria, non unica)
@@ -72,7 +71,6 @@ public class Versione extends AlgosEntity {
     //--inserita automaticamente
     @NotNull
     @AIField(type = AFType.localdatetime, enabled = false, help = "Data di inserimento della versione.")
-    @AIColumn(width = 200)
     private LocalDateTime modifica;
 
 
@@ -88,22 +86,10 @@ public class Versione extends AlgosEntity {
     }// end of JavaBean constructor
 
 
-//    /**
-//     * The default constructor for Spring.
-//     * Il service (dao, repository) viene iniettato in questo costruttore
-//     *
-//     * @param versioneService iniettato direttamente da Spring
-//     */
-//    public Versione() {
-//        this(0, "", "", (LocalDateTime) null);
-//    }// end of Spring constructor
-
-
     /**
      * Costruttore completo (indispensabile per il Service di SpringBoot)
      * You won’t use it directly, so it is designated as reserved.
      * Eventuali regolazioni iniziali delle property
-     * Eventuale uso del service (fornito)
      * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
@@ -113,24 +99,12 @@ public class Versione extends AlgosEntity {
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      */
     Versione(int ordine, String titolo, String descrizione, LocalDateTime modifica) {
-//        this.setOrdine(ordine == 0 && versioneService != null ? versioneService.getOrdine() : ordine);
         this.setOrdine(ordine);
         this.setTitolo(titolo);
         this.setDescrizione(descrizione);
         this.setModifica(modifica != null ? modifica : LocalDateTime.now());
     }// end of general constructor
 
-
-//    public LinkedHashMap<String, Object> ritornaMappa() {
-//        LinkedHashMap<String, Object> map = new LinkedHashMap();
-//
-//        map.put("ordine", this.getOrdine());
-//        map.put("titolo", this.getTitolo());
-//        map.put("descrizione", this.getDescrizione());
-//        map.put("modifica", this.getModifica() != null ? this.getModifica() : LocalDateTime.now());
-//
-//        return map;
-//    }// end of method
 
     /**
      * Returns a string representation of the object. In general, the

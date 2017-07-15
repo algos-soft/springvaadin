@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -88,6 +89,18 @@ public abstract class LibReflection {
         }// end of if cycle
 
         return nameList;
+    }// end of static method
+
+
+    /**
+     * All field names di una Entity
+     *
+     * @param entityBean su cui operare la riflessione
+     *
+     * @return tutte i fieldNames, elencati in ordine alfabetico
+     */
+    public static List<String> getAllFieldNameAlfabetico(final AlgosEntity entityBean) {
+        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass()));
     }// end of static method
 
 
@@ -427,7 +440,7 @@ public abstract class LibReflection {
 
 
     /**
-     * Array dei valori di una entity
+     * Array dei valori validi di una entity
      *
      * @param entity da esaminare
      *
@@ -447,7 +460,7 @@ public abstract class LibReflection {
 
 
     /**
-     * Array dei valori di una mappa
+     * Array dei valori validi di una mappa
      *
      * @param mappa da esaminare
      *
@@ -455,20 +468,19 @@ public abstract class LibReflection {
      */
     @Deprecated
     public static Object[] getValues(LinkedHashMap<String, Object> mappa) {
-        Object[] args = null;
-        int k = 0;
+        ArrayList lista = new ArrayList();
+        Object value;
 
         if (mappa != null && mappa.size() > 0) {
-            args = new Object[mappa.size()];
-
             for (String property : mappa.keySet()) {
-                args[k] = mappa.get(property);
-                k++;
+                value = mappa.get(property);
+                if (value != null) {
+                    lista.add(value);
+                }// end of if cycle
             }// end of for cycle
-
         }// end of if cycle
 
-        return args;
+        return lista.toArray();
     }// end of static method
 
 

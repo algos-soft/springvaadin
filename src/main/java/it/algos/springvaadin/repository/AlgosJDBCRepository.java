@@ -178,7 +178,7 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
 
 
     /**
-     * Retrieves an entity by its id.
+     * Retrieves an entity by its id key.
      *
      * @param id must not be {@literal null}.
      *

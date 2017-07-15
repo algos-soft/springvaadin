@@ -26,7 +26,7 @@ public class LibField {
 
     /**
      * Create a single field.
-     * The field type is chosen according to the annotation.
+     * The field type is chosen according to the annotation @AIField.
      *
      * @param attr the metamodel Attribute
      */
@@ -40,6 +40,7 @@ public class LibField {
         int widthEM = LibAnnotation.getWidthEM(clazz, publicFieldName);
         String width = widthEM + "em";
         boolean enabled = LibAnnotation.getEnabled(clazz, publicFieldName);
+        boolean required = LibAnnotation.getRequired(clazz, publicFieldName);
 
         if (type != null) {
             switch (type) {
@@ -112,7 +113,7 @@ public class LibField {
 
             if (vaadinField != null && fieldAnnotation != null) {
                 vaadinField.setEnabled(enabled);
-                vaadinField.setRequiredIndicatorVisible(enabled);
+                vaadinField.setRequiredIndicatorVisible(required);
                 vaadinField.setCaption(caption);
                 vaadinField.setWidth(width);
 

@@ -80,6 +80,14 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     protected void init(VaadinRequest request) {
         super.init(request);
 
+        Object alfa=request.getContextPath();
+        Object beta=request.getParameterMap();
+        Object delta=request.getPathInfo();
+        Object gamma=request.getRemoteAddr();
+        Object omega=request.getRemoteHost();
+        Object omicron=request.getRemotePort();
+        Object sex=request.getWrappedSession();
+
         //--Crea l'interfaccia utente (User Interface)
         this.creaUI();
     }// end of method

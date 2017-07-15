@@ -46,8 +46,8 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Column(length = 20, unique = true)
-    @AIColumn(type = AFType.text, name = "Sigla")
-    @AIField(type = AFType.text, required = true, widthEM = 8, name = "Sigla", help = "Codice interno.", error = "Codice obbligatorio")
+    @AIField(type = AFType.text, required = true, widthEM = 8, help = "Codice interno.")
+    @AIColumn(width = 80)
     private String sigla;
 
 
@@ -56,49 +56,47 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIColumn(type = AFType.text, width = 320, name = "Descrizione")
-    @AIField(type = AFType.text, required = true, widthEM = 30, name = "Descrizione", prompt = "Descrizione", help = "Descrizione della company.", error = "Descrizione obbligatoria")
+    @AIField(type = AFType.text, required = true, widthEM = 30, help = "Descrizione della company.")
+    @AIColumn(width = 320)
     private String descrizione;
 
     //--posta elettronica (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @Email
-    @AIColumn(type = AFType.email, width = 270, name = "Mail")
-    @AIField(type = AFType.email, widthEM = 20, name = "Mail", prompt = "pinco.pallino@mail.com", help = "Indirizzo di posta elettronica.")
+    @AIField(type = AFType.email, widthEM = 20, name = "Mail", help = "Indirizzo di posta elettronica.")
+    @AIColumn(width = 270)
     private String email;
 
     //--indirizzo postale (facoltativo)
-    @AIColumn(type = AFType.text, width = 320, name = "Indirizzo")
-    @AIField(type = AFType.text, widthEM = 27, name = "Indirizzo", help = "Indirizzo postale.")
+    @AIField(type = AFType.text, widthEM = 27,  help = "Indirizzo postale.")
+    @AIColumn(width = 320)
     private String indirizzo;
 
 
     //--persona di riferimento (facoltativo)
-    @AIColumn(type = AFType.text, width = 170, name = "Contatto")
     @AIField(type = AFType.text, widthEM = 20, name = "Riferimento", help = "Persona di riferimento.")
+    @AIColumn(name = "Contatto", width = 170)
     private String contatto;
 
 
     //--telefono fisso ufficio (facoltativo)
-    @AIColumn(type = AFType.text, width = 140, name = "Tel.")
-    @AIField(type = AFType.text,widthEM = 20, name = "Telefono", help = "Telefono ufficio.")
+    @AIField(type = AFType.text, widthEM = 20,  help = "Telefono ufficio.")
+    @AIColumn(name = "Tel.", width = 140)
     private String telefono;
 
 
     //--cellulare del contatto (facoltativo)
-    @AIColumn(type = AFType.text, width = 140, name = "Cell.")
-    @AIField(type = AFType.text, widthEM = 20, name = "Cellulare", help = "Cellulare del contatto.")
+    @AIField(type = AFType.text, widthEM = 20,  help = "Cellulare del contatto.")
+    @AIColumn(name = "Cell.", width = 140)
     private String cellulare;
 
 
     //--eventuali note (facoltativo)
-    @AIColumn(type = AFType.textarea, width = 200, name = "Note")
-    @AIField(type = AFType.textarea, widthEM = 27, name = "Note", help = "Eventuali note aggiuntive.")
+    @AIField(type = AFType.textarea, widthEM = 27, help = "Eventuali note aggiuntive.")
     private String note = "";
 
 
     //--inserimento iniziale (facoltativo)
-    @AIColumn(type = AFType.localdate, width = 200, name = "Inizio")
     @AIField(type = AFType.localdate, enabled = false, name = "Inizio", help = "Data di inserimento della company")
     private LocalDate partenza;
 
@@ -111,40 +109,28 @@ public class Company extends AlgosEntity {
      * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
      */
     protected Company() {
+        this( "", "", "", "", "", "", "", "", (LocalDate) null);
     }// end of JavaBean constructor
 
-
-    /**
-     * The default constructor for Spring.
-     * Il service (dao, repository) viene iniettato in questo costruttore
-     *
-     * @param companyService iniettato direttamente da Spring
-     */
-    @Autowired
-    public Company(CompanyServiceOld companyService) {
-        this(companyService, "", "", "", "", "", "", "", "", (LocalDate) null);
-    }// end of Spring constructor
 
 
     /**
      * Costruttore completo (indispensabile per il Service di SpringBoot)
      * You won’t use it directly, so it is designated as reserved.
      * Eventuali regolazioni iniziali delle property
-     * Eventuale uso del service (fornito)
      * La data di partenza (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
-     * @param companyService iniettato direttamente da Spring
-     * @param sigla       di riferimento interna (obbligatoria ed unica)
-     * @param descrizione della company (obbligatoria)
-     * @param email       posta elettronica (facoltativo)
-     * @param indirizzo   postale (facoltativo)
-     * @param contatto    persona di riferimento (facoltativo)
-     * @param telefono    fisso ufficio (facoltativo)
-     * @param cellulare   del contatto (facoltativo)
-     * @param note        eventuali (facoltativo)
-     * @param partenza    inserimento iniziale (facoltativo)
+     * @param sigla          di riferimento interna (obbligatoria ed unica)
+     * @param descrizione    della company (obbligatoria)
+     * @param email          posta elettronica (facoltativo)
+     * @param indirizzo      postale (facoltativo)
+     * @param contatto       persona di riferimento (facoltativo)
+     * @param telefono       fisso ufficio (facoltativo)
+     * @param cellulare      del contatto (facoltativo)
+     * @param note           eventuali (facoltativo)
+     * @param partenza       inserimento iniziale (facoltativo)
      */
-    Company(CompanyServiceOld companyService, String sigla, String descrizione, String email, String indirizzo, String contatto, String telefono, String cellulare, String note, LocalDate partenza) {
+    Company( String sigla, String descrizione, String email, String indirizzo, String contatto, String telefono, String cellulare, String note, LocalDate partenza) {
         this.setSigla(sigla);
         this.setDescrizione(descrizione);
         this.setEmail(email);

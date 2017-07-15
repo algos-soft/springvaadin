@@ -112,7 +112,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         for (String publicFieldName : fields) {
             field = LibField.create(entity.getClass(), publicFieldName);
-            validator = LibField.creaValidator(entity.getClass(), publicFieldName);
+//            validator = LibField.creaValidator(entity.getClass(), publicFieldName);
 
             if (field != null) {
                 layout.addComponent(field);

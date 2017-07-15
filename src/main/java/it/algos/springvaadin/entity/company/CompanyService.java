@@ -37,7 +37,6 @@ public class CompanyService extends AlgosServiceImpl {
         return Company.class;
     }// end of method
 
-
     /**
      * Ordine standard di presentazione delle colonne nella grid
      * Può essere modificato
@@ -50,17 +49,31 @@ public class CompanyService extends AlgosServiceImpl {
     }// end of method
 
 
+    @Override
+    protected void creaDatiIniziali() {
+        save(newEntity("gaps", "Gruppo Accoglienza Pronto Soccorso"));
+        save(newEntity("crf", "CRI - Comitato Locale di Fidenza", "cl.fidenza@cri.it", "via la Bionda, 3 - 43036 Fidenza (PR)", "Alessandro Aniello"));
+        save(newEntity("pap", "Pubblica assistenza Pianoro", "presidente@pubblicapianoro.it", "Via del Lavoro 15 - 40065 Pianoro (BO)", "Silvano Piana"));
+        save(newEntity("crpt", "CRI - Comitato Locale di Ponte Taro", "presidente@cripontetaro.it", "Via Gramsci, 1 - 43010 Ponte Taro (PR)", "Mauro Michelini", "339 7894839", "339 7894839", "", null));
+    }// end of method
+
+
     /**
      * Creazione iniziale di una entity
      * Vuota, coi valori di default
      */
     @Override
     public AlgosEntity newEntity() {
-        return newEntity("","");
+        return newEntity("", "");
     }// end of method
 
 
     public Company newEntity(String sigla, String descrizione) {
+        return newEntity(sigla, descrizione, "", "", "");
+    }// end of method
+
+
+    public Company newEntity(String sigla, String descrizione, String email, String indirizzo, String contatto) {
         return newEntity(sigla, descrizione, "", "", "", "", "", "", (LocalDate) null);
     }// end of method
 
@@ -111,13 +124,15 @@ public class CompanyService extends AlgosServiceImpl {
      * @param sigla       sigla di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      */
-    public void crea(String sigla, String descrizione) {
+    public Company crea(String sigla, String descrizione) {
 
         //--controllo di univocità dei parametri
         if (!isEsisteBySigla(sigla)) {
             Company comp = newEntity(sigla, descrizione);
-            super.save(comp);
-        }// end of if cycle
+            return (Company) super.save(comp);
+        } else {
+            return null;
+        }// end of if/else cycle
 
     }// end of method
 
