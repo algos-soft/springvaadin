@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.bolla.BollaNavView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
@@ -70,6 +71,7 @@ public class SpringVaadinUI extends AlgosUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+		menuLayout.addView(BollaNavView.class);
     }// end of method
 
 }// end of class

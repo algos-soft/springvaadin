@@ -30,7 +30,7 @@ public @interface AIColumn {
      */
     String name() default "";
 
-    double width() default 200;
+    double width() default 150;
 
     String prompt() default "";
 

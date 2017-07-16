@@ -1,6 +1,7 @@
 package it.algos.springvaadin.presenter;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Grid;
 import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -117,12 +118,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void edit() {
         newRecord = false;
-        AlgosEntity entity = this.getEntityList();
+        List<AlgosEntity> lista = this.getEntityList();
 
         //patch @todo passa qui due volte (per errore) non trovato perché
         //la seconda volta il presenter è 'farlocco'
-        if (entity != null) {
-            modifica(entity);
+        if (lista != null && lista.size() == 1) {
+            modifica(lista.get(0));
         }// end of if cycle
 
     }// end of method
@@ -176,8 +177,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void delete() {
         if (service != null && view != null) {
-            List<AlgosEntity> beanList = null;
-//            List<AlgosModel> beanList = view.getList().getGrid().getBeans();
+            List<AlgosEntity> beanList = view.getEntityList();
 
             if (LibParams.chiedeConfermaPrimaDiCancellare()) {
                 chiedeConfermaPrimaDiCancellare(beanList);
@@ -339,7 +339,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Recupera il record selezionato nella Grid
      */
     @SuppressWarnings("rawtypes")
-    private AlgosEntity getEntityList() {
+    private List<AlgosEntity> getEntityList() {
         if (view != null) {
             return view.getEntityList();
         }// end of if cycle

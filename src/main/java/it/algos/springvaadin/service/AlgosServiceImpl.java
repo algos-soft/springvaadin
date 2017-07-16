@@ -135,11 +135,12 @@ public abstract class AlgosServiceImpl implements AlgosService {
     /**
      * Cancella il singolo bean
      *
-     * @param entity
+     * @param entityBean
      */
     @Override
-    public boolean delete(AlgosEntity entity) {
-        return false;
+    public boolean delete(AlgosEntity entityBean) {
+       repository.delete(entityBean.getId());
+       return false;
     }// end of method
 
 

@@ -261,6 +261,29 @@ public class AlgosJDBCRepository extends AlgosRepositoryImpl {
         return entityUpdated;
     }// end of method
 
+
+    /**
+     * Deletes a given entity.
+     *
+     * @param entity
+     *
+     * @throws IllegalArgumentException in case the given entity is {@literal null}.
+     */
+    @Override
+    public void delete(Object entity) {
+    }// end of method
+
+    /**
+     * Deletes the given entities.
+     *
+     * @param entities
+     *
+     * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
+     */
+    @Override
+    public void delete(Iterable entities) {
+    }// end of method
+
     /**
      * Deletes the entity with the given id.
      *

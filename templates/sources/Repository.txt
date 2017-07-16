@@ -33,10 +33,12 @@ public class @ENTITY@JDBCRepository extends AlgosJDBCRepository {
      */
     @Override
     protected void regolaParametri() {
-        super.tableName = "versione";
+        super.tableName = "@PACKAGE@";
 
         super.createQuery = "CREATE TABLE @PACKAGE@ (" +
                 "  id INT NOT NULL AUTO_INCREMENT," +
+                "  sigla TEXT NULL," +
+                "  descrizione TEXT NULL," +
                 "  PRIMARY KEY (id))";
 
         super.rowMapper = new BeanPropertyRowMapper(@ENTITY@.class);

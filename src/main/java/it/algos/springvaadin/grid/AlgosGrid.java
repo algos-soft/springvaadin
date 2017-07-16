@@ -119,20 +119,23 @@ public class AlgosGrid extends Grid {
     }// end of method
 
 
-    public AlgosEntity getEntity() {
-        AlgosEntity bean = null;
+    public List<AlgosEntity> getEntity() {
+        List<AlgosEntity> lista = null;
+        AlgosEntity entityBean;
 
         if (unaRigaSelezionata()) {
+            lista=new ArrayList<>();
             Set alfa = this.getSelectedItems();
             if (alfa.size() == 1) {
                 Object beta = alfa.toArray()[0];
                 if (beta instanceof AlgosEntity) {
-                    bean = (AlgosEntity) beta;
+                    entityBean = (AlgosEntity) beta;
+                    lista.add(entityBean);
                 }// end of if cycle
             }// end of if cycle
         }// end of if cycle
 
-        return bean;
+        return lista;
     }// end of method
 
     public List<AlgosModel> getBeans() {

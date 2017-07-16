@@ -34,7 +34,7 @@ public @interface AIField {
      * Expressed in int, to be converted in String ending with "em"
      * Defaults to "12em".
      */
-    int widthEM() default 12;
+    int widthEM() default 14;
 
 
     /**

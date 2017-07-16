@@ -44,9 +44,35 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      */
     @Override
     public AlgosEntity newEntity() {
-        return null;
+        return newEntity("", "");
     }// end of method
 
+
+    /**
+     * Eventuali regolazioni iniziali della property
+     *
+     * @param sigla       (obbligatoria, unica)
+     * @param descrizione (facoltativa, non unica)
+     */
+    public @ENTITY@ newEntity(String sigla, String descrizione) {
+        @ENTITY@ entity = new @ENTITY@();
+
+        entity.setSigla(sigla);
+        entity.setDescrizione(descrizione);
+
+        return entity;
+    }// end of general constructor
+
+
+    /**
+     * Creazione di una entity
+     *
+     * @param sigla       (obbligatoria, unica)
+     * @param descrizione (facoltativa, non unica)
+     */
+    public @ENTITY@ crea(String sigla, String descrizione) {
+        return (@ENTITY@) super.save(newEntity(sigla, descrizione));
+    }// end of method
 
 
 }// end of class

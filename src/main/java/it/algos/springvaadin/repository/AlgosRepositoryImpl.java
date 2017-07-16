@@ -140,7 +140,6 @@ public class AlgosRepositoryImpl implements AlgosRepository {
      */
     @Override
     public void delete(Serializable serializable) {
-
     }// end of method
 
     /**
@@ -152,7 +151,6 @@ public class AlgosRepositoryImpl implements AlgosRepository {
      */
     @Override
     public void delete(Object entity) {
-
     }// end of method
 
     /**
@@ -164,7 +162,6 @@ public class AlgosRepositoryImpl implements AlgosRepository {
      */
     @Override
     public void delete(Iterable entities) {
-
     }// end of method
 
     /**

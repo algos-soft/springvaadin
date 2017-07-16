@@ -150,12 +150,15 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
     }// end of method
 
     /**
-     * Una entity selezionata nella Grid
+     * Una lista di entity selezionate nella Grid, in funzione di Grid.SelectionMode()
+     * Lista nulla, se nessuna riga è selezionata
+     * Lista di un elemento, se è Grid.SelectionMode.SINGLE
+     * Lista di più elementi, se è Grid.SelectionMode.MULTI
      *
-     * @return la entity della singola riga selezionata o null se nessuna riga è selezionata
+     * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     @Override
-    public AlgosEntity getEntity() {
+    public List<AlgosEntity> getEntity() {
         return grid.getEntity();
     }// end of method
 

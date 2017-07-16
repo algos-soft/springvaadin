@@ -30,7 +30,7 @@ public class @ENTITY@NavView extends AlgosNavView {
 
 
     //--icona del Menu
-    public static final Resource VIEW_ICON = VaadinIcons.TAG;
+    public static final Resource VIEW_ICON = VaadinIcons.ASTERISK;
 
 
     /**

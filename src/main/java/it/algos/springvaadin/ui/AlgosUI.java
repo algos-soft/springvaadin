@@ -49,7 +49,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      */
     @Autowired
     @Lazy
-    private MenuLayout menuLayout;
+    protected MenuLayout menuLayout;
 
     //--A placeholder for spring views
     @Autowired

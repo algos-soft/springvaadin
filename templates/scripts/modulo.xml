@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="modulo" default="creaPackage">
 
-    <property name="newEntity" value="Fattura"/>
+    <property name="newEntity" value="Bolla"/>
 
 
     <target name="init" description="Converte la directory">
@@ -13,8 +13,15 @@
         <property name="pathIdea" value="src/main/java/"/>
         <property name="pathEntity" value="it/algos/springvaadin/entity/"/>
         <property name="pathLib" value="it/algos/springvaadin/lib/"/>
+        <property name="pathUI" value="it/algos/springvaadin/ui/"/>
         <property name="package" value="${newDir}"/>
-        <property name="endFile" value="}// end of static class"/>
+        <property name="tagFindEndFile" value="&#10;}// end of static class"/>
+        <property name="tagAddCost" value="&#10;&#009;public final static String TAG_${tag} = "/>
+        <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
+        <property name="tagAddMenu" value="menuLayout.addView(${newEntity}NavView.class);"/>
+        <property name="tagPackMenu" value="package it.algos.springvaadin.ui;&#10;&#10;"/>
+        <property name="tagImportMenu" value="import it.algos.springvaadin.entity.${newDir}.${newEntity}NavView;&#10;"/>
+
         <property name="pathTemplates" value="templates/sources"/>
         <property name="srcTemplates" value="${baseProject}/${pathTemplates}"/>
         <property name="newPathDir" value="${baseProject}/${pathIdea}${pathEntity}${newDir}"/>
@@ -22,6 +29,7 @@
         <property name="srcEntity" value="${srcTemplates}/Entity.txt"/>
         <property name="destEntity" value="${newPathDir}/${newEntity}.java"/>
         <property name="destCost" value="${baseProject}/${pathIdea}/${pathLib}Cost.java"/>
+        <property name="destUI" value="${baseProject}/${pathIdea}/${pathUI}SpringVaadinUI.java"/>
         <property name="srcForm" value="${srcTemplates}/Form.txt"/>
         <property name="destForm" value="${newPathDir}/${newEntity}Form.java"/>
         <property name="srcRepository" value="${srcTemplates}/Repository.txt"/>
@@ -92,32 +100,14 @@
     </target>
 
 
-    <target name="test" depends="init" description="Controllo della variabili">
-        <echo message="basedir = ${basedir}"/>
-        <echo message="newEntity = ${newEntity}"/>
-        <echo message="newDir = ${newDir}"/>
-        <echo message="baseProject = ${baseProject}"/>
-        <echo message="pathIdea = ${pathIdea}"/>
-        <echo message="pathEntity = ${pathEntity}"/>
-        <echo message="package = ${package}"/>
-        <echo message="srcTemplates = ${srcTemplates}"/>
-        <echo message="newPathDir = ${newPathDir}"/>
-        <echo message="srcEntity = ${srcEntity}"/>
-        <echo message="destEntity = ${destEntity}"/>
-        <echo message="originalTag = ${originalTag}"/>
-        <echo message="tag = ${tag}"/>
-
-    </target>
-
-
 
     <target name="checkCostante" depends="init"
             description="Controlla che la costante non esista già (per evitare duplicazioni)">
 
-        <loadfile property="file" srcfile="${destCost}"/>
-        <condition property="hasNoTag">
+        <loadfile property="fileCost" srcfile="${destCost}"/>
+        <condition property="hasNoCost">
             <not>
-                <matches pattern="TAG_${tag}" string="${file}"/>
+                <matches pattern="${tagAddCost}" string="${fileCost}"/>
             </not>
         </condition>
         <antcall target="addCostante">
@@ -125,16 +115,61 @@
     </target>
 
 
-    <target name="addCostante" if="${hasNoTag}">
-        <replace file="${destCost}" token="${endFile}"
-                 value="public final static String TAG_${tag} = &quot;${newDir}&quot;&#10;&#009;&#009;;${endFile}">
+    <target name="addCostante" if="${hasNoCost}">
+        <replace file="${destCost}" token="${tagFindEndFile}"
+                 value="${tagAddCost}&quot;${newDir}&quot;;${tagFindEndFile}">
         </replace>
         <echo message="Aggiunta la costante TAG_${tag} nel file lib.Cost"/>
     </target>
 
 
+    <target name="checkImportMenu" depends="init"
+            description="Controlla che l'import della classe non esista già (per evitare duplicazioni)">
 
-    <target name="creaPackage" depends="init,creaPackageDirectory,creaFiles,checkCostante"
+        <loadfile property="fileImport" srcfile="${destUI}"/>
+        <condition property="hasNoImportMenu">
+            <not>
+                <matches pattern="${tagImportMenu}" string="${fileImport}"/>
+            </not>
+        </condition>
+        <antcall target="importMenu">
+        </antcall>
+    </target>
+
+
+    <target name="importMenu" if="${hasNoImportMenu}">
+        <replace file="${destUI}" token="${tagPackMenu}"
+                 value="${tagPackMenu}${tagImportMenu}">
+        </replace>
+        <echo message="Aggiunta l'import della classe ${newEntity}NavView nel file ui.SpringVaadinUI"/>
+    </target>
+
+
+    <target name="checkAddMenu" depends="init"
+            description="Controlla che la creazione del menu non esista già (per evitare duplicazioni)">
+
+        <loadfile property="fileMenu" srcfile="${destUI}"/>
+        <condition property="hasNoAddMenu">
+            <not>
+                <matches pattern="${newEntity}NavView.class" string="${fileMenu}"/>
+            </not>
+        </condition>
+        <echo>${fileMenu}</echo>
+        <echo message="tagAddMenu: ${tagAddMenu}"/>
+        <antcall target="addMenu">
+        </antcall>
+    </target>
+
+
+    <target name="addMenu" if="${hasNoAddMenu}">
+        <replace file="${destUI}" token="${tagFindMenu}"
+                 value="${tagFindMenu}&#009;&#009;${tagAddMenu}&#10;">
+        </replace>
+        <echo message="Aggiunta creazione del menu ${newEntity}NavView nel file ui.SpringVaadinUI"/>
+    </target>
+
+
+    <target name="creaPackage" depends="init,creaPackageDirectory,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
             description="Crea un nuovo package (modulo)">
     </target>
 
@@ -162,5 +197,22 @@
         <attribute name="to"/>
         project.setProperty(attributes.get("to"),attributes.get("string").substring(0,3));
     </scriptdef>
+
+
+    <target name="test" depends="init" description="Controllo della variabili">
+        <echo message="basedir = ${basedir}"/>
+        <echo message="newEntity = ${newEntity}"/>
+        <echo message="newDir = ${newDir}"/>
+        <echo message="baseProject = ${baseProject}"/>
+        <echo message="pathIdea = ${pathIdea}"/>
+        <echo message="pathEntity = ${pathEntity}"/>
+        <echo message="package = ${package}"/>
+        <echo message="srcTemplates = ${srcTemplates}"/>
+        <echo message="newPathDir = ${newPathDir}"/>
+        <echo message="srcEntity = ${srcEntity}"/>
+        <echo message="destEntity = ${destEntity}"/>
+        <echo message="originalTag = ${originalTag}"/>
+        <echo message="tag = ${tag}"/>
+    </target>
 
 </project>
