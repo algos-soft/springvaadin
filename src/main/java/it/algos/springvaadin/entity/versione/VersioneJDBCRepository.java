@@ -1,19 +1,12 @@
 package it.algos.springvaadin.entity.versione;
 
+
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibSql;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 
 /**
  * Created by gac on 02/07/17

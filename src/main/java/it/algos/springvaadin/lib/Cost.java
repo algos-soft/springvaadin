@@ -24,7 +24,4 @@ public abstract class Cost {
     public final static String TAG_LOG = "log";
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
-
-    public final static String TAG_FAT = "fattura";
-    public final static String TAG_BOL = "bolla";
 }// end of static class;

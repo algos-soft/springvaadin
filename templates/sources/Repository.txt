@@ -1,0 +1,47 @@
+package it.algos.springvaadin.entity.@PACKAGE@;
+
+import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.repository.AlgosJDBCRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+/**
+ * Created by gac
+ * <p>
+ * Sottoclasse specifica per la tavola Versione
+ * Regola alcuni parametri specifici che la superclasse utilizza per i metodi generali
+ * Può implementare ulteriori metodi non di uso generalizzato
+ * (sconsigliato perché obbliga un casting dell'interfaccia)
+ */
+@SpringComponent
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@JDBCRepository extends AlgosJDBCRepository {
+
+
+    /**
+     * Costruttore indispensabile per compatibilita con la superclasse
+     */
+    public @ENTITY@JDBCRepository(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }// fine del metodo costruttore (Autowired nella superclasse)
+
+
+    /**
+     * Regolazione specifica dei parametri generali
+     */
+    @Override
+    protected void regolaParametri() {
+        super.tableName = "versione";
+
+        super.createQuery = "CREATE TABLE @PACKAGE@ (" +
+                "  id INT NOT NULL AUTO_INCREMENT," +
+                "  PRIMARY KEY (id))";
+
+        super.rowMapper = new BeanPropertyRowMapper(@ENTITY@.class);
+    }// end of method
+
+
+
+}// end of class

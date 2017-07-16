@@ -1,0 +1,52 @@
+package it.algos.springvaadin.entity.@PACKAGE@;
+
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.repository.AlgosRepository;
+import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+/**
+ * Created by gac
+ * Business logic specifica per il modulo @ENTITY@
+ */
+@Service
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@Service extends AlgosServiceImpl {
+
+
+    /**
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    public @ENTITY@Service(@Qualifier(Cost.TAG_@TAG@) AlgosEntity entity, @Qualifier(Cost.TAG_@TAG@) AlgosRepository repository) {
+        super(entity, repository);
+    }// end of Spring constructor
+
+
+    @Override
+    public Class<? extends AlgosEntity> getEntityClass() {
+        return @ENTITY@.class;
+    }// end of method
+
+
+    @Override
+    protected void creaDatiIniziali() {
+    }// end of method
+
+
+    /**
+     * Creazione iniziale di una entity
+     * Vuota, coi valori di default
+     */
+    @Override
+    public AlgosEntity newEntity() {
+        return null;
+    }// end of method
+
+
+
+}// end of class

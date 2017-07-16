@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.versione;
 
+
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;

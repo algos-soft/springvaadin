@@ -1,4 +1,4 @@
-package it.algos.springvaadin.entity.versione;
+package it.algos.springvaadin.entity.@PACKAGE@;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
@@ -9,7 +9,7 @@ import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on 01/06/17
+ * Created by gac
  * <p>
  * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
  * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
@@ -22,15 +22,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 @SpringComponent
-@Qualifier(Cost.TAG_VERS)
-public class VersioneView extends AlgosViewImpl {
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@View extends AlgosViewImpl {
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public VersioneView(@Qualifier(Cost.TAG_VERS) AlgosList list, @Qualifier(Cost.TAG_VERS) AlgosForm form) {
+    public @ENTITY@View(@Qualifier(Cost.TAG_@TAG@) AlgosList list, @Qualifier(Cost.TAG_@TAG@) AlgosForm form) {
         super(list, form);
     }// end of Spring constructor
 

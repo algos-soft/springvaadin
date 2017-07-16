@@ -1,4 +1,4 @@
-package it.algos.springvaadin.entity.versione;
+package it.algos.springvaadin.entity.@PACKAGE@;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
@@ -11,19 +11,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by gac on 13/06/17.
+ * Created by gac
  * Presenta i dati di una lista usando una Grid
  * Aggiunge una ToolBar in basso coi bottoni di comando (contenenti già i listener per lanciare gli eventi)
  */
 @SpringComponent
-@Qualifier(Cost.TAG_VERS)
-public class VersioneList extends AlgosListImpl {
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@List extends AlgosListImpl {
 
 
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public VersioneList(AlgosGrid grid, ListToolbar toolbar) {
+    public @ENTITY@List(AlgosGrid grid, ListToolbar toolbar) {
         super(grid, toolbar);
     }// end of Spring constructor
 
@@ -34,7 +34,7 @@ public class VersioneList extends AlgosListImpl {
      */
     @PostConstruct
     private void caption() {
-        super.captionList = "Elenco di tutte le versioni";
+        super.captionList = "Elenco di ogni @PACKAGE@";
     }// end of method
 
 }// end of class

@@ -1,5 +1,4 @@
-package it.algos.springvaadin.entity.versione;
-
+package it.algos.springvaadin.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
@@ -16,15 +15,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Classe specifica per costruire i riferimenti usati dalla superclasse
  */
 @SpringComponent
-@Qualifier(Cost.TAG_VERS)
-public class VersionePresenter extends AlgosPresenter {
+@Qualifier(Cost.TAG_@TAG@)
+public class @ENTITY@Presenter extends AlgosPresenter {
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public VersionePresenter(@Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) AlgosService service) {
+    public @ENTITY@Presenter(@Qualifier(Cost.TAG_@TAG@) AlgosView view, @Qualifier(Cost.TAG_@TAG@) AlgosService service) {
         super(view, service);
     }// end of Spring constructor
 
