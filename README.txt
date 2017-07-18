@@ -3,6 +3,11 @@ Architettura MVP (Model, View, Presenter)
 Applicazione finale in JAR, con Tomcat embedded.
 Alternativamente si può avere l'uscita in WAR. Modifiche possibili, non ancora provate
 Usa Vaadin 8.0.5 e IntelliJ Idea 2017.1.3 e SpringBoot 1.5.3
+
+New Project
+Selezionare Spring Initializr; cliccare 'Next' lasciando selezionato il radioBottone 'Default'
+Group: it.algos.nomeDelProgetto
+Artifact: nomeDelProgetto
 Usa le dependencies:
 - Core: Cache, DevTools
 - Web: Web, Web Services, Vaadin

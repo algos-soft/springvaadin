@@ -50,13 +50,6 @@ public interface AlgosView extends View {
     public boolean isUnaRigaSelezionata();
 
 
-    /**
-     * Abilita il bottone Registra del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRegistra(boolean status);
-
 
     /**
      * Abilita il bottone Edit dela Grid
@@ -114,6 +107,22 @@ public interface AlgosView extends View {
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     public List<AlgosEntity> getEntityList();
+
+
+    /**
+     * Abilita il bottone Revert del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableRevert(boolean status);
+
+
+    /**
+     * Abilita il bottone Registra del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableRegistra(boolean status);
 
 
 }// end of interface

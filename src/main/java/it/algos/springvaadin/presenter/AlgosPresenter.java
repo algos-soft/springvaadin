@@ -163,8 +163,6 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         }// end of if/else cycle
         view.setForm(entityBean, fields);
 
-//            view.getForm().getToolbar().getButtonRegistra().setEnabled(true);//@todo mettere false ed abilitare dopo modifiche
-
     }// end of method
 
     /**
@@ -261,6 +259,8 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void revert() {
         view.revertEntity();
+        view.enableRevert(false);
+        view.enableRegistra(false);
     }// end of method
 
 
@@ -275,6 +275,11 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         this.presentaLista();
     }// end of method
 
+    @Override
+    public void fieldModificato() {
+        view.enableRevert(true);
+        view.enableRegistra(true);
+    }// end of method
 
     /**
      * Esegue il 'commit' nel Form.

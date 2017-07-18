@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Lazy;
  * Costruisce un layout standard (modificabile nello specifico per la gioia di Alex)
  * Delega ad altre classi l'implementazione effettiva degli specifici layout
  */
-@Theme("algos")
+@Theme("valo")
 @SpringViewDisplay()
 public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
@@ -144,9 +144,18 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         } catch (Exception unErrore) { // intercetta l'errore
             Logger.logMsg(1, unErrore.toString());
         }// fine del blocco try-catch
-        root.addComponent(menuLayout);
-        root.addComponentsAndExpand(viewPlaceholder);
-        root.addComponent(footer);
+
+        try { // prova ad eseguire il codice
+            if (menuLayout!=null) {
+                root.addComponent(menuLayout);
+            }// end of if cycle
+
+            root.addComponentsAndExpand(viewPlaceholder);
+            root.addComponent(footer);
+
+        } catch (Exception unErrore) { // intercetta l'errore
+            Logger.logMsg(1, unErrore.toString());
+        }// fine del blocco try-catch
     }// end of method
 
 

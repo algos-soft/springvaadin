@@ -73,6 +73,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         removeAllComponents();
         form.restart(entity, fields);
         addComponent(form.getComponent());
+        form.enableRevert(false);
+        form.enableRegistra(false);
     }// end of method
 
 
@@ -96,6 +98,17 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         return list.isUnaRigaSelezionata();
     }// end of method
 
+
+    /**
+     * Abilita il bottone Revert del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableRevert(boolean status) {
+        form.enableRevert(status);
+    }// end of method
+
     /**
      * Abilita il bottone Registra del Form
      *
@@ -103,7 +116,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void enableRegistra(boolean status) {
+        form.enableRegistra(status);
     }// end of method
+
 
     /**
      * Abilita il bottone Edit dela Grid
@@ -179,5 +194,6 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     public List<AlgosEntity> getEntityList() {
         return list.getEntity();
     }// end of method
+
 
 }// end of class

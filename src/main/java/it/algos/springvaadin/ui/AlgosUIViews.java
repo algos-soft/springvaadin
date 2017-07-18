@@ -12,6 +12,7 @@ import it.algos.springvaadin.help.HelpNavView;
 import it.algos.springvaadin.help.HelpView;
 import it.algos.springvaadin.home.HomeNavView;
 import it.algos.springvaadin.home.HomeView;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.menu.MenuLayout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
         if (usaItemMenuHelp) {
             menuLayout.addView(HelpNavView.class);
         }// end of if cycle
+        getNavigator().navigateTo(Cost.TAG_VERS);//@todo provvisorio
     }// end of method
 
 

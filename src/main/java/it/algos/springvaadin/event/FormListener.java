@@ -15,4 +15,6 @@ public interface FormListener {
 
     public void registra();
 
+    public void fieldModificato();
+
 }// end of interface

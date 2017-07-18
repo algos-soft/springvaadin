@@ -17,7 +17,7 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
         this.bottonePremuto = bottonePremuto;
     }// end of constructor
 
-    public ButtonSpringEvent(AlgosPresenter source, Bottone bottonePremuto,String referenceViewName) {
+    public ButtonSpringEvent(AlgosPresenter source, Bottone bottonePremuto, String referenceViewName) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.referenceViewName = referenceViewName;

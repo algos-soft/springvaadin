@@ -39,7 +39,7 @@ public interface AlgosList {
 
 
     /**
-     * Abilita il bottone Create dela Grid
+     * Abilita il bottone Create della Grid
      *
      * @param status true se abilitato, false se disabilitato
      */
@@ -47,7 +47,7 @@ public interface AlgosList {
 
 
     /**
-     * Abilita il bottone Edit dela Grid
+     * Abilita il bottone Edit della Grid
      *
      * @param status true se abilitato, false se disabilitato
      */

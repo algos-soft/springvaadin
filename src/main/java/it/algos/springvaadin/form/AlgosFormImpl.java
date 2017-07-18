@@ -226,4 +226,22 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         return entity;
     }// end of method
 
+    /**
+     * Abilita il bottone Revert del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableRevert(boolean status){
+        toolbar.getButtonRevert().setEnabled(status);
+    }// end of method
+
+    /**
+     * Abilita il bottone Registra del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableRegistra(boolean status){
+        toolbar.getButtonRegistra().setEnabled(status);
+    }// end of method
+
 }// end of class

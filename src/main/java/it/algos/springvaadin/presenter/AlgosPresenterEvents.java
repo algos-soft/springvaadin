@@ -118,6 +118,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
         }// end of if cycle
     }// end of method
 
+    @Override
+    public void fieldModificato() {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("Field", "Modificato valore del campo", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
 
     /**
      * Metodo invocato dalla view ogni volta che questa diventa attiva
@@ -152,6 +159,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
             if (event instanceof ActionSpringEvent) {
                 onGridAction(((ActionSpringEvent) event).getAzione(), ((ActionSpringEvent) event).getEntityBean());
+            }// end of if cycle
+
+            if (event instanceof FieldSpringEvent) {
+                fieldModificato();
             }// end of if cycle
         }// end of if cycle
     }// end of method
