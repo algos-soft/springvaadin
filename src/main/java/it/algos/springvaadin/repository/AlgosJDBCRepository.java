@@ -1,6 +1,5 @@
 package it.algos.springvaadin.repository;
 
-import com.sun.deploy.util.StringUtils;
 import com.sun.org.apache.xerces.internal.xs.StringList;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;

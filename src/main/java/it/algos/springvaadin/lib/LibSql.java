@@ -1,10 +1,10 @@
 package it.algos.springvaadin.lib;
 
-import com.sun.deploy.util.StringUtils;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
+import org.apache.tomcat.util.buf.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,7 +53,7 @@ public class LibSql {
     public static String getQueryInsert(String tableName, Collection keySet) {
         String query = "";
 
-        String campi = StringUtils.join(keySet, ",");
+        String campi = StringUtils.join(keySet);
         String valori = LibText.repeat("?", ",", keySet.size());
         campi = LibText.setTonde(campi);
         valori = "values" + LibText.setTonde(valori);

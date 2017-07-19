@@ -113,7 +113,7 @@ public abstract class AlgosUIParams extends UI {
      * Stampa a video (productionMode) i valori per controllo
      */
     @PostConstruct
-    void inizia() {
+    protected void inizia() {
         this.printBefore(AlgosUI.InterfacciaUtente.generica);
         this.genericFixAndPrint();
         this.printAfter(AlgosUI.InterfacciaUtente.generica);
@@ -171,7 +171,7 @@ public abstract class AlgosUIParams extends UI {
                 System.out.println("..........................................");
                 break;
             case specifica:
-                System.out.println("   start specific initializing code nella classe "+className);
+                System.out.println("   start specific initializing code nella classe " + className);
                 System.out.println("..........................................");
                 break;
         } // fine del blocco switch

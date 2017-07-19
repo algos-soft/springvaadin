@@ -1,24 +1,25 @@
-package it.algos.springvaadin.ui;
+package it.algos.@PACKAGE@;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
+import it.algos.springvaadin.ui.AlgosUI;
 
 import javax.annotation.PostConstruct;
 
 /**
- * Created by gac on 30/05/17.
+ * Created by gac.
  * <p>
  * UI di partenza dell'applicazione, selezionata da SpringBoot con @SpringUI()
  * Questa classe DEVE estendere AlgosUIParams
  * Questa classe DEVE prevedere l'Annotation @SpringUI()
- * All'interno dell'applicazionbe, @SpringUI() deve essere utilizzata in una sola classe che estenda UI
+ * All'interno dell'applicazione, @SpringUI() deve essere utilizzata in una sola classe che estende UI
  */
-@Theme("valo")
+@Theme("algos")
 @SpringUI()
 @SpringViewDisplay()
-public class SpringVaadinUI extends AlgosUI {
+public class @PROJECT@UI extends AlgosUI {
 
 
     /**
@@ -28,7 +29,7 @@ public class SpringVaadinUI extends AlgosUI {
      */
     @PostConstruct
     @Override
-    void inizia() {
+    protected void inizia() {
         super.inizia();
         super.printBefore(InterfacciaUtente.specifica);
         this.specificFixAndPrint();
@@ -41,10 +42,8 @@ public class SpringVaadinUI extends AlgosUI {
      * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
      * Stampa a video (productionMode) i valori per controllo
      */
-    protected void specificFixAndPrint() {
-
-//        System.out.println("Non ci sono regolazioni specifiche per questa applicazione che usa solo quelle standard");
-
+    @SuppressWarnings("all")
+    private void specificFixAndPrint() {
         super.gridSelectionMode = Grid.SelectionMode.SINGLE;
         System.out.println("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
 
