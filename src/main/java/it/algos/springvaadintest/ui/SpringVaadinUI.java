@@ -1,9 +1,10 @@
-package it.algos.springvaadin.ui;
+package it.algos.springvaadintest.ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
+import it.algos.springvaadin.ui.AlgosUI;
 
 import javax.annotation.PostConstruct;
 
@@ -19,9 +20,6 @@ import javax.annotation.PostConstruct;
 @SpringUI()
 @SpringViewDisplay()
 public class SpringVaadinUI extends AlgosUI {
-    public SpringVaadinUI() {
-        int a=87;
-    }
 
     /**
      * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)

@@ -1,4 +1,4 @@
-package it.algos.@PACKAGE@;
+package it.algos.@PACKAGE@.ui;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;

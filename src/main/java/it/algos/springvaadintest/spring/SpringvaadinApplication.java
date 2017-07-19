@@ -1,13 +1,10 @@
-package it.algos.springvaadin.spring;
+package it.algos.springvaadintest.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by gac on 30/05/17.
@@ -22,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
  * Questa classe non fa praticamente niente se non avere le Annotation riportate qui
  */
 @SpringBootApplication
-@EnableJpaRepositories("it.algos.springvaadin.entity.versione.*")
-@ComponentScan("it.algos.springvaadin.*")
-@EntityScan("it.algos.springvaadin.entity.versione.*")
+@EnableJpaRepositories("it.algos.springvaadin.entity")
+@ComponentScan({"it.algos.springvaadin", "it.algos.springvaadintest"})
+@EntityScan("it.algos.springvaadin.entity")
 public class SpringvaadinApplication {
 
     /**

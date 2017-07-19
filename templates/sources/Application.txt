@@ -1,0 +1,24 @@
+package it.algos.@PACKAGE@.spring;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@SpringBootApplication
+@EnableJpaRepositories({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
+@ComponentScan({"it.algos.springvaadin", "it.algos.@PACKAGE@"})
+@EntityScan({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
+public class @PROJECT@Application {
+
+    /**
+     * Constructor
+     *
+     * @param args eventuali parametri in ingresso
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(@PROJECT@Application.class, args);
+    }// end of constructor
+
+}// end of main class

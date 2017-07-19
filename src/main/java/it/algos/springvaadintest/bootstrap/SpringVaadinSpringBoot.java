@@ -1,6 +1,7 @@
-package it.algos.springvaadin.bootstrap;
+package it.algos.springvaadintest.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 

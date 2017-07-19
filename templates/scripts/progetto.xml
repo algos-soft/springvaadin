@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<project name="progetto" default="creaProgetto">
+
+
+    <property name="nomeBaseProgetto" value="Scadenzario"/>
+    <property name="nomeBaseFramework" value="springvaadin"/>
+    <property name="baseProjectsIdea" value="${basedir}/.."/>
+    <property name="pathFramework" value="it/algos/${nomeBaseFramework}"/>
+    <property name="newDirUI" value="${pathFramework}.templates.sources"/>
+    <property name="pathIdea" value="src/main/java"/>
+    <property name="baseFramework" value="${baseProjectsIdea}/${nomeBaseFramework}"/>
+    <property name="srcTemplates" value="${baseFramework}/templates/sources"/>
+    <property name="srcList" value="${srcTemplates}/List.txt"/>
+    <property name="srcUI" value="${srcTemplates}/UI.txt"/>
+    <property name="srcApp" value="${srcTemplates}/Application.txt"/>
+    <property name="srcVaadin" value="${baseFramework}/${pathIdea}/${pathFramework}"/>
+
+
+    <target name="init" description="Regola alcuni valori">
+        <lower string="${nomeBaseProgetto}" to="nomeProgettoMinuscolo"/>
+        <property name="pathProgetto" value="it/algos/${nomeProgettoMinuscolo}"/>
+        <property name="pathPackage" value="${nomeProgettoMinuscolo}"/>
+        <property name="destProgetto" value="${pathProgetto}.${pathIdea}.${pathProgetto}"/>
+        <property name="destBase" value="${pathIdea}/${pathProgetto}"/>
+        <property name="destUI" value="${destBase}/ui/${nomeBaseProgetto}UI.java"/>
+        <property name="destApp" value="${destBase}/spring/${nomeBaseProgetto}Application.java"/>
+        <property name="destVaadin" value="${basedir}/${pathIdea}/${pathFramework}"/>
+    </target>
+
+
+    <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
+        <copy file="${srcFile}" tofile="${destFile}" overwrite="true">
+            <filterset>
+                <filter token="PACKAGE" value="${pathPackage}"/>
+                <filter token="PROJECT" value="${nomeBaseProgetto}"/>
+                <filter token="ENTITY" value="${newEntity}"/>
+            </filterset>
+        </copy>
+        <echo message="Copiato ${srcFile} in ${destFile}"/>
+    </target>
+
+
+    <target name="creaUI" depends="init" description="Crea il file UI">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcUI}"/>
+            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destFile" value="${destUI}"/>
+        </antcall>
+    </target>
+
+
+    <target name="creaApp" depends="init" description="Crea il file main application">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcApp}"/>
+            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destFile" value="${destApp}"/>
+        </antcall>
+    </target>
+
+
+    <target name="copiaVaadin" depends="init" description="Ricopia la directory completa di SpringVaadin">
+        <copydir src="${srcVaadin}"
+                 dest="${destVaadin}"/>
+        <echo message="Copiato ${srcVaadin} in ${destVaadin}"/>
+    </target>
+
+
+    <target name="creaProgetto" depends="init,copiaVaadin,creaApp,creaUI"
+            description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
+    </target>
+
+
+    <target name="checkFileExists" depends="init" description="Controlla che il file esista">
+
+        <loadfile property="file" srcfile="${srcFile}"/>
+        <echo>${file}</echo>
+    </target>
+
+
+    <!-- Using Javascript functions to convert the string -->
+    <!-- To lower case -->
+    <scriptdef language="javascript" name="lower">
+        <attribute name="string"/>
+        <attribute name="to"/>
+        project.setProperty(attributes.get("to"),attributes.get("string").toLowerCase());
+    </scriptdef>
+
+
+    <target name="test" depends="init" description="Controllo della variabili">
+        <echo message="basedir = ${basedir}"/>
+        <echo message="nomeBaseProgetto = ${nomeBaseProgetto}"/>
+        <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
+        <echo message="baseProjectsIdea = ${baseProjectsIdea}"/>
+        <echo message="nomeProgettoMinuscolo = ${nomeProgettoMinuscolo}"/>
+        <echo message="pathFramework = ${pathFramework}"/>
+        <echo message="baseFramework = ${baseFramework}"/>
+        <echo message="pathProgetto = ${pathProgetto}"/>
+        <echo message="srcTemplates = ${srcTemplates}"/>
+        <echo message="newDirUI = ${newDirUI}"/>
+        <echo message="pathIdea = ${pathIdea}"/>
+        <echo message="destProgetto = ${destProgetto}"/>
+        <echo message="srcUI = ${srcUI}"/>
+        <echo message="destBase = ${destBase}"/>
+        <echo message="destUI = ${destUI}"/>
+        <echo message="srcVaadin = ${srcVaadin}"/>
+        <echo message="destVaadin = ${destVaadin}"/>
+
+    </target>
+
+    <target name="testFile" depends="init" description="Controllo della variabili">
+        <antcall target="checkFileExists">
+            <param name="srcFile" value="${destUI}"/>
+        </antcall>
+    </target>
+
+</project>
