@@ -14,6 +14,8 @@
     <property name="srcUI" value="${srcTemplates}/UI.txt"/>
     <property name="srcApp" value="${srcTemplates}/Application.txt"/>
     <property name="srcVaadin" value="${baseFramework}/${pathIdea}/${pathFramework}"/>
+    <property name="srcRead" value="${srcTemplates}/UI.txt"/>
+    <property name="destRead" value="${srcTemplates}/UI.txt"/>
 
 
     <target name="init" description="Regola alcuni valori">
@@ -65,6 +67,15 @@
     </target>
 
 
+    <target name="creaRead" depends="init" description="Crea il file README">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcApp}"/>
+            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destFile" value="${destApp}"/>
+        </antcall>
+    </target>
+
+
     <target name="creaProgetto" depends="init,copiaVaadin,creaApp,creaUI"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
@@ -104,6 +115,8 @@
         <echo message="destUI = ${destUI}"/>
         <echo message="srcVaadin = ${srcVaadin}"/>
         <echo message="destVaadin = ${destVaadin}"/>
+        <echo message="srcRead = ${srcRead}"/>
+        <echo message="destRead = ${destRead}"/>
 
     </target>
 
