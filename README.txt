@@ -13,6 +13,11 @@ Usa le dependencies:
 - Web: Web, Web Services, Vaadin
 - SQL: JPA, MySQL, H2
 - I/O: Mail
+Copiare da springvaadin lo script templates.scripts.newProject.xml a livello base del nuovo progetto
+Aprire il file da AntBuild e lanciare 'creaProgettoECancellaScript'; dopo il lancio il file si auto-cancella
+Cancellare la directory con la Main Class creata in automatico da Idea
+Modificare la Main Class in Edit Configurations... di Idea, indicando quella contenuta nella directory 'application'
+Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
 
 Vaad8springApplication contiene il metodo 'main' che è il punto di ingresso dell'applicazione Java
 In fase di sviluppo si possono avere diverse configurazioni, ognuna delle quali punta un ''main' diverso

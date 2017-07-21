@@ -1,4 +1,4 @@
-package it.algos.@PACKAGE@.spring;
+package it.algos.@PACKAGE@.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="progetto" default="creaProgetto">
+<project name="progetto" default="creaProgettoECancellaScript">
 
 
     <property name="nomeBaseProgetto" value="Scadenzario"/>
@@ -14,8 +14,12 @@
     <property name="srcUI" value="${srcTemplates}/UI.txt"/>
     <property name="srcApp" value="${srcTemplates}/Application.txt"/>
     <property name="srcVaadin" value="${baseFramework}/${pathIdea}/${pathFramework}"/>
-    <property name="srcRead" value="${srcTemplates}/UI.txt"/>
-    <property name="destRead" value="${srcTemplates}/UI.txt"/>
+    <property name="srcRead" value="${baseFramework}/README.txt"/>
+    <property name="destRead" value="README.txt"/>
+    <property name="srcBoot" value="${srcTemplates}/SpringBoot.txt"/>
+    <property name="srcScript" value="${baseFramework}/templates/scripts/newPackage.xml"/>
+    <property name="destScript" value="scripts/newPackage.xml"/>
+    <property name="srcProjectScript" value="newProject.xml"/>
 
 
     <target name="init" description="Regola alcuni valori">
@@ -25,8 +29,19 @@
         <property name="destProgetto" value="${pathProgetto}.${pathIdea}.${pathProgetto}"/>
         <property name="destBase" value="${pathIdea}/${pathProgetto}"/>
         <property name="destUI" value="${destBase}/ui/${nomeBaseProgetto}UI.java"/>
-        <property name="destApp" value="${destBase}/spring/${nomeBaseProgetto}Application.java"/>
+        <property name="destBoot" value="${destBase}/bootstrap/${nomeBaseProgetto}SpringBoot.java"/>
+        <property name="destApp" value="${destBase}/application/${nomeBaseProgetto}Application.java"/>
         <property name="destVaadin" value="${basedir}/${pathIdea}/${pathFramework}"/>
+    </target>
+
+
+    <target name="creaNewOnly" description="Copia il singolo file passato come parametro">
+        <copy file="${srcFile}" tofile="${destFile}" overwrite="false">
+            <filterset>
+                <filter token="PACKAGE" value="${pathPackage}"/>
+                <filter token="PROJECT" value="${nomeBaseProgetto}"/>
+            </filterset>
+        </copy>
     </target>
 
 
@@ -35,15 +50,42 @@
             <filterset>
                 <filter token="PACKAGE" value="${pathPackage}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
-                <filter token="ENTITY" value="${newEntity}"/>
             </filterset>
         </copy>
-        <echo message="Copiato ${srcFile} in ${destFile}"/>
+    </target>
+
+
+    <!--<target name="creaNewOnly" depends=" ifFileEsiste, ifFileNonEsiste"-->
+    <!--description="Crea il singolo file passato come parametro, solo se NON esiste già">-->
+    <!--<available file="${destApp}" property="fileEsiste"/>-->
+    <!--</target>-->
+    <!--<target name="ifFileEsiste" if="fileEsiste">-->
+    <!--<echo message="Il file ${destFile} esisteva già e non è stato modificato"/>-->
+    <!--</target>-->
+    <!--<target name="ifFileNonEsiste" unless="fileEsiste">-->
+    <!--<antcall target="creaSingoloFile">-->
+    <!--</antcall>-->
+    <!--<echo message="Il file ${destFile} non esisteva ed è stato creato"/>-->
+    <!--</target>-->
+
+
+    <target name="cancellaFile" description="Cancella un singolo file passato come parametro">
+        <delete file="${srcFile}"/>
+        <echo message="Cancellato il file ${srcFile}"/>
+    </target>
+
+
+    <target name="creaApp" depends="init" description="Crea il file main application">
+        <antcall target="creaNewOnly">
+            <param name="srcFile" value="${srcApp}"/>
+            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destFile" value="${destApp}"/>
+        </antcall>
     </target>
 
 
     <target name="creaUI" depends="init" description="Crea il file UI">
-        <antcall target="creaSingoloFile">
+        <antcall target="creaNewOnly">
             <param name="srcFile" value="${srcUI}"/>
             <param name="destPackage" value="${pathPackage}"/>
             <param name="destFile" value="${destUI}"/>
@@ -51,11 +93,11 @@
     </target>
 
 
-    <target name="creaApp" depends="init" description="Crea il file main application">
-        <antcall target="creaSingoloFile">
-            <param name="srcFile" value="${srcApp}"/>
+    <target name="creaBoot" depends="init" description="Crea il file SpringBoot">
+        <antcall target="creaNewOnly">
+            <param name="srcFile" value="${srcBoot}"/>
             <param name="destPackage" value="${pathPackage}"/>
-            <param name="destFile" value="${destApp}"/>
+            <param name="destFile" value="${destBoot}"/>
         </antcall>
     </target>
 
@@ -69,20 +111,38 @@
 
     <target name="creaRead" depends="init" description="Crea il file README">
         <antcall target="creaSingoloFile">
-            <param name="srcFile" value="${srcApp}"/>
-            <param name="destPackage" value="${pathPackage}"/>
-            <param name="destFile" value="${destApp}"/>
+            <param name="srcFile" value="${srcRead}"/>
+            <param name="destFile" value="${destRead}"/>
         </antcall>
     </target>
 
 
-    <target name="creaProgetto" depends="init,copiaVaadin,creaApp,creaUI"
+    <target name="creaScript" depends="init" description="Crea la directory con lo script per i moduli">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcScript}"/>
+            <param name="destFile" value="${destScript}"/>
+        </antcall>
+    </target>
+
+
+    <target name="cancellaScript" depends="init" description="Cancella questo file">
+        <antcall target="cancellaFile">
+            <param name="srcFile" value="${srcProjectScript}"/>
+        </antcall>
+    </target>
+
+
+    <target name="creaProgetto" depends="init,creaApp,creaUI,creaBoot,copiaVaadin,creaRead,creaScript"
+            description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
+    </target>
+
+
+    <target name="creaProgettoECancellaScript" depends="creaProgetto,cancellaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 
 
     <target name="checkFileExists" depends="init" description="Controlla che il file esista">
-
         <loadfile property="file" srcfile="${srcFile}"/>
         <echo>${file}</echo>
     </target>
@@ -117,7 +177,8 @@
         <echo message="destVaadin = ${destVaadin}"/>
         <echo message="srcRead = ${srcRead}"/>
         <echo message="destRead = ${destRead}"/>
-
+        <echo message="srcBoot = ${srcBoot}"/>
+        <echo message="destBoot = ${destBoot}"/>
     </target>
 
     <target name="testFile" depends="init" description="Controllo della variabili">

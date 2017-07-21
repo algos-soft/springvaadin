@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Lazy;
  * Costruisce un layout standard (modificabile nello specifico per la gioia di Alex)
  * Delega ad altre classi l'implementazione effettiva degli specifici layout
  */
-@Theme("valo")
 @SpringViewDisplay()
 public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 

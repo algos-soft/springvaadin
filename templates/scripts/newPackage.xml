@@ -1,49 +1,89 @@
 <?xml version="1.0"?>
 <project name="modulo" default="creaPackage">
 
-    <property name="newEntity" value="Bolla"/>
+
+    <property name="newEntity" value="xxx"/>
+    <property name="thisProject" value="@PROJECT@"/>
+    <property name="nomeBaseFramework" value="springvaadin"/>
+    <property name="baseDir" value="${basedir}/.."/>
 
 
     <target name="init" description="Converte la directory">
+        <property name="baseIdeaProjects" value="${baseDir}/.."/>
+        <property name="baseFramework" value="${baseIdeaProjects}/${nomeBaseFramework}"/>
+        <property name="baseProject" value="${basedir}/.."/>
         <lower string="${newEntity}" to="newDir"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
         <upper string="${originalTag}" to="tag"/>
 
-        <property name="baseProject" value="${basedir}/../.."/>
+        <property name="tagTemplates" value="templates/sources"/>
+        <property name="srcTemplates" value="${baseFramework}/${tagTemplates}"/>
+
         <property name="pathIdea" value="src/main/java/"/>
-        <property name="pathEntity" value="it/algos/springvaadin/entity/"/>
-        <property name="pathLib" value="it/algos/springvaadin/lib/"/>
-        <property name="pathUI" value="it/algos/springvaadin/ui/"/>
+        <property name="pathEntity" value="it/algos/${thisProject}/entity/"/>
         <property name="package" value="${newDir}"/>
+
         <property name="tagFindEndFile" value="&#10;}// end of static class"/>
         <property name="tagAddCost" value="&#10;&#009;public final static String TAG_${tag} = "/>
         <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
         <property name="tagAddMenu" value="menuLayout.addView(${newEntity}NavView.class);"/>
-        <property name="tagPackMenu" value="package it.algos.springvaadin.ui;&#10;&#10;"/>
-        <property name="tagImportMenu" value="import it.algos.springvaadin.entity.${newDir}.${newEntity}NavView;&#10;"/>
+        <property name="tagPackMenu" value="package it.algos.${project}.ui;&#10;&#10;"/>
+        <property name="tagImportMenu" value="import it.algos.${project}.entity.${newDir}.${newEntity}NavView;&#10;"/>
 
-        <property name="pathTemplates" value="templates/sources"/>
-        <property name="srcTemplates" value="${baseProject}/${pathTemplates}"/>
+        <property name="tagXml" value=".xml"/>
+        <property name="tagTxt" value=".txt"/>
+        <property name="tagJava" value=".java"/>
+        <property name="tagUI" value="UI"/>
+        <property name="tagEntity" value="Entity"/>
+        <property name="tagPresenter" value="Presenter"/>
+        <property name="tagNavView" value="NavView"/>
+        <property name="tagView" value="View"/>
+        <property name="tagList" value="List"/>
+        <property name="tagForm" value="Form"/>
+        <property name="tagService" value="Service"/>
+        <property name="tagRepository" value="JDBCRepository"/>
+
         <property name="newPathDir" value="${baseProject}/${pathIdea}${pathEntity}${newDir}"/>
 
-        <property name="srcEntity" value="${srcTemplates}/Entity.txt"/>
-        <property name="destEntity" value="${newPathDir}/${newEntity}.java"/>
+        <property name="srcEntity" value="${srcTemplates}/${tagEntity}${tagTxt}"/>
+        <property name="srcPresenter" value="${srcTemplates}/${tagPresenter}${tagTxt}"/>
+        <property name="srcNavView" value="${srcTemplates}/${tagNavView}${tagTxt}"/>
+        <property name="srcView" value="${srcTemplates}/${tagView}${tagTxt}"/>
+        <property name="srcList" value="${srcTemplates}/${tagList}${tagTxt}"/>
+        <property name="srcForm" value="${srcTemplates}/${tagForm}${tagTxt}"/>
+        <property name="srcService" value="${srcTemplates}/${tagService}${tagTxt}"/>
+        <property name="srcRepository" value="${srcTemplates}/${tagRepository}${tagTxt}"/>
+
+        <property name="destEntity" value="${newPathDir}/${newEntity}${tagJava}"/>
+        <property name="destPresenter" value="${newPathDir}/${newEntity}${tagPresenter}${tagJava}"/>
+        <property name="destNavView" value="${newPathDir}/${newEntity}NavView.java"/>
+        <property name="destView" value="${newPathDir}/${newEntity}View.java"/>
+        <property name="destList" value="${newPathDir}/${newEntity}List.java"/>
+        <property name="destForm" value="${newPathDir}/${newEntity}Form.java"/>
+        <property name="destService" value="${newPathDir}/${newEntity}Service.java"/>
+        <property name="destRepository" value="${newPathDir}/${newEntity}JDBCRepository.java"/>
+
         <property name="destCost" value="${baseProject}/${pathIdea}/${pathLib}Cost.java"/>
         <property name="destUI" value="${baseProject}/${pathIdea}/${pathUI}SpringVaadinUI.java"/>
-        <property name="srcForm" value="${srcTemplates}/Form.txt"/>
-        <property name="destForm" value="${newPathDir}/${newEntity}Form.java"/>
-        <property name="srcRepository" value="${srcTemplates}/Repository.txt"/>
-        <property name="destRepository" value="${newPathDir}/${newEntity}JDBCRepository.java"/>
-        <property name="srcList" value="${srcTemplates}/List.txt"/>
-        <property name="destList" value="${newPathDir}/${newEntity}List.java"/>
-        <property name="srcNavView" value="${srcTemplates}/NavView.txt"/>
-        <property name="destNavView" value="${newPathDir}/${newEntity}NavView.java"/>
-        <property name="srcPresenter" value="${srcTemplates}/Presenter.txt"/>
-        <property name="destPresenter" value="${newPathDir}/${newEntity}Presenter.java"/>
-        <property name="srcService" value="${srcTemplates}/Service.txt"/>
-        <property name="destService" value="${newPathDir}/${newEntity}Service.java"/>
-        <property name="srcView" value="${srcTemplates}/View.txt"/>
-        <property name="destView" value="${newPathDir}/${newEntity}View.java"/>
+    </target>
+
+
+    <target name="test" depends="init" description="Controllo della variabili">
+        <echo message="newEntity = ${newEntity}"/>
+        <echo message="thisProject = ${thisProject}"/>
+        <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
+        <echo message="baseDir = ${baseDir}"/>
+        <echo message="baseIdeaProjects = ${baseIdeaProjects}"/>
+        <echo message="baseFramework = ${baseFramework}"/>
+        <echo message="baseProject = ${baseProject}"/>
+        <echo message="newDir = ${newDir}"/>
+        <echo message="tag = ${tag}"/>
+        <echo message="tagTemplates = ${tagTemplates}"/>
+        <echo message="srcTemplates = ${srcTemplates}"/>
+        <echo message="newPathDir = ${newPathDir}"/>
+        <echo message="srcEntity = ${srcEntity}"/>
+        <echo message="destEntity = ${destEntity}"/>
+        <echo message="destPresenter = ${destPresenter}"/>
     </target>
 
 
@@ -55,6 +95,7 @@
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
         <copy file="${sourceFile}" tofile="${destFile}" overwrite="true">
             <filterset>
+                <filter token="PROJECT" value="${thisProject}"/>
                 <filter token="PACKAGE" value="${package}"/>
                 <filter token="TAG" value="${tag}"/>
                 <filter token="ENTITY" value="${newEntity}"/>
@@ -70,35 +111,34 @@
             <param name="destFile" value="${destEntity}"/>
         </antcall>
         <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcForm}"/>
-            <param name="destFile" value="${destForm}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcRepository}"/>
-            <param name="destFile" value="${destRepository}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcList}"/>
-            <param name="destFile" value="${destList}"/>
+            <param name="sourceFile" value="${srcPresenter}"/>
+            <param name="destFile" value="${destPresenter}"/>
         </antcall>
         <antcall target="creaSingoloFile">
             <param name="sourceFile" value="${srcNavView}"/>
             <param name="destFile" value="${destNavView}"/>
         </antcall>
         <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcPresenter}"/>
-            <param name="destFile" value="${destPresenter}"/>
+            <param name="sourceFile" value="${srcView}"/>
+            <param name="destFile" value="${destView}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcList}"/>
+            <param name="destFile" value="${destList}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcForm}"/>
+            <param name="destFile" value="${destForm}"/>
         </antcall>
         <antcall target="creaSingoloFile">
             <param name="sourceFile" value="${srcService}"/>
             <param name="destFile" value="${destService}"/>
         </antcall>
         <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcView}"/>
-            <param name="destFile" value="${destView}"/>
+            <param name="sourceFile" value="${srcRepository}"/>
+            <param name="destFile" value="${destRepository}"/>
         </antcall>
     </target>
-
 
 
     <target name="checkCostante" depends="init"
@@ -198,21 +238,5 @@
         project.setProperty(attributes.get("to"),attributes.get("string").substring(0,3));
     </scriptdef>
 
-
-    <target name="test" depends="init" description="Controllo della variabili">
-        <echo message="basedir = ${basedir}"/>
-        <echo message="newEntity = ${newEntity}"/>
-        <echo message="newDir = ${newDir}"/>
-        <echo message="baseProject = ${baseProject}"/>
-        <echo message="pathIdea = ${pathIdea}"/>
-        <echo message="pathEntity = ${pathEntity}"/>
-        <echo message="package = ${package}"/>
-        <echo message="srcTemplates = ${srcTemplates}"/>
-        <echo message="newPathDir = ${newPathDir}"/>
-        <echo message="srcEntity = ${srcEntity}"/>
-        <echo message="destEntity = ${destEntity}"/>
-        <echo message="originalTag = ${originalTag}"/>
-        <echo message="tag = ${tag}"/>
-    </target>
 
 </project>
