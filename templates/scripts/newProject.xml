@@ -36,7 +36,7 @@
     <property name="tagIdea" value="${tagMain}/java"/>
     <property name="tagAlgos" value="it/algos"/>
     <property name="tagPathJava" value="${tagIdea}/${tagAlgos}"/>
-    <property name="tagWebapp" value="src/main"/>
+    <property name="tagWebapp" value="webapp"/>
     <property name="tagScripts" value="templates/scripts"/>
     <property name="tagProjectScripts" value="scripts"/>
     <property name="tagSources" value="templates/sources"/>
@@ -45,11 +45,11 @@
     <!--Valori recuperati automaticamente da Ant-->
     <property name="pathBaseProject" value="${basedir}${risalita}"/>
     <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
-    <property name="pathWebappProject" value="${pathBaseProject}${tagMain}/webapp"/>
+    <property name="pathWebappProject" value="${pathBaseProject}/${tagMain}/${tagWebapp}"/>
     <property name="projectsIdea" value="${basedir}/..${risalita}"/>
     <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
     <property name="pathJavaFramework" value="${pathBaseFramework}/${tagPathJava}/${nomeBaseFramework}"/>
-    <property name="pathWebappFramework" value="${pathBaseFramework}/${tagWebapp}"/>
+    <property name="pathWebappFramework" value="${pathBaseFramework}/${tagMain}/${tagWebapp}"/>
     <property name="pathScriptsFramework" value="${pathBaseFramework}/${tagScripts}"/>
     <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
     <!--Fine dei valori di Ant-->
@@ -121,6 +121,9 @@
 
         <echo message="srcProperties = ${srcProperties}"/>
         <echo message="destProperties = ${destProperties}"/>
+
+        <echo message="pathWebappFramework = ${pathWebappFramework}"/>
+        <echo message="pathWebappProject = ${pathWebappProject}"/>
 
         <echo message="dirOldApp = ${dirOldApp}"/>
     </target>
@@ -213,6 +216,11 @@
     </target>
 
 
+    <target name="copiaWeb" depends="init" description="Copia la cartella webapp">
+        <copydir src="${pathWebappFramework}" dest="${pathWebappProject}"/>
+    </target>
+
+
     <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
         <delete dir="${dirOldApp}"/>
     </target>
@@ -272,7 +280,7 @@
 
 
     <target name="creaProgetto"
-            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,creaRes,modificaRes,deleteOldApp,creaScript,modificaScript"
+            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,creaRes,modificaRes,copiaWeb,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 
