@@ -2,9 +2,10 @@
 <project name="progetto" default="creaProgettoECancellaScript">
 
 
-    <property name="nomeBaseProgetto" value="Scadenzario"/>
+    <property name="nomeBaseProgetto" value="xxx"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
-    <property name="baseProjectsIdea" value="${basedir}/.."/>
+    <property name="risalita" value=""/>
+    <property name="baseProjectsIdea" value="${basedir}/..${risalita}"/>
     <property name="pathFramework" value="it/algos/${nomeBaseFramework}"/>
     <property name="newDirUI" value="${pathFramework}.templates.sources"/>
     <property name="pathIdea" value="src/main/java"/>
@@ -15,17 +16,18 @@
     <property name="srcApp" value="${srcTemplates}/Application.txt"/>
     <property name="srcVaadin" value="${baseFramework}/${pathIdea}/${pathFramework}"/>
     <property name="srcRead" value="${baseFramework}/README.txt"/>
-    <property name="destRead" value="README.txt"/>
+    <property name="destRead" value="${risalita}README.txt"/>
     <property name="srcBoot" value="${srcTemplates}/SpringBoot.txt"/>
     <property name="srcScript" value="${baseFramework}/templates/scripts/newPackage.xml"/>
     <property name="destScript" value="scripts/newPackage.xml"/>
     <property name="srcProjectScript" value="newProject.xml"/>
+    <property name="destProjectScript" value="scripts/updateProject.xml"/>
 
 
     <target name="init" description="Regola alcuni valori">
         <lower string="${nomeBaseProgetto}" to="nomeProgettoMinuscolo"/>
         <property name="pathProgetto" value="it/algos/${nomeProgettoMinuscolo}"/>
-        <property name="pathPackage" value="${nomeProgettoMinuscolo}"/>
+        <property name="package" value="${nomeProgettoMinuscolo}"/>
         <property name="destProgetto" value="${pathProgetto}.${pathIdea}.${pathProgetto}"/>
         <property name="destBase" value="${pathIdea}/${pathProgetto}"/>
         <property name="destUI" value="${destBase}/ui/${nomeBaseProgetto}UI.java"/>
@@ -38,7 +40,7 @@
     <target name="creaNewOnly" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="false">
             <filterset>
-                <filter token="PACKAGE" value="${pathPackage}"/>
+                <filter token="PACKAGE" value="${package}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
         </copy>
@@ -48,25 +50,11 @@
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="true">
             <filterset>
-                <filter token="PACKAGE" value="${pathPackage}"/>
+                <filter token="PACKAGE" value="${package}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
         </copy>
     </target>
-
-
-    <!--<target name="creaNewOnly" depends=" ifFileEsiste, ifFileNonEsiste"-->
-    <!--description="Crea il singolo file passato come parametro, solo se NON esiste già">-->
-    <!--<available file="${destApp}" property="fileEsiste"/>-->
-    <!--</target>-->
-    <!--<target name="ifFileEsiste" if="fileEsiste">-->
-    <!--<echo message="Il file ${destFile} esisteva già e non è stato modificato"/>-->
-    <!--</target>-->
-    <!--<target name="ifFileNonEsiste" unless="fileEsiste">-->
-    <!--<antcall target="creaSingoloFile">-->
-    <!--</antcall>-->
-    <!--<echo message="Il file ${destFile} non esisteva ed è stato creato"/>-->
-    <!--</target>-->
 
 
     <target name="cancellaFile" description="Cancella un singolo file passato come parametro">
@@ -78,7 +66,7 @@
     <target name="creaApp" depends="init" description="Crea il file main application">
         <antcall target="creaNewOnly">
             <param name="srcFile" value="${srcApp}"/>
-            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destPackage" value="${package}"/>
             <param name="destFile" value="${destApp}"/>
         </antcall>
     </target>
@@ -87,7 +75,7 @@
     <target name="creaUI" depends="init" description="Crea il file UI">
         <antcall target="creaNewOnly">
             <param name="srcFile" value="${srcUI}"/>
-            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destPackage" value="${package}"/>
             <param name="destFile" value="${destUI}"/>
         </antcall>
     </target>
@@ -96,7 +84,7 @@
     <target name="creaBoot" depends="init" description="Crea il file SpringBoot">
         <antcall target="creaNewOnly">
             <param name="srcFile" value="${srcBoot}"/>
-            <param name="destPackage" value="${pathPackage}"/>
+            <param name="destPackage" value="${package}"/>
             <param name="destFile" value="${destBoot}"/>
         </antcall>
     </target>
@@ -126,13 +114,37 @@
 
 
     <target name="cancellaScript" depends="init" description="Cancella questo file">
+        <copy file="${srcProjectScript}" tofile="${destProjectScript}" overwrite="true">
+            <filterset>
+                <filter token="creaProgettoECancellaScript" value="updateProgetto"/>
+                <filter token="creaProgetto" value="updateProgetto"/>
+            </filterset>
+        </copy>
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcProjectScript}"/>
+            <param name="destFile" value="${destProjectScript}"/>
+        </antcall>
+        <replace file="${destProjectScript}"
+                 token="&lt;target name=&quot;creaProgettoECancellaScript&quot; depends=&quot;creaProgetto,cancellaScript&quot;
+        description=&quot;Crea un nuovo progetto, modificando ed adeguando la struttura del project&quot;&gt;
+        &lt;/target&gt;"
+                 value="">
+        </replace>
+        <replace file="${destProjectScript}" token="creaProgettoECancellaScript"
+                 value="updateProgetto">
+        </replace>
         <antcall target="cancellaFile">
             <param name="srcFile" value="${srcProjectScript}"/>
         </antcall>
     </target>
 
 
-    <target name="creaProgetto" depends="init,creaApp,creaUI,creaBoot,copiaVaadin,creaRead,creaScript"
+    <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
+        <delete dir="${destBase}/${package}"/>
+    </target>
+
+
+    <target name="creaProgetto" depends="init,creaApp,creaUI,creaBoot,copiaVaadin,creaRead,creaScript,deleteOldApp"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 

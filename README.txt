@@ -14,8 +14,7 @@ Usa le dependencies:
 - SQL: JPA, MySQL, H2
 - I/O: Mail
 Copiare da springvaadin lo script templates.scripts.newProject.xml a livello base del nuovo progetto
-Aprire il file da AntBuild e lanciare 'creaProgettoECancellaScript'; dopo il lancio il file si auto-cancella
-Cancellare la directory con la Main Class creata in automatico da Idea
+Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato seconda riga) e lanciare 'creaProgettoECancellaScript'; dopo il lancio il file si auto-cancella
 Modificare la Main Class in Edit Configurations... di Idea, indicando quella contenuta nella directory 'application'
 Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
 
