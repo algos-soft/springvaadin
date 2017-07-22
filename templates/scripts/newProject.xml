@@ -1,46 +1,124 @@
 <?xml version="1.0"?>
-<project name="progetto" default="creaProgettoECancellaScript">
+<project name="newProject" default="creaProgettoECancellaScript">
 
 
+    <!--Valori sicuramente da regolare un un nuovo progetto-->
     <property name="nomeBaseProgetto" value="xxx"/>
+    <!--Fine dei valori obbligatori-->
+
+    <!--Valori probabilmente accettabili in un nuovo progetto-->
     <property name="nomeBaseFramework" value="springvaadin"/>
+    <!--Fine dei valori facoltativi-->
+
+    <!--Valori cambiati da questo stesso script-->
+    <!--Cambiano quando si passa da newProject a updatProject-->
+    <!--Perché lo script viene 'annidato' in una cartella interna-->
     <property name="risalita" value=""/>
-    <property name="baseProjectsIdea" value="${basedir}/..${risalita}"/>
-    <property name="pathFramework" value="it/algos/${nomeBaseFramework}"/>
-    <property name="newDirUI" value="${pathFramework}.templates.sources"/>
-    <property name="pathIdea" value="src/main/java"/>
-    <property name="baseFramework" value="${baseProjectsIdea}/${nomeBaseFramework}"/>
-    <property name="srcTemplates" value="${baseFramework}/templates/sources"/>
-    <property name="srcList" value="${srcTemplates}/List.txt"/>
-    <property name="srcUI" value="${srcTemplates}/UI.txt"/>
-    <property name="srcApp" value="${srcTemplates}/Application.txt"/>
-    <property name="srcVaadin" value="${baseFramework}/${pathIdea}/${pathFramework}"/>
-    <property name="srcRead" value="${baseFramework}/README.txt"/>
-    <property name="destRead" value="${risalita}README.txt"/>
-    <property name="srcBoot" value="${srcTemplates}/SpringBoot.txt"/>
-    <property name="srcScript" value="${baseFramework}/templates/scripts/newPackage.xml"/>
-    <property name="destScript" value="scripts/newPackage.xml"/>
-    <property name="srcProjectScript" value="newProject.xml"/>
-    <property name="destProjectScript" value="scripts/updateProject.xml"/>
+    <!--Fine dei valori modificati da questo script-->
+
+    <!--Tag varii-->
+    <property name="tagXml" value=".xml"/>
+    <property name="tagTxt" value=".txt"/>
+    <property name="tagJava" value=".java"/>
+    <property name="dirApp" value="application"/>
+    <property name="dirBoot" value="bootstrap"/>
+    <property name="dirUI" value="ui"/>
+    <property name="tagApp" value="Application"/>
+    <property name="tagBoot" value="SpringBoot"/>
+    <property name="tagUI" value="UI"/>
+    <property name="tagRead" value="README${tagTxt}"/>
+    <property name="tagPackage" value="newPackage"/>
+    <property name="tagOldProject" value="newProject"/>
+    <property name="tagNewProject" value="updateProject"/>
+    <property name="tagIdea" value="src/main/java"/>
+    <property name="tagAlgos" value="it/algos"/>
+    <property name="tagPathJava" value="${tagIdea}/${tagAlgos}"/>
+    <property name="tagWebapp" value="src/main"/>
+    <property name="tagScripts" value="templates/scripts"/>
+    <property name="tagProjectScripts" value="scripts"/>
+    <property name="tagSources" value="templates/sources"/>
+    <!--Fine dei tag-->
+
+    <!--Valori recuperati automaticamente da Ant-->
+    <property name="pathBaseProject" value="${basedir}${risalita}"/>
+    <property name="projectsIdea" value="${basedir}/..${risalita}"/>
+    <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
+    <property name="pathJavaFramework" value="${pathBaseFramework}/${tagPathJava}/${nomeBaseFramework}"/>
+    <property name="pathWebappFramework" value="${pathBaseFramework}/${tagWebapp}"/>
+    <property name="pathScriptsFramework" value="${pathBaseFramework}/${tagScripts}"/>
+    <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
+    <!--Fine dei valori di Ant-->
 
 
+    <!--Valori vari dipendenti-->
     <target name="init" description="Regola alcuni valori">
         <lower string="${nomeBaseProgetto}" to="nomeProgettoMinuscolo"/>
-        <property name="pathProgetto" value="it/algos/${nomeProgettoMinuscolo}"/>
-        <property name="package" value="${nomeProgettoMinuscolo}"/>
-        <property name="destProgetto" value="${pathProgetto}.${pathIdea}.${pathProgetto}"/>
-        <property name="destBase" value="${pathIdea}/${pathProgetto}"/>
-        <property name="destUI" value="${destBase}/ui/${nomeBaseProgetto}UI.java"/>
-        <property name="destBoot" value="${destBase}/bootstrap/${nomeBaseProgetto}SpringBoot.java"/>
-        <property name="destApp" value="${destBase}/application/${nomeBaseProgetto}Application.java"/>
-        <property name="destVaadin" value="${basedir}/${pathIdea}/${pathFramework}"/>
+        <property name="pathJavaProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}"/>
+
+        <property name="srcVaadin" value="${pathJavaFramework}"/>
+        <property name="destVaadin" value="${pathBaseProject}/${tagPathJava}/${nomeBaseFramework}"/>
+
+        <property name="srcApp" value="${pathSourcesFramework}/${tagApp}${tagTxt}"/>
+        <property name="destApp" value="${pathJavaProject}/${dirApp}/${nomeBaseProgetto}${tagApp}${tagJava}"/>
+
+        <property name="srcBoot" value="${pathSourcesFramework}/${tagBoot}${tagTxt}"/>
+        <property name="destBoot" value="${pathJavaProject}/${dirBoot}/${nomeBaseProgetto}${tagBoot}${tagJava}"/>
+
+        <property name="srcUI" value="${pathSourcesFramework}/${tagUI}${tagTxt}"/>
+        <property name="destUI" value="${pathJavaProject}/${dirUI}/${nomeBaseProgetto}${tagUI}${tagJava}"/>
+
+        <property name="srcRead" value="${pathBaseFramework}/${tagRead}"/>
+        <property name="destRead" value="${pathBaseProject}/${tagRead}"/>
+
+        <property name="srcXmlPackage" value="${pathScriptsFramework}/${tagPackage}${tagXml}"/>
+        <property name="destXmlPackage" value="${pathBaseProject}/${tagProjectScripts}/${tagPackage}${tagXml}"/>
+        <property name="srcXmlProject" value="${pathBaseProject}/${tagOldProject}${tagXml}"/>
+        <property name="destXmlProject" value="${pathBaseProject}/${tagProjectScripts}/${tagNewProject}${tagXml}"/>
+
+        <property name="dirOldApp" value="${pathJavaProject}/${nomeProgettoMinuscolo}"/>
+    </target>
+
+
+    <target name="test" depends="init" description="Controllo della variabili">
+        <echo message="nomeBaseProgetto = ${nomeBaseProgetto}"/>
+        <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
+        <echo message="risalita = ${risalita}"/>
+        <echo message="pathBaseProject = ${pathBaseProject}"/>
+        <echo message="pathJavaProject = ${pathJavaProject}"/>
+
+        <echo message="projectsIdea = ${projectsIdea}"/>
+        <echo message="pathBaseFramework = ${pathBaseFramework}"/>
+
+        <echo message="pathJavaFramework = ${pathJavaFramework}"/>
+        <echo message="pathWebappFramework = ${pathWebappFramework}"/>
+        <echo message="pathScriptsFramework = ${pathScriptsFramework}"/>
+        <echo message="pathSourcesFramework = ${pathSourcesFramework}"/>
+
+        <echo message="srcVaadin = ${srcVaadin}"/>
+        <echo message="destVaadin = ${destVaadin}"/>
+
+        <echo message="srcApp = ${srcApp}"/>
+        <echo message="destApp = ${destApp}"/>
+        <echo message="srcBoot = ${srcBoot}"/>
+        <echo message="destBoot = ${destBoot}"/>
+        <echo message="srcUI = ${srcUI}"/>
+        <echo message="destUI = ${destUI}"/>
+
+        <echo message="srcRead = ${srcRead}"/>
+        <echo message="destRead = ${destRead}"/>
+        <echo message="srcXmlPackage = ${srcXmlPackage}"/>
+        <echo message="destXmlPackage = ${destXmlPackage}"/>
+        <echo message="srcXmlProject = ${srcXmlProject}"/>
+        <echo message="destXmlProject = ${destXmlProject}"/>
+
+        <echo message="dirOldApp = ${dirOldApp}"/>
     </target>
 
 
     <target name="creaNewOnly" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="false">
             <filterset>
-                <filter token="PACKAGE" value="${package}"/>
+                <filter token="PACKAGE" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
         </copy>
@@ -50,7 +128,7 @@
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="true">
             <filterset>
-                <filter token="PACKAGE" value="${package}"/>
+                <filter token="PACKAGE" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
         </copy>
@@ -63,20 +141,16 @@
     </target>
 
 
-    <target name="creaApp" depends="init" description="Crea il file main application">
-        <antcall target="creaNewOnly">
-            <param name="srcFile" value="${srcApp}"/>
-            <param name="destPackage" value="${package}"/>
-            <param name="destFile" value="${destApp}"/>
-        </antcall>
+    <target name="copiaVaadin" depends="init" description="Ricopia la directory completa di SpringVaadin">
+        <copydir src="${srcVaadin}" dest="${destVaadin}"/>
     </target>
 
 
-    <target name="creaUI" depends="init" description="Crea il file UI">
+    <target name="creaApp" depends="init" description="Crea il file application col metodo Main">
         <antcall target="creaNewOnly">
-            <param name="srcFile" value="${srcUI}"/>
-            <param name="destPackage" value="${package}"/>
-            <param name="destFile" value="${destUI}"/>
+            <param name="srcFile" value="${srcApp}"/>
+            <param name="destPackage" value="${nomeProgettoMinuscolo}"/>
+            <param name="destFile" value="${destApp}"/>
         </antcall>
     </target>
 
@@ -84,16 +158,18 @@
     <target name="creaBoot" depends="init" description="Crea il file SpringBoot">
         <antcall target="creaNewOnly">
             <param name="srcFile" value="${srcBoot}"/>
-            <param name="destPackage" value="${package}"/>
+            <param name="destPackage" value="${nomeProgettoMinuscolo}"/>
             <param name="destFile" value="${destBoot}"/>
         </antcall>
     </target>
 
 
-    <target name="copiaVaadin" depends="init" description="Ricopia la directory completa di SpringVaadin">
-        <copydir src="${srcVaadin}"
-                 dest="${destVaadin}"/>
-        <echo message="Copiato ${srcVaadin} in ${destVaadin}"/>
+    <target name="creaUI" depends="init" description="Crea il file UI">
+        <antcall target="creaNewOnly">
+            <param name="srcFile" value="${srcUI}"/>
+            <param name="destPackage" value="${nomeProgettoMinuscolo}"/>
+            <param name="destFile" value="${destUI}"/>
+        </antcall>
     </target>
 
 
@@ -105,58 +181,68 @@
     </target>
 
 
-    <target name="creaScript" depends="init" description="Crea la directory con lo script per i moduli">
+    <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
+        <delete dir="${dirOldApp}"/>
+    </target>
+
+
+    <target name="creaScript" depends="init" description="Crea la directory con gli scripts">
         <antcall target="creaSingoloFile">
-            <param name="srcFile" value="${srcScript}"/>
-            <param name="destFile" value="${destScript}"/>
+            <param name="srcFile" value="${srcXmlPackage}"/>
+            <param name="destFile" value="${destXmlPackage}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcXmlProject}"/>
+            <param name="destFile" value="${destXmlProject}"/>
         </antcall>
     </target>
 
 
-    <target name="cancellaScript" depends="init" description="Cancella questo file">
-        <copy file="${srcProjectScript}" tofile="${destProjectScript}" overwrite="true">
-            <filterset>
-                <filter token="creaProgettoECancellaScript" value="updateProgetto"/>
-                <filter token="creaProgetto" value="updateProgetto"/>
-            </filterset>
-        </copy>
-        <antcall target="creaSingoloFile">
-            <param name="srcFile" value="${srcProjectScript}"/>
-            <param name="destFile" value="${destProjectScript}"/>
-        </antcall>
-        <replace file="${destProjectScript}"
+    <target name="modificaScript" depends="init" description="Modifica lo script appena spostato">
+        <replace file="${destXmlProject}"
+                 token="name=&quot;newProject&quot;"
+                 value="name=&quot;updateProject&quot;">
+        </replace>
+        <replace file="${destXmlProject}"
+                 token="creaProgettoECancellaScript"
+                 value="updateProgetto">
+        </replace>
+        <replace file="${destXmlProject}"
+                 token="creaProgetto,cancellaScript"
+                 value="creaProgetto">
+        </replace>
+        <replace file="${destXmlProject}"
+                 token="&lt;property name=&quot;risalita&quot; value=&quot;&quot;/&gt;"
+                 value="&lt;property name=&quot;risalita&quot; value=&quot;/..&quot;/&gt;">
+        </replace>
+        <replace file="${destXmlProject}"
                  token="&lt;target name=&quot;creaProgettoECancellaScript&quot; depends=&quot;creaProgetto,cancellaScript&quot;
         description=&quot;Crea un nuovo progetto, modificando ed adeguando la struttura del project&quot;&gt;
         &lt;/target&gt;"
                  value="">
         </replace>
-        <replace file="${destProjectScript}" token="creaProgettoECancellaScript"
-                 value="updateProgetto">
+        <replace file="${destXmlProject}"
+                 token=",creaScript,modificaScript"
+                 value="">
         </replace>
+    </target>
+
+
+    <target name="cancellaScript" depends="init" description="Cancella questo script">
         <antcall target="cancellaFile">
-            <param name="srcFile" value="${srcProjectScript}"/>
+            <param name="srcFile" value="${srcXmlProject}"/>
         </antcall>
     </target>
 
 
-    <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
-        <delete dir="${destBase}/${package}"/>
-    </target>
-
-
-    <target name="creaProgetto" depends="init,creaApp,creaUI,creaBoot,copiaVaadin,creaRead,creaScript,deleteOldApp"
+    <target name="creaProgetto"
+            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 
 
     <target name="creaProgettoECancellaScript" depends="creaProgetto,cancellaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
-    </target>
-
-
-    <target name="checkFileExists" depends="init" description="Controlla che il file esista">
-        <loadfile property="file" srcfile="${srcFile}"/>
-        <echo>${file}</echo>
     </target>
 
 
@@ -168,35 +254,5 @@
         project.setProperty(attributes.get("to"),attributes.get("string").toLowerCase());
     </scriptdef>
 
-
-    <target name="test" depends="init" description="Controllo della variabili">
-        <echo message="basedir = ${basedir}"/>
-        <echo message="nomeBaseProgetto = ${nomeBaseProgetto}"/>
-        <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
-        <echo message="baseProjectsIdea = ${baseProjectsIdea}"/>
-        <echo message="nomeProgettoMinuscolo = ${nomeProgettoMinuscolo}"/>
-        <echo message="pathFramework = ${pathFramework}"/>
-        <echo message="baseFramework = ${baseFramework}"/>
-        <echo message="pathProgetto = ${pathProgetto}"/>
-        <echo message="srcTemplates = ${srcTemplates}"/>
-        <echo message="newDirUI = ${newDirUI}"/>
-        <echo message="pathIdea = ${pathIdea}"/>
-        <echo message="destProgetto = ${destProgetto}"/>
-        <echo message="srcUI = ${srcUI}"/>
-        <echo message="destBase = ${destBase}"/>
-        <echo message="destUI = ${destUI}"/>
-        <echo message="srcVaadin = ${srcVaadin}"/>
-        <echo message="destVaadin = ${destVaadin}"/>
-        <echo message="srcRead = ${srcRead}"/>
-        <echo message="destRead = ${destRead}"/>
-        <echo message="srcBoot = ${srcBoot}"/>
-        <echo message="destBoot = ${destBoot}"/>
-    </target>
-
-    <target name="testFile" depends="init" description="Controllo della variabili">
-        <antcall target="checkFileExists">
-            <param name="srcFile" value="${destUI}"/>
-        </antcall>
-    </target>
 
 </project>
