@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  * Questa classe DEVE prevedere l'Annotation @SpringUI()
  * All'interno dell'applicazione, @SpringUI() deve essere utilizzata in una sola classe che estende UI
  */
-@Theme("valo")
+@Theme("algos")
 @SpringUI()
 @SpringViewDisplay()
 public class @PROJECT@UI extends AlgosUI {

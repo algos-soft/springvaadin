@@ -17,6 +17,8 @@ Copiare da springvaadin lo script templates.scripts.newProject.xml a livello bas
 Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato seconda riga) e lanciare 'creaProgettoECancellaScript'; dopo il lancio il file si auto-cancella
 Modificare la Main Class in Edit Configurations... di Idea, indicando quella contenuta nella directory 'application'
 Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
+Creare in MySql un database col nome (minuscolo) del nuovo progetto.
+In alternativa, modificare il nome del DB in src.main.resources.application.properties
 
 Vaad8springApplication contiene il metodo 'main' che è il punto di ingresso dell'applicazione Java
 In fase di sviluppo si possono avere diverse configurazioni, ognuna delle quali punta un ''main' diverso

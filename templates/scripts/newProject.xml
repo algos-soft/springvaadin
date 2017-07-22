@@ -27,10 +27,13 @@
     <property name="tagBoot" value="SpringBoot"/>
     <property name="tagUI" value="UI"/>
     <property name="tagRead" value="README${tagTxt}"/>
+    <property name="tagFrameworkProperties" value="Properties"/>
+    <property name="tagProjectProperties" value="application.properties"/>
     <property name="tagPackage" value="newPackage"/>
     <property name="tagOldProject" value="newProject"/>
     <property name="tagNewProject" value="updateProject"/>
-    <property name="tagIdea" value="src/main/java"/>
+    <property name="tagMain" value="src/main"/>
+    <property name="tagIdea" value="${tagMain}/java"/>
     <property name="tagAlgos" value="it/algos"/>
     <property name="tagPathJava" value="${tagIdea}/${tagAlgos}"/>
     <property name="tagWebapp" value="src/main"/>
@@ -41,6 +44,8 @@
 
     <!--Valori recuperati automaticamente da Ant-->
     <property name="pathBaseProject" value="${basedir}${risalita}"/>
+    <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
+    <property name="pathWebappProject" value="${pathBaseProject}${tagMain}/webapp"/>
     <property name="projectsIdea" value="${basedir}/..${risalita}"/>
     <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
     <property name="pathJavaFramework" value="${pathBaseFramework}/${tagPathJava}/${nomeBaseFramework}"/>
@@ -74,6 +79,9 @@
         <property name="destXmlPackage" value="${pathBaseProject}/${tagProjectScripts}/${tagPackage}${tagXml}"/>
         <property name="srcXmlProject" value="${pathBaseProject}/${tagOldProject}${tagXml}"/>
         <property name="destXmlProject" value="${pathBaseProject}/${tagProjectScripts}/${tagNewProject}${tagXml}"/>
+
+        <property name="srcProperties" value="${pathSourcesFramework}/${tagFrameworkProperties}${tagTxt}"/>
+        <property name="destProperties" value="${pathResourcesProject}/${tagProjectProperties}"/>
 
         <property name="dirOldApp" value="${pathJavaProject}/${nomeProgettoMinuscolo}"/>
     </target>
@@ -110,6 +118,9 @@
         <echo message="destXmlPackage = ${destXmlPackage}"/>
         <echo message="srcXmlProject = ${srcXmlProject}"/>
         <echo message="destXmlProject = ${destXmlProject}"/>
+
+        <echo message="srcProperties = ${srcProperties}"/>
+        <echo message="destProperties = ${destProperties}"/>
 
         <echo message="dirOldApp = ${dirOldApp}"/>
     </target>
@@ -180,6 +191,27 @@
         </antcall>
     </target>
 
+    <target name="creaRes" depends="init" description="Crea il file risorse (database). Solo la prima volta">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcProperties}"/>
+            <param name="destFile" value="${destProperties}"/>
+        </antcall>
+    </target>
+
+    <target name="updateRes" depends="init" description="Aggiorna il file risorse (database)">
+        <antcall target="creaNewOnly">
+            <param name="srcFile" value="${srcProperties}"/>
+            <param name="destFile" value="${destProperties}"/>
+        </antcall>
+    </target>
+
+    <target name="modificaRes" depends="init" description="Modifica il nome del database">
+        <replace file="${destProperties}"
+                 token="3306/algostest"
+                 value="3306/${nomeProgettoMinuscolo}">
+        </replace>
+    </target>
+
 
     <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
         <delete dir="${dirOldApp}"/>
@@ -225,6 +257,10 @@
                  token=",creaScript,modificaScript"
                  value="">
         </replace>
+        <replace file="${destXmlProject}"
+                 token="creaRes,modificaRes"
+                 value="updateRes">
+        </replace>
     </target>
 
 
@@ -236,7 +272,7 @@
 
 
     <target name="creaProgetto"
-            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,deleteOldApp,creaScript,modificaScript"
+            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,creaRes,modificaRes,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 
