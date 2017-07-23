@@ -1,7 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;

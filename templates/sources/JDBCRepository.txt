@@ -1,7 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.repository.AlgosJDBCRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
