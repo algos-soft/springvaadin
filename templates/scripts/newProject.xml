@@ -26,6 +26,7 @@
     <property name="tagApp" value="Application"/>
     <property name="tagBoot" value="SpringBoot"/>
     <property name="tagUI" value="UI"/>
+    <property name="tagPom" value="pom.xml"/>
     <property name="tagRead" value="README${tagTxt}"/>
     <property name="tagFrameworkProperties" value="Properties"/>
     <property name="tagProjectProperties" value="application.properties"/>
@@ -74,6 +75,9 @@
 
         <property name="srcRead" value="${pathBaseFramework}/${tagRead}"/>
         <property name="destRead" value="${pathBaseProject}/${tagRead}"/>
+
+        <property name="srcPom" value="${pathBaseFramework}/${tagPom}"/>
+        <property name="destPom" value="${pathBaseProject}/${tagPom}"/>
 
         <property name="srcXmlPackage" value="${pathScriptsFramework}/${tagPackage}${tagXml}"/>
         <property name="destXmlPackage" value="${pathBaseProject}/${tagProjectScripts}/${tagPackage}${tagXml}"/>
@@ -126,6 +130,8 @@
         <echo message="pathWebappProject = ${pathWebappProject}"/>
 
         <echo message="dirOldApp = ${dirOldApp}"/>
+        <echo message="srcPom = ${srcPom}"/>
+        <echo message="destPom = ${destPom}"/>
     </target>
 
 
@@ -223,6 +229,14 @@
     </target>
 
 
+    <target name="copiaPom" depends="init" description="Copia il file pom.xml">
+        <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcPom}"/>
+            <param name="destFile" value="${destPom}"/>
+        </antcall>
+    </target>
+
+
     <target name="deleteOldApp" depends="init" description="Cancella la vecchia main class creata da Idea">
         <delete dir="${dirOldApp}"/>
     </target>
@@ -291,7 +305,12 @@
     </target>
 
 
-    <target name="creaProgettoECancellaScript" depends="creaProgetto,cancellaScript"
+    <target name="creaProgettoSenzaPomECancellaScript" depends="init,creaProgetto,cancellaScript"
+            description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
+    </target>
+
+
+    <target name="creaProgettoECancellaScript" depends="init,copiaPom,creaProgettoSenzaPomECancellaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 

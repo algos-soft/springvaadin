@@ -4,21 +4,37 @@ Applicazione finale in JAR, con Tomcat embedded.
 Alternativamente si può avere l'uscita in WAR. Modifiche possibili, non ancora provate
 Usa Vaadin 8.0.5 e IntelliJ Idea 2017.1.3 e SpringBoot 1.5.3
 
-New Project
-Selezionare Spring Initializr; cliccare 'Next' lasciando selezionato il radioBottone 'Default'
-Group: it.algos.nomeDelProgetto
-Artifact: nomeDelProgetto
-Usa le dependencies:
-- Core: Cache, DevTools
-- Web: Web, Web Services, Vaadin
-- SQL: JPA, MySQL, H2
-- I/O: Mail
-Copiare da springvaadin lo script templates.scripts.newProject.xml a livello base del nuovo progetto
-Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato seconda riga) e lanciare 'creaProgettoECancellaScript'; dopo il lancio il file si auto-cancella
-Modificare la Main Class in Edit Configurations... di Idea, indicando quella contenuta nella directory 'application'
-Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
-Creare in MySql un database col nome (minuscolo) del nuovo progetto.
-In alternativa, modificare il nome del DB in src.main.resources.application.properties
+New Project: soluzione A
+1) Selezionare maven; click Next (non selezionare Create from archetype)
+    Group: it.algos.nomeBaseProgetto (minuscolo)
+    Artifact: nomeBaseProgetto (minuscolo)
+2) Copiare da springvaadin lo script templates.scripts.newProject.xml ed inserirlo a livello base del nuovo progetto
+3) Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato (seconda riga, iniziale maiuscola);
+    lanciare 'creaProgettoECancellaScript';
+    dopo il lancio il file si auto-cancella
+4) Eseguire Maven -> Import Changes
+5) Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
+6) Creare in MySql un database col nome (minuscolo) del nuovo nomeBaseProgetto.
+    In alternativa, modificare il nome del DB in src.main.resources.application.properties
+
+
+New Project: soluzione B
+1) Selezionare Spring Initializr; cliccare 'Next' lasciando selezionato il radioBottone 'Default'
+    Group: it.algos.nomeBaseProgetto (minuscolo)
+    Artifact: nomeBaseProgetto (minuscolo)
+2) Usa le dependencies:
+    - Core: Cache, DevTools
+    - Web: Web, Web Services, Vaadin
+    - SQL: JPA, MySQL, H2
+    - I/O: Mail
+3) Copiare da springvaadin lo script templates.scripts.newProject.xml a livello base del nuovo progetto
+4) Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato (seconda riga, iniziale maiuscola);
+    lanciare 'creaProgettoSenzaPomECancellaScript';
+    dopo il lancio il file si auto-cancella
+5) Modificare la Main Class in Edit Configurations... di Idea, indicando quella contenuta nella directory 'application'
+6) Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
+7) Creare in MySql un database col nome (minuscolo) del nuovo nomeBaseProgetto.
+    In alternativa, modificare il nome del DB in src.main.resources.application.properties
 
 Vaad8springApplication contiene il metodo 'main' che è il punto di ingresso dell'applicazione Java
 In fase di sviluppo si possono avere diverse configurazioni, ognuna delle quali punta un ''main' diverso
