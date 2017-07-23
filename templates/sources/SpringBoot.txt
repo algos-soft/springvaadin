@@ -1,4 +1,4 @@
-package it.algos.@PACKAGE@.bootstrap;
+package it.algos.@LOWERPROJECT@.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.AlgosSpringBoot;

@@ -1,4 +1,4 @@
-package it.algos.@PROJECT@.entity.@PACKAGE@;
+package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 
 import com.vaadin.icons.VaadinIcons;

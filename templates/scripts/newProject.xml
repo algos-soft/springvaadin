@@ -2,8 +2,8 @@
 <project name="newProject" default="creaProgettoECancellaScript">
 
 
-    <!--Valori sicuramente da regolare un un nuovo progetto-->
-    <property name="nomeBaseProgetto" value="xxx"/>
+    <!--Valori sicuramente da regolare in un nuovo progetto-->
+    <property name="nomeBaseProgetto" value="xxx "/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo progetto-->
@@ -231,6 +231,10 @@
             <param name="srcFile" value="${srcXmlPackage}"/>
             <param name="destFile" value="${destXmlPackage}"/>
         </antcall>
+        <replace file="${destXmlPackage}"
+                 token="name=&quot;thisProject&quot; value=&quot;xxx&quot;"
+                 value="name=&quot;thisProject&quot; value=&quot;${nomeBaseProgetto}&quot;">
+        </replace>
         <antcall target="creaSingoloFile">
             <param name="srcFile" value="${srcXmlProject}"/>
             <param name="destFile" value="${destXmlProject}"/>

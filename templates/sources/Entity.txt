@@ -1,4 +1,4 @@
-package it.algos.@PROJECT@.entity.@PACKAGE@;
+package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
