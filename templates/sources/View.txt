@@ -1,6 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
-
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;

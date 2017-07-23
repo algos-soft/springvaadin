@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosServiceImpl;
