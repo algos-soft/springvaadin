@@ -6,7 +6,7 @@
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="thisProject" value="xyz"/>
+    <property name="thisProject" value="xxx"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
     <property name="risalita" value="/.."/>
     <!--Fine dei valori facoltativi-->
