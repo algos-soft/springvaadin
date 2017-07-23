@@ -1,0 +1,11 @@
+package it.algos.@LOWERPROJECT@.application;
+
+/**
+ * Repository di costanti della specifica applicazione
+ * <p>
+ * Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
+ * Altre costanti 'static' sono raggruppate nella classe it.algos.webbase.web.AlgosApp
+ */
+public abstract class AppCost {
+
+}// end of static class;

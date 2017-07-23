@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="modulo" default="creaPackage">
+<project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
     <property name="newEntity" value="xxx"/>
@@ -44,9 +44,6 @@
     <!--Fine dei valori di Ant-->
 
     <target name="init" description="Converte la directory">
-        <!--<property name="baseIdeaProjects" value="${baseDir}/.."/>-->
-        <!--<property name="baseFramework" value="${baseIdeaProjects}/${nomeBaseFramework}"/>-->
-        <!--<property name="baseProject" value="${basedir}/.."/>-->
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
@@ -64,35 +61,31 @@
         <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="pathPackageUI" value="${pathEntityProject}/${package}/${newEntity}"/>
         <property name="pathLibProject" value="${pathBaseProject}/${tagPathJava}/${nomeBaseFramework}/${dirLib}"/>
-
-        <!--<property name="pathIdea" value="src/main/java/"/>-->
-        <!--<property name="pathEntity" value="it/algos/${thisProject}/entity/"/>-->
-
-        <!--<property name="newPathDir" value="${baseProject}/${pathIdea}${pathEntity}${newDir}"/>-->
+        <property name="pathEntity" value="${pathEntityProject}/${newEntityMinuscolo}/${newEntity}"/>
 
         <property name="srcEntity" value="${pathSourcesFramework}/${tagEntity}${tagTxt}"/>
-        <property name="destEntity" value="${pathPackage}${tagJava}"/>
+        <property name="destEntity" value="${pathEntity}${tagJava}"/>
 
         <property name="srcPresenter" value="${pathSourcesFramework}/${tagPresenter}${tagTxt}"/>
-        <property name="destPresenter" value="${pathPackage}${tagPresenter}${tagJava}"/>
+        <property name="destPresenter" value="${pathEntity}${tagPresenter}${tagJava}"/>
 
         <property name="srcNavView" value="${pathSourcesFramework}/${tagNavView}${tagTxt}"/>
-        <property name="destNavView" value="${pathPackage}${tagNavView}${tagJava}"/>
+        <property name="destNavView" value="${pathEntity}${tagNavView}${tagJava}"/>
 
         <property name="srcView" value="${pathSourcesFramework}/${tagView}${tagTxt}"/>
-        <property name="destView" value="${pathPackage}${tagView}${tagJava}"/>
+        <property name="destView" value="${pathEntity}${tagView}${tagJava}"/>
 
         <property name="srcList" value="${pathSourcesFramework}/${tagList}${tagTxt}"/>
-        <property name="destList" value="${pathPackage}${tagList}${tagJava}"/>
+        <property name="destList" value="${pathEntity}${tagList}${tagJava}"/>
 
         <property name="srcForm" value="${pathSourcesFramework}/${tagForm}${tagTxt}"/>
-        <property name="destForm" value="${pathPackage}${tagForm}${tagJava}"/>
+        <property name="destForm" value="${pathEntity}${tagForm}${tagJava}"/>
 
         <property name="srcService" value="${pathSourcesFramework}/${tagService}${tagTxt}"/>
-        <property name="destService" value="${pathPackage}${tagService}${tagJava}"/>
+        <property name="destService" value="${pathEntity}${tagService}${tagJava}"/>
 
         <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
-        <property name="destRepository" value="${pathPackage}${tagRepository}${tagJava}"/>
+        <property name="destRepository" value="${pathEntity}${tagRepository}${tagJava}"/>
 
         <property name="destCost" value="${pathLibProject}/${tagCost}${tagJava}"/>
         <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
@@ -111,7 +104,7 @@
         <echo message="pathSourcesFramework = ${pathSourcesFramework}"/>
 
         <echo message="pathEntityProject = ${pathEntityProject}"/>
-        <echo message="pathPackage = ${pathPackage}"/>
+        <echo message="pathEntity = ${pathEntity}"/>
         <echo message="srcEntity = ${srcEntity}"/>
         <echo message="destEntity = ${destEntity}"/>
 
@@ -122,11 +115,6 @@
         <echo message="tagPackMenu = ${tagPackMenu}"/>
         <echo message="tagImportMenu = ${tagImportMenu}"/>
     </target>
-
-
-    <!--<target name="creaPackageDirectory" description="Crea la nuova cartella/directory">-->
-    <!--<mkdir dir="${newPathDir}"/>-->
-    <!--</target>-->
 
 
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
@@ -217,9 +205,6 @@
                  token="${tagPackMenu}"
                  value="${tagPackMenu}${tagImportMenu}">
         </replace>
-        <echo message="destUI = ${destUI}"/>
-        <echo message="tagPackMenu = ${tagPackMenu}"/>
-        <echo message="tagImportMenu = ${tagImportMenu}"/>
         <echo message="Aggiunta l'import della classe ${newEntity}NavView nel file ui.${thisProject}UI"/>
     </target>
 
@@ -228,10 +213,8 @@
             description="Controlla che la creazione del menu non esista già (per evitare duplicazioni)">
 
         <loadfile property="fileMenu" srcfile="${destUI}"/>
-        <condition property="hasNoAddMenu">
-            <not>
-                <matches pattern="${newEntity}NavView.class" string="${fileMenu}"/>
-            </not>
+        <condition property="esisteGiaMenu">
+            <matches pattern="${newEntity}NavView.class" string="${fileMenu}"/>
         </condition>
         <echo>${fileMenu}</echo>
         <echo message="tagAddMenu: ${tagAddMenu}"/>
@@ -240,16 +223,16 @@
     </target>
 
 
-    <target name="addMenu" if="${hasNoAddMenu}">
-        <replace file="${destUI}" token="${tagFindMenu}"
+    <target name="addMenu" unless="${esisteGiaMenu}">
+        <replace file="${destUI}"
+                 token="${tagFindMenu}"
                  value="${tagFindMenu}&#009;&#009;${tagAddMenu}&#10;">
         </replace>
         <echo message="Aggiunta creazione del menu ${newEntity}NavView nel file ui.SpringVaadinUI"/>
     </target>
 
 
-    <!--<target name="creaPackage" depends="init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"-->
-    <target name="creaPackage" depends="init,creaFiles,checkCostante,checkImportMenu"
+    <target name="creaPackage" depends="init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
             description="Crea un nuovo package (modulo)">
     </target>
 

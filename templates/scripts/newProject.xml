@@ -3,7 +3,7 @@
 
 
     <!--Valori sicuramente da regolare in un nuovo progetto-->
-    <property name="nomeBaseProgetto" value="xxx "/>
+    <property name="nomeBaseProgetto" value="xxx"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo progetto-->
@@ -132,6 +132,7 @@
     <target name="creaNewOnly" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="false">
             <filterset>
+                <filter token="LOWERPROJECT" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PACKAGE" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
@@ -142,6 +143,7 @@
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
         <copy file="${srcFile}" tofile="${destFile}" overwrite="true">
             <filterset>
+                <filter token="LOWERPROJECT" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PACKAGE" value="${nomeProgettoMinuscolo}"/>
                 <filter token="PROJECT" value="${nomeBaseProgetto}"/>
             </filterset>
