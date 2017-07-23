@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 @SpringComponent
-@Qualifier(Cost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@View extends AlgosViewImpl {
 
     /**
@@ -30,7 +30,7 @@ public class @ENTITY@View extends AlgosViewImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@View(@Qualifier(Cost.TAG_@TAG@) AlgosList list, @Qualifier(Cost.TAG_@TAG@) AlgosForm form) {
+    public @ENTITY@View(@Qualifier(AppCost.TAG_@TAG@) AlgosList list, @Qualifier(AppCost.TAG_@TAG@) AlgosForm form) {
         super(list, form);
     }// end of Spring constructor
 

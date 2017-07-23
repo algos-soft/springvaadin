@@ -28,8 +28,8 @@ import javax.persistence.*;
  */
 @Entity
 @Service
-@Table(name = Cost.TAG_@TAG@)
-@Qualifier(Cost.TAG_@TAG@)
+@Table(name = AppCost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@ extends AlgosEntity {
 
 

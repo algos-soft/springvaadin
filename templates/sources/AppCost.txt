@@ -8,4 +8,4 @@ package it.algos.@LOWERPROJECT@.application;
  */
 public abstract class AppCost {
 
-}// end of static class;
+}// end of static class

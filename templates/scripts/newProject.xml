@@ -24,6 +24,7 @@
     <property name="dirBoot" value="bootstrap"/>
     <property name="dirUI" value="ui"/>
     <property name="tagApp" value="Application"/>
+    <property name="tagCost" value="AppCost"/>
     <property name="tagBoot" value="SpringBoot"/>
     <property name="tagUI" value="UI"/>
     <property name="tagPom" value="pom.xml"/>
@@ -66,6 +67,9 @@
 
         <property name="srcApp" value="${pathSourcesFramework}/${tagApp}${tagTxt}"/>
         <property name="destApp" value="${pathJavaProject}/${dirApp}/${nomeBaseProgetto}${tagApp}${tagJava}"/>
+
+        <property name="srcCost" value="${pathSourcesFramework}/${tagCost}${tagTxt}"/>
+        <property name="destCost" value="${pathJavaProject}/${dirApp}/${tagCost}${tagJava}"/>
 
         <property name="srcBoot" value="${pathSourcesFramework}/${tagBoot}${tagTxt}"/>
         <property name="destBoot" value="${pathJavaProject}/${dirBoot}/${nomeBaseProgetto}${tagBoot}${tagJava}"/>
@@ -173,6 +177,15 @@
             <param name="srcFile" value="${srcApp}"/>
             <param name="destPackage" value="${nomeProgettoMinuscolo}"/>
             <param name="destFile" value="${destApp}"/>
+        </antcall>
+    </target>
+
+
+    <target name="creaCost" depends="init" description="Crea il file AppCost">
+        <antcall target="creaNewOnly">
+            <param name="srcFile" value="${srcCost}"/>
+            <param name="destPackage" value="${nomeProgettoMinuscolo}"/>
+            <param name="destFile" value="${destCost}"/>
         </antcall>
     </target>
 
@@ -300,7 +313,7 @@
 
 
     <target name="creaProgetto"
-            depends="init,creaApp,creaBoot,creaUI,copiaVaadin,creaRead,creaRes,modificaRes,copiaWeb,deleteOldApp,creaScript,modificaScript"
+            depends="init,creaApp,creaCost,creaBoot,creaUI,copiaVaadin,creaRead,creaRes,modificaRes,copiaWeb,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 

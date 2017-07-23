@@ -40,7 +40,7 @@ public class @ENTITY@NavView extends AlgosNavView {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@NavView(@Qualifier(Cost.TAG_@TAG@) AlgosPresenter presenter) {
+    public @ENTITY@NavView(@Qualifier(AppCost.TAG_@TAG@) AlgosPresenter presenter) {
         super(presenter);
     }// end of Spring constructor
 

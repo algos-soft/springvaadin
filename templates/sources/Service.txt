@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * Business logic specifica per il modulo @ENTITY@
  */
 @Service
-@Qualifier(Cost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@Service extends AlgosServiceImpl {
 
 
@@ -22,7 +22,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@Service(@Qualifier(Cost.TAG_@TAG@) AlgosEntity entity, @Qualifier(Cost.TAG_@TAG@) AlgosRepository repository) {
+    public @ENTITY@Service(@Qualifier(AppCost.TAG_@TAG@) AlgosEntity entity, @Qualifier(AppCost.TAG_@TAG@) AlgosRepository repository) {
         super(entity, repository);
     }// end of Spring constructor
 

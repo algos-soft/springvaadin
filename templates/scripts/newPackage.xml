@@ -16,9 +16,9 @@
     <property name="tagTxt" value=".txt"/>
     <property name="tagJava" value=".java"/>
     <property name="dirEntity" value="entity"/>
-    <property name="dirLib" value="lib"/>
+    <property name="dirApp" value="application"/>
     <property name="dirUI" value="ui"/>
-    <property name="tagCost" value="Cost"/>
+    <property name="tagCost" value="AppCost"/>
     <property name="tagUI" value="UI"/>
     <property name="tagEntity" value="Entity"/>
     <property name="tagPresenter" value="Presenter"/>
@@ -49,6 +49,7 @@
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
         <upper string="${originalTag}" to="tag"/>
         <property name="package" value="${newEntityMinuscolo}"/>
+        <property name="pathJavaProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}"/>
 
         <property name="tagFindEndFile" value="&#10;}// end of static class"/>
         <property name="tagAddCost" value="&#10;&#009;public final static String TAG_${tag} = "/>
@@ -60,7 +61,7 @@
         <property name="pathEntityProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirEntity}"/>
         <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="pathPackageUI" value="${pathEntityProject}/${package}/${newEntity}"/>
-        <property name="pathLibProject" value="${pathBaseProject}/${tagPathJava}/${nomeBaseFramework}/${dirLib}"/>
+        <property name="pathAppProject" value="${pathJavaProject}/${dirApp}"/>
         <property name="pathEntity" value="${pathEntityProject}/${newEntityMinuscolo}/${newEntity}"/>
 
         <property name="srcEntity" value="${pathSourcesFramework}/${tagEntity}${tagTxt}"/>
@@ -87,7 +88,7 @@
         <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
         <property name="destRepository" value="${pathEntity}${tagRepository}${tagJava}"/>
 
-        <property name="destCost" value="${pathLibProject}/${tagCost}${tagJava}"/>
+        <property name="destCost" value="${pathAppProject}/${tagCost}${tagJava}"/>
         <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
     </target>
 
@@ -108,8 +109,9 @@
         <echo message="srcEntity = ${srcEntity}"/>
         <echo message="destEntity = ${destEntity}"/>
 
-        <echo message="pathLibProject = ${pathLibProject}"/>
+        <echo message="pathJavaProject = ${pathJavaProject}"/>
         <echo message="destCost = ${destCost}"/>
+
         <echo message="destUI = ${destUI}"/>
 
         <echo message="tagPackMenu = ${tagPackMenu}"/>

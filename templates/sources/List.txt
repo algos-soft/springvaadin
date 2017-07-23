@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  * Aggiunge una ToolBar in basso coi bottoni di comando (contenenti già i listener per lanciare gli eventi)
  */
 @SpringComponent
-@Qualifier(Cost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@List extends AlgosListImpl {
 
 

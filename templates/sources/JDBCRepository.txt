@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * (sconsigliato perché obbliga un casting dell'interfaccia)
  */
 @SpringComponent
-@Qualifier(Cost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@JDBCRepository extends AlgosJDBCRepository {
 
 

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Classe specifica per costruire i riferimenti usati dalla superclasse
  */
 @SpringComponent
-@Qualifier(Cost.TAG_@TAG@)
+@Qualifier(AppCost.TAG_@TAG@)
 public class @ENTITY@Presenter extends AlgosPresenter {
 
     /**
@@ -23,7 +23,7 @@ public class @ENTITY@Presenter extends AlgosPresenter {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@Presenter(@Qualifier(Cost.TAG_@TAG@) AlgosView view, @Qualifier(Cost.TAG_@TAG@) AlgosService service) {
+    public @ENTITY@Presenter(@Qualifier(AppCost.TAG_@TAG@) AlgosView view, @Qualifier(AppCost.TAG_@TAG@) AlgosService service) {
         super(view, service);
     }// end of Spring constructor
 
