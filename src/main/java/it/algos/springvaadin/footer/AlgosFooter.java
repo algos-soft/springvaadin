@@ -21,6 +21,8 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public class AlgosFooter extends HorizontalLayout {
 
+    private String appMessage="";
+
     /**
      * Metodo invocato subito DOPO il costruttore
      * <p>
@@ -40,7 +42,7 @@ public class AlgosFooter extends HorizontalLayout {
         String companyCode = "";
         String debugMessage = " (footerLayout)";
 
-        message += "SpringVaadin 1.0";
+        message += this.appMessage;
 
         companyCode = LibSession.getCompany();
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
@@ -48,16 +50,22 @@ public class AlgosFooter extends HorizontalLayout {
         }// end of if cycle
 
         if (AlgosApp.USE_DEBUG) {
-            this.addStyleName("redBg");
+//            this.addStyleName("redBg");
             message += debugMessage;
         }// fine del blocco if
 
         //--colore
-        message="<strong style=\"color:blue;font-family:verdana;font-size:80%;\">"+message+"</strong>";
-        Label label=new Label(message, ContentMode.HTML);
+        message = "<strong style=\"color:blue;font-family:verdana;font-size:80%;\">" + message + "</strong>";
+        Label label = new Label(message, ContentMode.HTML);
         label.addStyleName("rosso");
 
         this.addComponent(label);
+    }// end of method
+
+    public void setAppMessage(String appMessage) {
+        this.removeAllComponents();
+        this.appMessage = appMessage;
+        this.inizia();
     }// end of method
 
 }// end of class

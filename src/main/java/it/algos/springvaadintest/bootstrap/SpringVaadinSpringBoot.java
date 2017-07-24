@@ -34,7 +34,7 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      * Valori specifici che modificano quelli di default della supeclasse
      * Stampa a video (productionMode) i valori per controllo
      */
-    protected void specificFixAndPrint() throws Exception {
+    private void specificFixAndPrint() throws Exception {
         AlgosApp.USE_DEBUG = false;
         System.out.println("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 

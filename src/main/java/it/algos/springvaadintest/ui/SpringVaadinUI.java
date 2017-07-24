@@ -30,6 +30,8 @@ public class SpringVaadinUI extends AlgosUI {
     @Override
     protected void inizia() {
         super.inizia();
+        footer.setAppMessage("SpringVaadin 1.0");
+
         super.printBefore(InterfacciaUtente.specifica);
         this.specificFixAndPrint();
         super.printAfter(InterfacciaUtente.specifica);
