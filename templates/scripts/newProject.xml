@@ -221,18 +221,15 @@
     </target>
 
 
-    <target name="fixRes" depends="init"
-            description="Aggiorna il file risorse (database)">
-        <loadfile property="fileRes" srcfile="${destProperties}"/>
-        <condition property="esisteGiaRes">
-            <matches pattern="${tagRes}" string="${fileRes}"/>
+    <target name="checkRes" depends="getLengthRes,resVuoto"/>
+    <target name="getLengthRes" depends="init" description="Controlla l'esistenza del file">
+        <!--<length file="${destProperties}" property="lunghezza" />-->
+        <condition property="fileResValido">
+            <length   when="gt" length="0" file="${destProperties}"/>
         </condition>
-        <antcall target="creaModificaRes">
-        </antcall>
     </target>
 
-
-    <target name="creaModificaRes" unless="${esisteGiaRes}">
+    <target name="resVuoto" depends="init" unless="${fileResValido}">
         <antcall target="creaSingoloFile">
             <param name="srcFile" value="${srcProperties}"/>
             <param name="destFile" value="${destProperties}"/>
@@ -340,7 +337,7 @@
 
 
     <target name="creaProgettoSenzaPom"
-            depends="init,creaApp,creaCost,creaBoot,creaUI,copiaVaadin,creaRead,fixRes,copiaWeb,checkFooter,deleteOldApp,creaScript,modificaScript"
+            depends="init,creaApp,creaCost,creaBoot,creaUI,copiaVaadin,creaRead,checkRes,copiaWeb,checkFooter,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 
