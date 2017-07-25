@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
  * Tipicamente usata da un admin per verificare i logs
  * Prevede la differenziazione per Company. Se l'applicazione non usa le company, la property è sempre nulla.
  */
-@Entity
+//@Entity
 @Service
 @Data
 @Table(name = Cost.TAG_LOG)

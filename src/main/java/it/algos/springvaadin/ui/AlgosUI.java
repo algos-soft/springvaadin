@@ -140,7 +140,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      * @return layout - normalmente un Panel
      */
     protected void creaViewTreComponenti() {
-        root.removeAllComponents();
 
         try { // prova ad eseguire il codice
             root.removeAllComponents();

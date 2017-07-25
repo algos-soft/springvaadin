@@ -33,7 +33,7 @@ import java.time.LocalDate;
  * <p>
  * Usata dalle applicazioni che hanno il flag AlgosApp.USE_MULTI_COMPANY=true
  */
-@Entity
+//@Entity
 @Service
 @Data
 @Table(name = Cost.TAG_COMP)
