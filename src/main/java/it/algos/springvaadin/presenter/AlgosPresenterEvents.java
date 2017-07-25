@@ -2,10 +2,12 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.AlgosBottone;
+import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.BottoneCreate;
 import it.algos.springvaadin.event.*;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
-import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -174,32 +176,37 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
      *
      * @param bottoneCliccato che ha lanciato l'evento
      */
-    protected void onListEvent(Bottone bottoneCliccato) {
-        switch (bottoneCliccato) {
-            case create:
+    protected void onListEvent(AlgosBottone bottoneCliccato) {
+
+        if (bottoneCliccato instanceof BottoneCreate) {
+            create();
+        }// end of if cycle
+
+        switch (bottoneCliccato.getCaption()) {
+            case Cost.TAG_BOT_CREATE:
                 create();
                 break;
-            case edit:
+            case Cost.TAG_BOT_EDIT:
                 edit();
                 break;
-            case delete:
+            case Cost.TAG_BOT_DELETE:
                 delete();
                 break;
-            case search:
+            case Cost.TAG_BOT_SEARCH:
                 search();
                 break;
-            case showAll:
-                showAll();
-                break;
-            case back:
-                annulla();
-                break;
-            case revert:
-                revert();
-                break;
-            case registra:
-                registra();
-                break;
+//            case showAll:
+//                showAll();
+//                break;
+//            case back:
+//                annulla();
+//                break;
+//            case revert:
+//                revert();
+//                break;
+//            case registra:
+//                registra();
+//                break;
             default: // caso non definito
                 break;
         } // fine del blocco switch

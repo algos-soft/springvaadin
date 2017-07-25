@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -36,7 +37,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
     //--versione della classe per la serializzazione
     private static final long serialVersionUID = 1L;
-
 
     //--crea la UI di base, un VerticalLayou
     protected VerticalLayout root;
@@ -80,14 +80,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     @Override
     protected void init(VaadinRequest request) {
         super.init(request);
-
-        Object alfa=request.getContextPath();
-        Object beta=request.getParameterMap();
-        Object delta=request.getPathInfo();
-        Object gamma=request.getRemoteAddr();
-        Object omega=request.getRemoteHost();
-        Object omicron=request.getRemotePort();
-        Object sex=request.getWrappedSession();
 
         //--Crea l'interfaccia utente (User Interface)
         this.creaUI();
@@ -140,16 +132,15 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      * @return layout - normalmente un Panel
      */
     protected void creaViewTreComponenti() {
-        root.removeAllComponents();
 
         try { // prova ad eseguire il codice
             root.removeAllComponents();
         } catch (Exception unErrore) { // intercetta l'errore
-            log.info("Error ", unErrore.toString());
-//            Logger.logMsg(1, unErrore.toString());
+            log.warn("Error", unErrore.toString());
         }// fine del blocco try-catch
 
         try { // prova ad eseguire il codice
+//            log.info("Error ", "Pippoz");
             if (menuLayout!=null) {
                 root.addComponent(menuLayout);
             }// end of if cycle

@@ -2,7 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.Bottone;
+import it.algos.springvaadin.bottone.Bottone;
 
 import javax.annotation.PostConstruct;
 
@@ -22,9 +22,9 @@ public class FormToolbar extends AlgosToolbar {
 
     @PostConstruct
     public void inizia() {
-        buttonAnnulla = super.addButton(Bottone.back);
-        buttonRevert = super.addButton(Bottone.revert);
-        buttonRegistra = super.addButton(Bottone.registra);
+//        buttonAnnulla = super.addButton(Bottone.back);//@todo rimettere
+//        buttonRevert = super.addButton(Bottone.revert);//@todo rimettere
+//        buttonRegistra = super.addButton(Bottone.registra);//@todo rimettere
     }// end of method
 
     public Button getButtonAnnulla() {
