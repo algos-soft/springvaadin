@@ -1,13 +1,19 @@
-package it.algos.springvaadin.event;
+package it.algos.springvaadin.bottone;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
+import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Created by gac on 03/06/17.
@@ -30,7 +36,6 @@ public enum Bottone {
     private Resource icona;
     private Button bottone;
     private boolean enabled;
-
 
     Bottone(String caption, Resource icona, boolean enabled) {
         this.caption = caption;
@@ -113,16 +118,28 @@ public enum Bottone {
     }// end of method
 
     private void publish() {
-        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
-
-        if (presenter != null) {
-            AlgosSpringEvent buttonSpringEvent = new ButtonSpringEvent(presenter, this);
-            presenter.getApplicationEventPublisher().publishEvent(buttonSpringEvent);
-        }// end of if cycle
+//        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
+//
+//        if (presenter != null) {
+//            AlgosSpringEvent buttonSpringEvent = new ButtonSpringEvent(presenter, this);
+//            presenter.getApplicationEventPublisher().publishEvent(buttonSpringEvent);
+//        }// end of if cycle
     }// end of method
 
     public Button get() {
         return bottone;
     }// end of method
 
+    /**
+     * Returns the name of this enum constant, as contained in the
+     * declaration.  This method may be overridden, though it typically
+     * isn't necessary or desirable.  An enum type should override this
+     * method when a more "programmer-friendly" string form exists.
+     *
+     * @return the name of this enum constant
+     */
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }// end of enumeration

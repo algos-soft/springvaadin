@@ -2,7 +2,12 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.Bottone;
+import it.algos.springvaadin.bottone.AlgosBottone;
+import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.BottoneCreate;
+import it.algos.springvaadin.lib.Cost;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
 
@@ -13,26 +18,36 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public class ListToolbar extends AlgosToolbar {
 
-    private Button buttonNew;
-    private Button buttonEdit;
-    private Button buttonDelete;
-    private Button buttonSearch;
-    private Button buttonAll;
+
+    @Autowired()
+    @Qualifier(Cost.TAG_BOT_CREATE)
+    private AlgosBottone buttonCreate;
+
+    @Autowired()
+    @Qualifier(Cost.TAG_BOT_EDIT)
+    private AlgosBottone buttonEdit;
+
+    @Autowired()
+    @Qualifier(Cost.TAG_BOT_DELETE)
+    private AlgosBottone buttonDelete;
+
+    @Autowired()
+    @Qualifier(Cost.TAG_BOT_SEARCH)
+    private AlgosBottone buttonSearch;
 
     public ListToolbar() {
     }// end of constructor
 
     @PostConstruct
     public void inizia() {
-        buttonNew = super.addButton(Bottone.create);
-        buttonEdit = super.addButton(Bottone.edit);
-        buttonDelete = super.addButton(Bottone.delete);
-        buttonSearch = super.addButton(Bottone.search);
-//        buttonAll = super.addButton(Bottone.showAll);
+        super.addButton(buttonCreate);
+        super.addButton(buttonEdit);
+        super.addButton(buttonDelete);
+        super.addButton(buttonSearch);
     }// end of method
 
     public void enableNew(boolean status) {
-        this.buttonNew.setEnabled(status);
+        this.buttonCreate.setEnabled(status);
     }// end of method
 
     public void enableEdit(boolean status) {

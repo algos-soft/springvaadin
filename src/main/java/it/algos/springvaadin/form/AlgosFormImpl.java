@@ -124,8 +124,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
                         binder.forField(field).bind(publicFieldName);
                     }// end of if/else cycle
                 } else {
-                    value = LibReflection.getValue(entity, publicFieldName);
-                    field.setValue(value);
+                    try { // prova ad eseguire il codice
+                        value = LibReflection.getValue(entity, publicFieldName);
+                        field.setValue(value);
+                    } catch (Exception unErrore) { // intercetta l'errore
+
+                    }// fine del blocco try-catch
                 }// end of if/else cycle
 
             }// end of if cycle
