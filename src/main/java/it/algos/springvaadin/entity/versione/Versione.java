@@ -139,37 +139,4 @@ public class Versione extends AlgosEntity {
     }// end of method
 
 
-//    public String getTitolo() {
-//        return titolo;
-//    }// end of getter method
-//
-//    public void setTitolo(String titolo) {
-//        this.titolo = titolo;
-//    }// end of setter method
-//
-//    public String getDescrizione() {
-//        return descrizione;
-//    }// end of getter method
-//
-//    public void setDescrizione(String descrizione) {
-//        this.descrizione = descrizione;
-//    }// end of setter method
-//
-//    public int getOrdine() {
-//        return ordine;
-//    }// end of getter method
-//
-//    public void setOrdine(int ordine) {
-//        this.ordine = ordine;
-//    }// end of setter method
-//
-//    public LocalDateTime getModifica() {
-//        return modifica;
-//    }// end of getter method
-//
-//    public void setModifica(LocalDateTime modifica) {
-//        this.modifica = modifica;
-//    }// end of setter method
-
-
 }// end of entity class

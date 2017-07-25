@@ -7,6 +7,7 @@ import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Service
+@Data
 @Table(name = Cost.TAG_COMP)
 @Qualifier(Cost.TAG_COMP)
 public class Company extends AlgosEntity {
@@ -168,79 +170,6 @@ public class Company extends AlgosEntity {
     public String toString() {
         return this.getSigla();
     }// end of method
-
-
-    public String getSigla() {
-        return sigla;
-    }// end of getter method
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }// end of setter method
-
-    public String getDescrizione() {
-        return descrizione;
-    }// end of getter method
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }// end of setter method
-
-    public String getEmail() {
-        return email;
-    }// end of getter method
-
-    public void setEmail(String email) {
-        this.email = email;
-    }// end of setter method
-
-    public String getIndirizzo() {
-        return indirizzo;
-    }// end of getter method
-
-    public void setIndirizzo(String indirizzo) {
-        this.indirizzo = indirizzo;
-    }// end of setter method
-
-    public String getContatto() {
-        return contatto;
-    }// end of getter method
-
-    public void setContatto(String contatto) {
-        this.contatto = contatto;
-    }// end of setter method
-
-    public String getTelefono() {
-        return telefono;
-    }// end of getter method
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }// end of setter method
-
-    public String getCellulare() {
-        return cellulare;
-    }// end of getter method
-
-    public void setCellulare(String cellulare) {
-        this.cellulare = cellulare;
-    }// end of setter method
-
-    public String getNote() {
-        return note;
-    }// end of getter method
-
-    public void setNote(String note) {
-        this.note = note;
-    }// end of setter method
-
-    public LocalDate getPartenza() {
-        return partenza;
-    }// end of getter method
-
-    public void setPartenza(LocalDate partenza) {
-        this.partenza = partenza;
-    }// end of setter method
 
 
 }// end of entity class

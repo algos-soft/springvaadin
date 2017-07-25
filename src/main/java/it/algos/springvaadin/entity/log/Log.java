@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
+import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +37,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Service
+@Data
 @Table(name = Cost.TAG_LOG)
 @Qualifier(Cost.TAG_LOG)
 public class Log extends AlgosEntity {
@@ -137,45 +139,5 @@ public class Log extends AlgosEntity {
         return getTitolo() + "-" + getDescrizione();
     }// end of method
 
-
-    public Company getCompany() {
-        return company;
-    }// end of getter method
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }// end of setter method
-
-    public Livello getLivello() {
-        return livello;
-    }// end of getter method
-
-    public void setLivello(Livello livello) {
-        this.livello = livello;
-    }// end of setter method
-
-    public String getTitolo() {
-        return titolo;
-    }// end of getter method
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
-    }// end of setter method
-
-    public String getDescrizione() {
-        return descrizione;
-    }// end of getter method
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }// end of setter method
-
-    public LocalDateTime getModifica() {
-        return modifica;
-    }// end of getter method
-
-    public void setModifica(LocalDateTime modifica) {
-        this.modifica = modifica;
-    }// end of setter method
 
 }// end of class
