@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.versione;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
@@ -7,6 +8,9 @@ import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import lombok.Data;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +39,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Service
+@Data
 @Table(name = Cost.TAG_VERS)
 @Qualifier(Cost.TAG_VERS)
 public class Versione extends AlgosEntity {
@@ -48,22 +53,23 @@ public class Versione extends AlgosEntity {
     @NotNull
     @GeneratedValue()
     @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
-    @AIColumn(name = "#",width = 80)
+    @AIColumn(name = "#", width = 80)
     private int ordine;
 
     //--codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIField(type = AFType.text, required = true,  help = "Tipologia della versione.")
+    @AIField(type = AFType.text, required = true, help = "Tipologia della versione.")
     @AIColumn()
+    @JsonProperty
     private String titolo;
 
     //--descrizione (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Size(min = 2, max = 50)
-    @AIField(type = AFType.text, required = true, widthEM = 30,  help = "Descrizione della versione.")
+    @AIField(type = AFType.text, required = true, widthEM = 30, help = "Descrizione della versione.")
     @AIColumn(width = 500)
     private String descrizione;
 
@@ -133,37 +139,37 @@ public class Versione extends AlgosEntity {
     }// end of method
 
 
-    public String getTitolo() {
-        return titolo;
-    }// end of getter method
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
-    }// end of setter method
-
-    public String getDescrizione() {
-        return descrizione;
-    }// end of getter method
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }// end of setter method
-
-    public int getOrdine() {
-        return ordine;
-    }// end of getter method
-
-    public void setOrdine(int ordine) {
-        this.ordine = ordine;
-    }// end of setter method
-
-    public LocalDateTime getModifica() {
-        return modifica;
-    }// end of getter method
-
-    public void setModifica(LocalDateTime modifica) {
-        this.modifica = modifica;
-    }// end of setter method
+//    public String getTitolo() {
+//        return titolo;
+//    }// end of getter method
+//
+//    public void setTitolo(String titolo) {
+//        this.titolo = titolo;
+//    }// end of setter method
+//
+//    public String getDescrizione() {
+//        return descrizione;
+//    }// end of getter method
+//
+//    public void setDescrizione(String descrizione) {
+//        this.descrizione = descrizione;
+//    }// end of setter method
+//
+//    public int getOrdine() {
+//        return ordine;
+//    }// end of getter method
+//
+//    public void setOrdine(int ordine) {
+//        this.ordine = ordine;
+//    }// end of setter method
+//
+//    public LocalDateTime getModifica() {
+//        return modifica;
+//    }// end of getter method
+//
+//    public void setModifica(LocalDateTime modifica) {
+//        this.modifica = modifica;
+//    }// end of setter method
 
 
 }// end of entity class

@@ -5,6 +5,9 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * Created by gac on 03/06/17.
@@ -27,6 +30,7 @@ public enum Bottone {
     private Resource icona;
     private Button bottone;
     private boolean enabled;
+
 
     Bottone(String caption, Resource icona, boolean enabled) {
         this.caption = caption;
