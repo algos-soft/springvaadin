@@ -1,6 +1,6 @@
 package it.algos.springvaadin.ui;
 
-import com.sun.media.jfxmedia.logging.Logger;
+//import com.sun.media.jfxmedia.logging.Logger;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
@@ -13,6 +13,7 @@ import it.algos.springvaadin.footer.AlgosFooter;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.view.ViewPlaceholder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
@@ -30,6 +31,7 @@ import org.springframework.context.annotation.Lazy;
  * Delega ad altre classi l'implementazione effettiva degli specifici layout
  */
 @SpringViewDisplay()
+@Slf4j
 public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
     //--versione della classe per la serializzazione
@@ -138,10 +140,13 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      * @return layout - normalmente un Panel
      */
     protected void creaViewTreComponenti() {
+        root.removeAllComponents();
+
         try { // prova ad eseguire il codice
             root.removeAllComponents();
         } catch (Exception unErrore) { // intercetta l'errore
-            Logger.logMsg(1, unErrore.toString());
+            log.info("Error ", unErrore.toString());
+//            Logger.logMsg(1, unErrore.toString());
         }// fine del blocco try-catch
 
         try { // prova ad eseguire il codice
@@ -153,8 +158,10 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             root.addComponent(footer);
 
         } catch (Exception unErrore) { // intercetta l'errore
-            Logger.logMsg(1, unErrore.toString());
+//            Logger.logMsg(1, unErrore.toString());
         }// fine del blocco try-catch
+
+
     }// end of method
 
 
