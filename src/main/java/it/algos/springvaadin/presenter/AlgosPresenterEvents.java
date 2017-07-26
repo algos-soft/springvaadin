@@ -3,8 +3,8 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AlgosBottone;
-import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.bottone.BottoneCreate;
+import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -29,35 +29,35 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     @Override
     public void create() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Nuovo", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Nuovo", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void edit() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void delete() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Cancella", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Cancella", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void search() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Cerca", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Cerca", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void showAll() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Tutto (annulla la selezione)", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Tutto (annulla la selezione)", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -102,21 +102,21 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     @Override
     public void annulla() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Annulla", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Annulla", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void revert() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Revert", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Revert", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void registra() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("Bottone", "Premuto Registra", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("TipoBottone", "Premuto Registra", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -138,7 +138,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
     /**
      * Usato da Azione
-     * Usato da Bottone
+     * Usato da TipoBottone
      */
     public ApplicationEventPublisher getApplicationEventPublisher() {
         return applicationEventPublisher;
@@ -172,41 +172,38 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
     /**
      * Bottoni della lista.
-     * Vedi enum Bottone
+     * Vedi enum TipoBottone
      *
      * @param bottoneCliccato che ha lanciato l'evento
      */
-    protected void onListEvent(AlgosBottone bottoneCliccato) {
+    private void onListEvent(AlgosBottone bottoneCliccato) {
+        TipoBottone tipo = bottoneCliccato.tipo;
 
-        if (bottoneCliccato instanceof BottoneCreate) {
-            create();
-        }// end of if cycle
-
-        switch (bottoneCliccato.getCaption()) {
-            case Cost.TAG_BOT_CREATE:
+        switch (tipo) {
+            case create:
                 create();
                 break;
-            case Cost.TAG_BOT_EDIT:
+            case edit:
                 edit();
                 break;
-            case Cost.TAG_BOT_DELETE:
+            case delete:
                 delete();
                 break;
-            case Cost.TAG_BOT_SEARCH:
+            case search:
                 search();
                 break;
-//            case showAll:
-//                showAll();
-//                break;
-//            case back:
-//                annulla();
-//                break;
-//            case revert:
-//                revert();
-//                break;
-//            case registra:
-//                registra();
-//                break;
+            case showAll:
+                showAll();
+                break;
+            case back:
+                annulla();
+                break;
+            case revert:
+                revert();
+                break;
+            case registra:
+                registra();
+                break;
             default: // caso non definito
                 break;
         } // fine del blocco switch

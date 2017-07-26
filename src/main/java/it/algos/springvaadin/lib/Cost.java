@@ -29,4 +29,10 @@ public abstract class Cost {
     public final static String TAG_BOT_EDIT = "edit";
     public final static String TAG_BOT_DELETE = "delete";
     public final static String TAG_BOT_SEARCH = "search";
+    public final static String TAG_BOT_SHOW_ALL = "all";
+    public final static String TAG_BOT_ANNULLA = "annulla";
+    public final static String TAG_BOT_ACCETTA = "accetta";
+    public final static String TAG_BOT_BACK = "back";
+    public final static String TAG_BOT_REVERT = "revert";
+    public final static String TAG_BOT_REGISTRA = "registra";
 }// end of static class;

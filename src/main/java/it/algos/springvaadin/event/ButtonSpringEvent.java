@@ -2,7 +2,6 @@ package it.algos.springvaadin.event;
 
 
 import it.algos.springvaadin.bottone.AlgosBottone;
-import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
 /**

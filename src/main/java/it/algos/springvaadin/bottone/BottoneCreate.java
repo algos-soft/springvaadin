@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class BottoneCreate extends AlgosBottone {
 
     public BottoneCreate() {
-        super("Nuovo", VaadinIcons.PLUS, true);
+        super( "Nuovo", VaadinIcons.PLUS, true,TipoBottone.create);
     }// end of constructor
 
 }// end of class

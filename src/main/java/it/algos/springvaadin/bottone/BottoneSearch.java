@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class BottoneSearch extends AlgosBottone {
 
     public BottoneSearch() {
-        super("Ricerca", VaadinIcons.SCISSORS, false);
+        super("Ricerca", VaadinIcons.SCISSORS, false,TipoBottone.search);
     }// end of constructor
 
 }// end of class

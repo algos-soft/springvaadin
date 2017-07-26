@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class BottoneEdit extends AlgosBottone {
 
     public BottoneEdit() {
-        super("Modifica", VaadinIcons.EDIT, true);
+        super("Modifica", VaadinIcons.EDIT, true,TipoBottone.edit);
     }// end of constructor
 
 }// end of class

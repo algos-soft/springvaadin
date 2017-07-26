@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
  * Created by gac on 03/06/17.
  * Bottoni della toolbar di una Grid
  */
-public enum Bottone {
+public enum BottoneOld {
     create("Nuovo", VaadinIcons.PLUS, true),
     edit("Modifica", VaadinIcons.EDIT, true),
     delete("Elimina", VaadinIcons.SCISSORS, true),
@@ -37,7 +37,7 @@ public enum Bottone {
     private Button bottone;
     private boolean enabled;
 
-    Bottone(String caption, Resource icona, boolean enabled) {
+    BottoneOld(String caption, Resource icona, boolean enabled) {
         this.caption = caption;
         this.icona = icona;
         this.enabled = enabled;

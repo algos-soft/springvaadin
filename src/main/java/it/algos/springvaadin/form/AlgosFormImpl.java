@@ -236,7 +236,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableRevert(boolean status){
-        toolbar.getButtonRevert().setEnabled(status);
+        toolbar.enableRevert(status);
     }// end of method
 
     /**
@@ -245,7 +245,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableRegistra(boolean status){
-        toolbar.getButtonRegistra().setEnabled(status);
+        toolbar.enableRegistra(status);
     }// end of method
 
 }// end of class

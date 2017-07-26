@@ -5,12 +5,12 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-@Qualifier(Cost.TAG_BOT_DELETE)
+@Qualifier(Cost.TAG_BOT_SHOW_ALL)
 @SpringComponent
-public class BottoneDelete extends AlgosBottone {
+public class BottoneShowAll extends AlgosBottone {
 
-    public BottoneDelete() {
-        super("Elimina", VaadinIcons.SCISSORS, true,TipoBottone.delete);
+    public BottoneShowAll() {
+        super("Tutto", VaadinIcons.ALIGN_JUSTIFY, true, TipoBottone.showAll);
     }// end of constructor
 
 }// end of class

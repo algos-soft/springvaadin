@@ -2,6 +2,7 @@ package it.algos.springvaadintest.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
  * .
  */
 @Component
+@Slf4j
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
     /**
@@ -36,16 +38,16 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      */
     private void specificFixAndPrint() throws Exception {
         AlgosApp.USE_DEBUG = false;
-        System.out.println("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
+        log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
         AlgosApp.USE_VERS = true;
-        System.out.println("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+        log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
         AlgosApp.USE_MULTI_COMPANY = true;
-        System.out.println("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
+        log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_LOG = true;
-        System.out.println("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+        log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
     }// end of method
 
 }// end of class

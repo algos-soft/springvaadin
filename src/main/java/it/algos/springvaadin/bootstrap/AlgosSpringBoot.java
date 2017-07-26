@@ -1,6 +1,7 @@
 package it.algos.springvaadin.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
  * @see http://www.ekiras.com/2015/10/spring-boot-how-to-create-bootstrap-class.html
  */
 @Component
+@Slf4j
 public class AlgosSpringBoot implements InitializingBean {
 
     /**
@@ -46,31 +48,31 @@ public class AlgosSpringBoot implements InitializingBean {
      */
     protected void genericFixAndPrint() throws Exception {
         AlgosApp.USE_DEBUG = false;
-        System.out.println("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
+        log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
         AlgosApp.USE_MULTI_COMPANY = true;
-        System.out.println("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
+        log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_SECURITY = false;
-        System.out.println("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
+        log.info("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
 
         AlgosApp.USE_LOGIN_OBBLIGATORIO = false;
-        System.out.println("AlgosApp.USE_LOGIN_OBBLIGATORIO: " + AlgosApp.USE_LOGIN_OBBLIGATORIO);
+        log.info("AlgosApp.USE_LOGIN_OBBLIGATORIO: " + AlgosApp.USE_LOGIN_OBBLIGATORIO);
 
         AlgosApp.USE_CHECK_PARAMS = true;
-        System.out.println("AlgosApp.USE_CHECK_PARAMS: " + AlgosApp.USE_CHECK_PARAMS);
+        log.info("AlgosApp.USE_CHECK_PARAMS: " + AlgosApp.USE_CHECK_PARAMS);
 
         AlgosApp.USE_CHECK_COOKIES = true;
-        System.out.println("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
+        log.info("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
 
         AlgosApp.USE_VERS = false;
-        System.out.println("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+        log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
         AlgosApp.USE_LOG = false;
-        System.out.println("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+        log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
 
         AlgosApp.USE_PREF = false;
-        System.out.println("AlgosApp.USE_PREF: " + AlgosApp.USE_PREF);
+        log.info("AlgosApp.USE_PREF: " + AlgosApp.USE_PREF);
 
 //        AlgosApp.DISPLAY_NEW_RECORD_ONLY = true;
 //        System.out.println("AlgosApp.DISPLAY_NEW_RECORD_ONLY: " + AlgosApp.DISPLAY_NEW_RECORD_ONLY);
@@ -89,15 +91,10 @@ public class AlgosSpringBoot implements InitializingBean {
     protected void printBefore(Boot boot) {
         switch (boot) {
             case generico:
-                System.out.println("##########################################");
-                System.out.println("   application is coming up and is ready to server requests   ");
-                System.out.println("   PRIMA della chiamata del browser   ");
-                System.out.println("   start generic bootstrap code nella classe AlgosSpringBoot  ");
-                System.out.println("..........................................");
+                log.info("Application is coming up and is ready to server requests - PRIMA della chiamata del browser - start generic bootstrap code nella classe AlgosSpringBoot");
                 break;
             case specifico:
-                System.out.println("   start specific bootstrap code nella classe xxxSpringBoot ");
-                System.out.println("..........................................");
+                log.info("Start specific bootstrap code nella classe xxxSpringBoot");
                 break;
         } // fine del blocco switch
     }// end of method
@@ -108,15 +105,10 @@ public class AlgosSpringBoot implements InitializingBean {
     protected void printAfter(Boot boot) {
         switch (boot) {
             case generico:
-                System.out.println("All this params can be found also in LibParams");
-                System.out.println("..........................................");
-                System.out.println("   end generic bootstrap code             ");
-                System.out.println("..........................................");
+                log.info("All this params can be found also in LibParams - End generic bootstrap code");
                 break;
             case specifico:
-                System.out.println("..........................................");
-                System.out.println("   end specific bootstrap code            ");
-                System.out.println("##########################################");
+                log.info("End specific bootstrap code");
                 break;
         } // fine del blocco switch
     }// end of method

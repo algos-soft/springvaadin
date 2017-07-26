@@ -37,7 +37,7 @@ import java.time.LocalDateTime;
  * Tipicamente usata dal developer per gestire le versioni, patch e release dell'applicazione
  * Non prevede la differenziazione per Company
  */
-//@Entity
+@Entity
 @Service
 @Data
 @Table(name = Cost.TAG_VERS)
@@ -137,6 +137,5 @@ public class Versione extends AlgosEntity {
     public String toString() {
         return getTitolo() + "-" + getDescrizione();
     }// end of method
-
 
 }// end of entity class
