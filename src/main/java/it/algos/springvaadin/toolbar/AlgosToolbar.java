@@ -13,13 +13,6 @@ import javax.annotation.PostConstruct;
  */
 public abstract class AlgosToolbar extends HorizontalLayout {
 
-    public AlgosToolbar() {
-    }// end of constructor
-
-//    @PostConstruct
-//    protected void inizia() {
-//    }// end of method
-
     void addButton(AlgosBottone bottone) {
         addComponent(bottone);
     }// end of method

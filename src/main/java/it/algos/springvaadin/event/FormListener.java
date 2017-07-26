@@ -4,7 +4,8 @@ import com.vaadin.spring.annotation.SpringComponent;
 
 /**
  * Created by gac on 04/06/17.
- * Azioni possibili lanciate da un Form
+ * Eventi possibili lanciati dai bottoni della ToolBar un Form
+ * Eventi possibili lanciati dai Fields di un Form
  */
 @SpringComponent
 public interface FormListener {

@@ -7,6 +7,7 @@ import it.algos.springvaadin.presenter.AlgosPresenter;
 
 /**
  * Created by gac on 04/06/17.
+ * Eventi generati da una azione (nella Grid, ad esempio)
  * Link: http://www.baeldung.com/spring-events
  */
 public class ActionSpringEvent extends AlgosSpringEvent {

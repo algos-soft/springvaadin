@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 
 /**
  * Created by gac on 03/06/17.
- * Azioni possibili lanciate da una Grid
+ * Eventi possibili lanciati dai bottoni della ToolBar di una List contenente una Grid
  */
 @SpringComponent
 public interface ListListener {

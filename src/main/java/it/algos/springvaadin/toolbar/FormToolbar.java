@@ -13,29 +13,30 @@ import javax.annotation.PostConstruct;
  * Created by gac on 23/06/17
  *
  * Barra di comando con bottoni, specializzata per il form
+ * Autowired nel costruttore e non nelle property
  */
 @SpringComponent
 public class FormToolbar extends AlgosToolbar {
 
-    @Autowired
-    @Qualifier(Cost.TAG_BOT_BACK)
-    private AlgosBottone buttonAnnulla;
 
-    @Autowired
-    @Qualifier(Cost.TAG_BOT_REVERT)
-    private AlgosBottone buttonRevert;
+    private final AlgosBottone buttonAnnulla;
+    private final AlgosBottone buttonRevert;
+    private final AlgosBottone buttonRegistra;
+
 
     @Autowired
-    @Qualifier(Cost.TAG_BOT_REGISTRA)
-    private AlgosBottone buttonRegistra;
-
-
-    public FormToolbar() {
+    public FormToolbar(
+            @Qualifier(Cost.TAG_BOT_BACK) AlgosBottone buttonAnnulla,
+            @Qualifier(Cost.TAG_BOT_REVERT) AlgosBottone buttonRevert,
+            @Qualifier(Cost.TAG_BOT_REGISTRA) AlgosBottone buttonRegistra) {
+        this.buttonAnnulla = buttonAnnulla;
+        this.buttonRevert = buttonRevert;
+        this.buttonRegistra = buttonRegistra;
     }// end of constructor
 
     /**
      * Metodo invocato (dalla annotation) DOPO il costruttore
-     * Aggiunge il listener
+     * Aggiunge i bottoni al contenitore grafico
      */
     @PostConstruct
     public void inizia() {
@@ -44,7 +45,7 @@ public class FormToolbar extends AlgosToolbar {
         super.addButton(buttonRegistra);
     }// end of method
 
-    public void enableNew(boolean status) {
+    public void enableAnnulla(boolean status) {
         if (buttonAnnulla != null) {
             buttonAnnulla.setEnabled(status);
         }// end of if cycle

@@ -231,6 +231,16 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of method
 
     /**
+     * Abilita il bottone Annulla del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableAnnulla(boolean status){
+        toolbar.enableAnnulla(status);
+    }// end of method
+
+
+    /**
      * Abilita il bottone Revert del Form
      *
      * @param status true se abilitato, false se disabilitato
@@ -238,6 +248,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     public void enableRevert(boolean status){
         toolbar.enableRevert(status);
     }// end of method
+
 
     /**
      * Abilita il bottone Registra del Form

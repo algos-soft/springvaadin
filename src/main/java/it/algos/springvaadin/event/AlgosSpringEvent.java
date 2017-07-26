@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * Created by gac on 03/06/17
+ * Eventi specifici del Framework
  * Link: http://www.baeldung.com/spring-events
  */
 public abstract class AlgosSpringEvent extends ApplicationEvent {

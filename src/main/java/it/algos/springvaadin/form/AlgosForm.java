@@ -57,11 +57,20 @@ public interface AlgosForm {
 
 
     /**
+     * Abilita il bottone Annulla del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableAnnulla(boolean status);
+
+
+    /**
      * Abilita il bottone Revert del Form
      *
      * @param status true se abilitato, false se disabilitato
      */
     public void enableRevert(boolean status);
+
 
     /**
      * Abilita il bottone Registra del Form

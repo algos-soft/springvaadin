@@ -1,44 +1,50 @@
 package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.bottone.AlgosBottone;
+import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.lib.Cost;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
 
+import static lombok.AccessLevel.PACKAGE;
+
 /**
  * Created by gac on 03/06/17
- *
+ * <p>
  * Barra di comando con bottoni, specializzata per la lista (Grid)
+ * Autowired nel costruttore e non nelle property
  */
 @SpringComponent
 public class ListToolbar extends AlgosToolbar {
 
 
-    @Autowired
-    @Qualifier(Cost.TAG_BOT_CREATE)
-    private AlgosBottone buttonCreate;
+    private final AlgosBottone buttonCreate;
+    private final AlgosBottone buttonEdit;
+    private final AlgosBottone buttonDelete;
+    private final AlgosBottone buttonSearch;
 
     @Autowired
-    @Qualifier(Cost.TAG_BOT_EDIT)
-    private AlgosBottone buttonEdit;
-
-    @Autowired
-    @Qualifier(Cost.TAG_BOT_DELETE)
-    private AlgosBottone buttonDelete;
-
-    @Autowired
-    @Qualifier(Cost.TAG_BOT_SEARCH)
-    private AlgosBottone buttonSearch;
-
-    public ListToolbar() {
+    public ListToolbar(
+            @Qualifier(Cost.TAG_BOT_CREATE) AlgosBottone buttonCreate,
+            @Qualifier(Cost.TAG_BOT_EDIT) AlgosBottone buttonEdit,
+            @Qualifier(Cost.TAG_BOT_DELETE) AlgosBottone buttonDelete,
+            @Qualifier(Cost.TAG_BOT_SEARCH) AlgosBottone buttonSearch) {
+        this.buttonCreate = buttonCreate;
+        this.buttonEdit = buttonEdit;
+        this.buttonDelete = buttonDelete;
+        this.buttonSearch = buttonSearch;
     }// end of constructor
 
     /**
      * Metodo invocato (dalla annotation) DOPO il costruttore
-     * Aggiunge il listener
+     * Aggiunge i bottoni al contenitore grafico
      */
     @PostConstruct
     public void inizia() {

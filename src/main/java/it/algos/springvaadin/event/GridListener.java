@@ -6,7 +6,7 @@ import it.algos.springvaadin.model.AlgosModel;
 
 /**
  * Created by gac on 03/06/17.
- * Azioni possibili lanciate da una Grid
+ * Eventi possibili lanciati dalla Grid di una List
  */
 @SpringComponent
 public interface GridListener {

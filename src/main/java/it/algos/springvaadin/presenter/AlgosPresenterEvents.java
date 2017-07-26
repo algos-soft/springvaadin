@@ -152,32 +152,32 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
      */
     @Override
     public void onApplicationEvent(AlgosSpringEvent event) {
-        Object source = event.getSource();
+        if (event.getSource().getClass() == this.getClass()) {
 
-        if (source.getClass() == this.getClass()) {
             if (event instanceof ButtonSpringEvent) {
-                onListEvent(((ButtonSpringEvent) event).getBottone());
+                onListEvent((ButtonSpringEvent) event);
             }// end of if/else cycle
 
             if (event instanceof ActionSpringEvent) {
-                onGridAction(((ActionSpringEvent) event).getAzione(), ((ActionSpringEvent) event).getEntityBean());
+                onGridAction((ActionSpringEvent) event);
             }// end of if cycle
 
             if (event instanceof FieldSpringEvent) {
                 fieldModificato();
             }// end of if cycle
+
         }// end of if cycle
     }// end of method
 
 
     /**
-     * Bottoni della lista.
+     * Handle a button event
      * Vedi enum TipoBottone
      *
-     * @param bottoneCliccato che ha lanciato l'evento
+     * @param event the event to respond to
      */
-    private void onListEvent(AlgosBottone bottoneCliccato) {
-        TipoBottone tipo = bottoneCliccato.tipo;
+    private void onListEvent(ButtonSpringEvent event) {
+        TipoBottone tipo = event.getBottone().tipo;
 
         switch (tipo) {
             case create:
@@ -211,12 +211,15 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
 
     /**
-     * Azioni della grid.
+     * Handle an action event
      * Vedi enum Azione
      *
-     * @param azioneRichiesta da eseguire
+     * @param event the event to respond to
      */
-    protected void onGridAction(Azione azioneRichiesta, AlgosEntity entityBean) {
+    private void onGridAction(ActionSpringEvent event) {
+        Azione azioneRichiesta = event.getAzione();
+        AlgosEntity entityBean = event.getEntityBean();
+
         switch (azioneRichiesta) {
             case attach:
                 click();
