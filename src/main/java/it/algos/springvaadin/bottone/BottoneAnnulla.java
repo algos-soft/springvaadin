@@ -4,13 +4,31 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Scope;
+
+import javax.annotation.PostConstruct;
 
 @Qualifier(Cost.TAG_BOT_ANNULLA)
 @SpringComponent
+@Scope("prototype")
 public class BottoneAnnulla extends Bottone {
 
-    public BottoneAnnulla() {
-        super("Annulla", VaadinIcons.CLOSE, false, TipoBottone.annulla);
-    }// end of constructor
+    public BottoneAnnulla(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
+    }// end of @Autowired constructor
+
+    /**
+     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
+     */
+    @PostConstruct
+    protected void inizia() {
+        super.setCaption("Annulla");
+        super.setIcon(VaadinIcons.CLOSE);
+        super.setEnabled(false);
+        super.tipo = TipoBottone.annulla;
+
+        super.inizia();
+    }// end of method
 
 }// end of class

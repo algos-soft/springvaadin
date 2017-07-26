@@ -5,6 +5,7 @@ import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
  * Autowired nel costruttore e non nelle property
  */
 @SpringComponent
+@Scope("prototype")
 public class ListToolbar extends AlgosToolbar {
 
 

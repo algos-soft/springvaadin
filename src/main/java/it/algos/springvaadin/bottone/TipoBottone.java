@@ -6,8 +6,8 @@ package it.algos.springvaadin.bottone;
  * Bottoni della toolbar di una Grid
  * Bottoni della toolbar di un Form
  * <p>
- * Enumeration utilizza per 'marcare' un evento, in fase di generazione
- * e 'riconoscerlo' nel metodo onListEvent()
+ * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
+ * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
  */
 public enum TipoBottone {
 
