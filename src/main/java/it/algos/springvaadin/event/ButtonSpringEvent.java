@@ -1,7 +1,7 @@
 package it.algos.springvaadin.event;
 
 
-import it.algos.springvaadin.bottone.AlgosBottone;
+import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
 /**
@@ -12,16 +12,16 @@ import it.algos.springvaadin.presenter.AlgosPresenter;
 public class ButtonSpringEvent extends AlgosSpringEvent {
 
 
-    private AlgosBottone bottonePremuto;
+    private Bottone bottonePremuto;
 
 
-    public ButtonSpringEvent(AlgosPresenter source, AlgosBottone bottonePremuto) {
+    public ButtonSpringEvent(AlgosPresenter source, Bottone bottonePremuto) {
         super(source);
         this.bottonePremuto = bottonePremuto;
     }// end of constructor
 
 
-    public AlgosBottone getBottone() {
+    public Bottone getBottone() {
         return bottonePremuto;
     }// end of method
 

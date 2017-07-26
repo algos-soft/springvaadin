@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_BACK)
 @SpringComponent
-public class BottoneBack extends AlgosBottone {
+public class BottoneBack extends Bottone {
 
     public BottoneBack() {
         super("Annulla", VaadinIcons.BACKWARDS, true, TipoBottone.back);

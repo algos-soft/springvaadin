@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_SEARCH)
 @SpringComponent
-public class BottoneSearch extends AlgosBottone {
+public class BottoneSearch extends Bottone {
 
     public BottoneSearch() {
         super("Ricerca", VaadinIcons.SEARCH, false, TipoBottone.search);

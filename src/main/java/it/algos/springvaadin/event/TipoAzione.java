@@ -1,6 +1,5 @@
 package it.algos.springvaadin.event;
 
-import com.vaadin.event.Action;
 import com.vaadin.event.selection.MultiSelectionEvent;
 import com.vaadin.event.selection.MultiSelectionListener;
 import com.vaadin.event.selection.SingleSelectionEvent;
@@ -15,38 +14,35 @@ import com.vaadin.ui.components.grid.SingleSelectionModel;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by gac on 04/06/17
  * Azioni di una Grid
  */
-public enum Azione {
+public enum TipoAzione {
 
     attach("Aggiunge") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
              grid.addAttachListener(new ClientConnector.AttachListener() {
                 @Override
                 public void attach(ClientConnector.AttachEvent attachEvent) {
-                    azione.publish(presenter);
+                    tipoAzione.publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
         }// end of method
     },// end of single enumeration
     click("Singolo click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     if (!itemClick.getMouseEventDetails().isDoubleClick()) {
-                        azione.publish(presenter);
+                        tipoAzione.publish(presenter);
                     }// end of if cycle
                 }// end of inner method
             });// end of anonymous inner class
@@ -54,13 +50,13 @@ public enum Azione {
     },// end of single enumeration
     doppioClick("Doppio click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     Object entityBean = itemClick.getItem();
                     if (itemClick.getMouseEventDetails().isDoubleClick()) {
-                        azione.publish(presenter, entityBean);
+                        tipoAzione.publish(presenter, entityBean);
                     }// end of if cycle
                 }// end of inner method
             });// end of anonymous inner class
@@ -68,14 +64,14 @@ public enum Azione {
     },// end of single enumeration
     selectionChanged("Modifica") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
             switch (LibParams.gridSelectionMode()) {
                 case SINGLE:
                     SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
                      modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
                         @Override
                         public void selectionChange(SingleSelectionEvent singleSelectionEvent) {
-                            azione.publish(presenter);
+                            tipoAzione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
                     break;
@@ -84,7 +80,7 @@ public enum Azione {
                      modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
                         @Override
                         public void selectionChange(MultiSelectionEvent multiSelectionEvent) {
-                            azione.publish(presenter);
+                            tipoAzione.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
                     break;
@@ -97,11 +93,11 @@ public enum Azione {
     },// end of single enumeration
     listener("Listener") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
              grid.addListener(new Component.Listener() {
                 @Override
                 public void componentEvent(Component.Event event) {
-                    azione.publish(presenter);
+                    tipoAzione.publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
         }// end of method
@@ -110,23 +106,23 @@ public enum Azione {
     private String caption;
     private static ArrayList<Registration> regs = new ArrayList();
 
-    Azione(String caption) {
+    TipoAzione(String caption) {
         this.caption = caption;
     }// end of general constructor
 
 
     /**
-     * Costruisce il listener per la singola azione
+     * Costruisce il listener per la singola tipoAzione
      */
-    void addListener(AlgosPresenter presenter, AlgosGrid grid, Azione azione) {
+    void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
     }// end of constructor
 
     /**
      * Costruisce tutti i listener possibili per una grid
      */
     public static void addAllListeners(AlgosPresenter presenter, AlgosGrid grid) {
-        for (Azione azione : Azione.values()) {
-            azione.addListener(presenter, grid, azione);
+        for (TipoAzione tipoAzione : TipoAzione.values()) {
+            tipoAzione.addListener(presenter, grid, tipoAzione);
         }// end of for cycle
     }// end of constructor
 

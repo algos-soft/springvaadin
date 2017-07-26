@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_EDIT)
 @SpringComponent
-public class BottoneEdit extends AlgosBottone {
+public class BottoneEdit extends Bottone {
 
     public BottoneEdit() {
         super("Modifica", VaadinIcons.EDIT, true,TipoBottone.edit);

@@ -3,17 +3,10 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.lib.Cost;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
-
-import static lombok.AccessLevel.PACKAGE;
 
 /**
  * Created by gac on 03/06/17
@@ -25,17 +18,17 @@ import static lombok.AccessLevel.PACKAGE;
 public class ListToolbar extends AlgosToolbar {
 
 
-    private final AlgosBottone buttonCreate;
-    private final AlgosBottone buttonEdit;
-    private final AlgosBottone buttonDelete;
-    private final AlgosBottone buttonSearch;
+    private final Bottone buttonCreate;
+    private final Bottone buttonEdit;
+    private final Bottone buttonDelete;
+    private final Bottone buttonSearch;
 
     @Autowired
     public ListToolbar(
-            @Qualifier(Cost.TAG_BOT_CREATE) AlgosBottone buttonCreate,
-            @Qualifier(Cost.TAG_BOT_EDIT) AlgosBottone buttonEdit,
-            @Qualifier(Cost.TAG_BOT_DELETE) AlgosBottone buttonDelete,
-            @Qualifier(Cost.TAG_BOT_SEARCH) AlgosBottone buttonSearch) {
+            @Qualifier(Cost.TAG_BOT_CREATE) Bottone buttonCreate,
+            @Qualifier(Cost.TAG_BOT_EDIT) Bottone buttonEdit,
+            @Qualifier(Cost.TAG_BOT_DELETE) Bottone buttonDelete,
+            @Qualifier(Cost.TAG_BOT_SEARCH) Bottone buttonSearch) {
         this.buttonCreate = buttonCreate;
         this.buttonEdit = buttonEdit;
         this.buttonDelete = buttonDelete;

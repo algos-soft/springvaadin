@@ -1,10 +1,7 @@
 package it.algos.springvaadin.toolbar;
 
-import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import it.algos.springvaadin.bottone.AlgosBottone;
-
-import javax.annotation.PostConstruct;
+import it.algos.springvaadin.bottone.Bottone;
 
 /**
  * Created by gac on 03/06/17.
@@ -13,7 +10,7 @@ import javax.annotation.PostConstruct;
  */
 public abstract class AlgosToolbar extends HorizontalLayout {
 
-    void addButton(AlgosBottone bottone) {
+    void addButton(Bottone bottone) {
         addComponent(bottone);
     }// end of method
 

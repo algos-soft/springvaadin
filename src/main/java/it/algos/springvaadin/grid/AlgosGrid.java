@@ -1,14 +1,12 @@
 package it.algos.springvaadin.grid;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import java.util.ArrayList;
@@ -48,10 +46,10 @@ public class AlgosGrid extends Grid {
         AlgosPresenter  presenter = LibSpring.getPresenter();
 
         //--aggiunge alla Grid tutte le azioni possibili; verranno intercettate e gestire dal presenter
-        Azione.addAllListeners(presenter, this);
+        TipoAzione.addAllListeners(presenter, this);
 
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
-        AlgosSpringEvent actionSpringEvent = new ActionSpringEvent(presenter, Azione.selectionChanged);
+        AlgosSpringEvent actionSpringEvent = new ActionSpringEvent(presenter, TipoAzione.selectionChanged);
         presenter.getApplicationEventPublisher().publishEvent(actionSpringEvent);
 
     }// end of method

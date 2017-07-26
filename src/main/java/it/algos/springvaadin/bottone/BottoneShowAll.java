@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_SHOW_ALL)
 @SpringComponent
-public class BottoneShowAll extends AlgosBottone {
+public class BottoneShowAll extends Bottone {
 
     public BottoneShowAll() {
         super("Tutto", VaadinIcons.ALIGN_JUSTIFY, true, TipoBottone.showAll);

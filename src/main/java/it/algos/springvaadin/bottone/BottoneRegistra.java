@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_REGISTRA)
 @SpringComponent
-public class BottoneRegistra extends AlgosBottone {
+public class BottoneRegistra extends Bottone {
 
     public BottoneRegistra() {
         super("Registra", VaadinIcons.DATABASE, false, TipoBottone.registra);

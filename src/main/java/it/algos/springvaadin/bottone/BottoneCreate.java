@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_CREATE)
 @SpringComponent
-public class BottoneCreate extends AlgosBottone {
+public class BottoneCreate extends Bottone {
 
     public BottoneCreate() {
         super( "Nuovo", VaadinIcons.PLUS, true,TipoBottone.create);

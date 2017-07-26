@@ -2,7 +2,6 @@ package it.algos.springvaadin.event;
 
 
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
 /**
@@ -12,22 +11,22 @@ import it.algos.springvaadin.presenter.AlgosPresenter;
  */
 public class ActionSpringEvent extends AlgosSpringEvent {
 
-    private Azione azioneRichiesta;
+    private TipoAzione tipoAzioneRichiesta;
     private AlgosEntity entityBean;
 
-    public ActionSpringEvent(AlgosPresenter source, Azione azioneRichiesta) {
+    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipoAzioneRichiesta) {
         super(source);
-        this.azioneRichiesta = azioneRichiesta;
+        this.tipoAzioneRichiesta = tipoAzioneRichiesta;
     }// end of constructor
 
-    public ActionSpringEvent(AlgosPresenter source, Azione azioneRichiesta, AlgosEntity entityBean) {
+    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipoAzioneRichiesta, AlgosEntity entityBean) {
         super(source);
-        this.azioneRichiesta = azioneRichiesta;
+        this.tipoAzioneRichiesta = tipoAzioneRichiesta;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public Azione getAzione() {
-        return azioneRichiesta;
+    public TipoAzione getAzione() {
+        return tipoAzioneRichiesta;
     }// end of method
 
     public AlgosEntity getEntityBean() {

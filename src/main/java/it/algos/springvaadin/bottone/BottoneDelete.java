@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_DELETE)
 @SpringComponent
-public class BottoneDelete extends AlgosBottone {
+public class BottoneDelete extends Bottone {
 
     public BottoneDelete() {
         super("Elimina", VaadinIcons.SCISSORS, true,TipoBottone.delete);

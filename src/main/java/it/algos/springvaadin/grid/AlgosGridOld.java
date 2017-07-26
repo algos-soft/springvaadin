@@ -79,7 +79,7 @@ public class AlgosGridOld extends VerticalLayout {
         this.setColumns(colonneVisibili);
         this.setStyleName("rossoa");//@todo non funziona
 
-//        Azione.addAllListeners(this);//@todo rimettere
+//        TipoAzione.addAllListeners(this);//@todo rimettere
 
         SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
         modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {

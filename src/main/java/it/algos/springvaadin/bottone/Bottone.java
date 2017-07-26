@@ -13,11 +13,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import javax.annotation.PostConstruct;
 
 @SpringComponent
-public abstract class AlgosBottone extends Button {
+public abstract class Bottone extends Button {
 
 
     @Autowired
-    public ApplicationEventPublisher applicationEventPublisher;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * Enumeration utilizza per 'marcare' un evento, in fase di generazione
@@ -25,11 +25,11 @@ public abstract class AlgosBottone extends Button {
      */
     public TipoBottone tipo;
 
-    public AlgosBottone() {
-    }// end of constructor
+//    public Bottone() {
+//    }// end of constructor
 
 
-    public AlgosBottone(String caption, Resource icona, boolean enabled, TipoBottone tipo) {
+    public Bottone(String caption, Resource icona, boolean enabled, TipoBottone tipo) {
         super(caption, icona);
         this.setEnabled(enabled);
         this.tipo = tipo;

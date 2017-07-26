@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Qualifier(Cost.TAG_BOT_ANNULLA)
 @SpringComponent
-public class BottoneAnnulla extends AlgosBottone {
+public class BottoneAnnulla extends Bottone {
 
     public BottoneAnnulla() {
         super("Annulla", VaadinIcons.CLOSE, false, TipoBottone.annulla);
