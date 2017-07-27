@@ -5,6 +5,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.service.AlgosStartService;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
  * Mantiene e regola i parametri che regolano la gestione della view
  * Lascia che la sottoclasse AlgosUI si occupi SOLO della parte grafica
  */
+@Slf4j
 public abstract class AlgosUIParams extends UI {
 
     /**
@@ -165,14 +167,10 @@ public abstract class AlgosUIParams extends UI {
 
         switch (ui) {
             case generica:
-                System.out.println("##########################################");
-                System.out.println("   application received the server requests   ");
-                System.out.println("   start generic initializing code nella classe AlgosUIParams  ");
-                System.out.println("..........................................");
+                log.info("Application received the server requests - DOPO la chiamata del browser - start generic initializing code nella classe AlgosUIParams");
                 break;
             case specifica:
-                System.out.println("   start specific initializing code nella classe " + className);
-                System.out.println("..........................................");
+                log.info("Start specific initializing code nella classe "+className);
                 break;
         } // fine del blocco switch
     }// end of method
@@ -185,36 +183,36 @@ public abstract class AlgosUIParams extends UI {
      */
     protected void genericFixAndPrint() {
         this.usaViewTreComponenti = true;
-        System.out.println("AlgosUIParams.usaViewTreComponenti: " + this.usaViewTreComponenti);
+        log.info("AlgosUIParams.usaViewTreComponenti: " + this.usaViewTreComponenti);
 
         this.usaRootLayoutVerticale = true;
-        System.out.println("AlgosUIParams.usaRootLayoutVerticale: " + this.usaRootLayoutVerticale);
+        log.info("AlgosUIParams.usaRootLayoutVerticale: " + this.usaRootLayoutVerticale);
 
         this.usaItemMenuHome = true;
-        System.out.println("AlgosUIParams.usaItemMenuHome: " + this.usaItemMenuHome);
+        log.info("AlgosUIParams.usaItemMenuHome: " + this.usaItemMenuHome);
 
         this.usaItemMenuHelp = false;
-        System.out.println("AlgosUIParams.usaItemMenuHelp: " + this.usaItemMenuHelp);
+        log.info("AlgosUIParams.usaItemMenuHelp: " + this.usaItemMenuHelp);
 
         this.displayNewRecordOnly = false;
-        System.out.println("AlgosUIParams.displayNewRecordOnly: " + this.displayNewRecordOnly);
+        log.info("AlgosUIParams.displayNewRecordOnly: " + this.displayNewRecordOnly);
 
         this.displayToolTips = false;
-        System.out.println("AlgosUIParams.displayToolTips: " + this.displayToolTips);
+        log.info("AlgosUIParams.displayToolTips: " + this.displayToolTips);
 
         this.comboBoxNullSelectionAllowed = false;
-        System.out.println("AlgosUIParams.comboBoxNullSelectionAllowed: " + this.comboBoxNullSelectionAllowed);
+        log.info("AlgosUIParams.comboBoxNullSelectionAllowed: " + this.comboBoxNullSelectionAllowed);
 
         this.gridSelectionMode = Grid.SelectionMode.SINGLE;
-        System.out.println("AlgosUIParams.gridSelectionMode: " + this.gridSelectionMode);
+        log.info("AlgosUIParams.gridSelectionMode: " + this.gridSelectionMode);
 
         this.usaSeparateFormDialog = false;
-        System.out.println("AlgosUIParams.usaSeparateFormDialog: " + this.usaSeparateFormDialog);
+        log.info("AlgosUIParams.usaSeparateFormDialog: " + this.usaSeparateFormDialog);
 
         this.chiedeConfermaPrimaDiCancellare = true;
-        System.out.println("AlgosUIParams.chiedeConfermaPrimaDiCancellare: " + this.chiedeConfermaPrimaDiCancellare);
+        log.info("AlgosUIParams.chiedeConfermaPrimaDiCancellare: " + this.chiedeConfermaPrimaDiCancellare);
 
-        System.out.println("All this params can be found in LibParams");
+        log.info("All this params can be found in LibParams" );
 
     }// end of method
 
@@ -224,14 +222,10 @@ public abstract class AlgosUIParams extends UI {
     protected void printAfter(AlgosUI.InterfacciaUtente ui) {
         switch (ui) {
             case generica:
-                System.out.println("..........................................");
-                System.out.println("   end generic initializing code             ");
-                System.out.println("..........................................");
+                log.info("End generic initializing code");
                 break;
             case specifica:
-                System.out.println("..........................................");
-                System.out.println("   end specific initializing code            ");
-                System.out.println("##########################################");
+                log.info("End specific initializing code");
                 break;
         } // fine del blocco switch
     }// end of method

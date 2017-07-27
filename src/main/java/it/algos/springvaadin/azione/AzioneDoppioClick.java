@@ -4,8 +4,11 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,11 +18,11 @@ import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_AZ_ATTACH)
-public class AzioneAttach extends Azione {
+@Qualifier(Cost.TAG_AZ_DOPPIO_CLICK)
+public class AzioneDoppioClick extends Azione {
 
 
-    public AzioneAttach(ApplicationEventPublisher applicationEventPublisher) {
+    public AzioneDoppioClick(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
     }// end of @Autowired constructor
 
@@ -28,7 +31,7 @@ public class AzioneAttach extends Azione {
      */
     @PostConstruct
     protected void inizia() {
-        super.tipo = TipoAzione.attach;
+        super.tipo = TipoAzione.doppioClick;
     }// end of method
 
     /**
@@ -36,11 +39,17 @@ public class AzioneAttach extends Azione {
      * Sovrascritto
      */
     @Override
+    @SuppressWarnings("all")
     public void addListener(AlgosGrid grid) {
-        grid.addAttachListener(new ClientConnector.AttachListener() {
+        grid.addItemClickListener(new ItemClickListener() {
             @Override
-            public void attach(ClientConnector.AttachEvent attachEvent) {
-                fire(attachEvent);
+            public void itemClick(Grid.ItemClick itemClick) {
+                if (itemClick.getMouseEventDetails().isDoubleClick()) {
+                    Object obj = itemClick.getItem();
+                    if (obj instanceof AlgosEntity) {
+                        fire(itemClick, (AlgosEntity) obj);
+                    }// end of if cycle
+                }// end of if cycle
             }// end of inner method
         });// end of anonymous inner class
     }// end of constructor

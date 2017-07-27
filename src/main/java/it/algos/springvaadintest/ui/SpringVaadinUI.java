@@ -4,7 +4,9 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.ui.AlgosUI;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +21,7 @@ import javax.annotation.PostConstruct;
 @Theme("valo")
 @SpringUI()
 @SpringViewDisplay()
+@Slf4j
 public class SpringVaadinUI extends AlgosUI {
 
     /**
@@ -31,6 +34,7 @@ public class SpringVaadinUI extends AlgosUI {
     protected void inizia() {
         super.inizia();
         footer.setAppMessage("SpringVaadin 1.0");
+        log.info("Versione dell'applicazione: SpringVaadin 1.0");
 
         super.printBefore(InterfacciaUtente.specifica);
         this.specificFixAndPrint();
@@ -45,16 +49,15 @@ public class SpringVaadinUI extends AlgosUI {
      */
     protected void specificFixAndPrint() {
 
-//        System.out.println("Non ci sono regolazioni specifiche per questa applicazione che usa solo quelle standard");
-
-        super.gridSelectionMode = Grid.SelectionMode.SINGLE;
-        System.out.println("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
+        super.gridSelectionMode = Grid.SelectionMode.MULTI;
+        log.info("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
 
         super.displayToolTips = true;
-        System.out.println("AlgosUIParams.displayToolTips: " + super.displayToolTips);
+        log.info("AlgosUIParams.displayToolTips: " + super.displayToolTips);
 
         super.usaSeparateFormDialog = false;
-        System.out.println("AlgosUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
+        log.info("AlgosUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
+
     }// end of method
 
 

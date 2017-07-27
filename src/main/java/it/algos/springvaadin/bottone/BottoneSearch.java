@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_SEARCH)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_SEARCH)
 public class BottoneSearch extends Bottone {
 
     public BottoneSearch(ApplicationEventPublisher applicationEventPublisher) {

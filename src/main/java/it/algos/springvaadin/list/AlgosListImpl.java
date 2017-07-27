@@ -49,11 +49,10 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-//    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
     public AlgosListImpl(AlgosGrid grid, ListToolbar toolbar) {
         this.grid = grid;
         this.toolbar = toolbar;
-    }// end of Spring constructor
+    }// end of @Autowired constructor
 
 
     /**

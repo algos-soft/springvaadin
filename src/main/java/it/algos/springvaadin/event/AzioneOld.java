@@ -22,27 +22,27 @@ import java.util.ArrayList;
  * Created by gac on 04/06/17
  * Azioni di una Grid
  */
-public enum TipoAzione {
+public enum AzioneOld {
 
     attach("Aggiunge") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addAttachListener(new ClientConnector.AttachListener() {
                 @Override
                 public void attach(ClientConnector.AttachEvent attachEvent) {
-                    tipoAzione.publish(presenter);
+                    azioneOld.publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
         }// end of method
     },// end of single enumeration
     click("Singolo click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     if (!itemClick.getMouseEventDetails().isDoubleClick()) {
-                        tipoAzione.publish(presenter);
+                        azioneOld.publish(presenter);
                     }// end of if cycle
                 }// end of inner method
             });// end of anonymous inner class
@@ -50,13 +50,13 @@ public enum TipoAzione {
     },// end of single enumeration
     doppioClick("Doppio click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
                     Object entityBean = itemClick.getItem();
                     if (itemClick.getMouseEventDetails().isDoubleClick()) {
-                        tipoAzione.publish(presenter, entityBean);
+                        azioneOld.publish(presenter, entityBean);
                     }// end of if cycle
                 }// end of inner method
             });// end of anonymous inner class
@@ -64,14 +64,14 @@ public enum TipoAzione {
     },// end of single enumeration
     selectionChanged("Modifica") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
             switch (LibParams.gridSelectionMode()) {
                 case SINGLE:
                     SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
                      modelloSingolo.addSingleSelectionListener(new SingleSelectionListener() {
                         @Override
                         public void selectionChange(SingleSelectionEvent singleSelectionEvent) {
-                            tipoAzione.publish(presenter);
+                            azioneOld.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
                     break;
@@ -80,7 +80,7 @@ public enum TipoAzione {
                      modelloMultiplo.addMultiSelectionListener(new MultiSelectionListener() {
                         @Override
                         public void selectionChange(MultiSelectionEvent multiSelectionEvent) {
-                            tipoAzione.publish(presenter);
+                            azioneOld.publish(presenter);
                         }// end of inner method
                     });// end of anonymous inner class
                     break;
@@ -93,11 +93,11 @@ public enum TipoAzione {
     },// end of single enumeration
     listener("Listener") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addListener(new Component.Listener() {
                 @Override
                 public void componentEvent(Component.Event event) {
-                    tipoAzione.publish(presenter);
+                    azioneOld.publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
         }// end of method
@@ -106,23 +106,23 @@ public enum TipoAzione {
     private String caption;
     private static ArrayList<Registration> regs = new ArrayList();
 
-    TipoAzione(String caption) {
+    AzioneOld(String caption) {
         this.caption = caption;
     }// end of general constructor
 
 
     /**
-     * Costruisce il listener per la singola tipoAzione
+     * Costruisce il listener per la singola azioneOld
      */
-    void addListener(AlgosPresenter presenter, AlgosGrid grid, TipoAzione tipoAzione) {
+    void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
     }// end of constructor
 
     /**
      * Costruisce tutti i listener possibili per una grid
      */
     public static void addAllListeners(AlgosPresenter presenter, AlgosGrid grid) {
-        for (TipoAzione tipoAzione : TipoAzione.values()) {
-            tipoAzione.addListener(presenter, grid, tipoAzione);
+        for (AzioneOld azioneOld : AzioneOld.values()) {
+            azioneOld.addListener(presenter, grid, azioneOld);
         }// end of for cycle
     }// end of constructor
 
@@ -140,14 +140,14 @@ public enum TipoAzione {
     private void publish(AlgosPresenter presenter, Object entityBean) {
         AlgosSpringEvent actionSpringEvent = null;
 
-        if (presenter != null) {
-            if (entityBean != null && entityBean instanceof AlgosEntity) {
-                actionSpringEvent = new ActionSpringEvent(presenter, this, (AlgosEntity) entityBean);
-            } else {
-                actionSpringEvent = new ActionSpringEvent(presenter, this);
-            }// end of if/else cycle
-            presenter.getApplicationEventPublisher().publishEvent(actionSpringEvent);
-        }// end of if cycle
+//        if (presenter != null) {
+//            if (entityBean != null && entityBean instanceof AlgosEntity) {
+//                actionSpringEvent = new ActionSpringEvent(presenter, this, (AlgosEntity) entityBean);
+//            } else {
+//                actionSpringEvent = new ActionSpringEvent(presenter, this);
+//            }// end of if/else cycle
+//            presenter.getApplicationEventPublisher().publishEvent(actionSpringEvent);
+//        }// end of if cycle
 
     }// end of method
 

@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_ACCETTA)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_ACCETTA)
 public class BottoneAccetta extends Bottone {
 
 

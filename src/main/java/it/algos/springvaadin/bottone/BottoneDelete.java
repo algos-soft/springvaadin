@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_DELETE)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_DELETE)
 public class BottoneDelete extends Bottone {
 
     public BottoneDelete(ApplicationEventPublisher applicationEventPublisher) {

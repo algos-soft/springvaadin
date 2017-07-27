@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_EDIT)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_EDIT)
 public class BottoneEdit extends Bottone {
 
     public BottoneEdit(ApplicationEventPublisher applicationEventPublisher) {

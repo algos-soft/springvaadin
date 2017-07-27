@@ -12,7 +12,7 @@ import it.algos.springvaadin.presenter.AlgosPresenter;
 public class ButtonSpringEvent extends AlgosSpringEvent {
 
 
-    private Bottone bottonePremuto;
+    private final Bottone bottonePremuto;
 
 
     public ButtonSpringEvent(AlgosPresenter source, Bottone bottonePremuto) {
@@ -26,4 +26,4 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     }// end of method
 
 
-}// end of class
+}// end of classZSA >aq A<za<Q

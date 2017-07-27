@@ -1,0 +1,62 @@
+package it.algos.springvaadin.azione;
+
+import com.vaadin.event.selection.MultiSelectionEvent;
+import com.vaadin.event.selection.MultiSelectionListener;
+import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.event.selection.SingleSelectionListener;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.ClientConnector;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.components.grid.GridSelectionModel;
+import com.vaadin.ui.components.grid.ItemClickListener;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
+import com.vaadin.ui.components.grid.SingleSelectionModel;
+import it.algos.springvaadin.grid.AlgosGrid;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.presenter.AlgosPresenter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Scope;
+
+import javax.annotation.PostConstruct;
+
+@SpringComponent
+@Scope("prototype")
+@Qualifier(Cost.TAG_AZ_SINGLE_SELECTION)
+public class AzioneSingleSelection extends Azione {
+
+
+    public AzioneSingleSelection(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
+    }// end of @Autowired constructor
+
+    /**
+     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
+     */
+    @PostConstruct
+    protected void inizia() {
+        super.tipo = TipoAzione.singleSelectionChanged;
+    }// end of method
+
+    /**
+     * Aggiunge alla Grid il listener per la singola azione
+     * Sovrascritto
+     */
+    @SuppressWarnings("all")
+    public void addListener(AlgosGrid grid) {
+        GridSelectionModel selection = grid.getSelectionModel();
+
+        if (selection instanceof SingleSelectionModel) {
+            ((SingleSelectionModel) selection).addSingleSelectionListener(new SingleSelectionListener() {
+                @Override
+                public void selectionChange(SingleSelectionEvent singleSelectionEvent) {
+                    fire(singleSelectionEvent);
+                }// end of inner method
+            });// end of anonymous inner class
+        }// end of if cycle
+
+    }// end of method
+
+}// end of class

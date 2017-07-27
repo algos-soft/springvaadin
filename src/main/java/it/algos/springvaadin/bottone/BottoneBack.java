@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_BACK)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_BACK)
 public class BottoneBack extends Bottone {
 
     public BottoneBack(ApplicationEventPublisher applicationEventPublisher) {

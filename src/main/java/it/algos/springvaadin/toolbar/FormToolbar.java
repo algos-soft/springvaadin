@@ -23,7 +23,6 @@ public class FormToolbar extends AlgosToolbar {
     private final Bottone buttonRegistra;
 
 
-    @Autowired
     public FormToolbar(
             @Qualifier(Cost.TAG_BOT_BACK) Bottone buttonAnnulla,
             @Qualifier(Cost.TAG_BOT_REVERT) Bottone buttonRevert,
@@ -31,7 +30,7 @@ public class FormToolbar extends AlgosToolbar {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
         this.buttonRegistra = buttonRegistra;
-    }// end of constructor
+    }// end of @Autowired constructor
 
     /**
      * Metodo invocato (dalla annotation) DOPO il costruttore

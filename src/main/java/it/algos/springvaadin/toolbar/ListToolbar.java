@@ -25,7 +25,7 @@ public class ListToolbar extends AlgosToolbar {
     private final Bottone buttonDelete;
     private final Bottone buttonSearch;
 
-    @Autowired
+
     public ListToolbar(
             @Qualifier(Cost.TAG_BOT_CREATE) Bottone buttonCreate,
             @Qualifier(Cost.TAG_BOT_EDIT) Bottone buttonEdit,

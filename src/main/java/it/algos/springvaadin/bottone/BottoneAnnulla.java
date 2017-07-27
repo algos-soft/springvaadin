@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_ANNULLA)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_ANNULLA)
 public class BottoneAnnulla extends Bottone {
 
     public BottoneAnnulla(ApplicationEventPublisher applicationEventPublisher) {

@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_REVERT)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_REVERT)
 public class BottoneRevert extends Bottone {
 
     public BottoneRevert(ApplicationEventPublisher applicationEventPublisher) {

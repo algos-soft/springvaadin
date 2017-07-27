@@ -3,9 +3,14 @@ package it.algos.springvaadin.azione;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ActionSpringEvent;
+import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.context.ApplicationEventPublisher;
+
+import java.util.EventObject;
 
 /**
  * Created by gac on 26/7/17
@@ -40,12 +45,29 @@ public abstract class Azione {
 
 
     /**
+     * Aggiunge alla Grid il listener per la singola azione
+     * Sovrascritto
+     */
+    public void addListener(AlgosGrid grid) {
+    }// end of constructor
+
+
+    /**
      * Recupera il presenter dalla 'catena' grafica attiva
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
-    private void fire(Button.ClickEvent clickEvent) {
-        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
-        applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, null,null));
+    protected void fire(EventObject event) {
+        fire(event, (AlgosEntity) null);
     }// end of method
+
+    /**
+     * Recupera il presenter dalla 'catena' grafica attiva
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     */
+    protected void fire(EventObject event, AlgosEntity entityBean) {
+        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
+        applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, tipo, entityBean));
+    }// end of method
+
 
 }// end of abstract class

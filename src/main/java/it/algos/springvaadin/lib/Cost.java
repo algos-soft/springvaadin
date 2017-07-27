@@ -35,4 +35,12 @@ public abstract class Cost {
     public final static String TAG_BOT_BACK = "back";
     public final static String TAG_BOT_REVERT = "revert";
     public final static String TAG_BOT_REGISTRA = "registra";
+
+    public final static String TAG_AZ_ATTACH = "attach";
+    public final static String TAG_AZ_CLICK = "click";
+    public final static String TAG_AZ_DOPPIO_CLICK = "doppioClick";
+    public final static String TAG_AZ_SINGLE_SELECTION = "singleSelectionChanged";
+    public final static String TAG_AZ_MULTI_SELECTION = "multiSelectionChanged";
+    public final static String TAG_AZ_VALUE_CHANGED = "valueChange";
+    public final static String TAG_AZ_LISTENER = "listener";
 }// end of static class;

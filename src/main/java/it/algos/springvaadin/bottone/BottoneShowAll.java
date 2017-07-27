@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
-@Qualifier(Cost.TAG_BOT_SHOW_ALL)
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.TAG_BOT_SHOW_ALL)
 public class BottoneShowAll extends Bottone {
 
     public BottoneShowAll(ApplicationEventPublisher applicationEventPublisher) {

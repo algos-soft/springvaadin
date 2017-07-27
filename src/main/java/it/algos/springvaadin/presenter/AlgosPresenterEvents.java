@@ -2,6 +2,8 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.azione.Azione;
+import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -62,14 +64,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     @Override
     public void attach() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoAzione", "Aggiunta  una riga nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("AzioneOld", "Aggiunta  una riga nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void click() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoAzione", "Click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("AzioneOld", "Click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -77,21 +79,21 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
     @Override
     public void doppioClick(AlgosEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoAzione", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("AzioneOld", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void selectionChanged() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoAzione", "Modificata la selezione della Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("AzioneOld", "Modificata la selezione della Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void listener() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoAzione", "TipoAzione generica della Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("AzioneOld", "AzioneOld generica della Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -134,7 +136,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
 
     /**
-     * Usato da TipoAzione
+     * Usato da AzioneOld
      * Usato da TipoBottone
      */
     public ApplicationEventPublisher getApplicationEventPublisher() {
@@ -209,15 +211,15 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
 
     /**
      * Handle an action event
-     * Vedi enum TipoAzione
+     * Vedi enum AzioneOld
      *
      * @param event the event to respond to
      */
     private void onGridAction(ActionSpringEvent event) {
-        TipoAzione tipoAzioneRichiesta = event.getAzione();
+        TipoAzione tipo = event.geTipo();
         AlgosEntity entityBean = event.getEntityBean();
 
-        switch (tipoAzioneRichiesta) {
+        switch (tipo) {
             case attach:
                 click();
                 break;
@@ -227,7 +229,8 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
             case doppioClick:
                 doppioClick(entityBean);
                 break;
-            case selectionChanged:
+            case singleSelectionChanged:
+            case multiSelectionChanged:
                 selectionChanged();
                 break;
             case listener:

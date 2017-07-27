@@ -1,6 +1,8 @@
 package it.algos.springvaadin.event;
 
 
+import it.algos.springvaadin.azione.Azione;
+import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 
@@ -11,22 +13,24 @@ import it.algos.springvaadin.presenter.AlgosPresenter;
  */
 public class ActionSpringEvent extends AlgosSpringEvent {
 
-    private TipoAzione tipoAzioneRichiesta;
-    private AlgosEntity entityBean;
+    //--property obbligatoria
+    private final TipoAzione tipo;
 
-    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipoAzioneRichiesta) {
-        super(source);
-        this.tipoAzioneRichiesta = tipoAzioneRichiesta;
+    //--property facoltativa; ha senso solo per alcune azioni
+    private final AlgosEntity entityBean;
+
+    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipo) {
+        this(source, tipo, (AlgosEntity) null);
     }// end of constructor
 
-    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipoAzioneRichiesta, AlgosEntity entityBean) {
+    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipo, AlgosEntity entityBean) {
         super(source);
-        this.tipoAzioneRichiesta = tipoAzioneRichiesta;
+        this.tipo = tipo;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public TipoAzione getAzione() {
-        return tipoAzioneRichiesta;
+    public TipoAzione geTipo() {
+        return tipo;
     }// end of method
 
     public AlgosEntity getEntityBean() {
