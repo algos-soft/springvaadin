@@ -190,7 +190,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected String fixCaption(AlgosEntity entity) {
         String caption = "";
 
-        if (entity != null && entity.getId() != null && entity.getId() > 0) {
+        if (entity != null && entity.getId() != null ) {
             if (captionEdit == null || captionEdit.equals("")) {
                 captionEdit = CAPTION_EDIT_DEFAULT;
             }// end of if cycle

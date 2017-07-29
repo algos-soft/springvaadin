@@ -15,11 +15,11 @@ public class VersioneRowMapper implements RowMapper {
 
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
         Versione vers = new Versione();
-        vers.setId(rs.getLong("id"));
-        vers.setOrdine(rs.getInt("ordine"));
-        vers.setTitolo(rs.getString("titolo"));
-        vers.setDescrizione(rs.getString("descrizione"));
-        vers.setModifica(DateConvertUtils.asLocalDateTime(rs.getTimestamp("modifica")));
+//        vers.setId(rs.getLong("id"));
+//        vers.setOrdine(rs.getInt("ordine"));
+//        vers.setTitolo(rs.getString("titolo"));
+//        vers.setDescrizione(rs.getString("descrizione"));
+//        vers.setModifica(DateConvertUtils.asLocalDateTime(rs.getTimestamp("modifica")));
         return vers;
     }// end of method
 

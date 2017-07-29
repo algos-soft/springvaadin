@@ -18,7 +18,7 @@ import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.service.AlgosServiceOld;
+import it.algos.springvaadin.service.AlgosService;
 import org.springframework.core.convert.Property;
 
 import javax.persistence.metamodel.Attribute;
@@ -84,9 +84,9 @@ public class LibField {
                 case combo:
                     if (fieldAnnotation.clazz() != null) {
                         Class<? extends Object> classRelated = fieldAnnotation.clazz();
-                        if (AlgosServiceOld.class.isAssignableFrom(classRelated)) {
+                        if (AlgosService.class.isAssignableFrom(classRelated)) {
                             try { // prova ad eseguire il codice
-                                items = ((AlgosServiceOld) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
+                                items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
                                 vaadinField = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
                             } catch (Exception unErrore) { // intercetta l'errore
                             }// fine del blocco try-catch

@@ -2,9 +2,14 @@ package it.algos.springvaadintest.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
+import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.entity.versione.VersioneRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 /**
  * Created by gac on 12/06/17.
@@ -13,6 +18,20 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
+
+    @Autowired
+    private VersioneRepository versRepository;
+
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void datiIniziali() {
+        versRepository.deleteAll();
+        versRepository.save(new Versione(1, "Setup", "Creazione ed installazione iniziale dell'applicazione", LocalDateTime.now()));
+        versRepository.save(new Versione(2, "Flag", "Regolazione dei flags di controllo", LocalDateTime.now()));
+    }// end of method
 
     /**
      * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'interfaccia.
@@ -43,10 +62,10 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
         AlgosApp.USE_VERS = true;
         log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
-        AlgosApp.USE_MULTI_COMPANY = true;
+        AlgosApp.USE_MULTI_COMPANY = false;
         log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
-        AlgosApp.USE_LOG = true;
+        AlgosApp.USE_LOG = false;
         log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
     }// end of method
 

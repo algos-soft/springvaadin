@@ -3,7 +3,6 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import it.algos.springvaadin.entity.log.Livello;
 
 /**
  * Created by gac on 30/06/17
@@ -32,7 +31,7 @@ public class AlgosComboArrayField extends CustomField {
 
     @Override
     protected Component initContent() {
-        combo.setValue(Livello.values()[0]);
+//        combo.setValue(Livello.values()[0]);
         return combo;
     }// end of method
 

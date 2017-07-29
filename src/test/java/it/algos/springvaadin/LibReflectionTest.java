@@ -44,7 +44,7 @@ public class LibReflectionTest {
         String descrizione = "Testo lungo";
         LocalDateTime modifica = LocalDateTime.now();
 
-        vers.setId(id);
+//        vers.setId(id);
         vers.setOrdine(ordine);
         vers.setTitolo(titolo);
         vers.setDescrizione(descrizione);

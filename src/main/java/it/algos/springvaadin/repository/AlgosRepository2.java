@@ -1,7 +1,10 @@
 package it.algos.springvaadin.repository;
 
+import com.mongodb.Mongo;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.presenter.AlgosPresenterInterface;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
@@ -10,17 +13,19 @@ import java.io.Serializable;
  * Created by gac on 02/07/17
  * <p>
  * Interfaccia generica di collegamento o 'contratto' tra il Service ed il DataBase
- * Si chiama Repository per comodità, anche se le classi Repository sarebbero specifiche di Spring Boot JPA
+ * Si chiama Repository per comodità, anche se le classi Repository
+ *  sono una delle due modalità di utilizzo: Repository e Template
  * La logica di selezione, controllo e manipolazione dei dati risiede nel Service
  * Nelle Repository c'è la metodologia specifica di un collegamento al DB (ce ne sono diverse)
  * <p>
- * Estende una interfaccia specifica esistente, CrudRepository, con un pacchetto base di metodi
- * Possono essere aggiunte altre interfacce esistenti (PagingAndSortingRepository, JpaRepository)
+ * Estende una interfaccia specifica esistente, MongoRepository, con un pacchetto base di metodi
+ * Comprende le interfacce: PagingAndSortingRepository e QueryByExampleExecutor
+ * Possono essere aggiunte altre interfacce esistenti (JpaRepository)
  * Qui vengono inseriti ed aggiunti i 'contratti' specifici di questa applicazione SpringVaadin
  * <p>
- * Le metodologie concrete specifiche, possono essere di vari tipi:
- * - Spring Boot JDBC usa JdbcTemplate (basso livello, architettura più semplice, uso più macchinoso)
- * - Spring Boot JPA usa le Repository (alto livello, architettura automatica molto più complessa, uso facile ed elegante)
+ * Le metodologie concrete specifiche, possono essere di due tipi:
+ * - MongoTemplate (basso livello, uso di Criteria, uso più macchinoso)
+ * - MongoRepository (alto livello, architettura automatica molto più complessa, uso facile ed elegante)
  * Possono essere scambiate facilmente lasciando inalterati i Service
  *
  * @see https://spring.io/guides/gs/relational-data-access/
@@ -32,27 +37,5 @@ import java.io.Serializable;
  * @see http://docs.spring.io/spring-data/jpa/docs/1.8.x/reference/html/#repositories.create-instances
  * @see https://springframework.guru/spring-boot-web-application-part-3-spring-data-jpa/
  */
-@SpringComponent
-public interface AlgosRepository extends CrudRepository {
-
-    /**
-     * Returns whether a table exists.
-     *
-     * @return true if an table exists, {@literal false} otherwise
-     */
-    public boolean exists();
-
-
-    /**
-     * Creazione iniziale di una tavola
-     */
-    public void creaTable();
-
-    /**
-     * Recupera il valore massimo della property (numerica) indicata
-     *
-     * @return max value if a property exists, zero otherwise
-     */
-    public int getMax(String propertyName);
-
+public interface AlgosRepository2  {
 }// end of interface

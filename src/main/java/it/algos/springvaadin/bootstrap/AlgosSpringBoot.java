@@ -50,7 +50,7 @@ public class AlgosSpringBoot implements InitializingBean {
         AlgosApp.USE_DEBUG = false;
         log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
-        AlgosApp.USE_MULTI_COMPANY = true;
+        AlgosApp.USE_MULTI_COMPANY = false;
         log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_SECURITY = false;
@@ -65,7 +65,7 @@ public class AlgosSpringBoot implements InitializingBean {
         AlgosApp.USE_CHECK_COOKIES = true;
         log.info("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
 
-        AlgosApp.USE_VERS = false;
+        AlgosApp.USE_VERS = true;
         log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
         AlgosApp.USE_LOG = false;

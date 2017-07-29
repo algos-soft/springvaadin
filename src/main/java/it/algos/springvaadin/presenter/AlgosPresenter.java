@@ -30,11 +30,11 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
 
 
     //--la vista specifica viene iniettata dal costruttore della sottoclasse concreta
-    private AlgosView view;
+    protected AlgosView view;
 
 
     //--il service (dao, repository) viene iniettato dal costruttore della sottoclasse concreta
-    private AlgosService service;
+    protected AlgosService service;
 
 
     boolean newRecord = false;
@@ -157,8 +157,8 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         if (entityBean == null) {
             entityBean = service.newEntity();
         } else {
-            if (entityBean.getId() > 0) {
-                entityBean = service.findById(entityBean.getId());
+            if (!entityBean.getId().equals("")) {
+//                entityBean = service.findById(entityBean.getId());
             }// end of if cycle
         }// end of if/else cycle
         view.setForm(entityBean, fields);

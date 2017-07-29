@@ -9,7 +9,9 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
 import jdk.nashorn.internal.objects.annotations.Getter;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ import java.time.LocalDateTime;
 //@Entity
 @Service
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = Cost.TAG_VERS)
 @Qualifier(Cost.TAG_VERS)
 public class Versione extends AlgosEntity {
@@ -80,36 +84,36 @@ public class Versione extends AlgosEntity {
     private LocalDateTime modifica;
 
 
-    /**
-     * The default constructor only exists for the sake of JPA.
-     * You won’t use it directly, so it is designated as protected.
-     * Costruttore senza argomenti
-     * Obbligatorio per le specifiche JavaBean
-     * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
-     */
-    protected Versione() {
-        this(0, "", "", (LocalDateTime) null);
-    }// end of JavaBean constructor
-
-
-    /**
-     * Costruttore completo (indispensabile per il Service di SpringBoot)
-     * You won’t use it directly, so it is designated as reserved.
-     * Eventuali regolazioni iniziali delle property
-     * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
-     * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
-     *
-     * @param ordine      di creazione (obbligatorio, unico)
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
-     * @param modifica    data di inserimento della versione (obbligatoria, non unica)
-     */
-    Versione(int ordine, String titolo, String descrizione, LocalDateTime modifica) {
-        this.setOrdine(ordine);
-        this.setTitolo(titolo);
-        this.setDescrizione(descrizione);
-        this.setModifica(modifica != null ? modifica : LocalDateTime.now());
-    }// end of general constructor
+//    /**
+//     * The default constructor only exists for the sake of JPA.
+//     * You won’t use it directly, so it is designated as protected.
+//     * Costruttore senza argomenti
+//     * Obbligatorio per le specifiche JavaBean
+//     * Da non usare MAI per la creazione diretta di una nuova istanza (si perdono i controlli)
+//     */
+//    protected Versione() {
+//        this(0, "", "", (LocalDateTime) null);
+//    }// end of JavaBean constructor
+//
+//
+//    /**
+//     * Costruttore completo (indispensabile per il Service di SpringBoot)
+//     * You won’t use it directly, so it is designated as reserved.
+//     * Eventuali regolazioni iniziali delle property
+//     * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
+//     * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
+//     *
+//     * @param ordine      di creazione (obbligatorio, unico)
+//     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+//     * @param descrizione descrizione (obbligatoria, non unica)
+//     * @param modifica    data di inserimento della versione (obbligatoria, non unica)
+//     */
+//    public Versione(int ordine, String titolo, String descrizione, LocalDateTime modifica) {
+//        this.setOrdine(ordine);
+//        this.setTitolo(titolo);
+//        this.setDescrizione(descrizione);
+//        this.setModifica(modifica != null ? modifica : LocalDateTime.now());
+//    }// end of general constructor
 
 
     /**

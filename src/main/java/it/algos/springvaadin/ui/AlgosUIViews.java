@@ -2,10 +2,6 @@ package it.algos.springvaadin.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
-import it.algos.springvaadin.entity.company.CompanyNavView;
-import it.algos.springvaadin.entity.company.CompanyView;
-import it.algos.springvaadin.entity.log.LogNavView;
-import it.algos.springvaadin.entity.log.LogView;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.entity.versione.VersioneView;
 import it.algos.springvaadin.help.HelpNavView;
@@ -88,10 +84,10 @@ public abstract class AlgosUIViews extends AlgosUIParams {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
         if (LibParams.useMultiCompany()) {
-            menuLayout.addView(CompanyNavView.class);
+//            menuLayout.addView(CompanyNavView.class);
         }// end of if cycle
         if (LibParams.useLog()) {
-            menuLayout.addView(LogNavView.class);
+//            menuLayout.addView(LogNavView.class);
         }// end of if cycle
     }// end of method
 
