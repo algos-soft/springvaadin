@@ -4,6 +4,7 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
+import it.algos.springvaadin.entity.versione.VersioneService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
     @Autowired
-    private VersioneRepository versRepository;
+    private VersioneService versService;
 
     /**
      * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
@@ -28,9 +29,7 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      */
     @PostConstruct
     private void datiIniziali() {
-        versRepository.deleteAll();
-        versRepository.save(new Versione(1, "Setup", "Creazione ed installazione iniziale dell'applicazione", LocalDateTime.now()));
-        versRepository.save(new Versione(2, "Flag", "Regolazione dei flags di controllo", LocalDateTime.now()));
+        versService.creaDatiIniziali();
     }// end of method
 
     /**

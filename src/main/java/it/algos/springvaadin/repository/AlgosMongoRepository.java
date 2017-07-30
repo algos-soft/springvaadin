@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @SpringComponent
-public class AlgosMongoRepository implements MongoRepository {
+public class AlgosMongoRepository  implements  AlgosRepository,MongoRepository {
     @Override
     public List save(Iterable iterable) {
         return null;

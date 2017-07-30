@@ -2,13 +2,25 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.LocalDateRenderer;
+import com.vaadin.ui.renderers.LocalDateTimeRenderer;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
+import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,8 +35,12 @@ public abstract class LibColumn {
     }// end of method
 
 
-    public static Annotation getAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
+    public static AIColumn getColumnAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
         return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIColumn.class);
+    }// end of method
+
+    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
+        return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIField.class);
     }// end of method
 
 
@@ -33,37 +49,33 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumn(final Class<? extends AlgosEntity> clazz, Grid grid, String publicFieldName) {
-        AIColumn annotation;
+        AIColumn columnAnnotation = getColumnAnnotation(clazz, publicFieldName);
         Grid.Column colonna = null;
-        DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
-//        DateTimeFormatter formatterOld = DateTimeFormatter
-//                .ofLocalizedDateTime(FormatStyle.MEDIUM)
-//                .withLocale(Locale.ITALY);
+        AFType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
         String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
+        DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
+        LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u",Locale.ITALIAN);
 
         if (grid == null && LibText.isEmpty(publicFieldName)) {
             return 0;
         }// end of if cycle
 
-        colonna = grid.addColumn(publicFieldName);
-        annotation = (AIColumn) getAnnotation(clazz, publicFieldName);
-
-        if (annotation != null) {
+        if (columnAnnotation != null) {
+            switch (type) {
+                case date:
+                    colonna = grid.addColumn(publicFieldName, render);
+                    break;
+                case localdatetime:
+                    colonna = grid.addColumn(publicFieldName, renderLocal);
+                    break;
+                default: // caso non definito
+                    colonna = grid.addColumn(publicFieldName);
+                    break;
+            } // fine del blocco switch
             colonna.setCaption(name);
-            colonna.setWidth(annotation.width());
-
-            if (annotation.type() == AFType.date) {
-                colonna.setRenderer(render);
-            }// end of if cycle
-            if (annotation.type() == AFType.localdatetime) {
-                //@todo dobbiamo aspettare vaadin 8.1
-
-//                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-//                Grid.Column<Versione, Date> dateColumn = grid.addColumn(publicFieldName, new DateRenderer(df));
-//                dateColumn.setCaption(publicFieldName);
-
-            }// end of if cycle
+            colonna.setWidth(columnAnnotation.width());
         } else {
+            colonna = grid.addColumn(publicFieldName);
             if (publicFieldName.equals(Cost.PROPERTY_ID)) {
                 colonna.setWidth(50);
             }// end of if cycle

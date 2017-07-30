@@ -22,7 +22,7 @@ public @interface AIColumn {
 
     //--solo se è diverso da quello indicato in AIField
     //--se manca in entrambe le interfaccie, prende il valore di default di AIField
-    AFType type() default AFType.text;
+    AFType type() default AFType.ugualeAlField;
 
     /**
      * (Optional) The name of the field.

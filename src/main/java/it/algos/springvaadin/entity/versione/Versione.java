@@ -16,6 +16,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -81,6 +82,7 @@ public class Versione extends AlgosEntity {
     //--inserita automaticamente
     @NotNull
     @AIField(type = AFType.localdatetime, enabled = false, help = "Data di inserimento della versione.")
+    @AIColumn
     private LocalDateTime modifica;
 
 

@@ -8,7 +8,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
 import it.algos.springvaadin.menu.MenuLayout;

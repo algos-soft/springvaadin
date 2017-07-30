@@ -40,7 +40,7 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> {
     protected void doSetValue(LocalDateTime localDateTime) {
         String value = "";
         String sepD = "-";
-        String sepDT = " ";
+        String sepDT = "  ";
         String sepT = ":";
 
 //        DateTimeFormatter formatter = DateTimeFormatter
@@ -52,7 +52,7 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> {
         value += sepD;
         value += MeseEnum.getShort(localDateTime.getMonthValue());//nome breve (3 caratteri) in italiano
         value += sepD;
-        value += localDateTime.getYear() - 2000;//le ultime due cifre
+        value += localDateTime.getYear();//le ultime due cifre
         value += sepDT;
         value += LibNum.addZeri(localDateTime.getHour());//aggiunge eventuale zero iniziale per avere sempre 2 cifre
         value += sepT;

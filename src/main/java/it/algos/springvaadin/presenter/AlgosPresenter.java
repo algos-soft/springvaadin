@@ -81,14 +81,14 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         }// end of if cycle
 
         //--Recupera dal service tutti i dati necessari (aggiornati)
-        Class<? extends AlgosEntity> clazz = service.getEntityClass();
+//        Class<? extends AlgosEntity> clazz = service.getEntityClass();//@todo
         List items = service.findAll();
         List<String> columns = service.getListColumns();
 
         //--Passa il controllo alla view con i dati necessari
-        if (clazz != null && columns != null && columns.size() > 0) {
-            view.setList(clazz, items, columns);
-        }// end of if cycle
+//        if (clazz != null && columns != null && columns.size() > 0) {
+//            view.setList(clazz, items, columns);
+//        }// end of if cycle
     }// end of method
 
     /**
@@ -148,21 +148,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     protected void modifica(AlgosEntity entityBean) {
-        if (view == null || service == null) {
-            return;
-        }// end of if cycle
-
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
-        } else {
-            if (!entityBean.getId().equals("")) {
-//                entityBean = service.findById(entityBean.getId());
-            }// end of if cycle
-        }// end of if/else cycle
+        }// end of if cycle
         view.setForm(entityBean, fields);
-
     }// end of method
 
     /**
@@ -196,12 +187,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         String message;
 
         if (beanList.size() == 1) {
-            message = "Sei sicuro di voler eliminare il record selezionato ?";
+            message = "Sei sicuro di voler eliminare il record: <b>" + beanList.get(0) + " </b>?";
         } else {
             message = "Sei sicuro di voler eliminare i " + beanList.size() + " records selezionati ?";
         }// end of if/else cycle
 
-        ConfirmDialog dialog = new ConfirmDialog("Eliminazione", message, new ConfirmDialog.Listener() {
+        ConfirmDialog dialog = new ConfirmDialog("Delete", message, new ConfirmDialog.Listener() {
 
             @Override
             public void onClose(ConfirmDialog dialog, boolean confirmed) {
@@ -219,7 +210,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     /**
      * Cancella il/i record/s selezionato/i
      */
-    private void cancellazione(List<AlgosEntity> beanList) {
+    protected void cancellazione(List<AlgosEntity> beanList) {
         boolean cancellato = false;
 
         if (beanList != null && beanList.size() > 0) {
@@ -289,12 +280,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Registra le modifiche nel DB, tramite il service
      */
     public void registraModifiche() {
-        AlgosEntity entityBean = null;
-
-        if (view != null && service != null) {
-            entityBean = view.writeBean(); //commit
-            service.save(entityBean);      //flush
-        }// end of if cycle
+        service.save(view.writeBean());
     }// end of method
 
 

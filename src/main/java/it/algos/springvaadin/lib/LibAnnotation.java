@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * Created by gac on 12/07/17
- * .
+ * Libreria di metodo per gestire le interfacce specifiche di Springvaadin: AIColumn e AIField
  */
 public abstract class LibAnnotation {
 
@@ -106,7 +106,7 @@ public abstract class LibAnnotation {
 
 
     /**
-     * Get the type of the property.
+     * Get the type (field) of the property.
      *
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
@@ -114,7 +114,7 @@ public abstract class LibAnnotation {
      * @return the type for the specific column
      */
     @SuppressWarnings("all")
-    public static AFType getType(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AFType getTypeField(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AFType type = null;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -125,6 +125,31 @@ public abstract class LibAnnotation {
         return type;
     }// end of static method
 
+
+    /**
+     * Get the type (column) of the property.
+     * Se manca, usa il type del Field
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the type for the specific column
+     */
+    @SuppressWarnings("all")
+    public static AFType getTypeColumn(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        AFType type = null;
+        AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
+
+        if (columnAnnotation != null) {
+            type = columnAnnotation.type();
+        }// end of if cycle
+
+        if (type == AFType.ugualeAlField) {
+            type = getTypeField(clazz, publicFieldName);
+        }// end of if cycle
+
+        return type;
+    }// end of static method
 
     /**
      * Get the status required of the property.
@@ -170,6 +195,7 @@ public abstract class LibAnnotation {
 
     /**
      * Get the name (field) of the property.
+     * Se manca, usa il nome della property
      *
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
@@ -194,6 +220,8 @@ public abstract class LibAnnotation {
 
     /**
      * Get the name (column) of the property.
+     * Se manca, usa il nome del Field
+     * Se manca, usa il nome della property
      *
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
@@ -215,8 +243,6 @@ public abstract class LibAnnotation {
 
         return name;
     }// end of static method
-
-
 
 
     /**
