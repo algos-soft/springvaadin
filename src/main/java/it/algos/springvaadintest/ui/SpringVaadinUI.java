@@ -49,7 +49,7 @@ public class SpringVaadinUI extends AlgosUI {
      */
     protected void specificFixAndPrint() {
 
-        super.gridSelectionMode = Grid.SelectionMode.SINGLE;
+        super.gridSelectionMode = Grid.SelectionMode.MULTI;
         log.info("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
 
         super.displayToolTips = true;

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.UI;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.ui.AlgosUIParams;
 
@@ -237,7 +238,8 @@ public abstract class LibParams {
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
     public static boolean usaBottoniColorati() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaBottoniColorati;
+        AlgosUIParams uiParams = (AlgosUIParams) LibVaadin.getUI();
+        return uiParams != null && uiParams.usaBottoniColorati;
     }// end of static method
 
 
