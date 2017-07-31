@@ -20,6 +20,7 @@ import java.util.EventObject;
  * Nel @PostConstruct vengono regolati i parametri specifici di questo bottone
  * Nella superclasse viene aggiunto il listener per il click sul bottone
  * Il click recupera il presenter attivo al momento, costruisce un evento e lo lancia
+ * Le azioni sono ''prototype'', cioè ne viene generata una per ogni xxxPresenter -> xxxView
  */
 public abstract class Azione {
 

@@ -1,17 +1,13 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
-import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.field.AlgosIntegerField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -45,10 +41,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
-     * Questa classe (View) è la prima del gruppo (modulo) invocata da SpringNavigator
-     * Deve quindi iniettarsi il riferimento al gestore principale (xxxPresenter)
-     * Nella sottoclasse concreta si usa un @Qualifier(), per avere la sottoclasse specifica
-     * Nella sottoclasse concreta si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      *
      * @param toolbar iniettata da Spring
      */

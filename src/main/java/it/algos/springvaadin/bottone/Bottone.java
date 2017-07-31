@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
  * Nel @PostConstruct vengono regolati i parametri specifici di questo bottone
  * Nella superclasse viene aggiunto il listener per il click sul bottone
  * Il click recupera il presenter attivo al momento, costruisce un evento e lo lancia
+ * I bottoni sono ''prototype'', cioè ne viene generato uno per ogni xxxPresenter -> xxxView
  */
 public abstract class Bottone extends Button {
 

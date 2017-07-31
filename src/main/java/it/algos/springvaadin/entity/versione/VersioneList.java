@@ -12,8 +12,8 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 13/06/17.
- * Presenta i dati di una lista usando una Grid
- * Aggiunge una ToolBar in basso coi bottoni di comando (contenenti già i listener per lanciare gli eventi)
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)

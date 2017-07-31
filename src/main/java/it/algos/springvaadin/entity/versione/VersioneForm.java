@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 13/06/17
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)

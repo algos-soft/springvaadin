@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Gestisce due modalità di presentazione dei dati: List e Form
  * Presenta i componenti grafici passivi
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)

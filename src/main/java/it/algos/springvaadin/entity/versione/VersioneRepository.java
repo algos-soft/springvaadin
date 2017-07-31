@@ -10,6 +10,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
+/**
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)
 public interface VersioneRepository extends MongoRepository<Versione, String> {

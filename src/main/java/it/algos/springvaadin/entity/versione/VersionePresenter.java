@@ -21,6 +21,8 @@ import java.util.List;
  * Classe che gestisce la business logic di un 'modulo'
  * Viene creata la prima volta dalla xxxNavView (injected) che a sua volta viene creata dallo SpringNavigator
  * Classe specifica per costruire i riferimenti usati dalla superclasse
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)

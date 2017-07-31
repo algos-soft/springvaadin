@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Created by gac on 07/07/17
+ * Annotated with @SpringView (obbligatorio)
  */
 @SpringView(name = VersioneNavView.VIEW_NAME)
 public class VersioneNavView extends AlgosNavView {
