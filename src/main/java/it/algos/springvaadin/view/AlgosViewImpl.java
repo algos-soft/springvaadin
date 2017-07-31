@@ -80,12 +80,13 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
     /**
      * Righe selezionate nella Grid
+     * Rimanda al metodo della Lista
      *
      * @return numero di righe selezionate
      */
     @Override
     public int numRigheSelezionate() {
-        return 0;
+        return list.numRigheSelezionate();
     }// end of method
 
     /**
@@ -191,8 +192,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     @Override
-    public List<AlgosEntity> getEntityList() {
-        return list.getEntity();
+    public List<AlgosEntity> getEntityBeans() {
+        return list.getEntityBeans();
     }// end of method
 
 

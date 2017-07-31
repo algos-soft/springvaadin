@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Notification;
 import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibParams;
@@ -108,12 +109,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      */
     @Override
     public void edit() {
-        List<AlgosEntity> lista = this.getEntityList();
+        List<AlgosEntity> beanList = view.getEntityBeans();
 
         //patch @todo passa qui due volte (per errore) non trovato perché
         //la seconda volta il presenter è 'farlocco'
-        if (lista != null && lista.size() == 1) {
-            modifica(lista.get(0));
+        if (beanList != null && beanList.size() == 1) {
+            modifica(beanList.get(0));
         }// end of if cycle
 
     }// end of method
@@ -156,7 +157,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     @Override
     public void delete() {
         if (service != null && view != null) {
-            List<AlgosEntity> beanList = view.getEntityList();
+            List<AlgosEntity> beanList = view.getEntityBeans();
 
             if (LibParams.chiedeConfermaPrimaDiCancellare()) {
                 chiedeConfermaPrimaDiCancellare(beanList);
@@ -173,13 +174,22 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Presenta un dialogo di conferma prima della cancellazione effettiva
      */
     public void chiedeConfermaPrimaDiCancellare(List<AlgosEntity> beanList) {
-        boolean cancella = false;
         String message;
+
+        if (beanList == null) {
+            Notification.show("Errore", "Non riesco a cancellare", Notification.Type.ERROR_MESSAGE);
+            return;
+        }// end of if cycle
 
         if (beanList.size() == 1) {
             message = "Sei sicuro di voler eliminare il record: " + LibText.setRossoBold(beanList.get(0) + "") + " ?";
         } else {
-            message = "Sei sicuro di voler eliminare i " + beanList.size() + " records selezionati ?";
+            message = "Sei sicuro di voler eliminare i " + LibText.setRossoBold(beanList.size() + "") + " records selezionati ?";
+            if (LibParams.usaDialoghiVerbosi()) {
+                for (int k = 0; k < beanList.size(); k++) {
+                    message += "</br>&nbsp;&nbsp;&nbsp;&nbsp;"+(k+1)+") "+beanList.get(k);
+                }// end of for cycle
+            }// end of if cycle
         }// end of if/else cycle
 
         ConfirmDialog dialog = new ConfirmDialog("Delete", message, new ConfirmDialog.Listener() {
@@ -322,18 +332,6 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
 
     }// end of method
 
-
-    /**
-     * Recupera il record selezionato nella Grid
-     */
-    @SuppressWarnings("rawtypes")
-    private List<AlgosEntity> getEntityList() {
-        if (view != null) {
-            return view.getEntityList();
-        }// end of if cycle
-
-        return null;
-    }// end of method
 
     public AlgosEntity getModel() {
         return null;

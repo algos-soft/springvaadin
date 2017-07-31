@@ -106,7 +106,7 @@ public interface AlgosView extends View {
      *
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
-    public List<AlgosEntity> getEntityList();
+    public List<AlgosEntity> getEntityBeans();
 
 
     /**

@@ -58,6 +58,9 @@ public class SpringVaadinUI extends AlgosUI {
         super.usaSeparateFormDialog = false;
         log.info("AlgosUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
 
+        super.usaDialoghiVerbosi = true;
+        log.info("AlgosUIParams.usaDialoghiVerbosi: " + super.usaDialoghiVerbosi);
+
     }// end of method
 
 

@@ -155,33 +155,14 @@ public class AlgosGrid extends Grid {
     }// end of method
 
 
-    public List<AlgosEntity> getEntity() {
-        List<AlgosEntity> lista = null;
+    public List<AlgosEntity> getEntityBeans() {
+        List<AlgosEntity> beanList = null;
         AlgosEntity entityBean;
-
-        if (unaRigaSelezionata()) {
-            lista = new ArrayList<>();
-            Set alfa = this.getSelectedItems();
-            if (alfa.size() == 1) {
-                Object beta = alfa.toArray()[0];
-                if (beta instanceof AlgosEntity) {
-                    entityBean = (AlgosEntity) beta;
-                    lista.add(entityBean);
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
-
-        return lista;
-    }// end of method
-
-    public List<AlgosModel> getBeans() {
-        List<AlgosModel> beanList = null;
-        AlgosModel entityBean;
         Object[] matrice;
 
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
-                entityBean = (AlgosModel) this.asSingleSelect().getValue();
+                entityBean = (AlgosEntity) this.asSingleSelect().getValue();
                 beanList = new ArrayList<>();
                 beanList.add(entityBean);
                 return beanList;
@@ -189,7 +170,7 @@ public class AlgosGrid extends Grid {
                 matrice = this.asMultiSelect().getSelectedItems().toArray();
                 beanList = new ArrayList<>();
                 for (Object obj : matrice) {
-                    beanList.add((AlgosModel) obj);
+                    beanList.add((AlgosEntity) obj);
                 }// end of for cycle
                 return beanList;
             case NONE:

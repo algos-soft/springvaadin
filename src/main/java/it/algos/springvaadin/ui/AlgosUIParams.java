@@ -120,6 +120,15 @@ public abstract class AlgosUIParams extends UI {
 
 
     /**
+     * Flag.
+     * Utilizzo di dialoghi 'verbosi' (con maggiori informazioni)
+     * Regolato nel metodo genericFixAndPrint() di questa classe
+     * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
+     */
+    public boolean usaDialoghiVerbosi;
+
+
+    /**
      * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
      * Serve per regolare i parametri utilizzati nel metodo init(VaadinRequest request)
      * Stampa a video (productionMode) i valori per controllo
@@ -224,6 +233,9 @@ public abstract class AlgosUIParams extends UI {
 
         this.usaBottoniColorati = true;
         log.info("AlgosUIParams.usaBottoniColorati: " + this.usaBottoniColorati);
+
+        this.usaDialoghiVerbosi = false;
+        log.info("AlgosUIParams.usaDialoghiVerbosi: " + this.usaDialoghiVerbosi);
 
         log.info("All this params can be found in LibParams" );
 

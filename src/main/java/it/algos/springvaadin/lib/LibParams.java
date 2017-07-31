@@ -243,4 +243,16 @@ public abstract class LibParams {
     }// end of static method
 
 
+    /**
+     * Flag.
+     * Utilizzo di dialoghi 'verbosi' (con maggiori informazioni)
+     * Priority, friendly, danger
+     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
+     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
+     */
+    public static boolean usaDialoghiVerbosi() {
+        return ((AlgosUIParams) LibVaadin.getUI()).usaDialoghiVerbosi;
+    }// end of static method
+
+
 }// end of static class

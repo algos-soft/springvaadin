@@ -157,8 +157,8 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     @Override
-    public List<AlgosEntity> getEntity() {
-        return grid.getEntity();
+    public List<AlgosEntity> getEntityBeans() {
+        return grid.getEntityBeans();
     }// end of method
 
     public Label getLabel() {
