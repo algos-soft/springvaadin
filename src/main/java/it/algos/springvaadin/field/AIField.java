@@ -16,6 +16,12 @@ public @interface AIField {
 
 
     /**
+     * (Optional) Classe della property.
+     * Utilizzato nei Combo e nelle Enumeration.
+     */
+    Class<? extends Object> clazz() default Object.class;
+
+    /**
      * (Required) The type of the field.
      * Defaults to the text type.
      */
@@ -51,24 +57,11 @@ public @interface AIField {
     boolean enabled() default true;
 
 
-    Class<? extends Object> clazz() default Object.class;
-
-    int columns() default 20;
-
-    int rows() default 4;
-
-
-    String prompt() default "";
-
+    /**
+     * (Optional) help text on rollover
+     * Defaults to null.
+     */
     String help() default "";
-
-
-
-    int min() default 2;
-
-    int max() default 80;
-
-    String error() default "";
 
     /**
      * (Optional) Status (allowed null selection in popup) of the the field.
@@ -76,5 +69,6 @@ public @interface AIField {
      * Defaults to false.
      */
     boolean nullSelectionAllowed() default false;
+
 
 }// end of interface annotation

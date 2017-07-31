@@ -7,7 +7,10 @@ import java.util.List;
 
 /**
  * Created by gac on 10/07/17
- * .
+ * Presenta i dati di un singol entityBean, sotto forma di un Form
+ * Conosce solo la entityBean ed i fields che gli vengono passati dal presenter nel metodo restart
+ * Responsabile di presentare i dati e lanciare gli eventi necessari
+ * Si inietta la FormToolbar che contiene i bottoni che generano gli eventi
  */
 public interface AlgosForm {
 
@@ -15,27 +18,30 @@ public interface AlgosForm {
      * Creazione del form
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
-     */
-    public void restart(AlgosEntity entity, List<String> fields);
-
-
-    /**
-     * Esegue il 'rollback' nel Form
-     * Revert (ripristina) button pressed in form
-     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
-     */
-    public void revertEntity();
-
-
-    /**
-     * Esegue il 'commit'.
-     * Trasferisce i valori dai campi alla entityBean
-     * Esegue la validazione dei dati
-     * Esegue la trasformazione dei dati
      *
-     * @return la entity del Form
+     * @param entityBean istanza da presentare
+     * @param fields del form da visualizzare
      */
-    public AlgosEntity writeBean();
+    public void restart(AlgosEntity entityBean, List<String> fields);
+
+
+    /**
+     * Esegue il 'rollback' del Form
+     * Revert (ripristina) button pressed in form
+     * Usa la entityBean già presente nel form, ripristinando i valori iniziali
+     * Rimane nel form SENZA registrare
+     */
+    public void revert();
+
+
+    /**
+     * Trasferisce i valori dai campi dell'interfaccia alla entityBean
+     * Esegue la (eventuale) validazione dei dati
+     * Esegue la (eventuale) trasformazione dei dati
+     *
+     * @return la entityBean del Form
+     */
+    public AlgosEntity commit();
 
 
     /**
@@ -52,6 +58,8 @@ public interface AlgosForm {
 
     /**
      * Restituisce la entity utilizzata
+     *
+     * @return la entityBean del Form
      */
     public AlgosEntity getEntity();
 

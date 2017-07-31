@@ -3,7 +3,6 @@ package it.algos.springvaadin;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;

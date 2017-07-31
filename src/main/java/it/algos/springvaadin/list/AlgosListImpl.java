@@ -12,7 +12,6 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

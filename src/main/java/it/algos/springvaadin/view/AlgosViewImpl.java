@@ -157,7 +157,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void revertEntity() {
-        form.revertEntity();
+        form.revert();
     }// end of method
 
     /**
@@ -169,8 +169,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @return la entity del Form
      */
     @Override
-    public AlgosEntity writeBean() {
-        return form.writeBean();
+    public AlgosEntity commit() {
+        return form.commit();
     }// end of method
 
     /**

@@ -9,7 +9,6 @@ import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.annotation.Annotation;

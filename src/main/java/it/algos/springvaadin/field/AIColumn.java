@@ -18,10 +18,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD) //can use in field only.
 public @interface AIColumn {
 
-    Class<? extends Object> clazz() default Object.class;
 
-    //--solo se è diverso da quello indicato in AIField
-    //--se manca in entrambe le interfaccie, prende il valore di default di AIField
+    /**
+     * (Required) The type of the field.
+     * Se manca (valore di default), prende quello indicato in AIField
+     * Se manca anche in AIField, prende il valore di default di AIField
+     */
     AFType type() default AFType.ugualeAlField;
 
     /**
@@ -30,10 +32,12 @@ public @interface AIColumn {
      */
     String name() default "";
 
+    /**
+     * (Optional) The width of the field.
+     * Expressed in double,
+     * Defaults to 150
+     */
     double width() default 150;
 
-    String prompt() default "";
-
-    String help() default "";
 
 }// end of interface annotation

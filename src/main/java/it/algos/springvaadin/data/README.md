@@ -60,7 +60,7 @@ Insert
 ```
 Versione vers = new Versione();
 vers.setSigla("Prova");
-versioneRepository.insert(vers);
+versioneRepository.save(vers);
 ```
 Here’s the end state of the database:
 ```

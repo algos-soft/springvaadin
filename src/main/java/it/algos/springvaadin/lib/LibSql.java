@@ -1,7 +1,6 @@
 package it.algos.springvaadin.lib;
 
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.view.AlgosView;
 import org.apache.tomcat.util.buf.StringUtils;
@@ -25,7 +24,7 @@ public class LibSql {
      * Get the query string for INSERT
      */
     @Deprecated
-    public static String getQueryInsert(String tableName, AlgosModel entity) {
+    public static String getQueryInsert(String tableName, AlgosEntity entity) {
         String query = "";
 
 //        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);

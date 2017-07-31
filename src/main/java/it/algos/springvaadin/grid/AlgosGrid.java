@@ -10,7 +10,6 @@ import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;

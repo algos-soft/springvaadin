@@ -1,7 +1,6 @@
 package it.algos.springvaadin.service;
 
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;
@@ -93,7 +92,7 @@ public interface AlgosService {
     public List<String> getFormFields();
 
 
-    public void setEntityClass(Class<? extends AlgosEntity> entityClass) ;
+    public void setEntityClass(Class<? extends AlgosEntity> entityClass);
 
-    }// end of interface
+}// end of interface
 

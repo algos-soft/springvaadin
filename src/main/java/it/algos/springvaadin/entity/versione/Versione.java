@@ -7,7 +7,6 @@ import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,90 +26,80 @@ import java.time.LocalDateTime;
 /**
  * Created by gac on 01/06/17
  * <p>
- * Classe di tipo JavaBean
- * 1) la classe deve avere un costruttore senza argomenti
- * 2) le proprietà devono essere private e accessibili solo con get, set e is (usato per i boolena al posto di get)
- * 3) la classe deve implementare l'interfaccia Serializable (lo fa nella superclasse)
- * 4) la classe non deve contenere nessun metodo per la gestione degli eventi
- * <p>
- * Annotated with @Entity, indicating that it is a JPA entity.
- * If there isn't a @Table annotation, this entity will be mapped to a table named as the class
- * Estende la Entity astratta AlgosModel che contiene la key property ID
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Data (Lombok) for automatic use of Getter and Setter
+ * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
+ * Annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
+ * Estende la Entity astratta AlgosEntity che contiene la key property ObjectId
  * <p>
  * Tipicamente usata dal developer per gestire le versioni, patch e release dell'applicazione
  * Non prevede la differenziazione per Company
  */
-//@Entity
-@Service
+@SpringComponent
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = Cost.TAG_VERS)
-@Qualifier(Cost.TAG_VERS)
 public class Versione extends AlgosEntity {
 
 
-    //--versione della classe per la serializzazione
+    /**
+     * versione della classe per la serializzazione
+     */
     private final static long serialVersionUID = 1L;
 
 
-    //--ordine di creazione (obbligatorio, unico, con controllo automatico prima del persist se è zero)
+    /**
+     * ordine di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * inserito automaticamente
+     * se si cancella una entity, rimane il 'buco' del numero
+     */
     @NotNull
     @GeneratedValue()
     @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
     @AIColumn(name = "#", width = 80)
     private int ordine;
 
-    //--codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+
+    /**
+     * codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+     */
     @NotEmpty
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 20)
     @AIField(type = AFType.text, required = true, help = "Tipologia della versione.")
     @AIColumn()
     @JsonProperty
     private String titolo;
 
-    //--descrizione (obbligatoria, non unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+
+    /**
+     * descrizione (obbligatoria, non unica)
+     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+     */
     @NotEmpty
-    @Size(min = 2, max = 50)
+    @Size(min = 4, max = 200)
     @AIField(type = AFType.text, required = true, widthEM = 30, help = "Descrizione della versione.")
     @AIColumn(width = 500)
     private String descrizione;
 
-    //--momento in cui si effettua la modifica della versione (obbligatoria, non unica)
-    //--inserita automaticamente
+
+    /**
+     * momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     * inserita automaticamente
+     */
     @NotNull
     @AIField(type = AFType.localdatetime, enabled = false, help = "Data di inserimento della versione.")
     @AIColumn
     private LocalDateTime modifica;
 
 
-
     /**
-     * Returns a string representation of the object. In general, the
-     * {@code toString} method returns a string that
-     * "textually represents" this object. The result should
-     * be a concise but informative representation that is easy for a
-     * person to read.
-     * It is recommended that all subclasses override this method.
-     * <p>
-     * The {@code toString} method for class {@code Object}
-     * returns a string consisting of the name of the class of which the
-     * object is an instance, the at-sign character `{@code @}', and
-     * the unsigned hexadecimal representation of the hash code of the
-     * object. In other words, this method returns a string equal to the
-     * value of:
-     * <blockquote>
-     * <pre>
-     * getClass().getName() + '@' + Integer.toHexString(hashCode())
-     * </pre></blockquote>
-     *
      * @return a string representation of the object.
      */
     @Override
     public String toString() {
         return getTitolo() + "-" + getDescrizione();
     }// end of method
+
 
 }// end of entity class

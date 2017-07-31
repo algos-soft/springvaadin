@@ -10,7 +10,6 @@ import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -299,7 +298,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Registra le modifiche nel DB, tramite il service
      */
     private AlgosEntity registraModifiche() {
-        return service.save(view.writeBean());
+        return service.save(view.commit());
     }// end of method
 
 

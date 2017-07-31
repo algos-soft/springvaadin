@@ -371,8 +371,8 @@ public class LibField {
         boolean notNull = LibAnnotation.getNull(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
-            min = fieldAnnotation.min();
-            max = fieldAnnotation.max();
+            min = 2;//@todo leggere l'annotation
+            max = 200;//@todo leggere l'annotation
 
             switch (fieldAnnotation.type()) {
                 case text:

@@ -81,7 +81,7 @@ public interface AlgosView extends View {
      *
      * @return la entity del Form
      */
-    public AlgosEntity writeBean();
+    public AlgosEntity commit();
 
     /**
      * Esegue il 'rollback' nel Form

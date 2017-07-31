@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 13/06/17
- * Presenta i dati di una entity o bean, sotto forma di un Form
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)
@@ -18,7 +17,10 @@ public class VersioneForm extends AlgosFormImpl {
 
 
     /**
-     * Costruttore @Autowired (nella superclasse)
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     *
+     * @param toolbar iniettata da Spring
      */
     public VersioneForm(FormToolbar toolbar) {
         super(toolbar);
@@ -26,12 +28,17 @@ public class VersioneForm extends AlgosFormImpl {
 
 
     /**
+     * Label di informazione
+     *
+     * @param entityBean istanza da presentare
+     *
+     * @return la label a video
      */
-    protected String fixCaption(AlgosEntity entity) {
+    protected String fixCaption(AlgosEntity entityBean) {
         super.captionCreate = "Nuova versione";
         super.captionEdit = "Modifica versione";
 
-        return super.fixCaption(entity);
+        return super.fixCaption(entityBean);
     }// end of method
 
 

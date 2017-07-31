@@ -5,7 +5,6 @@ import com.vaadin.ui.AbstractField;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.model.AlgosModel;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;

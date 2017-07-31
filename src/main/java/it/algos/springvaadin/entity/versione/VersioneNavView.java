@@ -8,18 +8,10 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Created by gac on 07/07/17
- * <p>
- * Layer di collegamento tra Spring e MVP
- * Serve SOLO per intercettare le selezioni del menu e 'lanciare' il corrispondente AlgosPresenter
- * <p>
- * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
- * Passa il controllo alla classe xxxPresenter che gestisce la business logic
- * La classe xxxPresenter costruisce (iniezione) tutte le classi necessarie, tra cui xxxView
- * Il metodo getLinkedView() fornisce, tramite xxxPresenter,
- * la view effettiva da visualizzare richiesta da AlgosUI.showView()
  */
 @SpringView(name = VersioneNavView.VIEW_NAME)
 public class VersioneNavView extends AlgosNavView {
@@ -34,11 +26,14 @@ public class VersioneNavView extends AlgosNavView {
 
 
     /**
-     * Costruttore @Autowired (nella superclasse)
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Questa classe (View) è la prima del gruppo (modulo) invocata da SpringNavigator
      * Deve quindi iniettarsi il riferimento al gestore principale (xxxPresenter)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     *
+     * @param presenter iniettato da Spring, della sottoclasse indicata da @Qualifier
      */
     public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenter presenter) {
         super(presenter);
