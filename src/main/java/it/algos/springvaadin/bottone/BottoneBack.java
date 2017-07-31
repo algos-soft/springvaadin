@@ -24,7 +24,7 @@ public class BottoneBack extends Bottone {
     @PostConstruct
     protected void inizia() {
         super.setCaption("Annulla");
-        super.setIcon(VaadinIcons.BACKWARDS);
+        super.setIcon(VaadinIcons.ARROW_BACKWARD);
         super.setEnabled(true);
         super.tipo = TipoBottone.back;
 

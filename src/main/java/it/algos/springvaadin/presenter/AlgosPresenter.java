@@ -1,9 +1,12 @@
 package it.algos.springvaadin.presenter;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.dialog.ConfirmDialog;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
@@ -37,14 +40,15 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     protected AlgosService service;
 
 
-    boolean newRecord = false;
+    //--il modello-dati specifico viene regolato dalla sottoclasse nel metodo @PostConstruct
+    protected Class<? extends AlgosEntity> entityClass;
+
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
     public AlgosPresenter(AlgosView view, AlgosService service) {
         this.view = view;
         this.service = service;
@@ -56,10 +60,6 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * La partenza standard è quella di mostrare una lista
      * Recupera i dati dal DB
      * Passa i dati alla view
-     */
-    /**
-     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
-     * Passa il controllo alla classe xxxPresenter che gestisce la business logic
      */
     public void enter() {
         this.presentaLista();
@@ -76,20 +76,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     protected void presentaLista() {
-        if (view == null || service == null) {
-            return;
-        }// end of if cycle
-
-        //--Recupera dal service tutti i dati necessari (aggiornati)
-//        Class<? extends AlgosEntity> clazz = service.getEntityClass();//@todo
         List items = service.findAll();
         List<String> columns = service.getListColumns();
 
-        //--Passa il controllo alla view con i dati necessari
-//        if (clazz != null && columns != null && columns.size() > 0) {
-//            view.setList(clazz, items, columns);
-//        }// end of if cycle
+        view.setList(entityClass, items, columns);
     }// end of method
+
 
     /**
      * Evento
@@ -101,7 +93,6 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      */
     @Override
     public void create() {
-        newRecord = true;
         modifica((AlgosEntity) null);
     }// end of method
 
@@ -117,7 +108,6 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
      */
     @Override
     public void edit() {
-        newRecord = false;
         List<AlgosEntity> lista = this.getEntityList();
 
         //patch @todo passa qui due volte (per errore) non trovato perché
@@ -187,7 +177,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         String message;
 
         if (beanList.size() == 1) {
-            message = "Sei sicuro di voler eliminare il record: <b>" + beanList.get(0) + " </b>?";
+            message = "Sei sicuro di voler eliminare il record: " + LibText.setRossoBold(beanList.get(0) + "") + " ?";
         } else {
             message = "Sei sicuro di voler eliminare i " + beanList.size() + " records selezionati ?";
         }// end of if/else cycle
@@ -202,7 +192,15 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
                 }// end of if cycle
             }// end of inner method
         });// end of anonymous inner class
+        dialog.getCancelButton().setIcon(VaadinIcons.ARROW_BACKWARD);
+        dialog.getConfirmButton().setIcon(VaadinIcons.CLOSE);
         dialog.setConfirmButtonText("Elimina");
+
+        if (LibParams.usaBottoniColorati()) {
+            dialog.getCancelButton().addStyleName("buttonGreen");
+            dialog.getConfirmButton().addStyleName("buttonRed");
+        }// end of if cycle
+
         dialog.show(LibVaadin.getUI());
     }// end of method
 
@@ -256,9 +254,10 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
 
 
     /**
-     * Evento
-     * Save (registra) button pressed in form
-     * Registra le modifiche nel DB
+     * Evento 'save' (registra) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * Registra le modifiche nel DB, tramite il service
      * Ritorna alla lista
      */
     public void registra() {
@@ -273,14 +272,12 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     }// end of method
 
     /**
-     * Esegue il 'commit' nel Form.
-     * Trasferisce i valori dai campi alla entityBean
-     * Esegue la validazione dei dati
-     * Esegue la trasformazione dei dati
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
      * Registra le modifiche nel DB, tramite il service
      */
-    public void registraModifiche() {
-        service.save(view.writeBean());
+    private AlgosEntity registraModifiche() {
+        return service.save(view.writeBean());
     }// end of method
 
 

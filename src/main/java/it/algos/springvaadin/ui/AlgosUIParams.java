@@ -110,6 +110,16 @@ public abstract class AlgosUIParams extends UI {
 
 
     /**
+     * Flag.
+     * Utilizzo di bottoni con colore indicativo della 'priorità'
+     * Priority, friendly, danger
+     * Regolato nel metodo genericFixAndPrint() di questa classe
+     * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
+     */
+    public boolean usaBottoniColorati;
+
+
+    /**
      * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
      * Serve per regolare i parametri utilizzati nel metodo init(VaadinRequest request)
      * Stampa a video (productionMode) i valori per controllo
@@ -211,6 +221,9 @@ public abstract class AlgosUIParams extends UI {
 
         this.chiedeConfermaPrimaDiCancellare = true;
         log.info("AlgosUIParams.chiedeConfermaPrimaDiCancellare: " + this.chiedeConfermaPrimaDiCancellare);
+
+        this.usaBottoniColorati = true;
+        log.info("AlgosUIParams.usaBottoniColorati: " + this.usaBottoniColorati);
 
         log.info("All this params can be found in LibParams" );
 

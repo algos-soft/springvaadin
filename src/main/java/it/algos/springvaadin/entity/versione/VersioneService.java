@@ -36,15 +36,6 @@ public class VersioneService extends AlgosServiceImpl {
         super(repository);
     }// end of Spring constructor
 
-//    /**
-//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-//     * (si può usare qualsiasi firma)
-//     */
-//    @PostConstruct
-//    private void datiIniziali() {
-//        repository = versRepository;
-//    }// end of method
-
 
     /**
      * Creazione dei dati iniziali
@@ -141,27 +132,23 @@ public class VersioneService extends AlgosServiceImpl {
     }// end of method
 
 
-    /**
-     * Saves a given entity.
-     * Use the returned instance for further operations
-     * as the save operation might have changed the entity instance completely.
-     *
-     * @param entity
-     *
-     * @return the saved entity
-     */
-    public AlgosEntity save(AlgosEntity entity) {
-        return (Versione) repository.save((Versione) entity);
-    }// end of method
+
 
     /**
-     * Cancella il singolo bean
+     * Cancella la singola entity
      *
-     * @param entityBean
+     * @param entityBean da cancellare
+     *
+     * @return true, se la entity è stata effettivamente cancellata
      */
     public boolean delete(AlgosEntity entityBean) {
-        repository.delete(entityBean);
-        Notification.show("Delete", "Cancellato il record: " + entityBean, Notification.Type.HUMANIZED_MESSAGE);
+        repository.delete(entityBean.getId());
+
+        if (repository.findOne(entityBean.getId()) == null) {
+            Notification.show("Delete", "Cancellato il record: " + entityBean, Notification.Type.HUMANIZED_MESSAGE);
+        } else {
+            Notification.show("Delete", "Non sono riuscito a cancellare il record: " + entityBean, Notification.Type.WARNING_MESSAGE);
+        }// end of if/else cycle
 
         return true;
     }// end of method

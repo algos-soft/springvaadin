@@ -52,13 +52,12 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * Use the returned instance for further operations
      * as the save operation might have changed the entity instance completely.
      *
-     * @param entityBean to be saved
+     * @param entityBean da salvare
      *
      * @return the saved entity
      */
-    @Override
     public AlgosEntity save(AlgosEntity entityBean) {
-        return null;
+        return (AlgosEntity) repository.save(entityBean);
     }// end of method
 
 

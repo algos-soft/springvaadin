@@ -11,6 +11,7 @@ import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,26 +32,20 @@ public class VersionePresenter extends AlgosPresenter {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public VersionePresenter(@Qualifier(Cost.TAG_VERS) AlgosView view, VersioneService service) {
-        super(view, (AlgosService) service);
+    public VersionePresenter( @Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) VersioneService service) {
+        super(view, service);
     }// end of Spring constructor
 
 
     /**
-     * Metodo invocato dalla view ogni volta che questa diventa attiva
-     * oppure
-     * metodo invocato da un Evento (azione) che necessita di aggiornare e ripresentare la Lista
-     * tipo dopo un delete, dopo un nuovo record, dopo la modifica di un record
-     * <p>
-     * Recupera dal service tutti i dati necessari (aggiornati)
-     * Passa il controllo alla view con i dati necessari
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
      */
-    protected void presentaLista() {
-        List items = service.findAll();
-        List<String> columns = service.getListColumns();
-
-        view.setList(Versione.class, items, columns);
+    @PostConstruct
+    private void inizia() {
+        super.entityClass = Versione.class;
     }// end of method
+
 
 
 }// end of class

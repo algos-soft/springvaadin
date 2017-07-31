@@ -24,7 +24,8 @@ public class BottoneDelete extends Bottone {
     @PostConstruct
     protected void inizia() {
         super.setCaption("Elimina");
-        super.setIcon(VaadinIcons.SCISSORS);
+//        super.setIcon(VaadinIcons.SCISSORS);
+        super.setIcon(VaadinIcons.CLOSE);
         super.setEnabled(true);
         super.tipo = TipoBottone.delete;
 

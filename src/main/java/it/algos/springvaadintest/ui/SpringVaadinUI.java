@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
  * Questa classe DEVE prevedere l'Annotation @SpringUI()
  * All'interno dell'applicazionbe, @SpringUI() deve essere utilizzata in una sola classe che estenda UI
  */
-@Theme("valo")
+@Theme("algos")
 @SpringUI()
 @SpringViewDisplay()
 @Slf4j

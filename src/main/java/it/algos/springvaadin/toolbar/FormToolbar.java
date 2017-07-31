@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 23/06/17
- *
+ * <p>
  * Barra di comando con bottoni, specializzata per il form
  * Autowired nel costruttore e non nelle property
  */
@@ -38,9 +38,9 @@ public class FormToolbar extends AlgosToolbar {
      */
     @PostConstruct
     public void inizia() {
-        super.addButton(buttonAnnulla);
-        super.addButton(buttonRevert);
-        super.addButton(buttonRegistra);
+        super.addButton(buttonAnnulla,"buttonGreen");
+        super.addButton(buttonRevert,"buttonGreen");
+        super.addButton(buttonRegistra, "buttonBlue");
     }// end of method
 
     public void enableAnnulla(boolean status) {

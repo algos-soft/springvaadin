@@ -112,6 +112,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
         }// end of if cycle
     }// end of method
 
+    /**
+     * Evento 'save' (registra) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * Registra le modifiche nel DB, tramite il service
+     * Ritorna alla lista
+     */
     @Override
     public void registra() {
         if (AlgosApp.USE_DEBUG) {

@@ -228,4 +228,17 @@ public abstract class LibParams {
         return ((AlgosUIParams) LibVaadin.getUI()).chiedeConfermaPrimaDiCancellare;
     }// end of static method
 
+
+    /**
+     * Flag.
+     * Utilizzo di bottoni con colore indicativo della 'priorità'
+     * Priority, friendly, danger
+     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
+     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
+     */
+    public static boolean usaBottoniColorati() {
+        return ((AlgosUIParams) LibVaadin.getUI()).usaBottoniColorati;
+    }// end of static method
+
+
 }// end of static class
