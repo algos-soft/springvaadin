@@ -1,5 +1,6 @@
 package it.algos.springvaadin.service;
 
+import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
@@ -25,11 +26,15 @@ import java.util.List;
 public abstract class AlgosServiceImpl implements AlgosService {
 
 
+    //--la repository dei dati viene iniettata dal costruttore della sottoclasse concreta
     protected MongoRepository repository;
 
 
+    //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
+    protected Class<? extends AlgosEntity> entityClass;
+
     /**
-     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
@@ -90,18 +95,27 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
 
+
     /**
      * Deletes a given entity.
      *
      * @param entityBean must not be null
      *
+     * @return true, se la entity è stata effettivamente cancellata
+     *
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
-    @Override
     public boolean delete(AlgosEntity entityBean) {
-        return false;
-    }// end of method
+        repository.delete(entityBean.getId());
 
+        if (repository.findOne(entityBean.getId()) == null) {
+            Notification.show("Delete", "Cancellato il record: " + entityBean, Notification.Type.HUMANIZED_MESSAGE);
+        } else {
+            Notification.show("Delete", "Non sono riuscito a cancellare il record: " + entityBean, Notification.Type.WARNING_MESSAGE);
+        }// end of if/else cycle
+
+        return true;
+    }// end of method
 
     /**
      * Deletes all entities of the collection.
@@ -118,7 +132,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public List<String> getListColumns() {
-        return null;
+        return LibReflection.getAllFieldName(entityClass);
     }// end of method
 
     /**
@@ -128,9 +142,12 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public List<String> getFormFields() {
-//        return LibReflection.getAllFieldName(entity.getClass());
-        return null;
+        return LibReflection.getAllFieldName(entityClass);
     }// end of method
 
+
+    public void setEntityClass(Class<? extends AlgosEntity> entityClass) {
+        this.entityClass = entityClass;
+    }// end of method
 
 }// end of class

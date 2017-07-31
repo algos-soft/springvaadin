@@ -20,17 +20,6 @@ import java.time.LocalDateTime;
 @Slf4j
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
-    @Autowired
-    private VersioneService versService;
-
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    private void datiIniziali() {
-        versService.creaDatiIniziali();
-    }// end of method
 
     /**
      * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'interfaccia.
@@ -56,16 +45,16 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      */
     private void specificFixAndPrint() throws Exception {
         AlgosApp.USE_DEBUG = false;
-        log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
+        log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
         AlgosApp.USE_VERS = true;
-        log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+        log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
         AlgosApp.USE_MULTI_COMPANY = true;
-        log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
+        log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_LOG = false;
-        log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+        log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
     }// end of method
 
 }// end of class

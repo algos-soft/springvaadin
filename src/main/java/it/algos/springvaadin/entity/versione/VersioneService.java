@@ -23,27 +23,16 @@ import java.util.List;
 @Qualifier(Cost.TAG_VERS)
 public class VersioneService extends AlgosServiceImpl {
 
-//    @Autowired
-//    private VersioneRepository versRepository;
-
 
     /**
      * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
     public VersioneService(@Qualifier(Cost.TAG_VERS) MongoRepository repository) {
         super(repository);
     }// end of Spring constructor
-
-
-    /**
-     * Creazione dei dati iniziali
-     */
-    public void creaDatiIniziali() {
-        crea("Setup", "Creazione ed installazione iniziale dell'applicazione");
-        crea("Flag", "Regolazione dei flags di controllo");
-    }// end of method
 
 
     /**
@@ -100,7 +89,7 @@ public class VersioneService extends AlgosServiceImpl {
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      */
     public Versione newEntity(String titolo, String descrizione, int ordine, LocalDateTime modifica) {
-        return new Versione(ordine == 0 ? this.getOrdine() : ordine, titolo, descrizione, modifica != null ? modifica : LocalDateTime.now());
+        return new Versione(ordine == 0 ? this.getNewOrdine() : ordine, titolo, descrizione, modifica != null ? modifica : LocalDateTime.now());
     }// end of method
 
 
@@ -109,13 +98,22 @@ public class VersioneService extends AlgosServiceImpl {
      * Recupera il valore massimo della property
      * Incrementa di uno il risultato
      */
-    private int getOrdine() {
-        int ordine = 1;
+    private int getNewOrdine() {
+        return getMax() + 1;
+    }// end of method
+
+
+    /**
+     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
+     * Recupera il valore massimo della property
+     */
+    private int getMax() {
+        int ordine = 0;
 
         List<Versione> lista = ((VersioneRepository) repository).findTop1ByOrderByOrdineDesc();
 
         if (lista != null && lista.size() == 1) {
-            ordine = lista.get(0).getOrdine() + 1;
+            ordine = lista.get(0).getOrdine();
         }// end of if cycle
 
         return ordine;
@@ -132,44 +130,21 @@ public class VersioneService extends AlgosServiceImpl {
     }// end of method
 
 
-
-
     /**
-     * Cancella la singola entity
+     * Controlla se esiste il numero di versione da installare
      *
-     * @param entityBean da cancellare
-     *
-     * @return true, se la entity è stata effettivamente cancellata
+     * @return true se la versione non esiste
      */
-    public boolean delete(AlgosEntity entityBean) {
-        repository.delete(entityBean.getId());
+    public boolean isVersioneInesistente(int numeroVersioneDaInstallare) {
+        boolean installa = false;
+        int numeroVersioneEsistente = getMax();
 
-        if (repository.findOne(entityBean.getId()) == null) {
-            Notification.show("Delete", "Cancellato il record: " + entityBean, Notification.Type.HUMANIZED_MESSAGE);
-        } else {
-            Notification.show("Delete", "Non sono riuscito a cancellare il record: " + entityBean, Notification.Type.WARNING_MESSAGE);
-        }// end of if/else cycle
+        if (numeroVersioneDaInstallare > numeroVersioneEsistente) {
+            installa = true;
+        }// fine del blocco if
 
-        return true;
-    }// end of method
+        return installa;
+    }// end of static method
 
-
-    /**
-     * Ordine standard di presentazione delle colonne nella grid
-     * Può essere modificato
-     * La colonna ID normalmente non si visualizza
-     */
-    public List<String> getListColumns() {
-        return Arrays.asList("ordine", "titolo", "descrizione", "modifica");
-    }// end of method
-
-    /**
-     * Ordine standard di presentazione dei fields nel form
-     * Può essere modificato
-     * La colonna ID normalmente non si visualizza
-     */
-    public List<String> getFormFields() {
-        return Arrays.asList("ordine", "titolo", "descrizione", "modifica");
-    }// end of method
 
 }// end of class

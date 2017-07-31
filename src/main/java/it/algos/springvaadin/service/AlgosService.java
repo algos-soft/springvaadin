@@ -2,6 +2,7 @@ package it.algos.springvaadin.service;
 
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.model.AlgosModel;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -63,6 +64,8 @@ public interface AlgosService {
      *
      * @param entityBean must not be null
      *
+     * @return true, se la entity è stata effettivamente cancellata
+     *
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
     public boolean delete(AlgosEntity entityBean);
@@ -90,5 +93,7 @@ public interface AlgosService {
     public List<String> getFormFields();
 
 
-}// end of interface
+    public void setEntityClass(Class<? extends AlgosEntity> entityClass) ;
+
+    }// end of interface
 

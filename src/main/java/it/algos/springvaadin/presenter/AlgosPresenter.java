@@ -16,6 +16,7 @@ import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -37,11 +38,11 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
     protected AlgosView view;
 
 
-    //--il service (dao, repository) viene iniettato dal costruttore della sottoclasse concreta
+    //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
     protected AlgosService service;
 
 
-    //--il modello-dati specifico viene regolato dalla sottoclasse nel metodo @PostConstruct
+    //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
     protected Class<? extends AlgosEntity> entityClass;
 
 
@@ -54,6 +55,17 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
         this.view = view;
         this.service = service;
     }// end of Spring constructor
+
+
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     * Regola il modello-dati specifico nel Service
+     */
+    @PostConstruct
+    private void inizia() {
+        this.service.setEntityClass(entityClass);
+    }// end of method
 
 
     /**
@@ -187,7 +199,7 @@ public abstract class AlgosPresenter extends AlgosPresenterEvents {
             message = "Sei sicuro di voler eliminare i " + LibText.setRossoBold(beanList.size() + "") + " records selezionati ?";
             if (LibParams.usaDialoghiVerbosi()) {
                 for (int k = 0; k < beanList.size(); k++) {
-                    message += "</br>&nbsp;&nbsp;&nbsp;&nbsp;"+(k+1)+") "+beanList.get(k);
+                    message += "</br>&nbsp;&nbsp;&nbsp;&nbsp;" + (k + 1) + ") " + beanList.get(k);
                 }// end of for cycle
             }// end of if cycle
         }// end of if/else cycle

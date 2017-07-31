@@ -31,21 +31,12 @@ public class VersionePresenter extends AlgosPresenter {
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Regola il modello-dati specifico
      */
     public VersionePresenter( @Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) VersioneService service) {
         super(view, service);
-    }// end of Spring constructor
-
-
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    private void inizia() {
         super.entityClass = Versione.class;
-    }// end of method
-
+    }// end of Spring constructor
 
 
 }// end of class
