@@ -1,15 +1,11 @@
 package it.algos.springvaadin.azione;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.ItemClickListener;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;

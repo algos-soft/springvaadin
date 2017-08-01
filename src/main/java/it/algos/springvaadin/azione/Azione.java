@@ -1,13 +1,10 @@
 package it.algos.springvaadin.azione;
 
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ActionSpringEvent;
-import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.EventObject;
@@ -66,7 +63,7 @@ public abstract class Azione {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(EventObject event, AlgosEntity entityBean) {
-        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
+        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
         applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, tipo, entityBean));
     }// end of method
 

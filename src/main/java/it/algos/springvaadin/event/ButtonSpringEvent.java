@@ -2,7 +2,7 @@ package it.algos.springvaadin.event;
 
 
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 /**
  * Created by gac on 03/06/17.
@@ -15,7 +15,7 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     private final Bottone bottonePremuto;
 
 
-    public ButtonSpringEvent(AlgosPresenter source, Bottone bottonePremuto) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto) {
         super(source);
         this.bottonePremuto = bottonePremuto;
     }// end of constructor

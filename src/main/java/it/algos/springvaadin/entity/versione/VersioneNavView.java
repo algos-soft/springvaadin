@@ -6,9 +6,8 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.nav.AlgosNavView;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Created by gac on 07/07/17
@@ -36,7 +35,7 @@ public class VersioneNavView extends AlgosNavView {
      *
      * @param presenter iniettato da Spring, della sottoclasse indicata da @Qualifier
      */
-    public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenter presenter) {
+    public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenterImpl presenter) {
         super(presenter);
     }// end of Spring constructor
 

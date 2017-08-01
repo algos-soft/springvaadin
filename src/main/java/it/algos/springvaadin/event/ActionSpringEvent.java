@@ -1,10 +1,9 @@
 package it.algos.springvaadin.event;
 
 
-import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 /**
  * Created by gac on 04/06/17.
@@ -19,11 +18,11 @@ public class ActionSpringEvent extends AlgosSpringEvent {
     //--property facoltativa; ha senso solo per alcune azioni
     private final AlgosEntity entityBean;
 
-    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipo) {
+    public ActionSpringEvent(AlgosPresenterImpl source, TipoAzione tipo) {
         this(source, tipo, (AlgosEntity) null);
     }// end of constructor
 
-    public ActionSpringEvent(AlgosPresenter source, TipoAzione tipo, AlgosEntity entityBean) {
+    public ActionSpringEvent(AlgosPresenterImpl source, TipoAzione tipo, AlgosEntity entityBean) {
         super(source);
         this.tipo = tipo;
         this.entityBean = entityBean;

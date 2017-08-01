@@ -1,13 +1,10 @@
 package it.algos.springvaadin.lib;
 
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.view.AlgosView;
 import org.apache.tomcat.util.buf.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**

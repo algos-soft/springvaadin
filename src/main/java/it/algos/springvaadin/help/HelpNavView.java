@@ -9,7 +9,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.nav.AlgosNavView;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
@@ -43,7 +43,7 @@ public class HelpNavView extends AlgosNavView {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public HelpNavView(@Qualifier(Cost.TAG_HELP) AlgosPresenter presenter) {
+    public HelpNavView(@Qualifier(Cost.TAG_HELP) AlgosPresenterImpl presenter) {
         super(presenter);
     }// end of Spring constructor
 

@@ -13,8 +13,7 @@ import com.vaadin.ui.components.grid.MultiSelectionModel;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public enum AzioneOld {
 
     attach("Aggiunge") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+        void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addAttachListener(new ClientConnector.AttachListener() {
                 @Override
                 public void attach(ClientConnector.AttachEvent attachEvent) {
@@ -37,7 +36,7 @@ public enum AzioneOld {
     },// end of single enumeration
     click("Singolo click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+        void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
@@ -50,7 +49,7 @@ public enum AzioneOld {
     },// end of single enumeration
     doppioClick("Doppio click") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+        void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addItemClickListener(new ItemClickListener() {
                 @Override
                 public void itemClick(Grid.ItemClick itemClick) {
@@ -64,7 +63,7 @@ public enum AzioneOld {
     },// end of single enumeration
     selectionChanged("Modifica") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+        void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
             switch (LibParams.gridSelectionMode()) {
                 case SINGLE:
                     SingleSelectionModel modelloSingolo = (SingleSelectionModel) grid.getSelectionModel();
@@ -93,7 +92,7 @@ public enum AzioneOld {
     },// end of single enumeration
     listener("Listener") {
         @Override
-        void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+        void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
              grid.addListener(new Component.Listener() {
                 @Override
                 public void componentEvent(Component.Event event) {
@@ -114,13 +113,13 @@ public enum AzioneOld {
     /**
      * Costruisce il listener per la singola azioneOld
      */
-    void addListener(AlgosPresenter presenter, AlgosGrid grid, AzioneOld azioneOld) {
+    void addListener(AlgosPresenterImpl presenter, AlgosGrid grid, AzioneOld azioneOld) {
     }// end of constructor
 
     /**
      * Costruisce tutti i listener possibili per una grid
      */
-    public static void addAllListeners(AlgosPresenter presenter, AlgosGrid grid) {
+    public static void addAllListeners(AlgosPresenterImpl presenter, AlgosGrid grid) {
         for (AzioneOld azioneOld : AzioneOld.values()) {
             azioneOld.addListener(presenter, grid, azioneOld);
         }// end of for cycle
@@ -130,14 +129,14 @@ public enum AzioneOld {
     /**
      * L'evento invece arriva dalla grid e quindi risalgo alla AlgosView che contiene la grid
      */
-    private void publish(AlgosPresenter presenter) {
+    private void publish(AlgosPresenterImpl presenter) {
         publish(presenter, null);
     }// end of method
 
     /**
      * L'evento invece arriva dalla grid e quindi risalgo alla AlgosView che contiene la grid
      */
-    private void publish(AlgosPresenter presenter, Object entityBean) {
+    private void publish(AlgosPresenterImpl presenter, Object entityBean) {
         AlgosSpringEvent actionSpringEvent = null;
 
 //        if (presenter != null) {

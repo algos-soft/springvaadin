@@ -1,6 +1,6 @@
 package it.algos.springvaadin.event;
 
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public abstract class AlgosSpringEvent extends ApplicationEvent {
 
-    public AlgosSpringEvent(AlgosPresenter source) {
+    public AlgosSpringEvent(AlgosPresenterImpl source) {
         super(source);
     }// end of constructor
 

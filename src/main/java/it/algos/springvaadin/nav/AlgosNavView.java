@@ -2,10 +2,8 @@ package it.algos.springvaadin.nav;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import it.algos.springvaadin.entity.versione.VersionePresenter;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by gac on 07/07/17
@@ -24,7 +22,7 @@ public abstract class AlgosNavView implements View {
 
 
     //--gestore principale del modulo, iniettato dal costruttore
-    private AlgosPresenter presenter;
+    private AlgosPresenterImpl presenter;
 
 
     /**
@@ -37,7 +35,7 @@ public abstract class AlgosNavView implements View {
      *
      * @param presenter iniettato da Spring
      */
-    public AlgosNavView(AlgosPresenter presenter) {
+    public AlgosNavView(AlgosPresenterImpl presenter) {
         this.presenter = presenter;
     }// end of Spring constructor
 
@@ -56,7 +54,7 @@ public abstract class AlgosNavView implements View {
      * Gestore della business logic
      * Richiesto da LibSpring.getPresenter()
      */
-    public AlgosPresenter getPresenter() {
+    public AlgosPresenterImpl getPresenter() {
         return presenter;
     }// end of method
 

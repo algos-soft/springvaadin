@@ -7,8 +7,7 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import it.algos.springvaadin.nav.AlgosNavView;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.io.File;
 
@@ -21,8 +20,8 @@ public class LibVaadin {
     /**
      * Get the current View
      */
-    public static AlgosPresenter getCurrentPresenter() {
-        AlgosPresenter presenter = null;
+    public static AlgosPresenterImpl getCurrentPresenter() {
+        AlgosPresenterImpl presenter = null;
         AlgosNavView view = getCurrentView();
 
         if (view != null) {

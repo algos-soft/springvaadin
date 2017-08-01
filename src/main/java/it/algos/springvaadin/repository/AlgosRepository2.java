@@ -2,7 +2,6 @@ package it.algos.springvaadin.repository;
 
 import com.mongodb.Mongo;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.presenter.AlgosPresenterInterface;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.data.repository.CrudRepository;

@@ -1,9 +1,7 @@
 package it.algos.springvaadin.lib;
 
-import com.vaadin.ui.UI;
 import it.algos.springvaadin.nav.AlgosNavView;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import static it.algos.springvaadin.lib.LibVaadin.getUI;
 
@@ -14,7 +12,7 @@ import static it.algos.springvaadin.lib.LibVaadin.getUI;
 public class LibSpring {
 
 
-    public static AlgosPresenter getPresenter() {
+    public static AlgosPresenterImpl getPresenter() {
         return getView().getPresenter();
     }// end of static method
 

@@ -12,9 +12,9 @@ import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * Created by gac on 18/06/17
- * .
+ * Riceve gli eventi, lanciati da Bottoni ed Azioni, e li gestisce in questa classe
  */
-public abstract class AlgosPresenterEvents implements AlgosPresenterInterface {
+public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;

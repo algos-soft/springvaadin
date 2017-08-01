@@ -2,8 +2,6 @@ package it.algos.springvaadin.lib;
 
 
 import com.vaadin.data.HasValue;
-import com.vaadin.data.ValidationResult;
-import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -11,19 +9,15 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
-import it.algos.springvaadin.event.ActionSpringEvent;
 import it.algos.springvaadin.event.AlgosSpringEvent;
-import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
-import org.springframework.core.convert.Property;
 
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 
 /**
  * Created by gac on 18 ott 2016.
@@ -438,7 +432,7 @@ public class LibField {
      *
      */
     private static void publish() {
-        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
+        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
         AlgosSpringEvent fieldSpringEvent = null;
 
         if (presenter != null) {

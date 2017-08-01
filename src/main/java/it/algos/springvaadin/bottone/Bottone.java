@@ -1,16 +1,10 @@
 package it.algos.springvaadin.bottone;
 
-import com.vaadin.server.Resource;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 26/7/17
@@ -67,7 +61,7 @@ public abstract class Bottone extends Button {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     private void fire(Button.ClickEvent clickEvent) {
-        AlgosPresenter presenter = LibVaadin.getCurrentPresenter();
+        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
         applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
     }// end of method
 

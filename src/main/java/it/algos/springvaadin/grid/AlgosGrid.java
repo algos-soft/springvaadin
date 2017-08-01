@@ -1,23 +1,17 @@
 package it.algos.springvaadin.grid;
 
-import com.vaadin.event.selection.SingleSelectionEvent;
-import com.vaadin.event.selection.SingleSelectionListener;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.components.grid.SingleSelectionModel;
-import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by gac on 02/06/17.
@@ -80,7 +74,7 @@ public class AlgosGrid extends Grid {
         gridToolSet.addAllListeners(this);
 
         //--recupera il presenter
-        AlgosPresenter presenter = LibSpring.getPresenter();
+        AlgosPresenterImpl presenter = LibSpring.getPresenter();
 
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
         if (modelloSelezione == SelectionMode.SINGLE) {
