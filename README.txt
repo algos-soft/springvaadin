@@ -133,3 +133,6 @@ Separo nelle Repository l'implementazione JDBC, così per passare a JPA non devo
  * + application: Scopes a single bean definition to the lifecycle of a ServletContext
  * + (Only valid in the context of a web-aware Spring ApplicationContext).
 // @see http://javasampleapproach.com/spring-framework/spring-bean-scope-using-annotation-singleton-prototype-request-session-global-session-application
+
+Start the nosql db with:
+mongod --config /usr/local/etc/mongod.conf

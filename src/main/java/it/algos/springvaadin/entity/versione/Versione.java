@@ -55,7 +55,7 @@ public class Versione extends AlgosEntity {
      */
     @NotNull
     @GeneratedValue()
-    @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
+    @AIField(type = AFType.integer, enabled = true, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
     @AIColumn(name = "#", width = 80)
     private int ordine;
 
@@ -64,11 +64,10 @@ public class Versione extends AlgosEntity {
      * codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
-    @NotEmpty
+    @NotEmpty(message = "Il titolo è obbligatorio")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, required = true, help = "Tipologia della versione.")
+    @AIField(type = AFType.text, help = "Tipologia della versione.")
     @AIColumn()
-    @JsonProperty
     private String titolo;
 
 
@@ -76,9 +75,9 @@ public class Versione extends AlgosEntity {
      * descrizione (obbligatoria, non unica)
      * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
-    @NotEmpty
+    @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 4, max = 200)
-    @AIField(type = AFType.text, required = true, widthEM = 30, help = "Descrizione della versione.")
+    @AIField(type = AFType.text, widthEM = 30, help = "Descrizione della versione.")
     @AIColumn(width = 500)
     private String descrizione;
 

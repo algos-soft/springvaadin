@@ -1,6 +1,8 @@
 package it.algos.springvaadin.presenter;
 
+import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
@@ -274,8 +276,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Ritorna alla lista
      */
     public void registra() {
-        registraModifiche();
-        this.presentaLista();
+        if (registraModifiche()) {
+            this.presentaLista();
+        }// end of if cycle
     }// end of method
 
     @Override
@@ -289,8 +292,28 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Esegue, nel Form, eventuale validazione e trasformazione dei dati
      * Registra le modifiche nel DB, tramite il service
      */
-    private AlgosEntity registraModifiche() {
-        return service.save(view.commit());
+    private boolean registraModifiche() {
+        boolean entityRegistrata = false;
+        AlgosEntity entityBean;
+        String tag = "</br>";
+
+        if (view.entityIsOk()) {
+            entityBean = view.commit();
+            service.save(entityBean);
+            entityRegistrata = true;
+        } else {
+            if (LibParams.usaDialoghiVerbosi()) {
+                String message = "";
+                for (ValidationResult errore : view.getEntityErrors()) {
+                    message += tag + "* " + errore.getErrorMessage();
+                }// end of for cycle
+                message = LibText.levaTesta(message, tag);
+                Notification nota = new Notification("Errore", message, Notification.Type.WARNING_MESSAGE, true);
+                nota.show(Page.getCurrent());
+            }// end of if cycle
+        }// end of if/else cycle
+
+        return entityRegistrata;
     }// end of method
 
 

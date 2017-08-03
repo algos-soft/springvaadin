@@ -1,8 +1,8 @@
 package it.algos.springvaadin.form;
 
+import com.vaadin.data.ValidationResult;
 import com.vaadin.ui.Component;
 import it.algos.springvaadin.model.AlgosEntity;
-
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ public interface AlgosForm {
      * Ricrea tutto ogni volta che diventa attivo
      *
      * @param entityBean istanza da presentare
-     * @param fields del form da visualizzare
+     * @param fields     del form da visualizzare
      */
     public void restart(AlgosEntity entityBean, List<String> fields);
 
@@ -32,6 +32,32 @@ public interface AlgosForm {
      * Rimane nel form SENZA registrare
      */
     public void revert();
+
+
+    /**
+     * Checks all current validation errors
+     * Se ce ne sono, rimane nel form SENZA registrare
+     *
+     * @return ci sono errori in almeno una delle property della entity
+     */
+    public boolean entityHasError();
+
+
+    /**
+     * Checks if the entity has no current validation errors at all
+     * Se la entity è OK, può essere registrata
+     *
+     * @return tutte le property della entity sono valide
+     */
+    public boolean entityIsOk();
+
+
+    /**
+     * All fields errors
+     *
+     * @return errors
+     */
+    public List<ValidationResult> getEntityErrors();
 
 
     /**

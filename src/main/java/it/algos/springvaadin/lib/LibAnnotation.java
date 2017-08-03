@@ -4,7 +4,9 @@ import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -287,5 +289,157 @@ public abstract class LibAnnotation {
         return presente;
     }// end of static method
 
+
+    /**
+     * Get the specific annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the Annotation for the specific field
+     */
+    @SuppressWarnings("all")
+    public static Size getSize(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        Size annotation = null;
+        String tag = "Size";
+        Map mappa = getMap(clazz, publicFieldName);
+
+        if (mappa != null && mappa.containsKey(tag)) {
+            annotation = (Size) mappa.get(tag);
+        }// end of if cycle
+
+        return annotation;
+    }// end of static method
+
+
+    /**
+     * Get the existence of the Size annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return true if the Size Annotation exists
+     */
+    @SuppressWarnings("all")
+    public static boolean getSizeBool(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean sizeEsiste = false;
+        Size sizeAnnotation = getSize(clazz, publicFieldName);
+
+        if (sizeAnnotation != null) {
+            sizeEsiste = true;
+        }// end of if cycle
+
+        return sizeEsiste;
+    }// end of static method
+
+
+    /**
+     * Get the min length of the string property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the min length of the string property
+     */
+    @SuppressWarnings("all")
+    public static int getMin(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        int length = 0;
+        Size annotation = getSize(clazz, publicFieldName);
+
+        if (annotation != null) {
+            length = annotation.min();
+        }// end of if cycle
+
+        return length;
+    }// end of static method
+
+
+    /**
+     * Get the max length of the string property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the max length of the string property
+     */
+    @SuppressWarnings("all")
+    public static int getMax(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        int length = 0;
+        Size annotation = getSize(clazz, publicFieldName);
+
+        if (annotation != null) {
+            length = annotation.max();
+        }// end of if cycle
+
+        return length;
+    }// end of static method
+
+
+    /**
+     * Get the specific annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the Annotation for the specific field
+     */
+    @SuppressWarnings("all")
+    public static NotEmpty getNotEmptyAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        NotEmpty notEmpty = null;
+        String tag = "NotEmpty";
+        Map mappa = getMap(clazz, publicFieldName);
+
+        if (mappa != null && mappa.containsKey(tag)) {
+            notEmpty = (NotEmpty) mappa.get(tag);
+        }// end of if cycle
+
+        return notEmpty;
+    }// end of static method
+
+
+    /**
+     * Get the message of the NotEmpty annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the specific message
+     */
+    @SuppressWarnings("all")
+    public static String getNotEmptyMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        String message = "";
+        NotEmpty notEmpty = getNotEmptyAnnotation(clazz, publicFieldName);
+
+        if (notEmpty != null) {
+            message = notEmpty.message();
+        }// end of if cycle
+
+        if (message.equals("{org.hibernate.validator.constraints.NotEmpty.message}")) {
+            message = "Il campo non può essere vuoto";
+        }// end of if cycle
+
+        return message;
+    }// end of static method
+
+
+    /**
+     * Get the existence of the NotEmpty annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return true if the NotEmpty Annotation exists
+     */
+    @SuppressWarnings("all")
+    public static boolean getNotEmptyBool(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean nonVuota = false;
+        NotEmpty notEmpty = getNotEmptyAnnotation(clazz, publicFieldName);
+
+        if (notEmpty != null) {
+            nonVuota = true;
+        }// end of if cycle
+
+        return nonVuota;
+    }// end of static method
 
 }// end of static class

@@ -1,5 +1,6 @@
 package it.algos.springvaadin.view;
 
+import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.View;
 import it.algos.springvaadin.model.AlgosEntity;
 
@@ -68,9 +69,37 @@ public interface AlgosView extends View {
 
 
     /**
-     * Chiude la (eventuale) finestra utilizzata nel Form
+     * Checks all current validation errors
+     * Se ce ne sono, rimane nel form SENZA registrare
+     *
+     * @return ci sono errori in almeno una delle property della entity
      */
-    public void closeFormWindow();
+    public boolean entityHasError();
+
+
+    /**
+     * Checks if the entity has no current validation errors at all
+     * Se la entity è OK, può essere registrata
+     *
+     * @return tutte le property della entity sono valide
+     */
+    public boolean entityIsOk();
+
+
+    /**
+     * All fields errors
+     *
+     * @return errors
+     */
+    public List<ValidationResult> getEntityErrors();
+
+
+    /**
+     * Esegue il 'rollback' nel Form
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    public void revertEntity();
 
 
     /**
@@ -83,12 +112,12 @@ public interface AlgosView extends View {
      */
     public AlgosEntity commit();
 
+
     /**
-     * Esegue il 'rollback' nel Form
-     * Revert (ripristina) button pressed in form
-     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     * Chiude la (eventuale) finestra utilizzata nel Form
      */
-    public void revertEntity();
+    public void closeFormWindow();
+
 
     /**
      * La entity del Form

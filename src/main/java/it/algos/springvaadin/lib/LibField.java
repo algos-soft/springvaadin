@@ -18,6 +18,8 @@ import it.algos.springvaadin.service.AlgosService;
 
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gac on 18 ott 2016.
@@ -353,9 +355,10 @@ public class LibField {
 
 
     /**
-     * Crea un (eventuale) validator, basato sulle @Annotation della Entity
+     * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      */
-    public static AbstractValidator creaValidator(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        List<AbstractValidator> lista = new ArrayList<>();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -363,22 +366,31 @@ public class LibField {
         int min = 0;
         int max = 0;
         boolean notNull = LibAnnotation.getNull(clazz, publicFieldName);
+        boolean notEmpty = LibAnnotation.getNotEmptyBool(clazz, publicFieldName);
+        boolean checkSize = LibAnnotation.getSizeBool(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
-            min = 2;//@todo leggere l'annotation
-            max = 200;//@todo leggere l'annotation
+            min = LibAnnotation.getMin(clazz, publicFieldName);
+            max = LibAnnotation.getMax(clazz, publicFieldName);
 
             switch (fieldAnnotation.type()) {
                 case text:
-                    if (fieldAnnotation.required()) {
-                        message = fieldName + " deve essere compreso tra " + (min - 1) + " e " + max + " caratteri";
+                    if (notEmpty) {
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
+                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+                        lista.add(validator);
+                    }// end of if cycle
+                    if (checkSize) {
+                        message = fieldName + " deve essere compreso tra " + min + " e " + max + " caratteri";
                         validator = new StringLengthValidator(message, min, max);
+                        lista.add(validator);
                     }// end of if cycle
                     break;
                 case integer:
                     if (notNull) {
                         message = fieldName + " non può essere nullo";
                         validator = new IntegerRangeValidator(message, 1, 99999999);
+                        lista.add(validator);
                     }// end of if cycle
                     break;
                 case email:
@@ -401,7 +413,7 @@ public class LibField {
             } // fine del blocco switch
         }// end of if cycle
 
-        return validator;
+        return lista;
     }// end of method
 
 

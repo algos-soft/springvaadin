@@ -1,5 +1,6 @@
 package it.algos.springvaadin.view;
 
+import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.form.AlgosForm;
@@ -158,6 +159,39 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     @Override
     public void revertEntity() {
         form.revert();
+    }// end of method
+
+    /**
+     * Checks all current validation errors
+     * Se ce ne sono, rimane nel form SENZA registrare
+     *
+     * @return ci sono errori in almeno una delle property della entity
+     */
+    @Override
+    public boolean entityHasError() {
+        return form.entityHasError();
+    }// end of method
+
+    /**
+     * Checks if the entity has no current validation errors at all
+     * Se la entity è OK, può essere registrata
+     *
+     * @return tutte le property della entity sono valide
+     */
+    @Override
+    public boolean entityIsOk() {
+        return form.entityIsOk();
+    }// end of method
+
+
+    /**
+     * All fields errors
+     *
+     * @return errors
+     */
+    @Override
+    public List<ValidationResult> getEntityErrors() {
+        return form.getEntityErrors();
     }// end of method
 
     /**

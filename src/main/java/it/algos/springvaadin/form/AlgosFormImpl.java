@@ -1,10 +1,13 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
+import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
@@ -121,19 +124,38 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void creaFields(Layout layout, List<String> fields) {
         binder = new Binder(entityBean.getClass());
         AbstractField field;
+        List<AbstractValidator> lista;
         AbstractValidator validator = null;
         Object value = null;
 
         for (String publicFieldName : fields) {
             field = LibField.create(entityBean.getClass(), publicFieldName);
-//            validator = LibField.creaValidator(entity.getClass(), publicFieldName);
+            lista = LibField.creaValidators(entityBean.getClass(), publicFieldName);
 
             if (field != null) {
                 layout.addComponent(field);
 
                 if (field.isEnabled()) {
-                    if (validator != null) {
-                        binder.forField(field).withValidator(validator).bind(publicFieldName);
+                    if (lista != null) {
+                        if (lista.size() == 1) {
+                            binder.
+                                    forField(field).
+                                    withValidator(lista.get(0)).
+                                    bind(publicFieldName);
+                        }// end of if cycle
+                        if (lista.size() == 2) {
+                            binder.forField(field).
+                                    withValidator(lista.get(0)).
+                                    withValidator(lista.get(1)).
+                                    bind(publicFieldName);
+                        }// end of if cycle
+                        if (lista.size() == 3) {
+                            binder.forField(field).
+                                    withValidator(lista.get(0)).
+                                    withValidator(lista.get(1)).
+                                    withValidator(lista.get(2)).
+                                    bind(publicFieldName);
+                        }// end of if cycle
                     } else {
                         binder.forField(field).bind(publicFieldName);
                     }// end of if/else cycle
@@ -164,6 +186,37 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         binder.readBean(entityBean);
     }// end of method
 
+    /**
+     * Checks all current validation errors
+     * Se ce ne sono, rimane nel form SENZA registrare
+     *
+     * @return ci sono errori in almeno una delle property della entity
+     */
+    @Override
+    public boolean entityHasError() {
+        return binder.validate().hasErrors();
+    }// end of method
+
+    /**
+     * Checks if the entity has no current validation errors at all
+     * Se la entity è OK, può essere registrata
+     *
+     * @return tutte le property della entity sono valide
+     */
+    @Override
+    public boolean entityIsOk() {
+        return binder.validate().isOk();
+    }// end of method
+
+    /**
+     * All fields errors
+     *
+     * @return errors
+     */
+    @Override
+    public List<ValidationResult> getEntityErrors() {
+        return binder.validate().getValidationErrors();
+    }// end of method
 
     /**
      * Trasferisce i valori dai campi dell'interfaccia alla entityBean
@@ -174,7 +227,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public AlgosEntity commit() {
-
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
         } catch (Exception unErrore) { // intercetta l'errore
