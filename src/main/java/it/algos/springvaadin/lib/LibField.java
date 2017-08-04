@@ -1,7 +1,9 @@
 package it.algos.springvaadin.lib;
 
 
+import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
+import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -9,6 +11,7 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
+import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.*;
@@ -42,8 +45,8 @@ public class LibField {
         Object[] items = null;
         int widthEM = LibAnnotation.getWidthEM(clazz, publicFieldName);
         String width = widthEM + "em";
-        boolean enabled = LibAnnotation.getEnabled(clazz, publicFieldName);
-        boolean required = LibAnnotation.getRequired(clazz, publicFieldName);
+        boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
+        boolean required = LibAnnotation.isRequired(clazz, publicFieldName);
 
         if (type != null) {
             switch (type) {
@@ -356,9 +359,46 @@ public class LibField {
 
     /**
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
+     * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public static List<AbstractValidator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidatorsPre(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList<>();
+        List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
+
+        for (Validator validator : listaTmp) {
+            if (validator.posizione == Posizione.prima) {
+                lista.add(validator.validator);
+            }// end of if cycle
+        }// end of for cycle
+
+        return lista;
+    }// end of method
+
+
+    /**
+     * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
+     * Lista dei validators da utilizzare DOPO i converters
+     */
+    public static List<AbstractValidator> creaValidatorsPost(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        List<AbstractValidator> lista = new ArrayList<>();
+        List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
+
+        for (Validator validator : listaTmp) {
+            if (validator.posizione == Posizione.dopo) {
+                lista.add(validator.validator);
+            }// end of if cycle
+        }// end of for cycle
+
+        return lista;
+    }// end of method
+
+
+    /**
+     * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
+     * Lista base, indifferenziata
+     */
+    private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        List<Validator> lista = new ArrayList<>();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -378,24 +418,65 @@ public class LibField {
                     if (notEmpty) {
                         String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(validator);
+                        lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
                         message = fieldName + " deve essere compreso tra " + min + " e " + max + " caratteri";
                         validator = new StringLengthValidator(message, min, max);
-                        lista.add(validator);
+                        lista.add(new Validator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;
                 case integer:
                     if (notNull) {
                         message = fieldName + " non può essere nullo";
                         validator = new IntegerRangeValidator(message, 1, 99999999);
-                        lista.add(validator);
+                        lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     break;
                 case email:
                     message = "Indirizzo eMail non valido";
                     validator = new EmailValidator(message);
+                    break;
+                case checkbox:
+                    break;
+                case date:
+                    break;
+                case time:
+                    break;
+                case password:
+                    break;
+                case combo:
+                    break;
+                case enumeration:
+                    break;
+                default: // caso non definito
+            } // fine del blocco switch
+        }// end of if cycle
+
+        return lista;
+    }// end of method
+
+
+    /**
+     * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
+     */
+    public static List<Converter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        List<Converter> lista = new ArrayList<>();
+        Converter converter = null;
+        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
+        boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            switch (fieldAnnotation.type()) {
+                case text:
+                    if (checkFirstCapital) {
+                        converter = new FirstCapitalConverter();
+                        lista.add(converter);
+                    }// end of if cycle
+                    break;
+                case integer:
+                    break;
+                case email:
                     break;
                 case checkbox:
                     break;
@@ -453,5 +534,19 @@ public class LibField {
         }// end of if cycle
 
     }// end of method
+
+    private static class Validator {
+        AbstractValidator validator;
+        Posizione posizione;
+
+        public Validator(AbstractValidator validator, Posizione posizione) {
+            this.validator = validator;
+            this.posizione = posizione;
+        }// end of constructor
+    }// end of internal class
+
+    private enum Posizione {
+        prima, dopo
+    }// end of internal enumerationù
 
 }// end of abstract static class
