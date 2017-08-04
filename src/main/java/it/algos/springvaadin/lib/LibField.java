@@ -365,9 +365,9 @@ public class LibField {
         String message = "";
         int min = 0;
         int max = 0;
-        boolean notNull = LibAnnotation.getNull(clazz, publicFieldName);
-        boolean notEmpty = LibAnnotation.getNotEmptyBool(clazz, publicFieldName);
-        boolean checkSize = LibAnnotation.getSizeBool(clazz, publicFieldName);
+        boolean notNull = LibAnnotation.isNotNull(clazz, publicFieldName);
+        boolean notEmpty = LibAnnotation.isNotEmpty(clazz, publicFieldName);
+        boolean checkSize = LibAnnotation.isSize(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
             min = LibAnnotation.getMin(clazz, publicFieldName);

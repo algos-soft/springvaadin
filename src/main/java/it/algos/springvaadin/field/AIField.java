@@ -63,6 +63,14 @@ public @interface AIField {
      */
     String help() default "";
 
+
+    /**
+     * (Optional) Status (first letter capital) of the the field.
+     * Defaults to false.
+     */
+    boolean firstCapital() default true;
+
+
     /**
      * (Optional) Status (allowed null selection in popup) of the the field.
      * Meaning sense only for AFType.combo.

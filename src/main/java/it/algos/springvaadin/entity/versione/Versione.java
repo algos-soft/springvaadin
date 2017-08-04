@@ -54,8 +54,7 @@ public class Versione extends AlgosEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-    @GeneratedValue()
-    @AIField(type = AFType.integer, enabled = true, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
+    @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo.")
     @AIColumn(name = "#", width = 80)
     private int ordine;
 

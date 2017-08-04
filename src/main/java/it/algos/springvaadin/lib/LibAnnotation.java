@@ -6,6 +6,7 @@ import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -162,7 +163,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean getRequired(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isRequired(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -183,12 +184,33 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean getEnabled(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isEnabled(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.enabled();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
+     * Get the status FirstCapital of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFirstCapital(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.firstCapital();
         }// end of if cycle
 
         return status;
@@ -269,28 +291,6 @@ public abstract class LibAnnotation {
 
 
     /**
-     * Get the presence of @NotNull Annotation.
-     *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
-     *
-     * @return the presence of the @NotNull Annotation
-     */
-    @SuppressWarnings("all")
-    public static boolean getNull(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        boolean presente = false;
-        String tag = "NotNull";
-        Map mappa = getMap(clazz, publicFieldName);
-
-        if (mappa != null && mappa.containsKey(tag)) {
-            presente = true;
-        }// end of if cycle
-
-        return presente;
-    }// end of static method
-
-
-    /**
      * Get the specific annotation of the property.
      *
      * @param clazz           the entity class
@@ -321,7 +321,7 @@ public abstract class LibAnnotation {
      * @return true if the Size Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean getSizeBool(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isSize(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         boolean sizeEsiste = false;
         Size sizeAnnotation = getSize(clazz, publicFieldName);
 
@@ -384,7 +384,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static NotEmpty getNotEmptyAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static NotEmpty getNotEmpty(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         NotEmpty notEmpty = null;
         String tag = "NotEmpty";
         Map mappa = getMap(clazz, publicFieldName);
@@ -408,7 +408,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static String getNotEmptyMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         String message = "";
-        NotEmpty notEmpty = getNotEmptyAnnotation(clazz, publicFieldName);
+        NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
 
         if (notEmpty != null) {
             message = notEmpty.message();
@@ -431,11 +431,79 @@ public abstract class LibAnnotation {
      * @return true if the NotEmpty Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean getNotEmptyBool(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isNotEmpty(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         boolean nonVuota = false;
-        NotEmpty notEmpty = getNotEmptyAnnotation(clazz, publicFieldName);
+        NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
 
         if (notEmpty != null) {
+            nonVuota = true;
+        }// end of if cycle
+
+        return nonVuota;
+    }// end of static method
+
+
+    /**
+     * Get the specific annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the Annotation for the specific field
+     */
+    @SuppressWarnings("all")
+    public static NotNull getNotNull(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        NotNull notNull = null;
+        String tag = "NotNull";
+        Map mappa = getMap(clazz, publicFieldName);
+
+        if (mappa != null && mappa.containsKey(tag)) {
+            notNull = (NotNull) mappa.get(tag);
+        }// end of if cycle
+
+        return notNull;
+    }// end of static method
+
+
+    /**
+     * Get the message of the NotNull annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the specific message
+     */
+    @SuppressWarnings("all")
+    public static String getNotNullMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        String message = "";
+        NotNull notNull = getNotNull(clazz, publicFieldName);
+
+        if (notNull != null) {
+            message = notNull.message();
+        }// end of if cycle
+
+        if (message.equals("{javax.validation.constraints.NotNull.message}")) {
+            message = "Il campo non può essere nullo";
+        }// end of if cycle
+
+        return message;
+    }// end of static method
+
+
+    /**
+     * Get the existence of the NotNull annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return true if the NotNull Annotation exists
+     */
+    @SuppressWarnings("all")
+    public static boolean isNotNull(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean nonVuota = false;
+        NotNull notNull = getNotNull(clazz, publicFieldName);
+
+        if (notNull != null) {
             nonVuota = true;
         }// end of if cycle
 
