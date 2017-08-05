@@ -1,5 +1,6 @@
 package it.algos.springvaadin.lib;
 
+import com.sun.tools.javac.util.Name;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractField;
 import it.algos.springvaadin.entity.versione.Versione;
@@ -25,22 +26,22 @@ import java.util.List;
 public abstract class LibReflection {
 
 
-    /**
-     * Field property di una EntityClass
-     *
-     * @param entityClazz     su cui operare la riflessione
-     * @param publicFieldName property name
-     */
-    public static Field getField(Class<? extends AlgosEntity> entityClazz, final String publicFieldName) {
-        Field field = null;
-
-        try { // prova ad eseguire il codice
-            field = entityClazz.getDeclaredField(publicFieldName);
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return field;
-    }// end of static method
+//    /**
+//     * Field property di una EntityClass
+//     *
+//     * @param entityClazz     su cui operare la riflessione
+//     * @param publicFieldName property name
+//     */
+//    public static Field getField(Class<? extends AlgosEntity> entityClazz, final String publicFieldName) {
+//        Field field = null;
+//
+//        try { // prova ad eseguire il codice
+//            field = entityClazz.getDeclaredField(publicFieldName);
+//        } catch (Exception unErrore) { // intercetta l'errore
+//        }// fine del blocco try-catch
+//
+//        return field;
+//    }// end of static method
 
 
     /**
@@ -55,7 +56,7 @@ public abstract class LibReflection {
 
         try { // prova ad eseguire il codice
             fieldsArray = entityClazz.getDeclaredFields();
-            fieldsList = new ArrayList<>();
+            fieldsList = new ArrayList();
             for (Field field : fieldsArray) {
                 fieldName = field.getName();
                 if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
@@ -81,7 +82,7 @@ public abstract class LibReflection {
         List<Field> fieldsList = getAllFields(entityClazz);
 
         if (fieldsList != null && fieldsList.size() > 0) {
-            nameList = new ArrayList<>();
+            nameList = new ArrayList();
             for (Field field : fieldsList) {
                 nameList.add(field.getName());
             }// end of for cycle
@@ -190,22 +191,22 @@ public abstract class LibReflection {
     }// end of static method
 
 
-//    /**
-//     * Property statica di una classe
-//     *
-//     * @param clazz           classe su cui operare la riflessione
-//     * @param publicFieldName property statica e pubblica
-//     */
-//    public static Field getField(final Class<?> clazz, final String publicFieldName) {
-//        Field field = null;
-//
-//        try { // prova ad eseguire il codice
-//            field = clazz.getDeclaredField(publicFieldName);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//        }// fine del blocco try-catch
-//
-//        return field;
-//    }// end of method
+    /**
+     * Property statica di una classe
+     *
+     * @param clazz           classe su cui operare la riflessione
+     * @param publicFieldName property statica e pubblica
+     */
+    public static Field getField(final Class<?> clazz, final String publicFieldName) {
+        Field field = null;
+
+        try { // prova ad eseguire il codice
+            field = clazz.getDeclaredField(publicFieldName);
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return field;
+    }// end of method
 
 
     /**
@@ -259,7 +260,7 @@ public abstract class LibReflection {
         String[] propertyNamesAll = getAllProperties(entity);
 
         if (propertyNamesAll != null && propertyNamesAll.length > 0) {
-            propertyNames = new ArrayList<>();
+            propertyNames = new ArrayList();
             for (String property : propertyNamesAll) {
                 if (!property.equals("callbacks") && !property.equals("class") && !property.equals("id")) {
                     propertyNames.add(property);
@@ -288,7 +289,7 @@ public abstract class LibReflection {
         Object beta = entityClazz.getDeclaredFields();
 
         if (propertyNamesAll != null && propertyNamesAll.length > 0) {
-            propertyNames = new ArrayList<>();
+            propertyNames = new ArrayList();
             for (String property : propertyNamesAll) {
                 if (!property.equals("callbacks") && !property.equals("class") && !property.equals("id")) {
                     propertyNames.add(property);
@@ -393,7 +394,7 @@ public abstract class LibReflection {
         List<String> propertyNames = getAllFieldName(entityClazz);
 
         if (propertyNames != null && propertyNames.size() > 0) {
-            methods = new ArrayList<>();
+            methods = new ArrayList();
             for (String name : propertyNames) {
                 methods.add(getMethod(entityClazz, name));
             }// end of for cycle

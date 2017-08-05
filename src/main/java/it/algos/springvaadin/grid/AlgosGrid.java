@@ -156,12 +156,12 @@ public class AlgosGrid extends Grid {
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
                 entityBean = (AlgosEntity) this.asSingleSelect().getValue();
-                beanList = new ArrayList<>();
+                beanList = new ArrayList();
                 beanList.add(entityBean);
                 return beanList;
             case MULTI:
                 matrice = this.asMultiSelect().getSelectedItems().toArray();
-                beanList = new ArrayList<>();
+                beanList = new ArrayList();
                 for (Object obj : matrice) {
                     beanList.add((AlgosEntity) obj);
                 }// end of for cycle

@@ -3,7 +3,6 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
-import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -362,7 +361,7 @@ public class LibField {
      * Lista dei validators da utilizzare PRIMA dei converters
      */
     public static List<AbstractValidator> creaValidatorsPre(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<AbstractValidator> lista = new ArrayList<>();
+        List<AbstractValidator> lista = new ArrayList();
         List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
 
         for (Validator validator : listaTmp) {
@@ -380,7 +379,7 @@ public class LibField {
      * Lista dei validators da utilizzare DOPO i converters
      */
     public static List<AbstractValidator> creaValidatorsPost(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<AbstractValidator> lista = new ArrayList<>();
+        List<AbstractValidator> lista = new ArrayList();
         List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
 
         for (Validator validator : listaTmp) {
@@ -398,7 +397,7 @@ public class LibField {
      * Lista base, indifferenziata
      */
     private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<Validator> lista = new ArrayList<>();
+        List<Validator> lista = new ArrayList();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -461,7 +460,7 @@ public class LibField {
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
     public static List<Converter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<Converter> lista = new ArrayList<>();
+        List<Converter> lista = new ArrayList();
         Converter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);

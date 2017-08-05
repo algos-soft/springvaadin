@@ -9,6 +9,7 @@ import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadintest.ui.SpringVaadinUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -37,6 +38,7 @@ import java.util.List;
 @Service
 @Qualifier(Cost.TAG_VERS)
 public class VersioneService extends AlgosServiceImpl {
+
 
 
     /**

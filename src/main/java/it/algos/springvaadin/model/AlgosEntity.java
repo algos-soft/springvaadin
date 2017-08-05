@@ -4,9 +4,6 @@ import com.vaadin.spring.annotation.SpringComponent;
 import lombok.Getter;
 import org.bson.types.ObjectId;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
