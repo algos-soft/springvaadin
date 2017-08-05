@@ -1,5 +1,4 @@
-package it.algos.springvaadin.entity.versione;
-
+package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
@@ -14,8 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(Cost.TAG_VERS)
-public class VersionePresenter extends AlgosPresenterImpl {
+@Qualifier(Cost.TAG_COMP)
+public class CompanyPresenter extends AlgosPresenterImpl {
 
 
     /**
@@ -24,9 +23,9 @@ public class VersionePresenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public VersionePresenter(@Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) AlgosService service) {
+    public CompanyPresenter(@Qualifier(Cost.TAG_COMP) AlgosView view, @Qualifier(Cost.TAG_COMP) AlgosService service) {
         super(view, service);
-        super.entityClass = Versione.class;
+        super.entityClass = Company.class;
     }// end of Spring constructor
 
 

@@ -41,7 +41,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Versione extends AlgosEntity {
 
-
     /**
      * versione della classe per la serializzazione
      */

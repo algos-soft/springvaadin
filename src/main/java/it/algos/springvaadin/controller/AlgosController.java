@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ import java.util.Map;
  * Da ogni metodo si può (eventualmente) proseguire per la UI principale; quella con @SpringUI()
  */
 @Controller
-@RequestMapping(method = RequestMethod.GET)
+@RequestMapping()
 public class AlgosController {
 
     private final static String NAME_APPLICATION = "wam";
@@ -59,6 +60,23 @@ public class AlgosController {
     @RequestMapping("/hello/{name}")
     String hello(@PathVariable String name) {
         return "Hello, " + name + "!";
+    }
+
+
+    @RequestMapping(value = "/x", method = RequestMethod.GET)
+    public ModelAndView getdata() {
+
+        List<String> list = new ArrayList<>();
+        list.add("Alfa");
+        list.add("Beta");
+        list.add("Gamma");
+
+        //return back to index.jsp
+        ModelAndView model = new ModelAndView("index");
+        model.addObject("lists", list);
+
+        return model;
+
     }
 
     /**
@@ -132,7 +150,7 @@ public class AlgosController {
      * Quando si arriva nella AlgosUIParams, la request ha come path solo "/"
      * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
      */
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping()
     public ModelAndView seleziono(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String companyName = "";

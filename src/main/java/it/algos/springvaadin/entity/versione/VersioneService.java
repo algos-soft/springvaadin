@@ -42,7 +42,7 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
-     * Costruttore @Autowired
+     * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti

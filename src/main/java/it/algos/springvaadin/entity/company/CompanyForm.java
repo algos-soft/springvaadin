@@ -1,5 +1,4 @@
-package it.algos.springvaadin.entity.versione;
-
+package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -14,8 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(Cost.TAG_VERS)
-public class VersioneForm extends AlgosFormImpl {
+@Qualifier(Cost.TAG_COMP)
+public class CompanyForm extends AlgosFormImpl {
 
 
     /**
@@ -24,7 +23,7 @@ public class VersioneForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public VersioneForm(FormToolbar toolbar) {
+    public CompanyForm(FormToolbar toolbar) {
         super(toolbar);
     }// end of Spring constructor
 
@@ -37,8 +36,8 @@ public class VersioneForm extends AlgosFormImpl {
      * @return la label a video
      */
     protected String fixCaption(AlgosEntity entityBean) {
-        super.captionCreate = "Nuova versione";
-        super.captionEdit = "Modifica versione";
+        super.captionCreate = "Nuova company";
+        super.captionEdit = "Modifica company";
 
         return super.fixCaption(entityBean);
     }// end of method

@@ -43,13 +43,13 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of Spring constructor
 
 
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     */
-    public AlgosEntity newEntity() {
-        return null;
-    }// end of method
+//    /**
+//     * Creazione in memoria di una nuova entity che NON viene salvata
+//     * Eventuali regolazioni iniziali delle property
+//     */
+//    public AlgosEntity newEntity() {
+//        return null;
+//    }// end of method
 
 
     /**
@@ -66,22 +66,22 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
 
-    /**
-     * Returns all entities of the type.
-     * <p>
-     * Senza filtri
-     * Ordinati per ID
-     * <p>
-     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
-     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
-     * Eseguo qui la conversione, che rimane trasparente al resto del programma
-     *
-     * @return all entities
-     */
-    @Override
-    public List findAll() {
-        return null;
-    }// end of method
+//    /**
+//     * Returns all entities of the type.
+//     * <p>
+//     * Senza filtri
+//     * Ordinati per ID
+//     * <p>
+//     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
+//     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+//     * Eseguo qui la conversione, che rimane trasparente al resto del programma
+//     *
+//     * @return all entities
+//     */
+//    @Override
+//    public List findAll() {
+//        return null;
+//    }// end of method
 
 
     /**

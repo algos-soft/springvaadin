@@ -1,9 +1,9 @@
-package it.algos.springvaadin.entity.versione;
-
+package it.algos.springvaadin.entity.company;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 07/07/17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = VersioneNavView.VIEW_NAME)
-public class VersioneNavView extends AlgosNavView {
+@SpringView(name = CompanyNavView.VIEW_NAME)
+public class CompanyNavView extends AlgosNavView {
 
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "versione";
+    public static final String VIEW_NAME = "company";
 
 
     //--icona del Menu
@@ -35,7 +35,7 @@ public class VersioneNavView extends AlgosNavView {
      *
      * @param presenter iniettato da Spring, della sottoclasse indicata da @Qualifier
      */
-    public VersioneNavView(@Qualifier(Cost.TAG_VERS) AlgosPresenterImpl presenter) {
+    public CompanyNavView(@Qualifier(Cost.TAG_COMP) AlgosPresenterImpl presenter) {
         super(presenter);
     }// end of Spring constructor
 

@@ -1,12 +1,9 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.repository.AlgosMongoRepository;
-import it.algos.springvaadin.repository.AlgosRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import it.algos.springvaadin.lib.Cost;
 
 import java.util.List;
 
