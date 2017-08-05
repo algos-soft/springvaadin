@@ -1,9 +1,6 @@
 package it.algos.springvaadin.entity.company;
 
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -46,7 +43,7 @@ public class CompanyService extends AlgosServiceImpl {
     /**
      * Creazione di una entity
      *
-     * @param sigla       sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      */
     public Company crea(String sigla, String descrizione) {
@@ -71,7 +68,7 @@ public class CompanyService extends AlgosServiceImpl {
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
      *
-     * @param sigla       sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      */
     public Company newEntity(String sigla, String descrizione) {

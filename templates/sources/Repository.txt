@@ -1,0 +1,20 @@
+package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+
+import com.vaadin.spring.annotation.SpringComponent;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import it.algos.springvaadin.lib.Cost;
+
+import java.util.List;
+
+/**
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ */
+@SpringComponent
+@Qualifier(@TAG@)
+public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
+
+    public @ENTITY@ findBySigla(String sigla);
+
+}// end of class

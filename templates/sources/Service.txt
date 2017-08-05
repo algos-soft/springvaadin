@@ -1,78 +1,89 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
-import it.algos.@LOWERPROJECT@.application.AppCost;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * Created by gac
- * Business logic specifica per il modulo @ENTITY@
+ * Created by gac on 01/06/17
+ * <p>
+ * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
+ * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
+ * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
+ * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
+ * <p>
+ * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
+ * Gestisce due modalità di presentazione dei dati: List e Form
+ * Presenta i componenti grafici passivi
+ * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
+ * Annotated with @Service (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @Service
-@Qualifier(AppCost.TAG_@TAG@)
+@Qualifier(@TAG@)
 public class @ENTITY@Service extends AlgosServiceImpl {
 
 
     /**
+     * Costruttore @Autowired (nella superclasse)
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@Service(@Qualifier(AppCost.TAG_@TAG@) AlgosEntity entity, @Qualifier(AppCost.TAG_@TAG@) AlgosRepository repository) {
-        super(entity, repository);
+    public @ENTITY@Service(@Qualifier(Cost.TAG_COMP) MongoRepository repository) {
+        super(repository);
     }// end of Spring constructor
-
-
-    @Override
-    public Class<? extends AlgosEntity> getEntityClass() {
-        return @ENTITY@.class;
-    }// end of method
-
-
-    @Override
-    protected void creaDatiIniziali() {
-    }// end of method
-
-
-    /**
-     * Creazione iniziale di una entity
-     * Vuota, coi valori di default
-     */
-    @Override
-    public AlgosEntity newEntity() {
-        return newEntity("", "");
-    }// end of method
-
-
-    /**
-     * Eventuali regolazioni iniziali della property
-     *
-     * @param sigla       (obbligatoria, unica)
-     * @param descrizione (facoltativa, non unica)
-     */
-    public @ENTITY@ newEntity(String sigla, String descrizione) {
-        @ENTITY@ entity = new @ENTITY@();
-
-        entity.setSigla(sigla);
-        entity.setDescrizione(descrizione);
-
-        return entity;
-    }// end of general constructor
 
 
     /**
      * Creazione di una entity
      *
-     * @param sigla       (obbligatoria, unica)
-     * @param descrizione (facoltativa, non unica)
+     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
      */
-    public @ENTITY@ crea(String sigla, String descrizione) {
-        return (@ENTITY@) super.save(newEntity(sigla, descrizione));
+    public @ENTITY@ crea(String sigla) {
+        @ENTITY@ entity = ((@ENTITY@Repository) repository).findBySigla(sigla);
+        if (entity == null) {
+            entity = (@ENTITY@) repository.save(newEntity(sigla));
+        }// end of if cycle
+
+        return entity;
     }// end of method
 
+
+     /**
+      * Creazione in memoria di una nuova entity che NON viene salvata
+      * Eventuali regolazioni iniziali delle property
+      */
+     public @ENTITY@  newEntity() {
+         return newEntity("");
+     }// end of method
+
+
+     /**
+      * Creazione in memoria di una nuova entity che NON viene salvata
+      * Eventuali regolazioni iniziali delle property
+      *
+      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+      */
+     public @ENTITY@  newEntity(String sigla) {
+         return new @ENTITY@(sigla);
+     }// end of method
+
+
+    /**
+     * Returns all instances of the type.
+     *
+     * @return all entities
+     */
+    public List findAll() {
+        return ((@ENTITY@Repository) repository).findAll();
+    }// end of method
 
 }// end of class

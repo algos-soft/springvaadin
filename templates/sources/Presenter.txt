@@ -1,31 +1,31 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
-import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 01/06/17
- * <p>
- * Classe che gestisce la business logic di un 'modulo'
- * Viene creata la prima volta dalla xxxNavView (injected) che a sua volta viene creata dallo SpringNavigator
- * Classe specifica per costruire i riferimenti usati dalla superclasse
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(AppCost.TAG_@TAG@)
-public class @ENTITY@Presenter extends AlgosPresenter {
+@Qualifier(@TAG@)
+public class @ENTITY@Presenter extends AlgosPresenterImpl {
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Regola il modello-dati specifico
      */
-    public @ENTITY@Presenter(@Qualifier(AppCost.TAG_@TAG@) AlgosView view, @Qualifier(AppCost.TAG_@TAG@) AlgosService service) {
+    public @ENTITY@Presenter(@Qualifier(@TAG@) AlgosView view, @Qualifier(@TAG@) AlgosService service) {
         super(view, service);
-    }// end of Spring constructor
+        super.entityClass = @ENTITY@.class;
+     }// end of Spring constructor
 
 
 }// end of class

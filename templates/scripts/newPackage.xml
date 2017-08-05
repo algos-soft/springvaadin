@@ -9,6 +9,8 @@
     <property name="thisProject" value="springvaadin"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
     <property name="risalita" value="/../.."/>
+    <property name="baseTag" value="Cost"/>
+    <property name="dirCost" value="lib/Cost"/>
     <!--Fine dei valori facoltativi-->
 
     <!--Tag varii-->
@@ -27,7 +29,7 @@
     <property name="tagList" value="List"/>
     <property name="tagForm" value="Form"/>
     <property name="tagService" value="Service"/>
-    <property name="tagRepository" value="JDBCRepository"/>
+    <property name="tagRepository" value="Repository"/>
     <property name="tagMain" value="src/main"/>
     <property name="tagIdea" value="${tagMain}/java"/>
     <property name="tagAlgos" value="it/algos"/>
@@ -47,21 +49,26 @@
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
-        <upper string="${originalTag}" to="tag"/>
+        <upper string="${originalTag}" to="tagTmp"/>
+        <property name="tagtag" value="TAG_${tagTmp}"/>
+        <property name="tag" value="${baseTag}.${tagtag}"/>
+
         <property name="package" value="${newEntityMinuscolo}"/>
         <property name="pathJavaProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}"/>
 
         <property name="tagFindEndFile" value="&#10;}// end of static class"/>
-        <property name="tagAddCost" value="&#10;&#009;public final static String TAG_${tag} = "/>
+        <property name="tagAddCost" value="&#10;&#009;public final static String ${tagtag} = "/>
         <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
         <property name="tagAddMenu" value="menuLayout.addView(${newEntity}NavView.class);"/>
         <property name="tagPackMenu" value="package it.algos.${nomeProgettoMinuscolo}.${dirUI};&#10;&#10;"/>
-        <property name="tagImportMenu" value="import it.algos.${nomeProgettoMinuscolo}.${dirEntity}.${newEntityMinuscolo}.${newEntity}NavView;&#10;"/>
+        <property name="tagImportMenu"
+                  value="import it.algos.${nomeProgettoMinuscolo}.${dirEntity}.${newEntityMinuscolo}.${newEntity}NavView;&#10;"/>
 
-        <property name="pathEntityProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirEntity}"/>
+        <property name="pathEntityProject"
+                  value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirEntity}"/>
         <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="pathPackageUI" value="${pathEntityProject}/${package}/${newEntity}"/>
-        <property name="pathAppProject" value="${pathJavaProject}/${dirApp}"/>
+        <property name="pathCostProject" value="${pathJavaProject}/${dirCost}"/>
         <property name="pathEntity" value="${pathEntityProject}/${newEntityMinuscolo}/${newEntity}"/>
 
         <property name="srcEntity" value="${pathSourcesFramework}/${tagEntity}${tagTxt}"/>
@@ -88,7 +95,7 @@
         <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
         <property name="destRepository" value="${pathEntity}${tagRepository}${tagJava}"/>
 
-        <property name="destCost" value="${pathAppProject}/${tagCost}${tagJava}"/>
+        <property name="destCost" value="${pathCostProject}${tagJava}"/>
         <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
     </target>
 
@@ -111,6 +118,7 @@
 
         <echo message="pathJavaProject = ${pathJavaProject}"/>
         <echo message="destCost = ${destCost}"/>
+        <echo message="tagAddCost = ${tagAddCost}"/>
 
         <echo message="destUI = ${destUI}"/>
 
@@ -138,34 +146,34 @@
             <param name="sourceFile" value="${srcEntity}"/>
             <param name="destFile" value="${destEntity}"/>
         </antcall>
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcPresenter}"/>-->
-            <!--<param name="destFile" value="${destPresenter}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcNavView}"/>-->
-            <!--<param name="destFile" value="${destNavView}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcView}"/>-->
-            <!--<param name="destFile" value="${destView}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcList}"/>-->
-            <!--<param name="destFile" value="${destList}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcForm}"/>-->
-            <!--<param name="destFile" value="${destForm}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcService}"/>-->
-            <!--<param name="destFile" value="${destService}"/>-->
-        <!--</antcall>-->
-        <!--<antcall target="creaSingoloFile">-->
-            <!--<param name="sourceFile" value="${srcRepository}"/>-->
-            <!--<param name="destFile" value="${destRepository}"/>-->
-        <!--</antcall>-->
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcForm}"/>
+            <param name="destFile" value="${destForm}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcList}"/>
+            <param name="destFile" value="${destList}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcNavView}"/>
+            <param name="destFile" value="${destNavView}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcPresenter}"/>
+            <param name="destFile" value="${destPresenter}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcRepository}"/>
+            <param name="destFile" value="${destRepository}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcService}"/>
+            <param name="destFile" value="${destService}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcView}"/>
+            <param name="destFile" value="${destView}"/>
+        </antcall>
     </target>
 
 
@@ -184,7 +192,7 @@
     <target name="addCostante" unless="${esisteGiaCostante}">
         <replace file="${destCost}"
                  token="${tagFindEndFile}"
-                 value="${tagAddCost}&quot;${tag}&quot;;${tagFindEndFile}">
+                 value="${tagAddCost}&quot;${newEntityMinuscolo}&quot;;${tagFindEndFile}">
         </replace>
         <echo message="Aggiunta la costante TAG_${tag} nel file lib.Cost"/>
     </target>
@@ -235,6 +243,10 @@
 
 
     <target name="creaPackage" depends="init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+            description="Crea un nuovo package (modulo)">
+    </target>
+
+    <target name="creaPackageSpringvaadin" depends="init,creaFiles,checkCostante"
             description="Crea un nuovo package (modulo)">
     </target>
 

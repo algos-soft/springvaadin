@@ -1,14 +1,14 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
-import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac
+ * Created by gac on 01/06/17
  * <p>
  * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
  * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
@@ -19,9 +19,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Gestisce due modalità di presentazione dei dati: List e Form
  * Presenta i componenti grafici passivi
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(AppCost.TAG_@TAG@)
+@Qualifier(@TAG@)
 public class @ENTITY@View extends AlgosViewImpl {
 
     /**
@@ -29,7 +31,7 @@ public class @ENTITY@View extends AlgosViewImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@View(@Qualifier(AppCost.TAG_@TAG@) AlgosList list, @Qualifier(AppCost.TAG_@TAG@) AlgosForm form) {
+    public @ENTITY@View(@Qualifier(@TAG@) AlgosList list, @Qualifier(@TAG@) AlgosForm form) {
         super(list, form);
     }// end of Spring constructor
 

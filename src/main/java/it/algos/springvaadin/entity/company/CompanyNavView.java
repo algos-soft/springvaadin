@@ -3,7 +3,6 @@ package it.algos.springvaadin.entity.company;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
-import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
