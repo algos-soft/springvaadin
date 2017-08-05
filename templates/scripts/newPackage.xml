@@ -2,13 +2,13 @@
 <project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="xxx"/>
+    <property name="newEntity" value="Bolla"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="thisProject" value="xxx"/>
+    <property name="thisProject" value="springvaadin"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
-    <property name="risalita" value="/.."/>
+    <property name="risalita" value="/../.."/>
     <!--Fine dei valori facoltativi-->
 
     <!--Tag varii-->
@@ -138,34 +138,34 @@
             <param name="sourceFile" value="${srcEntity}"/>
             <param name="destFile" value="${destEntity}"/>
         </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcPresenter}"/>
-            <param name="destFile" value="${destPresenter}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcNavView}"/>
-            <param name="destFile" value="${destNavView}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcView}"/>
-            <param name="destFile" value="${destView}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcList}"/>
-            <param name="destFile" value="${destList}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcForm}"/>
-            <param name="destFile" value="${destForm}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcService}"/>
-            <param name="destFile" value="${destService}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcRepository}"/>
-            <param name="destFile" value="${destRepository}"/>
-        </antcall>
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcPresenter}"/>-->
+            <!--<param name="destFile" value="${destPresenter}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcNavView}"/>-->
+            <!--<param name="destFile" value="${destNavView}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcView}"/>-->
+            <!--<param name="destFile" value="${destView}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcList}"/>-->
+            <!--<param name="destFile" value="${destList}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcForm}"/>-->
+            <!--<param name="destFile" value="${destForm}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcService}"/>-->
+            <!--<param name="destFile" value="${destService}"/>-->
+        <!--</antcall>-->
+        <!--<antcall target="creaSingoloFile">-->
+            <!--<param name="sourceFile" value="${srcRepository}"/>-->
+            <!--<param name="destFile" value="${destRepository}"/>-->
+        <!--</antcall>-->
     </target>
 
 

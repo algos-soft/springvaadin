@@ -53,4 +53,13 @@ public class Company extends AlgosEntity {
     @AIColumn(width = 320)
     private String descrizione;
 
+
+    /**
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return getSigla();
+    }// end of method
+
 }// end of class
