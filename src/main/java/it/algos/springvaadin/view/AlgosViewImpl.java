@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by gac on 07/07/17
- * .
+ * Implementazione standard dell'interfaccia AlgosView
  */
 public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView {
 

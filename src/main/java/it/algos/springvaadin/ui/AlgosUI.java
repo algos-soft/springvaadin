@@ -1,6 +1,5 @@
 package it.algos.springvaadin.ui;
 
-//import com.sun.media.jfxmedia.logging.Logger;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;

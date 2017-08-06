@@ -2,15 +2,12 @@
 <project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="Bolla"/>
+    <property name="newEntity" value="xxx"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="thisProject" value="springvaadin"/>
+    <property name="currentProject" value="xxx"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
-    <property name="risalita" value="/../.."/>
-    <property name="baseTag" value="Cost"/>
-    <property name="dirCost" value="lib/Cost"/>
     <!--Fine dei valori facoltativi-->
 
     <!--Tag varii-->
@@ -22,6 +19,7 @@
     <property name="dirUI" value="ui"/>
     <property name="tagCost" value="AppCost"/>
     <property name="tagUI" value="UI"/>
+    <property name="tagAlgosUI" value="${dirUI}/AlgosUIViews${tagJava}"/>
     <property name="tagEntity" value="Entity"/>
     <property name="tagPresenter" value="Presenter"/>
     <property name="tagNavView" value="NavView"/>
@@ -38,16 +36,36 @@
     <!--Fine dei tag-->
 
     <!--Valori recuperati automaticamente da Ant-->
-    <property name="pathBaseProject" value="${basedir}${risalita}"/>
-    <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
-    <property name="projectsIdea" value="${basedir}/..${risalita}"/>
-    <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
-    <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
     <!--Fine dei valori di Ant-->
 
+    <target name="springvaadin" description="Regola alcune property specificatamente per il progetto base springvaadin">
+        <property name="risalita" value="/../.."/>
+        <property name="pathBaseProject" value="${basedir}${risalita}"/>
+        <property name="thisProject" value="${nomeBaseFramework}"/>
+        <property name="baseTag" value="Cost"/>
+        <property name="dirCost" value="lib/Cost"/>
+        <property name="destUI" value="${pathBaseProject}/${tagPathJava}/${nomeBaseFramework}/${tagAlgosUI}"/>
+        <property name="tagFindMenu" value="addVisteStandard() {&#10;"/>
+    </target>
+    <target name="newproject" description="Regola alcune property per il nuovi progetti">
+        <property name="risalita" value="/.."/>
+        <property name="pathBaseProject" value="${basedir}${risalita}"/>
+        <property name="thisProject" value="${currentProject}"/>
+        <property name="baseTag" value="Cost"/>
+        <property name="dirCost" value="lib/Cost"/>
+        <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
+        <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
+    </target>
+
+
     <target name="init" description="Converte la directory">
+        <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
+        <property name="projectsIdea" value="${basedir}/..${risalita}"/>
+        <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
+        <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
+        <echo message="nomeProgettoMinuscolo = ${nomeProgettoMinuscolo}"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
         <upper string="${originalTag}" to="tagTmp"/>
         <property name="tagtag" value="TAG_${tagTmp}"/>
@@ -58,7 +76,6 @@
 
         <property name="tagFindEndFile" value="&#10;}// end of static class"/>
         <property name="tagAddCost" value="&#10;&#009;public final static String ${tagtag} = "/>
-        <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
         <property name="tagAddMenu" value="menuLayout.addView(${newEntity}NavView.class);"/>
         <property name="tagPackMenu" value="package it.algos.${nomeProgettoMinuscolo}.${dirUI};&#10;&#10;"/>
         <property name="tagImportMenu"
@@ -96,11 +113,40 @@
         <property name="destRepository" value="${pathEntity}${tagRepository}${tagJava}"/>
 
         <property name="destCost" value="${pathCostProject}${tagJava}"/>
-        <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
+    </target>
+
+    <tstamp>
+        <format property="TIMESTAMP" pattern="dd-MMM-yy"/>
+    </tstamp>
+
+    <target name="testspringvaadin" depends="springvaadin,init" description="Controllo della variabili">
+        <echo message="thisProject = ${thisProject}"/>
+        <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
+        <echo message="risalita = ${risalita}"/>
+        <echo message="pathBaseProject = ${pathBaseProject}"/>
+
+        <echo message="projectsIdea = ${projectsIdea}"/>
+        <echo message="pathBaseFramework = ${pathBaseFramework}"/>
+
+        <echo message="pathSourcesFramework = ${pathSourcesFramework}"/>
+
+        <echo message="pathEntityProject = ${pathEntityProject}"/>
+        <echo message="pathEntity = ${pathEntity}"/>
+        <echo message="srcEntity = ${srcEntity}"/>
+        <echo message="destEntity = ${destEntity}"/>
+
+        <echo message="pathJavaProject = ${pathJavaProject}"/>
+        <echo message="destCost = ${destCost}"/>
+        <echo message="tagAddCost = ${tagAddCost}"/>
+
+        <echo message="destUI = ${destUI}"/>
+
+        <echo message="tagPackMenu = ${tagPackMenu}"/>
+        <echo message="tagImportMenu = ${tagImportMenu}"/>
     </target>
 
 
-    <target name="test" depends="init" description="Controllo della variabili">
+    <target name="testnewproject" depends="newproject,init" description="Controllo della variabili">
         <echo message="thisProject = ${thisProject}"/>
         <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
         <echo message="risalita = ${risalita}"/>
@@ -135,6 +181,7 @@
                 <filter token="PACKAGE" value="${newEntityMinuscolo}"/>
                 <filter token="ENTITY" value="${newEntity}"/>
                 <filter token="TAG" value="${tag}"/>
+                <filter token="TODAY" value="${TIMESTAMP}"/>
             </filterset>
         </copy>
         <echo message="Copiato ${sourceFile} in ${destFile}"/>
@@ -201,6 +248,7 @@
     <target name="checkImportMenu" depends="init"
             description="Controlla che l'import della classe non esista già (per evitare duplicazioni)">
 
+        <echo message="destUI = ${destUI}"/>
         <loadfile property="fileImport" srcfile="${destUI}"/>
         <condition property="esisteGiaImport">
             <matches pattern="${tagImportMenu}" string="${fileImport}"/>
@@ -215,7 +263,7 @@
                  token="${tagPackMenu}"
                  value="${tagPackMenu}${tagImportMenu}">
         </replace>
-        <echo message="Aggiunta l'import della classe ${newEntity}NavView nel file ui.${thisProject}UI"/>
+        <echo message="Aggiunto l'import della classe ${newEntity}NavView nel file ui.${thisProject}UI"/>
     </target>
 
 
@@ -242,12 +290,13 @@
     </target>
 
 
-    <target name="creaPackage" depends="init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
-            description="Crea un nuovo package (modulo)">
+    <target name="creaPackage" depends="newproject,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+            description="Crea un nuovo package (modulo) per un nuovo progetto">
     </target>
 
-    <target name="creaPackageSpringvaadin" depends="init,creaFiles,checkCostante"
-            description="Crea un nuovo package (modulo)">
+    <target name="creaPackageSpringvaadin" depends="springvaadin,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+            description="Crea un nuovo package (modulo) per il progetto-base springvaadin">
+        <echo message="thisProject = ${thisProject}"/>
     </target>
 
 

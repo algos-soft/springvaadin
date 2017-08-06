@@ -12,6 +12,16 @@ import java.util.List;
  * Contratto d'interfaccia con i metodi che la View rende disponibili all'applicazione,
  * in particolare ad AlgosPresenter
  * Implementati nella classe concreta AlgosViewImpl
+ *
+ * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
+ * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
+ * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
+ * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
+ * <p>
+ * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
+ * Gestisce due modalità di presentazione dei dati: List e Form
+ * Presenta i componenti grafici passivi
+ * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  */
 public interface AlgosView extends View {
 

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by gac on 10/07/17
- * Implementazione concreta dell'interfaccia
+ * Implementazione standard dell'interfaccia AlgosForm
  */
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
@@ -30,12 +30,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--collegamento tra i fields e la entityBean
     private Binder binder;
 
-    //--eventuali intestazioni informative per List e Form
-    //--valori standard che possono essere sovrascritti nella classi specifiche
-    protected String captionCreate;
-    protected String captionEdit;
-    private final static String CAPTION_CREATE_DEFAULT = "Nuova scheda";
-    private final static String CAPTION_EDIT_DEFAULT = "Modifica scheda";
+    //--intestazioni informative per Form
+    //--valori standard
+    private final static String CAPTION_CREATE = "Nuova scheda";
+    private final static String CAPTION_EDIT = "Modifica scheda";
 
 
     //--toolbar coi bottoni, iniettato dal costruttore
@@ -269,18 +267,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @return la label a video
      */
     protected String fixCaption(AlgosEntity entityBean) {
-        String caption = "";
+        String caption = entityBean.getClass().getSimpleName() + " - ";
 
         if (entityBean != null && entityBean.getId() != null) {
-            if (captionEdit == null || captionEdit.equals("")) {
-                captionEdit = CAPTION_EDIT_DEFAULT;
-            }// end of if cycle
-            caption = captionEdit;
+            caption += CAPTION_EDIT;
         } else {
-            if (captionCreate == null || captionCreate.equals("")) {
-                captionCreate = CAPTION_CREATE_DEFAULT;
-            }// end of if cycle
-            caption = captionCreate;
+            caption += CAPTION_CREATE;
         }// end of if/else cycle
 
         return caption;

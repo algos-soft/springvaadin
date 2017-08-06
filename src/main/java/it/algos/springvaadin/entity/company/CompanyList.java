@@ -27,13 +27,4 @@ public class CompanyList extends AlgosListImpl {
     }// end of Spring constructor
 
 
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    private void caption() {
-        super.captionList = "Elenco di tutte le company";
-    }// end of method
-
 }// end of class

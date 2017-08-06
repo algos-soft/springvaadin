@@ -5,7 +5,7 @@ import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by gac
+ * Created by gac on @TODAY@
  * .
  */
 @Component

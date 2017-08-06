@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Created by gac on 14/06/17.
- * Implementazione concreta dell'interfaccia
+ * Implementazione standard dell'interfaccia AlgosPresenter
  */
 public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 

@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -8,7 +9,7 @@ import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
 /**
- * Created by gac on 13/06/17
+ * Created by gac on @TODAY@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
@@ -27,20 +28,6 @@ public class @ENTITY@Form extends AlgosFormImpl {
         super(toolbar);
     }// end of Spring constructor
 
-
-    /**
-     * Label di informazione
-     *
-     * @param entityBean istanza da presentare
-     *
-     * @return la label a video
-     */
-    protected String fixCaption(AlgosEntity entityBean) {
-        super.captionCreate = "Nuova @PACKAGE@";
-        super.captionEdit = "Modifica @PACKAGE@";
-
-        return super.fixCaption(entityBean);
-    }// end of method
 
 
 }// end of class

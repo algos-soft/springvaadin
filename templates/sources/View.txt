@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.Cost;
@@ -8,17 +9,7 @@ import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on 01/06/17
- * <p>
- * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
- * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
- * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
- * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
- * <p>
- * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
- * Gestisce due modalità di presentazione dei dati: List e Form
- * Presenta i componenti grafici passivi
- * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
+ * Created by gac on @TODAY@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */

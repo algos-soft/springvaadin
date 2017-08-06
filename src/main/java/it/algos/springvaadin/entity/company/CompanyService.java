@@ -11,16 +11,6 @@ import java.util.List;
 
 /**
  * Created by gac on 01/06/17
- * <p>
- * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
- * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
- * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
- * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
- * <p>
- * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
- * Gestisce due modalità di presentazione dei dati: List e Form
- * Presenta i componenti grafici passivi
- * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  * Annotated with @Service (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */

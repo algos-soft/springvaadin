@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
@@ -9,7 +10,7 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on 07/07/17
+ * Created by gac on @TODAY@
  * Annotated with @SpringView (obbligatorio)
  */
 @SpringView(name = @ENTITY@NavView.VIEW_NAME)

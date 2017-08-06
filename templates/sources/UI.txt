@@ -9,7 +9,7 @@ import it.algos.springvaadin.ui.AlgosUI;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by gac.
+ * Created by gac on @TODAY@
  * <p>
  * UI di partenza dell'applicazione, selezionata da SpringBoot con @SpringUI()
  * Questa classe DEVE estendere AlgosUIParams

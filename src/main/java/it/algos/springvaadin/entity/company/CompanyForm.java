@@ -28,19 +28,4 @@ public class CompanyForm extends AlgosFormImpl {
     }// end of Spring constructor
 
 
-    /**
-     * Label di informazione
-     *
-     * @param entityBean istanza da presentare
-     *
-     * @return la label a video
-     */
-    protected String fixCaption(AlgosEntity entityBean) {
-        super.captionCreate = "Nuova company";
-        super.captionEdit = "Modifica company";
-
-        return super.fixCaption(entityBean);
-    }// end of method
-
-
 }// end of class

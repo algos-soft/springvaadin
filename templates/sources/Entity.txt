@@ -15,8 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by gac on 01/06/17
- * <p>
+ * Created by gac on @TODAY@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
@@ -41,5 +40,13 @@ public class @ENTITY@ extends AlgosEntity {
     @AIColumn()
     private String sigla;
 
+
+    /**
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return getSigla();
+    }// end of method
 
 }// end of entity class

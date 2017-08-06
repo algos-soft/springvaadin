@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -8,7 +9,7 @@ import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on 01/06/17
+ * Created by gac on @TODAY@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */

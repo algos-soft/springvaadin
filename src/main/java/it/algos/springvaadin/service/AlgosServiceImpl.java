@@ -20,8 +20,7 @@ import java.util.List;
 
 /**
  * Created by gac on 07/07/17
- * Implementazione standar dell'interfaccia AlgosService
- * Deve sempre esistere la sottoclasse concreta
+ * Implementazione standard dell'interfaccia AlgosService
  */
 public abstract class AlgosServiceImpl implements AlgosService {
 

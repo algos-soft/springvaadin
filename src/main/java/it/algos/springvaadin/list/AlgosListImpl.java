@@ -22,15 +22,17 @@ import java.util.List;
 
 /**
  * Created by gac on 20/06/17
- * Implementazione concreta dell'interfaccia
+ * Implementazione standard dell'interfaccia AlgosList
  */
 public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
-    //--eventuali intestazioni informative per List
-    //--valori standard che possono essere sovrascritti nella classi specifiche
-    private final static String CAPTION_DEFAULT = "Elenco di tutte le entities";
-    protected String captionList;
+    //--intestazione informativa per List
+    //--valore standard
+    private final static String CAPTION_DEFAULT = "Elenco di tutte le schede";
+    //--valore che può essere regolato nella classe specifica
+    //--usando un metodo @PostConstruct
+    protected String caption;
 
 
     //--AlgosGrid, iniettata dal costruttore
@@ -71,10 +73,10 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
         this.removeAllComponents();
 
-        if (captionList == null || captionList.equals("")) {
-            captionList = CAPTION_DEFAULT;
+        if (caption == null || caption.equals("")) {
+            caption = entityClass.getSimpleName() + " - " + CAPTION_DEFAULT;
         }// end of if cycle
-        label = new Label(LibText.setRossoBold(captionList), ContentMode.HTML);
+        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         this.addComponent(label);
 
         grid.inizia(entityClass, items, columns);

@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import it.algos.@LOWERPROJECT@.application.AppCost;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by gac on 13/06/17.
+ * Created by gac on @TODAY@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
@@ -26,14 +27,5 @@ public class @ENTITY@List extends AlgosListImpl {
         super(grid, toolbar);
     }// end of Spring constructor
 
-
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    private void caption() {
-        super.captionList = "Elenco di ogni @PACKAGE@";
-    }// end of method
 
 }// end of class

@@ -29,19 +29,5 @@ public class VersioneForm extends AlgosFormImpl {
     }// end of Spring constructor
 
 
-    /**
-     * Label di informazione
-     *
-     * @param entityBean istanza da presentare
-     *
-     * @return la label a video
-     */
-    protected String fixCaption(AlgosEntity entityBean) {
-        super.captionCreate = "Nuova versione";
-        super.captionEdit = "Modifica versione";
-
-        return super.fixCaption(entityBean);
-    }// end of method
-
 
 }// end of class

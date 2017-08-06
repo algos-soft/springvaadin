@@ -19,22 +19,11 @@ import javax.annotation.PostConstruct;
 @Qualifier(Cost.TAG_VERS)
 public class VersioneList extends AlgosListImpl {
 
-
     /**
      * Costruttore @Autowired (nella superclasse)
      */
     public VersioneList(AlgosGrid grid, ListToolbar toolbar) {
         super(grid, toolbar);
     }// end of Spring constructor
-
-
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    private void caption() {
-        super.captionList = "Elenco di tutte le versioni";
-    }// end of method
 
 }// end of class
