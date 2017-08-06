@@ -2,11 +2,11 @@
 <project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="xxx"/>
+    <property name="newEntity" value="Bolla"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="currentProject" value="xxx"/>
+    <property name="currentProject" value="springvaadin"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
     <!--Fine dei valori facoltativi-->
 
@@ -42,19 +42,25 @@
         <property name="risalita" value="/../.."/>
         <property name="pathBaseProject" value="${basedir}${risalita}"/>
         <property name="thisProject" value="${nomeBaseFramework}"/>
+        <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
         <property name="baseTag" value="Cost"/>
         <property name="dirCost" value="lib/Cost"/>
+        <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="destUI" value="${pathBaseProject}/${tagPathJava}/${nomeBaseFramework}/${tagAlgosUI}"/>
         <property name="tagFindMenu" value="addVisteStandard() {&#10;"/>
+        <property name="importCost" value=""/>
     </target>
     <target name="newproject" description="Regola alcune property per il nuovi progetti">
         <property name="risalita" value="/.."/>
         <property name="pathBaseProject" value="${basedir}${risalita}"/>
         <property name="thisProject" value="${currentProject}"/>
-        <property name="baseTag" value="Cost"/>
-        <property name="dirCost" value="lib/Cost"/>
+        <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
+        <property name="baseTag" value="AppCost"/>
+        <property name="dirCost" value="application/AppCost"/>
+        <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="destUI" value="${pathUIProject}/${thisProject}${tagUI}${tagJava}"/>
         <property name="tagFindMenu" value="addVisteSpecifiche() {&#10;"/>
+        <property name="importCost" value="&#10;import it.algos.${nomeProgettoMinuscolo}.application.AppCost;"/>
     </target>
 
 
@@ -64,8 +70,6 @@
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
-        <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
-        <echo message="nomeProgettoMinuscolo = ${nomeProgettoMinuscolo}"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
         <upper string="${originalTag}" to="tagTmp"/>
         <property name="tagtag" value="TAG_${tagTmp}"/>
@@ -83,7 +87,6 @@
 
         <property name="pathEntityProject"
                   value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirEntity}"/>
-        <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
         <property name="pathPackageUI" value="${pathEntityProject}/${package}/${newEntity}"/>
         <property name="pathCostProject" value="${pathJavaProject}/${dirCost}"/>
         <property name="pathEntity" value="${pathEntityProject}/${newEntityMinuscolo}/${newEntity}"/>
@@ -163,6 +166,8 @@
         <echo message="destEntity = ${destEntity}"/>
 
         <echo message="pathJavaProject = ${pathJavaProject}"/>
+        <echo message="dirCost = ${dirCost}"/>
+        <echo message="pathCostProject = ${pathCostProject}"/>
         <echo message="destCost = ${destCost}"/>
         <echo message="tagAddCost = ${tagAddCost}"/>
 
@@ -171,7 +176,6 @@
         <echo message="tagPackMenu = ${tagPackMenu}"/>
         <echo message="tagImportMenu = ${tagImportMenu}"/>
     </target>
-
 
     <target name="creaSingoloFile" description="Copia il singolo file passato come parametro">
         <copy file="${sourceFile}" tofile="${destFile}" overwrite="true">
@@ -182,6 +186,7 @@
                 <filter token="ENTITY" value="${newEntity}"/>
                 <filter token="TAG" value="${tag}"/>
                 <filter token="TODAY" value="${TIMESTAMP}"/>
+                <filter token="IMPORT_COST" value="${importCost}"/>
             </filterset>
         </copy>
         <echo message="Copiato ${sourceFile} in ${destFile}"/>

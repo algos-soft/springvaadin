@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.bolla.BollaNavView;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import it.algos.springvaadin.entity.company.CompanyNavView;
@@ -81,6 +82,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
+		menuLayout.addView(BollaNavView.class);
         if (LibParams.useVers()) {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle

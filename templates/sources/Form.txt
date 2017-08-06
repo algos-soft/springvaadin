@@ -1,6 +1,5 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-
-import it.algos.@LOWERPROJECT@.application.AppCost;
+@IMPORT_COST@
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
