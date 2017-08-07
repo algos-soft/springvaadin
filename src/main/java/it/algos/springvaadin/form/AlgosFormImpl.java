@@ -76,7 +76,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param fields del form da visualizzare
      */
-    private void usaSeparateFormDialog(List<String> fields) {
+    protected void usaSeparateFormDialog(List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();

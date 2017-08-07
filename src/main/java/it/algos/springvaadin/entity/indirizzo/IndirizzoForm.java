@@ -7,6 +7,8 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
+import java.util.List;
+
 /**
  * Created by gac on 07-ago-17
  * Annotated with @SpringComponent (obbligatorio)
@@ -23,10 +25,24 @@ public class IndirizzoForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public IndirizzoForm (FormToolbar toolbar) {
+    public IndirizzoForm(FormToolbar toolbar) {
         super(toolbar);
     }// end of Spring constructor
 
+
+    /**
+     * Creazione del form
+     * Pannello a tutto schermo, oppure finestra popup
+     * Ricrea tutto ogni volta che diventa attivo
+     *
+     * @param entityBean istanza da presentare
+     * @param fields     del form da visualizzare
+     */
+    @Override
+    public void restart(AlgosEntity entityBean, List<String> fields) {
+        this.entityBean = entityBean;
+        usaSeparateFormDialog(fields);
+    }// end of method
 
 
 }// end of class
