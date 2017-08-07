@@ -51,7 +51,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
       * Creazione in memoria di una nuova entity che NON viene salvata
       * Eventuali regolazioni iniziali delle property
       */
-     public @ENTITY@  newEntity() {
+     public @ENTITY@ newEntity() {
          return newEntity("");
      }// end of method
 
@@ -62,7 +62,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
       *
       * @param sigla di riferimento interna (interna, obbligatoria ed unica)
       */
-     public @ENTITY@  newEntity(String sigla) {
+     public @ENTITY@ newEntity(String sigla) {
          return new @ENTITY@(sigla);
      }// end of method
 

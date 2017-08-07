@@ -39,7 +39,7 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La sigla interna è obbligatoria")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, widthEM = 8, help = "Codice interno.")
+    @AIField(type = AFType.text, widthEM = 8, help = "Codice interno")
     @AIColumn(width = 80)
     private String sigla;
 
@@ -49,7 +49,7 @@ public class Company extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
-    @AIField(type = AFType.text, widthEM = 30, help = "Descrizione della company.")
+    @AIField(type = AFType.text, widthEM = 30, help = "Descrizione della company")
     @AIColumn(width = 320)
     private String descrizione;
 

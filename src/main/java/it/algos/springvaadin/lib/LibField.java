@@ -420,8 +420,11 @@ public class LibField {
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
-                        message = fieldName + " deve essere compreso tra " + min + " e " + max + " caratteri";
-                        validator = new StringLengthValidator(message, min, max);
+                        String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName);
+                        if (messageSize.equals("")) {
+                            messageSize = fieldName + " deve essere compreso tra " + min + " e " + max + " caratteri";
+                        }// end of if cycle
+                        validator = new StringLengthValidator(messageSize, min, max);
                         lista.add(new Validator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;

@@ -334,6 +334,31 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the message of the Size annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the specific message
+     */
+    @SuppressWarnings("all")
+    public static String getSizeMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        String message = "";
+        Size annotation = getSize(clazz, publicFieldName);
+
+        if (annotation != null) {
+            message = annotation.message();
+        }// end of if cycle
+
+        if (message.equals("{javax.validation.constraints.Size.message}")) {
+            message = "";
+        }// end of if cycle
+
+        return message;
+    }// end of static method
+
+
+    /**
      * Get the min length of the string property.
      *
      * @param clazz           the entity class
