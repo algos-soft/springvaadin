@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
@@ -44,14 +45,20 @@ public class Company extends AlgosEntity {
     private String sigla;
 
 
-    //--ragione sociale o descrizione della company (visibile - obbligatoria)
-    //--descrizione (obbligatoria, non unica)
+    //--ragione sociale o descrizione della company (obbligatoria, non unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
     @AIField(type = AFType.text, widthEM = 30, help = "Descrizione della company")
     @AIColumn(width = 320)
     private String descrizione;
+
+
+    //--indirizzo (facoltativo)
+    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+    @AIField(type = AFType.text, firstCapital = false, widthEM = 30, help = "Indirizzo")
+    @AIColumn(width = 320)
+    private Indirizzo indirizzo;
 
 
     /**

@@ -37,7 +37,7 @@ public class LibField {
      */
     @SuppressWarnings("all")
     public static AbstractField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        AbstractField vaadinField = null;
+        AlgosField vaadinField = null;
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);

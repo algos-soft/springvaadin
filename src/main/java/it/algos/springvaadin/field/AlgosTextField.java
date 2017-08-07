@@ -3,7 +3,7 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
-public class AlgosTextField extends TextField {
+public class AlgosTextField extends TextField implements AlgosField {
 
 
     /**
@@ -47,5 +47,13 @@ public class AlgosTextField extends TextField {
     public void initField() {
     }// end of method
 
+    @Override
+    public void setName(String name) {
 
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }// end of field class

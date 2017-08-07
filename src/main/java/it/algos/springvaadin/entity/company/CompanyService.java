@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.company;
 
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -62,7 +63,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      */
     public Company newEntity(String sigla, String descrizione) {
-        return new Company(sigla, descrizione);
+        return new Company(sigla, descrizione, new Indirizzo());
     }// end of method
 
 

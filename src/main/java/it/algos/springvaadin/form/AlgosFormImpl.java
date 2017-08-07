@@ -13,11 +13,12 @@ import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by gac on 10/07/17
- * Implementazione standard dell'interfaccia AlgosForm
+ * Implementazione standard dell'interfaccia AlgosField
  */
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
@@ -101,7 +102,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaFields(layout, fields);
+        creaAddBindFields(layout, fields);
 
         layout.addComponent(new Label());
         toolbar.inizia();
@@ -115,12 +116,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
-     * Crea i campi, li aggiunge al binder, li aggiunge al layout
+     * Crea i campi, li aggiunge al layout, li aggiunge al binder
      *
-     * @param layout in cui inserire i campi (window o panel)
-     * @param fields del form da visualizzare
+     * @param layout     in cui inserire i campi (window o panel)
+     * @param fieldsName del form da visualizzare
      */
-    protected void creaFields(Layout layout, List<String> fields) {
+    protected void creaAddBindFields(Layout layout, List<String> fieldsName) {
         binder = new Binder(entityBean.getClass());
         AbstractField field;
         List<AbstractValidator> listaValidatorPre;
@@ -128,7 +129,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         List<AbstractValidator> listaValidatorPost;
         Object value = null;
 
-        for (String publicFieldName : fields) {
+        List<AbstractField> fields = creaFields(fieldsName);
+
+        for (String publicFieldName : fieldsName) {
             field = LibField.create(entityBean.getClass(), publicFieldName);
             listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
             listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
@@ -172,6 +175,25 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         binder.readBean(entityBean);
     }// end of method
 
+
+    /**
+     * Crea i campi
+     *
+     * @param fieldsName del form da visualizzare
+     *
+     * @return lista di fields
+     */
+    protected List<AbstractField> creaFields(List<String> fieldsName) {
+        List<AbstractField> lista = new ArrayList<>();
+        AbstractField field;
+
+        for (String publicFieldName : fieldsName) {
+            field = LibField.create(entityBean.getClass(), publicFieldName);
+            lista.add(field);
+        }// end of for cycle
+
+        return lista;
+    }// end of method
 
     /**
      * Esegue il 'rollback' del Form
@@ -251,7 +273,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         this.addComponent(label);
 
-        creaFields(this, fields);
+        creaAddBindFields(this, fields);
 
         this.addComponent(new Label());
         toolbar.inizia();

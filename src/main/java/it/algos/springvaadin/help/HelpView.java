@@ -27,7 +27,7 @@ public class HelpView extends AlgosViewImpl {
 //     * Si usa un @Qualifier(), per avere la sottoclasse specifica
 //     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
 //     */
-//    public HelpView(@Qualifier(Cost.TAG_HELP) AlgosList list, @Qualifier(Cost.TAG_HELP) AlgosForm form) {
+//    public HelpView(@Qualifier(Cost.TAG_HELP) AlgosList list, @Qualifier(Cost.TAG_HELP) AlgosField form) {
 //        super(list, form);
 //    }// end of Spring constructor
 

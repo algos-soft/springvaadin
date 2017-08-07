@@ -27,7 +27,7 @@ public class HomeView extends AlgosViewImpl {
 //     * Si usa un @Qualifier(), per avere la sottoclasse specifica
 //     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
 //     */
-//    public HomeView(@Qualifier(Cost.TAG_HOME) AlgosList list, @Qualifier(Cost.TAG_HOME) AlgosForm form) {
+//    public HomeView(@Qualifier(Cost.TAG_HOME) AlgosList list, @Qualifier(Cost.TAG_HOME) AlgosField form) {
 //        super(list, form);
 //    }// end of Spring constructor
 
