@@ -15,8 +15,9 @@ import java.util.Locale;
  * Created by gac on 24/06/17
  * .
  */
-public class AlgosDateTimeField extends CustomField<LocalDateTime> {
+public class AlgosDateTimeField extends CustomField<LocalDateTime> implements AlgosField{
 
+    private String name;
     private TextField textField;
 
     public AlgosDateTimeField(String caption) {
@@ -68,5 +69,14 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> {
         return null;
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }// end of method
+
+    @Override
+    public String getName() {
+        return name;
+    }// end of method
 
 }// end of class

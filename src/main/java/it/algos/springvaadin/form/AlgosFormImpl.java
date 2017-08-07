@@ -9,6 +9,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
@@ -122,57 +123,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param fieldsName del form da visualizzare
      */
     protected void creaAddBindFields(Layout layout, List<String> fieldsName) {
-        binder = new Binder(entityBean.getClass());
-        AbstractField field;
-        List<AbstractValidator> listaValidatorPre;
-        List<Converter> listaConverter;
-        List<AbstractValidator> listaValidatorPost;
-        Object value = null;
-
-        List<AbstractField> fields = creaFields(fieldsName);
-
-        for (String publicFieldName : fieldsName) {
-            field = LibField.create(entityBean.getClass(), publicFieldName);
-            listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
-            listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
-            listaValidatorPost = LibField.creaValidatorsPost(entityBean.getClass(), publicFieldName);
-
-            if (field != null) {
-                layout.addComponent(field);
-
-                if (field.isEnabled()) {
-
-                    Binder.BindingBuilder builder = binder.forField(field);
-                    for (AbstractValidator validator : listaValidatorPre) {
-                        builder = builder.withValidator(validator);
-                    }// end of for cycle
-                    for (Converter converter : listaConverter) {
-                        builder = builder.withConverter(converter);
-                    }// end of for cycle
-                    for (AbstractValidator validator : listaValidatorPost) {
-                        builder = builder.withValidator(validator);
-                    }// end of for cycle
-                    builder.bind(publicFieldName);
-
-//                            binder.forField(field).
-//                                    withValidator(lista.get(0)).
-//                                    withConverter(lista.get(1)).
-//                                    withValidator(lista.get(1)).
-//                                    bind(publicFieldName);
-
-                } else {
-                    try { // prova ad eseguire il codice
-                        value = LibReflection.getValue(entityBean, publicFieldName);
-                        field.setValue(value);
-                    } catch (Exception unErrore) { // intercetta l'errore
-
-                    }// fine del blocco try-catch
-                }// end of if/else cycle
-
-            }// end of if cycle
-        }// end of for cycle
-
-        binder.readBean(entityBean);
+        List<AlgosField> fields = creaFields(fieldsName);
+        addFields(layout, fields);
+        bindFields(fields);
     }// end of method
 
 
@@ -183,9 +136,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @return lista di fields
      */
-    protected List<AbstractField> creaFields(List<String> fieldsName) {
-        List<AbstractField> lista = new ArrayList<>();
-        AbstractField field;
+    protected List<AlgosField> creaFields(List<String> fieldsName) {
+        List<AlgosField> lista = new ArrayList<>();
+        AlgosField field;
 
         for (String publicFieldName : fieldsName) {
             field = LibField.create(entityBean.getClass(), publicFieldName);
@@ -193,6 +146,65 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         }// end of for cycle
 
         return lista;
+    }// end of method
+
+
+    /**
+     * Aggiunge i campi al layout
+     *
+     * @param layout in cui inserire i campi (window o panel)
+     * @param fields del form da visualizzare
+     */
+    protected void addFields(Layout layout, List<AlgosField> fields) {
+
+        for (AlgosField field : fields) {
+            layout.addComponent(((AbstractField) field));
+        }// end of for cycle
+
+    }// end of method
+
+
+    /**
+     * Aggiunge i campi al binder
+     *
+     * @param fields del form da visualizzare
+     */
+    protected void bindFields(List<AlgosField> fields) {
+        binder = new Binder(entityBean.getClass());
+        List<AbstractValidator> listaValidatorPre;
+        List<Converter> listaConverter;
+        List<AbstractValidator> listaValidatorPost;
+        Object value = null;
+        String publicFieldName;
+
+        for (AlgosField field : fields) {
+            publicFieldName = field.getName();
+            listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
+            listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
+            listaValidatorPost = LibField.creaValidatorsPost(entityBean.getClass(), publicFieldName);
+
+            if (((AbstractField) field).isEnabled()) {
+                Binder.BindingBuilder builder = binder.forField(((AbstractField) field));
+                for (AbstractValidator validator : listaValidatorPre) {
+                    builder = builder.withValidator(validator);
+                }// end of for cycle
+                for (Converter converter : listaConverter) {
+                    builder = builder.withConverter(converter);
+                }// end of for cycle
+                for (AbstractValidator validator : listaValidatorPost) {
+                    builder = builder.withValidator(validator);
+                }// end of for cycle
+                builder.bind(publicFieldName);
+            } else {
+                try { // prova ad eseguire il codice
+                    value = LibReflection.getValue(entityBean, publicFieldName);
+                    ((AbstractField) field).setValue(value);
+                } catch (Exception unErrore) { // intercetta l'errore
+                }// fine del blocco try-catch
+            }// end of if/else cycle
+        }// end of for cycle
+
+        binder.readBean(entityBean);
     }// end of method
 
     /**

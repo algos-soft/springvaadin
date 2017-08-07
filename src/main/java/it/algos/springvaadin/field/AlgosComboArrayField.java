@@ -8,9 +8,10 @@ import com.vaadin.ui.CustomField;
  * Created by gac on 30/06/17
  * .
  */
-public class AlgosComboArrayField extends CustomField {
+public class AlgosComboArrayField extends CustomField implements AlgosField{
 
 
+    private String name;
     private ComboBox combo = new ComboBox();
 
 
@@ -43,6 +44,16 @@ public class AlgosComboArrayField extends CustomField {
     @Override
     public Object getValue() {
         return combo.getValue();
+    }// end of method
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }// end of method
+
+    @Override
+    public String getName() {
+        return name;
     }// end of method
 
 }// end of class

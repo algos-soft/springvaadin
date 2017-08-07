@@ -5,6 +5,7 @@ import com.vaadin.ui.TextField;
 @SuppressWarnings("serial")
 public class AlgosTextField extends TextField implements AlgosField {
 
+    private String name;
 
     /**
      * Constructs an empty <code>TextField</code> with no caption.
@@ -49,11 +50,12 @@ public class AlgosTextField extends TextField implements AlgosField {
 
     @Override
     public void setName(String name) {
-
-    }
+        this.name = name;
+    }// end of method
 
     @Override
     public String getName() {
-        return null;
-    }
+        return name;
+    }// end of method
+
 }// end of field class

@@ -36,8 +36,8 @@ public class LibField {
      * @param attr the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public static AbstractField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        AlgosField vaadinField = null;
+    public static AlgosField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        AlgosField field = null;
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
@@ -50,33 +50,21 @@ public class LibField {
         if (type != null) {
             switch (type) {
                 case text:
-                    vaadinField = new AlgosTextField();
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosTextField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosTextField();
                     break;
                 case integer:
-                    vaadinField = new AlgosIntegerField();
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosIntegerField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosIntegerField();
                     break;
                 case email:
-                    vaadinField = new AlgosTextField();
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosTextField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosTextField();
                     break;
                 case enumeration:
                     if (fieldAnnotation.clazz() != null) {
                         Class<? extends Object> classEnumeration = fieldAnnotation.clazz();
                         if (classEnumeration.isEnum()) {
                             items = classEnumeration.getEnumConstants();
-                            vaadinField = new AlgosComboArrayField(items, fieldAnnotation.nullSelectionAllowed());
+                            field = new AlgosComboArrayField(items, fieldAnnotation.nullSelectionAllowed());
                         }// end of if cycle
-                    }// end of if cycle
-                    if (vaadinField != null && LibParams.displayToolTips()) {
-                        ((AlgosComboArrayField) vaadinField).setDescription(fieldAnnotation.help());
                     }// end of if cycle
                     break;
                 case combo:
@@ -85,51 +73,43 @@ public class LibField {
                         if (AlgosService.class.isAssignableFrom(classRelated)) {
                             try { // prova ad eseguire il codice
                                 items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
-                                vaadinField = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
+                                field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
                             } catch (Exception unErrore) { // intercetta l'errore
                             }// fine del blocco try-catch
                         }// end of if cycle
                     }// end of if cycle
-                    if (vaadinField != null && LibParams.displayToolTips()) {
-                        ((AlgosComboClassField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
                     break;
                 case date:
-                    vaadinField = new AlgosDateField();
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosDateField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosDateField();
                     break;
                 case localdate:
-                    vaadinField = new AlgosDateField();
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosDateField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosDateField();
                     break;
                 case localdatetime:
-                    vaadinField = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
-                    if (LibParams.displayToolTips()) {
-                        ((AlgosDateTimeField) vaadinField).setDescription(fieldAnnotation.help());
-                    }// end of if cycle
+                    field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
                     break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch
 
-            if (vaadinField != null && fieldAnnotation != null) {
-                vaadinField.setEnabled(enabled);
-                vaadinField.setRequiredIndicatorVisible(required);
-                vaadinField.setCaption(caption);
-                vaadinField.setWidth(width);
+            if (field != null) {
+                field.setName(publicFieldName);
+            }// end of if cycle
+
+            if (field != null && fieldAnnotation != null) {
+                ((AbstractField)field).setEnabled(enabled);
+                ((AbstractField)field).setRequiredIndicatorVisible(required);
+                ((AbstractField)field).setCaption(caption);
+                ((AbstractField)field).setWidth(width);
 
                 if (LibParams.displayToolTips()) {
-                    vaadinField.setDescription(fieldAnnotation.help());
+                    field.setDescription(fieldAnnotation.help());
                 }// end of if cycle
             }// end of if cycle
         }// end of if cycle
 
-        if (vaadinField != null) {
-            vaadinField.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+        if (field != null) {
+            ((AbstractField)field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
                 @Override
                 public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
                     publish();
@@ -137,7 +117,7 @@ public class LibField {
             });// end of anonymous inner class
         }// end of if cycle
 
-        return vaadinField;
+        return field;
     }// end of static method
 
     /**

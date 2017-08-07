@@ -5,8 +5,9 @@ import com.vaadin.ui.DateField;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class AlgosDateField extends DateField {
+public class AlgosDateField extends DateField implements AlgosField{
 
+    private String name;
     public AlgosDateField() {
         this(null);
     }// end of constructor
@@ -42,5 +43,14 @@ public class AlgosDateField extends DateField {
         return dataCorrente;
     }// end of method
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }// end of method
+
+    @Override
+    public String getName() {
+        return name;
+    }// end of method
 
 }// end of class

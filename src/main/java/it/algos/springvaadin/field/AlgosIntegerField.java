@@ -7,9 +7,10 @@ import com.vaadin.ui.TextField;
 import java.util.logging.Logger;
 
 @SuppressWarnings({"serial"})
-public class AlgosIntegerField extends CustomField<Integer> {
+public class AlgosIntegerField extends CustomField<Integer> implements AlgosField{
 
     private TextField textField;
+    private String name;
     private static final Logger logger = Logger.getLogger(AlgosIntegerField.class.getName());
 
     public AlgosIntegerField(String caption) {
@@ -73,4 +74,15 @@ public class AlgosIntegerField extends CustomField<Integer> {
             return null;
         }// end of if/else cycle
     }
-}
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }// end of method
+
+    @Override
+    public String getName() {
+        return name;
+    }// end of method
+
+}// end of class
