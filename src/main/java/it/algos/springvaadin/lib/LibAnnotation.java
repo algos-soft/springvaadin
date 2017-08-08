@@ -535,4 +535,25 @@ public abstract class LibAnnotation {
         return nonVuota;
     }// end of static method
 
+
+    /**
+     * Get the class of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the class for the specific column
+     */
+    @SuppressWarnings("all")
+    public static Class getClass(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        Class linkClazz = null;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            linkClazz = fieldAnnotation.clazz();
+        }// end of if cycle
+
+        return linkClazz;
+    }// end of static method
+
 }// end of static class

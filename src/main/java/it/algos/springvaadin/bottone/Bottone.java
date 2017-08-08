@@ -37,6 +37,8 @@ public abstract class Bottone extends Button {
      */
     public Bottone(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
+        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
+        AlgosPresenterImpl presenter2 = LibVaadin.getCurrentPresenter();
     }// end of @Autowired constructor
 
 

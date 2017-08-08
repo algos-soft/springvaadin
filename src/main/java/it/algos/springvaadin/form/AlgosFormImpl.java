@@ -142,7 +142,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         for (String publicFieldName : fieldsName) {
             field = LibField.create(entityBean.getClass(), publicFieldName);
-            lista.add(field);
+
+            if (field != null) {
+                lista.add(field);
+            }// end of if cycle
         }// end of for cycle
 
         return lista;

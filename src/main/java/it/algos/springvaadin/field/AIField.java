@@ -1,5 +1,8 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.ui.CustomField;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,7 +20,7 @@ public @interface AIField {
 
     /**
      * (Optional) Classe della property.
-     * Utilizzato nei Combo e nelle Enumeration.
+     * Utilizzato nei Combo, nei Link e nelle Enumeration.
      */
     Class<? extends Object> clazz() default Object.class;
 
@@ -77,6 +80,7 @@ public @interface AIField {
      * Defaults to false.
      */
     boolean nullSelectionAllowed() default false;
+
 
 
 }// end of interface annotation

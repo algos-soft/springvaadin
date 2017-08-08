@@ -143,7 +143,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     /**
      * Modifica singolo record (entityBean)
      */
-    protected void modifica(AlgosEntity entityBean) {
+    public void modifica(AlgosEntity entityBean) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
@@ -292,7 +292,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Esegue, nel Form, eventuale validazione e trasformazione dei dati
      * Registra le modifiche nel DB, tramite il service
      */
-    private boolean registraModifiche() {
+    public boolean registraModifiche() {
         boolean entityRegistrata = false;
         AlgosEntity entityBean;
         String tag = "</br>";
@@ -301,6 +301,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             entityBean = view.commit();
             service.save(entityBean);
             entityRegistrata = true;
+            view.closeFormWindow();
         } else {
             if (LibParams.usaDialoghiVerbosi()) {
                 String message = "";

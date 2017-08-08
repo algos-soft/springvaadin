@@ -7,5 +7,5 @@ package it.algos.springvaadin.field;
  * Enumeration of type used with AIColumn
  */
 public enum AFType {
-    text, integer, lungo, email, password, combo, enumeration, date, localdate, localdatetime, decimal, checkbox, image, textarea, time, yesno, ugualeAlField
+    text, integer, lungo, email, password, combo, enumeration, date, localdate, localdatetime, decimal, checkbox, link,image, textarea, time, yesno, ugualeAlField
 }// fine della classe Enumeration

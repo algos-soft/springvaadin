@@ -7,19 +7,26 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +34,19 @@ import java.util.List;
  * Created by gac on 18 ott 2016.
  * Creazione dei field dalla annotation
  */
+@SpringComponent
 public class LibField {
+
+
+    private static IndirizzoField indirizzoField;
+    @Autowired
+    private IndirizzoField indirizzoFieldInstance;
+
+
+    @PostConstruct
+    public void initStaticDao() {
+        indirizzoField = this.indirizzoFieldInstance;
+    }// end of method
 
     /**
      * Create a single field.
@@ -88,6 +107,30 @@ public class LibField {
                 case localdatetime:
                     field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
                     break;
+                case link:
+                    Class<?> linkClazz = LibAnnotation.getClass(clazz, publicFieldName);
+                    String name = linkClazz.getSimpleName();
+
+                    switch (name) {
+                        case "IndirizzoField":
+                            field = indirizzoField;
+                            break;
+                        default: // caso non definito
+                            break;
+                    } // fine del blocco switch
+
+//                    Constructor<?> cons;
+//                    Object object = null;
+//
+//                    try { // prova ad eseguire il codice
+//                        cons = linkClazz.getConstructor();
+//                        object = cons.newInstance();
+//                    } catch (Exception unErrore) { // intercetta l'errore
+//                    }// fine del blocco try-catch
+//                    if (object != null) {
+//                        field = (AlgosField) object;
+//                    }// end of if cycle
+                    break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch
@@ -97,10 +140,10 @@ public class LibField {
             }// end of if cycle
 
             if (field != null && fieldAnnotation != null) {
-                ((AbstractField)field).setEnabled(enabled);
-                ((AbstractField)field).setRequiredIndicatorVisible(required);
-                ((AbstractField)field).setCaption(caption);
-                ((AbstractField)field).setWidth(width);
+                ((AbstractField) field).setEnabled(enabled);
+                ((AbstractField) field).setRequiredIndicatorVisible(required);
+                ((AbstractField) field).setCaption(caption);
+                ((AbstractField) field).setWidth(width);
 
                 if (LibParams.displayToolTips()) {
                     field.setDescription(fieldAnnotation.help());
@@ -109,7 +152,7 @@ public class LibField {
         }// end of if cycle
 
         if (field != null) {
-            ((AbstractField)field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+            ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
                 @Override
                 public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
                     publish();
@@ -119,6 +162,7 @@ public class LibField {
 
         return field;
     }// end of static method
+
 
     /**
      * Create a single field.

@@ -50,24 +50,22 @@ public class Indirizzo extends AlgosEntity {
 
     /**
      * indirizzo: via, nome e numero (obbligatoria, non unica)
-     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
     @NotEmpty(message = "L'indirizzo è obbligatorio")
     @Size(min = 2, max = 40)
     @AIField(type = AFType.text, widthEM = 20, help = "Via, nome e numero")
     @AIColumn(width = 300)
-    private String indirizzo;
+    private String indirizzo = "";
 
 
     /**
      * località (obbligatoria, non unica)
-     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
     @NotEmpty(message = "La località è obbligatoria")
     @Size(min = 4, max = 40)
     @AIField(type = AFType.text, widthEM = 20, help = "Città, comune, paese")
     @AIColumn(width = 300)
-    private String localita;
+    private String localita = "";
 
 
     /**
@@ -77,18 +75,17 @@ public class Indirizzo extends AlgosEntity {
     @Size(min = 5, max = 5, message = "CAP deve essere di 5 numeri")
     @AIField(type = AFType.text, widthEM = 5, help = "Codice postale")
     @AIColumn(width = 90)
-    private String cap;
+    private String cap = "";
 
 
     /**
      * stato (obbligatoria, non unica)
-     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
     @AIField(type = AFType.text, widthEM = 10)
     @AIColumn(width = 140)
-    private String stato;
+    private String stato = "";
 
 
     /**
