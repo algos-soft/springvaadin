@@ -33,7 +33,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void edit() {
+    public void edit(AlgosEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -184,13 +184,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      */
     private void onListEvent(ButtonSpringEvent event) {
         TipoBottone tipo = event.getBottone().tipo;
+        AlgosEntity entityBean = event.getEntityBean();
 
         switch (tipo) {
             case create:
                 create();
                 break;
             case edit:
-                edit();
+                edit(entityBean);
                 break;
             case delete:
                 delete();

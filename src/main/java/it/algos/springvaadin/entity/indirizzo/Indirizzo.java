@@ -7,13 +7,16 @@ import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -93,7 +96,21 @@ public class Indirizzo extends AlgosEntity {
      */
     @Override
     public String toString() {
-        return getIndirizzo() + " - " + getLocalita();
+        String value = "";
+        String sep = " - ";
+
+        if (LibText.isValid(indirizzo)) {
+            value += indirizzo;
+        }// end of if cycle
+
+        if (LibText.isValid(localita)) {
+            if (LibText.isValid(indirizzo)) {
+                value += sep;
+            }// end of if cycle
+            value += localita;
+        }// end of if cycle
+
+        return value;
     }// end of method
 
 

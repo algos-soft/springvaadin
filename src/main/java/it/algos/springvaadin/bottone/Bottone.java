@@ -22,7 +22,13 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata nel costruttore
      */
-    private ApplicationEventPublisher applicationEventPublisher;
+    protected ApplicationEventPublisher applicationEventPublisher;
+
+    /**
+     * Property iniettata manualmente DOPO il costruttore
+     */
+    protected AlgosPresenterImpl presenter;
+
 
     /**
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
@@ -37,8 +43,6 @@ public abstract class Bottone extends Button {
      */
     public Bottone(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
-        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
-        AlgosPresenterImpl presenter2 = LibVaadin.getCurrentPresenter();
     }// end of @Autowired constructor
 
 
@@ -62,10 +66,13 @@ public abstract class Bottone extends Button {
      * Recupera il presenter dalla 'catena' grafica attiva
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
-    private void fire(Button.ClickEvent clickEvent) {
-        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
+    protected void fire(Button.ClickEvent clickEvent) {
         applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
     }// end of method
 
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        this.presenter = presenter;
+    }// end of method
 
 }// end of abstract class

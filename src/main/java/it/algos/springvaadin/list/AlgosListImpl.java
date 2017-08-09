@@ -6,12 +6,14 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -173,6 +175,15 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
     /**
+     * Elemento selezionato nella Grid
+     *
+     * @return entityBean
+     */
+    public AlgosEntity getEntityBean(){
+        return grid.getEntityBean();
+    }// end of method
+
+    /**
      * Restituisce il componente concreto
      *
      * @return il componente (window o panel)
@@ -182,5 +193,9 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         return this;
     }// end of method
 
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        toolbar.setPresenter(presenter);
+    }// end of method
 
 }// end of class

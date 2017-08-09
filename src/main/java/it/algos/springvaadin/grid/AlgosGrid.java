@@ -1,7 +1,10 @@
 package it.algos.springvaadin.grid;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.MultiSelect;
+import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
@@ -135,16 +138,35 @@ public class AlgosGrid extends Grid {
 
 
     public boolean unaRigaSelezionata() {
+        boolean selezionata = false;
+        HasValue selezione;
+
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
-                return !this.asSingleSelect().isEmpty();
+                try { // prova ad eseguire il codice
+                    selezione = this.asSingleSelect();
+                    if (selezione instanceof SingleSelect) {
+                        selezionata = !selezione.isEmpty();
+                    }// end of if cycle
+                } catch (Exception unErrore) { // intercetta l'errore
+                }// fine del blocco try-catch
+                break;
             case MULTI:
-                return this.asMultiSelect().getSelectedItems().size() == 1;
+                try { // prova ad eseguire il codice
+                    selezione = this.asMultiSelect();
+                    if (selezione instanceof MultiSelect) {
+                        selezionata = ((MultiSelect)selezione).getSelectedItems().size() == 1;
+                    }// end of if cycle
+                } catch (Exception unErrore) { // intercetta l'errore
+                }// fine del blocco try-catch
+                break;
             case NONE:
-                return false;
+                break;
             default: // caso non definito
-                return false;
+                break;
         } // fine del blocco switch
+
+        return selezionata;
     }// end of method
 
 
@@ -155,16 +177,22 @@ public class AlgosGrid extends Grid {
 
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
-                entityBean = (AlgosEntity) this.asSingleSelect().getValue();
-                beanList = new ArrayList();
-                beanList.add(entityBean);
+                try { // prova ad eseguire il codice
+                    entityBean = (AlgosEntity) this.asSingleSelect().getValue();
+                    beanList = new ArrayList();
+                    beanList.add(entityBean);
+                } catch (Exception unErrore) { // intercetta l'errore
+                }// fine del blocco try-catch
                 return beanList;
             case MULTI:
-                matrice = this.asMultiSelect().getSelectedItems().toArray();
-                beanList = new ArrayList();
-                for (Object obj : matrice) {
-                    beanList.add((AlgosEntity) obj);
-                }// end of for cycle
+                try { // prova ad eseguire il codice
+                    matrice = this.asMultiSelect().getSelectedItems().toArray();
+                    beanList = new ArrayList();
+                    for (Object obj : matrice) {
+                        beanList.add((AlgosEntity) obj);
+                    }// end of for cycle
+                } catch (Exception unErrore) { // intercetta l'errore
+                }// fine del blocco try-catch
                 return beanList;
             case NONE:
                 return null;
@@ -172,6 +200,30 @@ public class AlgosGrid extends Grid {
                 return null;
         } // fine del blocco switch
 
+    }// end of method
+
+
+    public AlgosEntity getEntityBean() {
+        AlgosEntity entityBean = null;
+        Object[] matrice;
+
+        switch (LibParams.gridSelectionMode()) {
+            case SINGLE:
+                entityBean = (AlgosEntity) this.asSingleSelect().getValue();
+                break;
+            case MULTI:
+                matrice = this.asMultiSelect().getSelectedItems().toArray();
+                if (matrice.length == 1) {
+                    entityBean = (AlgosEntity) matrice[0];
+                }// end of if cycle
+                break;
+            case NONE:
+                break;
+            default: // caso non definito
+                break;
+        } // fine del blocco switch
+
+        return entityBean;
     }// end of method
 
 //    public void setBeanType(Class beanType) {

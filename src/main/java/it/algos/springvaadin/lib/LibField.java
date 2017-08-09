@@ -52,10 +52,11 @@ public class LibField {
      * Create a single field.
      * The field type is chosen according to the annotation @AIField.
      *
-     * @param attr the metamodel Attribute
+     * @param presenter di riferimento per gli eventi
+     * @param attr      the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public static AlgosField create(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AlgosField field = null;
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
@@ -155,7 +156,7 @@ public class LibField {
             ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
                 @Override
                 public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-                    publish();
+                    publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
         }// end of if cycle
@@ -550,8 +551,7 @@ public class LibField {
     /**
      *
      */
-    private static void publish() {
-        AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
+    private static void publish(AlgosPresenterImpl presenter) {
         AlgosSpringEvent fieldSpringEvent = null;
 
         if (presenter != null) {

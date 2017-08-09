@@ -58,6 +58,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @PostConstruct
     private void inizia() {
         this.service.setEntityClass(entityClass);
+        this.view.setPresenter(this);
     }// end of method
 
 
@@ -113,14 +114,19 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void edit() {
-        List<AlgosEntity> beanList = view.getEntityBeans();
+    public void edit(AlgosEntity entityBean) {
 
-        //patch @todo passa qui due volte (per errore) non trovato perché
-        //la seconda volta il presenter è 'farlocco'
-        if (beanList != null && beanList.size() == 1) {
-            modifica(beanList.get(0));
-        }// end of if cycle
+        if (entityBean!=null) {
+            modifica(entityBean);
+        } else {
+            List<AlgosEntity> beanList = view.getEntityBeans();
+
+            //patch @todo passa qui due volte (per errore) non trovato perché
+            //la seconda volta il presenter è 'farlocco'
+            if (beanList != null && beanList.size() == 1) {
+                modifica(beanList.get(0));
+            }// end of if cycle
+        }// end of if/else cycle
 
     }// end of method
 

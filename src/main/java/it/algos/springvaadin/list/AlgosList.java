@@ -2,6 +2,7 @@ package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;
 
@@ -26,7 +27,6 @@ public interface AlgosList {
      * @param columns     da visualizzare nella grid
      */
     public void restart(Class<? extends AlgosEntity> entityClass, List items, List<String> columns);
-
 
 
     /**
@@ -89,10 +89,20 @@ public interface AlgosList {
 
 
     /**
+     * Elemento selezionato nella Grid
+     *
+     * @return entityBean
+     */
+    public AlgosEntity getEntityBean();
+
+
+    /**
      * Restituisce il componente concreto
      *
      * @return il componente (window o panel)
      */
     public Component getComponent();
+
+    public void setPresenter(AlgosPresenterImpl presenter);
 
 }// end of interfacev

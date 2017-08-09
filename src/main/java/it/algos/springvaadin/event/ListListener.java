@@ -1,6 +1,7 @@
 package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.model.AlgosEntity;
 
 /**
  * Created by gac on 03/06/17.
@@ -11,7 +12,7 @@ public interface ListListener {
 
     public void create();
 
-    public void edit();
+    public void edit(AlgosEntity entityBean);
 
     public void delete();
 

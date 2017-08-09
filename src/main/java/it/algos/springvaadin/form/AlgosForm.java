@@ -3,6 +3,8 @@ package it.algos.springvaadin.form;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.ui.Component;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+
 import java.util.List;
 
 /**
@@ -19,10 +21,11 @@ public interface AlgosForm {
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
      *
+     * @param presenter di riferimento per gli eventi
      * @param entityBean istanza da presentare
      * @param fields     del form da visualizzare
      */
-    public void restart(AlgosEntity entityBean, List<String> fields);
+    public void restart(AlgosPresenterImpl presenter,AlgosEntity entityBean, List<String> fields);
 
 
     /**
@@ -115,5 +118,6 @@ public interface AlgosForm {
      */
     public void enableRegistra(boolean status);
 
+    public void setPresenter(AlgosPresenterImpl presenter);
 
 }// end of interface

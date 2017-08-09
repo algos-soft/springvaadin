@@ -3,6 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.View;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;
 
@@ -149,6 +150,14 @@ public interface AlgosView extends View {
 
 
     /**
+     * Elemento selezionato nella Grid
+     *
+     * @return entityBean
+     */
+    public AlgosEntity getEntityBean();
+
+
+    /**
      * Abilita il bottone Revert del Form
      *
      * @param status true se abilitato, false se disabilitato
@@ -163,5 +172,7 @@ public interface AlgosView extends View {
      */
     public void enableRegistra(boolean status);
 
+
+    public void setPresenter(AlgosPresenterImpl presenter);
 
 }// end of interface

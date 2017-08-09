@@ -6,6 +6,7 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
     //--il form specifico viene iniettato dal costruttore della sottoclasse concreta
     private AlgosForm form;
+
+
+    private AlgosPresenterImpl presenter;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -72,7 +76,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     @Override
     public void setForm(AlgosEntity entity, List<String> fields) {
         removeAllComponents();
-        form.restart(entity, fields);
+        form.restart(presenter, entity, fields);
         addComponent(form.getComponent());
         form.enableRevert(false);
         form.enableRegistra(false);
@@ -230,5 +234,21 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         return list.getEntityBeans();
     }// end of method
 
+
+    /**
+     * Elemento selezionato nella Grid
+     *
+     * @return entityBean
+     */
+    public AlgosEntity getEntityBean() {
+        return list.getEntityBean();
+    }// end of method
+
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        this.presenter = presenter;
+        list.setPresenter(presenter);
+        form.setPresenter(presenter);
+    }// end of method
 
 }// end of class

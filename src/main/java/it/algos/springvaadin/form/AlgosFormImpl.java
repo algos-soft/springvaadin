@@ -12,6 +12,7 @@ import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
-    private Window window;
+    protected Window window;
 
     //--L'entityBean viene inserita come parametro nel metodo restart, chiamato dal presenter
     protected AlgosEntity entityBean;
@@ -40,7 +41,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    private FormToolbar toolbar;
+    protected FormToolbar toolbar;
 
     /**
      * Costruttore @Autowired
@@ -58,17 +59,18 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
      *
+     * @param presenter  di riferimento per gli eventi
      * @param entityBean istanza da presentare
      * @param fields     del form da visualizzare
      */
     @Override
-    public void restart(AlgosEntity entityBean, List<String> fields) {
+    public void restart(AlgosPresenterImpl presenter, AlgosEntity entityBean, List<String> fields) {
         this.entityBean = entityBean;
 
         if (LibParams.usaSeparateFormDialog()) {
-            usaSeparateFormDialog(fields);
+            usaSeparateFormDialog(presenter, fields);
         } else {
-            usaAllScreen(fields);
+            usaAllScreen(presenter, fields);
         }// end of if/else cycle
     }// end of method
 
@@ -76,9 +78,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea una finestra a se, che verrà chiusa alla dismissione del Form
      *
-     * @param fields del form da visualizzare
+     * @param presenter di riferimento per gli eventi
+     * @param fields    del form da visualizzare
      */
-    protected void usaSeparateFormDialog(List<String> fields) {
+    protected void usaSeparateFormDialog(AlgosPresenterImpl presenter, List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -103,7 +106,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaAddBindFields(layout, fields);
+        creaAddBindFields(presenter, layout, fields);
 
         layout.addComponent(new Label());
         toolbar.inizia();
@@ -119,11 +122,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi, li aggiunge al layout, li aggiunge al binder
      *
+     * @param presenter  di riferimento per gli eventi
      * @param layout     in cui inserire i campi (window o panel)
      * @param fieldsName del form da visualizzare
      */
-    protected void creaAddBindFields(Layout layout, List<String> fieldsName) {
-        List<AlgosField> fields = creaFields(fieldsName);
+    protected void creaAddBindFields(AlgosPresenterImpl presenter, Layout layout, List<String> fieldsName) {
+        List<AlgosField> fields = creaFields(presenter, fieldsName);
         addFields(layout, fields);
         bindFields(fields);
     }// end of method
@@ -132,16 +136,17 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi
      *
+     * @param presenter  di riferimento per gli eventi
      * @param fieldsName del form da visualizzare
      *
      * @return lista di fields
      */
-    protected List<AlgosField> creaFields(List<String> fieldsName) {
+    protected List<AlgosField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
         List<AlgosField> lista = new ArrayList<>();
         AlgosField field;
 
         for (String publicFieldName : fieldsName) {
-            field = LibField.create(entityBean.getClass(), publicFieldName);
+            field = LibField.create(presenter,entityBean.getClass(), publicFieldName);
 
             if (field != null) {
                 lista.add(field);
@@ -277,9 +282,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Usa tutto lo schermo
      *
-     * @param fields del form da visualizzare
+     * @param presenter di riferimento per gli eventi
+     * @param fields    del form da visualizzare
      */
-    private void usaAllScreen(List<String> fields) {
+    private void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -288,7 +294,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
         this.addComponent(label);
 
-        creaAddBindFields(this, fields);
+        creaAddBindFields(presenter, this, fields);
 
         this.addComponent(new Label());
         toolbar.inizia();
@@ -377,6 +383,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     public void enableRegistra(boolean status) {
         toolbar.enableRegistra(status);
+    }// end of method
+
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        toolbar.setPresenter(presenter);
     }// end of method
 
 }// end of class

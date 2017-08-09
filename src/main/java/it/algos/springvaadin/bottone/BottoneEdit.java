@@ -2,7 +2,11 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
+import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +33,26 @@ public class BottoneEdit extends Bottone {
         super.tipo = TipoBottone.edit;
 
         super.inizia();
+    }// end of method
+
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        this.presenter = presenter;
+    }// end of method
+
+
+    /**
+     * Recupera il presenter dalla 'catena' grafica attiva
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     */
+    protected void fire(Button.ClickEvent clickEvent) {
+        AlgosEntity entityBean = null;
+
+        if (presenter.getView().isUnaRigaSelezionata()) {
+            entityBean = presenter.getView().getEntityBean();
+        }// end of if cycle
+
+        applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this, entityBean));
     }// end of method
 
 }// end of class

@@ -36,11 +36,14 @@ public class IndirizzoService extends AlgosServiceImpl {
      * Creazione di una entity
      *
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
+     * @param localita:  località (obbligatoria, non unica)
+     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
+     * @param stato:     stato (obbligatoria, non unica)
      */
-    public Indirizzo crea(String indirizzo) {
+    public Indirizzo crea(String indirizzo, String localita, String cap, String stato) {
         Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
         if (entity == null) {
-            entity = (Indirizzo) repository.save(newEntity(indirizzo, "", "", ""));
+            entity = (Indirizzo) repository.save(newEntity(indirizzo, localita, cap, stato));
         }// end of if cycle
 
         return entity;
@@ -77,6 +80,15 @@ public class IndirizzoService extends AlgosServiceImpl {
      */
     public List findAll() {
         return ((IndirizzoRepository) repository).findAll();
+    }// end of method
+
+    /**
+     * Returns entity
+     *
+     * @return entity
+     */
+    public Indirizzo findById(String id) {
+        return ((IndirizzoRepository) repository).findOne("5987f9aaf4144f0929cb4393");
     }// end of method
 
 }// end of class
