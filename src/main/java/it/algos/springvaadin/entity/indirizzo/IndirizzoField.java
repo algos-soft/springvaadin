@@ -30,7 +30,8 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
 
     private ApplicationEventPublisher applicationEventPublisher;
     private IndirizzoBottoneEdit buttonEdit;
-    private AlgosPresenterImpl indirizzoPresenter;
+    private IndirizzoPresenter indirizzoPresenter;
+    private AlgosPresenterImpl formPresenter;
 
     private String name;
     private Indirizzo indirizzo = null;
@@ -86,11 +87,12 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
 
     @Override
     public AlgosPresenterImpl getFormPresenter() {
-        return null;
+        return formPresenter;
     }// end of method
 
     @Override
     public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+        this.formPresenter = formPresenter;
     }// end of method
 
 }// end of class

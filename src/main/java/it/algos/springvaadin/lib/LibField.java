@@ -115,6 +115,7 @@ public class LibField {
                     switch (name) {
                         case "IndirizzoField":
                             field = indirizzoField;
+                            field.setFormPresenter(presenter);
                             break;
                         default: // caso non definito
                             break;
