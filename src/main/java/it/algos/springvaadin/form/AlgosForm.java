@@ -118,6 +118,18 @@ public interface AlgosForm {
      */
     public void enableRegistra(boolean status);
 
-    public void setPresenter(AlgosPresenterImpl presenter);
+
+    /**
+     * Abilita il bottone Accetta del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableAccetta(boolean status);
+
+
+    /**
+     * Registra eventuali dipendenze di un field del Form
+     */
+    public void saveSons() ;
 
 }// end of interface

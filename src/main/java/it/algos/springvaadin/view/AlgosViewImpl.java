@@ -127,6 +127,16 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
 
     /**
+     * Abilita il bottone Accetta del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableAccetta(boolean status) {
+        form.enableAccetta(status);
+    }// end of method
+
+    /**
      * Abilita il bottone Edit dela Grid
      *
      * @param status true se abilitato, false se disabilitato
@@ -248,7 +258,14 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     public void setPresenter(AlgosPresenterImpl presenter) {
         this.presenter = presenter;
         list.setPresenter(presenter);
-        form.setPresenter(presenter);
+    }// end of method
+
+    /**
+     * Registra eventuali dipendenze di un field del Form
+     */
+    @Override
+    public void saveSons() {
+        form.saveSons();
     }// end of method
 
 }// end of class

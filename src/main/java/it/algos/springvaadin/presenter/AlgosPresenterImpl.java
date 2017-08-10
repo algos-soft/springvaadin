@@ -4,10 +4,15 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.dialog.ConfirmDialog;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -18,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +43,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
     protected Class<? extends AlgosEntity> entityClass;
+
+
+    private AlgosField parentField;
 
 
     /**
@@ -116,7 +125,35 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void edit(AlgosEntity entityBean) {
 
-        if (entityBean!=null) {
+        if (entityBean != null) {
+            modifica(entityBean);
+        } else {
+            List<AlgosEntity> beanList = view.getEntityBeans();
+
+            //patch @todo passa qui due volte (per errore) non trovato perché
+            //la seconda volta il presenter è 'farlocco'
+            if (beanList != null && beanList.size() == 1) {
+                modifica(beanList.get(0));
+            }// end of if cycle
+        }// end of if/else cycle
+
+    }// end of method
+
+
+    /**
+     * Evento
+     * Edit button pressed in grid
+     * Recupera il record selezionato
+     * Display the item in a form
+     * <p>
+     * Recupera i dati dal service
+     * Passa i dati alla view
+     */
+    @Override
+    public void edit(AlgosEntity entityBean, AlgosField parentField) {
+        this.parentField = parentField;
+
+        if (entityBean != null) {
             modifica(entityBean);
         } else {
             List<AlgosEntity> beanList = view.getEntityBeans();
@@ -287,10 +324,43 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
     }// end of method
 
+    /**
+     * Evento 'accetta' (conferma) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * NON registra le modifiche nel DB
+     * Ritorna alla lista
+     */
+    @Override
+    public void accetta() {
+        AlgosEntity entityBean;
+        String tag = "</br>";
+
+        if (view.entityIsOk()) {
+            entityBean = view.commit();
+            view.closeFormWindow();
+            if (parentField != null) {
+                parentField.doValue(entityBean);
+                parentField.getFormPresenter().fieldModificato();
+            }// end of if cycle
+        } else {
+            if (LibParams.usaDialoghiVerbosi()) {
+                String message = "";
+                for (ValidationResult errore : view.getEntityErrors()) {
+                    message += tag + "* " + errore.getErrorMessage();
+                }// end of for cycle
+                message = LibText.levaTesta(message, tag);
+                Notification nota = new Notification("Errore", message, Notification.Type.WARNING_MESSAGE, true);
+                nota.show(Page.getCurrent());
+            }// end of if cycle
+        }// end of if/else cycle
+    }// end of method
+
     @Override
     public void fieldModificato() {
         view.enableRevert(true);
         view.enableRegistra(true);
+        view.enableAccetta(true);
     }// end of method
 
     /**
@@ -306,6 +376,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         if (view.entityIsOk()) {
             entityBean = view.commit();
             service.save(entityBean);
+            view.saveSons();
             entityRegistrata = true;
             view.closeFormWindow();
         } else {

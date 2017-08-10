@@ -5,6 +5,8 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.LibNum;
 import it.algos.springvaadin.lib.MeseEnum;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -77,6 +79,23 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> implements Al
     @Override
     public String getName() {
         return name;
+    }// end of method
+
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+    }// end of method
+
+    @Override
+    public void saveSon() {
+    }// end of method
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }// end of method
+
+    @Override
+    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
     }// end of method
 
 }// end of class

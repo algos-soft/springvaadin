@@ -9,12 +9,15 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
+import it.algos.springvaadin.toolbar.LinkToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -33,10 +36,20 @@ public class IndirizzoForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public IndirizzoForm(FormToolbar toolbar) {
-        super(toolbar);
+    public IndirizzoForm(LinkToolbar toolbar) {
+        super((AlgosToolbar)toolbar);
     }// end of Spring constructor
 
+
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     * Regola il modello-dati specifico nel Service
+     */
+    @PostConstruct
+    private void inizia() {
+//        this.toolbar.setRegistraCaption("Continua");
+    }// end of method
 
     /**
      * Creazione del form
@@ -53,49 +66,6 @@ public class IndirizzoForm extends AlgosFormImpl {
         usaSeparateFormDialog(presenter, fields);
     }// end of method
 
-
-    /**
-     * Crea una finestra a se, che verrà chiusa alla dismissione del Form
-     *
-     * @param presenter di riferimento per gli eventi
-     * @param fields    del form da visualizzare
-     */
-    protected void usaSeparateFormDialog(AlgosPresenterImpl presenter, List<String> fields) {
-        String caption = "";
-        Label label;
-        this.removeAllComponents();
-
-        if (window != null) {
-            window.close();
-            window = null;
-        }// end of if cycle
-
-        // create the window
-        window = new Window();
-        window.setResizable(true);
-        window.setModal(true);
-        window.setHeightUndefined();
-
-        VerticalLayout layout = new VerticalLayout();
-
-        caption = fixCaption(entityBean);
-        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
-        layout.addComponent(label);
-        if (AlgosApp.USE_DEBUG) {
-            label.addStyleName("greenBg");
-        }// fine del blocco if
-
-        creaAddBindFields(presenter, layout, fields);
-
-        layout.addComponent(new Label());
-        toolbar.inizia();
-        layout.addComponent(toolbar);
-
-        window.setContent(layout);
-        window.center();
-        LibVaadin.getUI().addWindow(window);
-        window.bringToFront();
-    }// end of method
 
 }// end of class
 

@@ -13,8 +13,10 @@ import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--collegamento tra i fields e la entityBean
     private Binder binder;
 
+    private List<AlgosField> fieldList = new ArrayList<>();
+
     //--intestazioni informative per Form
     //--valori standard
     private final static String CAPTION_CREATE = "Nuova scheda";
@@ -41,7 +45,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    protected FormToolbar toolbar;
+    protected AlgosToolbar toolbar;
 
     /**
      * Costruttore @Autowired
@@ -49,7 +53,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param toolbar iniettata da Spring
      */
-    public AlgosFormImpl(FormToolbar toolbar) {
+    public AlgosFormImpl(AlgosToolbar toolbar) {
         this.toolbar = toolbar;
     }// end of Spring constructor
 
@@ -110,6 +114,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         layout.addComponent(new Label());
         toolbar.inizia();
+        toolbar.setPresenter(presenter);
         layout.addComponent(toolbar);
 
         window.setContent(layout);
@@ -146,13 +151,14 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         AlgosField field;
 
         for (String publicFieldName : fieldsName) {
-            field = LibField.create(presenter,entityBean.getClass(), publicFieldName);
+            field = LibField.create(presenter, entityBean.getClass(), publicFieldName);
 
             if (field != null) {
                 lista.add(field);
             }// end of if cycle
         }// end of for cycle
 
+        this.fieldList = lista;
         return lista;
     }// end of method
 
@@ -245,7 +251,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public boolean entityIsOk() {
-        return binder.validate().isOk();
+        return binder != null && binder.validate().isOk();
     }// end of method
 
     /**
@@ -255,7 +261,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public List<ValidationResult> getEntityErrors() {
-        return binder.validate().getValidationErrors();
+        return binder != null ? binder.validate().getValidationErrors() : new ArrayList<>();
     }// end of method
 
     /**
@@ -298,6 +304,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         this.addComponent(new Label());
         toolbar.inizia();
+        toolbar.setPresenter(presenter);
         this.addComponent(toolbar);
     }// end of method
 
@@ -385,9 +392,24 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         toolbar.enableRegistra(status);
     }// end of method
 
+    /**
+     * Abilita il bottone Accetta del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    @Override
+    public void enableAccetta(boolean status) {
+        toolbar.enableAccetta(status);
+    }// end of method
 
-    public void setPresenter(AlgosPresenterImpl presenter) {
-        toolbar.setPresenter(presenter);
+    /**
+     * Registra eventuali dipendenze di un field del Form
+     */
+    @Override
+    public void saveSons() {
+        for (AlgosField field : fieldList) {
+            field.saveSon();
+        }// end of for cycle
     }// end of method
 
 }// end of class

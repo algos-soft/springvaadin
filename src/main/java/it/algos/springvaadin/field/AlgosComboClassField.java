@@ -3,6 +3,8 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 /**
  * Created by gac on 30/06/17
@@ -54,4 +56,22 @@ public class AlgosComboClassField extends CustomField implements AlgosField{
         return name;
     }// end of method
 
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+    }// end of method
+
+    @Override
+    public void saveSon() {
+    }// end of method
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }// end of method
+
+    @Override
+    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+    }// end of method
+
 }// end of class
+

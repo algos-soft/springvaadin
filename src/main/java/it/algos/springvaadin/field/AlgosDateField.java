@@ -1,6 +1,8 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.ui.DateField;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.Date;
 
@@ -51,6 +53,23 @@ public class AlgosDateField extends DateField implements AlgosField{
     @Override
     public String getName() {
         return name;
+    }// end of method
+
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+    }// end of method
+
+    @Override
+    public void saveSon() {
+    }// end of method
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }// end of method
+
+    @Override
+    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
     }// end of method
 
 }// end of class

@@ -63,7 +63,6 @@ public abstract class Bottone extends Button {
 
 
     /**
-     * Recupera il presenter dalla 'catena' grafica attiva
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {

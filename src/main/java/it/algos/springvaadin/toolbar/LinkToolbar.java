@@ -3,7 +3,6 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.lib.Cost;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -17,52 +16,49 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Scope("prototype")
-public class FormToolbar extends AlgosToolbar {
+public class LinkToolbar extends AlgosToolbar {
 
 
     private final Bottone buttonAnnulla;
     private final Bottone buttonRevert;
-    private final Bottone buttonRegistra;
+    private final Bottone buttonAccetta;
 
 
-    public FormToolbar(
+    public LinkToolbar(
             @Qualifier(Cost.TAG_BOT_BACK) Bottone buttonAnnulla,
             @Qualifier(Cost.TAG_BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.TAG_BOT_REGISTRA) Bottone buttonRegistra) {
+            @Qualifier(Cost.TAG_BOT_ACCETTA) Bottone buttonAccetta) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
-        this.buttonRegistra = buttonRegistra;
+        this.buttonAccetta = buttonAccetta;
     }// end of @Autowired constructor
 
     /**
-     * Metodo invocato da Form
+     * Metodo invocato (dalla annotation) DOPO il costruttore
      * Aggiunge i bottoni al contenitore grafico
      */
-    @Override
+    @PostConstruct
     public void inizia() {
         super.addButton(buttonAnnulla, "buttonGreen");
         super.addButton(buttonRevert, "buttonGreen");
-        super.addButton(buttonRegistra, "buttonBlue");
+        super.addButton(buttonAccetta, "buttonBlue");
     }// end of method
 
-    @Override
     public void enableAnnulla(boolean status) {
         if (buttonAnnulla != null) {
             buttonAnnulla.setEnabled(status);
         }// end of if cycle
     }// end of method
 
-    @Override
     public void enableRevert(boolean status) {
         if (buttonRevert != null) {
             buttonRevert.setEnabled(status);
         }// end of if cycle
     }// end of method
 
-    @Override
-    public void enableRegistra(boolean status) {
-        if (buttonRegistra != null) {
-            buttonRegistra.setEnabled(status);
+    public void enableAccetta(boolean status) {
+        if (buttonAccetta != null) {
+            buttonAccetta.setEnabled(status);
         }// end of if cycle
     }// end of method
 

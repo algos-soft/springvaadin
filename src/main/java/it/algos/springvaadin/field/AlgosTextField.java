@@ -1,6 +1,8 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.ui.TextField;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 @SuppressWarnings("serial")
 public class AlgosTextField extends TextField implements AlgosField {
@@ -58,4 +60,21 @@ public class AlgosTextField extends TextField implements AlgosField {
         return name;
     }// end of method
 
-}// end of field class
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+    }// end of method
+
+    @Override
+    public void saveSon() {
+    }// end of method
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }// end of method
+
+    @Override
+    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+    }// end of method
+
+}// end of class

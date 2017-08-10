@@ -173,6 +173,21 @@ public interface AlgosView extends View {
     public void enableRegistra(boolean status);
 
 
+    /**
+     * Abilita il bottone Accetta del Form
+     *
+     * @param status true se abilitato, false se disabilitato
+     */
+    public void enableAccetta(boolean status);
+
+
+    /**
+     * Registra eventuali dipendenze di un field del Form
+     *
+     */
+    public void saveSons();
+
+
     public void setPresenter(AlgosPresenterImpl presenter);
 
 }// end of interface

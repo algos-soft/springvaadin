@@ -13,6 +13,14 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 public abstract class AlgosToolbar extends HorizontalLayout {
 
 
+    /**
+     * Metodo invocato da Form
+     * Aggiunge i bottoni al contenitore grafico
+     */
+    public void inizia() {
+    }// end of method
+
+
     void addButton(Bottone bottone) {
         addButton(bottone, "");
     }// end of method
@@ -33,6 +41,18 @@ public abstract class AlgosToolbar extends HorizontalLayout {
         for (int k = 0; k < getComponentCount(); k++) {
             ((Bottone) getComponent(k)).setPresenter(presenter);
         }// end of for cycle
+    }// end of method
+
+    public void enableAnnulla(boolean status) {
+    }// end of method
+
+    public void enableRevert(boolean status) {
+    }// end of method
+
+    public void enableRegistra(boolean status) {
+    }// end of method
+
+    public void enableAccetta(boolean status) {
     }// end of method
 
 }// end of class

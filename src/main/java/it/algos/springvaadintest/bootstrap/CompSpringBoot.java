@@ -39,7 +39,7 @@ public class CompSpringBoot {
     private void demoCompany() {
         creaAndLog("crf", "Croce Rossa Fidenza", creaAndLogIndirizzo("Viale dei Tigli, 37", "Bologna", "34100", "Italia"));
         creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", "Italia"));
-        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "75123", "Italia"));
+        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", "Italia"));
         creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", "Italia"));
     }// end of method
 

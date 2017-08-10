@@ -71,7 +71,7 @@ public @interface AIField {
      * (Optional) Status (first letter capital) of the the field.
      * Defaults to false.
      */
-    boolean firstCapital() default true;
+    boolean firstCapital() default false;
 
 
     /**

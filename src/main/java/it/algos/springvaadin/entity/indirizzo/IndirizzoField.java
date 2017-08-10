@@ -10,9 +10,12 @@ import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 
 import javax.annotation.PostConstruct;
@@ -21,21 +24,24 @@ import java.util.Collection;
 import java.util.List;
 
 @SpringComponent
+@Qualifier(Cost.TAG_IND)
 public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField {
 
 
     private ApplicationEventPublisher applicationEventPublisher;
     private IndirizzoBottoneEdit buttonEdit;
+    private AlgosPresenterImpl indirizzoPresenter;
 
     private String name;
-    private Indirizzo indirizzo = new Indirizzo();
+    private Indirizzo indirizzo = null;
     private Label label = new Label();
 
 
-    public IndirizzoField(ApplicationEventPublisher applicationEventPublisher, IndirizzoBottoneEdit buttonEdit, IndirizzoPresenter presenter) {
+    public IndirizzoField(ApplicationEventPublisher applicationEventPublisher, IndirizzoBottoneEdit buttonEdit, IndirizzoPresenter indirizzoPresenter) {
         this.applicationEventPublisher = applicationEventPublisher;
+        this.indirizzoPresenter = indirizzoPresenter;
         this.buttonEdit = buttonEdit;
-        this.buttonEdit.setPresenter(presenter);
+        this.buttonEdit.setPresenter(indirizzoPresenter);
     }// end of Spring constructor
 
 
@@ -45,7 +51,15 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
     }// end of method
 
     @Override
-    protected void doSetValue(Indirizzo indirizzo) {
+    public void doSetValue(Indirizzo indirizzo) {
+        this.indirizzo = indirizzo;
+        buttonEdit.setEntityBean(indirizzo);
+        label.setValue(indirizzo.toString());
+    }// end of method
+
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+        this.indirizzo = (Indirizzo) entityBean;
         buttonEdit.setEntityBean(indirizzo);
         label.setValue(indirizzo.toString());
     }// end of method
@@ -65,5 +79,18 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
         return name;
     }// end of method
 
+    @Override
+    public void saveSon() {
+        indirizzoPresenter.registra();
+    }// end of method
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }// end of method
+
+    @Override
+    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+    }// end of method
 
 }// end of class

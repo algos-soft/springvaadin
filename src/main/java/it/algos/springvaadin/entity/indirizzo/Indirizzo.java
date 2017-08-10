@@ -66,7 +66,7 @@ public class Indirizzo extends AlgosEntity {
      */
     @NotEmpty(message = "La località è obbligatoria")
     @Size(min = 4, max = 40)
-    @AIField(type = AFType.text, widthEM = 20, help = "Città, comune, paese")
+    @AIField(type = AFType.text, firstCapital = true, widthEM = 20, help = "Città, comune, paese")
     @AIColumn(width = 300)
     private String localita = "";
 
@@ -86,7 +86,7 @@ public class Indirizzo extends AlgosEntity {
      */
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
-    @AIField(type = AFType.text, widthEM = 10)
+    @AIField(type = AFType.text, firstCapital = true, widthEM = 10)
     @AIColumn(width = 140)
     private String stato = "";
 
@@ -97,18 +97,13 @@ public class Indirizzo extends AlgosEntity {
     @Override
     public String toString() {
         String value = "";
+        String spazio = " ";
         String sep = " - ";
 
-        if (LibText.isValid(indirizzo)) {
-            value += indirizzo;
-        }// end of if cycle
-
-        if (LibText.isValid(localita)) {
-            if (LibText.isValid(indirizzo)) {
-                value += sep;
-            }// end of if cycle
-            value += localita;
-        }// end of if cycle
+        value += indirizzo;
+        value += (LibText.isValid(cap) ? sep + cap : sep);
+        value += spazio + localita;
+        value += spazio + stato;
 
         return value;
     }// end of method

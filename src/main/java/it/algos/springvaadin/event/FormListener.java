@@ -16,6 +16,8 @@ public interface FormListener {
 
     public void registra();
 
+    public void accetta();
+
     public void fieldModificato();
 
 }// end of interface

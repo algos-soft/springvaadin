@@ -6,6 +6,7 @@ import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.*;
+import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -32,10 +33,18 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
     }// end of method
 
+
     @Override
     public void edit(AlgosEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
+    @Override
+    public void edit(AlgosEntity entityBean,AlgosField parentField) {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Modifica (con parentField)", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -126,6 +135,20 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
     }// end of method
 
+    /**
+     * Evento 'accetta' (conferma) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * NON registra le modifiche nel DB
+     * Ritorna alla lista
+     */
+    @Override
+    public void accetta() {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Accetta", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
     @Override
     public void fieldModificato() {
         if (AlgosApp.USE_DEBUG) {
@@ -185,13 +208,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     private void onListEvent(ButtonSpringEvent event) {
         TipoBottone tipo = event.getBottone().tipo;
         AlgosEntity entityBean = event.getEntityBean();
+        AlgosField parentField = event.getParentField();
 
         switch (tipo) {
             case create:
                 create();
                 break;
             case edit:
-                edit(entityBean);
+                edit(entityBean,parentField);
                 break;
             case delete:
                 delete();
@@ -210,6 +234,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
             case registra:
                 registra();
+                break;
+            case accetta:
+                accetta();
                 break;
             default: // caso non definito
                 break;
