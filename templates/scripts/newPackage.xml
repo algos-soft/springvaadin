@@ -2,7 +2,7 @@
 <project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="xxx"/>
+    <property name="newEntity" value="Stato"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
@@ -39,10 +39,10 @@
     <!--Fine dei valori di Ant-->
 
     <target name="springvaadin" description="Regola alcune property specificatamente per il progetto base springvaadin">
-        <property name="risalita" value="/../.."/>
-        <property name="pathBaseProject" value="${basedir}${risalita}"/>
+        <property name="risalita" value="/../../.."/>
         <property name="thisProject" value="${nomeBaseFramework}"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
+        <property name="pathBaseProject" value="${basedir}${risalita}/${nomeProgettoMinuscolo}"/>
         <property name="baseTag" value="Cost"/>
         <property name="dirCost" value="lib/Cost"/>
         <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
@@ -66,7 +66,7 @@
 
     <target name="init" description="Converte la directory">
         <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
-        <property name="projectsIdea" value="${basedir}/..${risalita}"/>
+        <property name="projectsIdea" value="${basedir}${risalita}"/>
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
@@ -123,8 +123,8 @@
     </tstamp>
 
     <target name="testspringvaadin" depends="springvaadin,init" description="Controllo della variabili">
-        <echo message="thisProject = ${thisProject}"/>
         <echo message="nomeBaseFramework = ${nomeBaseFramework}"/>
+        <echo message="thisProject = ${thisProject}"/>
         <echo message="risalita = ${risalita}"/>
         <echo message="pathBaseProject = ${pathBaseProject}"/>
 
