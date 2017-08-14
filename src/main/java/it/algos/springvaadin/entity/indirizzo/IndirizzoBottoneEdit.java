@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Scope;
 import javax.annotation.PostConstruct;
 
 @SpringComponent
-//@Scope("prototype")
 public class IndirizzoBottoneEdit extends Bottone {
 
     private AlgosEntity entityBean;

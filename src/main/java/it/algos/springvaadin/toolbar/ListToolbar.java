@@ -44,8 +44,8 @@ public class ListToolbar extends AlgosToolbar {
      * Metodo invocato (dalla annotation) DOPO il costruttore
      * Aggiunge i bottoni al contenitore grafico
      */
-    @PostConstruct
     public void inizia() {
+        this.removeAllComponents();
         super.addButton(buttonCreate);
         super.addButton(buttonEdit);
         super.addButton(buttonDelete);

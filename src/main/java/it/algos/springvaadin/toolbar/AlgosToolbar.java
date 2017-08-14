@@ -21,7 +21,7 @@ public abstract class AlgosToolbar extends HorizontalLayout {
     }// end of method
 
 
-    void addButton(Bottone bottone) {
+    public void addButton(Bottone bottone) {
         addButton(bottone, "");
     }// end of method
 

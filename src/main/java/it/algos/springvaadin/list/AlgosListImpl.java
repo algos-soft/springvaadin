@@ -44,7 +44,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    private ListToolbar toolbar;
+    protected ListToolbar toolbar;
 
 
     /**
@@ -84,7 +84,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         grid.inizia(entityClass, items, columns);
         this.addComponent(grid);
 
-        toolbar.inizia();
+        toolbarInizia();
         this.addComponent(toolbar);
 
         if (AlgosApp.USE_DEBUG) {
@@ -93,6 +93,13 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         }// fine del blocco if
     }// end of method
 
+
+    /**
+     * Prepara la toolbar
+     */
+    protected void toolbarInizia() {
+        toolbar.inizia();
+    }// end of method
 
     /**
      * Righe selezionate nella Grid

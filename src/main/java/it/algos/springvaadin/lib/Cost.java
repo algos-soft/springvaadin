@@ -35,6 +35,7 @@ public abstract class Cost {
     public final static String TAG_BOT_BACK = "back";
     public final static String TAG_BOT_REVERT = "revert";
     public final static String TAG_BOT_REGISTRA = "registra";
+    public final static String TAG_BOT_IMPORT = "import";
 
     public final static String TAG_AZ_ATTACH = "attach";
     public final static String TAG_AZ_CLICK = "click";

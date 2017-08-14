@@ -21,6 +21,7 @@ public enum TipoBottone {
     accetta,
     back,
     revert,
-    registra;
+    registra,
+    importa;
 
 }// end of enumeration
