@@ -60,7 +60,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Indirizzo newEntity() {
-        return newEntity("", "", "", (Stato)null);
+        return newEntity("", "", "", (Stato) null);
     }// end of method
 
 
@@ -89,13 +89,41 @@ public class IndirizzoService extends AlgosServiceImpl {
         return ((IndirizzoRepository) repository).findAll();
     }// end of method
 
+
+    /**
+     * Returns selected instances of the type.
+     *
+     * @return selected entities
+     */
+    public List findAllByLocalita(String localita) {
+        return ((IndirizzoRepository) repository).findAllByLocalita(localita);
+    }// end of method
+
+
+    /**
+     * Returns selected instances of the type.
+     *
+     * @return selected entities
+     */
+    public Indirizzo findFirstByLocalita(String localita) {
+        Indirizzo trovato = null;
+        List lista = findAllByLocalita(localita);
+
+        if (lista != null && lista.size() == 1) {
+            trovato = (Indirizzo) lista.get(0);
+        }// end of if cycle
+
+        return trovato;
+    }// end of method
+
+
     /**
      * Returns entity
      *
      * @return entity
      */
     public Indirizzo findById(String id) {
-        return ((IndirizzoRepository) repository).findOne("5987f9aaf4144f0929cb4393");
+        return ((IndirizzoRepository) repository).findOne(id);
     }// end of method
 
 }// end of class

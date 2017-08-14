@@ -18,4 +18,8 @@ public interface IndirizzoRepository extends MongoRepository<Indirizzo, String> 
 
     public Indirizzo findByIndirizzo(String indirizzo);
 
+    public List<Indirizzo> findTop1AllByLocalita(String localita);
+
+    public List<Indirizzo> findAllByLocalita(String localita);
+
 }// end of class

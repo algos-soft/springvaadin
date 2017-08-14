@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Company demo
@@ -38,7 +39,6 @@ public class CompanyData {
 //    protected IndirizzoData indirizzoData;
 
 
-
     /**
      * Creazione di una collezione di indirizzi
      */
@@ -62,13 +62,24 @@ public class CompanyData {
      * Crea una collezione di company
      */
     private void creaCompany() {
-        Indirizzo indCRF = indirizzoService.findByNome("Italia");
-        assert indCRF != null;
+        List<Indirizzo> lista = indirizzoService.findAll();
+        assert lista != null;
 
-        creaAndLog("crf", "Croce Rossa Fidenza", indCRF);
-//        creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", new Stato(2,"Francia")));
-//        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", new Stato(3,"Italia")));
-//        creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", new Stato(4,"Italia")));
+        if (lista.size() > 0) {
+            creaAndLog("crf", "Croce Rossa Fidenza", lista.get(0));
+        }// end of if cycle
+
+        if (lista.size() > 1) {
+            creaAndLog("crtp", "Croce Rossa Ponte Taro", lista.get(1));
+        }// end of if cycle
+
+        if (lista.size() > 2) {
+            creaAndLog("pap", "Pubblica Assistenza Pianoro", lista.get(2));
+        }// end of if cycle
+
+        if (lista.size() > 3) {
+            creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", lista.get(3));
+        }// end of if cycle
     }// end of method
 
 
