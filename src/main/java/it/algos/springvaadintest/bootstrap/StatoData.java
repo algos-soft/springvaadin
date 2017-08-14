@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  */
 @SpringComponent
 @Slf4j
-public class StatiSpringBoot {
+public class StatoData {
 
 
     //--il service (contenente la repository) viene iniettato qui
@@ -41,10 +41,28 @@ public class StatiSpringBoot {
 
 
     /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
+     * Crea una collezione di stati
      */
-    @PostConstruct
+    public void creaAll() {
+        if (nessunRecordEsistente()) {
+            creaStati();
+        } else {
+            log.info("La collezione di stati è presente");
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Controlla se la collezione esiste già
+     */
+    private boolean nessunRecordEsistente() {
+        return service.count() == 0;
+    }// end of method
+
+
+    /**
+     * Creazione di una collezione di stati
+     */
     private void creaStati() {
         String fileName = "Stati";
         List<String> righe = LibFile.readResources(fileName);
@@ -54,8 +72,6 @@ public class StatiSpringBoot {
                 log.warn("Stato: " + nome);
             }// end of if cycle
         }// end of for cycle
-
     }// end of method
-
 
 }// end of class

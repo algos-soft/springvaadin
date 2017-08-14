@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Slf4j
-public class CompSpringBoot {
+public class CompanyData {
 
 
     //--il service (contenente la repository) viene iniettato qui
@@ -31,17 +31,44 @@ public class CompSpringBoot {
     @Autowired
     protected IndirizzoService indirizzoService;
 
+//    @Autowired
+//    protected StatoData statoData;
+//
+//    @Autowired
+//    protected IndirizzoData indirizzoData;
+
+
 
     /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
+     * Creazione di una collezione di indirizzi
      */
-    @PostConstruct
-    private void demoCompany() {
-        creaAndLog("crf", "Croce Rossa Fidenza", creaAndLogIndirizzo("Viale dei Tigli, 37", "Bologna", "34100", new Stato(1,"Italia")));
-        creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", new Stato(2,"Francia")));
-        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", new Stato(3,"Italia")));
-        creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", new Stato(4,"Italia")));
+    public void creaAll() {
+        if (nessunRecordEsistente()) {
+            creaCompany();
+        } else {
+            log.info("La collezione di company è presente");
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Controlla se la collezione esiste già
+     */
+    private boolean nessunRecordEsistente() {
+        return service.count() == 0;
+    }// end of method
+
+    /**
+     * Crea una collezione di company
+     */
+    private void creaCompany() {
+        Indirizzo indCRF = indirizzoService.findByNome("Italia");
+        assert indCRF != null;
+
+        creaAndLog("crf", "Croce Rossa Fidenza", indCRF);
+//        creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", new Stato(2,"Francia")));
+//        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", new Stato(3,"Italia")));
+//        creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", new Stato(4,"Italia")));
     }// end of method
 
 
@@ -59,20 +86,5 @@ public class CompSpringBoot {
         return comp;
     }// end of method
 
-
-    /**
-     * Creazione di una entity di indirizzo
-     * Log a video
-     *
-     * @param indirizzo: via, nome e numero (obbligatoria, non unica)
-     * @param localita:  località (obbligatoria, non unica)
-     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
-     * @param stato:     stato (obbligatoria, non unica)
-     */
-    private Indirizzo creaAndLogIndirizzo(String indirizzo, String localita, String cap, Stato stato) {
-        Indirizzo ind = indirizzoService.crea(indirizzo, localita, cap, stato);
-        log.warn("Indirizzo: " + ind);
-        return ind;
-    }// end of method
 
 }// end of class

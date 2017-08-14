@@ -197,10 +197,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         for (AlgosField field : fields) {
             publicFieldName = field.getName();
-            if (publicFieldName.equals("stato")) {//@todo provvisorio
-                ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
-                break;
-            }// end of if cycle
+//            if (publicFieldName.equals("stato")) {//@todo provvisorio
+//                ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+//                break;
+//            }// end of if cycle
 
             listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
             listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
@@ -238,10 +238,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void revert() {
-        AlgosField field = fieldList.get(3);
-        if (field instanceof AlgosComboClassField) {
-            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
-        }// end of if cycle
+//        AlgosField field = fieldList.get(3);
+//        if (field instanceof AlgosComboClassField) {
+//            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+//        }// end of if cycle
 
         binder.readBean(entityBean);
     }// end of method
@@ -302,12 +302,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             int errore = 87;
         }// fine del blocco try-catch
 
-        AlgosField field = fieldList.get(3);
-        if (field instanceof AlgosComboClassField) {
-            Object obj= ((AlgosComboClassField) field).getValue();
-            ((Indirizzo) entityBean).setStato((Stato)obj );
-//            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
-        }// end of if cycle
+//        AlgosField field = fieldList.get(3);
+//        if (field instanceof AlgosComboClassField) {
+//            Object obj= ((AlgosComboClassField) field).getValue();
+//            ((Indirizzo) entityBean).setStato((Stato)obj );
+////            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+//        }// end of if cycle
 
         closeWindow();
 

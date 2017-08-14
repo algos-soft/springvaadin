@@ -103,6 +103,15 @@ public class StatoService extends AlgosServiceImpl {
         return ((StatoRepository) repository).findAll();
     }// end of method
 
+    /**
+     * Find the entity by name.
+     *
+     * @return the entity
+     */
+    public Stato findByNome(String nome) {
+        return ((StatoRepository) repository).findByNome(nome);
+    }// end of method
+
 
     /**
      * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist

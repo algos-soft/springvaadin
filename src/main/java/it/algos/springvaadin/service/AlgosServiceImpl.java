@@ -90,9 +90,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public int count() {
-        return 0;
+        return (int) repository.count();
     }// end of method
-
 
 
     /**

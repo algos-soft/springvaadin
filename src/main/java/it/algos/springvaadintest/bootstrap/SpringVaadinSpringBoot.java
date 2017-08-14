@@ -21,6 +21,29 @@ import java.time.LocalDateTime;
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
 
+    @Autowired
+    protected StatoData statoData;
+
+    @Autowired
+    protected IndirizzoData indirizzoData;
+
+    @Autowired
+    protected CompanyData companyData;
+
+
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     * Controlla
+     */
+    @PostConstruct
+    private void check() {
+        statoData.creaAll();
+        indirizzoData.creaAll();
+        companyData.creaAll();
+    }// end of method
+
+
     /**
      * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'interfaccia.
      * Viene normalmente scritto ANCHE nella sottoclasse:

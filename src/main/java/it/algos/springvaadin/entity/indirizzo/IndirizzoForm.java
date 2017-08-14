@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.indirizzo;
 
+import com.apple.laf.AquaButtonBorder;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
@@ -36,7 +37,7 @@ public class IndirizzoForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public IndirizzoForm(LinkToolbar toolbar) {
+    public IndirizzoForm(FormToolbar toolbar) {
         super((AlgosToolbar)toolbar);
     }// end of Spring constructor
 
