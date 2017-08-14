@@ -77,6 +77,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
     }// end of method
 
+    @Override
+    public void importa() {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Import di dati", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
 
     @Override
     public void attach() {
@@ -236,6 +243,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
             case showAll:
                 showAll();
+                break;
+            case importa:
+                importa();
                 break;
             case back:
                 annulla();

@@ -25,4 +25,6 @@ public interface ListListener {
 
     public void showAll();
 
+    public void importa();
+
 }// end of interface

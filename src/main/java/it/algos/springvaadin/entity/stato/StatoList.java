@@ -6,6 +6,7 @@ import it.algos.springvaadin.bottone.BottoneImport;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,8 +37,9 @@ public class StatoList extends AlgosListImpl {
     /**
      * Prepara la toolbar
      */
-    protected void toolbarInizia() {
-        super.toolbarInizia();
+    @Override
+    protected void toolbarInizia(AlgosPresenterImpl presenter) {
+        super.toolbarInizia(presenter);
         toolbar.addButton(buttonImport);
     }// end of method
 

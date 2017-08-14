@@ -235,6 +235,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
     }// end of method
 
+    @Override
+    public void importa() {
+    }// end of method
 
     /**
      * Presenta un dialogo di conferma prima della cancellazione effettiva

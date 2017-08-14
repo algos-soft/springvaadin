@@ -4,6 +4,7 @@ import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
  * Il click recupera il presenter attivo al momento, costruisce un evento e lo lancia
  * I bottoni sono ''prototype'', cioè ne viene generato uno per ogni xxxPresenter -> xxxView
  */
+@Slf4j
 public abstract class Bottone extends Button {
 
 
@@ -62,16 +64,21 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        this.presenter = presenter;
+    }// end of method
+
+
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+        if (presenter != null) {
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+        } else {
+            log.error("Bottone: manca il presenter nel bottone " + tipo);
+        }// end of if/else cycle
     }// end of method
 
-
-    public void setPresenter(AlgosPresenterImpl presenter) {
-        this.presenter = presenter;
-    }// end of method
 
 }// end of abstract class

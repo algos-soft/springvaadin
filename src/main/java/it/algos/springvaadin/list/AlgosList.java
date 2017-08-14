@@ -22,11 +22,12 @@ public interface AlgosList {
      * Creazione della grid
      * Ricrea tutto ogni volta che diventa attivo
      *
+     * @param presenter  di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
      */
-    public void restart(Class<? extends AlgosEntity> entityClass, List items, List<String> columns);
+    public void restart(AlgosPresenterImpl presenter,Class<? extends AlgosEntity> entityClass, List items, List<String> columns);
 
 
     /**

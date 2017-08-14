@@ -62,7 +62,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     @Override
     public void setList(Class<? extends AlgosEntity> entityClazz, List items, List<String> columns) {
         removeAllComponents();
-        list.restart(entityClazz, items, columns);
+        list.restart(presenter, entityClazz, items, columns);
         addComponent(list.getComponent());
     }// end of method
 

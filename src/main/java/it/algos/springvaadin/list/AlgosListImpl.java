@@ -64,12 +64,13 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * Creazione della grid
      * Ricrea tutto ogni volta che la finestra diventa attiva
      *
+     * @param presenter  di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
      */
     @Override
-    public void restart(Class<? extends AlgosEntity> entityClass, List items, List<String> columns) {
+    public void restart(AlgosPresenterImpl presenter,Class<? extends AlgosEntity> entityClass, List items, List<String> columns) {
         Label label;
         this.setMargin(false);
 
@@ -84,7 +85,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         grid.inizia(entityClass, items, columns);
         this.addComponent(grid);
 
-        toolbarInizia();
+        toolbarInizia(presenter);
         this.addComponent(toolbar);
 
         if (AlgosApp.USE_DEBUG) {
@@ -97,8 +98,9 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
     /**
      * Prepara la toolbar
      */
-    protected void toolbarInizia() {
+    protected void toolbarInizia(AlgosPresenterImpl presenter) {
         toolbar.inizia();
+        toolbar.setPresenter(presenter);
     }// end of method
 
     /**
