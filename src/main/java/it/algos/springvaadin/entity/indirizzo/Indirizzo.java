@@ -3,6 +3,8 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.stato.Stato;
+import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
@@ -86,9 +88,9 @@ public class Indirizzo extends AlgosEntity {
      */
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
-    @AIField(type = AFType.combo, firstCapital = true, widthEM = 10)
+    @AIField(type = AFType.combo, clazz = StatoService.class, widthEM = 10)
     @AIColumn(width = 140)
-    private String stato = "";
+    private Stato stato ;
 
 
     /**

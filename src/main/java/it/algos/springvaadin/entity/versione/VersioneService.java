@@ -40,7 +40,6 @@ import java.util.List;
 public class VersioneService extends AlgosServiceImpl {
 
 
-
     /**
      * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
@@ -57,6 +56,8 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione descrizione (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata
      */
     public Versione crea(String titolo, String descrizione) {
         Versione vers = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
@@ -74,6 +75,8 @@ public class VersioneService extends AlgosServiceImpl {
      * Eventuali regolazioni iniziali delle property
      * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
+     *
+     * @return la nuova entity appena creata
      */
     public Versione newEntity() {
         return newEntity("", "");
@@ -88,6 +91,8 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione descrizione (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata
      */
     public Versione newEntity(String titolo, String descrizione) {
         return newEntity(titolo, descrizione, 0, null);
@@ -104,6 +109,8 @@ public class VersioneService extends AlgosServiceImpl {
      * @param descrizione descrizione (obbligatoria, non unica)
      * @param ordine      di creazione (obbligatorio, unico)
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata
      */
     public Versione newEntity(String titolo, String descrizione, int ordine, LocalDateTime modifica) {
         return new Versione(ordine == 0 ? this.getNewOrdine() : ordine, titolo, descrizione, modifica != null ? modifica : LocalDateTime.now());

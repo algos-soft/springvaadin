@@ -38,6 +38,27 @@ public class StatoService extends AlgosServiceImpl {
      * Creazione di una entity
      *
      * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
+     * @return true se è stata creata una nuova entity
+     */
+    public boolean isCreata(String nome) {
+        boolean creata = false;
+        Stato entity = ((StatoRepository) repository).findByNome(nome);
+        if (entity == null) {
+            crea(nome);
+            creata = true;
+        }// end of if cycle
+
+        return creata;
+    }// end of method
+
+
+    /**
+     * Creazione di una entity
+     *
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
+     * @return la nuova entity appena creata
      */
     public Stato crea(String nome) {
         Stato entity = ((StatoRepository) repository).findByNome(nome);
@@ -52,6 +73,8 @@ public class StatoService extends AlgosServiceImpl {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     *
+     * @return la nuova entity appena creata
      */
     public Stato newEntity() {
         return newEntity(0, "");
@@ -63,6 +86,8 @@ public class StatoService extends AlgosServiceImpl {
      * Eventuali regolazioni iniziali delle property
      *
      * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
+     * @return la nuova entity appena creata
      */
     public Stato newEntity(int ordine, String nome) {
         return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome);

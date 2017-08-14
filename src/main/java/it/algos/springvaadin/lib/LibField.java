@@ -9,6 +9,7 @@ import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
@@ -22,7 +23,7 @@ import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
-
+import org.springframework.core.convert.Property;
 import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
@@ -94,6 +95,14 @@ public class LibField {
                             try { // prova ad eseguire il codice
                                 items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
                                 field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
+                                field.setFormPresenter(presenter);
+                                ComboBox combo=((AlgosComboClassField)field).getCombo();
+                                combo.addValueChangeListener(new HasValue.ValueChangeListener() {
+                                    @Override
+                                    public void valueChange(HasValue.ValueChangeEvent valueChangeEvent) {
+                                        publish(presenter);
+                                    }// end of inner method
+                                });// end of anonymous inner class
                             } catch (Exception unErrore) { // intercetta l'errore
                             }// fine del blocco try-catch
                         }// end of if cycle

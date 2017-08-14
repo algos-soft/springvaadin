@@ -8,7 +8,11 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AlgosComboClassField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -193,6 +197,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         for (AlgosField field : fields) {
             publicFieldName = field.getName();
+            if (publicFieldName.equals("stato")) {//@todo provvisorio
+                ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+                break;
+            }// end of if cycle
+
             listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
             listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
             listaValidatorPost = LibField.creaValidatorsPost(entityBean.getClass(), publicFieldName);
@@ -229,6 +238,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void revert() {
+        AlgosField field = fieldList.get(3);
+        if (field instanceof AlgosComboClassField) {
+            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+        }// end of if cycle
+
         binder.readBean(entityBean);
     }// end of method
 
@@ -251,7 +265,15 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public boolean entityIsOk() {
-        return binder != null && binder.validate().isOk();
+        boolean entityValida = false;
+
+        try { // prova ad eseguire il codice
+            entityValida = binder != null && binder.validate().isOk();
+        } catch (Exception unErrore) { // intercetta l'errore
+            Notification.show("Accetta", "Scheda non valida", Notification.Type.WARNING_MESSAGE);
+        }// fine del blocco try-catch
+
+        return entityValida;
     }// end of method
 
     /**
@@ -273,11 +295,19 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public AlgosEntity commit() {
+        int a = 87;
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
         } catch (Exception unErrore) { // intercetta l'errore
             int errore = 87;
         }// fine del blocco try-catch
+
+        AlgosField field = fieldList.get(3);
+        if (field instanceof AlgosComboClassField) {
+            Object obj= ((AlgosComboClassField) field).getValue();
+            ((Indirizzo) entityBean).setStato((Stato)obj );
+//            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
+        }// end of if cycle
 
         closeWindow();
 

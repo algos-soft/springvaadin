@@ -47,25 +47,14 @@ public class StatiSpringBoot {
     @PostConstruct
     private void creaStati() {
         String fileName = "Stati";
-        List<String> righe= LibFile.readResources(fileName);
+        List<String> righe = LibFile.readResources(fileName);
 
-        for (String stato : righe) {
-            creaAndLog(stato);
+        for (String nome : righe) {
+            if (service.isCreata(nome)) {
+                log.warn("Stato: " + nome);
+            }// end of if cycle
         }// end of for cycle
 
-    }// end of method
-
-
-    /**
-     * Creazione di una entity
-     * Log a video
-     *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
-     */
-    private Stato creaAndLog(String nome) {
-        Stato stato = service.crea(nome);
-        log.warn("Stato: " + stato);
-        return stato;
     }// end of method
 
 

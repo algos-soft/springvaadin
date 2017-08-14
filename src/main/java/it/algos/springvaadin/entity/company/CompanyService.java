@@ -36,6 +36,8 @@ public class CompanyService extends AlgosServiceImpl {
      *
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
+     *
+     * @return la nuova entity appena creata
      */
     public Company crea(String sigla, String descrizione, Indirizzo indirizzo) {
         Company comp = ((CompanyRepository) repository).findBySigla(sigla);
@@ -49,6 +51,8 @@ public class CompanyService extends AlgosServiceImpl {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     *
+     * @return la nuova entity appena creata
      */
     public Company newEntity() {
         return newEntity("", "", (Indirizzo) null);
@@ -62,6 +66,8 @@ public class CompanyService extends AlgosServiceImpl {
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param indirizzo   (facoltativo)
+     *
+     * @return la nuova entity appena creata
      */
     public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo) {
         return new Company(sigla, descrizione, indirizzo);

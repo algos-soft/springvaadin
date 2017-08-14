@@ -17,6 +17,8 @@ public interface ListListener {
 
     public void edit(AlgosEntity entityBean, AlgosField parentField);
 
+    public void editLink(AlgosEntity entityBean,AlgosField parentField);
+
     public void delete();
 
     public void search();

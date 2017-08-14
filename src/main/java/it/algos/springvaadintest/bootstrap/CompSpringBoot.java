@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
+import it.algos.springvaadin.entity.stato.Stato;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,10 +38,10 @@ public class CompSpringBoot {
      */
     @PostConstruct
     private void demoCompany() {
-        creaAndLog("crf", "Croce Rossa Fidenza", creaAndLogIndirizzo("Viale dei Tigli, 37", "Bologna", "34100", "Italia"));
-        creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", "Italia"));
-        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", "Italia"));
-        creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", "Italia"));
+        creaAndLog("crf", "Croce Rossa Fidenza", creaAndLogIndirizzo("Viale dei Tigli, 37", "Bologna", "34100", new Stato(1,"Italia")));
+        creaAndLog("pap", "Pubblica Assistenza Pianoro", creaAndLogIndirizzo("via San Sisto, 1", "Milano", "20100", new Stato(2,"Francia")));
+        creaAndLog("crpt", "Croce Rossa Ponte Taro", creaAndLogIndirizzo("Largo Donegani, 8", "Parma", "81763", new Stato(3,"Italia")));
+        creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", creaAndLogIndirizzo("Via Dante, 24", "Roma", "60000", new Stato(4,"Italia")));
     }// end of method
 
 
@@ -68,7 +69,7 @@ public class CompSpringBoot {
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      * @param stato:     stato (obbligatoria, non unica)
      */
-    private Indirizzo creaAndLogIndirizzo(String indirizzo, String localita, String cap, String stato) {
+    private Indirizzo creaAndLogIndirizzo(String indirizzo, String localita, String cap, Stato stato) {
         Indirizzo ind = indirizzoService.crea(indirizzo, localita, cap, stato);
         log.warn("Indirizzo: " + ind);
         return ind;

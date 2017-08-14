@@ -39,7 +39,7 @@ public class IndirizzoBottoneEdit extends Bottone {
         super.setCaption("");
         super.setIcon(VaadinIcons.EDIT);
         super.setEnabled(true);
-        super.tipo = TipoBottone.edit;
+        super.tipo = TipoBottone.editLink;
 
         super.inizia();
     }// end of method

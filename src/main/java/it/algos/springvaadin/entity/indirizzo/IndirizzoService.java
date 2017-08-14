@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.indirizzo;
 
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
@@ -39,8 +40,10 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @param localita:  località (obbligatoria, non unica)
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      * @param stato:     stato (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata
      */
-    public Indirizzo crea(String indirizzo, String localita, String cap, String stato) {
+    public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
         Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
         if (entity == null) {
             entity = (Indirizzo) repository.save(newEntity(indirizzo, localita, cap, stato));
@@ -53,9 +56,11 @@ public class IndirizzoService extends AlgosServiceImpl {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     *
+     * @return la nuova entity appena creata
      */
     public Indirizzo newEntity() {
-        return newEntity("", "", "", "Italia");
+        return newEntity("", "", "", (Stato)null);
     }// end of method
 
 
@@ -67,8 +72,10 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @param localita:  località (obbligatoria, non unica)
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      * @param stato:     stato (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata
      */
-    public Indirizzo newEntity(String indirizzo, String localita, String cap, String stato) {
+    public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
         return new Indirizzo(indirizzo, localita, cap, stato);
     }// end of method
 

@@ -42,11 +42,19 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void edit(AlgosEntity entityBean,AlgosField parentField) {
+    public void edit(AlgosEntity entityBean, AlgosField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica (con parentField)", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
+
+    @Override
+    public void editLink(AlgosEntity entityBean, AlgosField parentField) {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
 
     @Override
     public void delete() {
@@ -215,7 +223,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 create();
                 break;
             case edit:
-                edit(entityBean,parentField);
+                edit(entityBean, parentField);
+                break;
+            case editLink:
+                editLink(entityBean, parentField);
                 break;
             case delete:
                 delete();
