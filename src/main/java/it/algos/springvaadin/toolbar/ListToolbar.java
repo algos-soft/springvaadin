@@ -25,6 +25,8 @@ public class ListToolbar extends AlgosToolbar {
     private final Bottone buttonDelete;
     private final Bottone buttonSearch;
 
+    private boolean usaBottoneRicerca = true;
+
 
     public ListToolbar(
             @Qualifier(Cost.TAG_BOT_CREATE) Bottone buttonCreate,
@@ -37,6 +39,7 @@ public class ListToolbar extends AlgosToolbar {
         this.buttonSearch = buttonSearch;
     }// end of constructor
 
+
     /**
      * Metodo invocato (dalla annotation) DOPO il costruttore
      * Aggiunge i bottoni al contenitore grafico
@@ -46,7 +49,11 @@ public class ListToolbar extends AlgosToolbar {
         super.addButton(buttonCreate);
         super.addButton(buttonEdit);
         super.addButton(buttonDelete);
-        super.addButton(buttonSearch);
+
+        if (usaBottoneRicerca) {
+            super.addButton(buttonSearch);
+        }// end of if cycle
+
     }// end of method
 
     public void enableNew(boolean status) {
@@ -71,6 +78,10 @@ public class ListToolbar extends AlgosToolbar {
         if (buttonSearch != null) {
             buttonSearch.setEnabled(status);
         }// end of if cycle
+    }// end of method
+
+    public void setUsaBottoneRicerca(boolean usaBottoneRicerca) {
+        this.usaBottoneRicerca = usaBottoneRicerca;
     }// end of method
 
 }// end of class
