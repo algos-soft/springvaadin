@@ -78,7 +78,7 @@ public class LibReflectionTest {
     public void getAllFields() {
         List<Field> fields;
 
-        fields = LibReflection.getAllFields(entityClazz);
+        fields = LibReflection.getAllFieldsNoID(entityClazz);
         assertNotNull(fields);
         assertEquals(fields.size(), 4);
     }// end of single test

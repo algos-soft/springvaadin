@@ -35,8 +35,13 @@ public abstract class LibColumn {
 
 
     public static AIColumn getColumnAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
-        return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIColumn.class);
+        if (publicFieldName.equals(Cost.PROPERTY_ID)) {
+            return null;
+        } else {
+            return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIColumn.class);
+        }// end of if/else cycle
     }// end of method
+
 
     public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
         return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIField.class);
@@ -53,7 +58,7 @@ public abstract class LibColumn {
         AFType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
         String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
-        LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u",Locale.ITALIAN);
+        LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
 
         if (grid == null && LibText.isEmpty(publicFieldName)) {
             return 0;
@@ -76,7 +81,7 @@ public abstract class LibColumn {
         } else {
             colonna = grid.addColumn(publicFieldName);
             if (publicFieldName.equals(Cost.PROPERTY_ID)) {
-                colonna.setWidth(50);
+                colonna.setWidth(100);
             }// end of if cycle
         }// end of if/else cycle
 

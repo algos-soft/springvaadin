@@ -33,6 +33,15 @@ public class StatoList extends AlgosListImpl {
         this.buttonImport = buttonImport;
     }// end of Spring constructor
 
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void inizia() {
+        caption = "Elenco di tutti gli stati. Lista visibile solo al developer. Viene usata 'references' (tramite ID) e non 'embedded'";
+    }// end of method
+
 
     /**
      * Prepara la toolbar

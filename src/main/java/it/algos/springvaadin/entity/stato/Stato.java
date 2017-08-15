@@ -26,6 +26,7 @@ import java.io.Serializable;
  * Estende la Entity astratta AlgosEntity che contiene la key property ObjectId
  * <p>
  * Gli stati vengono classificati secondo la norma ISO 3166
+ * @https://it.wikipedia.org/wiki/ISO_3166
  */
 @SpringComponent
 @Document

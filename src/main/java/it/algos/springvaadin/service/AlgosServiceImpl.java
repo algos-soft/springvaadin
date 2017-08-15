@@ -62,19 +62,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return the saved entity
      */
     public AlgosEntity save(AlgosEntity entityBean) throws Exception {
-        AlgosEntity entity = null;
-
-//        try { // prova ad eseguire il codice
-//            entity = (AlgosEntity) repository.save(entityBean);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//            if (unErrore instanceof DuplicateKeyException) {
-//                throw (DuplicateKeyException) unErrore;
-//            }// end of if cycle
-//        }// fine del blocco try-catch
-
-        entity = (AlgosEntity) repository.save(entityBean);
-
-        return entity;
+        return (AlgosEntity) repository.save(entityBean);
     }// end of method
 
 

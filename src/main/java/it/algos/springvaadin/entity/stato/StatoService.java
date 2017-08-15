@@ -73,20 +73,26 @@ public class StatoService extends AlgosServiceImpl {
         return entity;
     }// end of method
 
-//    /**
-//     * Saves a given entity.
-//     * Use the returned instance for further operations
-//     * as the save operation might have changed the entity instance completely.
-//     *
-//     * @param entityBean da salvare
-//     *
-//     * @return the saved entity
-//     */
-//    @Override
-//    public AlgosEntity save(AlgosEntity entityBean) throws DuplicateKeyException {
-////        entityBean.id = ((Stato) entityBean).getNome().substring(0, 3).toLowerCase();
-//        return super.save(entityBean);
-//    }// end of method
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entityBean da salvare
+     *
+     * @return the saved entity
+     */
+    @Override
+    public AlgosEntity save(AlgosEntity entityBean) throws Exception {
+        String sigla = ((Stato) entityBean).getAlfaTre();
+        if (sigla.equals("")) {
+            sigla = ((Stato) entityBean).getNome().substring(0, 3);
+        }// end of if cycle
+
+        entityBean.id = sigla.toLowerCase();
+        return super.save(entityBean);
+    }// end of method
+
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata

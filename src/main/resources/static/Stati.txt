@@ -1,18 +1,18 @@
 Italia,IT,ITA,380
 Austria,AT,AUT,040
-Belgio
-Danimarca
-Finlandia
-Francia
-Germania
-Grecia
-Irlanda
-Lussemburgo
-Paesi Bassi
-Portogallo
-Regno Unito
-Spagna
-Svezia
+Belgio,BE,BEL,046
+Danimarca,DK,DNK,208
+Finlandia,FI,FIN,246
+Francia,FR,FRA,250
+Germania,DE,DEU,276
+Grecia,GR,GRC,300
+Irlanda,IE,IRL,372
+Lussemburgo,LU,LUX,442
+Paesi Bassi,NL,NLD,528
+Portogallo,PT,PRT,620
+Regno Unito,GB,GBR,826
+Spagna,ES,ESP,724
+Svezia,SE,SWE,752
 Albania
 Andorra
 Bielorussia

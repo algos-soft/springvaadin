@@ -49,7 +49,7 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      */
-    public static List<Field> getAllFields(Class<? extends AlgosEntity> entityClazz) {
+    private static List<Field> getAllFieldsBase(Class<? extends AlgosEntity> entityClazz,boolean idCompreso) {
         List<Field> fieldsList = null;
         Field[] fieldsArray = null;
         String fieldName = "";
@@ -57,16 +57,45 @@ public abstract class LibReflection {
         try { // prova ad eseguire il codice
             fieldsArray = entityClazz.getDeclaredFields();
             fieldsList = new ArrayList();
+
+            if (idCompreso) {
+                fieldsList.add(entityClazz.getFields()[0]);
+            }// end of if cycle
+
             for (Field field : fieldsArray) {
                 fieldName = field.getName();
                 if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
                     fieldsList.add(field);
                 }// end of if cycle
             }// end of for cycle
+
         } catch (Exception unErrore) { // intercetta l'errore
         }// fine del blocco try-catch
 
         return fieldsList;
+    }// end of static method
+
+    /**
+     * All fields properties di una EntityClass, compreso l'ID
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return lista di fields
+     */
+    public static List<Field> getAllFieldsPiuID(Class<? extends AlgosEntity> entityClazz) {
+        return getAllFieldsBase(entityClazz,true);
+    }// end of static method
+
+
+    /**
+     * All fields properties di una EntityClass, escluso l'ID
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return lista di fields
+     */
+    public static List<Field> getAllFieldsNoID(Class<? extends AlgosEntity> entityClazz) {
+        return getAllFieldsBase(entityClazz,false);
     }// end of static method
 
 
@@ -79,7 +108,7 @@ public abstract class LibReflection {
      */
     public static List<String> getAllFieldName(final Class<? extends AlgosEntity> entityClazz) {
         List<String> nameList = null;
-        List<Field> fieldsList = getAllFields(entityClazz);
+        List<Field> fieldsList = getAllFieldsPiuID(entityClazz);
 
         if (fieldsList != null && fieldsList.size() > 0) {
             nameList = new ArrayList();
