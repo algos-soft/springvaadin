@@ -63,15 +63,53 @@ public class StatoData {
     /**
      * Creazione di una collezione di stati
      */
-    private void creaStati() {
+    public void creaStati() {
         String fileName = "Stati";
         List<String> righe = LibFile.readResources(fileName);
+        service.deleteAll();
 
-        for (String nome : righe) {
-            if (service.isCreata(nome)) {
-                log.warn("Stato: " + nome);
+        for (String riga : righe) {
+            if (creaStato(riga)) {
+                log.warn("Stato: " + riga);
             }// end of if cycle
         }// end of for cycle
+    }// end of method
+
+    /**
+     * Creazione di un singolo stato
+     */
+    public boolean creaStato(String riga) {
+        String[] parti = riga.split(",");
+        Stato stato;
+        int ordine = 0;
+        String nome = "";
+        String alfaDue = "";
+        String alfaTre = "";
+        String numerico = "";
+
+        if (parti.length > 0) {
+            nome = parti[0];
+        }// end of if cycle
+        if (parti.length > 1) {
+            alfaDue = parti[1];
+        }// end of if cycle
+        if (parti.length > 2) {
+            alfaTre = parti[2];
+        }// end of if cycle
+        if (parti.length > 3) {
+            numerico = parti[3];
+        }// end of if cycle
+
+        stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico);
+
+        try { // prova ad eseguire il codice
+            stato = (Stato) service.save(stato);
+
+        } catch (Exception unErrore) { // intercetta l'errore
+            int a=87;
+        }// fine del blocco try-catch
+
+        return stato != null;
     }// end of method
 
 }// end of class

@@ -61,6 +61,14 @@ public @interface AIField {
 
 
     /**
+     * (Optional) field that get focus
+     * Only one for form
+     * Defaults to false.
+     */
+    boolean focus() default false;
+
+
+    /**
      * (Optional) help text on rollover
      * Defaults to null.
      */

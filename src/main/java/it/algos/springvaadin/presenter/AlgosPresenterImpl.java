@@ -1,5 +1,6 @@
 package it.algos.springvaadin.presenter;
 
+import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
@@ -397,10 +398,11 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
         if (view.entityIsOk()) {
             entityBean = view.commit();
-            service.save(entityBean);
-            view.saveSons();
-            entityRegistrata = true;
-            view.closeFormWindow();
+            if (saveNotDuplicated(entityBean)) {
+                view.saveSons();
+                entityRegistrata = true;
+                view.closeFormWindow();
+            }// end of if cycle
         } else {
             if (LibParams.usaDialoghiVerbosi()) {
                 String message = "";
@@ -416,6 +418,25 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         return entityRegistrata;
     }// end of method
 
+    public boolean saveNotDuplicated(AlgosEntity entityBean) {
+        boolean entityRegistrata = false;
+
+        try { // prova ad eseguire il codice
+            service.save(entityBean);
+            entityRegistrata = true;
+        } catch (Exception unErrore) { // intercetta l'errore
+            if (unErrore instanceof DuplicateKeyException) {
+                String tagIni = "duplicate";
+                String tagEnd = "nested";
+                String message = unErrore.getMessage();
+                message = message.substring(message.indexOf(tagIni), message.indexOf(tagEnd));
+                Notification nota = new Notification("Errore", message, Notification.Type.ERROR_MESSAGE, true);
+                nota.show(Page.getCurrent());
+            }// end of if cycle
+        }// fine del blocco try-catch
+
+        return entityRegistrata;
+    }// end of method
 
     /**
      * Modificata la selezione della Grid

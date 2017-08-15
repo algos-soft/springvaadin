@@ -28,7 +28,7 @@ public abstract class AlgosEntity implements Serializable {
      * key property ObjectId
      * gestita direttamente da Mongo
      */
-    protected ObjectId id;
+    public String id;
 
 
 }// end of entity abstract class

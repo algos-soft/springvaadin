@@ -1,5 +1,6 @@
 package it.algos.springvaadin.service;
 
+import com.mongodb.DuplicateKeyException;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -42,7 +43,7 @@ public interface AlgosService {
      *
      * @return the saved entity
      */
-    public AlgosEntity save(AlgosEntity entityBean);
+    public AlgosEntity save(AlgosEntity entityBean) throws Exception;
 
 
     /**

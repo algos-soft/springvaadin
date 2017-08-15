@@ -1,11 +1,13 @@
 package it.algos.springvaadin.entity.stato;
 
+import com.mongodb.DuplicateKeyException;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -63,12 +65,28 @@ public class StatoService extends AlgosServiceImpl {
     public Stato crea(String nome) {
         Stato entity = ((StatoRepository) repository).findByNome(nome);
         if (entity == null) {
+            entity = newEntity(0, nome);
             entity = (Stato) repository.save(newEntity(0, nome));
+            int a = 87;
         }// end of if cycle
 
         return entity;
     }// end of method
 
+//    /**
+//     * Saves a given entity.
+//     * Use the returned instance for further operations
+//     * as the save operation might have changed the entity instance completely.
+//     *
+//     * @param entityBean da salvare
+//     *
+//     * @return the saved entity
+//     */
+//    @Override
+//    public AlgosEntity save(AlgosEntity entityBean) throws DuplicateKeyException {
+////        entityBean.id = ((Stato) entityBean).getNome().substring(0, 3).toLowerCase();
+//        return super.save(entityBean);
+//    }// end of method
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
@@ -80,6 +98,16 @@ public class StatoService extends AlgosServiceImpl {
         return newEntity(0, "");
     }// end of method
 
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
+     * @return la nuova entity appena creata
+     */
+    public Stato newEntity(int ordine, String nome) {
+        return newEntity(ordine, nome, "", "", "");
+    }// end of method
+
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
@@ -89,8 +117,8 @@ public class StatoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Stato newEntity(int ordine, String nome) {
-        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome);
+    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico) {
+        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico);
     }// end of method
 
 

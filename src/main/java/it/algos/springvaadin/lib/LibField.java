@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.convert.Property;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
@@ -67,11 +68,15 @@ public class LibField {
         String width = widthEM + "em";
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequired(clazz, publicFieldName);
+        boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
 
         if (type != null) {
             switch (type) {
                 case text:
                     field = new AlgosTextField();
+                    if (focus) {
+                        ((AlgosTextField) field).focus();
+                    }// end of if cycle
                     break;
                 case integer:
                     field = new AlgosIntegerField();
@@ -96,7 +101,7 @@ public class LibField {
                                 items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
                                 field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
                                 field.setFormPresenter(presenter);
-                                ComboBox combo=((AlgosComboClassField)field).getCombo();
+                                ComboBox combo = ((AlgosComboClassField) field).getCombo();
                                 combo.addValueChangeListener(new HasValue.ValueChangeListener() {
                                     @Override
                                     public void valueChange(HasValue.ValueChangeEvent valueChangeEvent) {

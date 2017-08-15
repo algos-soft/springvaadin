@@ -1,5 +1,6 @@
 package it.algos.springvaadin.service;
 
+import com.mongodb.DuplicateKeyException;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
@@ -60,8 +61,20 @@ public abstract class AlgosServiceImpl implements AlgosService {
      *
      * @return the saved entity
      */
-    public AlgosEntity save(AlgosEntity entityBean) {
-        return (AlgosEntity) repository.save(entityBean);
+    public AlgosEntity save(AlgosEntity entityBean) throws Exception {
+        AlgosEntity entity = null;
+
+//        try { // prova ad eseguire il codice
+//            entity = (AlgosEntity) repository.save(entityBean);
+//        } catch (Exception unErrore) { // intercetta l'errore
+//            if (unErrore instanceof DuplicateKeyException) {
+//                throw (DuplicateKeyException) unErrore;
+//            }// end of if cycle
+//        }// fine del blocco try-catch
+
+        entity = (AlgosEntity) repository.save(entityBean);
+
+        return entity;
     }// end of method
 
 
@@ -120,7 +133,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public boolean deleteAll() {
-        return false;
+        repository.deleteAll();
+        return repository.count() == 0;
     }// end of method
 
     /**

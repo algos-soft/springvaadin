@@ -37,6 +37,11 @@ public abstract class AlgosToolbar extends HorizontalLayout {
     }// end of method
 
 
+    public void addButtonWithPresenter(Bottone bottone,AlgosPresenterImpl presenter) {
+        addButton(bottone, "");
+        bottone.setPresenter(presenter);
+    }// end of method
+
     public void setPresenter(AlgosPresenterImpl presenter) {
         for (int k = 0; k < getComponentCount(); k++) {
             ((Bottone) getComponent(k)).setPresenter(presenter);

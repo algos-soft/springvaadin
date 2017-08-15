@@ -1,5 +1,5 @@
-Italia
-Austria
+Italia,IT,ITA,380
+Austria,AT,AUT,040
 Belgio
 Danimarca
 Finlandia

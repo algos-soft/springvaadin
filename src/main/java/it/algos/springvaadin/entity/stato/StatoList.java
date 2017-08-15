@@ -40,7 +40,7 @@ public class StatoList extends AlgosListImpl {
     @Override
     protected void toolbarInizia(AlgosPresenterImpl presenter) {
         super.toolbarInizia(presenter);
-        toolbar.addButton(buttonImport);
+        toolbar.addButtonWithPresenter(buttonImport, presenter);
     }// end of method
 
 }// end of class
