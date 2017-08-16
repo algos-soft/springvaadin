@@ -37,7 +37,7 @@ import java.util.List;
  * Creazione dei field dalla annotation
  */
 @SpringComponent
-public class LibField {
+public abstract class LibField {
 
 
     private static IndirizzoField indirizzoField;

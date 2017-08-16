@@ -1,5 +1,6 @@
 package it.algos.springvaadin.presenter;
 
+import it.algos.springvaadin.lib.LibAvviso;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
@@ -425,13 +426,15 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             service.save(entityBean);
             entityRegistrata = true;
         } catch (Exception unErrore) { // intercetta l'errore
+            if (unErrore instanceof StringIndexOutOfBoundsException) {
+                LibAvviso.error(unErrore.getMessage());
+            }// end of if cycle
             if (unErrore instanceof DuplicateKeyException) {
                 String tagIni = "duplicate";
                 String tagEnd = "nested";
                 String message = unErrore.getMessage();
                 message = message.substring(message.indexOf(tagIni), message.indexOf(tagEnd));
-                Notification nota = new Notification("Errore", message, Notification.Type.ERROR_MESSAGE, true);
-                nota.show(Page.getCurrent());
+                LibAvviso.error(message);
             }// end of if cycle
         }// fine del blocco try-catch
 

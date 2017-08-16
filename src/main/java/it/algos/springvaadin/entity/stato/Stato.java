@@ -46,7 +46,7 @@ public class Stato extends AlgosEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-    @Indexed(unique = true)
+//    @Indexed(unique = true)
     @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;
@@ -67,11 +67,13 @@ public class Stato extends AlgosEntity {
     @AIColumn(width = 100)
     private String alfaDue;
 
+
     //--codice alfabetico di 3 cifre (facoltativo, unico)
     //-- 249 codici assegnati
     @AIField(type = AFType.text, widthEM = 4)
     @AIColumn(width = 100)
     private String alfaTre;
+
 
     //--codice numerico di 3 cifre (facoltativo, unico)
     //-- 249 codici assegnati

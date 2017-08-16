@@ -18,6 +18,8 @@ import java.util.List;
 public interface StatoRepository extends MongoRepository<Stato, String> {
 
     public Stato findByNome(String nome);
+    public Stato findByAlfaTre(String nome);
+    public int countByAlfaTre(String alfaTre);
 
     public List<Stato> findTop1ByOrderByOrdineDesc();
 

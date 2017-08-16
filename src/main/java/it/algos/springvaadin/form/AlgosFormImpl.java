@@ -14,6 +14,7 @@ import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AlgosComboClassField;
 import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -108,7 +109,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         VerticalLayout layout = new VerticalLayout();
 
         caption = fixCaption(entityBean);
-        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
+        label = new LabelRosso(caption);
         layout.addComponent(label);
         if (AlgosApp.USE_DEBUG) {
             label.addStyleName("greenBg");
@@ -327,7 +328,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.removeAllComponents();
 
         caption = fixCaption(entityBean);
-        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
+        label = new LabelRosso(caption);
         this.addComponent(label);
 
         creaAddBindFields(presenter, this, fields);

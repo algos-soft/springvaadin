@@ -10,6 +10,7 @@ import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.grid.AlgosGrid;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -79,7 +80,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         if (caption == null || caption.equals("")) {
             caption = entityClass.getSimpleName() + " - " + CAPTION_DEFAULT;
         }// end of if cycle
-        label = new Label(LibText.setRossoBold(caption), ContentMode.HTML);
+        label = new LabelRosso(caption);
         this.addComponent(label);
 
         grid.inizia(entityClass, items, columns);

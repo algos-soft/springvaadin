@@ -21,6 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +87,7 @@ public class Indirizzo extends AlgosEntity {
     /**
      * stato (obbligatoria, non unica)
      */
+    @DBRef
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
     @AIField(type = AFType.combo, clazz = StatoService.class, widthEM = 10)
