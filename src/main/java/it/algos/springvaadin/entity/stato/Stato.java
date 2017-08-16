@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -26,6 +27,7 @@ import java.io.Serializable;
  * Estende la Entity astratta AlgosEntity che contiene la key property ObjectId
  * <p>
  * Gli stati vengono classificati secondo la norma ISO 3166
+ *
  * @https://it.wikipedia.org/wiki/ISO_3166
  */
 @SpringComponent
@@ -46,7 +48,7 @@ public class Stato extends AlgosEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-//    @Indexed(unique = true)
+    @Indexed()
     @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;
@@ -56,27 +58,36 @@ public class Stato extends AlgosEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
     @Indexed(unique = true)
-    @AIField(type = AFType.text, required = true, focus = true, widthEM = 16)
+    @Size(min = 4)
+    @AIField(type = AFType.text, required = true, focus = true, firstCapital = true, widthEM = 16)
     @AIColumn(width = 250)
     private String nome;
 
 
     //--codice alfabetico di 2 cifre (facoltativo, unico)
     //-- 249 codici assegnati
-    @AIField(type = AFType.text, widthEM = 4)
+    @NotEmpty
+    @Indexed(unique = true)
+    @Size(min = 2, max = 2)
+    @AIField(type = AFType.text, widthEM = 4, allUpper = true)
     @AIColumn(width = 100)
     private String alfaDue;
 
 
     //--codice alfabetico di 3 cifre (facoltativo, unico)
     //-- 249 codici assegnati
-    @AIField(type = AFType.text, widthEM = 4)
+    @NotEmpty
+    @Indexed(unique = true)
+    @Size(min = 3, max = 3)
+    @AIField(type = AFType.text, widthEM = 4, allUpper = true)
     @AIColumn(width = 100)
     private String alfaTre;
 
 
     //--codice numerico di 3 cifre (facoltativo, unico)
     //-- 249 codici assegnati
+    @Indexed(unique = true)
+    @Size(min = 3, max = 3)
     @AIField(type = AFType.text, widthEM = 4)
     @AIColumn(width = 100)
     private String numerico;

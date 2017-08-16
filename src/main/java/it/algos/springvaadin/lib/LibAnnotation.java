@@ -174,6 +174,18 @@ public abstract class LibAnnotation {
         return status;
     }// end of static method
 
+    /**
+     * Get the status required of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isRequiredWild(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        return isNotEmpty(clazz, publicFieldName) || isNotNull(clazz, publicFieldName) || isRequired(clazz, publicFieldName);
+    }// end of static method
 
     /**
      * Get the status enabled of the property.
@@ -231,6 +243,47 @@ public abstract class LibAnnotation {
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.firstCapital();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
+     * Get the status allUpper of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isAllUpper(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.allUpper();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+    /**
+     * Get the status allLower of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isAllLower(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.allLower();
         }// end of if cycle
 
         return status;
@@ -362,17 +415,33 @@ public abstract class LibAnnotation {
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getSizeMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getSizeMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean notEmpty) {
         String message = "";
         Size annotation = getSize(clazz, publicFieldName);
+        String oppure = notEmpty ? "" : "vuoto oppure ";
+        int min = LibAnnotation.getMin(clazz, publicFieldName);
+        int max = LibAnnotation.getMax(clazz, publicFieldName);
+        boolean maxEccessivo = max > 10000;
+        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        fieldName = LibText.setRossoBold(fieldName);
 
         if (annotation != null) {
             message = annotation.message();
         }// end of if cycle
 
         if (message.equals("{javax.validation.constraints.Size.message}")) {
-            message = "";
+            message = fieldName + " non può essere vuoto";
         }// end of if cycle
+
+        if (min == max) {
+            message = fieldName + " deve essere " + oppure + "uguale a " + min + " caratteri";
+        } else {
+            if (maxEccessivo) {
+                message = fieldName + " deve essere " + oppure + " di almeno " + min + " caratteri";
+            } else {
+                message = fieldName + " deve essere " + oppure + "compreso tra " + min + " e " + max + " caratteri";
+            }// end of if/else cycle
+        }// end of if/else cycle
 
         return message;
     }// end of static method
@@ -454,13 +523,15 @@ public abstract class LibAnnotation {
     public static String getNotEmptyMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         String message = "";
         NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
+        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        fieldName = LibText.setRossoBold(fieldName);
 
         if (notEmpty != null) {
             message = notEmpty.message();
         }// end of if cycle
 
         if (message.equals("{org.hibernate.validator.constraints.NotEmpty.message}")) {
-            message = "Il campo non può essere vuoto";
+            message = fieldName + " non può essere vuoto";
         }// end of if cycle
 
         return message;
@@ -522,13 +593,15 @@ public abstract class LibAnnotation {
     public static String getNotNullMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         String message = "";
         NotNull notNull = getNotNull(clazz, publicFieldName);
+        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        fieldName = LibText.setRossoBold(fieldName);
 
         if (notNull != null) {
             message = notNull.message();
         }// end of if cycle
 
         if (message.equals("{javax.validation.constraints.NotNull.message}")) {
-            message = "Il campo non può essere nullo";
+            message = fieldName+ " non può essere nullo";
         }// end of if cycle
 
         return message;

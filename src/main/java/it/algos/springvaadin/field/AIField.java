@@ -83,6 +83,20 @@ public @interface AIField {
 
 
     /**
+     * (Optional) Status (all letters upper) of the the field.
+     * Defaults to false.
+     */
+    boolean allUpper() default false;
+
+
+    /**
+     * (Optional) Status (all letters lower) of the the field.
+     * Defaults to false.
+     */
+    boolean allLower() default false;
+
+
+    /**
      * (Optional) Status (allowed null selection in popup) of the the field.
      * Meaning sense only for AFType.combo.
      * Defaults to false.

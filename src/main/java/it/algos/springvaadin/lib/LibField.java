@@ -13,6 +13,8 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
+import it.algos.springvaadin.converter.LowerConverter;
+import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
@@ -20,6 +22,7 @@ import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.validator.AlgosStringLengthValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -67,7 +70,7 @@ public abstract class LibField {
         int widthEM = LibAnnotation.getWidthEM(clazz, publicFieldName);
         String width = widthEM + "em";
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
-        boolean required = LibAnnotation.isRequired(clazz, publicFieldName);
+        boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
 
         if (type != null) {
@@ -460,11 +463,8 @@ public abstract class LibField {
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
-                        String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName);
-                        if (messageSize.equals("")) {
-                            messageSize = fieldName + " deve essere compreso tra " + min + " e " + max + " caratteri";
-                        }// end of if cycle
-                        validator = new StringLengthValidator(messageSize, min, max);
+                        String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName,notEmpty);
+                        validator = new AlgosStringLengthValidator(messageSize, min, max);
                         lista.add(new Validator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;
@@ -507,12 +507,22 @@ public abstract class LibField {
         Converter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);
+        boolean checkUpper = LibAnnotation.isAllUpper(clazz, publicFieldName);
+        boolean checkLower = LibAnnotation.isAllLower(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
             switch (fieldAnnotation.type()) {
                 case text:
                     if (checkFirstCapital) {
                         converter = new FirstCapitalConverter();
+                        lista.add(converter);
+                    }// end of if cycle
+                    if (checkUpper) {
+                        converter = new UpperConverter();
+                        lista.add(converter);
+                    }// end of if cycle
+                    if (checkLower) {
+                        converter = new LowerConverter();
                         lista.add(converter);
                     }// end of if cycle
                     break;
