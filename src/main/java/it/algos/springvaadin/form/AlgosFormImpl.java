@@ -8,6 +8,7 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.entity.stato.Stato;
@@ -191,7 +192,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void bindFields(List<AlgosField> fields) {
         binder = new Binder(entityBean.getClass());
         List<AbstractValidator> listaValidatorPre;
-        List<Converter> listaConverter;
+        List<AlgosConverter> listaConverter;
         List<AbstractValidator> listaValidatorPost;
         Object value = null;
         String publicFieldName;

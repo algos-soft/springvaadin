@@ -12,6 +12,7 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.app.StaticContextAccessor;
+import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
@@ -23,6 +24,7 @@ import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
+import it.algos.springvaadin.validator.AlgosUniqueValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -440,16 +442,18 @@ public abstract class LibField {
      * Lista base, indifferenziata
      */
     private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<Validator> lista = new ArrayList();
+        List<Validator> lista = new ArrayList<>();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
+        fieldName = LibText.setRossoBold(fieldName);
         String message = "";
         int min = 0;
         int max = 0;
         boolean notNull = LibAnnotation.isNotNull(clazz, publicFieldName);
         boolean notEmpty = LibAnnotation.isNotEmpty(clazz, publicFieldName);
         boolean checkSize = LibAnnotation.isSize(clazz, publicFieldName);
+        boolean checkUnico = true;
 
         if (fieldAnnotation != null) {
             min = LibAnnotation.getMin(clazz, publicFieldName);
@@ -457,13 +461,21 @@ public abstract class LibField {
 
             switch (fieldAnnotation.type()) {
                 case text:
+                    if (checkUnico) {
+                        List<String> items= new ArrayList<>();
+                        items.add("Italia");
+                        items.add("Francia");
+                        items.add("Germania");
+                        validator = new AlgosUniqueValidator(fieldName,items);
+                        lista.add(new Validator(validator, Posizione.prima));
+                    }// end of if cycle
                     if (notEmpty) {
                         String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
-                        String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName,notEmpty);
+                        String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName, notEmpty);
                         validator = new AlgosStringLengthValidator(messageSize, min, max);
                         lista.add(new Validator(validator, Posizione.dopo));
                     }// end of if cycle
@@ -502,9 +514,9 @@ public abstract class LibField {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public static List<Converter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        List<Converter> lista = new ArrayList();
-        Converter converter = null;
+    public static List<AlgosConverter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        List<AlgosConverter> lista = new ArrayList<>();
+        AlgosConverter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);
         boolean checkUpper = LibAnnotation.isAllUpper(clazz, publicFieldName);

@@ -47,3 +47,14 @@ Città del Vaticano,VA,VAT,336
 Canada,CA,CAN,124
 Stati Uniti,US,USA,840
 Messico,MX,MEX,484
+Australia,AU,AUS,036
+Marocco,MA,MAR,504
+Algeria,DZ,DZA,012
+Tunisia,TN,TNU,788
+Libia,LY,LBY,434
+Egitto,EG,EGY,818
+Israele,IL,ISR,376
+Giordania,JO,JOR,400
+India,IN,IND,356
+Cina,CN,CHN,156
+Giappone,JP,JPN,392

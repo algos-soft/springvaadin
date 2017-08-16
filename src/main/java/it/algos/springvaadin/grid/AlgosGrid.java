@@ -25,7 +25,7 @@ import java.util.List;
 @Scope("prototype")
 public class AlgosGrid extends Grid {
 
-    private final static int NUMERO_RIGHE_DEFAULT = 15;
+    private final static int NUMERO_RIGHE_DEFAULT = 12;
     private final GridToolSet gridToolSet;
 
     /**

@@ -30,9 +30,6 @@ import java.util.List;
 public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
-    //--intestazione informativa per List
-    //--valore standard
-    private final static String CAPTION_DEFAULT = "Elenco di tutte le schede";
     //--valore che può essere regolato nella classe specifica
     //--usando un metodo @PostConstruct
     protected String caption;
@@ -65,22 +62,24 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * Creazione della grid
      * Ricrea tutto ogni volta che la finestra diventa attiva
      *
-     * @param presenter  di riferimento per gli eventi
+     * @param presenter   di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter,Class<? extends AlgosEntity> entityClass, List items, List<String> columns) {
+    public void restart(AlgosPresenterImpl presenter, Class<? extends AlgosEntity> entityClass, List items, List<String> columns) {
         Label label;
         this.setMargin(false);
+        String textLabel = "";
 
         this.removeAllComponents();
 
-        if (caption == null || caption.equals("")) {
-            caption = entityClass.getSimpleName() + " - " + CAPTION_DEFAULT;
+        textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
+        if (caption != null) {
+            textLabel += caption;
         }// end of if cycle
-        label = new LabelRosso(caption);
+        label = new LabelRosso(textLabel);
         this.addComponent(label);
 
         grid.inizia(entityClass, items, columns);
@@ -189,7 +188,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      *
      * @return entityBean
      */
-    public AlgosEntity getEntityBean(){
+    public AlgosEntity getEntityBean() {
         return grid.getEntityBean();
     }// end of method
 
