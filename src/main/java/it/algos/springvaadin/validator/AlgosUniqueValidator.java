@@ -31,6 +31,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
     private Class<? extends AlgosEntity> entityClazz;
     private String fieldName;
     private String dbName;
+    private Object oldValue;
 
     private MongoClient mongo;
     private MongoOperations mongoOps;
@@ -39,10 +40,11 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
     private String tagEnd = " esiste già ";
 
 
-    public AlgosUniqueValidator(final Class<? extends AlgosEntity> entityClazz, String fieldName) {
+    public AlgosUniqueValidator(final Class<? extends AlgosEntity> entityClazz, String fieldName, Object oldValue) {
         super(fieldName);
         this.entityClazz = entityClazz;
         this.fieldName = fieldName;
+        this.oldValue = oldValue;
         this.dbName = entityClazz.getSimpleName().toLowerCase();
 
         mongo = new MongoClient("localhost", 27017);
@@ -52,7 +54,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
 
     public ValidationResult apply(String value, ValueContext context) {
         boolean esiste = true;
-Object alfa=context.getHasValue().get().getValue();
+        Object alfa = context.getHasValue().get().getValue();
         try { // prova ad eseguire il codice
             AlgosEntity entity = mongoOps.findOne(
                     new Query(Criteria.where(fieldName).is(value)),
@@ -62,7 +64,7 @@ Object alfa=context.getHasValue().get().getValue();
             int a = 87;
         }// fine del blocco try-catch
 
-        if (value == null || value.equals("")) {
+        if (value == null || value.equals("") || value.equals(oldValue)) {
             return this.toResult(value, true);
         } else {
             if (esiste) {

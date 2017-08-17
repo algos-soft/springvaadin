@@ -85,29 +85,33 @@ public class StatoService extends AlgosServiceImpl {
      */
     @Override
     public AlgosEntity save(AlgosEntity entityBean) throws Exception {
-        String nomeOriginale=((Stato) entityBean).getNome();
-        String nome = nomeOriginale.toLowerCase();
-        String sigla = ((Stato) entityBean).getAlfaTre().toLowerCase();
-        if (sigla.equals("")) {
-            int k = 3;
-            do {
-                sigla = nome.substring(0, k++);
-            }// end of do cycle
-            while (repository.exists(sigla) && sigla.length() < 6);// end of while cycle
-        }// end of if cycle
+        boolean nuovaEntity = entityBean.id == null || entityBean.id.equals("");
 
-        if (repository.exists(sigla)) {
-            LibAvviso.error(nomeOriginale+" non è stato creato, perché l'ID risultante esiste già");
-            return entityBean;
-        }// end of if cycle
+        if (nuovaEntity) {
+            String nomeOriginale = ((Stato) entityBean).getNome();
+            String nome = nomeOriginale.toLowerCase();
+            String sigla = ((Stato) entityBean).getAlfaTre().toLowerCase();
+            if (sigla.equals("")) {
+                int k = 3;
+                do {
+                    sigla = nome.substring(0, k++);
+                }// end of do cycle
+                while (repository.exists(sigla) && sigla.length() < 6);// end of while cycle
+            }// end of if cycle
 
-        if (sigla.length() > 5) {
-            LibAvviso.warn("Controlla l'ultimo stato inserito, perché l'ID sembra eccessivamente lungo");
-        }// end of if cycle
+            if (repository.exists(sigla)) {
+                LibAvviso.error(nomeOriginale + " non è stato creato, perché l'ID risultante esiste già");
+                return entityBean;
+            }// end of if cycle
 
-        boolean esiste = entityBean.id != null && repository.exists(entityBean.id);
-        if (!esiste) {
-            entityBean.id = sigla;
+            if (sigla.length() > 5) {
+                LibAvviso.warn("Controlla l'ultimo stato inserito, perché l'ID sembra eccessivamente lungo");
+            }// end of if cycle
+
+            boolean esiste = entityBean.id != null && repository.exists(entityBean.id);
+            if (!esiste) {
+                entityBean.id = sigla;
+            }// end of if cycle
         }// end of if cycle
 
         return super.save(entityBean);

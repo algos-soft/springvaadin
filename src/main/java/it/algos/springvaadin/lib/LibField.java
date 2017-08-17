@@ -405,9 +405,9 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public static List<AbstractValidator> creaValidatorsPre(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static List<AbstractValidator> creaValidatorsPre(AlgosEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(clazz, publicFieldName, nuovaEntity);
+        List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
 
         for (Validator validator : listaTmp) {
             if (validator.posizione == Posizione.prima) {
@@ -423,9 +423,9 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare DOPO i converters
      */
-    public static List<AbstractValidator> creaValidatorsPost(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static List<AbstractValidator> creaValidatorsPost(AlgosEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(clazz, publicFieldName, nuovaEntity);
+        List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
 
         for (Validator validator : listaTmp) {
             if (validator.posizione == Posizione.dopo) {
@@ -441,8 +441,9 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista base, indifferenziata
      */
-    private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    private static List<Validator> creaValidators(AlgosEntity entityBean, final String publicFieldName) {
         List<Validator> lista = new ArrayList<>();
+        Class<? extends AlgosEntity> clazz = entityBean.getClass();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -454,6 +455,7 @@ public abstract class LibField {
         boolean notEmpty = LibAnnotation.isNotEmpty(clazz, publicFieldName);
         boolean checkSize = LibAnnotation.isSize(clazz, publicFieldName);
         boolean checkUnico = true;
+        Object oldValue;
 
         if (fieldAnnotation != null) {
             min = LibAnnotation.getMin(clazz, publicFieldName);
@@ -461,8 +463,9 @@ public abstract class LibField {
 
             switch (fieldAnnotation.type()) {
                 case text:
-                    if (checkUnico && nuovaEntity) {
-                        validator = new AlgosUniqueValidator(clazz, publicFieldName);
+                    if (checkUnico) {
+                        oldValue = LibReflection.getValue(entityBean, publicFieldName);
+                        validator = new AlgosUniqueValidator(clazz, publicFieldName,oldValue);
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (notEmpty) {
@@ -510,8 +513,9 @@ public abstract class LibField {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public static List<AlgosConverter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovoRecord) {
+    public static List<AlgosConverter> creaConverters(AlgosEntity entityBean, final String publicFieldName) {
         List<AlgosConverter> lista = new ArrayList<>();
+        Class<? extends AlgosEntity> clazz = entityBean.getClass();
         AlgosConverter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);
