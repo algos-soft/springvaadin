@@ -405,9 +405,9 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public static List<AbstractValidator> creaValidatorsPre(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidatorsPre(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
+        List<Validator> listaTmp = creaValidators(clazz, publicFieldName, nuovaEntity);
 
         for (Validator validator : listaTmp) {
             if (validator.posizione == Posizione.prima) {
@@ -423,9 +423,9 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare DOPO i converters
      */
-    public static List<AbstractValidator> creaValidatorsPost(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidatorsPost(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(clazz, publicFieldName);
+        List<Validator> listaTmp = creaValidators(clazz, publicFieldName, nuovaEntity);
 
         for (Validator validator : listaTmp) {
             if (validator.posizione == Posizione.dopo) {
@@ -441,7 +441,7 @@ public abstract class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista base, indifferenziata
      */
-    private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    private static List<Validator> creaValidators(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
         List<Validator> lista = new ArrayList<>();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
@@ -461,12 +461,8 @@ public abstract class LibField {
 
             switch (fieldAnnotation.type()) {
                 case text:
-                    if (checkUnico) {
-                        List<String> items= new ArrayList<>();
-                        items.add("Italia");
-                        items.add("Francia");
-                        items.add("Germania");
-                        validator = new AlgosUniqueValidator(fieldName,items);
+                    if (checkUnico && nuovaEntity) {
+                        validator = new AlgosUniqueValidator(clazz, publicFieldName);
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (notEmpty) {
@@ -514,7 +510,7 @@ public abstract class LibField {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public static List<AlgosConverter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static List<AlgosConverter> creaConverters(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean nuovoRecord) {
         List<AlgosConverter> lista = new ArrayList<>();
         AlgosConverter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);

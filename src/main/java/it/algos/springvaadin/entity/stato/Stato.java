@@ -31,7 +31,7 @@ import java.io.Serializable;
  * @https://it.wikipedia.org/wiki/ISO_3166
  */
 @SpringComponent
-@Document
+@Document(collection="stato")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

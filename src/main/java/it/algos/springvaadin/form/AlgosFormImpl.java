@@ -196,12 +196,13 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         List<AbstractValidator> listaValidatorPost;
         Object value = null;
         String publicFieldName;
+        boolean nuovaEntity = entityBean.getId() == null;
 
         for (AlgosField field : fields) {
             publicFieldName = field.getName();
-            listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName);
-            listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName);
-            listaValidatorPost = LibField.creaValidatorsPost(entityBean.getClass(), publicFieldName);
+            listaValidatorPre = LibField.creaValidatorsPre(entityBean.getClass(), publicFieldName, nuovaEntity);
+            listaConverter = LibField.creaConverters(entityBean.getClass(), publicFieldName, nuovaEntity);
+            listaValidatorPost = LibField.creaValidatorsPost(entityBean.getClass(), publicFieldName, nuovaEntity);
 
             if (((AbstractField) field).isEnabled()) {
                 Binder.BindingBuilder builder = binder.forField(((AbstractField) field));

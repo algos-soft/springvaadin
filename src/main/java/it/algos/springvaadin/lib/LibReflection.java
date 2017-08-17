@@ -416,7 +416,7 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
+     * @return tutti i metodi getter, elencati in ordine di inserimento nella AlgosEntity
      */
     public static List<Method> getMethods(Class<? extends AlgosEntity> entityClazz) {
         List<Method> methods = null;

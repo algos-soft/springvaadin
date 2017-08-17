@@ -193,4 +193,13 @@ public class StatoService extends AlgosServiceImpl {
         return ordine;
     }// end of method
 
+    /**
+     * Find the entity by name.
+     *
+     * @return the entity
+     */
+    public boolean isEsisteByNome(String nome) {
+        return true;
+    }// end of method
+
 }// end of class
