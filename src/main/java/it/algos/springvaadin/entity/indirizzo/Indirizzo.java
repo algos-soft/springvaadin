@@ -22,6 +22,7 @@ import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ import java.time.LocalDateTime;
  * Usato da altre 'collection' (ex moduli)
  */
 @SpringComponent
+@Document(collection = Cost.TAG_IND)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -203,7 +203,8 @@ public abstract class LibParams {
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
     public static Grid.SelectionMode gridSelectionMode() {
-        return ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode : null;
+//        return ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode;
     }// end of static method
 
 
@@ -215,7 +216,8 @@ public abstract class LibParams {
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
     public static boolean usaSeparateFormDialog() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaSeparateFormDialog;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaSeparateFormDialog : false;
+//        return ((AlgosUIParams) LibVaadin.getUI()).usaSeparateFormDialog;
     }// end of static method
 
 

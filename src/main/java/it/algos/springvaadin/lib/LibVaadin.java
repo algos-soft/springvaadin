@@ -68,7 +68,11 @@ public class LibVaadin {
      * Get the UI
      */
     public static UI getUI() {
-        return UI.getCurrent();
+        try { // prova ad eseguire il codice
+            return UI.getCurrent();
+        } catch (Exception unErrore) { // intercetta l'errore
+            return null;
+        }// fine del blocco try-catch
     }// end of static method
 
 

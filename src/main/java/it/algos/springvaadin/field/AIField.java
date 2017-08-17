@@ -97,6 +97,20 @@ public @interface AIField {
 
 
     /**
+     * (Optional) Status (only number) of the the field.
+     * Defaults to false.
+     */
+    boolean onlyNumber() default false;
+
+
+    /**
+     * (Optional) Status (only letters) of the the field.
+     * Defaults to false.
+     */
+    boolean onlyLetter() default false;
+
+
+    /**
      * (Optional) Status (allowed null selection in popup) of the the field.
      * Meaning sense only for AFType.combo.
      * Defaults to false.

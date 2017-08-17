@@ -41,7 +41,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
 
 
     public AlgosUniqueValidator(final Class<? extends AlgosEntity> entityClazz, String fieldName, Object oldValue) {
-        super(fieldName);
+        super("");
         this.entityClazz = entityClazz;
         this.fieldName = fieldName;
         this.oldValue = oldValue;
@@ -53,26 +53,29 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
 
 
     public ValidationResult apply(String value, ValueContext context) {
-        boolean esiste = true;
-        Object alfa = context.getHasValue().get().getValue();
-        try { // prova ad eseguire il codice
-            AlgosEntity entity = mongoOps.findOne(
-                    new Query(Criteria.where(fieldName).is(value)),
-                    entityClazz, dbName);
-            esiste = entity != null;
-        } catch (Exception unErrore) { // intercetta l'errore
-            int a = 87;
-        }// fine del blocco try-catch
-
         if (value == null || value.equals("") || value.equals(oldValue)) {
             return this.toResult(value, true);
         } else {
-            if (esiste) {
+            if (esiste(value)) {
                 return this.toResult(value, false);
             } else {
                 return this.toResult(value, true);
             }// end of if/else cycle
         }// end of if/else cycle
+    }// end of method
+
+
+    private boolean esiste(String value) {
+        AlgosEntity entity = null;
+
+        try { // prova ad eseguire il codice
+            entity = mongoOps.findOne(
+                    new Query(Criteria.where(fieldName).is(value)),
+                    entityClazz, dbName);
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return entity != null;
     }// end of method
 
 

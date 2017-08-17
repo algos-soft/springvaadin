@@ -35,6 +35,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
     protected Window window;
 
+    //--flag
+    private boolean usaSeparateFormDialog;
+
     //--L'entityBean viene inserita come parametro nel metodo restart, chiamato dal presenter
     protected AlgosEntity entityBean;
 
@@ -65,6 +68,17 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     * Regola il modello-dati specifico nel Service
+     */
+    @PostConstruct
+    protected void inizia() {
+        usaSeparateFormDialog = LibParams.usaSeparateFormDialog();
+    }// end of method
+
+
+    /**
      * Creazione del form
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
@@ -77,7 +91,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     public void restart(AlgosPresenterImpl presenter, AlgosEntity entityBean, List<String> fields) {
         this.entityBean = entityBean;
 
-        if (LibParams.usaSeparateFormDialog()) {
+        if (usaSeparateFormDialog) {
             usaSeparateFormDialog(presenter, fields);
         } else {
             usaAllScreen(presenter, fields);
@@ -437,6 +451,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         for (AlgosField field : fieldList) {
             field.saveSon();
         }// end of for cycle
+    }// end of method
+
+    public void setUsaSeparateFormDialog(boolean usaSeparateFormDialog) {
+        this.usaSeparateFormDialog = usaSeparateFormDialog;
     }// end of method
 
 }// end of class

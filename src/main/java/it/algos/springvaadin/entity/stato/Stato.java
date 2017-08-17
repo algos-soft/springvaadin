@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,7 @@ import java.io.Serializable;
  * @https://it.wikipedia.org/wiki/ISO_3166
  */
 @SpringComponent
-@Document(collection="stato")
+@Document(collection = Cost.TAG_STA)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -69,7 +70,7 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 2, max = 2)
-    @AIField(type = AFType.text, widthEM = 4, allUpper = true)
+    @AIField(type = AFType.text, widthEM = 4, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaDue;
 
@@ -79,16 +80,16 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 4, allUpper = true)
+    @AIField(type = AFType.text, widthEM = 4, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaTre;
 
 
     //--codice numerico di 3 cifre (facoltativo, unico)
     //-- 249 codici assegnati
-    @Indexed(unique = true)
+    @Indexed(unique = false)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 4)
+    @AIField(type = AFType.text, widthEM = 4, onlyNumber = true)
     @AIColumn(width = 100)
     private String numerico;
 

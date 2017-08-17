@@ -40,9 +40,10 @@ public class StatoList extends AlgosListImpl {
     @PostConstruct
     private void inizia() {
         caption = "</br>Lista visibile solo al developer.";
-        caption += "</br>La property viene usata dalle altre collezioni come 'references' (tramite @DBRef) e non 'embedded'";
-        caption += "</br>La property nome è unica. Usa alfaTre come ID. Se alfaTre è nulla, usa le prime lettere del nome";
-        caption += "</br>Usa le prime 3 oppure 4 oppure 5 oppure 6 lettere del nome. Altrimenti non registra il nuovo stato.";
+        caption += "</br>La collezione viene usata dalle altre collezioni come 'references' (tramite @DBRef) e non 'embedded'";
+        caption += "</br>La key property ID utilizza la property alfaTre";
+        caption += "</br>Le property nome, alfaDue e alfaTre sono uniche e non possono essere nulle";
+        caption += "</br>La property numerico può essere nulla";
     }// end of method
 
 

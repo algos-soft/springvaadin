@@ -23,6 +23,8 @@ import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
+import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
 import it.algos.springvaadin.validator.AlgosUniqueValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -455,6 +457,8 @@ public abstract class LibField {
         boolean notEmpty = LibAnnotation.isNotEmpty(clazz, publicFieldName);
         boolean checkSize = LibAnnotation.isSize(clazz, publicFieldName);
         boolean checkUnico = true;
+        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(clazz, publicFieldName);;
+        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(clazz, publicFieldName);;
         Object oldValue;
 
         if (fieldAnnotation != null) {
@@ -476,6 +480,14 @@ public abstract class LibField {
                     if (checkSize) {
                         String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName, notEmpty);
                         validator = new AlgosStringLengthValidator(messageSize, min, max);
+                        lista.add(new Validator(validator, Posizione.dopo));
+                    }// end of if cycle
+                    if (checkOnlyNumber) {
+                        validator = new AlgosNumberOnlyValidator(publicFieldName);
+                        lista.add(new Validator(validator, Posizione.dopo));
+                    }// end of if cycle
+                    if (checkOnlyLetter) {
+                        validator = new AlgosLetterOnlyValidator(publicFieldName);
                         lista.add(new Validator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;

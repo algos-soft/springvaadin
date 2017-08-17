@@ -291,6 +291,47 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the status onlyNumber of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isOnlyNumber(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.onlyNumber();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+    /**
+     * Get the status onlyLetter of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isOnlyLetter(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.onlyLetter();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
      * Get the name (field) of the property.
      * Se manca, usa il nome della property
      *
@@ -539,12 +580,12 @@ public abstract class LibAnnotation {
 
 
     /**
-     * Get the existence of the NotEmpty annotation of the property.
+     * Get the existence of the notEmpty annotation of the property.
      *
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
      *
-     * @return true if the NotEmpty Annotation exists
+     * @return true if the notEmpty Annotation exists
      */
     @SuppressWarnings("all")
     public static boolean isNotEmpty(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
@@ -579,6 +620,7 @@ public abstract class LibAnnotation {
 
         return notNull;
     }// end of static method
+
 
 
     /**

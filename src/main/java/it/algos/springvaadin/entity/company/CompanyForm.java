@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
@@ -24,7 +25,7 @@ public class CompanyForm extends AlgosFormImpl {
      * @param toolbar iniettata da Spring
      */
     public CompanyForm(FormToolbar toolbar) {
-        super(toolbar);
+        super((AlgosToolbar)toolbar);
     }// end of Spring constructor
 
 
