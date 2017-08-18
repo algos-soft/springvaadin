@@ -49,7 +49,7 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      */
-    private static List<Field> getAllFieldsBase(Class<? extends AlgosEntity> entityClazz,boolean idCompreso) {
+    private static List<Field> getAllFieldsBase(Class<? extends AlgosEntity> entityClazz, boolean idCompreso) {
         List<Field> fieldsList = null;
         Field[] fieldsArray = null;
         String fieldName = "";
@@ -83,7 +83,7 @@ public abstract class LibReflection {
      * @return lista di fields
      */
     public static List<Field> getAllFieldsPiuID(Class<? extends AlgosEntity> entityClazz) {
-        return getAllFieldsBase(entityClazz,true);
+        return getAllFieldsBase(entityClazz, true);
     }// end of static method
 
 
@@ -95,7 +95,7 @@ public abstract class LibReflection {
      * @return lista di fields
      */
     public static List<Field> getAllFieldsNoID(Class<? extends AlgosEntity> entityClazz) {
-        return getAllFieldsBase(entityClazz,false);
+        return getAllFieldsBase(entityClazz, false);
     }// end of static method
 
 
@@ -106,9 +106,15 @@ public abstract class LibReflection {
      *
      * @return tutte i fieldNames, elencati in ordine di inserimento nella AlgosEntity
      */
-    public static List<String> getAllFieldName(final Class<? extends AlgosEntity> entityClazz) {
+    public static List<String> getAllFieldName(final Class<? extends AlgosEntity> entityClazz, boolean showsID) {
         List<String> nameList = null;
-        List<Field> fieldsList = getAllFieldsPiuID(entityClazz);
+        List<Field> fieldsList = null;
+
+        if (showsID) {
+            fieldsList = getAllFieldsPiuID(entityClazz);
+        } else {
+            fieldsList = getAllFieldsNoID(entityClazz);
+        }// end of if/else cycle
 
         if (fieldsList != null && fieldsList.size() > 0) {
             nameList = new ArrayList();
@@ -129,7 +135,7 @@ public abstract class LibReflection {
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
     public static List<String> getAllFieldNameAlfabetico(final AlgosEntity entityBean) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass()));
+        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(),false));
     }// end of static method
 
 
@@ -141,7 +147,7 @@ public abstract class LibReflection {
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
     public static List<String> getAllFieldNameAlfabetico(final Class<? extends AlgosEntity> entityClazz) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityClazz));
+        return LibArray.sort((ArrayList) getAllFieldName(entityClazz,false));
     }// end of static method
 
 
@@ -420,7 +426,7 @@ public abstract class LibReflection {
      */
     public static List<Method> getMethods(Class<? extends AlgosEntity> entityClazz) {
         List<Method> methods = null;
-        List<String> propertyNames = getAllFieldName(entityClazz);
+        List<String> propertyNames = getAllFieldName(entityClazz,false);
 
         if (propertyNames != null && propertyNames.size() > 0) {
             methods = new ArrayList();

@@ -88,9 +88,13 @@ public interface AlgosService {
 
 
     /**
-     * Ordine standard di presentazione delle colonne nella grid
-     * Può essere modificato
+     * Colonne visibili (e ordinate) nella Grid
+     * Può essere modificato nella sottoclasse
      * La colonna ID normalmente non si visualizza
+     * <p>
+     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
+     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
      */
     public List<String> getListColumns();
 

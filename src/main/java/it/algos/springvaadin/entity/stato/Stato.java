@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIList;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ import java.io.Serializable;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
+@AIList(showsID = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

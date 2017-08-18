@@ -3,14 +3,18 @@ package it.algos.springvaadin.lib;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.field.AIColumn;
 import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIList;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -622,7 +626,6 @@ public abstract class LibAnnotation {
     }// end of static method
 
 
-
     /**
      * Get the message of the NotNull annotation of the property.
      *
@@ -643,7 +646,7 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         if (message.equals("{javax.validation.constraints.NotNull.message}")) {
-            message = fieldName+ " non può essere nullo";
+            message = fieldName + " non può essere nullo";
         }// end of if cycle
 
         return message;
@@ -689,6 +692,63 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return linkClazz;
+    }// end of static method
+
+
+    /**
+     * Get the specific annotation of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public static AIList getAIList(final Class<? extends AlgosEntity> clazz) {
+        return clazz.getAnnotation(AIList.class);
+    }// end of static method
+
+
+    /**
+     * Colonne visibili (e ordinate) nella Grid
+     *
+     * @param clazz the entity class
+     *
+     * @return the list of visible columns on the Grid
+     */
+    @SuppressWarnings("all")
+    public static List<String> getListColumns(final Class<? extends AlgosEntity> clazz) {
+        List<String> lista = null;
+        String[] columns = null;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            columns = listAnnotation.columns();
+        }// end of if cycle
+
+        if (columns != null && columns.length > 0 && !columns[0].equals("")) {
+            lista = Arrays.asList(columns);
+        }// end of if cycle
+
+        return lista;
+    }// end of static method
+
+
+    /**
+     * Get the status showsID of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    @SuppressWarnings("all")
+    public static boolean isShowsID(final Class<? extends AlgosEntity> clazz) {
+        boolean status = false;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            status = listAnnotation.showsID();
+        }// end of if cycle
+
+        return status;
     }// end of static method
 
 }// end of static class

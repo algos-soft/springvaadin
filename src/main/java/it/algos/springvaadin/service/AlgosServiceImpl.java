@@ -5,6 +5,7 @@ import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosMongoRepository;
@@ -126,13 +127,29 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
     /**
-     * Ordine standard di presentazione delle colonne nella grid
-     * Può essere modificato
+     * Colonne visibili (e ordinate) nella Grid
+     * Può essere modificato nella sottoclasse
      * La colonna ID normalmente non si visualizza
+     * <p>
+     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
+     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
      */
     @Override
     public List<String> getListColumns() {
-        return LibReflection.getAllFieldName(entityClass);
+        List<String> lista = null;
+        boolean showsID = false;
+
+        //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        lista = LibAnnotation.getListColumns(entityClass);
+
+        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+        if (lista == null) {
+            showsID = LibAnnotation.isShowsID(entityClass);
+            lista = LibReflection.getAllFieldName(entityClass, showsID);
+        }// end of if cycle
+
+        return lista;
     }// end of method
 
     /**
@@ -142,7 +159,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public List<String> getFormFields() {
-        return LibReflection.getAllFieldName(entityClass);
+        return LibReflection.getAllFieldName(entityClass, false);
     }// end of method
 
 

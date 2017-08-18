@@ -111,7 +111,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(final Class<? extends AlgosEntity> beanType, Grid grid) {
-        return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType));
+        return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType,false));
     }// end of method
 
     /**
@@ -133,7 +133,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(Grid grid) {
-        return addColumns(grid, LibReflection.getAllFieldName(grid.getBeanType()));
+        return addColumns(grid, LibReflection.getAllFieldName(grid.getBeanType(),false));
     }// end of method
 
 }// end of static class

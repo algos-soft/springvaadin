@@ -95,7 +95,7 @@ public class LibReflectionTest {
     public void getAllFieldName() {
         List<String> fieldNames;
 
-        fieldNames = LibReflection.getAllFieldName(entityClazz);
+        fieldNames = LibReflection.getAllFieldName(entityClazz,false);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 4);
         assertEquals(fieldNames.get(0), "ordine");
