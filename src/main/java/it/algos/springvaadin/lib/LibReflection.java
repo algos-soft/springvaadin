@@ -1,21 +1,14 @@
 package it.algos.springvaadin.lib;
 
-import com.sun.tools.javac.util.Name;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.AbstractField;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.field.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
 

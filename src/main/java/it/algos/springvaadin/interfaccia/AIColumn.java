@@ -1,4 +1,6 @@
-package it.algos.springvaadin.field;
+package it.algos.springvaadin.interfaccia;
+
+import it.algos.springvaadin.field.AFType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,10 +35,9 @@ public @interface AIColumn {
 
     /**
      * (Optional) The width of the field.
-     * Expressed in double,
      * Defaults to 150
      */
-    double width() default 150;
+    int width() default 150;
 
 
 }// end of interface annotation

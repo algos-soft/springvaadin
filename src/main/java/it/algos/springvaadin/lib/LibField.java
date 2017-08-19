@@ -1,7 +1,6 @@
 package it.algos.springvaadin.lib;
 
 
-import com.vaadin.data.Converter;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
@@ -20,6 +19,7 @@ import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.field.*;
+import it.algos.springvaadin.interfaccia.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
@@ -28,14 +28,10 @@ import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
 import it.algos.springvaadin.validator.AlgosUniqueValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.convert.Property;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,13 +67,12 @@ public abstract class LibField {
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         Object[] items = null;
-        int widthEM = LibAnnotation.getWidthEM(clazz, publicFieldName);
-        String width = widthEM + "em";
+        String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
 
-        if (type != null) {
+        if (type!=null) {
             switch (type) {
                 case text:
                     field = new AlgosTextField();
@@ -181,6 +176,14 @@ public abstract class LibField {
                     publish(presenter);
                 }// end of inner method
             });// end of anonymous inner class
+        }// end of if cycle
+
+        if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
+            field = new AlgosTextField();
+            field.setName(publicFieldName);
+            ((AbstractField) field).setCaption("Key ID");
+            ((AbstractField) field).setEnabled(false);
+            ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
         }// end of if cycle
 
         return field;
@@ -457,8 +460,10 @@ public abstract class LibField {
         boolean notEmpty = LibAnnotation.isNotEmpty(clazz, publicFieldName);
         boolean checkSize = LibAnnotation.isSize(clazz, publicFieldName);
         boolean checkUnico = true;
-        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(clazz, publicFieldName);;
-        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(clazz, publicFieldName);;
+        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(clazz, publicFieldName);
+        ;
+        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(clazz, publicFieldName);
+        ;
         Object oldValue;
 
         if (fieldAnnotation != null) {
@@ -469,7 +474,7 @@ public abstract class LibField {
                 case text:
                     if (checkUnico) {
                         oldValue = LibReflection.getValue(entityBean, publicFieldName);
-                        validator = new AlgosUniqueValidator(clazz, publicFieldName,oldValue);
+                        validator = new AlgosUniqueValidator(clazz, publicFieldName, oldValue);
                         lista.add(new Validator(validator, Posizione.prima));
                     }// end of if cycle
                     if (notEmpty) {

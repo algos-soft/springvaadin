@@ -95,14 +95,22 @@ public interface AlgosService {
      * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
      * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     *
+     * @return lista di colonne visibili nella Grid
      */
     public List<String> getListColumns();
 
 
     /**
-     * Ordine standard di presentazione dei fields nel form
-     * Può essere modificato
-     * La colonna ID normalmente non si visualizza
+     * Fields visibili (e ordinati) nel Form
+     * Può essere modificato nella sottoclasse
+     * Il campo key ID normalmente non si visualizza
+     * <p>
+     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
+     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     *
+     * @return lista di fileds visibili nel Form
      */
     public List<String> getFormFields();
 

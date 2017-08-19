@@ -2,23 +2,21 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.field.AIColumn;
-import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIColumn;
+import it.algos.springvaadin.interfaccia.AIField;
+import it.algos.springvaadin.interfaccia.AIForm;
 import it.algos.springvaadin.interfaccia.AIList;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * Created by gac on 10-ago-17
@@ -34,7 +32,8 @@ import java.io.Serializable;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
-@AIList(showsID = true)
+@AIList(showsID = true, widthID = 80)
+@AIForm(showsID = true,widthIDEM = 4)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -2,24 +2,14 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
-import com.vaadin.ui.renderers.LocalDateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
-import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.field.AIColumn;
-import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIColumn;
+import it.algos.springvaadin.interfaccia.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,6 +47,7 @@ public abstract class LibColumn {
         Grid.Column colonna = null;
         AFType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
         String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
+        int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
 
@@ -77,11 +68,11 @@ public abstract class LibColumn {
                     break;
             } // fine del blocco switch
             colonna.setCaption(name);
-            colonna.setWidth(columnAnnotation.width());
+            colonna.setWidth(width);
         } else {
             colonna = grid.addColumn(publicFieldName);
             if (publicFieldName.equals(Cost.PROPERTY_ID)) {
-                colonna.setWidth(100);
+                colonna.setWidth(LibAnnotation.getListWithID(clazz));
             }// end of if cycle
         }// end of if/else cycle
 
@@ -111,7 +102,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(final Class<? extends AlgosEntity> beanType, Grid grid) {
-        return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType,false));
+        return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType, false));
     }// end of method
 
     /**
@@ -133,7 +124,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(Grid grid) {
-        return addColumns(grid, LibReflection.getAllFieldName(grid.getBeanType(),false));
+        return addColumns(grid, LibReflection.getAllFieldName(grid.getBeanType(), false));
     }// end of method
 
 }// end of static class

@@ -4,18 +4,14 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.field.AIColumn;
-import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIColumn;
+import it.algos.springvaadin.interfaccia.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**

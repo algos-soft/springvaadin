@@ -1,8 +1,9 @@
 package it.algos.springvaadin.lib;
 
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.field.AIColumn;
-import it.algos.springvaadin.field.AIField;
+import it.algos.springvaadin.interfaccia.AIColumn;
+import it.algos.springvaadin.interfaccia.AIField;
+import it.algos.springvaadin.interfaccia.AIForm;
 import it.algos.springvaadin.interfaccia.AIList;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -10,7 +11,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -396,17 +396,40 @@ public abstract class LibAnnotation {
      * @return the width of the field expressed in int (to be converted)
      */
     @SuppressWarnings("all")
-    public static int getWidthEM(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        int width = 0;
+    public static String getWidthEM(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        String width = "";
+        int widthInt = 0;
+        String tag = "em";
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
-            width = fieldAnnotation.widthEM();
+            widthInt = fieldAnnotation.widthEM();
+            width = widthInt + tag;
         }// end of if cycle
 
         return width;
     }// end of static method
 
+
+    /**
+     * Get the width of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the width of the column expressed in int
+     */
+    @SuppressWarnings("all")
+    public static int getColumnWith(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+        int width = 0;
+        AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
+
+        if (columnAnnotation != null) {
+            width = columnAnnotation.width();
+        }// end of if cycle
+
+        return width;
+    }// end of static method
 
     /**
      * Get the specific annotation of the property.
@@ -712,7 +735,7 @@ public abstract class LibAnnotation {
      *
      * @param clazz the entity class
      *
-     * @return the list of visible columns on the Grid
+     * @return lista di colonne visibili nella Grid
      */
     @SuppressWarnings("all")
     public static List<String> getListColumns(final Class<? extends AlgosEntity> clazz) {
@@ -733,14 +756,14 @@ public abstract class LibAnnotation {
 
 
     /**
-     * Get the status showsID of the class.
+     * Get the status listShowsID of the class.
      *
      * @param clazz the entity class
      *
      * @return status of class - default false
      */
     @SuppressWarnings("all")
-    public static boolean isShowsID(final Class<? extends AlgosEntity> clazz) {
+    public static boolean isListShowsID(final Class<? extends AlgosEntity> clazz) {
         boolean status = false;
         AIList listAnnotation = getAIList(clazz);
 
@@ -749,6 +772,106 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return status;
+    }// end of static method
+
+
+    /**
+     * Get the width of the property.
+     *
+     * @param clazz the entity class
+     *
+     * @return the width of the column expressed in int
+     */
+    @SuppressWarnings("all")
+    public static int getListWithID(final Class<? extends AlgosEntity> clazz) {
+        int width = 0;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            width = listAnnotation.widthID();
+        }// end of if cycle
+
+        return width;
+    }// end of static method
+
+
+    /**
+     * Get the specific annotation of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public static AIForm getAIForm(final Class<? extends AlgosEntity> clazz) {
+        return clazz.getAnnotation(AIForm.class);
+    }// end of static method
+
+
+    /**
+     * Fields visibili (e ordinati) nel Form
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di fields visibili nel Form
+     */
+    @SuppressWarnings("all")
+    public static List<String> getFormFields(final Class<? extends AlgosEntity> clazz) {
+        List<String> lista = null;
+        String[] fields = null;
+        AIForm formAnnotation = getAIForm(clazz);
+
+        if (formAnnotation != null) {
+            fields = formAnnotation.fields();
+        }// end of if cycle
+
+        if (fields != null && fields.length > 0 && !fields[0].equals("")) {
+            lista = Arrays.asList(fields);
+        }// end of if cycle
+
+        return lista;
+    }// end of static method
+
+
+    /**
+     * Get the status formShowsID of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    @SuppressWarnings("all")
+    public static boolean isFormShowsID(final Class<? extends AlgosEntity> clazz) {
+        boolean status = false;
+        AIForm formAnnotation = getAIForm(clazz);
+
+        if (formAnnotation != null) {
+            status = formAnnotation.showsID();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
+     * Get the width of the property.
+     *
+     * @param clazz the entity class
+     *
+     * @return the width of the field expressed in int
+     */
+    @SuppressWarnings("all")
+    public static String getFormWithID(final Class<? extends AlgosEntity> clazz) {
+        String width = "";
+        int widthInt = 0;
+        String tag = "em";
+        AIForm formAnnotation = getAIForm(clazz);
+
+        if (formAnnotation != null) {
+            widthInt = formAnnotation.widthIDEM();
+            width = widthInt + tag;
+        }// end of if cycle
+
+        return width;
     }// end of static method
 
 }// end of static class

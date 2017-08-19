@@ -10,36 +10,33 @@ import java.lang.annotation.Target;
 
 /**
  * Created by gac on 05 ott 2016.
- * AlgosInterfaceList (AIField)
- * Annotation to add some property for a single collection or list.
+ * AlgosInterfaceList (AIForm)
+ * Annotation to add some property for a single form.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE) //can use in class and interface.
-public @interface AIList {
-
+public @interface AIForm{
 
 
     /**
-     * (Optional) Status (shows the ID property as column) .
+     * (Optional) Status (shows the ID property field) .
      * Defaults to false.
      */
     boolean showsID() default false;
 
 
     /**
-     * (Optional) The width of the ID column.
-     * Defaults to 270
+     * (Optional) The width of the ID field.
+     * Expressed in int, to be converted in String ending with "em"
+     * Defaults to "16em".
      */
-    int widthID() default 270;
-
+    int widthIDEM() default 16;
 
 
     /**
-     * (Optional) List of visible columns on Grid
+     * (Optional) List of visible fields on Form
      * Defaults to all.
      */
-    String[] columns() default "";
-
-
+    String[] fields() default "";
 
 }// end of interface annotation

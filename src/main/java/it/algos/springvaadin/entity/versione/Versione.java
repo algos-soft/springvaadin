@@ -1,24 +1,15 @@
 package it.algos.springvaadin.entity.versione;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.field.AIColumn;
-import it.algos.springvaadin.field.AIField;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.interfaccia.AIColumn;
+import it.algos.springvaadin.interfaccia.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
