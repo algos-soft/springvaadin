@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 /**
  * Created by gac on 05 ott 2016.
- * AlgosInterfaceList (AIForm)
+ * AlgosInterfaceForm (AIForm)
  * Annotation to add some property for a single form.
  */
 @Retention(RetentionPolicy.RUNTIME)

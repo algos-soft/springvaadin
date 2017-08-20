@@ -1,18 +1,26 @@
 package it.algos.springvaadin.entity.stato;
 
-import com.mongodb.DuplicateKeyException;
+import com.mongodb.*;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
+import com.vaadin.server.Resource;
+import com.vaadin.server.StreamResource;
+import com.vaadin.ui.Image;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.bson.types.Binary;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -148,7 +156,20 @@ public class StatoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico) {
-        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico);
+        return newEntity(ordine, nome, alfaDue, alfaTre, numerico, "");
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
+     * @return la nuova entity appena creata
+     */
+    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, String bandiera) {
+        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico, bandiera);
     }// end of method
 
 
@@ -205,5 +226,36 @@ public class StatoService extends AlgosServiceImpl {
     public boolean isEsisteByNome(String nome) {
         return true;
     }// end of method
+
+
+//    public void alfa(String imageName) {
+////        String imageName = "AUS.png";
+//        Mongo mongo = new Mongo("localhost", 27017);
+//        DB db = mongo.getDB("test");
+//        DBCollection collection = db.getCollection("stato");
+//
+//
+//        byte[] byteStream = LibResource.getImgBytes(imageName);
+//        Binary data = new Binary(byteStream);
+//        BasicDBObject obj = new BasicDBObject();
+//        obj.append("name", "nomeLink").append("photo", data);
+//        collection.insert(obj);
+//        int a = 87;
+//
+////        Image imageA = LibResource.getImage("AUS.png");
+////        imageA.setHeight("4em");
+////        imageA.setWidth("8em");
+////
+////        //inizio
+////        String newFileName = "my-image";
+////        File imageFile = new File("/users/victor/images/image.png");
+////        GridFS gfsPhoto = new GridFS("test", "photo");
+////        GridFSInputFile gfsFile = gfsPhoto.createFile(imageFile);
+////        gfsFile.setFilename(newFileName);
+////        gfsFile.save();
+////        Resource stream = LibResource.getImgResource("AUS.svg");
+////        StreamResource resourceSVG = new StreamResource(stream, "graphe.svg");
+//    }// end of method
+
 
 }// end of class

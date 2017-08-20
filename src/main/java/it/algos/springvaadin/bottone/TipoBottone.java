@@ -14,6 +14,7 @@ public enum TipoBottone {
     create,
     edit,
     editLink,
+    editImage,
     delete,
     search,
     showAll,

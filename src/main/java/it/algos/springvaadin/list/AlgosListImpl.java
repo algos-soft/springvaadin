@@ -100,7 +100,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      */
     protected void toolbarInizia(AlgosPresenterImpl presenter) {
         toolbar.inizia();
-        toolbar.setPresenter(presenter);
+        toolbar.regolaBottoni(presenter);
     }// end of method
 
     /**
@@ -204,7 +204,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
     public void setPresenter(AlgosPresenterImpl presenter) {
-        toolbar.setPresenter(presenter);
+        toolbar.regolaBottoni(presenter);
     }// end of method
 
 }// end of class

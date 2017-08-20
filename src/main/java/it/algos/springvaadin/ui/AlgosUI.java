@@ -139,7 +139,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
         try { // prova ad eseguire il codice
 //            log.info("Error ", "Pippoz");
-            if (menuLayout!=null) {
+            if (menuLayout != null) {
                 root.addComponent(menuLayout);
             }// end of if cycle
 
@@ -176,9 +176,9 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      * Visualizza la view nel placeholder
      */
     public void showView(View view) {
-        View navView=view;
+        View navView = view;
         if (view instanceof AlgosNavView) {
-            navView=((AlgosNavView)view).getLinkedView();
+            navView = ((AlgosNavView) view).getLinkedView();
         }// end of if cycle
 
 

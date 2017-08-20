@@ -4,12 +4,14 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.dialog.ConfirmDialog;
+import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import it.algos.springvaadintest.bootstrap.StatoData;
@@ -37,8 +39,8 @@ public class StatoPresenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public StatoPresenter(@Qualifier(Cost.TAG_STA) AlgosView view, @Qualifier(Cost.TAG_STA) AlgosService service) {
-        super(view, service);
+    public StatoPresenter(@Qualifier(Cost.TAG_STA) AlgosView view, @Qualifier(Cost.TAG_STA) AlgosService service,AlgosSearch search) {
+        super(view, service,search);
         super.entityClass = Stato.class;
     }// end of Spring constructor
 
@@ -82,5 +84,6 @@ public class StatoPresenter extends AlgosPresenterImpl {
         statodata.creaStati();
         super.presentaLista();
     }// end of method
+
 
 }// end of class

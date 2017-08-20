@@ -72,7 +72,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
         if (usaItemMenuHelp) {
             menuLayout.addView(HelpNavView.class);
         }// end of if cycle
-        getNavigator().navigateTo(Cost.TAG_VERS);//@todo provvisorio
+        getNavigator().navigateTo(Cost.TAG_STA);//@todo provvisorio
     }// end of method
 
 

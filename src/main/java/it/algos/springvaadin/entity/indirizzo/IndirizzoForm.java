@@ -38,7 +38,7 @@ public class IndirizzoForm extends AlgosFormImpl {
      * @param toolbar iniettata da Spring
      */
     public IndirizzoForm(FormToolbar toolbar) {
-        super((AlgosToolbar) toolbar);
+        super(toolbar);
     }// end of Spring constructor
 
 

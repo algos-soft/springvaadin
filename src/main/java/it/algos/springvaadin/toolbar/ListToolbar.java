@@ -3,11 +3,8 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.lib.Cost;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 03/06/17
@@ -29,10 +26,10 @@ public class ListToolbar extends AlgosToolbar {
 
 
     public ListToolbar(
-            @Qualifier(Cost.TAG_BOT_CREATE) Bottone buttonCreate,
-            @Qualifier(Cost.TAG_BOT_EDIT) Bottone buttonEdit,
-            @Qualifier(Cost.TAG_BOT_DELETE) Bottone buttonDelete,
-            @Qualifier(Cost.TAG_BOT_SEARCH) Bottone buttonSearch) {
+            @Qualifier(Cost.BOT_CREATE) Bottone buttonCreate,
+            @Qualifier(Cost.BOT_EDIT) Bottone buttonEdit,
+            @Qualifier(Cost.BOT_DELETE) Bottone buttonDelete,
+            @Qualifier(Cost.BOT_SEARCH) Bottone buttonSearch) {
         this.buttonCreate = buttonCreate;
         this.buttonEdit = buttonEdit;
         this.buttonDelete = buttonDelete;

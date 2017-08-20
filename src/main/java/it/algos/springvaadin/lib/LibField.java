@@ -38,10 +38,10 @@ import java.util.List;
 /**
  * Created by gac on 18 ott 2016.
  * Creazione dei field dalla annotation
+ * In Spring le librerie NON possono essere astratte, altrimenti si perde @PostConstruct e @Autowired
  */
 @SpringComponent
-public abstract class LibField {
-
+public class LibField {
 
     private static IndirizzoField indirizzoField;
     @Autowired
@@ -124,14 +124,19 @@ public abstract class LibField {
                 case localdatetime:
                     field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
                     break;
+                case image:
+//                    field = new AlgosImageField();
+                    break;
                 case link:
                     Class<?> linkClazz = LibAnnotation.getClass(clazz, publicFieldName);
                     String name = linkClazz.getSimpleName();
 
                     switch (name) {
                         case "IndirizzoField":
-                            field = indirizzoField;
-                            field.setFormPresenter(presenter);
+                            if (indirizzoField!=null) {
+                                field = indirizzoField;
+                                field.setFormPresenter(presenter);
+                            }// end of if cycle
                             break;
                         default: // caso non definito
                             break;

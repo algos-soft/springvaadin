@@ -25,17 +25,23 @@ public abstract class Cost {
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
 
-    public final static String TAG_BOT_CREATE = "create";
-    public final static String TAG_BOT_EDIT = "edit";
-    public final static String TAG_BOT_DELETE = "delete";
-    public final static String TAG_BOT_SEARCH = "search";
-    public final static String TAG_BOT_SHOW_ALL = "all";
-    public final static String TAG_BOT_ANNULLA = "annulla";
-    public final static String TAG_BOT_ACCETTA = "accetta";
-    public final static String TAG_BOT_BACK = "back";
-    public final static String TAG_BOT_REVERT = "revert";
-    public final static String TAG_BOT_REGISTRA = "registra";
-    public final static String TAG_BOT_IMPORT = "import";
+    public final static String BOT_ACCETTA = "accetta";
+    public final static String BOT_ANNULLA = "annulla";
+    public final static String BOT_BACK = "back";
+    public final static String BOT_CREATE = "nuovo";
+    public final static String BOT_DELETE = "elimina";
+    public final static String BOT_EDIT = "modifica";
+    public final static String BOT_IMAGE = "immagine";
+    public final static String BOT_IMPORT = "import";
+    public final static String BOT_REGISTRA = "registra";
+    public final static String BOT_REVERT = "revert";
+    public final static String BOT_SEARCH = "ricerca";
+    public final static String BOT_SHOW_ALL = "tutto";
+    public final static String BOT_DIALOGO = "dialogo";
+
+    public final static String STYLE_GREEN = "buttonGreen";
+    public final static String STYLE_BLUE = "buttonBlue";
+    public final static String STYLE_RED = "buttonRed";
 
     public final static String TAG_AZ_ATTACH = "attach";
     public final static String TAG_AZ_CLICK = "click";
@@ -45,5 +51,5 @@ public abstract class Cost {
     public final static String TAG_AZ_VALUE_CHANGED = "valueChange";
     public final static String TAG_AZ_LISTENER = "listener";
 	public final static String TAG_IND = "indirizzo";
-	public final static String TAG_STA = "stato";
+    public final static String TAG_STA = "stato";
 }// end of static class;

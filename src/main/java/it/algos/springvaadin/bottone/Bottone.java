@@ -1,11 +1,15 @@
 package it.algos.springvaadin.bottone;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 26/7/17
@@ -21,13 +25,18 @@ import org.springframework.context.ApplicationEventPublisher;
 public abstract class Bottone extends Button {
 
 
+    final static String NORMAL_WIDTH = "8em";
+    final static String ICON_WIDTH = "3em";
+
+
     /**
-     * Property iniettata nel costruttore
+     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
     protected ApplicationEventPublisher applicationEventPublisher;
 
+
     /**
-     * Property iniettata manualmente DOPO il costruttore
+     * Property iniettata manualmente DOPO il costruttore e DOPO la chiamata del browser
      */
     protected AlgosPresenterImpl presenter;
 
@@ -36,7 +45,7 @@ public abstract class Bottone extends Button {
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
      * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
      */
-    public TipoBottone tipo;
+    private BottonType type;
 
 
     /**
@@ -49,12 +58,34 @@ public abstract class Bottone extends Button {
 
 
     /**
-     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-     * Chiamato dalla sottoclasse
-     * Aggiunge il listener
+     * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
+     * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
      */
+    @PostConstruct
     protected void inizia() {
-        // Handle the event with an anonymous class
+        this.fixParametri();
+        this.addListener();
+    }// end of method
+
+
+    /**
+     * Regola i parametri del bottone specifico (usando la Enumeration dei bottoni)
+     */
+    private void fixParametri() {
+        super.setCaption(type.getCaption());
+        super.setCaption(type.getCaption());
+        super.setIcon(type.getIcon());
+        super.setEnabled(type.isEnabled());
+        super.setWidth(type.getWidth());
+    }// end of method
+
+
+    /**
+     * Aggiunge il listener al bottone
+     * Handle the event with an anonymous class
+     * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
+     */
+    private void addListener() {
         this.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -64,20 +95,48 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
-    public void setPresenter(AlgosPresenterImpl presenter) {
+    /**
+     * Metodo invocato DOPO la chiamata del browser, da AlgosToolbar->setPresenter()
+     * I bottoni vengono creati da Spring in una fase iniziale 'statica' e non sanno chi li 'userà'
+     * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
+     * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
+     * Regola lo style del bottone.
+     * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
+     */
+    public void regolaBottone(AlgosPresenterImpl presenter) {
         this.presenter = presenter;
+
+        if (LibParams.usaBottoniColorati()) {
+            this.addStyleName(type.getStyle());
+        }// end of if cycle
     }// end of method
 
 
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (presenter != null) {
             applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
         } else {
-            log.error("Bottone: manca il presenter nel bottone " + tipo);
+            log.error("Bottone: manca il presenter nel bottone " + type);
         }// end of if/else cycle
+    }// end of method
+
+
+    public void setPresenter(AlgosPresenterImpl presenter) {
+        this.presenter = presenter;
+    }// end of method
+
+    protected void setType(BottonType type) {
+        this.type = type;
+    }// end of method
+
+
+    public BottonType getType() {
+        return type;
     }// end of method
 
 

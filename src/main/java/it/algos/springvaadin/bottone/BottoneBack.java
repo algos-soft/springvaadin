@@ -1,6 +1,5 @@
 package it.algos.springvaadin.bottone;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.ButtonSpringEvent;
@@ -13,25 +12,26 @@ import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_BOT_BACK)
+@Qualifier(Cost.BOT_BACK)
 public class BottoneBack extends Bottone {
 
     public BottoneBack(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
+        super.setType(BottonType.back);
     }// end of @Autowired constructor
 
-    /**
-     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-     */
-    @PostConstruct
-    protected void inizia() {
-        super.setCaption("Annulla");
-        super.setIcon(VaadinIcons.ARROW_BACKWARD);
-        super.setEnabled(true);
-        super.tipo = TipoBottone.back;
-
-        super.inizia();
-    }// end of method
+//    /**
+//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
+//     */
+//    @PostConstruct
+//    protected void inizia() {
+//        super.inizia();
+//
+////        super.setCaption("Annulla");
+////        super.setIcon(VaadinIcons.ARROW_BACKWARD);
+////        super.setEnabled(true);
+////        super.setTipo(TipoBottone.back);
+//    }// end of method
 
     /**
      * Recupera il presenter dalla 'catena' grafica attiva

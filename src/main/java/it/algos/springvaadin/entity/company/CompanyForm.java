@@ -25,7 +25,7 @@ public class CompanyForm extends AlgosFormImpl {
      * @param toolbar iniettata da Spring
      */
     public CompanyForm(FormToolbar toolbar) {
-        super((AlgosToolbar)toolbar);
+        super(toolbar);
     }// end of Spring constructor
 
 

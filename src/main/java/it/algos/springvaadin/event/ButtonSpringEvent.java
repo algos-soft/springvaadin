@@ -25,17 +25,17 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
 
 
     public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto) {
-        this(source,bottonePremuto,(AlgosEntity)null);
+        this(source, bottonePremuto, (AlgosEntity) null);
     }// end of constructor
 
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto,AlgosEntity entityBean) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, AlgosEntity entityBean) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto,AlgosEntity entityBean,AlgosField parentField) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, AlgosEntity entityBean, AlgosField parentField) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.entityBean = entityBean;

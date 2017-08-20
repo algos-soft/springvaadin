@@ -109,6 +109,7 @@ public interface AlgosService {
      * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
      * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     * 4) Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
      *
      * @return lista di fileds visibili nel Form
      */

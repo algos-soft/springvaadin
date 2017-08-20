@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,6 +163,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
      * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     * 4) Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
      *
      * @return lista di fields visibili nel Form
      */
@@ -173,9 +175,17 @@ public abstract class AlgosServiceImpl implements AlgosService {
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         lista = LibAnnotation.getFormFields(entityClass);
 
+        //--Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
+        showsID = LibAnnotation.isFormShowsID(entityClass);
+        if (lista != null && showsID) {
+            ArrayList<String> listaTmp = new ArrayList<>();
+            listaTmp.add(Cost.PROPERTY_ID);
+            listaTmp.addAll(lista);
+            lista = listaTmp;
+        }// end of if cycle
+
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
         if (lista == null) {
-            showsID = LibAnnotation.isFormShowsID(entityClass);
             lista = LibReflection.getAllFieldName(entityClass, showsID);
         }// end of if cycle
 

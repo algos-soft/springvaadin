@@ -1,14 +1,14 @@
 package it.algos.springvaadin.presenter;
 
+import com.vaadin.ui.*;
+import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.search.AlgosSearch;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
@@ -43,6 +43,15 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     protected AlgosService service;
 
 
+    //--dialogo di ricerca
+    protected AlgosSearch search;
+
+
+    //--dialogo di gestione delle immagini
+    @Autowired
+    protected ImageDialog imageDialog;
+
+
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
     protected Class<? extends AlgosEntity> entityClass;
 
@@ -55,9 +64,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public AlgosPresenterImpl(AlgosView view, AlgosService service) {
+    public AlgosPresenterImpl(AlgosView view, AlgosService service, AlgosSearch search) {
         this.view = view;
         this.service = service;
+        this.search = search;
     }// end of Spring constructor
 
 
@@ -190,6 +200,23 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     /**
      * Evento
+     * Edit button pressed in field Image
+     */
+    @Override
+    public void editImage(AlgosEntity entityBean, AlgosField parentField) {
+
+        if (imageDialog != null) {
+            imageDialog.show(this);
+        }// end of if cycle
+
+//        if (entityBean != null) {
+//            modifica(entityBean);
+//        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Evento
      * Row pressed double in grid
      * Recupera il record selezionato
      * Display the item in a form
@@ -236,6 +263,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             this.presentaLista();
         }// end of if cycle
     }// end of method
+
+
+    @Override
+    public void search() {
+        search.show(UI.getCurrent());
+    }// end of method
+
 
     @Override
     public void importa() {
@@ -320,6 +354,12 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         this.presentaLista();
     }// end of method
 
+
+    @Override
+    public void back() {
+        view.closeFormWindow();
+        UI.getCurrent().removeWindow(imageDialog);
+    }// end of method
 
     /**
      * Evento

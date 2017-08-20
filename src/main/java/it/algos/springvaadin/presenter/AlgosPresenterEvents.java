@@ -4,6 +4,7 @@ import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
+import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AlgosField;
@@ -52,6 +53,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     public void editLink(AlgosEntity entityBean, AlgosField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
+    @Override
+    public void editImage(AlgosEntity entityBean, AlgosField parentField) {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Modifica Immagine", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -128,6 +136,15 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             Notification.show("TipoBottone", "Premuto Annulla", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
+
+
+    @Override
+    public void back() {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Back", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
 
     @Override
     public void revert() {
@@ -221,19 +238,22 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onListEvent(ButtonSpringEvent event) {
-        TipoBottone tipo = event.getBottone().tipo;
+        BottonType type = event.getBottone().getType();
         AlgosEntity entityBean = event.getEntityBean();
         AlgosField parentField = event.getParentField();
 
-        switch (tipo) {
+        switch (type) {
             case create:
                 create();
                 break;
             case edit:
                 edit(entityBean, parentField);
                 break;
-            case editLink:
-                editLink(entityBean, parentField);
+//            case editLink:
+//                editLink(entityBean, parentField);
+//                break;
+            case image:
+                editImage(entityBean, parentField);
                 break;
             case delete:
                 delete();
@@ -241,14 +261,17 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             case search:
                 search();
                 break;
-            case showAll:
+            case show:
                 showAll();
                 break;
             case importa:
                 importa();
                 break;
-            case back:
+            case annulla:
                 annulla();
+                break;
+            case back:
+                back();
                 break;
             case revert:
                 revert();

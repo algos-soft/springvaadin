@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.indirizzo;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
+import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.ButtonSpringEvent;
@@ -28,20 +29,21 @@ public class IndirizzoBottoneEdit extends Bottone {
 
     public IndirizzoBottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
+        super.setType(BottonType.importa);
     }// end of @Autowired constructor
 
-    /**
-     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-     */
-    @PostConstruct
-    protected void inizia() {
-        super.setCaption("");
-        super.setIcon(VaadinIcons.EDIT);
-        super.setEnabled(true);
-        super.tipo = TipoBottone.editLink;
-
-        super.inizia();
-    }// end of method
+//    /**
+//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
+//     */
+//    @PostConstruct
+//    protected void inizia() {
+//        super.setCaption("");
+//        super.setIcon(VaadinIcons.EDIT);
+//        super.setEnabled(true);
+////        super.tipo = TipoBottone.editLink;
+//
+//        super.inizia();
+//    }// end of method
 
 
     public void setPresenter(AlgosPresenterImpl presenter) {

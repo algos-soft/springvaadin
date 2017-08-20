@@ -2,15 +2,13 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.interfaccia.AIColumn;
-import it.algos.springvaadin.interfaccia.AIField;
-import it.algos.springvaadin.interfaccia.AIForm;
-import it.algos.springvaadin.interfaccia.AIList;
+import it.algos.springvaadin.interfaccia.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,7 +31,8 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
 @AIList(showsID = true, widthID = 80)
-@AIForm(showsID = true,widthIDEM = 4)
+@AIForm(showsID = true, widthIDEM = 4, fields = {"ordine", "nome", "alfaDue", "alfaTre", "numerico","bandiera"})
+@AISearch(fields = {"nome", "alfaDue"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -86,13 +85,21 @@ public class Stato extends AlgosEntity {
     private String alfaTre;
 
 
-    //--codice numerico di 3 cifre (facoltativo, unico)
+    //--codice numerico di 3 cifre (facoltativo, vuoto oppure unico)
     //-- 249 codici assegnati
     @Indexed(unique = false)
     @Size(min = 3, max = 3)
     @AIField(type = AFType.text, widthEM = 4, onlyNumber = true)
     @AIColumn(width = 100)
     private String numerico;
+
+
+    //--immagine bandiera (facoltativo, unico)
+    //-- 249 codici assegnati
+    @Indexed(unique = false)
+    @AIField(type = AFType.image, widthEM = 8)
+    @AIColumn(width = 100)
+    private String bandiera;
 
 
     /**

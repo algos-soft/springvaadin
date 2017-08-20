@@ -14,8 +14,12 @@ public class ConfirmDialog extends BaseDialog {
     //private ConfirmListener confirmListener;
     private ArrayList<ConfirmListener> confirmListeners = new ArrayList();
 
-    private Button confirmButton;
-    private Button cancelButton;
+    protected Button cancelButton;
+    protected Button confirmButton;
+
+    public ConfirmDialog() {
+        this(null);
+    }// end of constructor
 
     public ConfirmDialog(Listener closeListener) {
         this(null, null, closeListener);

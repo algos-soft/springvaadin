@@ -3,11 +3,8 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.lib.Cost;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 23/06/17
@@ -26,9 +23,9 @@ public class FormToolbar extends AlgosToolbar {
 
 
     public FormToolbar(
-            @Qualifier(Cost.TAG_BOT_BACK) Bottone buttonAnnulla,
-            @Qualifier(Cost.TAG_BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.TAG_BOT_REGISTRA) Bottone buttonRegistra) {
+            @Qualifier(Cost.BOT_ANNULLA) Bottone buttonAnnulla,
+            @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
+            @Qualifier(Cost.BOT_REGISTRA) Bottone buttonRegistra) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
         this.buttonRegistra = buttonRegistra;
@@ -40,9 +37,9 @@ public class FormToolbar extends AlgosToolbar {
      */
     @Override
     public void inizia() {
-        super.addButton(buttonAnnulla, "buttonGreen");
-        super.addButton(buttonRevert, "buttonGreen");
-        super.addButton(buttonRegistra, "buttonBlue");
+        super.addButton(buttonAnnulla);
+        super.addButton(buttonRevert);
+        super.addButton(buttonRegistra);
     }// end of method
 
     @Override

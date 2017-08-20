@@ -1,10 +1,14 @@
 package it.algos.springvaadin.form;
 
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 import com.vaadin.data.Binder;
 import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.Converter;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.server.Resource;
+import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
@@ -23,6 +27,7 @@ import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +59,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    protected AlgosToolbar toolbar;
+    protected FormToolbar toolbar;
 
     /**
      * Costruttore @Autowired
@@ -62,7 +67,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param toolbar iniettata da Spring
      */
-    public AlgosFormImpl(AlgosToolbar toolbar) {
+    public AlgosFormImpl(FormToolbar toolbar) {
         this.toolbar = toolbar;
     }// end of Spring constructor
 
@@ -134,7 +139,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         layout.addComponent(new Label());
         toolbar.inizia();
-        toolbar.setPresenter(presenter);
+        toolbar.regolaBottoni(presenter);
         layout.addComponent(toolbar);
 
         window.setContent(layout);
@@ -332,7 +337,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param presenter di riferimento per gli eventi
      * @param fields    del form da visualizzare
      */
-    private void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
+    protected void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -345,7 +350,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         this.addComponent(new Label());
         toolbar.inizia();
-        toolbar.setPresenter(presenter);
+        toolbar.regolaBottoni(presenter);
         this.addComponent(toolbar);
     }// end of method
 

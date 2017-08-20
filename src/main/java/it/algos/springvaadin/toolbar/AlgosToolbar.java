@@ -21,32 +21,39 @@ public abstract class AlgosToolbar extends HorizontalLayout {
     }// end of method
 
 
-    public void addButton(Bottone bottone) {
-        addButton(bottone, "");
-    }// end of method
 
-    void addButton(Bottone bottone, String styleName) {
-
-        if (LibParams.usaBottoniColorati()) {
-            if (!styleName.equals("")) {
-                bottone.addStyleName(styleName);
-            }// end of if cycle
-        }// end of if cycle
-
+    void addButton(Bottone bottone) {
         addComponent(bottone);
     }// end of method
 
 
-    public void addButtonWithPresenter(Bottone bottone,AlgosPresenterImpl presenter) {
-        addButton(bottone, "");
-        bottone.setPresenter(presenter);
-    }// end of method
-
-    public void setPresenter(AlgosPresenterImpl presenter) {
+    /**
+     * Metodo invocato DOPO la chiamata del browser, da AlgosList e da AlgosForm
+     * I bottoni vengono creati da Spring in una fase iniziale 'statica' e non sanno chi li 'userà'
+     * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
+     * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
+     */
+    public void regolaBottoni(AlgosPresenterImpl presenter) {
         for (int k = 0; k < getComponentCount(); k++) {
-            ((Bottone) getComponent(k)).setPresenter(presenter);
+            ((Bottone) getComponent(k)).regolaBottone(presenter);
         }// end of for cycle
     }// end of method
+
+
+//    public void addButtonWithPresenter(Bottone bottone, AlgosPresenterImpl presenter) {
+//        addButtonWithPresenter(bottone, "", presenter);
+//    }// end of method
+//
+//    public void addButtonWithPresenter(Bottone bottone, String styleName, AlgosPresenterImpl presenter) {
+//        addButton(bottone, styleName);
+//        bottone.setPresenter(presenter);
+//    }// end of method
+//
+//    public void setPresenter(AlgosPresenterImpl presenter) {
+//        for (int k = 0; k < getComponentCount(); k++) {
+//            ((Bottone) getComponent(k)).setPresenter(presenter);
+//        }// end of for cycle
+//    }// end of method
 
     public void enableAnnulla(boolean status) {
     }// end of method

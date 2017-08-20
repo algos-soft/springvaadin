@@ -1,6 +1,5 @@
 package it.algos.springvaadin.bottone;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,24 +10,26 @@ import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_BOT_REVERT)
+@Qualifier(Cost.BOT_REVERT)
 public class BottoneRevert extends Bottone {
+
 
     public BottoneRevert(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
+        super.setType(BottonType.revert);
     }// end of @Autowired constructor
 
-    /**
-     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-     */
-    @PostConstruct
-    protected void inizia() {
-        super.setCaption("Ripristina");
-        super.setIcon(VaadinIcons.REFRESH);
-        super.setEnabled(false);
-        super.tipo = TipoBottone.revert;
-
-        super.inizia();
-    }// end of method
+//    /**
+//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
+//     */
+//    @PostConstruct
+//    protected void inizia() {
+//        super.inizia();
+//
+////        super.setCaption("Ripristina");
+////        super.setIcon(VaadinIcons.REFRESH);
+////        super.setEnabled(false);
+////        super.setTipo(TipoBottone.revert);
+//    }// end of method
 
 }// end of class

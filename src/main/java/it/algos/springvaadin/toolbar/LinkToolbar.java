@@ -25,9 +25,9 @@ public class LinkToolbar extends AlgosToolbar {
 
 
     public LinkToolbar(
-            @Qualifier(Cost.TAG_BOT_BACK) Bottone buttonAnnulla,
-            @Qualifier(Cost.TAG_BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.TAG_BOT_ACCETTA) Bottone buttonAccetta) {
+            @Qualifier(Cost.BOT_BACK) Bottone buttonAnnulla,
+            @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
+            @Qualifier(Cost.BOT_ACCETTA) Bottone buttonAccetta) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
         this.buttonAccetta = buttonAccetta;
@@ -39,9 +39,9 @@ public class LinkToolbar extends AlgosToolbar {
      */
     @PostConstruct
     public void inizia() {
-        super.addButton(buttonAnnulla, "buttonGreen");
-        super.addButton(buttonRevert, "buttonGreen");
-        super.addButton(buttonAccetta, "buttonBlue");
+        super.addButton(buttonAnnulla);
+        super.addButton(buttonRevert);
+        super.addButton(buttonAccetta);
     }// end of method
 
     public void enableAnnulla(boolean status) {
