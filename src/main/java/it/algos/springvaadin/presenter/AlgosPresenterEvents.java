@@ -1,11 +1,11 @@
 package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Window;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.bottone.BottonType;
-import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -31,6 +31,18 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     public void create() {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Nuovo", Notification.Type.HUMANIZED_MESSAGE);
+        }// end of if cycle
+    }// end of method
+
+    /**
+     * Evento
+     * Apre un dialodo standard di selezioni di files
+     * Create a file chooser
+     */
+    @Override
+    public void chooser(AlgosEntity entityBean, Window parentDialog) {
+        if (AlgosApp.USE_DEBUG) {
+            Notification.show("TipoBottone", "Premuto Chooser", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -241,10 +253,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         BottonType type = event.getBottone().getType();
         AlgosEntity entityBean = event.getEntityBean();
         AlgosField parentField = event.getParentField();
+        Window parentDialog = event.getParentDialog();
 
         switch (type) {
             case create:
                 create();
+                break;
+            case chooser:
+                chooser(entityBean, parentDialog);
                 break;
             case edit:
                 edit(entityBean, parentField);

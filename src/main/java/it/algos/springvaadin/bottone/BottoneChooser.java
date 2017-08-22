@@ -6,18 +6,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
-
+/**
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: lun, 21-ago-2017
+ * Time: 06:24
+ */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_REGISTRA)
-public class BottoneRegistra extends Bottone {
+@Qualifier(Cost.BOT_CHOOSER)
+public class BottoneChooser extends Bottone{
 
-
-    public BottoneRegistra(ApplicationEventPublisher applicationEventPublisher) {
-       super(applicationEventPublisher);
-        super.setType(BottonType.registra);
+    public BottoneChooser(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
+        super.setType(BottonType.chooser);
     }// end of @Autowired constructor
 
-
 }// end of class
+

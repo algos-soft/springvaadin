@@ -5,7 +5,6 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.TipoBottone;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;

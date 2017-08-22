@@ -29,18 +29,4 @@ public class BottoneImage extends Bottone {
     }// end of Spring constructor
 
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setIcon(VaadinIcons.EDIT);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.editImage);
-////        this.setWidth(iconWidth);
-//    }// end of method
-
-
 }// end of class

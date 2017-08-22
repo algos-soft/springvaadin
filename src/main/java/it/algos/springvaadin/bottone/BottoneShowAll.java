@@ -20,17 +20,4 @@ public class BottoneShowAll extends Bottone {
     }// end of @Autowired constructor
 
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Tutto");
-////        super.setIcon(VaadinIcons.ALIGN_JUSTIFY);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.showAll);
-//    }// end of method
-
 }// end of class

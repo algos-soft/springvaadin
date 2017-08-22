@@ -19,17 +19,4 @@ public class BottoneDelete extends Bottone {
         super.setType(BottonType.delete);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Elimina");
-////        super.setIcon(VaadinIcons.CLOSE);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.delete);
-//    }// end of method
-
 }// end of class

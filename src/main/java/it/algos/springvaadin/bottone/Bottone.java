@@ -2,8 +2,10 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Window;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,11 @@ public abstract class Bottone extends Button {
      */
     protected AlgosPresenterImpl presenter;
 
+
+    /**
+     * Property regolata DOPO la chiamata del browser
+     */
+    private Window parentDialog;
 
     /**
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
@@ -101,13 +108,36 @@ public abstract class Bottone extends Button {
      * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
      * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
      * Regola lo style del bottone.
+     * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
     public void regolaBottone(AlgosPresenterImpl presenter) {
+        regolaBottone(presenter, null);
+    }// end of method
+
+
+    /**
+     * Metodo invocato DOPO la chiamata del browser, da AlgosToolbar->setPresenter()
+     * I bottoni vengono creati da Spring in una fase iniziale 'statica' e non sanno chi li 'userà'
+     * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
+     * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
+     * Regola lo style del bottone.
+     * Forza a maiuscola la prima lettera del testo del bottone
+     * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
+     */
+    public void regolaBottone(AlgosPresenterImpl presenter, Window parentDialog) {
         this.presenter = presenter;
+
+        if (parentDialog != null) {
+            this.parentDialog = parentDialog;
+        }// end of if cycle
 
         if (LibParams.usaBottoniColorati()) {
             this.addStyleName(type.getStyle());
+        }// end of if cycle
+
+        if (LibParams.usaBottoniPrimaMaiuscola()) {
+            this.setCaption(LibText.primaMaiuscola(getCaption()));
         }// end of if cycle
     }// end of method
 
@@ -119,7 +149,11 @@ public abstract class Bottone extends Button {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (presenter != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+            if (parentDialog != null) {
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this, parentDialog));
+            } else {
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+            }// end of if/else cycle
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
         }// end of if/else cycle
@@ -129,6 +163,7 @@ public abstract class Bottone extends Button {
     public void setPresenter(AlgosPresenterImpl presenter) {
         this.presenter = presenter;
     }// end of method
+
 
     protected void setType(BottonType type) {
         this.type = type;

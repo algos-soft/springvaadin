@@ -23,19 +23,6 @@ public class BottoneEdit extends Bottone {
         super.setType(BottonType.edit);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Modifica");
-////        super.setIcon(VaadinIcons.EDIT);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.edit);
-//    }// end of method
-
 
     public void setPresenter(AlgosPresenterImpl presenter) {
         this.presenter = presenter;

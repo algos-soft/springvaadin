@@ -25,6 +25,7 @@ import com.vaadin.ui.*;
  */
 @SuppressWarnings("serial")
 public abstract class BaseDialog extends Window {
+
 	protected Component detail;
 	private DialogToolbar toolbar;
 	private VerticalLayout mainLayout;
@@ -64,7 +65,6 @@ public abstract class BaseDialog extends Window {
 		toolbar.setWidth("100%");
 
 		setContent(mainLayout);
-
 		center();
 
 	}

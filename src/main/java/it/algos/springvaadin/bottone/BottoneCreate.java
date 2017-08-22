@@ -20,17 +20,4 @@ public class BottoneCreate extends Bottone {
     }// end of @Autowired constructor
 
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Nuovo");
-////        super.setIcon(VaadinIcons.PLUS);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.create);
-//    }// end of method
-
 }// end of class

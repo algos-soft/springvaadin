@@ -19,17 +19,5 @@ public class BottoneSearch extends Bottone {
         super.setType(BottonType.search);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Ricerca");
-////        super.setIcon(VaadinIcons.SEARCH);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.search);
-//    }// end of method
 
 }// end of class

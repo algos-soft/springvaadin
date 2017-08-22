@@ -37,7 +37,7 @@ public class ImageDialog extends Window {
 
     public ImageDialog(
             @Qualifier(Cost.BOT_BACK) Bottone buttonBack,
-            @Qualifier(Cost.BOT_CREATE) Bottone buttonCreate,
+            @Qualifier(Cost.BOT_CHOOSER) Bottone buttonCreate,
             @Qualifier(Cost.BOT_DELETE) Bottone buttonDelete,
             @Qualifier(Cost.BOT_ACCETTA) Bottone buttonAccetta) {
         this.buttonBack = buttonBack;
@@ -76,18 +76,11 @@ public class ImageDialog extends Window {
 
 
     private void resetButtons(AlgosPresenterImpl presenter) {
-        buttonBack.setPresenter(presenter);
-        buttonCreate.setPresenter(presenter);
-        buttonDelete.setPresenter(presenter);
-        buttonAccetta.setPresenter(presenter);
+        buttonBack.regolaBottone(presenter, this);
+        buttonCreate.regolaBottone(presenter, this);
+        buttonDelete.regolaBottone(presenter, this);
+        buttonAccetta.regolaBottone(presenter, this);
 
-
-//        if (LibParams.usaBottoniColorati()) {
-//            buttonBack.addStyleName("buttonGreen");
-//            buttonCreate.addStyleName("buttonGreen");
-//            buttonDelete.addStyleName("buttonRed");
-//            buttonAccetta.addStyleName("buttonBlue");
-//        }// end of if cycle
 
         try { // prova ad eseguire il codice
             mainLayout.removeComponent(image);

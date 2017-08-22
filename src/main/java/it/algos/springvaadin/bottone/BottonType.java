@@ -20,9 +20,10 @@ import it.algos.springvaadin.lib.Cost;
 public enum BottonType {
 
 
-    accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
     annulla(Cost.BOT_ANNULLA, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     back(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),

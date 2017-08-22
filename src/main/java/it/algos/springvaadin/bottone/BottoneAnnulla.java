@@ -18,17 +18,4 @@ public class BottoneAnnulla extends Bottone {
         super.setType(BottonType.annulla);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Annulla");
-////        super.setIcon(VaadinIcons.CLOSE);
-////        super.setEnabled(true);
-////        super.setTipo(TipoBottone.annulla);
-//    }// end of method
-
 }// end of class

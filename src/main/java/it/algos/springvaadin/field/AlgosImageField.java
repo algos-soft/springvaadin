@@ -29,7 +29,7 @@ public class AlgosImageField extends CustomField implements AlgosField {
 
     @Override
     protected Component initContent() {
-        image = LibResource.getImage("AUS.png");
+        image = LibResource.getImage("DEU.png");
         image.setWidth("8em");
         image.setHeight("4em");
         return new HorizontalLayout(buttonDialogo, image);
@@ -45,9 +45,26 @@ public class AlgosImageField extends CustomField implements AlgosField {
         return null;
     }
 
+//    public void setValue(Object obj) {
+//        int a = 87;
+//    }
+
     @Override
     public void doValue(AlgosEntity entityBean) {
         int a = 87;
+        String name = "";
+        if (entityBean != null) {
+            name = entityBean.getId();
+        }// end of if cycle
+        name = name.toUpperCase() + ".png";
+
+        Image image = LibResource.getImage(name);
+        if (image != null) {
+            image.setHeight("4em");
+            image.setWidth("8em");
+//            this.addComponent(image);
+        }// end of if cycle
+
     }
 
     @Override

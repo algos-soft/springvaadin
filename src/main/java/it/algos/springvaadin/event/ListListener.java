@@ -1,6 +1,7 @@
 package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Window;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
 
@@ -12,6 +13,8 @@ import it.algos.springvaadin.model.AlgosEntity;
 public interface ListListener {
 
     public void create();
+
+    public void chooser(AlgosEntity entityBean, Window parentDialog);
 
     public void edit(AlgosEntity entityBean);
 

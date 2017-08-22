@@ -121,6 +121,16 @@ public abstract class AlgosUIParams extends UI {
 
     /**
      * Flag.
+     * Utilizzo di bottoni sempre con la prima lettera maiuscola
+     * Priority, friendly, danger
+     * Regolato nel metodo genericFixAndPrint() di questa classe
+     * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
+     */
+    public boolean usaBottoniPrimaMaiuscola;
+
+
+    /**
+     * Flag.
      * Utilizzo di dialoghi 'verbosi' (con maggiori informazioni)
      * Regolato nel metodo genericFixAndPrint() di questa classe
      * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
@@ -233,6 +243,9 @@ public abstract class AlgosUIParams extends UI {
 
         this.usaBottoniColorati = true;
         log.info("AlgosUIParams.usaBottoniColorati: " + this.usaBottoniColorati);
+
+        this.usaBottoniPrimaMaiuscola = true;
+        log.info("AlgosUIParams.usaBottoniPrimaMaiuscola: " + this.usaBottoniPrimaMaiuscola);
 
         this.usaDialoghiVerbosi = false;
         log.info("AlgosUIParams.usaDialoghiVerbosi: " + this.usaDialoghiVerbosi);

@@ -2,6 +2,7 @@ package it.algos.springvaadin.event;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Window;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -20,12 +21,21 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     //--opzionale
     private AlgosField parentField;
 
+    //--opzionale
+    private Window parentDialog;
+
     //--L'entityBean viene inserita come parametro opzionale
     private AlgosEntity entityBean;
 
 
     public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto) {
         this(source, bottonePremuto, (AlgosEntity) null);
+    }// end of constructor
+
+    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, Window parentDialog) {
+        super(source);
+        this.bottonePremuto = bottonePremuto;
+        this.parentDialog = parentDialog;
     }// end of constructor
 
 
@@ -55,4 +65,12 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
         return parentField;
     }// end of method
 
-}// end of classZSA >aq A<za<Q
+    public Window getParentDialog() {
+        return parentDialog;
+    }// end of method
+
+    public void setParentDialog(Window parentDialog) {
+        this.parentDialog = parentDialog;
+    }// end of method
+
+}// end of class

@@ -247,6 +247,19 @@ public abstract class LibParams {
 
     /**
      * Flag.
+     * Utilizzo di bottoni sempre con la prima lettera maiuscola
+     * Priority, friendly, danger
+     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
+     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
+     */
+    public static boolean usaBottoniPrimaMaiuscola() {
+        AlgosUIParams uiParams = (AlgosUIParams) LibVaadin.getUI();
+        return uiParams != null && uiParams.usaBottoniPrimaMaiuscola;
+    }// end of static method
+
+
+    /**
+     * Flag.
      * Utilizzo di dialoghi 'verbosi' (con maggiori informazioni)
      * Priority, friendly, danger
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()

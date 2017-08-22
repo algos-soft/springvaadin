@@ -19,17 +19,5 @@ public class BottoneRevert extends Bottone {
         super.setType(BottonType.revert);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Ripristina");
-////        super.setIcon(VaadinIcons.REFRESH);
-////        super.setEnabled(false);
-////        super.setTipo(TipoBottone.revert);
-//    }// end of method
 
 }// end of class

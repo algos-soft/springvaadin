@@ -19,17 +19,5 @@ public class BottoneAccetta extends Bottone {
         super.setType(BottonType.accetta);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//
-////        super.setCaption("Accetta");
-////        super.setIcon(VaadinIcons.CHECK);
-////        super.setEnabled(false);
-////        super.setTipo(TipoBottone.accetta);
-//    }// end of method
 
 }// end of class
