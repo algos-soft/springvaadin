@@ -3,12 +3,17 @@ package it.algos.springvaadin.dialog;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.*;
+import it.algos.springvaadin.event.ActionSpringEvent;
+import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
 
@@ -20,7 +25,7 @@ import javax.annotation.PostConstruct;
  * Time: 12:02
  */
 @SpringComponent
-public class ImageDialog extends Window {
+public class ImageDialog extends Window implements ApplicationListener<AlgosSpringEvent> {
 
 
     private VerticalLayout mainLayout = new VerticalLayout();
@@ -111,5 +116,28 @@ public class ImageDialog extends Window {
         image.setHeight("12em");
     }// end of method
 
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    @Override
+    public void onApplicationEvent(AlgosSpringEvent event) {
+        if (event.getSource().getClass() == this.getClass()) {
+
+            if (event instanceof ButtonSpringEvent) {
+int a=87;
+            }// end of if/else cycle
+
+            if (event instanceof ActionSpringEvent) {
+                int a=87;
+            }// end of if cycle
+
+            if (event instanceof FieldSpringEvent) {
+                int a=87;
+            }// end of if cycle
+
+        }// end of if cycle
+    }// end of method
 }// end of class
 
