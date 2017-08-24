@@ -1,6 +1,8 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
+import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,5 +21,14 @@ public class BottoneAccetta extends Bottone {
         super.setType(BottonType.accetta);
     }// end of @Autowired constructor
 
+    /**
+     * Recupera il presenter dalla 'catena' grafica attiva
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     */
+    protected void fire(Button.ClickEvent clickEvent) {
+        if (source != null) {
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
+        }// end of if cycle
+    }// end of method
 
 }// end of class

@@ -26,7 +26,9 @@ public class BottoneBack extends Bottone {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+        if (source != null) {
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
+        }// end of if cycle
     }// end of method
 
 }// end of class

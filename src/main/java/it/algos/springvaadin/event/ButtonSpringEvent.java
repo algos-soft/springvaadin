@@ -7,6 +7,7 @@ import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 03/06/17.
@@ -28,24 +29,24 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     private AlgosEntity entityBean;
 
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto) {
         this(source, bottonePremuto, (AlgosEntity) null);
     }// end of constructor
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, Window parentDialog) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, Window parentDialog) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.parentDialog = parentDialog;
     }// end of constructor
 
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, AlgosEntity entityBean) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, AlgosEntity entityBean) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(AlgosPresenterImpl source, Bottone bottonePremuto, AlgosEntity entityBean, AlgosField parentField) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, AlgosEntity entityBean, AlgosField parentField) {
         super(source);
         this.bottonePremuto = bottonePremuto;
         this.entityBean = entityBean;

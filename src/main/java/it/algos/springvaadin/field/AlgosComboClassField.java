@@ -4,9 +4,11 @@ import com.vaadin.data.HasValue;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 30/06/17
@@ -15,7 +17,7 @@ public class AlgosComboClassField extends CustomField implements AlgosField {
 
     private String name;
     private ComboBox combo = new ComboBox();
-    private AlgosPresenterImpl formPresenter;
+    private ApplicationListener<AlgosSpringEvent> formSource;
 
 
     /**
@@ -73,9 +75,10 @@ public class AlgosComboClassField extends CustomField implements AlgosField {
         return null;
     }// end of method
 
+
     @Override
-    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
-        this.formPresenter = formPresenter;
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+        this.formSource = formSource;
     }// end of method
 
     public ComboBox getCombo() {

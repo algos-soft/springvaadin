@@ -3,13 +3,17 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import lombok.EqualsAndHashCode;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 30/06/17
  * .
  */
+@EqualsAndHashCode(callSuper=false)
 public class AlgosComboArrayField extends CustomField implements AlgosField{
 
 
@@ -72,7 +76,7 @@ public class AlgosComboArrayField extends CustomField implements AlgosField{
     }// end of method
 
     @Override
-    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
     }// end of method
 
 }// end of class

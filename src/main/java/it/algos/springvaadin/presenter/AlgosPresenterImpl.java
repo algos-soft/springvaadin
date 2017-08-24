@@ -130,57 +130,57 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
-    /**
-     * Evento
-     * Apre un dialodo standard di selezioni di files
-     * Create a file chooser
-     */
-    @Override
-    public void chooser(AlgosEntity entityBean, Window parentDialog) {
+//    /**
+//     * Evento
+//     * Apre un dialodo standard di selezioni di files
+//     * Create a file chooser
+//     */
+//    @Override
+//    public void chooser(AlgosEntity entityBean, Window parentDialog) {
+//
+////        Window win=new Window();
+////        LibVaadin.getUI().addWindow(win);
+//        Edit2Dialog dialog= new Edit2Dialog(new Pippo());
+//
+////java.awt.Component comp = new java.awt.Panel();
+////        win.setContent(new java.awt.Panel());
+////        JTextField firstName = new JTextField();
+////        final JComponent[] inputs = new JComponent[] {
+////                new JLabel("First"),
+////                firstName,
+////        };
+////        int result = JOptionPane.showConfirmDialog(comp, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
+////        if (result == JOptionPane.OK_OPTION) {
+////            System.out.println("You entered " + firstName.getText() );
+////        } else {
+////            System.out.println("User canceled / closed the dialog, result = " + result);
+////        }
+//
+//
+////        final JFileChooser fileChooser = new JFileChooser();
+////        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+////        File folder = VaadinService.getCurrent().getBaseDirectory();
+////        EditDialog dialog = new EditDialog("Nome del file da caricare",null);
+////        dialog.show();
+////        Object obj=dialog.getField();
+////        java.awt.Window win=new java.awt.Window();
+////        LibVaadin.getUI().addWindow(win);
+////java.awt.Panel comp = new java.awt.Panel();
+////        win.setContent(comp);
+//int a=87;
+////        int result = fileChooser.showOpenDialog(null);
+////        int returnVal = fc.showOpenDialog(aComponent);
+//    }// end of method
 
-//        Window win=new Window();
-//        LibVaadin.getUI().addWindow(win);
-        Edit2Dialog dialog= new Edit2Dialog(new Pippo());
 
-//java.awt.Component comp = new java.awt.Panel();
-//        win.setContent(new java.awt.Panel());
-//        JTextField firstName = new JTextField();
-//        final JComponent[] inputs = new JComponent[] {
-//                new JLabel("First"),
-//                firstName,
-//        };
-//        int result = JOptionPane.showConfirmDialog(comp, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-//        if (result == JOptionPane.OK_OPTION) {
-//            System.out.println("You entered " + firstName.getText() );
-//        } else {
-//            System.out.println("User canceled / closed the dialog, result = " + result);
+//    public  class Pippo implements Edit2Dialog.Recipient{
+//
+//        @Override
+//        public void gotInput(String input,Window win) {
+//            int a=987;
+//            win.close();
 //        }
-
-
-//        final JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        File folder = VaadinService.getCurrent().getBaseDirectory();
-//        EditDialog dialog = new EditDialog("Nome del file da caricare",null);
-//        dialog.show();
-//        Object obj=dialog.getField();
-//        java.awt.Window win=new java.awt.Window();
-//        LibVaadin.getUI().addWindow(win);
-//java.awt.Panel comp = new java.awt.Panel();
-//        win.setContent(comp);
-int a=87;
-//        int result = fileChooser.showOpenDialog(null);
-//        int returnVal = fc.showOpenDialog(aComponent);
-    }// end of method
-
-
-    public  class Pippo implements Edit2Dialog.Recipient{
-
-        @Override
-        public void gotInput(String input,Window win) {
-            int a=987;
-            win.close();
-        }
-    }// end of inner class
+//    }// end of inner class
     /**
      * Evento
      * Edit button pressed in grid
@@ -262,7 +262,7 @@ int a=87;
     public void editImage(AlgosEntity entityBean, AlgosField parentField) {
 
         if (imageDialog != null) {
-            imageDialog.show(this);
+            imageDialog.show(entityBean,this);
         }// end of if cycle
 
 //        if (entityBean != null) {

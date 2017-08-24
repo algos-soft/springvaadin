@@ -1,10 +1,14 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.ui.TextField;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import lombok.EqualsAndHashCode;
+import org.springframework.context.ApplicationListener;
 
 @SuppressWarnings("serial")
+@EqualsAndHashCode(callSuper=false)
 public class AlgosTextField extends TextField implements AlgosField {
 
     private String name;
@@ -74,7 +78,7 @@ public class AlgosTextField extends TextField implements AlgosField {
     }// end of method
 
     @Override
-    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
     }// end of method
 
 }// end of class

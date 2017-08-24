@@ -19,6 +19,7 @@ import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AlgosComboClassField;
 import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.field.AlgosImageField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -237,13 +238,19 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             } else {
                 try { // prova ad eseguire il codice
                     value = LibReflection.getValue(entityBean, publicFieldName);
-                    ((AbstractField) field).setValue(value);
                 } catch (Exception unErrore) { // intercetta l'errore
                 }// fine del blocco try-catch
             }// end of if/else cycle
         }// end of for cycle
 
         binder.readBean(entityBean);
+
+        //@todo provvisorio (come sempre)
+        for (AlgosField field : fields) {
+            if (field instanceof AlgosImageField) {
+                ((AbstractField) field).setValue(entityBean.getId());
+            }// end of if cycle
+        }// end of for cycle
     }// end of method
 
     /**

@@ -17,6 +17,7 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
     private ApplicationEventPublisher applicationEventPublisher;
     private IndirizzoBottoneEdit buttonEdit;
     private IndirizzoPresenter indirizzoPresenter;
-    private AlgosPresenterImpl formPresenter;
+    private ApplicationListener<AlgosSpringEvent> formSource;
 
     private String name;
     private Indirizzo indirizzo = null;
@@ -42,7 +43,7 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
         this.applicationEventPublisher = applicationEventPublisher;
         this.indirizzoPresenter = indirizzoPresenter;
         this.buttonEdit = buttonEdit;
-        this.buttonEdit.setPresenter(indirizzoPresenter);
+        this.buttonEdit.setSource(indirizzoPresenter);
     }// end of Spring constructor
 
 
@@ -87,12 +88,12 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
 
     @Override
     public AlgosPresenterImpl getFormPresenter() {
-        return formPresenter;
+        return null;
     }// end of method
 
     @Override
-    public void setFormPresenter(AlgosPresenterImpl formPresenter) {
-        this.formPresenter = formPresenter;
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+        this.formSource = formSource;
     }// end of method
 
 }// end of class

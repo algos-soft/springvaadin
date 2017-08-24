@@ -102,7 +102,7 @@ public class LibField {
                             try { // prova ad eseguire il codice
                                 items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
                                 field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
-                                field.setFormPresenter(presenter);
+                                field.setSource(presenter);
                                 ComboBox combo = ((AlgosComboClassField) field).getCombo();
                                 combo.addValueChangeListener(new HasValue.ValueChangeListener() {
                                     @Override
@@ -135,7 +135,7 @@ public class LibField {
                         case "IndirizzoField":
                             if (indirizzoField!=null) {
                                 field = indirizzoField;
-                                field.setFormPresenter(presenter);
+                                field.setSource(presenter);
                             }// end of if cycle
                             break;
                         default: // caso non definito

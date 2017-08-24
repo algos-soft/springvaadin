@@ -60,26 +60,109 @@ public class StatoForm extends AlgosFormImpl {
     @Override
     protected List<AlgosField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
         List<AlgosField> listaFields = super.creaFields(presenter, fieldsName);
-        imageField.setFormPresenter(presenter);
+        imageField.setEntityBean(entityBean);
+        imageField.setSource(presenter);
         imageField.setName("bandiera");
         imageField.setCaption("Bandiera");
         listaFields.add(imageField);
         return listaFields;
     }// end of method
 
-    /**
-     * Usa tutto lo schermo
-     *
-     * @param presenter di riferimento per gli eventi
-     * @param fields    del form da visualizzare
-     */
-    protected void usaAllScreenx(AlgosPresenterImpl presenter, List<String> fields) {
-        super.usaAllScreen(presenter, fields);
+//    /**
+//     * Usa tutto lo schermo
+//     *
+//     * @param presenter di riferimento per gli eventi
+//     * @param fields    del form da visualizzare
+//     */
+//    protected void usaAllScreenx(AlgosPresenterImpl presenter, List<String> fields) {
+//        super.usaAllScreen(presenter, fields);
+//
+//        String name = "AUS.png";
+////        byte[] bytes = LibResource.getImgBytes(AlgosApp.IMG_FOLDER_NAME, name);
+////
+//////        String str = DatatypeConverter.printBase64Binary(bytes);
+////        String str = Base64.encodeBase64String(bytes);
+////        Stato stato = statoService.findByNome("Austria");
+////        stato.setNumerico(str);
+////        try { // prova ad eseguire il codice
+////            statoService.save(stato);
+////        } catch (Exception unErrore) { // intercetta l'errore
+////            int a = 87;
+////        }// fine del blocco try-catch
+////
+////        Resource res = LibResource.getStreamResource(bytes);
+////        Image image = LibResource.getImage(res);
+////        image.setHeight("4em");
+////        image.setWidth("8em");
+////        this.addComponent(image);
+//
+//        if (entityBean != null && entityBean.getId().equals("ita")) {
+//            name = "AUS.png";
+//        }// end of if cycle
+//        if (entityBean != null && entityBean.getId().equals("aus")) {
+//            name = "DEU.png";
+//        }// end of if cycle
+//
+//        Image imageA = LibResource.getImage(name);
+//        imageA.setHeight("4em");
+//        imageA.setWidth("8em");
+//
+//        this.addComponent(imageA);
+//    }// end of method
 
-        String name = "AUS.png";
+
+//    /**
+//     * Usa tutto lo schermo
+//     *
+//     * @param presenter di riferimento per gli eventi
+//     * @param fields    del form da visualizzare
+//     */
+//    protected void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
+//        super.usaAllScreen(presenter, fields);
+//
+////        creaAustria();
+////        Stato stato = statoService.findByNome("Austria");
+////        String str = stato.getNumerico();
+////
+////        byte[] decodedBytes = Base64.decodeBase64(str);
+////
+////        Resource res = LibResource.getStreamResource(decodedBytes);
+////        Image image = LibResource.getImage(res);
+////        image.setHeight("4em");
+////        image.setWidth("8em");
+////        this.addComponent(image);
+////
+//
+//        String name = "";
+//        if (entityBean != null && entityBean.getId().equals("ita")) {
+//            name = "AUS.png";
+//        }// end of if cycle
+//        if (entityBean != null && entityBean.getId().equals("aut")) {
+//            name = "DEU.png";
+//        }// end of if cycle
+//
+//        Image image = LibResource.getImage(name);
+//        if (image!=null) {
+//            image.setHeight("4em");
+//            image.setWidth("8em");
+//            this.addComponent(image);
+//        }// end of if cycle
+//
+//
+//
+////        Image imageA = LibResource.getImage("AUS.png");
+////        imageA.setHeight("4em");
+////        imageA.setWidth("8em");
+////
+////        this.addComponent(imageA);
+//    }// end of method
+//
+//
+//    private void creaAustria() {
+//
+//        String name = "AUS.png";
 //        byte[] bytes = LibResource.getImgBytes(AlgosApp.IMG_FOLDER_NAME, name);
 //
-////        String str = DatatypeConverter.printBase64Binary(bytes);
 //        String str = Base64.encodeBase64String(bytes);
 //        Stato stato = statoService.findByNome("Austria");
 //        stato.setNumerico(str);
@@ -89,89 +172,7 @@ public class StatoForm extends AlgosFormImpl {
 //            int a = 87;
 //        }// fine del blocco try-catch
 //
-//        Resource res = LibResource.getStreamResource(bytes);
-//        Image image = LibResource.getImage(res);
-//        image.setHeight("4em");
-//        image.setWidth("8em");
-//        this.addComponent(image);
-
-        if (entityBean != null && entityBean.getId().equals("ita")) {
-            name = "AUS.png";
-        }// end of if cycle
-        if (entityBean != null && entityBean.getId().equals("aus")) {
-            name = "DEU.png";
-        }// end of if cycle
-
-        Image imageA = LibResource.getImage(name);
-        imageA.setHeight("4em");
-        imageA.setWidth("8em");
-
-        this.addComponent(imageA);
-    }// end of method
-
-
-    /**
-     * Usa tutto lo schermo
-     *
-     * @param presenter di riferimento per gli eventi
-     * @param fields    del form da visualizzare
-     */
-    protected void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
-        super.usaAllScreen(presenter, fields);
-
-//        creaAustria();
-//        Stato stato = statoService.findByNome("Austria");
-//        String str = stato.getNumerico();
-//
-//        byte[] decodedBytes = Base64.decodeBase64(str);
-//
-//        Resource res = LibResource.getStreamResource(decodedBytes);
-//        Image image = LibResource.getImage(res);
-//        image.setHeight("4em");
-//        image.setWidth("8em");
-//        this.addComponent(image);
-//
-
-        String name = "";
-        if (entityBean != null && entityBean.getId().equals("ita")) {
-            name = "AUS.png";
-        }// end of if cycle
-        if (entityBean != null && entityBean.getId().equals("aut")) {
-            name = "DEU.png";
-        }// end of if cycle
-
-        Image image = LibResource.getImage(name);
-        if (image!=null) {
-            image.setHeight("4em");
-            image.setWidth("8em");
-            this.addComponent(image);
-        }// end of if cycle
-
-
-
-//        Image imageA = LibResource.getImage("AUS.png");
-//        imageA.setHeight("4em");
-//        imageA.setWidth("8em");
-//
-//        this.addComponent(imageA);
-    }// end of method
-
-
-    private void creaAustria() {
-
-        String name = "AUS.png";
-        byte[] bytes = LibResource.getImgBytes(AlgosApp.IMG_FOLDER_NAME, name);
-
-        String str = Base64.encodeBase64String(bytes);
-        Stato stato = statoService.findByNome("Austria");
-        stato.setNumerico(str);
-        try { // prova ad eseguire il codice
-            statoService.save(stato);
-        } catch (Exception unErrore) { // intercetta l'errore
-            int a = 87;
-        }// fine del blocco try-catch
-
-    }// end of method
+//    }// end of method
 
 
 }// end of class

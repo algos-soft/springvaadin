@@ -3,13 +3,16 @@ package it.algos.springvaadin.bottone;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
 
@@ -40,13 +43,14 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata manualmente DOPO il costruttore e DOPO la chiamata del browser
      */
-    protected AlgosPresenterImpl presenter;
+    protected ApplicationListener<AlgosSpringEvent> source;
 
 
     /**
      * Property regolata DOPO la chiamata del browser
      */
     private Window parentDialog;
+
 
     /**
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
@@ -111,8 +115,8 @@ public abstract class Bottone extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(AlgosPresenterImpl presenter) {
-        regolaBottone(presenter, null);
+    public void regolaBottone(ApplicationListener<AlgosSpringEvent> source) {
+        regolaBottone(source, null);
     }// end of method
 
 
@@ -125,8 +129,8 @@ public abstract class Bottone extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(AlgosPresenterImpl presenter, Window parentDialog) {
-        this.presenter = presenter;
+    public void regolaBottone(ApplicationListener<AlgosSpringEvent> source, Window parentDialog) {
+        this.setSource(source);
 
         if (parentDialog != null) {
             this.parentDialog = parentDialog;
@@ -148,11 +152,11 @@ public abstract class Bottone extends Button {
      * Bottoni specifici possono costruire un evento con informazioni aggiuntive
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        if (presenter != null) {
+        if (source != null) {
             if (parentDialog != null) {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this, parentDialog));
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this, parentDialog));
             } else {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, this));
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
             }// end of if/else cycle
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
@@ -160,8 +164,8 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
-    public void setPresenter(AlgosPresenterImpl presenter) {
-        this.presenter = presenter;
+    public void setSource(ApplicationListener<AlgosSpringEvent> source) {
+        this.source = source;
     }// end of method
 
 

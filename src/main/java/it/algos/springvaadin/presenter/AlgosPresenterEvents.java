@@ -260,7 +260,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 create();
                 break;
             case chooser:
-                chooser(entityBean, parentDialog);
+//                chooser(entityBean, parentDialog);
                 break;
             case edit:
                 edit(entityBean, parentField);

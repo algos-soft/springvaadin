@@ -1,8 +1,10 @@
 package it.algos.springvaadin.field;
 
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.context.ApplicationListener;
 
 public interface AlgosField {
 
@@ -19,6 +21,6 @@ public interface AlgosField {
 
     public AlgosPresenterImpl getFormPresenter() ;
 
-    public void setFormPresenter(AlgosPresenterImpl formPresenter) ;
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) ;
 
     }// end of interface
