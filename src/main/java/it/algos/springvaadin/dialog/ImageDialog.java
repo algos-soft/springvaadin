@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationListener;
 import javax.annotation.PostConstruct;
 
 /**
- * Project springvaadin
+ * Project springvaadin.
  * Created by Algos
  * User: gac
  * Date: dom, 20-ago-2017
