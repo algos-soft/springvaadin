@@ -3,6 +3,7 @@ package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Window;
+import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -17,7 +18,7 @@ import org.springframework.context.ApplicationListener;
 public class ButtonSpringEvent extends AlgosSpringEvent {
 
 
-    private final Bottone bottonePremuto;
+    private final BottonType type;
 
     //--opzionale
     private AlgosField parentField;
@@ -29,33 +30,33 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     private AlgosEntity entityBean;
 
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto) {
-        this(source, bottonePremuto, (AlgosEntity) null);
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type) {
+        this(source, type, (AlgosEntity) null);
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, Window parentDialog) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, Window parentDialog) {
         super(source);
-        this.bottonePremuto = bottonePremuto;
+        this.type = type;
         this.parentDialog = parentDialog;
     }// end of constructor
 
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, AlgosEntity entityBean) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, AlgosEntity entityBean) {
         super(source);
-        this.bottonePremuto = bottonePremuto;
+        this.type = type;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, Bottone bottonePremuto, AlgosEntity entityBean, AlgosField parentField) {
+    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, AlgosEntity entityBean, AlgosField parentField) {
         super(source);
-        this.bottonePremuto = bottonePremuto;
+        this.type = type;
         this.entityBean = entityBean;
         this.parentField = parentField;
     }// end of constructor
 
 
-    public Bottone getBottone() {
-        return bottonePremuto;
+    public BottonType getType() {
+        return type;
     }// end of method
 
     public AlgosEntity getEntityBean() {

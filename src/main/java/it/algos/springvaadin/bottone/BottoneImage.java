@@ -46,7 +46,7 @@ public class BottoneImage extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this, entityBean));
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, getType(), entityBean));
         }// end of if cycle
     }// end of if/else cycle
 

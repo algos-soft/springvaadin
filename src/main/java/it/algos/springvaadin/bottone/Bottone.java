@@ -56,7 +56,7 @@ public abstract class Bottone extends Button {
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
      * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
      */
-    private BottonType type;
+    protected BottonType type;
 
 
     /**
@@ -154,9 +154,9 @@ public abstract class Bottone extends Button {
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
             if (parentDialog != null) {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this, parentDialog));
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type, parentDialog));
             } else {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
             }// end of if/else cycle
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);

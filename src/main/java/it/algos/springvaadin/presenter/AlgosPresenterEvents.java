@@ -250,7 +250,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onListEvent(ButtonSpringEvent event) {
-        BottonType type = event.getBottone().getType();
+        BottonType type = event.getType();
         AlgosEntity entityBean = event.getEntityBean();
         AlgosField parentField = event.getParentField();
         Window parentDialog = event.getParentDialog();

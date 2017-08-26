@@ -27,7 +27,7 @@ public class BottoneBack extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
         }// end of if cycle
     }// end of method
 

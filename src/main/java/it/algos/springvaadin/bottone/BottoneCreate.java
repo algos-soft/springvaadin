@@ -28,7 +28,7 @@ public class BottoneCreate extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, this));
+            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
         } else {
             int a=87;
         }// end of if/else cycle
