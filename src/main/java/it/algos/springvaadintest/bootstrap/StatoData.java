@@ -6,6 +6,7 @@ import com.mongodb.Mongo;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
+import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
@@ -16,11 +17,15 @@ import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.lib.LibFile;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.lib.LibVaadin;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.WebApplicationInitializer;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -41,7 +46,7 @@ import java.util.stream.Stream;
  */
 @SpringComponent
 @Slf4j
-public class StatoData {
+public class StatoData  {
 
 
     //--il service (contenente la repository) viene iniettato qui
@@ -87,7 +92,7 @@ public class StatoData {
     /**
      * Creazione di un singolo stato
      */
-    public boolean creaStato(String riga) {
+    private boolean creaStato(String riga) {
         String[] parti = riga.split(",");
         Stato stato;
         int ordine = 0;
@@ -95,7 +100,7 @@ public class StatoData {
         String alfaDue = "";
         String alfaTre = "";
         String numerico = "";
-        String bandiera = "";
+        byte[] bandiera = null;
 
         if (parti.length > 0) {
             nome = parti[0];
@@ -105,13 +110,13 @@ public class StatoData {
         }// end of if cycle
         if (parti.length > 2) {
             alfaTre = parti[2];
+            bandiera = getImageBytes(alfaTre);
         }// end of if cycle
         if (parti.length > 3) {
             numerico = parti[3];
         }// end of if cycle
 
-//        bandiera = getEncodedImmge(alfaTre + ".png");
-        stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico,"");
+        stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico, bandiera);
 
         try { // prova ad eseguire il codice
             stato = (Stato) service.save(stato);
@@ -119,46 +124,29 @@ public class StatoData {
             int a = 87;
         }// fine del blocco try-catch
 
-////        service.alfa("AUS.png");
         return stato != null;
     }// end of method
 
-//    /**
-//     * Recupera una bandiera dalle risorse statiche
-//     */
-//    public String getEncodedImmge(String alfaTre) {
-//        String asB64 = "niente immagine";
-//        byte[] data = null;
-//        data = LibResource.getImgBytes(alfaTre);
-//
-//        try { // prova ad eseguire il codice
-//            String newFileName = "pippo";
-//            Mongo mongo = new Mongo("localhost", 27017);
-//            DB db = mongo.getDB("test");
-//            GridFS gfsPhoto = new GridFS(db, "stato");
-//            File imageFile = new File("/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/AUS.png");
-//            GridFSInputFile gfsFile = gfsPhoto.createFile(imageFile);
-//            gfsFile.setFilename(newFileName);
-//            gfsFile.save();
-//
-//        } catch (Exception unErrore) { // intercetta l'errore
-//            int a=86;
-//        }// fine del blocco try-catch
-//
-//
-//        String newFileName = "pippo";
-//        Mongo mongo = new Mongo("localhost", 27017);
-//        DB db = mongo.getDB("test");
-//        GridFS gfsPhoto = new GridFS(db, "stato");
-//        GridFSDBFile imageForOutput = gfsPhoto.findOne(newFileName);
-//        System.out.println(imageForOutput);
-//
-////        if (data != null) {
-////            asB64 = Base64.getEncoder().encodeToString(data);
-////            asB64 = asB64.substring(0, 1000);
-////        }// end of if cycle
-//
-//        return asB64;
-//    }// end of method
+    /**
+     * Recupera una bandiera dalle risorse statiche
+     */
+    private byte[] getImageBytes(String alfaTre) {
+        byte[] imgBytes = new byte[0];
+        File filePath;
+//        String realPath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        String realPath="/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/";
+        String name = alfaTre.toUpperCase();
+        String fullPath = realPath + name + ".png";
+
+        try { // prova ad eseguire il codice
+            filePath = new File(fullPath);
+            if (filePath.exists() && !filePath.isDirectory()) {
+                imgBytes = Files.readAllBytes(Paths.get(fullPath));
+            }// end of if cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return imgBytes;
+    }// end of method
 
 }// end of class

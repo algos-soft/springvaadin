@@ -14,6 +14,7 @@ import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.repository.AlgosRepository;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.bson.BSONObject;
 import org.bson.types.Binary;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -156,7 +157,7 @@ public class StatoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico) {
-        return newEntity(ordine, nome, alfaDue, alfaTre, numerico, "");
+        return newEntity(ordine, nome, alfaDue, alfaTre, numerico, new byte[23]);
     }// end of method
 
 
@@ -168,7 +169,7 @@ public class StatoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, String bandiera) {
+    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
         return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico, bandiera);
     }// end of method
 

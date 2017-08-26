@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.bson.BSONObject;
 import org.bson.types.Binary;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -31,13 +32,13 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
-@AIList(showsID = true, widthID = 80)
-@AIForm(showsID = true, widthIDEM = 4, fields = {"ordine", "nome", "alfaDue", "alfaTre", "numerico","bandiera"})
+@AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "alfaDue", "alfaTre", "numerico"})
+@AIForm(showsID = true, widthIDEM = 4, fields = {"ordine", "nome", "alfaDue", "alfaTre", "numerico", "bandiera"})
 @AISearch(fields = {"nome", "alfaDue"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Stato extends AlgosEntity {
 
 
@@ -101,7 +102,7 @@ public class Stato extends AlgosEntity {
     @Indexed(unique = false)
     @AIField(type = AFType.image, widthEM = 8)
     @AIColumn(width = 100)
-    private String bandiera;
+    private byte[] bandiera;
 
 
     /**

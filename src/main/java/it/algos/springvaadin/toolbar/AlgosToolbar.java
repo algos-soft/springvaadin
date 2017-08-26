@@ -22,7 +22,7 @@ public abstract class AlgosToolbar extends HorizontalLayout {
 
 
 
-    void addButton(Bottone bottone) {
+    public void addButton(Bottone bottone) {
         addComponent(bottone);
     }// end of method
 

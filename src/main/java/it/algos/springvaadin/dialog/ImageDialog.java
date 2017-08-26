@@ -13,6 +13,7 @@ import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
@@ -27,6 +28,11 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public class ImageDialog extends Window implements ApplicationListener<AlgosSpringEvent> {
 
+
+    /**
+     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
+     */
+    protected ApplicationEventPublisher applicationEventPublisher;
 
     private VerticalLayout mainLayout = new VerticalLayout();
     private VerticalLayout toolBar = new VerticalLayout();
@@ -43,6 +49,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     private Image image;
 
     public ImageDialog(
+            ApplicationEventPublisher applicationEventPublisher,
             @Qualifier(Cost.BOT_BACK) Bottone buttonBack,
             @Qualifier(Cost.BOT_CREATE) Bottone buttonCreate,
             @Qualifier(Cost.BOT_DELETE) Bottone buttonDelete,
@@ -119,6 +126,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     //--@todo provvisorio
     private void getImage() {
         if (LibText.isValid(nameImage)) {
+            byte[] imageBytes = LibResource.getImgBytes(nameImage.toUpperCase() + ".png");
             image = LibResource.getImage(nameImage.toUpperCase() + ".png");
         }// end of if cycle
 
@@ -134,7 +142,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
     private void create() {
         this.editDialog.inizia(this, new Pippo());
-        int a=87;
+        int a = 87;
     }// end of method
 
 
@@ -204,6 +212,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
                     case delete:
                         break;
                     case accetta:
+                        ((Stato) entityBean).setAlfaDue("Xxx");
                         this.close();
                         break;
                     default: // caso non definito
@@ -211,6 +220,14 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
                 } // fine del blocco switch
             }// end of if/else cycle
         }// end of if cycle
+    }// end of method
+
+    /**
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+     */
+    protected void fireRevert() {
+        applicationEventPublisher.publishEvent(new ButtonSpringEvent(this, null));
     }// end of method
 
     public class Pippo implements Edit2Dialog.Recipient {

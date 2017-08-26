@@ -1,5 +1,7 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.BottoneImage;
@@ -9,8 +11,12 @@ import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.bson.BSONObject;
+import org.bson.BasicBSONDecoder;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
+
+import java.util.Base64;
 
 @SpringComponent
 @Scope("prototype")
@@ -47,18 +53,42 @@ public class AlgosImageField extends CustomField implements AlgosField {
     @Override
     protected void doSetValue(Object o) {
         int a = 87;
-    }
+    }// end of method
 
     @Override
     public Object getValue() {
-        return null;
-    }
+        String name = entityBean.getId().toUpperCase() + ".png";
+        byte[] imgByte = LibResource.getImgBytes(name);
 
+        return imgByte;
+    }// end of method
+
+    @Override
     public void setValue(Object obj) {
-        String name = "";
-        name = ((String) obj).toUpperCase() + ".png";
+//        String binaryData=(String)obj;
+//        byte[] imageByte = binaryData.getBytes();
+//        Image imageTmp2 = LibResource.getImage(imageByte);
 
-        Image imageTmp = LibResource.getImage(name);
+        byte[] imageByte = null;
+        if (obj instanceof byte[]) {
+            imageByte = (byte[]) obj;
+        } else {
+            return;
+        }// end of if/else cycle
+
+
+        int a = 87;
+        Image imageTmp=null;
+        if (imageByte != null && imageByte.length > 24) {
+             imageTmp = LibResource.getImage(imageByte);
+        }// end of if cycle
+
+
+//        String name = "";
+//        name = ((String) obj).toUpperCase() + ".png";
+//        Image imageTmp = LibResource.getImage(name);
+
+
         if (imageTmp != null) {
             image = imageTmp;
             image.setWidth("8em");
@@ -87,6 +117,7 @@ public class AlgosImageField extends CustomField implements AlgosField {
 //            image=imageTmp;
 //        }// end of if cycle
 //
+        int a = 87;
     }// end of method
 
     @Override

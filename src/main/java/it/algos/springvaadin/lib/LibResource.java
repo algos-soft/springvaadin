@@ -19,6 +19,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param name nome dell'immagine
+     *
      * @return il corrispondente byte array.
      */
     public static byte[] getImgBytes(String name) {
@@ -30,6 +31,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param name nome dell'immagine
+     *
      * @return la Resource corrispondente.
      */
     public static Resource getImgResource(String name) {
@@ -42,15 +44,17 @@ public abstract class LibResource {
      *
      * @param localPath percorso relativo fino alla directory dove si trova l'immagine
      * @param name      nome dell'immagine
+     *
      * @return il corrispondente byte array.
      */
     public static byte[] getImgBytes(String localPath, String name) {
-        byte[] bytes = null;
-        String realPath = LibVaadin.getPath();
+        byte[] bytes = new byte[0];
+        String realPath = "";
         String fullPath;
         File filePath;
 
         try { // prova ad eseguire il codice
+            realPath = LibVaadin.getPath();
             fullPath = realPath + "/" + localPath + "/" + name;
             filePath = new File(fullPath);
             if (filePath.exists() && !filePath.isDirectory()) {
@@ -71,6 +75,7 @@ public abstract class LibResource {
      *
      * @param path percorso relativo fino alla directory dove si trova l'immagine
      * @param name nome dell'immagine
+     *
      * @return la Resource corrispondente.
      */
     public static Resource getImgResource(String path, String name) {
@@ -91,6 +96,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param bytes the byte array
+     *
      * @return the StreamResource
      */
     @SuppressWarnings("serial")
@@ -114,6 +120,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param resource the resource
+     *
      * @return the image
      */
     public static Image getImage(final Resource resource) {
@@ -126,6 +133,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param bytes the byte array
+     *
      * @return the image
      */
     public static Image getImage(final byte[] bytes) {
@@ -141,6 +149,7 @@ public abstract class LibResource {
      * <p>
      *
      * @param name nome dell'immagine
+     *
      * @return the image
      */
     public static Image getImage(String name) {
