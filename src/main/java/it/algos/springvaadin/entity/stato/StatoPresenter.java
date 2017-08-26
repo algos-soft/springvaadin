@@ -86,4 +86,15 @@ public class StatoPresenter extends AlgosPresenterImpl {
     }// end of method
 
 
+    /**
+     * Evento
+     * Revert (ripristina) button pressed in form
+     * Rimane nel form SENZA registrare e ripristinando i valori iniziali della entity
+     */
+    @Override
+    public void revert() {
+        super.revert();
+        view.enableRegistra(true);
+    }// end of method
+
 }// end of class

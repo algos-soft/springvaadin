@@ -245,12 +245,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         binder.readBean(entityBean);
 
-        //@todo provvisorio (come sempre)
-        for (AlgosField field : fields) {
-            if (field instanceof AlgosImageField) {
-                ((AbstractField) field).setValue(entityBean.getId());
-            }// end of if cycle
-        }// end of for cycle
+//        //@todo provvisorio (come sempre)
+//        for (AlgosField field : fields) {
+//            if (field instanceof AlgosImageField) {
+//                ((AbstractField) field).setValue(entityBean.getId());
+//            }// end of if cycle
+//        }// end of for cycle
     }// end of method
 
     /**

@@ -49,6 +49,7 @@ public class Edit2Dialog extends Window {
     public void inizia(ApplicationListener<AlgosSpringEvent> source, Recipient recipient) {
         this.recipient = recipient;
         final Window winDialog = this;
+        field.setValue("");
         buttonBack.regolaBottone(source);
         buttonAccetta.regolaBottone(source);
         this.setModal(true);

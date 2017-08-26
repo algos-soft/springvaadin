@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationListener;
 import javax.annotation.PostConstruct;
 
 /**
- * Project springvaadin.
+ * Project springvaadin
  * Created by Algos
  * User: gac
  * Date: dom, 20-ago-2017
@@ -39,7 +39,6 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     private VerticalLayout toolBar = new VerticalLayout();
 
     private AlgosEntity entityBean;
-    private String nameImage;
 
     private final Bottone buttonBack;
     private final Bottone buttonCreate;
@@ -89,7 +88,6 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     public void show(AlgosEntity entityBean, AlgosPresenterImpl presenter) {
         this.entityBean = entityBean;
         this.presenter = presenter;
-        this.nameImage = ((Stato) entityBean).getAlfaTre();
         resetButtons(presenter);
         resetDialog();
         UI.getCurrent().addWindow(this);
@@ -122,15 +120,12 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
         }// fine del blocco try-catch
 
         getImage();
-        nameImage = "";
         mainLayout.addComponent(image, 1);
     }// end of method
 
     private void getImage() {
-        if (LibText.isValid(nameImage)) {
-            byte[] imageBytes = LibResource.getImgBytes(nameImage.toUpperCase() + ".png");
-            image = LibResource.getImage(nameImage.toUpperCase() + ".png");
-        }// end of if cycle
+            byte[] imgBytes = ((Stato)entityBean).getBandiera();
+            image = LibResource.getImage(imgBytes);
 
         if (image != null) {
             image.setWidth("24em");
@@ -144,50 +139,8 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
     private void create() {
         this.editDialog.inizia(this, new Pippo());
-        int a = 87;
     }// end of method
 
-
-//    /**
-//     * Evento
-//     * Apre un dialodo standard di selezioni di files
-//     * Create a file chooser
-//     */
-//    public void chooser(AlgosEntity entityBean, Window parentDialog) {
-//
-////        Window win=new Window();
-////        LibVaadin.getUI().addWindow(win);
-//        Edit2Dialog dialog= new Edit2Dialog(new Pippo());
-//
-////java.awt.Component comp = new java.awt.Panel();
-////        win.setContent(new java.awt.Panel());
-////        JTextField firstName = new JTextField();
-////        final JComponent[] inputs = new JComponent[] {
-////                new JLabel("First"),
-////                firstName,
-////        };
-////        int result = JOptionPane.showConfirmDialog(comp, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-////        if (result == JOptionPane.OK_OPTION) {
-////            System.out.println("You entered " + firstName.getText() );
-////        } else {
-////            System.out.println("User canceled / closed the dialog, result = " + result);
-////        }
-//
-//
-////        final JFileChooser fileChooser = new JFileChooser();
-////        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-////        File folder = VaadinService.getCurrent().getBaseDirectory();
-////        EditDialog dialog = new EditDialog("Nome del file da caricare",null);
-////        dialog.show();
-////        Object obj=dialog.getField();
-////        java.awt.Window win=new java.awt.Window();
-////        LibVaadin.getUI().addWindow(win);
-////java.awt.Panel comp = new java.awt.Panel();
-////        win.setContent(comp);
-//        int a=87;
-////        int result = fileChooser.showOpenDialog(null);
-////        int returnVal = fc.showOpenDialog(aComponent);
-//    }// end of method
 
     /**
      * Handle an application event.
@@ -226,6 +179,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
         }// end of if cycle
     }// end of method
 
+
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
@@ -235,10 +189,10 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     }// end of method
 
     public class Pippo implements Edit2Dialog.Recipient {
-
         @Override
         public void gotInput(String input, Window win) {
-            nameImage = input;
+            byte[] imageBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
+            ((Stato)entityBean).setBandiera(imageBytes);
             resetDialog();
             win.close();
         }// end of method
