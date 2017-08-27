@@ -44,9 +44,9 @@ import java.util.List;
 @SpringComponent
 public class LibField {
 
-    private static AIndirizzoField indirizzoField;
+    private static IndirizzoField indirizzoField;
     @Autowired
-    private AIndirizzoField indirizzoFieldInstance;
+    private IndirizzoField indirizzoFieldInstance;
 
 
     @PostConstruct
@@ -130,12 +130,12 @@ public class LibField {
                     break;
                 case link:
                     Class<?> linkClazz = LibAnnotation.getClass(clazz, publicFieldName);
-                    String name = linkClazz.getSimpleName();
+                    String className = linkClazz.getSimpleName();
 
-                    switch (name) {
+                    switch (className) {
                         case "IndirizzoField":
                             if (indirizzoField!=null) {
-//                                field = indirizzoField;
+                                field = indirizzoField;
                                 field.setSource(presenter);
                             }// end of if cycle
                             break;

@@ -27,6 +27,7 @@ public enum BottonType {
     create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    editLink("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     image("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),

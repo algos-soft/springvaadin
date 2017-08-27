@@ -30,8 +30,8 @@ import javax.annotation.PostConstruct;
 public abstract class Bottone extends Button {
 
 
-    final static String NORMAL_WIDTH = "8em";
-    final static String ICON_WIDTH = "3em";
+    public final static String NORMAL_WIDTH = "8em";
+    public final static String ICON_WIDTH = "3em";
 
 
     /**

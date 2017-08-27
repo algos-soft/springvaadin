@@ -15,12 +15,12 @@ public interface AlgosField {
 
     public String getName();
 
-    public void setDescription(String description) ;
+    public void setDescription(String description);
 
     public void saveSon();
 
-    public AlgosPresenterImpl getFormPresenter() ;
+    public AlgosPresenterImpl getFormPresenter();
 
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) ;
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource);
 
-    }// end of interface
+}// end of interface

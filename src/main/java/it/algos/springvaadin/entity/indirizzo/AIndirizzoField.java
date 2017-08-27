@@ -2,6 +2,12 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Project springvaadin
@@ -11,10 +17,11 @@ import com.vaadin.ui.*;
  * Time: 10:37
  */
 @SpringComponent
-public class AIndirizzoField extends CustomField<Boolean> {
+public class AIndirizzoField extends AField<Boolean> implements AlgosField {
 
     private final Button button = new Button("Off");
     private boolean value;
+    private String name;
 
     @Override
     protected Component initContent() {
@@ -35,9 +42,39 @@ public class AIndirizzoField extends CustomField<Boolean> {
     }
 
     @Override
-    protected void doSetValue(Boolean value) {
-        this.value = value;
-        button.setCaption(value ? "On" : "Off");
+    protected void doSetValue(Object value) {
+        this.value = (boolean)value;
+        button.setCaption((boolean)value ? "On" : "Off");
+    }
+
+    @Override
+    public void doValue(AlgosEntity entityBean) {
+
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void saveSon() {
+
+    }
+
+    @Override
+    public AlgosPresenterImpl getFormPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+
     }
 }// end of class
 

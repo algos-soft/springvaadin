@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.field.AlgosImageField;
 import it.algos.springvaadin.label.LabelRosso;

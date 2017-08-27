@@ -28,7 +28,7 @@ public class IndirizzoBottoneEdit extends Bottone {
 
     public IndirizzoBottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.importa);
+        super.setType(BottonType.editLink);
     }// end of @Autowired constructor
 
 //    /**
@@ -36,12 +36,10 @@ public class IndirizzoBottoneEdit extends Bottone {
 //     */
 //    @PostConstruct
 //    protected void inizia() {
-//        super.setCaption("");
-//        super.setIcon(VaadinIcons.EDIT);
-//        super.setEnabled(true);
-////        super.tipo = TipoBottone.editLink;
-//
 //        super.inizia();
+//        super.setCaption("");
+//        super.setWidth(Bottone.ICON_WIDTH);
+//        super.setEnabled(true);
 //    }// end of method
 
 

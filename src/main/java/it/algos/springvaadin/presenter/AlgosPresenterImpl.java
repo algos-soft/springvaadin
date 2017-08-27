@@ -5,8 +5,10 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.dialog.Edit2Dialog;
 import it.algos.springvaadin.dialog.EditDialog;
 import it.algos.springvaadin.dialog.ImageDialog;
+import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.search.AlgosSearch;
+import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
@@ -181,6 +183,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 //            win.close();
 //        }
 //    }// end of inner class
+
     /**
      * Evento
      * Edit button pressed in grid
@@ -249,6 +252,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     public void editLink(AlgosEntity entityBean, AlgosField parentField) {
 
         if (entityBean != null) {
+            ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
             modifica(entityBean);
         }// end of if cycle
     }// end of method
@@ -262,7 +266,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     public void editImage(AlgosEntity entityBean, AlgosField parentField) {
 
         if (imageDialog != null) {
-            imageDialog.show(entityBean,this);
+            imageDialog.show(entityBean, this);
         }// end of if cycle
 
 //        if (entityBean != null) {

@@ -17,6 +17,7 @@ import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AlgosComboClassField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.field.AlgosImageField;
