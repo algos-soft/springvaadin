@@ -217,6 +217,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         Object value = null;
         String publicFieldName;
 
+        AbstractField field2 = null;
+
         for (AlgosField field : fields) {
             publicFieldName = field.getName();
             listaValidatorPre = LibField.creaValidatorsPre(entityBean, publicFieldName);
@@ -238,19 +240,13 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             } else {
                 try { // prova ad eseguire il codice
                     value = LibReflection.getValue(entityBean, publicFieldName);
+                    ((AbstractField) field).setValue(value);
                 } catch (Exception unErrore) { // intercetta l'errore
                 }// fine del blocco try-catch
             }// end of if/else cycle
         }// end of for cycle
 
         binder.readBean(entityBean);
-
-//        //@todo provvisorio (come sempre)
-//        for (AlgosField field : fields) {
-//            if (field instanceof AlgosImageField) {
-//                ((AbstractField) field).setValue(entityBean.getId());
-//            }// end of if cycle
-//        }// end of for cycle
     }// end of method
 
     /**
@@ -261,11 +257,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void revert() {
-//        AlgosField field = fieldList.get(3);
-//        if (field instanceof AlgosComboClassField) {
-//            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
-//        }// end of if cycle
-
         binder.readBean(entityBean);
     }// end of method
 
@@ -318,19 +309,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public AlgosEntity commit() {
-        int a = 87;
+
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
         } catch (Exception unErrore) { // intercetta l'errore
             int errore = 87;
         }// fine del blocco try-catch
-
-//        AlgosField field = fieldList.get(3);
-//        if (field instanceof AlgosComboClassField) {
-//            Object obj= ((AlgosComboClassField) field).getValue();
-//            ((Indirizzo) entityBean).setStato((Stato)obj );
-////            ((AlgosComboClassField) field).setValue(((Indirizzo) entityBean).getStato());
-//        }// end of if cycle
 
         closeWindow();
 

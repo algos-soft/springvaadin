@@ -46,7 +46,7 @@ import java.util.stream.Stream;
  */
 @SpringComponent
 @Slf4j
-public class StatoData  {
+public class StatoData {
 
 
     //--il service (contenente la repository) viene iniettato qui
@@ -83,9 +83,7 @@ public class StatoData  {
         service.deleteAll();
 
         for (String riga : righe) {
-            if (creaStato(riga)) {
-                log.warn("Stato: " + riga);
-            }// end of if cycle
+            creaStato(riga);
         }// end of for cycle
     }// end of method
 
@@ -110,7 +108,7 @@ public class StatoData  {
         }// end of if cycle
         if (parti.length > 2) {
             alfaTre = parti[2];
-            bandiera = getImageBytes(alfaTre);
+            bandiera = getImageBytes(alfaTre.toUpperCase());
         }// end of if cycle
         if (parti.length > 3) {
             numerico = parti[3];
@@ -120,8 +118,18 @@ public class StatoData  {
 
         try { // prova ad eseguire il codice
             stato = (Stato) service.save(stato);
+            if (bandiera == null || bandiera.length == 0) {
+                log.warn("Stato: " + riga + " - Manca la bandiera");
+            } else {
+                log.info("Stato: " + riga + " - Tutto OK");
+            }// end of if/else cycle
         } catch (Exception unErrore) { // intercetta l'errore
-            int a = 87;
+            try { // prova ad eseguire il codice
+                stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico, new byte[0]);
+                log.warn("Stato: " + riga + " - Dimensioni bandiera eccessive");
+            } catch (Exception unErrore2) { // intercetta l'errore
+                log.error("Stato: " + riga + " - Non sono riuscito a crearlo");
+            }// fine del blocco try-catch
         }// fine del blocco try-catch
 
         return stato != null;
@@ -134,7 +142,7 @@ public class StatoData  {
         byte[] imgBytes = new byte[0];
         File filePath;
 //        String realPath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        String realPath="/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/";
+        String realPath = "/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/";
         String name = alfaTre.toUpperCase();
         String fullPath = realPath + name + ".png";
 

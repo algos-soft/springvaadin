@@ -15,6 +15,7 @@ import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
+import it.algos.springvaadin.entity.indirizzo.AIndirizzoField;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
@@ -43,9 +44,9 @@ import java.util.List;
 @SpringComponent
 public class LibField {
 
-    private static IndirizzoField indirizzoField;
+    private static AIndirizzoField indirizzoField;
     @Autowired
-    private IndirizzoField indirizzoFieldInstance;
+    private AIndirizzoField indirizzoFieldInstance;
 
 
     @PostConstruct
@@ -134,7 +135,7 @@ public class LibField {
                     switch (name) {
                         case "IndirizzoField":
                             if (indirizzoField!=null) {
-                                field = indirizzoField;
+//                                field = indirizzoField;
                                 field.setSource(presenter);
                             }// end of if cycle
                             break;

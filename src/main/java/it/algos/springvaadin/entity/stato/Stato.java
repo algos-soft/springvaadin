@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "alfaDue", "alfaTre", "numerico"})
-@AIForm(showsID = true, widthIDEM = 4, fields = {"ordine", "nome", "alfaDue", "alfaTre", "numerico", "bandiera"})
+@AIForm(showsID = true, widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})
 @Data
 @NoArgsConstructor

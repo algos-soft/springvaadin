@@ -35,8 +35,8 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_IND)
-@AIList(showsID = true)
-@AIForm(showsID = true)
+@AIList()
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -82,6 +82,7 @@ public class Indirizzo extends AlgosEntity {
 
     /**
      * stato (obbligatoria, non unica)
+     * riferimento dinamico
      */
     @DBRef
     @NotEmpty(message = "Lo stato è obbligatorio")
