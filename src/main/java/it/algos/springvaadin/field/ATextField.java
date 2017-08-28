@@ -1,6 +1,8 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 /**
  * Project springvaadin
@@ -13,21 +15,53 @@ public class ATextField extends AField {
 
     private TextField field;
 
+    public ATextField(AlgosPresenterImpl presenter) {
+        super(presenter);
+    }
+
     @Override
-    protected Component initContent() {
-        field = new TextField();
+    public Component initContent() {
+        if (field == null) {
+            field = new TextField();
+            addListener();
+        }// end of if cycle
+
         return field;
     }// end of method
 
     @Override
     public String getValue() {
-        return field.getValue();
+        if (field != null) {
+            return field.getValue();
+        } else {
+            return null;
+        }// end of if/else cycle
     }// end of method
+
 
     @Override
     protected void doSetValue(Object value) {
-        field.setValue((String)value);
+        if (field != null) {
+            field.setValue((String) value);
+        }// end of if cycle
     }// end of method
+
+
+    /**
+     * Aggiunge il listener al field
+     */
+    protected void addListener() {
+        if (field != null) {
+            field.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+                @Override
+                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+                    publish();
+                }// end of inner method
+            });// end of anonymous inner class
+        }// end of if cycle
+
+    }// end of method
+
 
 }// end of class
 

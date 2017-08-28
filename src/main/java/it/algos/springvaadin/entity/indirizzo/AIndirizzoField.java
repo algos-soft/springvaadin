@@ -16,15 +16,19 @@ import org.springframework.context.ApplicationListener;
  * Date: dom, 27-ago-2017
  * Time: 10:37
  */
-@SpringComponent
+//@SpringComponent//@todo rimettere
 public class AIndirizzoField extends AField<Boolean> implements AlgosField {
 
     private final Button button = new Button("Off");
     private boolean value;
     private String name;
 
+    public AIndirizzoField(AlgosPresenterImpl presenter) {
+        super(presenter);
+    }
+
     @Override
-    protected Component initContent() {
+    public Component initContent() {
         button.addClickListener(event -> {
             setValue(!getValue());
             button.setCaption(getValue() ? "On" : "Off");

@@ -43,7 +43,7 @@ public class AlgosImageField extends CustomField implements AlgosField {
     }// end of Spring constructor
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
 //        image = LibResource.getImage("DEU.png");
         placeholderImage.setWidth("8em");
         placeholderImage.setHeight("4em");
@@ -149,5 +149,6 @@ public class AlgosImageField extends CustomField implements AlgosField {
     public void setEntityBean(AlgosEntity entityBean) {
         this.entityBean = entityBean;
     }// end of method
+
 
 }// end of class

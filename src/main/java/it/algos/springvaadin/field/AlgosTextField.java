@@ -1,5 +1,6 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -80,5 +81,9 @@ public class AlgosTextField extends TextField implements AlgosField {
     @Override
     public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
     }// end of method
+
+    public Component initContent() {
+        return null;
+    }
 
 }// end of class

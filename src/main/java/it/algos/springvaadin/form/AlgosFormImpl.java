@@ -245,6 +245,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
                 } catch (Exception unErrore) { // intercetta l'errore
                 }// fine del blocco try-catch
             }// end of if/else cycle
+            field.initContent();
         }// end of for cycle
 
         binder.readBean(entityBean);

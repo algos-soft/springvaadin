@@ -76,9 +76,10 @@ public class LibField {
         if (type!=null) {
             switch (type) {
                 case text:
-                    field = new AlgosTextField();
+                    field = new ATextField(presenter);
+//                    ((AField)field).initContent();
                     if (focus) {
-                        ((AlgosTextField) field).focus();
+                        ((ATextField) field).focus();
                     }// end of if cycle
                     break;
                 case integer:
@@ -108,7 +109,7 @@ public class LibField {
                                 combo.addValueChangeListener(new HasValue.ValueChangeListener() {
                                     @Override
                                     public void valueChange(HasValue.ValueChangeEvent valueChangeEvent) {
-                                        publish(presenter);
+//                                        publish(presenter);//@todo rimettere
                                     }// end of inner method
                                 });// end of anonymous inner class
                             } catch (Exception unErrore) { // intercetta l'errore
@@ -175,14 +176,14 @@ public class LibField {
             }// end of if cycle
         }// end of if cycle
 
-        if (field != null) {
-            ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
-                @Override
-                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-                    publish(presenter);
-                }// end of inner method
-            });// end of anonymous inner class
-        }// end of if cycle
+//        if (field != null) {
+//            ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+//                @Override
+//                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+//                    publish(presenter);
+//                }// end of inner method
+//            });// end of anonymous inner class
+//        }// end of if cycle
 
         if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
             field = new AlgosTextField();
@@ -608,18 +609,18 @@ public class LibField {
     }// end of static method
 
 
-    /**
-     *
-     */
-    private static void publish(AlgosPresenterImpl presenter) {
-        AlgosSpringEvent fieldSpringEvent = null;
-
-        if (presenter != null) {
-            fieldSpringEvent = new FieldSpringEvent(presenter);
-            presenter.getApplicationEventPublisher().publishEvent(fieldSpringEvent);
-        }// end of if cycle
-
-    }// end of method
+//    /**
+//     *
+//     */
+//    private static void publish(AlgosPresenterImpl presenter) {
+//        AlgosSpringEvent fieldSpringEvent = null;
+//
+//        if (presenter != null) {
+//            fieldSpringEvent = new FieldSpringEvent(presenter);
+//            presenter.getApplicationEventPublisher().publishEvent(fieldSpringEvent);
+//        }// end of if cycle
+//
+//    }// end of method
 
     private static class Validator {
         AbstractValidator validator;

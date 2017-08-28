@@ -1,5 +1,6 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.ui.Component;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -23,4 +24,5 @@ public interface AlgosField {
 
     public void setSource(ApplicationListener<AlgosSpringEvent> formSource);
 
+    public Component initContent() ;
 }// end of interface

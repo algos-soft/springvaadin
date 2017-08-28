@@ -33,7 +33,7 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> implements Al
 
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
         return textField;
     }
 

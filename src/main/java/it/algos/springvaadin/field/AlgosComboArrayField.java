@@ -37,7 +37,7 @@ public class AlgosComboArrayField extends CustomField implements AlgosField{
     }// end of constructor
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
 //        combo.setValue(Livello.values()[0]);
         return combo;
     }// end of method

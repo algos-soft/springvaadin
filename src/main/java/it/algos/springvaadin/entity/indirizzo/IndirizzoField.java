@@ -48,7 +48,7 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
 
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
         return new HorizontalLayout(buttonEdit, label);
     }// end of method
 

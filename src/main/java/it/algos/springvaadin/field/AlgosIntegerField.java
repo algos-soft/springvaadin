@@ -29,7 +29,7 @@ public class AlgosIntegerField extends CustomField<Integer> implements AlgosFiel
     }
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
         return textField;
     }
 

@@ -36,7 +36,7 @@ public class AlgosComboClassField extends CustomField implements AlgosField {
     }// end of constructor
 
     @Override
-    protected Component initContent() {
+    public Component initContent() {
         return combo;
     }// end of method
 
