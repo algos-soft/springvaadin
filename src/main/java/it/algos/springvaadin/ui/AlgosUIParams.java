@@ -241,7 +241,7 @@ public abstract class AlgosUIParams extends UI {
         this.chiedeConfermaPrimaDiCancellare = true;
         log.info("AlgosUIParams.chiedeConfermaPrimaDiCancellare: " + this.chiedeConfermaPrimaDiCancellare);
 
-        this.usaBottoniColorati = true;
+        this.usaBottoniColorati = false;
         log.info("AlgosUIParams.usaBottoniColorati: " + this.usaBottoniColorati);
 
         this.usaBottoniPrimaMaiuscola = true;

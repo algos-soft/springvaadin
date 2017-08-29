@@ -31,6 +31,7 @@ public class AImageField extends AField {
 
     public AImageField(AlgosPresenterImpl presenter) {
         super(presenter);
+        this.setCaption("");
     }// end of constructor
 
     @Override
