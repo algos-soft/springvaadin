@@ -1,27 +1,15 @@
 package it.algos.springvaadin.validator;
 
 import com.mongodb.MongoClient;
-import com.sun.jdi.InterfaceType;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.RangeValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.entity.stato.StatoRepository;
-import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import sun.rmi.rmic.iiop.ImplementationType;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Controlla che il valore del campo unico non esista già

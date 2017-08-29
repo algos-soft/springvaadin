@@ -1,25 +1,10 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.apple.laf.AquaButtonBorder;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
-import it.algos.springvaadin.toolbar.LinkToolbar;
-import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Created by gac on 07-ago-17

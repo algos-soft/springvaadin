@@ -28,6 +28,16 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-mongodb:1.5.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.10.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-server:8.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-shared:8.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin.external:gentyref:1.2.0.vaadin1" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-themes:8.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-client-compiled:8.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:1.11.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.13.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:4.3.8.RELEASE" level="project" />
