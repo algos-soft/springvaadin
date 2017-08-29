@@ -8,6 +8,7 @@ import com.vaadin.ui.MenuBar;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
  * Created by gac on 01/06/17.
  * .
  */
-@Lazy
 @SpringComponent
+@Scope("prototype")
 public class MenuLayout extends CssLayout {
 
     public static String MENU_ABILITATO = "highlight";
