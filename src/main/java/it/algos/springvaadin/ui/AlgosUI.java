@@ -42,13 +42,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     //--A placeholder component which a SpringNavigator can populate with different views
     protected Panel panel = new Panel();
 
-    /**
-     * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
-     * A seconda del layout può essere posizionato in alto, oppure a sinistra
-     */
-    @Autowired
-    @Lazy
-    protected MenuLayout menuLayout;
 
     //--A placeholder for spring views
     @Autowired
