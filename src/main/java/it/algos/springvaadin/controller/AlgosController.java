@@ -63,21 +63,21 @@ public class AlgosController {
     }
 
 
-    @RequestMapping(value = "/x", method = RequestMethod.GET)
-    public ModelAndView getdata() {
-
-        List<String> list = new ArrayList<>();
-        list.add("Alfa");
-        list.add("Beta");
-        list.add("Gamma");
-
-        //return back to index.jsp
-        ModelAndView model = new ModelAndView("index");
-        model.addObject("lists", list);
-
-        return model;
-
-    }
+//    @RequestMapping(value = "*", method = RequestMethod.GET)
+//    public ModelAndView getdata() {
+//
+//        List<String> list = new ArrayList<>();
+//        list.add("Alfa");
+//        list.add("Beta");
+//        list.add("Gamma");
+//
+//        //return back to index.jsp
+//        ModelAndView model = new ModelAndView("index");
+//        model.addObject("lists", list);
+//
+//        return model;
+//
+//    }
 
     /**
      * Nome del metodo arbitrario.
@@ -192,7 +192,7 @@ public class AlgosController {
      * Quando si arriva nella AlgosUIParams, la request ha come path solo "/"
      * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
      */
-    @RequestMapping(value = {"*", "*/*"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"*"}, method = RequestMethod.GET)
     public ModelAndView selezionoCompany(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String companyName = "";

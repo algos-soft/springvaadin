@@ -1,10 +1,18 @@
 package it.algos.springvaadintest.application;
 
+import com.vaadin.server.*;
+import com.vaadin.spring.server.SpringVaadinServlet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import javax.servlet.ServletException;
 
 /**
  * Created by gac on 30/05/17.
@@ -24,6 +32,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EntityScan("it.algos.springvaadin.entity")
 public class SpringvaadinApplication {
 
+
     /**
      * Constructor
      *
@@ -32,5 +41,7 @@ public class SpringvaadinApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringvaadinApplication.class, args);
     }// end of constructor
+
+
 
 }// end of main class
