@@ -6,6 +6,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.field.AlgosImageField;
 import it.algos.springvaadin.label.LabelRosso;
@@ -39,7 +40,7 @@ public class StatoForm extends AlgosFormImpl {
     private StatoService statoService;
 
     @Autowired
-    private AlgosImageField imageField;
+    private AImageField imageField;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -62,7 +63,7 @@ public class StatoForm extends AlgosFormImpl {
     @Override
     protected List<AlgosField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
         List<AlgosField> listaFields = super.creaFields(presenter, fieldsName);
-        imageField.setEntityBean(entityBean);
+//        imageField.setEntityBean(entityBean);
         imageField.setSource(presenter);
         imageField.setName("bandiera");
         imageField.setCaption("Bandiera");

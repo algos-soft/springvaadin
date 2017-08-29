@@ -37,7 +37,7 @@ public class AImageField extends AField {
     public Component initContent() {
         buttonImage.setApplicationEventPublisher(applicationEventPublisher);
         buttonImage.setType(BottonType.editLink);
-        buttonImage.setSource(formSource);
+//        buttonImage.setSource(formSource);
         buttonImage.inizia();
 
         if (placeholderImage != null && buttonImage != null) {
