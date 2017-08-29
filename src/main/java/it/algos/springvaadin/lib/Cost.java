@@ -40,6 +40,8 @@ public abstract class Cost {
     public final static String BOT_DIALOGO = "dialogo";
     public final static String BOT_CHOOSER = "apri";
 
+    public final static String FIELD_TEXT = "text";
+
     public final static String STYLE_GREEN = "buttonGreen";
     public final static String STYLE_BLUE = "buttonBlue";
     public final static String STYLE_RED = "buttonRed";

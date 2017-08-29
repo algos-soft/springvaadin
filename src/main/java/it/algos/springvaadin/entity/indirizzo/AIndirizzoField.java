@@ -23,8 +23,8 @@ public class AIndirizzoField extends AField<Boolean> implements AlgosField {
     private boolean value;
     private String name;
 
-    public AIndirizzoField(AlgosPresenterImpl presenter) {
-        super(presenter);
+    public AIndirizzoField() {
+        super();
     }
 
     @Override

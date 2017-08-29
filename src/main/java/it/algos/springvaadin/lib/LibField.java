@@ -76,7 +76,7 @@ public class LibField {
         if (type!=null) {
             switch (type) {
                 case text:
-                    field = new ATextField(presenter);
+                    field = new ATextField();
 //                    ((AField)field).initContent();
                     if (focus) {
                         ((ATextField) field).focus();

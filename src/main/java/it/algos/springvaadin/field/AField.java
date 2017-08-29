@@ -23,9 +23,8 @@ public class AField<T> extends CustomField<Object> implements AlgosField {
     private AlgosPresenterImpl presenter;
 
 
-    public AField(AlgosPresenterImpl presenter) {
+    public AField() {
         super();
-        this.presenter = presenter;
         addListener();
     }
 
@@ -75,12 +74,6 @@ public class AField<T> extends CustomField<Object> implements AlgosField {
      * Aggiunge il listener al field
      */
     protected void addListener() {
-//        ((CustomField) this).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
-//            @Override
-//            public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-//                publish();
-//            }// end of inner method
-//        });// end of anonymous inner class
     }// end of method
 
     /**

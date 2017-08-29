@@ -27,6 +27,8 @@ import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
+import it.algos.springvaadin.view.ViewField;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -38,6 +40,9 @@ import java.util.List;
  * Implementazione standard dell'interfaccia AlgosField
  */
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
+
+    @Autowired
+    private ViewField viewField;
 
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
     protected Window window;
@@ -178,7 +183,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         AlgosField field;
 
         for (String publicFieldName : fieldsName) {
-            field = LibField.create(presenter, entityBean.getClass(), publicFieldName);
+//            field = LibField.create(presenter, entityBean.getClass(), publicFieldName);
+            field = viewField.create(presenter, entityBean.getClass(), publicFieldName);
 
             if (field != null) {
                 lista.add(field);
