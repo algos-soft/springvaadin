@@ -23,8 +23,9 @@ public class AField<T> extends CustomField<Object> implements AlgosField {
     private AlgosPresenterImpl presenter;
 
 
-    public AField() {
+    public AField(AlgosPresenterImpl presenter) {
         super();
+        this.presenter = presenter;
         addListener();
     }
 

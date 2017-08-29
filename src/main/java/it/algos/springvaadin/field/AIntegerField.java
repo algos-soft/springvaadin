@@ -1,44 +1,50 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.data.HasValue;
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 
 /**
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Date: dom, 27-ago-2017
- * Time: 17:36
+ * Date: mar, 29-ago-2017
+ * Time: 07:46
  */
 //@SpringComponent
-@Qualifier(Cost.FIELD_TEXT)
-public class ATextField extends AField {
+@Qualifier(Cost.FIELD_INTEGER)
+public class AIntegerField extends AField {
 
-    private TextField field;
+    private TextField textField;
 
-    public ATextField(AlgosPresenterImpl presenter) {
+    public AIntegerField(AlgosPresenterImpl presenter) {
         super(presenter);
-    }
+    }// end of constructor
 
     @Override
     public Component initContent() {
-        if (field == null) {
-            field = new TextField();
+        if (textField == null) {
+            textField = new TextField();
             addListener();
         }// end of if cycle
 
-        return field;
+        return textField;
     }// end of method
 
     @Override
-    public String getValue() {
-        if (field != null) {
-            return field.getValue();
+    public Integer getValue() {
+        String textValue = "";
+
+        if (textField != null) {
+            textValue = textField.getValue();
+            if (textValue != null && textValue.length() > 0) {
+                return Integer.decode(textValue);
+            } else {
+                return null;
+            }// end of if/else cycle
         } else {
             return null;
         }// end of if/else cycle
@@ -47,8 +53,8 @@ public class ATextField extends AField {
 
     @Override
     protected void doSetValue(Object value) {
-        if (field != null) {
-            field.setValue((String) value);
+        if (textField != null && value instanceof Integer) {
+            textField.setValue(value + "");
         }// end of if cycle
     }// end of method
 
@@ -57,8 +63,8 @@ public class ATextField extends AField {
      * Aggiunge il listener al field
      */
     protected void addListener() {
-        if (field != null) {
-            field.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+        if (textField != null) {
+            textField.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
                 @Override
                 public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
                     publish();
@@ -70,4 +76,5 @@ public class ATextField extends AField {
 
 
 }// end of class
+
 

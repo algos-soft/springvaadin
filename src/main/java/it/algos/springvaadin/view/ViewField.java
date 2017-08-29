@@ -2,6 +2,7 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.bottone.Bottone;
@@ -10,6 +11,7 @@ import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.interfaccia.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
+import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
@@ -28,17 +30,14 @@ import org.springframework.util.SerializationUtils;
 @SpringComponent
 public class ViewField {
 
-    private AField fieldText;
 
-    /**
-     * Costruttore @Autowired
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
-     */
-    public ViewField(
-            @Qualifier(Cost.FIELD_TEXT) AField fieldText) {
-        this.fieldText = fieldText;
-    }// end of @Autowired constructor
-
+//    /**
+//     * Costruttore @Autowired
+//     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+//     */
+//    public ViewField() {
+//    }// end of @Autowired constructor
+//
 
     /**
      * Create a single field.
@@ -62,12 +61,17 @@ public class ViewField {
         if (type != null) {
             switch (type) {
                 case text:
-                    field = fieldText;
-
-//                    ((AField)field).initContent();
+                    field = new ATextField(presenter);
+                    field.initContent();
                     if (focus) {
                         ((ATextField) field).focus();
                     }// end of if cycle
+                    break;
+                case integer:
+                    field = new AIntegerField(presenter);
+                    break;
+                case image:
+                    field = new AImageField(presenter);
                     break;
                 default: // caso non definito
                     break;
@@ -76,6 +80,17 @@ public class ViewField {
 
         if (field != null) {
             field.setName(publicFieldName);
+        }// end of if cycle
+
+        if (field != null && fieldAnnotation != null) {
+            ((AbstractField) field).setEnabled(enabled);
+            ((AbstractField) field).setRequiredIndicatorVisible(required);
+            ((AbstractField) field).setCaption(caption);
+            ((AbstractField) field).setWidth(width);
+
+            if (LibParams.displayToolTips()) {
+                field.setDescription(fieldAnnotation.help());
+            }// end of if cycle
         }// end of if cycle
 
         return field;
