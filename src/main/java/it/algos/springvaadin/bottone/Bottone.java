@@ -37,7 +37,7 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
-    protected ApplicationEventPublisher applicationEventPublisher;
+    public ApplicationEventPublisher applicationEventPublisher;
 
 
     /**
@@ -73,7 +73,7 @@ public abstract class Bottone extends Button {
      * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
      */
     @PostConstruct
-    protected void inizia() {
+    public void inizia() {
         this.fixParametri();
         this.addListener();
     }// end of method
@@ -169,7 +169,7 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
-    protected void setType(BottonType type) {
+    public void setType(BottonType type) {
         this.type = type;
     }// end of method
 
@@ -178,5 +178,8 @@ public abstract class Bottone extends Button {
         return type;
     }// end of method
 
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }// end of method
 
 }// end of abstract class

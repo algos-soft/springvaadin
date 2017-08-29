@@ -1,9 +1,15 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.BottoneImage;
+import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Project springvaadin
@@ -12,11 +18,16 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
  * Date: mar, 29-ago-2017
  * Time: 08:11
  */
+@SpringComponent
 public class AImageField extends AField {
 
     private Layout placeholderImage = new HorizontalLayout();
     private BottoneImage buttonImage = new BottoneImage(null);
+    private ApplicationEventPublisher applicationEventPublisher;
 
+    public AImageField() {
+        super(null);
+    }// end of constructor
 
     public AImageField(AlgosPresenterImpl presenter) {
         super(presenter);
@@ -24,7 +35,10 @@ public class AImageField extends AField {
 
     @Override
     public Component initContent() {
-
+        buttonImage.setApplicationEventPublisher(applicationEventPublisher);
+        buttonImage.setType(BottonType.editLink);
+        buttonImage.setSource(formSource);
+        buttonImage.inizia();
 
         if (placeholderImage != null && buttonImage != null) {
             placeholderImage.setWidth("8em");
@@ -66,6 +80,16 @@ public class AImageField extends AField {
         }// end of if cycle
 
     }// end of method
+
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }// end of method
+
+    @Override
+    public void setSource(ApplicationListener formSource) {
+        buttonImage.setSource(formSource);
+    }// end of method
+
 
 }// end of class
 

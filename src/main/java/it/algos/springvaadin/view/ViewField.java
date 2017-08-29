@@ -30,14 +30,16 @@ import org.springframework.util.SerializationUtils;
 @SpringComponent
 public class ViewField {
 
+    private ApplicationEventPublisher applicationEventPublisher;
 
-//    /**
-//     * Costruttore @Autowired
-//     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
-//     */
-//    public ViewField() {
-//    }// end of @Autowired constructor
-//
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     */
+    public ViewField(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher=applicationEventPublisher;
+    }// end of @Autowired constructor
+
 
     /**
      * Create a single field.
@@ -72,6 +74,7 @@ public class ViewField {
                     break;
                 case image:
                     field = new AImageField(presenter);
+                    ((AImageField)field).setApplicationEventPublisher(applicationEventPublisher);
                     break;
                 default: // caso non definito
                     break;
