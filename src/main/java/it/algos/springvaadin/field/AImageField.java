@@ -25,14 +25,14 @@ public class AImageField extends AField {
     private BottoneImage buttonImage = new BottoneImage(null);
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public AImageField() {
-        super(null);
-    }// end of constructor
-
-    public AImageField(AlgosPresenterImpl presenter) {
-        super(presenter);
-        this.setCaption("");
-    }// end of constructor
+//    public AImageField() {
+//        super(null);
+//    }// end of constructor
+//
+//    public AImageField(AlgosPresenterImpl presenter) {
+//        super(presenter);
+//        this.setCaption("");
+//    }// end of constructor
 
     @Override
     public Component initContent() {

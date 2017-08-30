@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -47,8 +48,8 @@ public class StatoForm extends AlgosFormImpl {
      * @return lista di fields
      */
     @Override
-    protected List<AlgosField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
-        List<AlgosField> listaFields = super.creaFields(presenter, fieldsName);
+    protected List<AField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
+        List<AField> listaFields = super.creaFields(presenter, fieldsName);
 //        imageField.setEntityBean(entityBean);
         imageField.setSource(presenter);
         imageField.setName("bandiera");

@@ -56,7 +56,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--collegamento tra i fields e la entityBean
     private Binder binder;
 
-    private List<AlgosField> fieldList = new ArrayList<>();
+    private List<AField> fieldList = new ArrayList<>();
 
     //--intestazioni informative per Form
     //--valori standard
@@ -164,7 +164,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param fieldsName del form da visualizzare
      */
     protected void creaAddBindFields(AlgosPresenterImpl presenter, Layout layout, List<String> fieldsName) {
-        List<AlgosField> fields = creaFields(presenter, fieldsName);
+        List<AField> fields = creaFields(presenter, fieldsName);
         addFields(layout, fields);
         bindFields(fields);
     }// end of method
@@ -178,9 +178,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @return lista di fields
      */
-    protected List<AlgosField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
-        List<AlgosField> lista = new ArrayList<>();
-        AlgosField field;
+    protected List<AField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
+        List<AField> lista = new ArrayList<>();
+        AField field;
 
         for (String publicFieldName : fieldsName) {
 //            field = LibField.create(presenter, entityBean.getClass(), publicFieldName);
@@ -202,9 +202,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param layout in cui inserire i campi (window o panel)
      * @param fields del form da visualizzare
      */
-    protected void addFields(Layout layout, List<AlgosField> fields) {
+    protected void addFields(Layout layout, List<AField> fields) {
 
-        for (AlgosField field : fields) {
+        for (AField field : fields) {
             layout.addComponent(((AbstractField) field));
         }// end of for cycle
 
@@ -216,7 +216,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param fields del form da visualizzare
      */
-    protected void bindFields(List<AlgosField> fields) {
+    protected void bindFields(List<AField> fields) {
         binder = new Binder(entityBean.getClass());
         List<AbstractValidator> listaValidatorPre;
         List<AlgosConverter> listaConverter;
@@ -226,7 +226,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         AbstractField field2 = null;
 
-        for (AlgosField field : fields) {
+        for (AField field : fields) {
             publicFieldName = field.getName();
             listaValidatorPre = LibField.creaValidatorsPre(entityBean, publicFieldName);
             listaConverter = LibField.creaConverters(entityBean, publicFieldName);
@@ -452,8 +452,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void saveSons() {
-        for (AlgosField field : fieldList) {
-            field.saveSon();
+        for (AField field : fieldList) {
+//            field.saveSon();
         }// end of for cycle
     }// end of method
 

@@ -557,8 +557,7 @@ public abstract class LibText {
      * Carattere rosso e bold
      */
     public static String setRossoBold(String testoIn) {
-        return testoIn; //@do provvisorio - si vede il testo con i tag html nel campo
-//        return "<strong style=\"color: red;\">" + testoIn + "</strong>";
+        return "<strong style=\"color: red;\">" + testoIn + "</strong>";
     }// end of inner enumeration
 
 

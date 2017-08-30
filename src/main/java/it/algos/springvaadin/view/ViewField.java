@@ -18,6 +18,7 @@ import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Scope;
 import org.springframework.util.SerializationUtils;
 
 /**
@@ -32,12 +33,15 @@ public class ViewField {
 
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Autowired
+    private AIFieldFactory fieldFactory;
+
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
      */
     public ViewField(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher=applicationEventPublisher;
+        this.applicationEventPublisher = applicationEventPublisher;
     }// end of @Autowired constructor
 
 
@@ -54,47 +58,56 @@ public class ViewField {
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
-        Object[] items = null;
         String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
 
+        //--non riesco (per ora) a leggere le Annotation da una classe diversa (AlgosEntity)
+        if (fieldAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
+            type = AFType.id;
+        }// end of if cycle
+
         if (type != null) {
             switch (type) {
+                case id:
+                    field = fieldFactory.crea(type, publicFieldName, presenter);
+                    break;
                 case text:
-                    field = new ATextField(presenter);
-                    field.initContent();
-                    if (focus) {
-                        ((ATextField) field).focus();
-                    }// end of if cycle
+                    field = fieldFactory.crea(type, publicFieldName, presenter);
                     break;
                 case integer:
-                    field = new AIntegerField(presenter);
+                    field = fieldFactory.crea(type, publicFieldName, presenter);
+//                    field = new AIntegerField();
                     break;
                 case image:
-                    field = new AImageField(presenter);
-                    ((AImageField)field).setApplicationEventPublisher(applicationEventPublisher);
+//                    field = new AImageField();
+//                    ((AImageField) field).setApplicationEventPublisher(applicationEventPublisher);
                     break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch
         }// end of if cycle
 
-        if (field != null) {
-            field.setName(publicFieldName);
-        }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {
-            ((AbstractField) field).setEnabled(enabled);
-            ((AbstractField) field).setRequiredIndicatorVisible(required);
-            ((AbstractField) field).setCaption(caption);
-            ((AbstractField) field).setWidth(width);
+            field.setEnabled(enabled);
+            field.setRequiredIndicatorVisible(required);
+            field.setCaption(caption);
+            field.setWidth(width);
+            field.setFocus(focus);
 
             if (LibParams.displayToolTips()) {
                 field.setDescription(fieldAnnotation.help());
             }// end of if cycle
         }// end of if cycle
+
+//        if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
+//            field = fieldFactory.crea(AFType.text, publicFieldName, presenter);
+//            ((AbstractField) field).setCaption("Key ID");
+//            ((AbstractField) field).setEnabled(false);
+//            ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
+//        }// end of if cycle
 
         return field;
     }// end of method

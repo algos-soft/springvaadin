@@ -2,25 +2,23 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Date: dom, 27-ago-2017
- * Time: 17:36
+ * Date: mer, 30-ago-2017
+ * Time: 19:23
  */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.FIELD_TEXT)
-public class ATextField extends AField {
+@Qualifier(Cost.FIELD_ID)
+public class AIdField extends AField {
 
 
     public TextField field = null;
@@ -34,16 +32,24 @@ public class ATextField extends AField {
     }// end of method
 
 
-    public void setWidth(String width) {
-        if (field != null) {
-            field.setWidth(width);
-        }// end of if cycle
+    /**
+     * Regola i parametri base per la visualizzazione del field nel form
+     * Possono essere sovrascritti nella sottoclasse specifica
+     * Possono essere successivamente modificati da una @Annotation
+     */
+    protected void regolaParametri() {
+        super.regolaParametri();
+        this.setCaption(Cost.FIELD_ID);
+        this.setEnabled(false);
+        this.setRequiredIndicatorVisible(false);
+        this.setVisible(true);
+        this.setWidth(STANDARD_MEDIUM_TEXT_WITH);
     }// end of method
 
 
-    public void setFocus(boolean focus) {
-        if (field != null && focus) {
-            field.focus();
+    public void setWidth(String width) {
+        if (field != null) {
+            field.setWidth(width);
         }// end of if cycle
     }// end of method
 
@@ -72,20 +78,7 @@ public class ATextField extends AField {
     }// end of method
 
 
-    /**
-     * Aggiunge il listener al field
-     */
-    protected void addListener() {
-        if (field != null) {
-            field.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
-                @Override
-                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-                    publish();
-                }// end of inner method
-            });// end of anonymous inner class
-        }// end of if cycle
-    }// end of method
-
 
 }// end of class
+
 

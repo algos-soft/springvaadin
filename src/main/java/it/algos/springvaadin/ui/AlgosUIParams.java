@@ -112,7 +112,6 @@ public abstract class AlgosUIParams extends UI {
     /**
      * Flag.
      * Utilizzo di bottoni con colore indicativo della 'priorità'
-     * Priority, friendly, danger
      * Regolato nel metodo genericFixAndPrint() di questa classe
      * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
      */
@@ -121,8 +120,16 @@ public abstract class AlgosUIParams extends UI {
 
     /**
      * Flag.
+     * Utilizzo di (alcuni) avvisi col testo in rosso
+     * Regolato nel metodo genericFixAndPrint() di questa classe
+     * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
+     */
+    public boolean usaAvvisiColorati;
+
+
+    /**
+     * Flag.
      * Utilizzo di bottoni sempre con la prima lettera maiuscola
-     * Priority, friendly, danger
      * Regolato nel metodo genericFixAndPrint() di questa classe
      * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
      */
@@ -243,6 +250,9 @@ public abstract class AlgosUIParams extends UI {
 
         this.usaBottoniColorati = false;
         log.info("AlgosUIParams.usaBottoniColorati: " + this.usaBottoniColorati);
+
+        this.usaAvvisiColorati = true;
+        log.info("AlgosUIParams.usaAvvisiColorati: " + this.usaAvvisiColorati);
 
         this.usaBottoniPrimaMaiuscola = true;
         log.info("AlgosUIParams.usaBottoniPrimaMaiuscola: " + this.usaBottoniPrimaMaiuscola);

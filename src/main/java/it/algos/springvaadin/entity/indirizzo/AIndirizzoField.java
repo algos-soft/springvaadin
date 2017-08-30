@@ -23,9 +23,9 @@ public class AIndirizzoField extends AField<Boolean> implements AlgosField {
     private boolean value;
     private String name;
 
-    public AIndirizzoField() {
-        super(null);
-    }
+//    public AIndirizzoField() {
+//        super(null);
+//    }
 
     @Override
     public Component initContent() {

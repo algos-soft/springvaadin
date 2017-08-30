@@ -76,7 +76,7 @@ public class LibField {
         if (type!=null) {
             switch (type) {
                 case text:
-                    field = new ATextField(presenter);
+//                    field = new ATextField(presenter);
 //                    ((AField)field).initContent();
                     if (focus) {
                         ((ATextField) field).focus();
@@ -188,7 +188,7 @@ public class LibField {
         if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
             field = new AlgosTextField();
             field.setName(publicFieldName);
-            ((AbstractField) field).setCaption("Key ID");
+            ((AbstractField) field).setCaption("KeyID");
             ((AbstractField) field).setEnabled(false);
             ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
         }// end of if cycle

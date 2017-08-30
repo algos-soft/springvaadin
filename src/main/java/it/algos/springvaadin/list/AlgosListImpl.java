@@ -11,6 +11,7 @@ import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AlgosEntity;
@@ -79,7 +80,11 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         if (caption != null) {
             textLabel += caption;
         }// end of if cycle
-        label = new LabelRosso(textLabel);
+        if (LibParams.usaAvvisiColorati()) {
+            label = new LabelRosso(textLabel);
+        } else {
+            label = new Label(textLabel);
+        }// end of if/else cycle
         this.addComponent(label);
 
         grid.inizia(entityClass, items, columns);

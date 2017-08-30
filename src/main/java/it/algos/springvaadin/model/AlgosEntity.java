@@ -1,8 +1,12 @@
 package it.algos.springvaadin.model;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.interfaccia.AIField;
 import lombok.Getter;
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.io.Serializable;
 
@@ -28,6 +32,7 @@ public abstract class AlgosEntity implements Serializable {
      * key property ObjectId
      * gestita direttamente da Mongo
      */
+    @NotEmpty
     public String id;
 
 

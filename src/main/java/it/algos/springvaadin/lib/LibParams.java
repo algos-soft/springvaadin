@@ -124,8 +124,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaViewTreComponenti() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaViewTreComponenti;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaViewTreComponenti : true;
     }// end of static method
 
 
@@ -134,8 +135,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaRootLayoutVerticale() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaRootLayoutVerticale;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaRootLayoutVerticale : true;
     }// end of static method
 
 
@@ -144,8 +146,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaItemMenuHome() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaItemMenuHome;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaItemMenuHome : true;
     }// end of static method
 
 
@@ -154,8 +157,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaItemMenuHelp() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaItemMenuHelp;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaItemMenuHelp : false;
     }// end of static method
 
 
@@ -166,8 +170,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean displayNewRecordOnly() {
-        return ((AlgosUIParams) LibVaadin.getUI()).displayNewRecordOnly;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).displayNewRecordOnly : false;
     }// end of static method
 
 
@@ -178,8 +183,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean displayToolTips() {
-        return ((AlgosUIParams) LibVaadin.getUI()).displayToolTips;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).displayToolTips : false;
     }// end of static method
 
 
@@ -190,8 +196,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean comboBoxNullSelectionAllowed() {
-        return ((AlgosUIParams) LibVaadin.getUI()).comboBoxNullSelectionAllowed;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).comboBoxNullSelectionAllowed : false;
     }// end of static method
 
 
@@ -202,9 +209,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static Grid.SelectionMode gridSelectionMode() {
-        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode : null;
-//        return ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode : Grid.SelectionMode.SINGLE;
     }// end of static method
 
 
@@ -215,9 +222,9 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaSeparateFormDialog() {
         return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaSeparateFormDialog : false;
-//        return ((AlgosUIParams) LibVaadin.getUI()).usaSeparateFormDialog;
     }// end of static method
 
 
@@ -227,46 +234,57 @@ public abstract class LibParams {
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean chiedeConfermaPrimaDiCancellare() {
-        return ((AlgosUIParams) LibVaadin.getUI()).chiedeConfermaPrimaDiCancellare;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).chiedeConfermaPrimaDiCancellare : true;
     }// end of static method
 
 
     /**
      * Flag.
      * Utilizzo di bottoni con colore indicativo della 'priorità'
-     * Priority, friendly, danger
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaBottoniColorati() {
-        AlgosUIParams uiParams = (AlgosUIParams) LibVaadin.getUI();
-        return uiParams != null && uiParams.usaBottoniColorati;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaBottoniColorati : false;
+    }// end of static method
+
+
+    /**
+     * Flag.
+     * Utilizzo di bottoni con colore indicativo della 'priorità'
+     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
+     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
+     */
+    @SuppressWarnings("all")
+    public static boolean usaAvvisiColorati() {
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaAvvisiColorati : true;
     }// end of static method
 
 
     /**
      * Flag.
      * Utilizzo di bottoni sempre con la prima lettera maiuscola
-     * Priority, friendly, danger
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaBottoniPrimaMaiuscola() {
-        AlgosUIParams uiParams = (AlgosUIParams) LibVaadin.getUI();
-        return uiParams != null && uiParams.usaBottoniPrimaMaiuscola;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaBottoniPrimaMaiuscola : true;
     }// end of static method
 
 
     /**
      * Flag.
      * Utilizzo di dialoghi 'verbosi' (con maggiori informazioni)
-     * Priority, friendly, danger
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */
+    @SuppressWarnings("all")
     public static boolean usaDialoghiVerbosi() {
-        return ((AlgosUIParams) LibVaadin.getUI()).usaDialoghiVerbosi;
+        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).usaDialoghiVerbosi : false;
     }// end of static method
 
 

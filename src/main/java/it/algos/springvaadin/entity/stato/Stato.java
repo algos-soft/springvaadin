@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "alfaDue", "alfaTre", "numerico"})
-@AIForm(showsID = true, widthIDEM = 4)
+@AIForm(showsID = true,widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})
 @Data
 @NoArgsConstructor
@@ -53,7 +53,7 @@ public class Stato extends AlgosEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
+    @AIField(type = AFType.integer, enabled = false, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;
 
@@ -63,7 +63,7 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 4)
-    @AIField(type = AFType.text, required = true, focus = true, firstCapital = true, widthEM = 16)
+    @AIField(type = AFType.text, required = true, focus = true, firstCapital = true)
     @AIColumn(width = 250)
     private String nome;
 
@@ -73,7 +73,7 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 2, max = 2)
-    @AIField(type = AFType.text, widthEM = 4, allUpper = true, onlyLetter = true)
+    @AIField(type = AFType.text, widthEM = 6, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaDue;
 
@@ -83,7 +83,7 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 4, allUpper = true, onlyLetter = true)
+    @AIField(type = AFType.text, widthEM = 6,allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaTre;
 
@@ -92,7 +92,7 @@ public class Stato extends AlgosEntity {
     //-- 249 codici assegnati
     @Indexed(unique = false)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 4, onlyNumber = true)
+    @AIField(type = AFType.text, widthEM = 6, onlyNumber = true)
     @AIColumn(width = 100)
     private String numerico;
 

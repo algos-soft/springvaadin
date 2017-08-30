@@ -40,6 +40,7 @@ public abstract class Cost {
     public final static String BOT_DIALOGO = "dialogo";
     public final static String BOT_CHOOSER = "apri";
 
+    public final static String FIELD_ID = "KeyID";
     public final static String FIELD_TEXT = "text";
     public final static String FIELD_INTEGER = "integer";
 
