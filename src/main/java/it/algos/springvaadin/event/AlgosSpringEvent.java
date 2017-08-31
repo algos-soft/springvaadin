@@ -15,4 +15,5 @@ public abstract class AlgosSpringEvent extends ApplicationEvent {
         super(source);
     }// end of constructor
 
+
 }// end of class
