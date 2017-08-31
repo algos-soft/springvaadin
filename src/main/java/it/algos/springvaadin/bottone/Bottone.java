@@ -154,7 +154,7 @@ public abstract class Bottone extends Button {
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
             if (parentDialog != null) {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type, parentDialog));
+                applicationEventPublisher.publishEvent(new ButtonSpringEvent(null, type, parentDialog));
             } else {
                 applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
             }// end of if/else cycle

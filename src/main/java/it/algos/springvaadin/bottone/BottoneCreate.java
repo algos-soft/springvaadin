@@ -21,17 +21,17 @@ public class BottoneCreate extends Bottone {
         super.setType(BottonType.create);
     }// end of @Autowired constructor
 
-    /**
-     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
-     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
-     */
-    protected void fire(Button.ClickEvent clickEvent) {
-        if (source != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
-        } else {
-            int a=87;
-        }// end of if/else cycle
-    }// end of method
+//    /**
+//     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+//     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+//     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
+//     */
+//    protected void fire(Button.ClickEvent clickEvent) {
+//        if (source != null) {
+//            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
+//        } else {
+//            int a=87;
+//        }// end of if/else cycle
+//    }// end of method
 
 }// end of class

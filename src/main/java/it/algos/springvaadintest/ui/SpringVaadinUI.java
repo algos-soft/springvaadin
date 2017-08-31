@@ -61,6 +61,9 @@ public class SpringVaadinUI extends AlgosUI {
         super.usaDialoghiVerbosi = true;
         log.info("AlgosUIParams.usaDialoghiVerbosi: " + super.usaDialoghiVerbosi);
 
+        super.usaBottoniColorati = true;
+        log.info("AlgosUIParams.usaBottoniColorati: " + super.usaBottoniColorati);
+
     }// end of method
 
 

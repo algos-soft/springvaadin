@@ -124,8 +124,8 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     }// end of method
 
     private void getImage() {
-            byte[] imgBytes = ((Stato)entityBean).getBandiera();
-            image = LibResource.getImage(imgBytes);
+        byte[] imgBytes = ((Stato) entityBean).getBandiera();
+        image = LibResource.getImage(imgBytes);
 
         if (image != null) {
             image.setWidth("24em");
@@ -145,37 +145,44 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     /**
      * Handle an application event.
      *
-     * @param event the event to respond to
+     * @param algosEvent the event to respond to
      */
     @Override
-    public void onApplicationEvent(AlgosSpringEvent event) {
-        if (!(event instanceof ButtonSpringEvent)) {
+    public void onApplicationEvent(AlgosSpringEvent algosEvent) {
+        Class thisClazz = this.getClass();
+        ButtonSpringEvent event = null;
+        BottonType type = null;
+        Class sourceClazz = null;
+        Class windowClazz = null;
+
+        if (!(algosEvent instanceof ButtonSpringEvent)) {
             return;
         }// end of if cycle
 
-        BottonType type = ((ButtonSpringEvent) event).getType();
-        if (event.getSource().getClass() == this.getClass()) {
+        event = (ButtonSpringEvent) algosEvent;
+        type = event.getType();
+        sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+        windowClazz = event.getParentDialog() != null ? event.getParentDialog().getClass() : null;
 
-            if (event instanceof ButtonSpringEvent) {
-                switch (type) {
-                    case back:
-                        this.close();
-                        break;
-                    case create:
-                        this.create();
-                        break;
-                    case delete:
-                        ((Stato) entityBean).setBandiera(new byte[0]);
-                        resetDialog();
-                        break;
-                    case accetta:
-                        fireRevert();
-                        this.close();
-                        break;
-                    default: // caso non definito
-                        break;
-                } // fine del blocco switch
-            }// end of if/else cycle
+        if (sourceClazz == thisClazz || windowClazz == thisClazz) {
+            switch (type) {
+                case back:
+                    this.close();
+                    break;
+                case create:
+                    this.create();
+                    break;
+                case delete:
+                    ((Stato) entityBean).setBandiera(new byte[0]);
+                    resetDialog();
+                    break;
+                case accetta:
+                    fireRevert();
+                    this.close();
+                    break;
+                default: // caso non definito
+                    break;
+            } // fine del blocco switch
         }// end of if cycle
     }// end of method
 
@@ -192,7 +199,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
         @Override
         public void gotInput(String input, Window win) {
             byte[] imageBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
-            ((Stato)entityBean).setBandiera(imageBytes);
+            ((Stato) entityBean).setBandiera(imageBytes);
             resetDialog();
             win.close();
         }// end of method
