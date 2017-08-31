@@ -34,13 +34,6 @@ public class AImageField extends AField {
     private BottoneImage buttonImage;
 
 
-    /**
-     * Crea (o ricrea dopo una clonazione) il componente base
-     */
-    public void creaContent() {
-    }// end of method
-
-
     public void setWidth(String width) {
         if (placeholderImage != null) {
             placeholderImage.setWidth(width);
@@ -60,10 +53,6 @@ public class AImageField extends AField {
 
     @Override
     public byte[] getValue() {
-//        String name = entityBean.getId().toUpperCase() + ".png";
-//        byte[] imgByte = LibResource.getImgBytes(name);
-//
-//        return imgByte;
         return null;
     }// end of method
 

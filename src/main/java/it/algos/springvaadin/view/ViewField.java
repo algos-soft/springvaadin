@@ -5,11 +5,14 @@ import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
+import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+
+import java.util.ArrayList;
 
 /**
  * Project springvaadin
@@ -45,6 +48,7 @@ public class ViewField {
     @SuppressWarnings("all")
     public AField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
         AField field = null;
+        Object[] items = null;
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
@@ -52,14 +56,23 @@ public class ViewField {
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
+        Class comboClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AlgosEntity)
         if (fieldAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
             type = AFType.id;
         }// end of if cycle
 
+        if (type == AFType.combo && comboClazz != null) {
+            ArrayList lista =new ArrayList();
+            lista.add("Alfa");
+            lista.add("Beta");
+            lista.add("Delta");
+            items= lista.toArray();
+        }// end of if cycle
+
         if (type != null) {
-            field = fieldFactory.crea(type, publicFieldName, presenter);
+            field = fieldFactory.crea(type, publicFieldName, presenter, items);
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {

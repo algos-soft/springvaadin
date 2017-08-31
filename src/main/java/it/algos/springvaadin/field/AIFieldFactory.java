@@ -11,6 +11,6 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
  */
 public interface AIFieldFactory {
 
-    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl presenter);
+    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl presenter,Object[] items);
 
 }// end of interface

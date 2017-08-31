@@ -87,7 +87,7 @@ public class Indirizzo extends AlgosEntity {
     @DBRef
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
-    @AIField(type = AFType.combo, clazz = StatoService.class, widthEM = 10)
+    @AIField(type = AFType.combo, clazz = StatoService.class)
     @AIColumn(width = 140)
     private Stato stato ;
 

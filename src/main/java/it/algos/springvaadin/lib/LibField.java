@@ -51,147 +51,147 @@ public class LibField {
         indirizzoField = this.indirizzoFieldInstance;
     }// end of method
 
-    /**
-     * Create a single field.
-     * The field type is chosen according to the annotation @AIField.
-     *
-     * @param presenter di riferimento per gli eventi
-     * @param attr      the metamodel Attribute
-     */
-    @SuppressWarnings("all")
-    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
-        AlgosField field = null;
-        AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
-        String caption = LibAnnotation.getNameField(clazz, publicFieldName);
-        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
-        Object[] items = null;
-        String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
-        boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
-        boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
-        boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
-
-        if (type!=null) {
-            switch (type) {
-                case text:
-//                    field = new ATextField(presenter);
-//                    ((AField)field).initContent();
-                    if (focus) {
-                        ((ATextField) field).focus();
-                    }// end of if cycle
-                    break;
-                case integer:
-                    field = new AlgosIntegerField();
-                    break;
-                case email:
-                    field = new AlgosTextField();
-                    break;
-                case enumeration:
-                    if (fieldAnnotation.clazz() != null) {
-                        Class<? extends Object> classEnumeration = fieldAnnotation.clazz();
-                        if (classEnumeration.isEnum()) {
-                            items = classEnumeration.getEnumConstants();
-                            field = new AlgosComboArrayField(items, fieldAnnotation.nullSelectionAllowed());
-                        }// end of if cycle
-                    }// end of if cycle
-                    break;
-                case combo:
-                    if (fieldAnnotation.clazz() != null) {
-                        Class<? extends Object> classRelated = fieldAnnotation.clazz();
-                        if (AlgosService.class.isAssignableFrom(classRelated)) {
-                            try { // prova ad eseguire il codice
-                                items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
-                                field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
-                                field.setSource(presenter);
-                                ComboBox combo = ((AlgosComboClassField) field).getCombo();
-                                combo.addValueChangeListener(new HasValue.ValueChangeListener() {
-                                    @Override
-                                    public void valueChange(HasValue.ValueChangeEvent valueChangeEvent) {
-//                                        publish(presenter);//@todo rimettere
-                                    }// end of inner method
-                                });// end of anonymous inner class
-                            } catch (Exception unErrore) { // intercetta l'errore
-                            }// fine del blocco try-catch
-                        }// end of if cycle
-                    }// end of if cycle
-                    break;
-                case date:
-                    field = new AlgosDateField();
-                    break;
-                case localdate:
-                    field = new AlgosDateField();
-                    break;
-                case localdatetime:
-                    field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
-                    break;
-                case image:
-//                    field = new AlgosImageField();
-                    break;
-                case link:
-                    Class<?> linkClazz = LibAnnotation.getClass(clazz, publicFieldName);
-                    String className = linkClazz.getSimpleName();
-
-                    switch (className) {
-                        case "IndirizzoField":
-                            if (indirizzoField!=null) {
-                                field = indirizzoField;
-                                field.setSource(presenter);
-                            }// end of if cycle
-                            break;
-                        default: // caso non definito
-                            break;
-                    } // fine del blocco switch
-
-//                    Constructor<?> cons;
-//                    Object object = null;
+//    /**
+//     * Create a single field.
+//     * The field type is chosen according to the annotation @AIField.
+//     *
+//     * @param presenter di riferimento per gli eventi
+//     * @param attr      the metamodel Attribute
+//     */
+//    @SuppressWarnings("all")
+//    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+//        AlgosField field = null;
+//        AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
+//        String caption = LibAnnotation.getNameField(clazz, publicFieldName);
+//        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
+//        Object[] items = null;
+//        String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
+//        boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
+//        boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
+//        boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
 //
-//                    try { // prova ad eseguire il codice
-//                        cons = linkClazz.getConstructor();
-//                        object = cons.newInstance();
-//                    } catch (Exception unErrore) { // intercetta l'errore
-//                    }// fine del blocco try-catch
-//                    if (object != null) {
-//                        field = (AlgosField) object;
+//        if (type!=null) {
+//            switch (type) {
+//                case text:
+////                    field = new ATextField(presenter);
+////                    ((AField)field).initContent();
+//                    if (focus) {
+//                        ((ATextField) field).focus();
 //                    }// end of if cycle
-                    break;
-                default: // caso non definito
-                    break;
-            } // fine del blocco switch
-
-            if (field != null) {
-                field.setName(publicFieldName);
-            }// end of if cycle
-
-            if (field != null && fieldAnnotation != null) {
-                ((AbstractField) field).setEnabled(enabled);
-                ((AbstractField) field).setRequiredIndicatorVisible(required);
-                ((AbstractField) field).setCaption(caption);
-                ((AbstractField) field).setWidth(width);
-
-                if (LibParams.displayToolTips()) {
-                    field.setDescription(fieldAnnotation.help());
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
-
-//        if (field != null) {
-//            ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
-//                @Override
-//                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-//                    publish(presenter);
-//                }// end of inner method
-//            });// end of anonymous inner class
+//                    break;
+//                case integer:
+//                    field = new AlgosIntegerField();
+//                    break;
+//                case email:
+//                    field = new AlgosTextField();
+//                    break;
+//                case enumeration:
+//                    if (fieldAnnotation.clazz() != null) {
+//                        Class<? extends Object> classEnumeration = fieldAnnotation.clazz();
+//                        if (classEnumeration.isEnum()) {
+//                            items = classEnumeration.getEnumConstants();
+//                            field = new AlgosComboArrayField(items, fieldAnnotation.nullSelectionAllowed());
+//                        }// end of if cycle
+//                    }// end of if cycle
+//                    break;
+//                case combo:
+//                    if (fieldAnnotation.clazz() != null) {
+//                        Class<? extends Object> classRelated = fieldAnnotation.clazz();
+//                        if (AlgosService.class.isAssignableFrom(classRelated)) {
+//                            try { // prova ad eseguire il codice
+//                                items = ((AlgosService) StaticContextAccessor.getBean(classRelated)).findAll().toArray();
+//                                field = new AlgosComboClassField(items, fieldAnnotation.nullSelectionAllowed());
+//                                field.setSource(presenter);
+//                                ComboBox combo = ((AlgosComboClassField) field).getCombo();
+//                                combo.addValueChangeListener(new HasValue.ValueChangeListener() {
+//                                    @Override
+//                                    public void valueChange(HasValue.ValueChangeEvent valueChangeEvent) {
+////                                        publish(presenter);//@todo rimettere
+//                                    }// end of inner method
+//                                });// end of anonymous inner class
+//                            } catch (Exception unErrore) { // intercetta l'errore
+//                            }// fine del blocco try-catch
+//                        }// end of if cycle
+//                    }// end of if cycle
+//                    break;
+//                case date:
+//                    field = new AlgosDateField();
+//                    break;
+//                case localdate:
+//                    field = new AlgosDateField();
+//                    break;
+//                case localdatetime:
+//                    field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
+//                    break;
+//                case image:
+////                    field = new AlgosImageField();
+//                    break;
+//                case link:
+//                    Class<?> linkClazz = LibAnnotation.getClass(clazz, publicFieldName);
+//                    String className = linkClazz.getSimpleName();
+//
+//                    switch (className) {
+//                        case "IndirizzoField":
+//                            if (indirizzoField!=null) {
+//                                field = indirizzoField;
+//                                field.setSource(presenter);
+//                            }// end of if cycle
+//                            break;
+//                        default: // caso non definito
+//                            break;
+//                    } // fine del blocco switch
+//
+////                    Constructor<?> cons;
+////                    Object object = null;
+////
+////                    try { // prova ad eseguire il codice
+////                        cons = linkClazz.getConstructor();
+////                        object = cons.newInstance();
+////                    } catch (Exception unErrore) { // intercetta l'errore
+////                    }// fine del blocco try-catch
+////                    if (object != null) {
+////                        field = (AlgosField) object;
+////                    }// end of if cycle
+//                    break;
+//                default: // caso non definito
+//                    break;
+//            } // fine del blocco switch
+//
+//            if (field != null) {
+//                field.setName(publicFieldName);
+//            }// end of if cycle
+//
+//            if (field != null && fieldAnnotation != null) {
+//                ((AbstractField) field).setEnabled(enabled);
+//                ((AbstractField) field).setRequiredIndicatorVisible(required);
+//                ((AbstractField) field).setCaption(caption);
+//                ((AbstractField) field).setWidth(width);
+//
+//                if (LibParams.displayToolTips()) {
+//                    field.setDescription(fieldAnnotation.help());
+//                }// end of if cycle
+//            }// end of if cycle
 //        }// end of if cycle
-
-        if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
-            field = new AlgosTextField();
-            field.setName(publicFieldName);
-            ((AbstractField) field).setCaption("KeyID");
-            ((AbstractField) field).setEnabled(false);
-            ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
-        }// end of if cycle
-
-        return field;
-    }// end of static method
+//
+////        if (field != null) {
+////            ((AbstractField) field).addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+////                @Override
+////                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+////                    publish(presenter);
+////                }// end of inner method
+////            });// end of anonymous inner class
+////        }// end of if cycle
+//
+//        if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
+//            field = new AlgosTextField();
+//            field.setName(publicFieldName);
+//            ((AbstractField) field).setCaption("KeyID");
+//            ((AbstractField) field).setEnabled(false);
+//            ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
+//        }// end of if cycle
+//
+//        return field;
+//    }// end of static method
 
 
     /**

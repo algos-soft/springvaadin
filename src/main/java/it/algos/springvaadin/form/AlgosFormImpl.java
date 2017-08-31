@@ -20,7 +20,6 @@ import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AlgosComboClassField;
 import it.algos.springvaadin.field.AlgosField;
-import it.algos.springvaadin.field.AlgosImageField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;

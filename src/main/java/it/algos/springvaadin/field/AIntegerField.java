@@ -19,17 +19,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.FIELD_INTEGER)
-public class AIntegerField extends AField {
-
-
-    public TextField field = null;
-
-    /**
-     * Crea (o ricrea dopo una clonazione) il componente base
-     */
-    public void creaContent() {
-        field = new TextField();
-    }// end of method
+public class AIntegerField extends AText {
 
 
     /**
@@ -40,25 +30,6 @@ public class AIntegerField extends AField {
     protected void regolaParametri() {
         super.regolaParametri();
         this.setWidth(STANDARD_INT_WITH);
-    }// end of method
-
-    public void setWidth(String width) {
-        if (field != null) {
-            field.setWidth(width);
-        }// end of if cycle
-    }// end of method
-
-
-    public void setFocus(boolean focus) {
-        if (field != null && focus) {
-            field.focus();
-        }// end of if cycle
-    }// end of method
-
-
-    @Override
-    public Component initContent() {
-        return field;
     }// end of method
 
 
@@ -76,30 +47,6 @@ public class AIntegerField extends AField {
         } else {
             return null;
         }// end of if/else cycle
-    }// end of method
-
-
-    @Override
-    protected void doSetValue(Object value) {
-        if (field != null && value instanceof Integer) {
-            field.setValue(value + "");
-        }// end of if cycle
-    }// end of method
-
-
-    /**
-     * Aggiunge il listener al field
-     */
-    protected void addListener() {
-        if (field != null) {
-            field.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
-                @Override
-                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
-                    publish();
-                }// end of inner method
-            });// end of anonymous inner class
-        }// end of if cycle
-
     }// end of method
 
 

@@ -1,7 +1,7 @@
 package it.algos.springvaadin.dialog;
 
 import com.vaadin.ui.Notification;
-import it.algos.springvaadin.field.AlgosTextField;
+import it.algos.springvaadin.field.ATextField;
 
 /**
  * Created by gac on 19 ago 2015.
@@ -14,7 +14,7 @@ public class EditDialog extends ConfirmDialog {
     private static String DEFAULT_MESSAGE = "";
     private static String DEFAULT_CAPTION = "TextField";
     private EditListener listener;
-    private AlgosTextField field;
+    private ATextField field;
     private String caption;
 
     /**
@@ -69,7 +69,7 @@ public class EditDialog extends ConfirmDialog {
      */
     @SuppressWarnings("rawtypes")
     private void initGUI() {
-        field = new AlgosTextField();
+        field = new ATextField();
         field.setCaption(caption);
 //        field.setRequired(true);
         addComponent(field);
@@ -105,7 +105,7 @@ public class EditDialog extends ConfirmDialog {
         this.listener = listener;
     }// end of method
 
-    public AlgosTextField getField() {
+    public ATextField getField() {
         return field;
     }// end of getter method
 

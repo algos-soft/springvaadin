@@ -115,10 +115,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         this.name = name;
     }// end of method
 
-//    public void setPresenter(AlgosPresenterImpl presenter) {
-//        this.presenter = presenter;
-//    }// end of method
-
 
 //    public void saveSon() {
 //    }// end of method
@@ -215,6 +211,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }// end of method
+
 
 
     protected AField clone(String publicFieldName, AlgosPresenterImpl source) {
