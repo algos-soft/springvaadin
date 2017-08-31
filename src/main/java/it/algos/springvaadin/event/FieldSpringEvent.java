@@ -13,11 +13,11 @@ public class FieldSpringEvent extends AlgosSpringEvent {
 
     private AField fieldChanged;
 
-    public FieldSpringEvent(AlgosPresenterImpl source) {
+    public FieldSpringEvent(ApplicationListener source) {
         super(source);
     }// end of constructor
 
-    public FieldSpringEvent(AlgosPresenterImpl source, AField fieldChanged) {
+    public FieldSpringEvent(ApplicationListener source, AField fieldChanged) {
         super(source);
         this.fieldChanged = fieldChanged;
     }// end of constructor

@@ -95,10 +95,10 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
 
     private void resetButtons(AlgosPresenterImpl presenter) {
-        buttonBack.regolaBottone(presenter, this);
-        buttonCreate.regolaBottone(presenter, this);
-        buttonDelete.regolaBottone(presenter, this);
-        buttonAccetta.regolaBottone(presenter, this);
+        buttonBack.regolaBottone(this, this);
+        buttonCreate.regolaBottone(this, this);
+        buttonDelete.regolaBottone(this, this);
+        buttonAccetta.regolaBottone(this, this);
 
 
         try { // prova ad eseguire il codice
@@ -153,7 +153,6 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
         ButtonSpringEvent event = null;
         BottonType type = null;
         Class sourceClazz = null;
-        Class windowClazz = null;
 
         if (!(algosEvent instanceof ButtonSpringEvent)) {
             return;
@@ -162,9 +161,8 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
         event = (ButtonSpringEvent) algosEvent;
         type = event.getType();
         sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
-        windowClazz = event.getParentDialog() != null ? event.getParentDialog().getClass() : null;
 
-        if (sourceClazz == thisClazz || windowClazz == thisClazz) {
+        if (sourceClazz != null && sourceClazz == thisClazz) {
             switch (type) {
                 case back:
                     this.close();
