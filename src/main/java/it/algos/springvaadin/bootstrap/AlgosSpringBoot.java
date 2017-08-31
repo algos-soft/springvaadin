@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class AlgosSpringBoot implements InitializingBean {
 
     /**
-     * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'interfaccia.
+     * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'annotation.
      * Viene normalmente scritto ANCHE nella sottoclasse:
      * - per regolare eventualmente alcuni flag dell'applicazione <br>
      * - per lanciare eventualmente gli schedulers in background <br>

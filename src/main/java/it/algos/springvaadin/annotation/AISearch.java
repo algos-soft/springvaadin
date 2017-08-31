@@ -1,6 +1,4 @@
-package it.algos.springvaadin.interfaccia;
-
-import it.algos.springvaadin.field.AFType;
+package it.algos.springvaadin.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,12 +8,12 @@ import java.lang.annotation.Target;
 
 /**
  * Created by gac on 05 ott 2016.
- * AlgosInterfaceForm (AIForm)
- * Annotation to add some property for a single form.
+ * AlgosInterfaceSearch (AISearch)
+ * Annotation to add some property for a search dialog.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE) //can use in class and interface.
-public @interface AIForm{
+public @interface AISearch {
 
 
     /**

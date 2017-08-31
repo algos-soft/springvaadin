@@ -212,7 +212,7 @@ public abstract class AlgosUIParams extends UI {
     }// end of method
 
     /**
-     * Regola alcuni flag generici dell'applicazione che riguardano l'interfaccia video
+     * Regola alcuni flag generici dell'applicazione che riguardano l'annotation video
      * Valori di default
      * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
      * Stampa a video (productionMode) i valori per controllo

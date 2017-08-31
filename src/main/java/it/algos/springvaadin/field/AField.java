@@ -10,6 +10,8 @@ import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +27,13 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
     private String name;
     private AlgosPresenterImpl presenter;
+
+    /**
+     * Property iniettata da Spring PRIMA della chiamata del browser
+     */
+    @Autowired
+    protected ApplicationEventPublisher applicationEventPublisher;
+
 
     //--default che può essere sovrascritto nella sottoclasse specifica ed ulteriormente modificato da una @Annotation
     //--si applica al field
@@ -219,12 +228,10 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
 
     /**
-     *
+     * Fire event
      */
     protected void publish() {
-        if (presenter != null) {
-            presenter.getApplicationEventPublisher().publishEvent(new FieldSpringEvent(presenter));
-        }// end of if cycle
+        applicationEventPublisher.publishEvent(new FieldSpringEvent(presenter));
     }// end of method
 
 

@@ -64,7 +64,7 @@ public interface AlgosForm {
 
 
     /**
-     * Trasferisce i valori dai campi dell'interfaccia alla entityBean
+     * Trasferisce i valori dai campi dell'annotation alla entityBean
      * Esegue la (eventuale) validazione dei dati
      * Esegue la (eventuale) trasformazione dei dati
      *

@@ -1,4 +1,4 @@
-package it.algos.springvaadin.interfaccia;
+package it.algos.springvaadin.annotation;
 
 import it.algos.springvaadin.field.AFType;
 

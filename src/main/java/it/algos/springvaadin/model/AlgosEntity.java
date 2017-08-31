@@ -1,12 +1,7 @@
 package it.algos.springvaadin.model;
 
-import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.interfaccia.AIField;
 import lombok.Getter;
-import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.io.Serializable;
 
@@ -15,7 +10,7 @@ import java.io.Serializable;
  * Le sottoclassi concrete sono di tipo JavaBean
  * 1) la sottoclasse deve avere un costruttore senza argomenti
  * 2) le proprietà devono essere private e accessibili solo con get, set e is (usato per i boolen al posto di get)
- * 3) la sottoclasse deve implementare l'interfaccia Serializable (lo fa in questa classe)
+ * 3) la sottoclasse deve implementare l'annotation Serializable (lo fa in questa classe)
  * 4) la sottoclasse non deve contenere nessun metodo per la gestione degli eventi
  * <p>
  * Annotated with @Getter (Lombok) for automatic use of Getter

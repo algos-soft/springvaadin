@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Created by gac on 07/07/17
- * Implementazione standard dell'interfaccia AlgosService
+ * Implementazione standard dell'annotation AlgosService
  */
 public abstract class AlgosServiceImpl implements AlgosService {
 
@@ -75,7 +75,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 //     * Ordinati per ID
 //     * <p>
 //     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
-//     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+//     * L'annotation standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
 //     * Eseguo qui la conversione, che rimane trasparente al resto del programma
 //     *
 //     * @return all entities

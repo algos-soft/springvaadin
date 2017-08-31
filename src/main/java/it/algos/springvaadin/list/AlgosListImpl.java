@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Created by gac on 20/06/17
- * Implementazione standard dell'interfaccia AlgosList
+ * Implementazione standard dell'annotation AlgosList
  */
 public class AlgosListImpl extends VerticalLayout implements AlgosList {
 

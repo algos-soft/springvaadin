@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by gac on 07/07/17
  * <p>
- * Contratto d'interfaccia con i metodi che il Service rende disponibili all'applicazione,
+ * Contratto d'annotation con i metodi che il Service rende disponibili all'applicazione,
  * in particolare ad AlgosPresenter
  * Implementati nella classe concreta AlgosServiceImpl
  * <p>
@@ -53,7 +53,7 @@ public interface AlgosService {
      * Ordinati per ID
      * <p>
      * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
-     * L'interfaccia standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+     * L'annotation standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
      * Eseguo qui la conversione, che rimane trasparente al resto del programma
      *
      * @return all entities

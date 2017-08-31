@@ -1,10 +1,10 @@
 package it.algos.springvaadin.lib;
 
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.interfaccia.AIColumn;
-import it.algos.springvaadin.interfaccia.AIField;
-import it.algos.springvaadin.interfaccia.AIForm;
-import it.algos.springvaadin.interfaccia.AIList;
+import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.annotation.AIForm;
+import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.model.AlgosEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -404,7 +404,9 @@ public abstract class LibAnnotation {
 
         if (fieldAnnotation != null) {
             widthInt = fieldAnnotation.widthEM();
-            width = widthInt + tag;
+            if (widthInt>0) {
+                width = widthInt + tag;
+            }// end of if cycle
         }// end of if cycle
 
         return width;

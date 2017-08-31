@@ -43,7 +43,7 @@ public class SpringVaadinUI extends AlgosUI {
 
 
     /**
-     * Regola alcuni flag specifici dell'applicazione che riguardano l'interfaccia video
+     * Regola alcuni flag specifici dell'applicazione che riguardano l'annotation video
      * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
      * Stampa a video (productionMode) i valori per controllo
      */

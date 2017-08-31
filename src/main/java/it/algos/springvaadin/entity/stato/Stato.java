@@ -2,15 +2,13 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.interfaccia.*;
+import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AlgosEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.bson.BSONObject;
-import org.bson.types.Binary;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,7 +31,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "alfaDue", "alfaTre", "numerico"})
-@AIForm(showsID = true,widthIDEM = 4)
+@AIForm(showsID = true, widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})
 @Data
 @NoArgsConstructor
@@ -83,7 +81,7 @@ public class Stato extends AlgosEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 6,allUpper = true, onlyLetter = true)
+    @AIField(type = AFType.text, widthEM = 6, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaTre;
 
@@ -110,7 +108,6 @@ public class Stato extends AlgosEntity {
      */
     @Override
     public String toString() {
-//        return getNome() + " (" + getAlfaDue()+")";
         return getNome();
     }// end of method
 

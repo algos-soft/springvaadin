@@ -1,25 +1,15 @@
 package it.algos.springvaadin.view;
 
-import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import it.algos.springvaadin.app.StaticContextAccessor;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.*;
-import it.algos.springvaadin.interfaccia.AIField;
+import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.service.AlgosService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Scope;
-import org.springframework.util.SerializationUtils;
 
 /**
  * Project springvaadin
@@ -69,45 +59,22 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            switch (type) {
-                case id:
-                    field = fieldFactory.crea(type, publicFieldName, presenter);
-                    break;
-                case text:
-                    field = fieldFactory.crea(type, publicFieldName, presenter);
-                    break;
-                case integer:
-                    field = fieldFactory.crea(type, publicFieldName, presenter);
-//                    field = new AIntegerField();
-                    break;
-                case image:
-//                    field = new AImageField();
-//                    ((AImageField) field).setApplicationEventPublisher(applicationEventPublisher);
-                    break;
-                default: // caso non definito
-                    break;
-            } // fine del blocco switch
+            field = fieldFactory.crea(type, publicFieldName, presenter);
         }// end of if cycle
-
 
         if (field != null && fieldAnnotation != null) {
             field.setEnabled(enabled);
             field.setRequiredIndicatorVisible(required);
             field.setCaption(caption);
-            field.setWidth(width);
+            if (!width.equals("")) {
+                field.setWidth(width);
+            }// end of if cycle
             field.setFocus(focus);
 
             if (LibParams.displayToolTips()) {
                 field.setDescription(fieldAnnotation.help());
             }// end of if cycle
         }// end of if cycle
-
-//        if (field == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
-//            field = fieldFactory.crea(AFType.text, publicFieldName, presenter);
-//            ((AbstractField) field).setCaption("Key ID");
-//            ((AbstractField) field).setEnabled(false);
-//            ((AbstractField) field).setWidth(LibAnnotation.getFormWithID(clazz));
-//        }// end of if cycle
 
         return field;
     }// end of method

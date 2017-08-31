@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Created by gac on 07/07/17
- * Implementazione standard dell'interfaccia AlgosView
+ * Implementazione standard dell'annotation AlgosView
  */
 public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView {
 
@@ -39,7 +39,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     }// end of Spring constructor
 
     /**
-     * Metodo inserito per compatibilità con l'interfaccia View, ma non utilizzato
+     * Metodo inserito per compatibilità con l'annotation View, ma non utilizzato
      * Il flusso dello SpringNavigator passa dal corrispondente metodo della classe AlgosNavView
      * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
      * Passa il controllo alla classe xxxPresenter che gestisce la business logic

@@ -37,7 +37,7 @@ import java.util.List;
 
 /**
  * Created by gac on 10/07/17
- * Implementazione standard dell'interfaccia AlgosField
+ * Implementazione standard dell'annotation AlgosField
  */
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
@@ -309,7 +309,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of method
 
     /**
-     * Trasferisce i valori dai campi dell'interfaccia alla entityBean
+     * Trasferisce i valori dai campi dell'annotation alla entityBean
      * Esegue la (eventuale) validazione dei dati
      * Esegue la (eventuale) trasformazione dei dati
      *

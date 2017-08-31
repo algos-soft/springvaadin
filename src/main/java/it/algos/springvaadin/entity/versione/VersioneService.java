@@ -33,7 +33,7 @@ import java.util.List;
  * Presenta i componenti grafici passivi
  * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  * Annotated with @Service (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
 @Qualifier(Cost.TAG_VERS)

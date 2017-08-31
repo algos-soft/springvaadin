@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by gac on 01/06/17
  * Annotated with @Service (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
 @Qualifier(Cost.TAG_COMP)

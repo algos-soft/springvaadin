@@ -4,8 +4,8 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFType;
-import it.algos.springvaadin.interfaccia.AIColumn;
-import it.algos.springvaadin.interfaccia.AIField;
+import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.model.AlgosEntity;
 
 import java.lang.annotation.Annotation;

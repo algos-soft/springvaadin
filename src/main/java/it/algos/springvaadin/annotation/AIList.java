@@ -1,6 +1,4 @@
-package it.algos.springvaadin.interfaccia;
-
-import it.algos.springvaadin.field.AFType;
+package it.algos.springvaadin.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

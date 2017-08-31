@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by gac on 07/07/17
  * <p>
- * Contratto d'interfaccia con i metodi che la View rende disponibili all'applicazione,
+ * Contratto d'annotation con i metodi che la View rende disponibili all'applicazione,
  * in particolare ad AlgosPresenter
  * Implementati nella classe concreta AlgosViewImpl
  *

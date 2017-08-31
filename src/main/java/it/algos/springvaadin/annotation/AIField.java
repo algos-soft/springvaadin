@@ -1,7 +1,5 @@
-package it.algos.springvaadin.interfaccia;
+package it.algos.springvaadin.annotation;
 
-import com.vaadin.ui.CustomField;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.AFType;
 
 import java.lang.annotation.ElementType;
@@ -44,7 +42,7 @@ public @interface AIField {
      * Expressed in int, to be converted in String ending with "em"
      * Defaults to "14em".
      */
-    int widthEM() default 14;
+    int widthEM() default 0;
 
 
     /**
@@ -117,7 +115,6 @@ public @interface AIField {
      * Defaults to false.
      */
     boolean nullSelectionAllowed() default false;
-
 
 
 }// end of interface annotation

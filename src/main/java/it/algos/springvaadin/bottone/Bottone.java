@@ -37,7 +37,7 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
-    public ApplicationEventPublisher applicationEventPublisher;
+    protected ApplicationEventPublisher applicationEventPublisher;
 
 
     /**

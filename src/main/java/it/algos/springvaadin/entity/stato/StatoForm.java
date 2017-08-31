@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by gac on 10-ago-17
  * Annotated with @SpringComponent (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @SpringComponent
 @Qualifier(Cost.TAG_STA)
@@ -60,7 +60,7 @@ public class StatoForm extends AlgosFormImpl {
 
 
     /**
-     * Trasferisce i valori dai campi dell'interfaccia alla entityBean
+     * Trasferisce i valori dai campi dell'annotation alla entityBean
      * Esegue la (eventuale) validazione dei dati
      * Esegue la (eventuale) trasformazione dei dati
      *

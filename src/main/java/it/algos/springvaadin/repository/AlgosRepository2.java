@@ -17,7 +17,7 @@ import java.io.Serializable;
  * La logica di selezione, controllo e manipolazione dei dati risiede nel Service
  * Nelle Repository c'è la metodologia specifica di un collegamento al DB (ce ne sono diverse)
  * <p>
- * Estende una interfaccia specifica esistente, MongoRepository, con un pacchetto base di metodi
+ * Estende una annotation specifica esistente, MongoRepository, con un pacchetto base di metodi
  * Comprende le interfacce: PagingAndSortingRepository e QueryByExampleExecutor
  * Possono essere aggiunte altre interfacce esistenti (JpaRepository)
  * Qui vengono inseriti ed aggiunti i 'contratti' specifici di questa applicazione SpringVaadin

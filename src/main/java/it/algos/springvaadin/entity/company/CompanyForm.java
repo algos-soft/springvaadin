@@ -11,7 +11,7 @@ import it.algos.springvaadin.toolbar.FormToolbar;
 /**
  * Created by gac on 13/06/17
  * Annotated with @SpringComponent (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @SpringComponent
 @Qualifier(Cost.TAG_COMP)
