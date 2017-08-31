@@ -43,7 +43,7 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata manualmente DOPO il costruttore e DOPO la chiamata del browser
      */
-    protected ApplicationListener<AlgosSpringEvent> source;
+    protected AlgosPresenterImpl source;
 
 
     /**
@@ -115,7 +115,7 @@ public abstract class Bottone extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(ApplicationListener<AlgosSpringEvent> source) {
+    public void regolaBottone(AlgosPresenterImpl source) {
         regolaBottone(source, null);
     }// end of method
 
@@ -129,7 +129,7 @@ public abstract class Bottone extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(ApplicationListener<AlgosSpringEvent> source, Window parentDialog) {
+    public void regolaBottone(AlgosPresenterImpl source, Window parentDialog) {
         this.setSource(source);
 
         if (parentDialog != null) {
@@ -164,7 +164,7 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
-    public void setSource(ApplicationListener<AlgosSpringEvent> source) {
+    public void setSource(AlgosPresenterImpl source) {
         this.source = source;
     }// end of method
 

@@ -86,6 +86,5 @@ public class ATextField extends AField {
         }// end of if cycle
     }// end of method
 
-
 }// end of class
 

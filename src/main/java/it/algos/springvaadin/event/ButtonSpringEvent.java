@@ -30,24 +30,24 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     private AlgosEntity entityBean;
 
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, BottonType type) {
         this(source, type, (AlgosEntity) null);
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, Window parentDialog) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, BottonType type, Window parentDialog) {
         super(source);
         this.type = type;
         this.parentDialog = parentDialog;
     }// end of constructor
 
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, AlgosEntity entityBean) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, BottonType type, AlgosEntity entityBean) {
         super(source);
         this.type = type;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener<AlgosSpringEvent> source, BottonType type, AlgosEntity entityBean, AlgosField parentField) {
+    public ButtonSpringEvent(AlgosPresenterImpl source, BottonType type, AlgosEntity entityBean, AlgosField parentField) {
         super(source);
         this.type = type;
         this.entityBean = entityBean;

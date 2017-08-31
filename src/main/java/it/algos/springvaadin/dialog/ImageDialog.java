@@ -95,10 +95,10 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
 
     private void resetButtons(AlgosPresenterImpl presenter) {
-        buttonBack.regolaBottone(this, this);
-        buttonCreate.regolaBottone(this, this);
-        buttonDelete.regolaBottone(this, this);
-        buttonAccetta.regolaBottone(this, this);
+        buttonBack.regolaBottone(presenter, this);
+        buttonCreate.regolaBottone(presenter, this);
+        buttonDelete.regolaBottone(presenter, this);
+        buttonAccetta.regolaBottone(presenter, this);
 
 
         try { // prova ad eseguire il codice
@@ -138,7 +138,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
 
     private void create() {
-        this.editDialog.inizia(this, new Pippo());
+        this.editDialog.inizia(null, new Pippo());
     }// end of method
 
 

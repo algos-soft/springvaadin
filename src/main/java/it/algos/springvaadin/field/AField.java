@@ -26,7 +26,8 @@ import javax.annotation.PostConstruct;
 public abstract class AField<T> extends CustomField<Object> implements Cloneable {
 
     private String name;
-    private AlgosPresenterImpl presenter;
+    //    private AlgosPresenterImpl presenter;
+    private AlgosPresenterImpl source;
 
     /**
      * Property iniettata da Spring PRIMA della chiamata del browser
@@ -65,10 +66,10 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    public void inizia(String publicFieldName, AlgosPresenterImpl presenter) {
+    public void inizia(String publicFieldName, AlgosPresenterImpl source) {
         this.creaContent();
         this.setName(publicFieldName);
-        this.setPresenter(presenter);
+        this.setSource(source);
         this.addListener();
         this.regolaParametri();
     }// end of method
@@ -114,9 +115,10 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         this.name = name;
     }// end of method
 
-    public void setPresenter(AlgosPresenterImpl presenter) {
-        this.presenter = presenter;
-    }// end of method
+//    public void setPresenter(AlgosPresenterImpl presenter) {
+//        this.presenter = presenter;
+//    }// end of method
+
 
 //    public void saveSon() {
 //    }// end of method
@@ -133,7 +135,8 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+    public void setSource(AlgosPresenterImpl source) {
+        this.source = source;
     }// end of method
 
     /**
@@ -209,7 +212,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    protected AField clone(String publicFieldName, AlgosPresenterImpl presenter) {
+    protected AField clone(String publicFieldName, AlgosPresenterImpl source) {
         AField fieldClonato = null;
         Object objClonato = null;
 
@@ -220,7 +223,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
         if (objClonato != null) {
             fieldClonato = (AField) objClonato;
-            fieldClonato.inizia(publicFieldName, presenter);
+            fieldClonato.inizia(publicFieldName, source);
         }// end of if cycle
 
         return fieldClonato;
@@ -231,7 +234,9 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * Fire event
      */
     protected void publish() {
-        applicationEventPublisher.publishEvent(new FieldSpringEvent(presenter));
+        if (source != null) {
+            applicationEventPublisher.publishEvent(new FieldSpringEvent(source));
+        }// end of if cycle
     }// end of method
 
 

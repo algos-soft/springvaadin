@@ -8,6 +8,7 @@ import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
@@ -46,7 +47,7 @@ public class Edit2Dialog extends Window {
     }// end of constructor
 
 
-    public void inizia(ApplicationListener<AlgosSpringEvent> source, Recipient recipient) {
+    public void inizia(AlgosPresenterImpl source, Recipient recipient) {
         this.recipient = recipient;
         final Window winDialog = this;
         field.setValue("");

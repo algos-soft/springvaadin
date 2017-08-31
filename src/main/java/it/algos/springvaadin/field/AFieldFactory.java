@@ -31,19 +31,19 @@ public class AFieldFactory implements AIFieldFactory {
     private AField integerFieldAutowired;
 
 
-    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl presenter) {
+    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source) {
         AField field = null;
 
         try { // prova ad eseguire il codice
             switch (type) {
                 case id:
-                    field = keyidFieldAutowired.clone(publicFieldName, presenter);
+                    field = keyidFieldAutowired.clone(publicFieldName, source);
                     break;
                 case text:
-                    field = textFieldAutowired.clone(publicFieldName, presenter);
+                    field = textFieldAutowired.clone(publicFieldName, source);
                     break;
                 case integer:
-                    field = integerFieldAutowired.clone(publicFieldName, presenter);
+                    field = integerFieldAutowired.clone(publicFieldName, source);
                     break;
                 default: // caso non definito
                     break;

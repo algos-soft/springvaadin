@@ -20,7 +20,7 @@ import java.util.Base64;
 
 @SpringComponent
 @Scope("prototype")
-public class AlgosImageField extends CustomField implements AlgosField {
+public class AlgosImageField extends CustomField  {
 
     //--defaul temporary image
     private Image image;
@@ -104,7 +104,7 @@ public class AlgosImageField extends CustomField implements AlgosField {
 
     }// end of method
 
-    @Override
+//    @Override
     public void doValue(AlgosEntity entityBean) {
 //        String name = "";
 //        if (entityBean != null) {
@@ -120,28 +120,28 @@ public class AlgosImageField extends CustomField implements AlgosField {
         int a = 87;
     }// end of method
 
-    @Override
+//    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
+//    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
+//    @Override
     public void saveSon() {
 
     }
 
-    @Override
+//    @Override
     public AlgosPresenterImpl getFormPresenter() {
         return null;
     }
 
-    @Override
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+//    @Override
+    public void setSource(AlgosPresenterImpl formSource) {
         buttonImage.setSource(formSource);
         buttonImage.setEntityBean(entityBean);
     }// end of method

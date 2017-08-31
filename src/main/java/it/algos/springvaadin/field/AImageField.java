@@ -87,8 +87,8 @@ public class AImageField extends AField {
     }// end of method
 
     @Override
-    public void setSource(ApplicationListener formSource) {
-        buttonImage.setSource(formSource);
+    public void setSource(AlgosPresenterImpl source) {
+//        buttonImage.setSource(formSource);
     }// end of method
 
 

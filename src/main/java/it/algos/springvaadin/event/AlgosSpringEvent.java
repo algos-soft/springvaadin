@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationListener;
  */
 public abstract class AlgosSpringEvent extends ApplicationEvent {
 
-    public AlgosSpringEvent(ApplicationListener<AlgosSpringEvent> source) {
+    public AlgosSpringEvent(AlgosPresenterImpl source) {
         super(source);
     }// end of constructor
 
