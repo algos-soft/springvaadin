@@ -26,7 +26,7 @@ import javax.annotation.PostConstruct;
 public abstract class AField<T> extends CustomField<Object> implements Cloneable {
 
     private String name;
-    //    private AlgosPresenterImpl presenter;
+    protected AlgosEntity entityBean;
     private AlgosPresenterImpl source;
 
     /**
@@ -143,6 +143,11 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * Aggiunge il listener al componente base del field
      */
     protected void addListener() {
+    }// end of method
+
+
+    public void setEntityBean(AlgosEntity entityBean) {
+        this.entityBean = entityBean;
     }// end of method
 
     /**

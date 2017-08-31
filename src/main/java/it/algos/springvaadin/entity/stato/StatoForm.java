@@ -39,25 +39,20 @@ public class StatoForm extends AlgosFormImpl {
         super(toolbar);
     }// end of Spring constructor
 
+
     /**
-     * Crea i campi
-     *
-     * @param presenter  di riferimento per gli eventi
-     * @param fieldsName del form da visualizzare
-     *
-     * @return lista di fields
+     * Eventuali regolazioni specifiche per i fields
      */
     @Override
-    protected List<AField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
-        List<AField> listaFields = super.creaFields(presenter, fieldsName);
-//        imageField.setEntityBean(entityBean);
-        imageField.setSource(presenter);
-        imageField.setName("bandiera");
-        imageField.setCaption("Bandiera");
-        listaFields.add(imageField);
-        return listaFields;
-    }// end of method
+    protected void fixFields() {
+        AField field = getField("bandiera");
 
+        if (field != null && field instanceof AImageField) {
+            field.setEntityBean(entityBean);
+            field.setSource(null);
+        }// end of if cycle
+
+    }// end of method
 
     /**
      * Trasferisce i valori dai campi dell'annotation alla entityBean

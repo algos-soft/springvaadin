@@ -30,6 +30,10 @@ public class AFieldFactory implements AIFieldFactory {
     @Qualifier(Cost.FIELD_INTEGER)
     private AField integerFieldAutowired;
 
+    @Autowired
+    @Qualifier(Cost.FIELD_IMAGE)
+    private AField imageFieldAutowired;
+
 
     public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source) {
         AField field = null;
@@ -44,6 +48,9 @@ public class AFieldFactory implements AIFieldFactory {
                     break;
                 case integer:
                     field = integerFieldAutowired.clone(publicFieldName, source);
+                    break;
+                case image:
+                    field = imageFieldAutowired.clone(publicFieldName, source);
                     break;
                 default: // caso non definito
                     break;

@@ -5,11 +5,16 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.BottoneImage;
 import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.FieldSpringEvent;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
+import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Project springvaadin
@@ -19,32 +24,34 @@ import org.springframework.context.ApplicationListener;
  * Time: 08:11
  */
 @SpringComponent
+@Scope("prototype")
+@Qualifier(Cost.FIELD_IMAGE)
 public class AImageField extends AField {
 
     private Layout placeholderImage = new HorizontalLayout();
-    private BottoneImage buttonImage = new BottoneImage(null);
-    private ApplicationEventPublisher applicationEventPublisher;
 
-//    public AImageField() {
-//        super(null);
-//    }// end of constructor
-//
-//    public AImageField(AlgosPresenterImpl presenter) {
-//        super(presenter);
-//        this.setCaption("");
-//    }// end of constructor
+    @Autowired
+    private BottoneImage buttonImage;
+
+
+    /**
+     * Crea (o ricrea dopo una clonazione) il componente base
+     */
+    public void creaContent() {
+    }// end of method
+
+
+    public void setWidth(String width) {
+        if (placeholderImage != null) {
+            placeholderImage.setWidth(width);
+            placeholderImage.setHeight("4em");
+        }// end of if cycle
+    }// end of method
+
 
     @Override
     public Component initContent() {
-        buttonImage.setApplicationEventPublisher(applicationEventPublisher);
-        buttonImage.setType(BottonType.editLink);
-//        buttonImage.setSource(formSource);
-        buttonImage.inizia();
-
         if (placeholderImage != null && buttonImage != null) {
-            placeholderImage.setWidth("8em");
-            placeholderImage.setHeight("4em");
-            addListener();
             return new HorizontalLayout(buttonImage, placeholderImage);
         } else {
             return null;
@@ -82,13 +89,18 @@ public class AImageField extends AField {
 
     }// end of method
 
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }// end of method
 
     @Override
     public void setSource(AlgosPresenterImpl source) {
-//        buttonImage.setSource(formSource);
+        if (buttonImage != null) {
+            if (source!=null) {
+                buttonImage.setSource(source);
+            }// end of if cycle
+
+            if (entityBean!=null) {
+                buttonImage.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
     }// end of method
 
 
