@@ -95,9 +95,7 @@ public class AImageField extends AField {
             image.setHeight("4em");
             placeholderImage.addComponent(image);
         }// end of if cycle
-
     }// end of method
-
 
 
 }// end of class
