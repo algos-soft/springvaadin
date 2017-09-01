@@ -241,12 +241,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     /**
      * Evento
-     * Edit button pressed in grid
-     * Recupera il record selezionato
-     * Display the item in a form
-     * <p>
-     * Recupera i dati dal service
-     * Passa i dati alla view
+     * Edit button pressed in field
+     * Riceve il record selezionato
+     * Riceve il form da utilizzare
      */
     @Override
     public void editLink(AlgosEntity entityBean, AlgosField parentField) {

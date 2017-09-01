@@ -38,8 +38,12 @@ public class AFieldFactory implements AIFieldFactory {
     @Qualifier(Cost.FIELD_COMBO)
     private AField comboFieldAutowired;
 
+    @Autowired
+    @Qualifier(Cost.FIELD_LINK)
+    private AField linkFieldAutowired;
 
-    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source,Object[] items) {
+
+    public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source, Object[] items) {
         AField field = null;
 
         try { // prova ad eseguire il codice
@@ -57,8 +61,10 @@ public class AFieldFactory implements AIFieldFactory {
                     field = imageFieldAutowired.clone(publicFieldName, source);
                     break;
                 case combo:
-                    field = comboFieldAutowired.clone(publicFieldName, source);
-                    ((AComboField) field).fixCombo(items,false);
+                    field = comboFieldAutowired.clone(publicFieldName, source, items, false);
+                    break;
+                case link:
+                    field = linkFieldAutowired.clone(publicFieldName, source);
                     break;
                 default: // caso non definito
                     break;

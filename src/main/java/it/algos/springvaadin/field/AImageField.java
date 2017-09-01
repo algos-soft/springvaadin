@@ -51,11 +51,20 @@ public class AImageField extends AField {
         }// end of if/else cycle
     }// end of method
 
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
     @Override
     public byte[] getValue() {
         return null;
     }// end of method
 
+    /**
+     * Visualizza graficamente nella UI i componenti grafici (uno o più)
+     * Riceve il valore dal DB Mongo, già col casting al typo previsto
+     */
     @Override
     protected void doSetValue(Object value) {
         byte[] imgByte = null;
@@ -82,11 +91,11 @@ public class AImageField extends AField {
     @Override
     public void setSource(AlgosPresenterImpl source) {
         if (buttonImage != null) {
-            if (source!=null) {
+            if (source != null) {
                 buttonImage.setSource(source);
             }// end of if cycle
 
-            if (entityBean!=null) {
+            if (entityBean != null) {
                 buttonImage.setEntityBean(entityBean);
             }// end of if cycle
         }// end of if cycle

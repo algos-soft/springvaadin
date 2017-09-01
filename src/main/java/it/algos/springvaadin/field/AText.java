@@ -45,6 +45,10 @@ public abstract class AText extends AField {
     }// end of method
 
 
+    /**
+     * Visualizza graficamente nella UI i componenti grafici (uno o più)
+     * Riceve il valore dal DB Mongo, già col casting al typo previsto
+     */
     @Override
     protected void doSetValue(Object value) {
         if (field != null) {

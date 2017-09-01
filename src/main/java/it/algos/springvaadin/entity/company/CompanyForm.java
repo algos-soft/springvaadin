@@ -1,6 +1,9 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.AImageField;
+import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.toolbar.AlgosToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -28,5 +31,19 @@ public class CompanyForm extends AlgosFormImpl {
         super(toolbar);
     }// end of Spring constructor
 
+
+    /**
+     * Eventuali regolazioni specifiche per i fields
+     */
+    @Override
+    protected void fixFields() {
+        AField field = getField("indirizzo");
+
+        if (field != null && field instanceof ALinkField) {
+            field.setEntityBean(entityBean);
+            field.setSource(null);
+        }// end of if cycle
+
+    }// end of method
 
 }// end of class

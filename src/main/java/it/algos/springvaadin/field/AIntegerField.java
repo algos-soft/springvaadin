@@ -33,6 +33,11 @@ public class AIntegerField extends AText {
     }// end of method
 
 
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
     @Override
     public Integer getValue() {
         String textValue = "";

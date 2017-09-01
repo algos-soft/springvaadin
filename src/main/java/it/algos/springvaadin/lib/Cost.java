@@ -37,7 +37,7 @@ public abstract class Cost {
     public final static String BOT_REVERT = "revert";
     public final static String BOT_SEARCH = "ricerca";
     public final static String BOT_SHOW_ALL = "tutto";
-    public final static String BOT_DIALOGO = "dialogo";
+    public final static String BOT_LINK = "botlink";
     public final static String BOT_CHOOSER = "apri";
 
     public final static String FIELD_ID = "KeyID";
@@ -45,6 +45,7 @@ public abstract class Cost {
     public final static String FIELD_INTEGER = "integer";
     public final static String FIELD_IMAGE = "image";
     public final static String FIELD_COMBO = "combobox";
+    public final static String FIELD_LINK = "fieldlink";
 
     public final static String STYLE_GREEN = "buttonGreen";
     public final static String STYLE_BLUE = "buttonBlue";

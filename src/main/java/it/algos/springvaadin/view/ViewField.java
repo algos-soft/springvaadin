@@ -3,10 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibAnnotation;
-import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +61,7 @@ public class ViewField {
         }// end of if cycle
 
         if (type == AFType.combo && comboClazz != null) {
-            ArrayList lista =new ArrayList();
-            lista.add("Alfa");
-            lista.add("Beta");
-            lista.add("Delta");
-            items= lista.toArray();
+            items = LibMongo.findAll(comboClazz).toArray();
         }// end of if cycle
 
         if (type != null) {

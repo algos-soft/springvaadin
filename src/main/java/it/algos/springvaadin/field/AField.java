@@ -66,7 +66,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    public void inizia(String publicFieldName, AlgosPresenterImpl source) {
+    protected void inizia(String publicFieldName, AlgosPresenterImpl source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -94,11 +94,20 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
+    /**
+     * Visualizza graficamente nella UI i componenti grafici (uno o più)
+     * Riceve il valore dal DB Mongo, già col casting al typo previsto
+     */
     @Override
     protected void doSetValue(Object o) {
     }// end of method
 
 
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
     @Override
     public Object getValue() {
         return null;
@@ -144,6 +153,9 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
     public void setEntityBean(AlgosEntity entityBean) {
         this.entityBean = entityBean;
+    }// end of method
+
+    protected void fixCombo(Object[] items, boolean nullSelectionAllowed) {
     }// end of method
 
     /**
@@ -213,7 +225,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-
     protected AField clone(String publicFieldName, AlgosPresenterImpl source) {
         AField fieldClonato = null;
         Object objClonato = null;
@@ -229,6 +240,16 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         }// end of if cycle
 
         return fieldClonato;
+    }// end of method
+
+    protected AField clone(String publicFieldName, AlgosPresenterImpl source, Object[] items, boolean nullSelectionAllowed) {
+        AField objClonato = clone(publicFieldName, source);
+
+        if (objClonato != null) {
+            objClonato.fixCombo(items, nullSelectionAllowed);
+        }// end of if cycle
+
+        return objClonato;
     }// end of method
 
 

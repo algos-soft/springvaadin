@@ -560,6 +560,13 @@ public abstract class LibText {
         return "<strong style=\"color: red;\">" + testoIn + "</strong>";
     }// end of inner enumeration
 
+    /**
+     * Carattere  bold
+     */
+    public static String setBold(String testoIn) {
+        return "<strong>" + testoIn + "</strong>";
+    }// end of inner enumeration
+
 
     /**
      * Ripete le due stringhe
