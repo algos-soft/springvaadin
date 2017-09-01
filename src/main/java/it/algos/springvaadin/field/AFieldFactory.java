@@ -42,7 +42,6 @@ public class AFieldFactory implements AIFieldFactory {
     @Qualifier(Cost.FIELD_LINK)
     private AField linkFieldAutowired;
 
-
     public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source, Object[] items) {
         AField field = null;
 
