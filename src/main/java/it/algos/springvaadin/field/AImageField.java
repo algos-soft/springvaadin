@@ -3,6 +3,7 @@ package it.algos.springvaadin.field;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.BottonType;
+import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.bottone.BottoneImage;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
@@ -22,6 +23,9 @@ import org.springframework.context.annotation.Scope;
  * User: gac
  * Date: mar, 29-ago-2017
  * Time: 08:11
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with 'prototype', in modo da poterne utilizzare più di uno
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare in AFieldFactory
  */
 @SpringComponent
 @Scope("prototype")
@@ -30,8 +34,15 @@ public class AImageField extends AField {
 
     private Layout placeholderImage = new HorizontalLayout();
 
-    @Autowired
-    private BottoneImage buttonImage;
+
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    public AImageField(@Qualifier(Cost.BOT_IMAGE) Bottone button) {
+        super(button);
+    }// end of @Autowired constructor
 
 
     public void setWidth(String width) {
@@ -44,8 +55,8 @@ public class AImageField extends AField {
 
     @Override
     public Component initContent() {
-        if (placeholderImage != null && buttonImage != null) {
-            return new HorizontalLayout(buttonImage, placeholderImage);
+        if (placeholderImage != null && button != null) {
+            return new HorizontalLayout(button, placeholderImage);
         } else {
             return null;
         }// end of if/else cycle
@@ -87,19 +98,6 @@ public class AImageField extends AField {
 
     }// end of method
 
-
-    @Override
-    public void setSource(AlgosPresenterImpl source) {
-        if (buttonImage != null) {
-            if (source != null) {
-                buttonImage.setSource(source);
-            }// end of if cycle
-
-            if (entityBean != null) {
-                buttonImage.setEntityBean(entityBean);
-            }// end of if cycle
-        }// end of if cycle
-    }// end of method
 
 
 }// end of class

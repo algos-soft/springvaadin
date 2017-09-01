@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Scope;
  * User: gac
  * Date: gio, 31-ago-2017
  * Time: 22:42
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with 'prototype', in modo da poterne utilizzare più di uno
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare in AFieldFactory
  */
 @SpringComponent
 @Scope("prototype")

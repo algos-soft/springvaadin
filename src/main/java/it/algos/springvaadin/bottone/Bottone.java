@@ -60,6 +60,13 @@ public abstract class Bottone extends Button {
 
 
     /**
+     * Property (facoltativa), necessaria per alcuni bottoni
+     * Property regolata DOPO la chiamata del browser
+     */
+    protected AlgosEntity entityBean;
+
+
+    /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
      */
@@ -161,6 +168,11 @@ public abstract class Bottone extends Button {
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
         }// end of if/else cycle
+    }// end of method
+
+
+    public void setEntityBean(AlgosEntity entityBean) {
+        this.entityBean = entityBean;
     }// end of method
 
 

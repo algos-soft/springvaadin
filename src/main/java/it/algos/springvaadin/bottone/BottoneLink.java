@@ -21,11 +21,6 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.BOT_LINK)
 public class BottoneLink extends Bottone {
 
-    /**
-     * Property (facoltativa), necessaria per alcuni bottoni
-     * Property regolata DOPO la chiamata del browser
-     */
-    protected AlgosEntity entityBean;
 
 
     /**
@@ -51,9 +46,6 @@ public class BottoneLink extends Bottone {
     }// end of if/else cycle
 
 
-    public void setEntityBean(AlgosEntity entityBean) {
-        this.entityBean = entityBean;
-    }// end of method
 
 }// end of class
 

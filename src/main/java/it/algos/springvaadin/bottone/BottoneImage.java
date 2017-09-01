@@ -21,11 +21,6 @@ import javax.annotation.PostConstruct;
 public class BottoneImage extends Bottone {
 
 
-    /**
-     * Property (facoltativa), necessaria per alcuni bottoni
-     * Property regolata DOPO la chiamata del browser
-     */
-    protected AlgosEntity entityBean;
 
 
     /**
@@ -51,8 +46,5 @@ public class BottoneImage extends Bottone {
     }// end of if/else cycle
 
 
-    public void setEntityBean(AlgosEntity entityBean) {
-        this.entityBean = entityBean;
-    }// end of method
 
 }// end of class

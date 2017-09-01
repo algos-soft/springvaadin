@@ -16,6 +16,9 @@ import javax.annotation.PostConstruct;
  * User: gac
  * Date: dom, 27-ago-2017
  * Time: 17:36
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with 'prototype', in modo da poterne utilizzare più di uno
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare in AFieldFactory
  */
 @SpringComponent
 @Scope("prototype")

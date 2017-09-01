@@ -6,10 +6,13 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.TextField;
+import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.BottoneLink;
 import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -27,7 +30,14 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
     private String name;
     protected AlgosEntity entityBean;
-    private AlgosPresenterImpl source;
+    private ApplicationListener source;
+
+    /**
+     * Alcuni fields usano un bottone come componente interno
+     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
+     * Property iniettata nel costruttore della sottoclasse contreta
+     */
+    protected Bottone button;
 
     /**
      * Property iniettata da Spring PRIMA della chiamata del browser
@@ -57,16 +67,36 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     protected String STANDARD_DATE_WITH = "8em";
 
 
+    /**
+     * Default constructor
+     */
+    public AField() {
+    }// end of constructor
+
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     *
+     * @param button iniettato da Spring
+     */
+    public AField(Bottone button) {
+        this.button = button;
+    }// end of Spring constructor
+
+
     @Override
     public Component initContent() {
         return null;
     }// end of method
 
+
+
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    protected void inizia(String publicFieldName, AlgosPresenterImpl source) {
+    protected void inizia(String publicFieldName, ApplicationListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -140,8 +170,17 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    public void setSource(AlgosPresenterImpl source) {
+    public void setSource(ApplicationListener source) {
         this.source = source;
+        if (button != null) {
+            if (source != null) {
+                button.setSource(source);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                button.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
     }// end of method
 
     /**
@@ -225,7 +264,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    protected AField clone(String publicFieldName, AlgosPresenterImpl source) {
+    protected AField clone(String publicFieldName, ApplicationListener source) {
         AField fieldClonato = null;
         Object objClonato = null;
 
@@ -242,7 +281,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         return fieldClonato;
     }// end of method
 
-    protected AField clone(String publicFieldName, AlgosPresenterImpl source, Object[] items, boolean nullSelectionAllowed) {
+    protected AField clone(String publicFieldName, ApplicationListener source, Object[] items, boolean nullSelectionAllowed) {
         AField objClonato = clone(publicFieldName, source);
 
         if (objClonato != null) {
