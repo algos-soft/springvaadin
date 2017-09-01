@@ -235,9 +235,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             }// end of if cycle
 
             if (event instanceof AFieldEvent) {
-                fieldModificato();
+                if (((AFieldEvent) event).getType() == EventType.valueChanged) {
+                    fieldModificato();
+                }// end of if cycle
             }// end of if cycle
-
         }// end of if cycle
     }// end of method
 

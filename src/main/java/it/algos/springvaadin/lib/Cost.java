@@ -47,6 +47,8 @@ public abstract class Cost {
     public final static String FIELD_COMBO = "combobox";
     public final static String FIELD_LINK = "fieldlink";
 
+    public final static String VIEW_IMAGE = "viewimage";
+
     public final static String STYLE_GREEN = "buttonGreen";
     public final static String STYLE_BLUE = "buttonBlue";
     public final static String STYLE_RED = "buttonRed";

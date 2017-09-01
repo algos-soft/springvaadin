@@ -42,6 +42,10 @@ public abstract class Bottone extends Button {
     protected ApplicationListener source;
 
 
+    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+    protected ApplicationListener target;
+
+
     /**
      * Property regolata DOPO la chiamata del browser
      */
@@ -176,6 +180,9 @@ public abstract class Bottone extends Button {
         this.source = source;
     }// end of method
 
+    public void setTarget(ApplicationListener target) {
+        this.target = target;
+    }// end of method
 
     public void setType(BottonType type) {
         this.type = type;

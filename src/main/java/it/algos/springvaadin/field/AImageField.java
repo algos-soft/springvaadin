@@ -3,9 +3,12 @@ package it.algos.springvaadin.field;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -31,8 +34,9 @@ public class AImageField extends AField {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public AImageField(@Qualifier(Cost.BOT_IMAGE) Bottone button) {
+    public AImageField(@Qualifier(Cost.BOT_IMAGE) Bottone button, ImageDialog targetAutowired) {
         super(button);
+        super.target = targetAutowired;
     }// end of @Autowired constructor
 
 
@@ -52,6 +56,18 @@ public class AImageField extends AField {
             return null;
         }// end of if/else cycle
     }// end of method
+
+    /**
+     * Regolazioni varie DOPO aver creato l'istanza
+     * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
+     */
+    protected void inizia(String publicFieldName, ApplicationListener source) {
+        super.inizia(publicFieldName, source);
+        if (button != null) {
+            button.setTarget(target);
+        }// end of if cycle
+    }// end of method
+
 
     /**
      * Recupera dalla UI il valore (eventualmente) selezionato

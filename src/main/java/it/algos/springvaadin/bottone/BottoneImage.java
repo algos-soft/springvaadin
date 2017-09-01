@@ -2,7 +2,9 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
+import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.EventType;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,8 +18,6 @@ import org.springframework.context.annotation.Scope;
 @Scope("prototype")
 @Qualifier(Cost.BOT_IMAGE)
 public class BottoneImage extends Bottone {
-
-
 
 
     /**
@@ -38,10 +38,9 @@ public class BottoneImage extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, getType(), entityBean));
+            applicationEventPublisher.publishEvent(new AFieldEvent(EventType.linkTarget, source, target, entityBean, null));
         }// end of if cycle
     }// end of if/else cycle
-
 
 
 }// end of class

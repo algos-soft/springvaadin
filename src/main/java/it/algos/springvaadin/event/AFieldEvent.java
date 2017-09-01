@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationListener;
  */
 public class AFieldEvent extends AEvent {
 
+    //--Valore modificato oppure link verso un target diverso dal field
+    private EventType type;
 
     //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
     private ApplicationListener target;
@@ -31,7 +33,15 @@ public class AFieldEvent extends AEvent {
      * @param source (obbligatorio) presenter che gestisce l'evento
      */
     public AFieldEvent(ApplicationListener source) {
-        this(source, (ApplicationListener) null, (AEntity) null, (AField) null);
+        this(EventType.valueChanged, source);
+    }// end of constructor
+
+
+    /**
+     * @param source (obbligatorio) presenter che gestisce l'evento
+     */
+    public AFieldEvent(EventType type, ApplicationListener source) {
+        this(type, source, (ApplicationListener) null, (AEntity) null, (AField) null);
     }// end of constructor
 
     /**
@@ -40,13 +50,18 @@ public class AFieldEvent extends AEvent {
      * @param entityBean Opzionale (entityBean) in elaborazione
      * @param field      Opzionale (field) che ha generato l'evento
      */
-    public AFieldEvent(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
+    public AFieldEvent(EventType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
         super(source);
+        this.type = type;
         this.target = target;
         this.entityBean = entityBean;
         this.field = field;
     }// end of constructor
 
+
+    public EventType getType() {
+        return type;
+    }// end of method
 
     public ApplicationListener getTarget() {
         return target;

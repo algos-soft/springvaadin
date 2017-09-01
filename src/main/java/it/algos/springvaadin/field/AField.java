@@ -4,6 +4,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.event.EventType;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,15 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
 
     //--Obbligatorio presenter che gestisce l'evento
-    private ApplicationListener source;
+    protected ApplicationListener source;
 
 
     //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
-    private ApplicationListener target;
+    protected ApplicationListener target;
 
 
     //--Opzionale (entityBean) in elaborazione
-    private AEntity entityBean;
+    protected AEntity entityBean;
 
 
     /**
@@ -304,7 +305,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      */
     protected void publish() {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(source, target, entityBean, this));
+            applicationEventPublisher.publishEvent(new AFieldEvent(EventType.valueChanged, source, target, entityBean, this));
         }// end of if cycle
     }// end of method
 

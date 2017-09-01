@@ -5,7 +5,9 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.event.AEvent;
+import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.EventType;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
@@ -24,6 +26,7 @@ import javax.annotation.PostConstruct;
  * Time: 12:02
  */
 @SpringComponent
+@Qualifier(Cost.VIEW_IMAGE)
 public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
 
@@ -31,7 +34,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
     protected ApplicationEventPublisher applicationEventPublisher;
-    private AlgosPresenterImpl presenter;
+    private ApplicationListener presenter;
 
     private VerticalLayout mainLayout = new VerticalLayout();
     private VerticalLayout toolBar = new VerticalLayout();
@@ -83,7 +86,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     }// end of method
 
 
-    public void show(AEntity entityBean, AlgosPresenterImpl presenter) {
+    public void show(AEntity entityBean, ApplicationListener presenter) {
         this.entityBean = entityBean;
         this.presenter = presenter;
         resetButtons(presenter);
@@ -92,7 +95,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     }// end of method
 
 
-    private void resetButtons(AlgosPresenterImpl presenter) {
+    private void resetButtons(ApplicationListener presenter) {
         buttonBack.regolaBottone(this, this);
         buttonCreate.regolaBottone(this, this);
         buttonDelete.regolaBottone(this, this);
@@ -143,43 +146,53 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     /**
      * Handle an application event.
      *
-     * @param algosEvent the event to respond to
+     * @param algosEvent to respond to
      */
     @Override
     public void onApplicationEvent(AEvent algosEvent) {
         Class thisClazz = this.getClass();
         ButtonSpringEvent event = null;
+        AFieldEvent eventField = null;
         BottonType type = null;
         Class sourceClazz = null;
 
-        if (!(algosEvent instanceof ButtonSpringEvent)) {
-            return;
+        if (algosEvent instanceof AFieldEvent) {
+            eventField = (AFieldEvent) algosEvent;
+            if (eventField.getType() == EventType.valueChanged) {
+            }// end of if cycle
+            if (eventField.getType() == EventType.linkTarget) {
+                this.show(eventField.getEntityBean(), (ApplicationListener) eventField.getSource());
+            }// end of if cycle
         }// end of if cycle
 
-        event = (ButtonSpringEvent) algosEvent;
-        type = event.getType();
-        sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
 
-        if (sourceClazz != null && sourceClazz == thisClazz) {
-            switch (type) {
-                case back:
-                    this.close();
-                    break;
-                case create:
-                    this.create();
-                    break;
-                case delete:
-                    ((Stato) entityBean).setBandiera(new byte[0]);
-                    resetDialog();
-                    break;
-                case accetta:
-                    fireRevert();
-                    this.close();
-                    break;
-                default: // caso non definito
-                    break;
-            } // fine del blocco switch
+        if (algosEvent instanceof ButtonSpringEvent) {
+            event = (ButtonSpringEvent) algosEvent;
+            type = event.getType();
+            sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+
+            if (sourceClazz != null && sourceClazz == thisClazz) {
+                switch (type) {
+                    case back:
+                        this.close();
+                        break;
+                    case create:
+                        this.create();
+                        break;
+                    case delete:
+                        ((Stato) entityBean).setBandiera(new byte[0]);
+                        resetDialog();
+                        break;
+                    case accetta:
+                        fireRevert();
+                        this.close();
+                        break;
+                    default: // caso non definito
+                        break;
+                } // fine del blocco switch
+            }// end of if cycle
         }// end of if cycle
+
     }// end of method
 
 
