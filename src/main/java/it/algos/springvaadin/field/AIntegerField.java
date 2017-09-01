@@ -37,6 +37,18 @@ public class AIntegerField extends AText {
 
 
     /**
+     * Visualizza graficamente nella UI i componenti grafici (uno o più)
+     * Riceve il valore dal DB Mongo, già col casting al typo previsto
+     */
+    @Override
+    protected void doSetValue(Object value) {
+        if (field != null && value instanceof Integer) {
+            field.setValue(Integer.toString((int) value));
+        }// end of if cycle
+    }// end of method
+
+
+    /**
      * Recupera dalla UI il valore (eventualmente) selezionato
      * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
      * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo

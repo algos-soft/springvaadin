@@ -84,11 +84,10 @@ public class AIdField extends AField {
      */
     @Override
     protected void doSetValue(Object value) {
-        if (field != null) {
+        if (field != null && value != null) {
             field.setValue((String) value);
         }// end of if cycle
     }// end of method
-
 
 
 }// end of class

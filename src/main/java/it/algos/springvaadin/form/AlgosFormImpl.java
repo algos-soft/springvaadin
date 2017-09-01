@@ -14,6 +14,7 @@ import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import it.algos.springvaadin.view.ViewField;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +25,7 @@ import java.util.List;
  * Created by gac on 10/07/17
  * Implementazione standard dell'annotation AlgosField
  */
+@Slf4j
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     @Autowired
@@ -214,7 +216,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             listaConverter = LibField.creaConverters(entityBean, publicFieldName);
             listaValidatorPost = LibField.creaValidatorsPost(entityBean, publicFieldName);
 
-            if (((AbstractField) field).isEnabled()) {
+//            if (((AbstractField) field).isEnabled()) {
+                if (true) {
                 Binder.BindingBuilder builder = binder.forField(((AbstractField) field));
                 for (AbstractValidator validator : listaValidatorPre) {
                     builder = builder.withValidator(validator);
@@ -231,6 +234,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
                     value = LibReflection.getValue(entityBean, publicFieldName);
                     ((AbstractField) field).setValue(value);
                 } catch (Exception unErrore) { // intercetta l'errore
+                    log.warn(unErrore.getMessage());
                 }// fine del blocco try-catch
             }// end of if/else cycle
             field.initContent();
