@@ -4,12 +4,10 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-
-import java.util.ArrayList;
 
 /**
  * Project springvaadin
@@ -43,7 +41,7 @@ public class ViewField {
      * @param attr      the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public AField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public AField create(AlgosPresenterImpl presenter, final Class<? extends AEntity> clazz, final String publicFieldName) {
         AField field = null;
         Object[] items = null;
         AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
@@ -55,7 +53,7 @@ public class ViewField {
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
         Class comboClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
-        //--non riesco (per ora) a leggere le Annotation da una classe diversa (AlgosEntity)
+        //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
         if (fieldAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
             type = AFType.id;
         }// end of if cycle

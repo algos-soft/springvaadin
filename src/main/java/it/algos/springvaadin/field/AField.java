@@ -1,23 +1,14 @@
 package it.algos.springvaadin.field;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.server.SizeWithUnit;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.TextField;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneLink;
-import it.algos.springvaadin.event.AlgosSpringEvent;
-import it.algos.springvaadin.event.FieldSpringEvent;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Project springvaadin
@@ -28,9 +19,22 @@ import javax.annotation.PostConstruct;
  */
 public abstract class AField<T> extends CustomField<Object> implements Cloneable {
 
+
+    //--Obbligatorio publicFieldName
     private String name;
-    protected AlgosEntity entityBean;
+
+
+    //--Obbligatorio presenter che gestisce l'evento
     private ApplicationListener source;
+
+
+    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+    private ApplicationListener target;
+
+
+    //--Opzionale (entityBean) in elaborazione
+    private AEntity entityBean;
+
 
     /**
      * Alcuni fields usano un bottone come componente interno
@@ -91,7 +95,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
@@ -143,7 +146,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         return null;
     }// end of method
 
-    public void doValue(AlgosEntity entityBean) {
+    public void doValue(AEntity entityBean) {
     }// end of method
 
     public String getName() {
@@ -190,7 +193,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    public void setEntityBean(AlgosEntity entityBean) {
+    public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;
     }// end of method
 
@@ -294,10 +297,14 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
     /**
      * Fire event
+     * source     Obbligatorio presenter che gestisce l'evento
+     * target     Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+     * entityBean Opzionale (entityBean) in elaborazione
+     * field      Opzionale (field) che ha generato l'evento
      */
     protected void publish() {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new FieldSpringEvent(source));
+            applicationEventPublisher.publishEvent(new AFieldEvent(source, target, entityBean, this));
         }// end of if cycle
     }// end of method
 

@@ -5,7 +5,7 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
 import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public class AlgosUniqueValidator extends AbstractValidator<String> {
 
-    private Class<? extends AlgosEntity> entityClazz;
+    private Class<? extends AEntity> entityClazz;
     private String fieldName;
     private String dbName;
     private Object oldValue;
@@ -28,7 +28,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
     private String tagEnd = " esiste già ";
 
 
-    public AlgosUniqueValidator(final Class<? extends AlgosEntity> entityClazz, String fieldName, Object oldValue) {
+    public AlgosUniqueValidator(final Class<? extends AEntity> entityClazz, String fieldName, Object oldValue) {
         super("");
         this.entityClazz = entityClazz;
         this.fieldName = fieldName;
@@ -54,7 +54,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
 
 
     private boolean esiste(String value) {
-        AlgosEntity entity = null;
+        AEntity entity = null;
 
         try { // prova ad eseguire il codice
             entity = mongoOps.findOne(

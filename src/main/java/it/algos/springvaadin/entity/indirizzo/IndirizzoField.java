@@ -1,45 +1,32 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.vaadin.data.HasValue;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneEdit;
-import it.algos.springvaadin.event.AlgosSpringEvent;
-import it.algos.springvaadin.event.ButtonSpringEvent;
-import it.algos.springvaadin.event.FieldSpringEvent;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-@SpringComponent
+//@SpringComponent
 @Qualifier(Cost.TAG_IND)
-public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField {
+public class IndirizzoField extends CustomField<AEntity> implements AlgosField {
 
 
     private ApplicationEventPublisher applicationEventPublisher;
     private IndirizzoBottoneEdit buttonEdit;
     private IndirizzoPresenter indirizzoPresenter;
-    private ApplicationListener<AlgosSpringEvent> formSource;
+    private ApplicationListener<AEvent> formSource;
 
     private String name;
-    private Indirizzo indirizzo = null;
+    private AEntity indirizzo = null;
     private Label label = new Label();
 
 
-    public IndirizzoField(ApplicationEventPublisher applicationEventPublisher, IndirizzoBottoneEdit buttonEdit, IndirizzoPresenter indirizzoPresenter) {
+    public IndirizzoField(ApplicationEventPublisher applicationEventPublisher, IndirizzoPresenter indirizzoPresenter) {
         this.applicationEventPublisher = applicationEventPublisher;
         this.indirizzoPresenter = indirizzoPresenter;
         this.buttonEdit = buttonEdit;
@@ -53,21 +40,21 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
     }// end of method
 
     @Override
-    public void doSetValue(Indirizzo indirizzo) {
+    public void doSetValue(AEntity indirizzo) {
         this.indirizzo = indirizzo;
         buttonEdit.setEntityBean(indirizzo);
         label.setValue(indirizzo.toString());
     }// end of method
 
     @Override
-    public void doValue(AlgosEntity entityBean) {
-        this.indirizzo = (Indirizzo) entityBean;
+    public void doValue(AEntity entityBean) {
+        this.indirizzo = (AEntity) entityBean;
         buttonEdit.setEntityBean(indirizzo);
         label.setValue(indirizzo.toString());
     }// end of method
 
     @Override
-    public Indirizzo getValue() {
+    public AEntity getValue() {
         return indirizzo;
     }// end of method
 
@@ -92,7 +79,7 @@ public class IndirizzoField extends CustomField<Indirizzo> implements AlgosField
     }// end of method
 
     @Override
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+    public void setSource(ApplicationListener<AEvent> formSource) {
         this.formSource = formSource;
     }// end of method
 

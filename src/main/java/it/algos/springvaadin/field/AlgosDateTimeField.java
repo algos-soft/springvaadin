@@ -3,17 +3,14 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.TextField;
-import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.lib.LibNum;
 import it.algos.springvaadin.lib.MeseEnum;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 
 /**
  * Created by gac on 24/06/17
@@ -84,7 +81,7 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> implements Al
     }// end of method
 
     @Override
-    public void doValue(AlgosEntity entityBean) {
+    public void doValue(AEntity entityBean) {
     }// end of method
 
     @Override
@@ -98,7 +95,7 @@ public class AlgosDateTimeField extends CustomField<LocalDateTime> implements Al
 
 
     @Override
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource) {
+    public void setSource(ApplicationListener<AEvent> formSource) {
     }// end of method
 
 }// end of class

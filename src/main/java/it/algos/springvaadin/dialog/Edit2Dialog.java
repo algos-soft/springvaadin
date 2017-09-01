@@ -1,18 +1,13 @@
 package it.algos.springvaadin.dialog;
 
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationListener;
-
-import java.util.Collection;
 
 /**
  * Project springvaadin

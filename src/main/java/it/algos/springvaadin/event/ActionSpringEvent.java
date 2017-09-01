@@ -2,8 +2,7 @@ package it.algos.springvaadin.event;
 
 
 import it.algos.springvaadin.azione.TipoAzione;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -11,19 +10,19 @@ import org.springframework.context.ApplicationListener;
  * Eventi generati da una azione (nella Grid, ad esempio)
  * Link: http://www.baeldung.com/spring-events
  */
-public class ActionSpringEvent extends AlgosSpringEvent {
+public class ActionSpringEvent extends AEvent {
 
     //--property obbligatoria
     private final TipoAzione tipo;
 
     //--property facoltativa; ha senso solo per alcune azioni
-    private final AlgosEntity entityBean;
+    private final AEntity entityBean;
 
     public ActionSpringEvent(ApplicationListener source, TipoAzione tipo) {
-        this(source, tipo, (AlgosEntity) null);
+        this(source, tipo, (AEntity) null);
     }// end of constructor
 
-    public ActionSpringEvent(ApplicationListener source, TipoAzione tipo, AlgosEntity entityBean) {
+    public ActionSpringEvent(ApplicationListener source, TipoAzione tipo, AEntity entityBean) {
         super(source);
         this.tipo = tipo;
         this.entityBean = entityBean;
@@ -33,7 +32,7 @@ public class ActionSpringEvent extends AlgosSpringEvent {
         return tipo;
     }// end of method
 
-    public AlgosEntity getEntityBean() {
+    public AEntity getEntityBean() {
         return entityBean;
     }// end of method
 

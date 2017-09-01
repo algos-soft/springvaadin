@@ -8,7 +8,7 @@ import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -46,7 +46,7 @@ public class AlgosGrid extends Grid {
     /**
      * Metodo invocato da AlgosListImpl
      */
-    public void inizia(Class<? extends AlgosEntity> model, List items, List<String> columns) {
+    public void inizia(Class<? extends AEntity> model, List items, List<String> columns) {
         this.inizia(model, items, columns, NUMERO_RIGHE_DEFAULT);
     }// end of method
 
@@ -54,7 +54,7 @@ public class AlgosGrid extends Grid {
     /**
      * Metodo invocato da AlgosListImpl
      */
-    public void inizia(Class<? extends AlgosEntity> beanType, List items, List<String> columns, int numeroRighe) {
+    public void inizia(Class<? extends AEntity> beanType, List items, List<String> columns, int numeroRighe) {
         this.setBeanType(beanType);
         if (items != null) {
             this.setItems(items);
@@ -170,15 +170,15 @@ public class AlgosGrid extends Grid {
     }// end of method
 
 
-    public List<AlgosEntity> getEntityBeans() {
-        List<AlgosEntity> beanList = null;
-        AlgosEntity entityBean;
+    public List<AEntity> getEntityBeans() {
+        List<AEntity> beanList = null;
+        AEntity entityBean;
         Object[] matrice;
 
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
                 try { // prova ad eseguire il codice
-                    entityBean = (AlgosEntity) this.asSingleSelect().getValue();
+                    entityBean = (AEntity) this.asSingleSelect().getValue();
                     beanList = new ArrayList();
                     beanList.add(entityBean);
                 } catch (Exception unErrore) { // intercetta l'errore
@@ -189,7 +189,7 @@ public class AlgosGrid extends Grid {
                     matrice = this.asMultiSelect().getSelectedItems().toArray();
                     beanList = new ArrayList();
                     for (Object obj : matrice) {
-                        beanList.add((AlgosEntity) obj);
+                        beanList.add((AEntity) obj);
                     }// end of for cycle
                 } catch (Exception unErrore) { // intercetta l'errore
                 }// fine del blocco try-catch
@@ -203,18 +203,18 @@ public class AlgosGrid extends Grid {
     }// end of method
 
 
-    public AlgosEntity getEntityBean() {
-        AlgosEntity entityBean = null;
+    public AEntity getEntityBean() {
+        AEntity entityBean = null;
         Object[] matrice;
 
         switch (LibParams.gridSelectionMode()) {
             case SINGLE:
-                entityBean = (AlgosEntity) this.asSingleSelect().getValue();
+                entityBean = (AEntity) this.asSingleSelect().getValue();
                 break;
             case MULTI:
                 matrice = this.asMultiSelect().getSelectedItems().toArray();
                 if (matrice.length == 1) {
-                    entityBean = (AlgosEntity) matrice[0];
+                    entityBean = (AEntity) matrice[0];
                 }// end of if cycle
                 break;
             case NONE:

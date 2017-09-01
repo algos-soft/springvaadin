@@ -2,16 +2,13 @@ package it.algos.springvaadin;
 
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +26,7 @@ public class LibReflectionTest {
     private String sorgente = "";
     private String previsto = "";
     private String ottenuto = "";
-    private Class<? extends AlgosEntity> entityClazz = Versione.class;
+    private Class<? extends AEntity> entityClazz = Versione.class;
 
     /**
      * SetUp iniziale eseguito solo una volta alla creazione della classe
@@ -89,7 +86,7 @@ public class LibReflectionTest {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutte i fieldNames, elencati in ordine di inserimento nella AlgosEntity
+     * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
     @Test
     public void getAllFieldName() {
@@ -309,7 +306,7 @@ public class LibReflectionTest {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
+     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AEntity
      */
     @Test
     public void getMethods() {

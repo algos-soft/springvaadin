@@ -1,10 +1,10 @@
 package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoService;
+import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -74,8 +74,8 @@ public class IndirizzoData {
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      * @param stato:     stato (obbligatoria, non unica)
      */
-    private Indirizzo creaAndLog(String indirizzo, String localita, String cap, Stato stato) {
-        Indirizzo ind = service.crea(indirizzo, localita, cap, stato);
+    private AEntity creaAndLog(String indirizzo, String localita, String cap, Stato stato) {
+        AEntity ind = service.crea(indirizzo, localita, cap, stato);
         log.warn("Indirizzo: " + ind);
         return ind;
     }// end of method

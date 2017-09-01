@@ -1,7 +1,7 @@
 package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public interface AlgosList {
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
      */
-    public void restart(AlgosPresenterImpl presenter,Class<? extends AlgosEntity> entityClass, List items, List<String> columns);
+    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> columns);
 
 
     /**
@@ -86,7 +86,7 @@ public interface AlgosList {
      *
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
-    public List<AlgosEntity> getEntityBeans();
+    public List<AEntity> getEntityBeans();
 
 
     /**
@@ -94,7 +94,7 @@ public interface AlgosList {
      *
      * @return entityBean
      */
-    public AlgosEntity getEntityBean();
+    public AEntity getEntityBean();
 
 
     /**

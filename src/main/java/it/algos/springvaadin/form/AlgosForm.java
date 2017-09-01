@@ -2,7 +2,7 @@ package it.algos.springvaadin.form;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.ui.Component;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public interface AlgosForm {
      * @param entityBean istanza da presentare
      * @param fields     del form da visualizzare
      */
-    public void restart(AlgosPresenterImpl presenter,AlgosEntity entityBean, List<String> fields);
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields);
 
 
     /**
@@ -70,7 +70,7 @@ public interface AlgosForm {
      *
      * @return la entityBean del Form
      */
-    public AlgosEntity commit();
+    public AEntity commit();
 
 
     /**
@@ -92,7 +92,7 @@ public interface AlgosForm {
      *
      * @return la entityBean del Form
      */
-    public AlgosEntity getEntity();
+    public AEntity getEntity();
 
 
     /**

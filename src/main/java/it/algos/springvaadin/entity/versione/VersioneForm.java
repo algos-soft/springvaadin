@@ -4,7 +4,6 @@ package it.algos.springvaadin.entity.versione;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 

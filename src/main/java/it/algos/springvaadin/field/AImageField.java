@@ -2,19 +2,10 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneImage;
-import it.algos.springvaadin.event.AlgosSpringEvent;
-import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
 /**

@@ -3,16 +3,12 @@ package it.algos.springvaadin.entity.stato;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
-import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.List;
 
 /**
  * Created by gac on 10-ago-17
@@ -62,7 +58,7 @@ public class StatoForm extends AlgosFormImpl {
      * @return la entityBean del Form
      */
     @Override
-    public AlgosEntity commit() {
+    public AEntity commit() {
         byte[] imgBytes = ((Stato) entityBean).getBandiera();
         super.commit();
         ((Stato) entityBean).setBandiera(imgBytes);

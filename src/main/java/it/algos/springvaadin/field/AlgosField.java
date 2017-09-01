@@ -1,16 +1,15 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.ui.Component;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.event.AlgosSpringEvent;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.event.AEvent;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
 
 public interface AlgosField {
 
 
-    public void doValue(AlgosEntity entityBean);
+    public void doValue(AEntity entityBean);
 
     public void setName(String name);
 
@@ -22,7 +21,7 @@ public interface AlgosField {
 
     public AlgosPresenterImpl getFormPresenter();
 
-    public void setSource(ApplicationListener<AlgosSpringEvent> formSource);
+    public void setSource(ApplicationListener<AEvent> formSource);
 
     public Component initContent() ;
 }// end of interface

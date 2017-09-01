@@ -5,7 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -55,12 +55,12 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * Regola la lista (che usa una Grid)
      * Visualizza la lista
      *
-     * @param entityClazz di riferimento, sottoclasse concreta di AlgosEntity
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param items       da visualizzare nella Grid
      * @param columns     visibili ed ordinate della lista
      */
     @Override
-    public void setList(Class<? extends AlgosEntity> entityClazz, List items, List<String> columns) {
+    public void setList(Class<? extends AEntity> entityClazz, List items, List<String> columns) {
         removeAllComponents();
         list.restart(presenter, entityClazz, items, columns);
         addComponent(list.getComponent());
@@ -74,7 +74,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param fields visibili ed ordinati del Form
      */
     @Override
-    public void setForm(AlgosEntity entity, List<String> fields) {
+    public void setForm(AEntity entity, List<String> fields) {
         removeAllComponents();
         form.restart(presenter, entity, fields);
         addComponent(form.getComponent());
@@ -217,7 +217,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @return la entity del Form
      */
     @Override
-    public AlgosEntity commit() {
+    public AEntity commit() {
         return form.commit();
     }// end of method
 
@@ -227,7 +227,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @return la entity del Form
      */
     @Override
-    public AlgosEntity getEntityForm() {
+    public AEntity getEntityForm() {
         return form.getEntity();
     }// end of method
 
@@ -240,7 +240,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     @Override
-    public List<AlgosEntity> getEntityBeans() {
+    public List<AEntity> getEntityBeans() {
         return list.getEntityBeans();
     }// end of method
 
@@ -250,7 +250,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @return entityBean
      */
-    public AlgosEntity getEntityBean() {
+    public AEntity getEntityBean() {
         return list.getEntityBean();
     }// end of method
 

@@ -2,8 +2,6 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
-import it.algos.springvaadin.model.AlgosEntity;
-import org.springframework.dao.DuplicateKeyException;
 
 public abstract class LibAvviso {
 

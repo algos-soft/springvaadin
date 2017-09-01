@@ -137,11 +137,11 @@ public enum AzioneOld {
      * L'evento invece arriva dalla grid e quindi risalgo alla AlgosView che contiene la grid
      */
     private void publish(AlgosPresenterImpl presenter, Object entityBean) {
-        AlgosSpringEvent actionSpringEvent = null;
+        AEvent actionSpringEvent = null;
 
 //        if (presenter != null) {
-//            if (entityBean != null && entityBean instanceof AlgosEntity) {
-//                actionSpringEvent = new ActionSpringEvent(presenter, this, (AlgosEntity) entityBean);
+//            if (entityBean != null && entityBean instanceof AEntity) {
+//                actionSpringEvent = new ActionSpringEvent(presenter, this, (AEntity) entityBean);
 //            } else {
 //                actionSpringEvent = new ActionSpringEvent(presenter, this);
 //            }// end of if/else cycle

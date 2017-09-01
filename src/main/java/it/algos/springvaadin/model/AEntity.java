@@ -6,7 +6,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
- * Created by gac on 07/07/17
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: ven, 01-set-2017
+ * Time: 18:30
  * Le sottoclassi concrete sono di tipo JavaBean
  * 1) la sottoclasse deve avere un costruttore senza argomenti
  * 2) le proprietà devono essere private e accessibili solo con get, set e is (usato per i boolen al posto di get)
@@ -20,7 +24,7 @@ import java.io.Serializable;
  * Sottoclasse annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
  */
 @Getter
-public abstract class AlgosEntity implements Serializable {
+public abstract class AEntity implements Serializable {
 
 
     /**
@@ -32,4 +36,5 @@ public abstract class AlgosEntity implements Serializable {
 
 
 }// end of entity abstract class
+
 

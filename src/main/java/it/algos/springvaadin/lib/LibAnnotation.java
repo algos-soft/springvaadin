@@ -5,7 +5,7 @@ import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -33,7 +33,7 @@ public abstract class LibAnnotation {
      * @return the Annotations for the specific field
      */
     @SuppressWarnings("all")
-    public static Map getMap(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static Map getMap(final Class<? extends AEntity> clazz, final String publicFieldName) {
         Map mappa = null;
         Annotation[] annotations = getAll(clazz, publicFieldName);
 
@@ -57,7 +57,7 @@ public abstract class LibAnnotation {
      * @return the Annotations for the specific field
      */
     @SuppressWarnings("all")
-    public static Annotation[] getAll(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static Annotation[] getAll(final Class<? extends AEntity> clazz, final String publicFieldName) {
         Annotation[] annotations = null;
         Field javaField = LibReflection.getField(clazz, publicFieldName);
 
@@ -78,7 +78,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static AIField getField(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AIField getField(final Class<? extends AEntity> clazz, final String publicFieldName) {
         AIField annotation = null;
         String tag = "AIField";
         Map mappa = getMap(clazz, publicFieldName);
@@ -99,7 +99,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific column
      */
     @SuppressWarnings("all")
-    public static AIColumn getColumn(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AIColumn getColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
         AIColumn annotation = null;
         String tag = "AIColumn";
         Map mappa = getMap(clazz, publicFieldName);
@@ -121,7 +121,7 @@ public abstract class LibAnnotation {
      * @return the type for the specific column
      */
     @SuppressWarnings("all")
-    public static AFType getTypeField(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AFType getTypeField(final Class<? extends AEntity> clazz, final String publicFieldName) {
         AFType type = null;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -143,7 +143,7 @@ public abstract class LibAnnotation {
      * @return the type for the specific column
      */
     @SuppressWarnings("all")
-    public static AFType getTypeColumn(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static AFType getTypeColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
         AFType type = null;
         AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
 
@@ -167,7 +167,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isRequired(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isRequired(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -187,7 +187,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isRequiredWild(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isRequiredWild(final Class<? extends AEntity> clazz, final String publicFieldName) {
         return isNotEmpty(clazz, publicFieldName) || isNotNull(clazz, publicFieldName) || isRequired(clazz, publicFieldName);
     }// end of static method
 
@@ -200,7 +200,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isEnabled(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isEnabled(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -221,7 +221,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isFocus(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isFocus(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -241,7 +241,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isFirstCapital(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isFirstCapital(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -262,7 +262,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isAllUpper(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isAllUpper(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -282,7 +282,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isAllLower(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isAllLower(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -303,7 +303,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isOnlyNumber(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isOnlyNumber(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -323,7 +323,7 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isOnlyLetter(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isOnlyLetter(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean status = true;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -345,7 +345,7 @@ public abstract class LibAnnotation {
      * @return the name (column) of the field
      */
     @SuppressWarnings("all")
-    public static String getNameField(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getNameField(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String name = "";
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -371,7 +371,7 @@ public abstract class LibAnnotation {
      * @return the name (column) of the field
      */
     @SuppressWarnings("all")
-    public static String getNameColumn(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getNameColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String name = "";
         AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
 
@@ -396,7 +396,7 @@ public abstract class LibAnnotation {
      * @return the width of the field expressed in int (to be converted)
      */
     @SuppressWarnings("all")
-    public static String getWidthEM(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getWidthEM(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String width = "";
         int widthInt = 0;
         String tag = "em";
@@ -422,7 +422,7 @@ public abstract class LibAnnotation {
      * @return the width of the column expressed in int
      */
     @SuppressWarnings("all")
-    public static int getColumnWith(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static int getColumnWith(final Class<? extends AEntity> clazz, final String publicFieldName) {
         int width = 0;
         AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
 
@@ -442,7 +442,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static Size getSize(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static Size getSize(final Class<? extends AEntity> clazz, final String publicFieldName) {
         Size annotation = null;
         String tag = "Size";
         Map mappa = getMap(clazz, publicFieldName);
@@ -464,7 +464,7 @@ public abstract class LibAnnotation {
      * @return true if the Size Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isSize(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isSize(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean sizeEsiste = false;
         Size sizeAnnotation = getSize(clazz, publicFieldName);
 
@@ -485,7 +485,7 @@ public abstract class LibAnnotation {
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getSizeMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName, boolean notEmpty) {
+    public static String getSizeMessage(final Class<? extends AEntity> clazz, final String publicFieldName, boolean notEmpty) {
         String message = "";
         Size annotation = getSize(clazz, publicFieldName);
         String oppure = notEmpty ? "" : "vuoto oppure ";
@@ -526,7 +526,7 @@ public abstract class LibAnnotation {
      * @return the min length of the string property
      */
     @SuppressWarnings("all")
-    public static int getMin(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static int getMin(final Class<? extends AEntity> clazz, final String publicFieldName) {
         int length = 0;
         Size annotation = getSize(clazz, publicFieldName);
 
@@ -547,7 +547,7 @@ public abstract class LibAnnotation {
      * @return the max length of the string property
      */
     @SuppressWarnings("all")
-    public static int getMax(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static int getMax(final Class<? extends AEntity> clazz, final String publicFieldName) {
         int length = 0;
         Size annotation = getSize(clazz, publicFieldName);
 
@@ -568,7 +568,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static NotEmpty getNotEmpty(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static NotEmpty getNotEmpty(final Class<? extends AEntity> clazz, final String publicFieldName) {
         NotEmpty notEmpty = null;
         String tag = "NotEmpty";
         Map mappa = getMap(clazz, publicFieldName);
@@ -590,7 +590,7 @@ public abstract class LibAnnotation {
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getNotEmptyMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getNotEmptyMessage(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String message = "";
         NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -617,7 +617,7 @@ public abstract class LibAnnotation {
      * @return true if the notEmpty Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isNotEmpty(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isNotEmpty(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean nonVuota = false;
         NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
 
@@ -638,7 +638,7 @@ public abstract class LibAnnotation {
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static NotNull getNotNull(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static NotNull getNotNull(final Class<? extends AEntity> clazz, final String publicFieldName) {
         NotNull notNull = null;
         String tag = "NotNull";
         Map mappa = getMap(clazz, publicFieldName);
@@ -660,7 +660,7 @@ public abstract class LibAnnotation {
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getNotNullMessage(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static String getNotNullMessage(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String message = "";
         NotNull notNull = getNotNull(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -687,7 +687,7 @@ public abstract class LibAnnotation {
      * @return true if the NotNull Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isNotNull(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static boolean isNotNull(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean nonVuota = false;
         NotNull notNull = getNotNull(clazz, publicFieldName);
 
@@ -708,7 +708,7 @@ public abstract class LibAnnotation {
      * @return the class for the specific column
      */
     @SuppressWarnings("all")
-    public static Class getClass(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+    public static Class getClass(final Class<? extends AEntity> clazz, final String publicFieldName) {
         Class linkClazz = null;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
@@ -727,7 +727,7 @@ public abstract class LibAnnotation {
      *
      * @return the Annotation for the specific class
      */
-    public static AIList getAIList(final Class<? extends AlgosEntity> clazz) {
+    public static AIList getAIList(final Class<? extends AEntity> clazz) {
         return clazz.getAnnotation(AIList.class);
     }// end of static method
 
@@ -740,7 +740,7 @@ public abstract class LibAnnotation {
      * @return lista di colonne visibili nella Grid
      */
     @SuppressWarnings("all")
-    public static List<String> getListColumns(final Class<? extends AlgosEntity> clazz) {
+    public static List<String> getListColumns(final Class<? extends AEntity> clazz) {
         List<String> lista = null;
         String[] columns = null;
         AIList listAnnotation = getAIList(clazz);
@@ -765,7 +765,7 @@ public abstract class LibAnnotation {
      * @return status of class - default false
      */
     @SuppressWarnings("all")
-    public static boolean isListShowsID(final Class<? extends AlgosEntity> clazz) {
+    public static boolean isListShowsID(final Class<? extends AEntity> clazz) {
         boolean status = false;
         AIList listAnnotation = getAIList(clazz);
 
@@ -785,7 +785,7 @@ public abstract class LibAnnotation {
      * @return the width of the column expressed in int
      */
     @SuppressWarnings("all")
-    public static int getListWithID(final Class<? extends AlgosEntity> clazz) {
+    public static int getListWithID(final Class<? extends AEntity> clazz) {
         int width = 0;
         AIList listAnnotation = getAIList(clazz);
 
@@ -804,7 +804,7 @@ public abstract class LibAnnotation {
      *
      * @return the Annotation for the specific class
      */
-    public static AIForm getAIForm(final Class<? extends AlgosEntity> clazz) {
+    public static AIForm getAIForm(final Class<? extends AEntity> clazz) {
         return clazz.getAnnotation(AIForm.class);
     }// end of static method
 
@@ -817,7 +817,7 @@ public abstract class LibAnnotation {
      * @return lista di fields visibili nel Form
      */
     @SuppressWarnings("all")
-    public static List<String> getFormFields(final Class<? extends AlgosEntity> clazz) {
+    public static List<String> getFormFields(final Class<? extends AEntity> clazz) {
         List<String> lista = null;
         String[] fields = null;
         AIForm formAnnotation = getAIForm(clazz);
@@ -842,7 +842,7 @@ public abstract class LibAnnotation {
      * @return status of class - default false
      */
     @SuppressWarnings("all")
-    public static boolean isFormShowsID(final Class<? extends AlgosEntity> clazz) {
+    public static boolean isFormShowsID(final Class<? extends AEntity> clazz) {
         boolean status = false;
         AIForm formAnnotation = getAIForm(clazz);
 
@@ -862,7 +862,7 @@ public abstract class LibAnnotation {
      * @return the width of the field expressed in int
      */
     @SuppressWarnings("all")
-    public static String getFormWithID(final Class<? extends AlgosEntity> clazz) {
+    public static String getFormWithID(final Class<? extends AEntity> clazz) {
         String width = "";
         int widthInt = 0;
         String tag = "em";

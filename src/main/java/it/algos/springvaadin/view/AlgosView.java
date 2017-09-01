@@ -2,7 +2,7 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.View;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;
@@ -30,11 +30,11 @@ public interface AlgosView extends View {
     /**
      * Costruisce una Grid
      *
-     * @param clazz   di riferimento, sottoclasse concreta di AlgosEntity
+     * @param clazz   di riferimento, sottoclasse concreta di AEntity
      * @param items   da visualizzare nella Grid
      * @param columns visibili ed ordinate della lista
      */
-    public void setList(Class<? extends AlgosEntity> clazz, List items, List<String> columns);
+    public void setList(Class<? extends AEntity> clazz, List items, List<String> columns);
 
 
     /**
@@ -43,7 +43,7 @@ public interface AlgosView extends View {
      * @param entity di riferimento
      * @param fields visibili ed ordinati del Form
      */
-    public void setForm(AlgosEntity entity, List<String> fields);
+    public void setForm(AEntity entity, List<String> fields);
 
 
     /**
@@ -121,7 +121,7 @@ public interface AlgosView extends View {
      *
      * @return la entity del Form
      */
-    public AlgosEntity commit();
+    public AEntity commit();
 
 
     /**
@@ -135,7 +135,7 @@ public interface AlgosView extends View {
      *
      * @return la entity del Form
      */
-    public AlgosEntity getEntityForm();
+    public AEntity getEntityForm();
 
 
     /**
@@ -146,7 +146,7 @@ public interface AlgosView extends View {
      *
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
-    public List<AlgosEntity> getEntityBeans();
+    public List<AEntity> getEntityBeans();
 
 
     /**
@@ -154,7 +154,7 @@ public interface AlgosView extends View {
      *
      * @return entityBean
      */
-    public AlgosEntity getEntityBean();
+    public AEntity getEntityBean();
 
 
     /**

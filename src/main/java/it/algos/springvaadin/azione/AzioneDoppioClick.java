@@ -5,7 +5,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.ItemClickListener;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -42,8 +42,8 @@ public class AzioneDoppioClick extends Azione {
             public void itemClick(Grid.ItemClick itemClick) {
                 if (itemClick.getMouseEventDetails().isDoubleClick()) {
                     Object obj = itemClick.getItem();
-                    if (obj instanceof AlgosEntity) {
-                        fire(itemClick, (AlgosEntity) obj);
+                    if (obj instanceof AEntity) {
+                        fire(itemClick, (AEntity) obj);
                     }// end of if cycle
                 }// end of if cycle
             }// end of inner method

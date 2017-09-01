@@ -1,11 +1,9 @@
 package it.algos.springvaadin.lib;
 
 import com.mongodb.MongoClient;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class LibMongo {
     /**
      * Recupera tutte le entities di una collezione
      */
-    public static List findAll(final Class<? extends AlgosEntity> entityClazz) {
+    public static List findAll(final Class<? extends AEntity> entityClazz) {
         return mongoOps.findAll(entityClazz);
     }// end of static method
 

@@ -1,38 +1,26 @@
 package it.algos.springvaadin.presenter;
 
-import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.dialog.Edit2Dialog;
-import it.algos.springvaadin.dialog.EditDialog;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
-import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
-import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,7 +48,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
 
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
-    protected Class<? extends AlgosEntity> entityClass;
+    protected Class<? extends AEntity> entityClass;
 
 
     private AlgosField parentField;
@@ -128,7 +116,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void create() {
-        modifica((AlgosEntity) null);
+        modifica((AEntity) null);
     }// end of method
 
 
@@ -138,7 +126,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 //     * Create a file chooser
 //     */
 //    @Override
-//    public void chooser(AlgosEntity entityBean, Window parentDialog) {
+//    public void chooser(AEntity entityBean, Window parentDialog) {
 //
 ////        Window win=new Window();
 ////        LibVaadin.getUI().addWindow(win);
@@ -194,12 +182,12 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void edit(AlgosEntity entityBean) {
+    public void edit(AEntity entityBean) {
 
         if (entityBean != null) {
             modifica(entityBean);
         } else {
-            List<AlgosEntity> beanList = view.getEntityBeans();
+            List<AEntity> beanList = view.getEntityBeans();
 
             //patch @todo passa qui due volte (per errore) non trovato perché
             //la seconda volta il presenter è 'farlocco'
@@ -221,13 +209,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void edit(AlgosEntity entityBean, AlgosField parentField) {
+    public void edit(AEntity entityBean, AlgosField parentField) {
         this.parentField = parentField;
 
         if (entityBean != null) {
             modifica(entityBean);
         } else {
-            List<AlgosEntity> beanList = view.getEntityBeans();
+            List<AEntity> beanList = view.getEntityBeans();
 
             //patch @todo passa qui due volte (per errore) non trovato perché
             //la seconda volta il presenter è 'farlocco'
@@ -246,7 +234,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Riceve il form da utilizzare
      */
     @Override
-    public void editLink(AlgosEntity entityBean, AlgosField parentField) {
+    public void editLink(AEntity entityBean, AlgosField parentField) {
 
         if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
@@ -260,7 +248,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Edit button pressed in field Image
      */
     @Override
-    public void editImage(AlgosEntity entityBean, AlgosField parentField) {
+    public void editImage(AEntity entityBean, AlgosField parentField) {
 
         if (imageDialog != null) {
             imageDialog.show(entityBean, this);
@@ -282,7 +270,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void doppioClick(AlgosEntity entityBean) {
+    public void doppioClick(AEntity entityBean) {
         modifica(entityBean);
     }// end of method
 
@@ -290,7 +278,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     /**
      * Modifica singolo record (entityBean)
      */
-    public void modifica(AlgosEntity entityBean) {
+    public void modifica(AEntity entityBean) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
@@ -309,7 +297,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void delete() {
         if (service != null && view != null) {
-            List<AlgosEntity> beanList = view.getEntityBeans();
+            List<AEntity> beanList = view.getEntityBeans();
 
             if (LibParams.chiedeConfermaPrimaDiCancellare()) {
                 chiedeConfermaPrimaDiCancellare(beanList);
@@ -335,7 +323,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     /**
      * Presenta un dialogo di conferma prima della cancellazione effettiva
      */
-    public void chiedeConfermaPrimaDiCancellare(List<AlgosEntity> beanList) {
+    public void chiedeConfermaPrimaDiCancellare(List<AEntity> beanList) {
         String message;
 
         if (beanList == null) {
@@ -380,11 +368,11 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     /**
      * Cancella il/i record/s selezionato/i
      */
-    protected void cancellazione(List<AlgosEntity> beanList) {
+    protected void cancellazione(List<AEntity> beanList) {
         boolean cancellato = false;
 
         if (beanList != null && beanList.size() > 0) {
-            for (AlgosEntity entityBean : beanList) {
+            for (AEntity entityBean : beanList) {
 
                 if (service.delete(entityBean)) {
                     cancellato = true;
@@ -453,7 +441,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void accetta() {
-        AlgosEntity entityBean;
+        AEntity entityBean;
         String tag = "</br>";
 
         if (view.entityIsOk()) {
@@ -491,7 +479,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     public boolean registraModifiche() {
         boolean entityRegistrata = false;
-        AlgosEntity entityBean;
+        AEntity entityBean;
         String tag = "</br>";
 
         if (view.entityIsOk()) {
@@ -516,7 +504,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         return entityRegistrata;
     }// end of method
 
-    public boolean saveNotDuplicated(AlgosEntity entityBean) {
+    public boolean saveNotDuplicated(AEntity entityBean) {
         boolean entityRegistrata = false;
 
         try { // prova ad eseguire il codice
@@ -580,7 +568,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
-    public AlgosEntity getModel() {
+    public AEntity getModel() {
         return null;
     }// end of method
 

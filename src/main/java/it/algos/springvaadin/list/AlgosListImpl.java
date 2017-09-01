@@ -1,27 +1,16 @@
 package it.algos.springvaadin.list;
 
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,7 +58,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * @param columns     da visualizzare nella grid
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, Class<? extends AlgosEntity> entityClass, List items, List<String> columns) {
+    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> columns) {
         Label label;
         this.setMargin(false);
         String textLabel = "";
@@ -183,7 +172,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * @return lista di una o più righe selezionate, null se nessuna riga è selezionata
      */
     @Override
-    public List<AlgosEntity> getEntityBeans() {
+    public List<AEntity> getEntityBeans() {
         return grid.getEntityBeans();
     }// end of method
 
@@ -193,7 +182,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      *
      * @return entityBean
      */
-    public AlgosEntity getEntityBean() {
+    public AEntity getEntityBean() {
         return grid.getEntityBean();
     }// end of method
 

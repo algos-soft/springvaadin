@@ -1,12 +1,11 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,14 +21,14 @@ import javax.validation.constraints.Size;
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- * Estende la Entity astratta AlgosEntity che contiene la key property ObjectId
+ * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Company extends AlgosEntity {
+public class Company extends AEntity {
 
 
     /**
@@ -59,7 +58,7 @@ public class Company extends AlgosEntity {
     //--indirizzo (facoltativo)
     @AIField(type = AFType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
-    private Indirizzo indirizzo;
+    private AEntity indirizzo;
 
 
     /**

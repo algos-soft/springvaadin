@@ -1,6 +1,6 @@
 package it.algos.springvaadin.lib;
 
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.apache.tomcat.util.buf.StringUtils;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class LibSql {
      * Get the query string for INSERT
      */
     @Deprecated
-    public static String getQueryInsert(String tableName, AlgosEntity entity) {
+    public static String getQueryInsert(String tableName, AEntity entity) {
         String query = "";
 
 //        LinkedHashMap<String, Object> map = this.getBeanMap(entityBean);
@@ -174,7 +174,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(AlgosEntity entityBean) {
+    public static String getQueryUpdate(AEntity entityBean) {
         return getQueryUpdate(LibReflection.getTable(entityBean), entityBean);
     }// end of static method
 
@@ -186,7 +186,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
-    public static String getQueryUpdate(String tableName, AlgosEntity entityBean) {
+    public static String getQueryUpdate(String tableName, AEntity entityBean) {
         return getQueryUpdate(tableName, getAllFieldNameWithValidValue(entityBean));
     }// end of static method
 
@@ -198,7 +198,7 @@ public class LibSql {
      *
      * @return tutte i fieldNames validi, elencati in ordine alfabetico
      */
-    private static List<String> getAllFieldNameWithValidValue(final AlgosEntity entityBean) {
+    private static List<String> getAllFieldNameWithValidValue(final AEntity entityBean) {
         ArrayList lista = new ArrayList();
         List<String> allEsistenti = LibReflection.getAllFieldNameAlfabetico(entityBean);
         Object value;

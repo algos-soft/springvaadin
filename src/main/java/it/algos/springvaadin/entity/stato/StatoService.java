@@ -1,28 +1,13 @@
 package it.algos.springvaadin.entity.stato;
 
-import com.mongodb.*;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
-import com.vaadin.server.Resource;
-import com.vaadin.server.StreamResource;
-import com.vaadin.ui.Image;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.lib.LibResource;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.repository.AlgosRepository;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
-import org.bson.BSONObject;
-import org.bson.types.Binary;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -93,7 +78,7 @@ public class StatoService extends AlgosServiceImpl {
      * @return the saved entity
      */
     @Override
-    public AlgosEntity save(AlgosEntity entityBean) throws Exception {
+    public AEntity save(AEntity entityBean) throws Exception {
         boolean nuovaEntity = entityBean.id == null || entityBean.id.equals("");
 
         if (nuovaEntity) {

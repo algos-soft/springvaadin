@@ -2,14 +2,10 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Notification;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AlgosEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
@@ -17,8 +13,6 @@ import it.algos.springvaadin.view.AlgosView;
 import it.algos.springvaadintest.bootstrap.StatoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.List;
 
 /**
  * Created by gac on 10-ago-17

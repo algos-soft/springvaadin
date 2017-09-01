@@ -2,14 +2,12 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.util.List;
 
 /**
  * Created by gac on 07-ago-17
@@ -28,7 +26,7 @@ public class IndirizzoPresenter extends AlgosPresenterImpl {
      */
     public IndirizzoPresenter(@Qualifier(Cost.TAG_IND) AlgosView view, @Qualifier(Cost.TAG_IND) AlgosService service, AlgosSearch search) {
         super(view, service, search);
-        super.entityClass = Indirizzo.class;
+        super.entityClass = AEntity.class;
     }// end of Spring constructor
 
 

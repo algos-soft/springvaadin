@@ -1,13 +1,10 @@
 package it.algos.springvaadin.event;
 
 
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.bottone.BottonType;
-import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.field.AlgosField;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -15,7 +12,7 @@ import org.springframework.context.ApplicationListener;
  * Eventi generati dai bottoni
  * Link: http://www.baeldung.com/spring-events
  */
-public class ButtonSpringEvent extends AlgosSpringEvent {
+public class ButtonSpringEvent extends AEvent {
 
 
     private final BottonType type;
@@ -27,11 +24,11 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     private Window parentDialog;
 
     //--L'entityBean viene inserita come parametro opzionale
-    private AlgosEntity entityBean;
+    private AEntity entityBean;
 
 
     public ButtonSpringEvent(ApplicationListener source, BottonType type) {
-        this(source, type, (AlgosEntity) null);
+        this(source, type, (AEntity) null);
     }// end of constructor
 
     public ButtonSpringEvent(ApplicationListener source, BottonType type, Window parentDialog) {
@@ -41,13 +38,13 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
     }// end of constructor
 
 
-    public ButtonSpringEvent(ApplicationListener source, BottonType type, AlgosEntity entityBean) {
+    public ButtonSpringEvent(ApplicationListener source, BottonType type, AEntity entityBean) {
         super(source);
         this.type = type;
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener source, BottonType type, AlgosEntity entityBean, AlgosField parentField) {
+    public ButtonSpringEvent(ApplicationListener source, BottonType type, AEntity entityBean, AlgosField parentField) {
         super(source);
         this.type = type;
         this.entityBean = entityBean;
@@ -59,7 +56,7 @@ public class ButtonSpringEvent extends AlgosSpringEvent {
         return type;
     }// end of method
 
-    public AlgosEntity getEntityBean() {
+    public AEntity getEntityBean() {
         return entityBean;
     }// end of method
 

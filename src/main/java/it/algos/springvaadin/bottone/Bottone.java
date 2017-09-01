@@ -1,15 +1,11 @@
 package it.algos.springvaadin.bottone;
 
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
-import it.algos.springvaadin.event.AlgosSpringEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -63,7 +59,7 @@ public abstract class Bottone extends Button {
      * Property (facoltativa), necessaria per alcuni bottoni
      * Property regolata DOPO la chiamata del browser
      */
-    protected AlgosEntity entityBean;
+    protected AEntity entityBean;
 
 
     /**
@@ -155,7 +151,7 @@ public abstract class Bottone extends Button {
 
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      * Bottoni specifici possono costruire un evento con informazioni aggiuntive
      */
     protected void fire(Button.ClickEvent clickEvent) {
@@ -171,7 +167,7 @@ public abstract class Bottone extends Button {
     }// end of method
 
 
-    public void setEntityBean(AlgosEntity entityBean) {
+    public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;
     }// end of method
 

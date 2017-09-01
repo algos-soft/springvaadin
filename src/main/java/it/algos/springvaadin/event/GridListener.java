@@ -1,7 +1,7 @@
 package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 
 /**
  * Created by gac on 03/06/17.
@@ -14,7 +14,7 @@ public interface GridListener {
 
     public void click();
 
-    public void doppioClick(AlgosEntity entityBean);
+    public void doppioClick(AEntity entityBean);
 
     public void selectionChanged();
 

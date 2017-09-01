@@ -6,7 +6,7 @@ import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -24,7 +24,7 @@ public abstract class LibColumn {
     }// end of method
 
 
-    public static AIColumn getColumnAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
+    public static AIColumn getColumnAnnotation(final Class<? extends AEntity> clazz, String publicFieldName) {
         if (publicFieldName.equals(Cost.PROPERTY_ID)) {
             return null;
         } else {
@@ -33,7 +33,7 @@ public abstract class LibColumn {
     }// end of method
 
 
-    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, String publicFieldName) {
+    public static AIField getFieldAnnotation(final Class<? extends AEntity> clazz, String publicFieldName) {
         return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIField.class);
     }// end of method
 
@@ -42,7 +42,7 @@ public abstract class LibColumn {
      * Aggiunge una colonna
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumn(final Class<? extends AlgosEntity> clazz, Grid grid, String publicFieldName) {
+    public static int addColumn(final Class<? extends AEntity> clazz, Grid grid, String publicFieldName) {
         AIColumn columnAnnotation = getColumnAnnotation(clazz, publicFieldName);
         Grid.Column colonna = null;
         AFType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
@@ -84,7 +84,7 @@ public abstract class LibColumn {
      * Aggiunge le colonne
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumns(final Class<? extends AlgosEntity> clazz, Grid grid, List<String> colonneVisibili) {
+    public static int addColumns(final Class<? extends AEntity> clazz, Grid grid, List<String> colonneVisibili) {
         int lar = 0;
         grid.removeAllColumns();
 
@@ -101,7 +101,7 @@ public abstract class LibColumn {
      * Aggiunge tutte le colonne
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumns(final Class<? extends AlgosEntity> beanType, Grid grid) {
+    public static int addColumns(final Class<? extends AEntity> beanType, Grid grid) {
         return addColumns(beanType, grid, LibReflection.getAllFieldName(beanType, false));
     }// end of method
 

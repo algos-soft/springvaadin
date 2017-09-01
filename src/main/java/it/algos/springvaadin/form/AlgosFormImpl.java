@@ -1,36 +1,22 @@
 package it.algos.springvaadin.form;
 
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSInputFile;
 import com.vaadin.data.Binder;
-import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.Converter;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.server.Resource;
-import com.vaadin.server.StreamResource;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.converter.AlgosConverter;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
-import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.field.AlgosComboClassField;
-import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import it.algos.springvaadin.view.ViewField;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +36,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     private boolean usaSeparateFormDialog;
 
     //--L'entityBean viene inserita come parametro nel metodo restart, chiamato dal presenter
-    protected AlgosEntity entityBean;
+    protected AEntity entityBean;
 
     //--collegamento tra i fields e la entityBean
     private Binder binder;
@@ -99,7 +85,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param fields     del form da visualizzare
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, AlgosEntity entityBean, List<String> fields) {
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields) {
         this.entityBean = entityBean;
 
         if (usaSeparateFormDialog) {
@@ -335,7 +321,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @return la entityBean del Form
      */
     @Override
-    public AlgosEntity commit() {
+    public AEntity commit() {
 
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
@@ -380,7 +366,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @return la label a video
      */
-    protected String fixCaption(AlgosEntity entityBean) {
+    protected String fixCaption(AEntity entityBean) {
         String caption = entityBean.getClass().getSimpleName() + " - ";
 
         if (entityBean != null && entityBean.getId() != null) {
@@ -422,7 +408,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @return la entityBean del Form
      */
     @Override
-    public AlgosEntity getEntity() {
+    public AEntity getEntity() {
         return entityBean;
     }// end of method
 

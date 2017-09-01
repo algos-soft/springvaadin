@@ -1,23 +1,12 @@
 package it.algos.springvaadin.entity.versione;
 
-import com.vaadin.ui.Notification;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.repository.AlgosMongoRepository;
-import it.algos.springvaadin.repository.AlgosRepository;
-import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.service.AlgosServiceImpl;
-import it.algos.springvaadin.view.AlgosView;
-import it.algos.springvaadintest.ui.SpringVaadinUI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 /**

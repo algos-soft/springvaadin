@@ -23,7 +23,7 @@ public class BottoneCreate extends Bottone {
 
 //    /**
 //     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-//     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+//     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
 //     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
 //     */
 //    protected void fire(Button.ClickEvent clickEvent) {

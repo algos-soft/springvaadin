@@ -48,7 +48,7 @@ public class IndirizzoForm extends AlgosFormImpl {
 //     * @param fields     del form da visualizzare
 //     */
 //    @Override
-//    public void restart(AlgosPresenterImpl presenter, AlgosEntity entityBean, List<String> fields) {
+//    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields) {
 //        this.entityBean = entityBean;
 //        usaSeparateFormDialog(presenter, fields);
 //    }// end of method

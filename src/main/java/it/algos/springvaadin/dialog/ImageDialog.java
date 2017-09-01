@@ -4,13 +4,11 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.event.ActionSpringEvent;
-import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.ButtonSpringEvent;
-import it.algos.springvaadin.event.FieldSpringEvent;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,7 +24,7 @@ import javax.annotation.PostConstruct;
  * Time: 12:02
  */
 @SpringComponent
-public class ImageDialog extends Window implements ApplicationListener<AlgosSpringEvent> {
+public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
 
     /**
@@ -38,7 +36,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     private VerticalLayout mainLayout = new VerticalLayout();
     private VerticalLayout toolBar = new VerticalLayout();
 
-    private AlgosEntity entityBean;
+    private AEntity entityBean;
 
     private final Bottone buttonBack;
     private final Bottone buttonCreate;
@@ -85,7 +83,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
     }// end of method
 
 
-    public void show(AlgosEntity entityBean, AlgosPresenterImpl presenter) {
+    public void show(AEntity entityBean, AlgosPresenterImpl presenter) {
         this.entityBean = entityBean;
         this.presenter = presenter;
         resetButtons(presenter);
@@ -148,7 +146,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
      * @param algosEvent the event to respond to
      */
     @Override
-    public void onApplicationEvent(AlgosSpringEvent algosEvent) {
+    public void onApplicationEvent(AEvent algosEvent) {
         Class thisClazz = this.getClass();
         ButtonSpringEvent event = null;
         BottonType type = null;
@@ -187,7 +185,7 @@ public class ImageDialog extends Window implements ApplicationListener<AlgosSpri
 
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AlgosSpringEvent event)
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
     private void fireRevert() {
         applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, BottonType.revert));

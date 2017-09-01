@@ -1,23 +1,12 @@
 package it.algos.springvaadin.service;
 
-import com.mongodb.DuplicateKeyException;
 import com.vaadin.ui.Notification;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.repository.AlgosMongoRepository;
-import it.algos.springvaadin.repository.AlgosRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +22,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
 
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
-    protected Class<? extends AlgosEntity> entityClass;
+    protected Class<? extends AEntity> entityClass;
 
     /**
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
@@ -49,7 +38,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 //     * Creazione in memoria di una nuova entity che NON viene salvata
 //     * Eventuali regolazioni iniziali delle property
 //     */
-//    public AlgosEntity newEntity() {
+//    public AEntity newEntity() {
 //        return null;
 //    }// end of method
 
@@ -63,8 +52,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
      *
      * @return the saved entity
      */
-    public AlgosEntity save(AlgosEntity entityBean) throws Exception {
-        return (AlgosEntity) repository.save(entityBean);
+    public AEntity save(AEntity entityBean) throws Exception {
+        return (AEntity) repository.save(entityBean);
     }// end of method
 
 
@@ -106,7 +95,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      *
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
-    public boolean delete(AlgosEntity entityBean) {
+    public boolean delete(AEntity entityBean) {
         repository.delete(entityBean.getId());
 
         if (repository.findOne(entityBean.getId()) == null) {
@@ -193,7 +182,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
 
-    public void setEntityClass(Class<? extends AlgosEntity> entityClass) {
+    public void setEntityClass(Class<? extends AEntity> entityClass) {
         this.entityClass = entityClass;
     }// end of method
 

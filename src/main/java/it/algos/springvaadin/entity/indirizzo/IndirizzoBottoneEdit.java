@@ -1,6 +1,5 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.bottone.BottonType;
@@ -8,19 +7,15 @@ import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.event.ButtonSpringEvent;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
-
-@SpringComponent
+//@SpringComponent
 public class IndirizzoBottoneEdit extends Bottone {
 
-    private AlgosEntity entityBean;
+    private AEntity entityBean;
 
     @Autowired
     @Qualifier(Cost.TAG_IND)
@@ -31,25 +26,15 @@ public class IndirizzoBottoneEdit extends Bottone {
         super.setType(BottonType.editLink);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//        super.setCaption("");
-//        super.setWidth(Bottone.ICON_WIDTH);
-//        super.setEnabled(true);
-//    }// end of method
 
 
 
-    public AlgosEntity getEntityBean() {
+    public AEntity getEntityBean() {
         return entityBean;
     }// end of method
 
 
-    public void setEntityBean(AlgosEntity entityBean) {
+    public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;
     }// end of method
 

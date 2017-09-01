@@ -5,14 +5,21 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
 /**
- * Created by gac on 03/06/17
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: ven, 01-set-2017
+ * Time: 18:00
  * Eventi specifici del Framework
  * Link: http://www.baeldung.com/spring-events
  */
-public abstract class AlgosSpringEvent extends ApplicationEvent {
+public abstract class AEvent extends ApplicationEvent {
 
-    public AlgosSpringEvent(ApplicationListener source) {
+    /**
+     * @param source (obbligatorio) presenter che gestisce l'evento
+     */
+    public AEvent(ApplicationListener source) {
         super(source);
     }// end of constructor
 
-}// end of class
+}// end of abstract class

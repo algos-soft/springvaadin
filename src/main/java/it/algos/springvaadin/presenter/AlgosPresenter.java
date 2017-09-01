@@ -1,10 +1,9 @@
 package it.algos.springvaadin.presenter;
 
-import it.algos.springvaadin.event.AlgosSpringEvent;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.FormListener;
 import it.algos.springvaadin.event.GridListener;
 import it.algos.springvaadin.event.ListListener;
-import it.algos.springvaadin.view.AlgosView;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -19,11 +18,11 @@ import org.springframework.context.ApplicationListener;
  * Utilizza una xxxView (da non confondersi con xxxNavView) specifica, iniettata
  * -(che a sua volta usa una xxxList per la Grid ed una xxxForm per la scheda)
  * Utilizza un xxxService specifico, iniettato
- * -(che a sua volta usa una AlgosEntity ed eventualmente una Repository)
+ * -(che a sua volta usa una AEntity ed eventualmente una Repository)
  * <p>
  * Riceve gli eventi, lanciati da Bottoni ed Azioni, e li gestisce nella sottoclasse specializzata AlgosPresenterEvents
  */
-public interface AlgosPresenter extends GridListener, ListListener, FormListener, ApplicationListener<AlgosSpringEvent> {
+public interface AlgosPresenter extends GridListener, ListListener, FormListener, ApplicationListener<AEvent> {
 
     /**
      * Metodo invocato dalla view ogni volta che questa diventa attiva

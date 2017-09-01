@@ -3,7 +3,7 @@ package it.algos.springvaadin.azione;
 import it.algos.springvaadin.event.ActionSpringEvent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -55,14 +55,14 @@ public abstract class Azione {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(EventObject event) {
-        fire(event, (AlgosEntity) null);
+        fire(event, (AEntity) null);
     }// end of method
 
     /**
      * Recupera il presenter dalla 'catena' grafica attiva
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
-    protected void fire(EventObject event, AlgosEntity entityBean) {
+    protected void fire(EventObject event, AEntity entityBean) {
         AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
         applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, tipo, entityBean));
     }// end of method

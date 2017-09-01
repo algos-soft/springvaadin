@@ -1,10 +1,7 @@
 package it.algos.springvaadin.service;
 
-import com.mongodb.DuplicateKeyException;
-import it.algos.springvaadin.model.AlgosEntity;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import it.algos.springvaadin.model.AEntity;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -31,7 +28,7 @@ public interface AlgosService {
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
      */
-    public AlgosEntity newEntity();
+    public AEntity newEntity();
 
 
     /**
@@ -43,7 +40,7 @@ public interface AlgosService {
      *
      * @return the saved entity
      */
-    public AlgosEntity save(AlgosEntity entityBean) throws Exception;
+    public AEntity save(AEntity entityBean) throws Exception;
 
 
     /**
@@ -58,7 +55,7 @@ public interface AlgosService {
      *
      * @return all entities
      */
-    public List<AlgosEntity> findAll();
+    public List<AEntity> findAll();
 
 
     /**
@@ -78,7 +75,7 @@ public interface AlgosService {
      *
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
-    public boolean delete(AlgosEntity entityBean);
+    public boolean delete(AEntity entityBean);
 
 
     /**
@@ -116,7 +113,7 @@ public interface AlgosService {
     public List<String> getFormFields();
 
 
-    public void setEntityClass(Class<? extends AlgosEntity> entityClass);
+    public void setEntityClass(Class<? extends AEntity> entityClass);
 
 }// end of interface
 

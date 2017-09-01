@@ -1,26 +1,20 @@
 package it.algos.springvaadin.lib;
 
 
-import com.vaadin.data.HasValue;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
-import it.algos.springvaadin.app.StaticContextAccessor;
 import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
-import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
 import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
@@ -42,7 +36,6 @@ import java.util.List;
 public class LibField {
 
     private static IndirizzoField indirizzoField;
-    @Autowired
     private IndirizzoField indirizzoFieldInstance;
 
 
@@ -59,7 +52,7 @@ public class LibField {
 //     * @param attr      the metamodel Attribute
 //     */
 //    @SuppressWarnings("all")
-//    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+//    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AEntity> clazz, final String publicFieldName) {
 //        AlgosField field = null;
 //        AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
 //        String caption = LibAnnotation.getNameField(clazz, publicFieldName);
@@ -414,7 +407,7 @@ public class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public static List<AbstractValidator> creaValidatorsPre(AlgosEntity entityBean, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidatorsPre(AEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
         List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
 
@@ -432,7 +425,7 @@ public class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare DOPO i converters
      */
-    public static List<AbstractValidator> creaValidatorsPost(AlgosEntity entityBean, final String publicFieldName) {
+    public static List<AbstractValidator> creaValidatorsPost(AEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
         List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
 
@@ -450,9 +443,9 @@ public class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista base, indifferenziata
      */
-    private static List<Validator> creaValidators(AlgosEntity entityBean, final String publicFieldName) {
+    private static List<Validator> creaValidators(AEntity entityBean, final String publicFieldName) {
         List<Validator> lista = new ArrayList<>();
-        Class<? extends AlgosEntity> clazz = entityBean.getClass();
+        Class<? extends AEntity> clazz = entityBean.getClass();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String fieldName = LibText.primaMaiuscola(publicFieldName);
@@ -534,9 +527,9 @@ public class LibField {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public static List<AlgosConverter> creaConverters(AlgosEntity entityBean, final String publicFieldName) {
+    public static List<AlgosConverter> creaConverters(AEntity entityBean, final String publicFieldName) {
         List<AlgosConverter> lista = new ArrayList<>();
-        Class<? extends AlgosEntity> clazz = entityBean.getClass();
+        Class<? extends AEntity> clazz = entityBean.getClass();
         AlgosConverter converter = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(clazz, publicFieldName);
@@ -610,10 +603,10 @@ public class LibField {
 //     *
 //     */
 //    private static void publish(AlgosPresenterImpl presenter) {
-//        AlgosSpringEvent fieldSpringEvent = null;
+//        AEvent fieldSpringEvent = null;
 //
 //        if (presenter != null) {
-//            fieldSpringEvent = new FieldSpringEvent(presenter);
+//            fieldSpringEvent = new AFieldEvent(presenter);
 //            presenter.getApplicationEventPublisher().publishEvent(fieldSpringEvent);
 //        }// end of if cycle
 //

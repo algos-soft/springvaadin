@@ -3,12 +3,11 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.azione.Azione;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AlgosField;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -40,7 +39,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * Create a file chooser
      */
     @Override
-    public void chooser(AlgosEntity entityBean, Window parentDialog) {
+    public void chooser(AEntity entityBean, Window parentDialog) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Chooser", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -48,28 +47,28 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
 
     @Override
-    public void edit(AlgosEntity entityBean) {
+    public void edit(AEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
-    public void edit(AlgosEntity entityBean, AlgosField parentField) {
+    public void edit(AEntity entityBean, AlgosField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica (con parentField)", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
-    public void editLink(AlgosEntity entityBean, AlgosField parentField) {
+    public void editLink(AEntity entityBean, AlgosField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
-    public void editImage(AlgosEntity entityBean, AlgosField parentField) {
+    public void editImage(AEntity entityBean, AlgosField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Immagine", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -121,7 +120,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
 
     @Override
-    public void doppioClick(AlgosEntity entityBean) {
+    public void doppioClick(AEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("AzioneOld", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -224,7 +223,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     @Override
-    public void onApplicationEvent(AlgosSpringEvent event) {
+    public void onApplicationEvent(AEvent event) {
         if (event.getSource().getClass() == this.getClass()) {
 
             if (event instanceof ButtonSpringEvent) {
@@ -235,7 +234,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 onGridAction((ActionSpringEvent) event);
             }// end of if cycle
 
-            if (event instanceof FieldSpringEvent) {
+            if (event instanceof AFieldEvent) {
                 fieldModificato();
             }// end of if cycle
 
@@ -251,7 +250,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      */
     private void onListEvent(ButtonSpringEvent event) {
         BottonType type = event.getType();
-        AlgosEntity entityBean = event.getEntityBean();
+        AEntity entityBean = event.getEntityBean();
         AlgosField parentField = event.getParentField();
         Window parentDialog = event.getParentDialog();
 
@@ -312,7 +311,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      */
     private void onGridAction(ActionSpringEvent event) {
         TipoAzione tipo = event.geTipo();
-        AlgosEntity entityBean = event.getEntityBean();
+        AEntity entityBean = event.getEntityBean();
 
         switch (tipo) {
             case attach:

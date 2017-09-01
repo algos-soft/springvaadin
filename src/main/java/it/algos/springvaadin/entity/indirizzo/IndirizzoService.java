@@ -2,14 +2,12 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.repository.AlgosRepository;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,10 +41,10 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
-        Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
+    public AEntity crea(String indirizzo, String localita, String cap, Stato stato) {
+        AEntity entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
         if (entity == null) {
-            entity = (Indirizzo) repository.save(newEntity(indirizzo, localita, cap, stato));
+            entity = (AEntity) repository.save(newEntity(indirizzo, localita, cap, stato));
         }// end of if cycle
 
         return entity;
@@ -59,7 +57,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Indirizzo newEntity() {
+    public AEntity newEntity() {
         return newEntity("", "", "", (Stato) null);
     }// end of method
 
@@ -75,7 +73,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
+    public AEntity newEntity(String indirizzo, String localita, String cap, Stato stato) {
         return new Indirizzo(indirizzo, localita, cap, stato);
     }// end of method
 
@@ -105,12 +103,12 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return selected entities
      */
-    public Indirizzo findFirstByLocalita(String localita) {
-        Indirizzo trovato = null;
+    public AEntity findFirstByLocalita(String localita) {
+        AEntity trovato = null;
         List lista = findAllByLocalita(localita);
 
         if (lista != null && lista.size() == 1) {
-            trovato = (Indirizzo) lista.get(0);
+            trovato = (AEntity) lista.get(0);
         }// end of if cycle
 
         return trovato;
@@ -122,7 +120,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return entity
      */
-    public Indirizzo findById(String id) {
+    public AEntity findById(String id) {
         return ((IndirizzoRepository) repository).findOne(id);
     }// end of method
 

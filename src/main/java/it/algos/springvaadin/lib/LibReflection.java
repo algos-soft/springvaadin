@@ -1,7 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;
@@ -25,7 +25,7 @@ public abstract class LibReflection {
 //     * @param entityClazz     su cui operare la riflessione
 //     * @param publicFieldName property name
 //     */
-//    public static Field getField(Class<? extends AlgosEntity> entityClazz, final String publicFieldName) {
+//    public static Field getField(Class<? extends AEntity> entityClazz, final String publicFieldName) {
 //        Field field = null;
 //
 //        try { // prova ad eseguire il codice
@@ -42,7 +42,7 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      */
-    private static List<Field> getAllFieldsBase(Class<? extends AlgosEntity> entityClazz, boolean idCompreso) {
+    private static List<Field> getAllFieldsBase(Class<? extends AEntity> entityClazz, boolean idCompreso) {
         List<Field> fieldsList = null;
         Field[] fieldsArray = null;
         String fieldName = "";
@@ -75,7 +75,7 @@ public abstract class LibReflection {
      *
      * @return lista di fields
      */
-    public static List<Field> getAllFieldsPiuID(Class<? extends AlgosEntity> entityClazz) {
+    public static List<Field> getAllFieldsPiuID(Class<? extends AEntity> entityClazz) {
         return getAllFieldsBase(entityClazz, true);
     }// end of static method
 
@@ -87,7 +87,7 @@ public abstract class LibReflection {
      *
      * @return lista di fields
      */
-    public static List<Field> getAllFieldsNoID(Class<? extends AlgosEntity> entityClazz) {
+    public static List<Field> getAllFieldsNoID(Class<? extends AEntity> entityClazz) {
         return getAllFieldsBase(entityClazz, false);
     }// end of static method
 
@@ -97,9 +97,9 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutte i fieldNames, elencati in ordine di inserimento nella AlgosEntity
+     * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
-    public static List<String> getAllFieldName(final Class<? extends AlgosEntity> entityClazz, boolean showsID) {
+    public static List<String> getAllFieldName(final Class<? extends AEntity> entityClazz, boolean showsID) {
         List<String> nameList = null;
         List<Field> fieldsList = null;
 
@@ -127,7 +127,7 @@ public abstract class LibReflection {
      *
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
-    public static List<String> getAllFieldNameAlfabetico(final AlgosEntity entityBean) {
+    public static List<String> getAllFieldNameAlfabetico(final AEntity entityBean) {
         return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(),false));
     }// end of static method
 
@@ -139,7 +139,7 @@ public abstract class LibReflection {
      *
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
-    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AlgosEntity> entityClazz) {
+    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AEntity> entityClazz) {
         return LibArray.sort((ArrayList) getAllFieldName(entityClazz,false));
     }// end of static method
 
@@ -245,7 +245,7 @@ public abstract class LibReflection {
      * @return tutte le properties, elencate in ordine alfabetico
      */
     @Deprecated
-    public static String[] getAllProperties(AlgosEntity entity) {
+    public static String[] getAllProperties(AEntity entity) {
         String[] propertyNames = null;
 
         BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entity);
@@ -263,7 +263,7 @@ public abstract class LibReflection {
      * @return tutte le properties, elencate in ordine alfabetico
      */
     @Deprecated
-    public static String[] getAllProperties(Class<? extends AlgosEntity> entityClazz) {
+    public static String[] getAllProperties(Class<? extends AEntity> entityClazz) {
         String[] propertyNames = null;
 
         BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entityClazz);
@@ -283,7 +283,7 @@ public abstract class LibReflection {
      * @return properties, elencate in ordine alfabetico
      */
     @Deprecated
-    public static List<String> getProperties(AlgosEntity entity) {
+    public static List<String> getProperties(AEntity entity) {
         List<String> propertyNames = null;
         String[] propertyNamesAll = getAllProperties(entity);
 
@@ -309,7 +309,7 @@ public abstract class LibReflection {
      * @return properties, elencate in ordine alfabetico
      */
     @Deprecated
-    public static List<String> getProperties(Class<? extends AlgosEntity> entityClazz) {
+    public static List<String> getProperties(Class<? extends AEntity> entityClazz) {
         List<String> propertyNames = null;
         String[] propertyNamesAll = getAllProperties(entityClazz);
 
@@ -336,7 +336,7 @@ public abstract class LibReflection {
      *
      * @return tableName dichiarato nella Annotation @Table
      */
-    public static String getTable(AlgosEntity entity) {
+    public static String getTable(AEntity entity) {
         return getTable(entity.getClass());
     }// end of static method
 
@@ -348,7 +348,7 @@ public abstract class LibReflection {
      *
      * @return tableName dichiarato nella Annotation @Table
      */
-    public static String getTable(Class<? extends AlgosEntity> entityClazz) {
+    public static String getTable(Class<? extends AEntity> entityClazz) {
         String tableName = "";
         Table table = entityClazz.getAnnotation(Table.class);
 
@@ -368,7 +368,7 @@ public abstract class LibReflection {
      *
      * @return method pubblico
      */
-    public static Method getMethod(AlgosEntity entity, String propertyName) {
+    public static Method getMethod(AEntity entity, String propertyName) {
         return getMethod(entity.getClass(), propertyName);
     }// end of static method
 
@@ -381,7 +381,7 @@ public abstract class LibReflection {
      *
      * @return method pubblico
      */
-    public static Method getMethod(Class<? extends AlgosEntity> entityClazz, String propertyName) {
+    public static Method getMethod(Class<? extends AEntity> entityClazz, String propertyName) {
         Method method = null;
         String methodNameGet = "get" + LibText.primaMaiuscola(propertyName);
         String methodNameIs = "is" + LibText.primaMaiuscola(propertyName);
@@ -404,9 +404,9 @@ public abstract class LibReflection {
      *
      * @param entity da esaminare
      *
-     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AlgosEntity
+     * @return tutti i metodi getter,  elencati in ordine di inserimento nella AEntity
      */
-    public static List<Method> getMethods(AlgosEntity entity) {
+    public static List<Method> getMethods(AEntity entity) {
         return getMethods(entity.getClass());
     }// end of static method
 
@@ -415,9 +415,9 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutti i metodi getter, elencati in ordine di inserimento nella AlgosEntity
+     * @return tutti i metodi getter, elencati in ordine di inserimento nella AEntity
      */
-    public static List<Method> getMethods(Class<? extends AlgosEntity> entityClazz) {
+    public static List<Method> getMethods(Class<? extends AEntity> entityClazz) {
         List<Method> methods = null;
         List<String> propertyNames = getAllFieldName(entityClazz,false);
 
@@ -443,7 +443,7 @@ public abstract class LibReflection {
      * @return mappa dei valori attuali della entity, in ordine alfabetico
      */
     @Deprecated
-    public static LinkedHashMap<String, Object> getBeanMap(AlgosEntity entity) {
+    public static LinkedHashMap<String, Object> getBeanMap(AEntity entity) {
         LinkedHashMap<String, Object> map = new LinkedHashMap();
         Method method = null;
         List<String> propertiesName = getProperties(entity);
@@ -475,7 +475,7 @@ public abstract class LibReflection {
      * @return arry dei valori, in ordine alfabetico delle chiavi della mappa
      */
     @Deprecated
-    public static Object[] getValues(AlgosEntity entity) {
+    public static Object[] getValues(AEntity entity) {
         Object[] args = null;
         LinkedHashMap<String, Object> mappa = LibReflection.getBeanMap(entity);
 
@@ -520,7 +520,7 @@ public abstract class LibReflection {
      *
      * @return valore della property
      */
-    public static Object getValue(AlgosEntity entityBean, String publicFieldName) {
+    public static Object getValue(AEntity entityBean, String publicFieldName) {
         Object value = null;
         LinkedHashMap<String, Object> mappa = getBeanMap(entityBean);
 
@@ -540,7 +540,7 @@ public abstract class LibReflection {
 //     * @param attr the metamodel Attribute
 //     */
 //    @SuppressWarnings("all")
-//    public static AIField getFieldAnnotation(final Class<? extends AlgosEntity> clazz, final String publicFieldName) {
+//    public static AIField getFieldAnnotation(final Class<? extends AEntity> clazz, final String publicFieldName) {
 //        AIField fieldAnnotation = null;
 //        Annotation annotation = null;
 //        Field javaField = null;

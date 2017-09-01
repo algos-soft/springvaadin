@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AlgosEntity;
+import it.algos.springvaadin.model.AEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- * Estende la Entity astratta AlgosEntity che contiene la key property ObjectId
+ * Estende la Entity astratta AEntity che contiene la key property ObjectId
  * <p>
  * Tipicamente usata dal developer per gestire le versioni, patch e release dell'applicazione
  * Non prevede la differenziazione per Company
@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class Versione extends AlgosEntity {
+public class Versione extends AEntity {
 
     /**
      * versione della classe per la serializzazione
