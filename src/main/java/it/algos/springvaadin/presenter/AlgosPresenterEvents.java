@@ -224,6 +224,8 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      */
     @Override
     public void onApplicationEvent(AEvent event) {
+        Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+
         if (event.getSource().getClass() == this.getClass()) {
 
             if (event instanceof ButtonSpringEvent) {

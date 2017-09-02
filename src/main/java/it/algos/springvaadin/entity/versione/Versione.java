@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Versione extends AEntity {
 
     /**
@@ -57,7 +57,7 @@ public class Versione extends AEntity {
      */
     @NotEmpty(message = "Il titolo è obbligatorio")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, help = "Tipologia della versione")
+    @AIField(type = AFType.text, focus = true, help = "Tipologia della versione")
     @AIColumn()
     private String titolo;
 

@@ -155,12 +155,14 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
         AFieldEvent eventField = null;
         BottonType type = null;
         Class sourceClazz = null;
+        Class targetClazz = null;
 
         if (algosEvent instanceof AFieldEvent) {
             eventField = (AFieldEvent) algosEvent;
+            targetClazz = eventField.getTarget() != null ? eventField.getTarget().getClass() : null;
             if (eventField.getType() == EventType.valueChanged) {
             }// end of if cycle
-            if (eventField.getType() == EventType.linkTarget) {
+            if (eventField.getType() == EventType.linkTarget && targetClazz == thisClazz) {
                 this.show(eventField.getEntityBean(), (ApplicationListener) eventField.getSource());
             }// end of if cycle
         }// end of if cycle

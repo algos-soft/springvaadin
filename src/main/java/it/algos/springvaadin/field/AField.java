@@ -187,6 +187,19 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         }// end of if cycle
     }// end of method
 
+    public void setTarget(ApplicationListener target) {
+        this.target = target;
+        if (button != null) {
+            if (target != null) {
+                button.setTarget(target);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                button.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
+    }// end of method
+
     /**
      * Aggiunge il listener al componente base del field
      */

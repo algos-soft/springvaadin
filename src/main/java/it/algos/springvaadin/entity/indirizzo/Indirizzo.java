@@ -39,7 +39,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Indirizzo extends AEntity {
 
 
@@ -54,7 +54,7 @@ public class Indirizzo extends AEntity {
      */
     @NotEmpty(message = "L'indirizzo è obbligatorio")
     @Size(min = 2, max = 40)
-    @AIField(type = AFType.text, widthEM = 20, help = "Via, nome e numero")
+    @AIField(type = AFType.text, widthEM = 20, focus = true, help = "Via, nome e numero")
     @AIColumn(width = 300)
     private String indirizzo = "";
 
@@ -88,7 +88,7 @@ public class Indirizzo extends AEntity {
     @Size(min = 3, max = 20)
     @AIField(type = AFType.combo, clazz = Stato.class)
     @AIColumn(width = 140)
-    private Stato stato ;
+    private Stato stato;
 
 
     /**

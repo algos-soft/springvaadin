@@ -198,45 +198,32 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
+     * Costruisce il binder per questo Form e questa Entity
+     * <p>
      * Aggiunge i campi al binder
+     * Aggiunge eventuali validatori
+     * Aggiunge eventuali convertitori
+     * Aggiunge eventuali validatori (successivamente ai convertitori)
+     * Legge la entity, inserendo i valori nei campi grafici
      */
     protected void bindFields() {
         binder = new Binder(entityBean.getClass());
-        List<AbstractValidator> listaValidatorPre;
-        List<AlgosConverter> listaConverter;
-        List<AbstractValidator> listaValidatorPost;
-        Object value = null;
         String publicFieldName;
-
-        AbstractField field2 = null;
 
         for (AField field : fieldList) {
             publicFieldName = field.getName();
-            listaValidatorPre = LibField.creaValidatorsPre(entityBean, publicFieldName);
-            listaConverter = LibField.creaConverters(entityBean, publicFieldName);
-            listaValidatorPost = LibField.creaValidatorsPost(entityBean, publicFieldName);
 
-//            if (((AbstractField) field).isEnabled()) {
-                if (true) {
-                Binder.BindingBuilder builder = binder.forField(((AbstractField) field));
-                for (AbstractValidator validator : listaValidatorPre) {
-                    builder = builder.withValidator(validator);
-                }// end of for cycle
-                for (Converter converter : listaConverter) {
-                    builder = builder.withConverter(converter);
-                }// end of for cycle
-                for (AbstractValidator validator : listaValidatorPost) {
-                    builder = builder.withValidator(validator);
-                }// end of for cycle
-                builder.bind(publicFieldName);
-            } else {
-                try { // prova ad eseguire il codice
-                    value = LibReflection.getValue(entityBean, publicFieldName);
-                    ((AbstractField) field).setValue(value);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.warn(unErrore.getMessage());
-                }// fine del blocco try-catch
-            }// end of if/else cycle
+            Binder.BindingBuilder builder = binder.forField(field);
+            for (AbstractValidator validator : LibField.creaValidatorsPre(entityBean, publicFieldName)) {
+                builder = builder.withValidator(validator);
+            }// end of for cycle
+            for (Converter converter : LibField.creaConverters(entityBean, publicFieldName)) {
+                builder = builder.withConverter(converter);
+            }// end of for cycle
+            for (AbstractValidator validator : LibField.creaValidatorsPost(entityBean, publicFieldName)) {
+                builder = builder.withValidator(validator);
+            }// end of for cycle
+            builder.bind(publicFieldName);
             field.initContent();
         }// end of for cycle
 

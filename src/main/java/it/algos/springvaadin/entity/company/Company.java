@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Company extends AEntity {
 
 
@@ -42,7 +42,7 @@ public class Company extends AEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La sigla interna è obbligatoria")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, widthEM = 8, help = "Codice interno")
+    @AIField(type = AFType.text, widthEM = 8, focus = true, help = "Codice interno")
     @AIColumn(width = 80)
     private String sigla;
 
