@@ -3,6 +3,7 @@ package it.algos.springvaadin.bottone;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
@@ -64,6 +65,10 @@ public abstract class Bottone extends Button {
      * Property regolata DOPO la chiamata del browser
      */
     protected AEntity entityBean;
+
+
+    //--Opzionale (field) che che contiene il bottone (solo alcuni campi come Link, Image, ...)
+    protected AField fieldParent;
 
 
     /**
@@ -182,6 +187,11 @@ public abstract class Bottone extends Button {
 
     public void setTarget(ApplicationListener target) {
         this.target = target;
+    }// end of method
+
+
+    public void setFieldParent(AField fieldParent) {
+        this.fieldParent = fieldParent;
     }// end of method
 
     public void setType(BottonType type) {

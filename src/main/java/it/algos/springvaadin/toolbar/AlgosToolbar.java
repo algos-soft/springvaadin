@@ -2,6 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.ui.HorizontalLayout;
 import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
@@ -65,6 +66,14 @@ public abstract class AlgosToolbar extends HorizontalLayout {
     }// end of method
 
     public void enableAccetta(boolean status) {
+    }// end of method
+
+    /**
+     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
+     *
+     * @param parentField che ha richiesto questo form
+     */
+    public void setParentField(AField parentField) {
     }// end of method
 
 }// end of class

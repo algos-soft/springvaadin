@@ -2,7 +2,7 @@ package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Window;
-import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 
 /**
@@ -18,11 +18,11 @@ public interface ListListener {
 
     public void edit(AEntity entityBean);
 
-    public void edit(AEntity entityBean, AlgosField parentField);
+    public void edit(AEntity entityBean, AField parentField);
 
-    public void editLink(AEntity entityBean, AlgosField parentField);
+    public void editLink(AEntity entityBean, AField parentField);
 
-    public void editImage(AEntity entityBean, AlgosField parentField);
+    public void editImage(AEntity entityBean, AField parentField);
 
     public void delete();
 

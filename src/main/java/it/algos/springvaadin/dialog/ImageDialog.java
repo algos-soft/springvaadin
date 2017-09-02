@@ -151,15 +151,14 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     @Override
     public void onApplicationEvent(AEvent algosEvent) {
         Class thisClazz = this.getClass();
-        ButtonSpringEvent event = null;
+        Class sourceClazz = algosEvent.getSource() != null ? algosEvent.getSource().getClass() : null;
+        Class targetClazz = algosEvent.getTarget() != null ? algosEvent.getTarget().getClass() : null;
+        ButtonSpringEvent eventButton = null;
         AFieldEvent eventField = null;
         BottonType type = null;
-        Class sourceClazz = null;
-        Class targetClazz = null;
 
         if (algosEvent instanceof AFieldEvent) {
             eventField = (AFieldEvent) algosEvent;
-            targetClazz = eventField.getTarget() != null ? eventField.getTarget().getClass() : null;
             if (eventField.getType() == EventType.valueChanged) {
             }// end of if cycle
             if (eventField.getType() == EventType.linkTarget && targetClazz == thisClazz) {
@@ -169,9 +168,8 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
 
         if (algosEvent instanceof ButtonSpringEvent) {
-            event = (ButtonSpringEvent) algosEvent;
-            type = event.getType();
-            sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+            eventButton = (ButtonSpringEvent) algosEvent;
+            type = eventButton.getType();
 
             if (sourceClazz != null && sourceClazz == thisClazz) {
                 switch (type) {
@@ -205,6 +203,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     private void fireRevert() {
         applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, BottonType.revert));
     }// end of method
+
 
     public class Pippo implements Edit2Dialog.Recipient {
         @Override

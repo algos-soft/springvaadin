@@ -444,6 +444,16 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of method
 
     /**
+     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
+     *
+     * @param parentField che ha richiesto questo form
+     */
+    @Override
+    public void setParentField(AField parentField) {
+        toolbar.setParentField(parentField);
+    }// end of method
+
+    /**
      * Registra eventuali dipendenze di un field del Form
      */
     @Override

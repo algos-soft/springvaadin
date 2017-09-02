@@ -17,9 +17,6 @@ public class AFieldEvent extends AEvent {
     //--Valore modificato oppure link verso un target diverso dal field
     private EventType type;
 
-    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
-    private ApplicationListener target;
-
 
     //--Opzionale (entityBean) in elaborazione
     private AEntity entityBean;
@@ -51,9 +48,8 @@ public class AFieldEvent extends AEvent {
      * @param field      Opzionale (field) che ha generato l'evento
      */
     public AFieldEvent(EventType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
-        super(source);
+        super(source, target);
         this.type = type;
-        this.target = target;
         this.entityBean = entityBean;
         this.field = field;
     }// end of constructor
@@ -63,9 +59,6 @@ public class AFieldEvent extends AEvent {
         return type;
     }// end of method
 
-    public ApplicationListener getTarget() {
-        return target;
-    }// end of method
 
     public AEntity getEntityBean() {
         return entityBean;

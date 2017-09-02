@@ -3,6 +3,7 @@ package it.algos.springvaadin.event;
 
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.bottone.BottonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
@@ -18,7 +19,7 @@ public class ButtonSpringEvent extends AEvent {
     private final BottonType type;
 
     //--opzionale
-    private AlgosField parentField;
+    private AField parentField;
 
     //--opzionale
     private Window parentDialog;
@@ -44,7 +45,7 @@ public class ButtonSpringEvent extends AEvent {
         this.entityBean = entityBean;
     }// end of constructor
 
-    public ButtonSpringEvent(ApplicationListener source, BottonType type, AEntity entityBean, AlgosField parentField) {
+    public ButtonSpringEvent(ApplicationListener source, BottonType type, AEntity entityBean, AField parentField) {
         super(source);
         this.type = type;
         this.entityBean = entityBean;
@@ -60,7 +61,7 @@ public class ButtonSpringEvent extends AEvent {
         return entityBean;
     }// end of method
 
-    public AlgosField getParentField() {
+    public AField getParentField() {
         return parentField;
     }// end of method
 

@@ -15,11 +15,31 @@ import org.springframework.context.ApplicationListener;
  */
 public abstract class AEvent extends ApplicationEvent {
 
+
+    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+    private ApplicationListener target;
+
+
     /**
-     * @param source (obbligatorio) presenter che gestisce l'evento
+     * @param source Obbligatorio presenter che gestisce l'evento
      */
     public AEvent(ApplicationListener source) {
-        super(source);
+        this(source, null);
     }// end of constructor
+
+
+    /**
+     * @param source Obbligatorio presenter che gestisce l'evento
+     * @param target Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+     */
+    public AEvent(ApplicationListener source, ApplicationListener target) {
+        super(source);
+        this.target = target;
+    }// end of constructor
+
+
+    public ApplicationListener getTarget() {
+        return target;
+    }// end of method
 
 }// end of abstract class

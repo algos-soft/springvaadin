@@ -2,6 +2,7 @@ package it.algos.springvaadin.form;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
@@ -125,6 +126,14 @@ public interface AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableAccetta(boolean status);
+
+
+    /**
+     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
+     *
+     * @param parentField che ha richiesto questo form
+     */
+    public void setParentField(AField parentField);
 
 
     /**

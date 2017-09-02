@@ -6,10 +6,11 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.azione.TipoAzione;
 import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.event.*;
-import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 18/06/17
@@ -54,21 +55,21 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void edit(AEntity entityBean, AlgosField parentField) {
+    public void edit(AEntity entityBean, AField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica (con parentField)", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
-    public void editLink(AEntity entityBean, AlgosField parentField) {
+    public void editLink(AEntity entityBean, AField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
-    public void editImage(AEntity entityBean, AlgosField parentField) {
+    public void editImage(AEntity entityBean, AField parentField) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Immagine", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -220,28 +221,32 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     /**
      * Handle an application event.
      *
-     * @param event the event to respond to
+     * @param event to respond to
      */
     @Override
     public void onApplicationEvent(AEvent event) {
+        Class thisClazz = this.getClass();
         Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
 
-        if (event.getSource().getClass() == this.getClass()) {
-
-            if (event instanceof ButtonSpringEvent) {
-                onListEvent((ButtonSpringEvent) event);
-            }// end of if/else cycle
-
-            if (event instanceof ActionSpringEvent) {
-                onGridAction((ActionSpringEvent) event);
+        if (event instanceof AFieldEvent) {
+            if (((AFieldEvent) event).getType() == EventType.valueChanged) {
+                fieldModificato();
             }// end of if cycle
-
-            if (event instanceof AFieldEvent) {
-                if (((AFieldEvent) event).getType() == EventType.valueChanged) {
-                    fieldModificato();
-                }// end of if cycle
+            if (((AFieldEvent) event).getType() == EventType.linkTarget && targetClazz == thisClazz) {
+                AEntity entityBean = ((AFieldEvent) event).getEntityBean();
+                editLink(entityBean, ((AFieldEvent) event).getField());
             }// end of if cycle
         }// end of if cycle
+
+        if (event instanceof ButtonSpringEvent && sourceClazz == thisClazz) {
+            onListEvent((ButtonSpringEvent) event);
+        }// end of if cycle
+
+        if (event instanceof ActionSpringEvent && sourceClazz == thisClazz) {
+            onGridAction((ActionSpringEvent) event);
+        }// end of if cycle
+
     }// end of method
 
 
@@ -254,7 +259,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     private void onListEvent(ButtonSpringEvent event) {
         BottonType type = event.getType();
         AEntity entityBean = event.getEntityBean();
-        AlgosField parentField = event.getParentField();
+        AField parentField = event.getParentField();
         Window parentDialog = event.getParentDialog();
 
         switch (type) {

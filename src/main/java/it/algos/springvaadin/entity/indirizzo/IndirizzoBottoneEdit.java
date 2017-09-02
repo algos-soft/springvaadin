@@ -5,6 +5,7 @@ import com.vaadin.ui.Button;
 import it.algos.springvaadin.bottone.BottonType;
 import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
@@ -19,7 +20,7 @@ public class IndirizzoBottoneEdit extends Bottone {
 
     @Autowired
     @Qualifier(Cost.TAG_IND)
-    private AlgosField field;
+    private AField field;
 
     public IndirizzoBottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);

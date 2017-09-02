@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -39,9 +40,10 @@ public class CompanyForm extends AlgosFormImpl {
     @Override
     protected void fixFields() {
         AField field = getField("indirizzo");
+        AEntity entityIndirizzo = ((Company) entityBean).getIndirizzo();
 
         if (field != null && field instanceof ALinkField) {
-            field.setEntityBean(entityBean);
+            field.setEntityBean(entityIndirizzo);
             field.setTarget(target);
         }// end of if cycle
 

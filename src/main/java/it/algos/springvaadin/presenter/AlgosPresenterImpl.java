@@ -2,6 +2,8 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.*;
 import it.algos.springvaadin.dialog.ImageDialog;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.model.AEntity;
@@ -51,7 +53,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     protected Class<? extends AEntity> entityClass;
 
 
-    private AlgosField parentField;
+    private AField parentField;
 
 
     /**
@@ -120,58 +122,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
-//    /**
-//     * Evento
-//     * Apre un dialodo standard di selezioni di files
-//     * Create a file chooser
-//     */
-//    @Override
-//    public void chooser(AEntity entityBean, Window parentDialog) {
-//
-////        Window win=new Window();
-////        LibVaadin.getUI().addWindow(win);
-//        Edit2Dialog dialog= new Edit2Dialog(new Pippo());
-//
-////java.awt.Component comp = new java.awt.Panel();
-////        win.setContent(new java.awt.Panel());
-////        JTextField firstName = new JTextField();
-////        final JComponent[] inputs = new JComponent[] {
-////                new JLabel("First"),
-////                firstName,
-////        };
-////        int result = JOptionPane.showConfirmDialog(comp, inputs, "My custom dialog", JOptionPane.PLAIN_MESSAGE);
-////        if (result == JOptionPane.OK_OPTION) {
-////            System.out.println("You entered " + firstName.getText() );
-////        } else {
-////            System.out.println("User canceled / closed the dialog, result = " + result);
-////        }
-//
-//
-////        final JFileChooser fileChooser = new JFileChooser();
-////        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-////        File folder = VaadinService.getCurrent().getBaseDirectory();
-////        EditDialog dialog = new EditDialog("Nome del file da caricare",null);
-////        dialog.show();
-////        Object obj=dialog.getField();
-////        java.awt.Window win=new java.awt.Window();
-////        LibVaadin.getUI().addWindow(win);
-////java.awt.Panel comp = new java.awt.Panel();
-////        win.setContent(comp);
-//int a=87;
-////        int result = fileChooser.showOpenDialog(null);
-////        int returnVal = fc.showOpenDialog(aComponent);
-//    }// end of method
-
-
-//    public  class Pippo implements Edit2Dialog.Recipient{
-//
-//        @Override
-//        public void gotInput(String input,Window win) {
-//            int a=987;
-//            win.close();
-//        }
-//    }// end of inner class
-
     /**
      * Evento
      * Edit button pressed in grid
@@ -209,7 +159,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa i dati alla view
      */
     @Override
-    public void edit(AEntity entityBean, AlgosField parentField) {
+    public void edit(AEntity entityBean, AField parentField) {
         this.parentField = parentField;
 
         if (entityBean != null) {
@@ -234,15 +184,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Riceve il form da utilizzare
      */
     @Override
-    public void editLink(AEntity entityBean, AlgosField parentField) {
-
+    public void editLink(AEntity entityBean, AField parentField) {
         if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
+            ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setParentField(parentField);
             modifica(entityBean);
         }// end of if cycle
     }// end of method
-
-
 
 
     /**
@@ -270,6 +218,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             entityBean = service.newEntity();
         }// end of if cycle
         view.setForm(entityBean, fields);
+        int a = 87;
     }// end of method
 
     /**

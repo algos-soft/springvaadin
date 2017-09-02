@@ -51,6 +51,7 @@ public class ALinkField extends AField {
     @Override
     public Component initContent() {
         if (button != null && label != null) {
+            button.setFieldParent(this);
             return new HorizontalLayout(button, label);
         } else {
             return null;

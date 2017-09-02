@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.Size;
 
@@ -57,6 +58,7 @@ public class Company extends AEntity {
 
 
     //--indirizzo (facoltativo)
+    @DBRef
     @AIField(type = AFType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
     private Indirizzo indirizzo;

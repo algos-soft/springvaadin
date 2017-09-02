@@ -2,6 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -63,5 +64,15 @@ public class FormToolbar extends AlgosToolbar {
         }// end of if cycle
     }// end of method
 
+    /**
+     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
+     *
+     * @param parentField che ha richiesto questo form
+     */
+    public void setParentField(AField parentField) {
+        if (buttonRegistra != null) {
+            buttonRegistra.setFieldParent(parentField);
+        }// end of if cycle
+    }// end of method
 
 }// end of class

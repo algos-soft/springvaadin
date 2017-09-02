@@ -42,7 +42,7 @@ public class BottoneLink extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(EventType.linkTarget, source, target, entityBean, null));
+            applicationEventPublisher.publishEvent(new AFieldEvent(EventType.linkTarget, source, target, entityBean, fieldParent));
         }// end of if cycle
     }// end of if/else cycle
 
