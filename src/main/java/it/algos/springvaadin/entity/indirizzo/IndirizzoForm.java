@@ -27,32 +27,6 @@ public class IndirizzoForm extends AlgosFormImpl {
     }// end of Spring constructor
 
 
-//    /**
-//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-//     * (si può usare qualsiasi firma)
-//     * Regola il modello-dati specifico nel Service
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-//        super.inizia();
-//        super.setUsaSeparateFormDialog(true);
-//    }// end of method
-
-//    /**
-//     * Creazione del form
-//     * Pannello a tutto schermo, oppure finestra popup
-//     * Ricrea tutto ogni volta che diventa attivo
-//     *
-//     * @param presenter  di riferimento per gli eventi
-//     * @param entityBean istanza da presentare
-//     * @param fields     del form da visualizzare
-//     */
-//    @Override
-//    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields) {
-//        this.entityBean = entityBean;
-//        usaSeparateFormDialog(presenter, fields);
-//    }// end of method
-
 
 }// end of class
 

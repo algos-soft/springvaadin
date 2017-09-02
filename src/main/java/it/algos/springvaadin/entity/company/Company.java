@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.AFType;
 import it.algos.springvaadin.annotation.AIColumn;
@@ -58,7 +59,7 @@ public class Company extends AEntity {
     //--indirizzo (facoltativo)
     @AIField(type = AFType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
-    private AEntity indirizzo;
+    private Indirizzo indirizzo;
 
 
     /**

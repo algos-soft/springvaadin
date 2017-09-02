@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_IND)
-@AIList()
+//@AIList()
 @AIForm(showsID = true)
 @Data
 @NoArgsConstructor

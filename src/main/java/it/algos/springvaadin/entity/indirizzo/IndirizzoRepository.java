@@ -17,7 +17,7 @@ import java.util.List;
 @Qualifier(Cost.TAG_IND)
 public interface IndirizzoRepository extends MongoRepository<Indirizzo, String> {
 
-    public AEntity findByIndirizzo(String indirizzo);
+    public Indirizzo findByIndirizzo(String indirizzo);
 
     public List<Indirizzo> findTop1AllByLocalita(String localita);
 

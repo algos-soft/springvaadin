@@ -26,7 +26,7 @@ public class IndirizzoPresenter extends AlgosPresenterImpl {
      */
     public IndirizzoPresenter(@Qualifier(Cost.TAG_IND) AlgosView view, @Qualifier(Cost.TAG_IND) AlgosService service, AlgosSearch search) {
         super(view, service, search);
-        super.entityClass = AEntity.class;
+        super.entityClass = Indirizzo.class;
     }// end of Spring constructor
 
 

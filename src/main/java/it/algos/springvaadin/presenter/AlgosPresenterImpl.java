@@ -243,21 +243,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
-    /**
-     * Evento
-     * Edit button pressed in field Image
-     */
-    @Override
-    public void editImage(AEntity entityBean, AlgosField parentField) {
-
-        if (imageDialog != null) {
-            imageDialog.show(entityBean, this);
-        }// end of if cycle
-
-//        if (entityBean != null) {
-//            modifica(entityBean);
-//        }// end of if cycle
-    }// end of method
 
 
     /**

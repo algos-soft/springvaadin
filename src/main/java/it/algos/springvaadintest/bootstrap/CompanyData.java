@@ -3,6 +3,7 @@ package it.algos.springvaadintest.bootstrap;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.model.AEntity;
@@ -62,7 +63,7 @@ public class CompanyData {
      * Crea una collezione di company
      */
     private void creaCompany() {
-        List<AEntity> lista = indirizzoService.findAll();
+        List<Indirizzo> lista = indirizzoService.findAll();
         assert lista != null;
 
         if (lista.size() > 0) {
@@ -91,7 +92,7 @@ public class CompanyData {
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param indirizzo   (facoltativo)
      */
-    private Company creaAndLog(String sigla, String descrizione, AEntity indirizzo) {
+    private Company creaAndLog(String sigla, String descrizione, Indirizzo indirizzo) {
         Company comp = service.crea(sigla, descrizione, indirizzo);
         log.warn("Company: " + comp);
         return comp;

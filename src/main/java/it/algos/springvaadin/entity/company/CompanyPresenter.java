@@ -24,8 +24,8 @@ public class CompanyPresenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public CompanyPresenter(@Qualifier(Cost.TAG_COMP) AlgosView view, @Qualifier(Cost.TAG_COMP) AlgosService service,AlgosSearch search) {
-        super(view, service,search);
+    public CompanyPresenter(@Qualifier(Cost.TAG_COMP) AlgosView view, @Qualifier(Cost.TAG_COMP) AlgosService service, AlgosSearch search) {
+        super(view, service, search);
         super.entityClass = Company.class;
     }// end of Spring constructor
 

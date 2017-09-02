@@ -268,9 +268,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             case editLink:
                 editLink(entityBean, parentField);
                 break;
-            case image:
-                editImage(entityBean, parentField);
-                break;
+//            case image:
+//                editImage(entityBean, parentField);
+//                break;
             case delete:
                 delete();
                 break;

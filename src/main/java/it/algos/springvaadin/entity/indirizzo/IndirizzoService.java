@@ -41,10 +41,10 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public AEntity crea(String indirizzo, String localita, String cap, Stato stato) {
-        AEntity entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
+    public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
+        Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
         if (entity == null) {
-            entity = (AEntity) repository.save(newEntity(indirizzo, localita, cap, stato));
+            entity = (Indirizzo) repository.save(newEntity(indirizzo, localita, cap, stato));
         }// end of if cycle
 
         return entity;
@@ -57,7 +57,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public AEntity newEntity() {
+    public Indirizzo newEntity() {
         return newEntity("", "", "", (Stato) null);
     }// end of method
 
@@ -73,7 +73,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public AEntity newEntity(String indirizzo, String localita, String cap, Stato stato) {
+    public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
         return new Indirizzo(indirizzo, localita, cap, stato);
     }// end of method
 
@@ -103,12 +103,12 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return selected entities
      */
-    public AEntity findFirstByLocalita(String localita) {
-        AEntity trovato = null;
+    public Indirizzo findFirstByLocalita(String localita) {
+        Indirizzo trovato = null;
         List lista = findAllByLocalita(localita);
 
         if (lista != null && lista.size() == 1) {
-            trovato = (AEntity) lista.get(0);
+            trovato = (Indirizzo) lista.get(0);
         }// end of if cycle
 
         return trovato;
@@ -120,7 +120,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return entity
      */
-    public AEntity findById(String id) {
+    public Indirizzo findById(String id) {
         return ((IndirizzoRepository) repository).findOne(id);
     }// end of method
 
