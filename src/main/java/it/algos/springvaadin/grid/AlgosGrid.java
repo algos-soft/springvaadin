@@ -81,9 +81,9 @@ public class AlgosGrid extends Grid {
 
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
         if (modelloSelezione == SelectionMode.SINGLE) {
-            applicationEventPublisher.publishEvent(new AActionEvent(presenter, TypeAction.singleSelectionChanged));
+            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
         } else {
-            applicationEventPublisher.publishEvent(new AActionEvent(presenter, TypeAction.multiSelectionChanged));
+            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.multiSelectionChanged, presenter));
         }// end of if/else cycle
 
     }// end of method
@@ -155,7 +155,7 @@ public class AlgosGrid extends Grid {
                 try { // prova ad eseguire il codice
                     selezione = this.asMultiSelect();
                     if (selezione instanceof MultiSelect) {
-                        selezionata = ((MultiSelect)selezione).getSelectedItems().size() == 1;
+                        selezionata = ((MultiSelect) selezione).getSelectedItems().size() == 1;
                     }// end of if cycle
                 } catch (Exception unErrore) { // intercetta l'errore
                 }// fine del blocco try-catch

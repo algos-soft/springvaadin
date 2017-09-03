@@ -197,7 +197,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
     private void fireRevert() {
-        applicationEventPublisher.publishEvent(new AButtonEvent(presenter, TypeButton.revert));
+        applicationEventPublisher.publishEvent(new AButtonEvent(TypeButton.revert, presenter, null, null, null));
     }// end of method
 
 

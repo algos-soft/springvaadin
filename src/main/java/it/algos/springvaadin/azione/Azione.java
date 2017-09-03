@@ -65,7 +65,7 @@ public abstract class Azione {
      */
     protected void fire(EventObject event, AEntity entityBean) {
         AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
-        applicationEventPublisher.publishEvent(new AActionEvent(presenter, tipo, entityBean));
+        applicationEventPublisher.publishEvent(new AActionEvent(tipo, presenter, null, entityBean, null));
     }// end of method
 
 

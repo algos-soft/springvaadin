@@ -258,7 +258,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     private void onListEvent(AButtonEvent event) {
         TypeButton type = event.getType();
         AEntity entityBean = event.getEntityBean();
-        AField parentField = event.getParentField();
+        AField parentField = event.getField();
         Window parentDialog = event.getParentDialog();
 
         switch (type) {
@@ -317,7 +317,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onGridAction(AActionEvent event) {
-        TypeAction tipo = event.geTipo();
+        TypeAction tipo = event.getType();
         AEntity entityBean = event.getEntityBean();
 
         switch (tipo) {

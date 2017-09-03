@@ -165,12 +165,14 @@ public abstract class Bottone extends Button {
      * Bottoni specifici possono costruire un evento con informazioni aggiuntive
      */
     protected void fire(Button.ClickEvent clickEvent) {
+        AButtonEvent evento;
+
         if (source != null) {
+            evento = new AButtonEvent(type, source, null, null, null);
             if (parentDialog != null) {
-                applicationEventPublisher.publishEvent(new AButtonEvent(source, type, parentDialog));
-            } else {
-                applicationEventPublisher.publishEvent(new AButtonEvent(source, type));
-            }// end of if/else cycle
+                evento.setParentDialog(parentDialog);
+            }// end of if cycle
+            applicationEventPublisher.publishEvent(evento);
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
         }// end of if/else cycle

@@ -33,7 +33,7 @@ public class BottoneEdit extends Bottone {
             entityBean = ((AlgosPresenterImpl) source).getView().getEntityBean();
         }// end of if cycle
 
-        applicationEventPublisher.publishEvent(new AButtonEvent(source, type, entityBean));
+        applicationEventPublisher.publishEvent(new AButtonEvent(type, source, null, entityBean, null));
     }// end of method
 
 }// end of class
