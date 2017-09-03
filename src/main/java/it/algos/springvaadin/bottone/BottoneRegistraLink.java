@@ -11,18 +11,20 @@ import org.springframework.context.annotation.Scope;
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Registra una entity nel modulo corrente
+ * Date: dom, 03-set-2017
+ * Time: 08:46
+ * Registra una entity nel modulo linkato
+ * Esegue alcune regolazioni nel modulo chiamante
  */
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.BOT_REGISTRA)
-public class BottoneRegistra extends Bottone {
+public class BottoneRegistraLink extends Bottone {
 
-
-    public BottoneRegistra(ApplicationEventPublisher applicationEventPublisher) {
-       super(applicationEventPublisher);
-        super.setType(TypeButton.registra);
+    public BottoneRegistraLink(ApplicationEventPublisher publisher) {
+        super(publisher);
+        super.setType(TypeButton.registraLink);
     }// end of @Autowired constructor
 
-
 }// end of class
+

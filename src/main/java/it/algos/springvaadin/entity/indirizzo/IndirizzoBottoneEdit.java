@@ -40,7 +40,7 @@ public class IndirizzoBottoneEdit extends Bottone {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        applicationEventPublisher.publishEvent(new AButtonEvent(type, source, null, entityBean, field));
+        publisher.publishEvent(new AButtonEvent(type, source, null, entityBean, field));
     }// end of method
 
 }// end of class

@@ -35,7 +35,7 @@ public abstract class Bottone extends Button {
     /**
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
-    protected ApplicationEventPublisher applicationEventPublisher;
+    protected ApplicationEventPublisher publisher;
 
 
     /**
@@ -76,8 +76,8 @@ public abstract class Bottone extends Button {
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
      */
-    public Bottone(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
+    public Bottone(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
     }// end of @Autowired constructor
 
 
@@ -172,7 +172,7 @@ public abstract class Bottone extends Button {
             if (parentDialog != null) {
                 evento.setParentDialog(parentDialog);
             }// end of if cycle
-            applicationEventPublisher.publishEvent(evento);
+            publisher.publishEvent(evento);
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
         }// end of if/else cycle
@@ -204,10 +204,6 @@ public abstract class Bottone extends Button {
 
     public TypeButton getType() {
         return type;
-    }// end of method
-
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
     }// end of method
 
 }// end of abstract class

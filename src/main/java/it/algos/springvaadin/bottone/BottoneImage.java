@@ -38,7 +38,7 @@ public class BottoneImage extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, null));
+            publisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, null));
         }// end of if cycle
     }// end of if/else cycle
 

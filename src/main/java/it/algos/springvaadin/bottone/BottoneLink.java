@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
  * User: gac
  * Date: ven, 01-set-2017
  * Time: 07:42
+ * Apertura di un collegamento (target) in un altro modulo
  */
 @SpringComponent
 @Scope("prototype")
@@ -42,7 +43,7 @@ public class BottoneLink extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, fieldParent));
+            publisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, fieldParent));
         }// end of if cycle
     }// end of if/else cycle
 

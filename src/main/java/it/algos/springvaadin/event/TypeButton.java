@@ -32,6 +32,7 @@ public enum TypeButton {
     image("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    registraLink(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     show(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN);
