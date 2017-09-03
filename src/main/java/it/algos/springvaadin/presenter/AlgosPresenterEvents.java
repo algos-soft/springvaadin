@@ -232,13 +232,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             if (((AFieldEvent) event).getType() == TypeField.valueChanged) {
                 fieldModificato();
             }// end of if cycle
-            if (((AFieldEvent) event).getType() == TypeField.linkTarget && targetClazz == thisClazz) {
-                AEntity entityBean = ((AFieldEvent) event).getEntityBean();
-                editLink(entityBean, ((AFieldEvent) event).getField());
-            }// end of if cycle
+//            if (((AFieldEvent) event).getType() == TypeField.linkTarget && targetClazz == thisClazz) {
+//                AEntity entityBean = ((AFieldEvent) event).getEntityBean();
+//                editLink(entityBean, ((AFieldEvent) event).getField());
+//            }// end of if cycle
         }// end of if cycle
 
-        if (event instanceof AButtonEvent && sourceClazz == thisClazz) {
+        if (event instanceof AButtonEvent && (sourceClazz == thisClazz) || targetClazz == thisClazz) {
             onListEvent((AButtonEvent) event);
         }// end of if cycle
 
@@ -256,12 +256,12 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onListEvent(AButtonEvent event) {
-        TypeButton type = event.getType();
+        Class thisClazz = this.getClass();
+        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
         AEntity entityBean = event.getEntityBean();
         AField parentField = event.getField();
-        Window parentDialog = event.getParentDialog();
 
-        switch (type) {
+        switch (event.getType()) {
             case create:
                 create();
                 break;
@@ -273,6 +273,16 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
             case editLink:
                 editLink(entityBean, parentField);
+                break;
+            case linkRegistra:
+                if ((targetClazz == thisClazz)) {
+                    editLink(entityBean, parentField);
+                }// end of if cycle
+                break;
+            case linkAccetta:
+                if ((targetClazz == thisClazz)) {
+                    editLink(entityBean, parentField);
+                }// end of if cycle
                 break;
 //            case image:
 //                editImage(entityBean, parentField);

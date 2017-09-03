@@ -13,7 +13,7 @@ import java.util.List;
  * Contratto d'annotation con i metodi che la View rende disponibili all'applicazione,
  * in particolare ad AlgosPresenter
  * Implementati nella classe concreta AlgosViewImpl
- *
+ * <p>
  * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
  * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
  * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
@@ -42,8 +42,9 @@ public interface AlgosView extends View {
      *
      * @param entity di riferimento
      * @param fields visibili ed ordinati del Form
+     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void setForm(AEntity entity, List<String> fields);
+    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink);
 
 
     /**
@@ -60,7 +61,6 @@ public interface AlgosView extends View {
      * @return true se è selezionata una ed una sola riga nella Grid
      */
     public boolean isUnaRigaSelezionata();
-
 
 
     /**
@@ -183,7 +183,6 @@ public interface AlgosView extends View {
 
     /**
      * Registra eventuali dipendenze di un field del Form
-     *
      */
     public void saveSons();
 

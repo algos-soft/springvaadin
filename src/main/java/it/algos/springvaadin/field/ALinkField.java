@@ -13,6 +13,7 @@ import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,19 +35,46 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_LINK)
 public class ALinkField extends AField {
 
-
+    //--componente grafico del field per visualizzare il toString() dell'istanza rappresentata nel field
     private Label label = new LabelBold();
 
+    //--può usare il bottone Registra (standard), oppure in alternativa il bottone Accetta
+    private Bottone buttonAccetta;
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public ALinkField(@Qualifier(Cost.BOT_LINK) Bottone button) {
+    public ALinkField(@Qualifier(Cost.BOT_LINK_REGISTRA) Bottone button,
+                      @Qualifier(Cost.BOT_LINK_ACCETTA) Bottone buttonAccetta) {
         super(button);
+        this.buttonAccetta = buttonAccetta;
     }// end of @Autowired constructor
 
+
+
+    /**
+     * Regolazioni varie DOPO aver creato l'istanza
+     * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
+     */
+    protected void inizia(String publicFieldName, ApplicationListener source) {
+        super.inizia(publicFieldName, source);
+        if (button != null) {
+            button.setSource(source);
+        }// end of if cycle
+        if (buttonAccetta != null) {
+            buttonAccetta.setSource(source);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Sostituisce il bottone standard RegistraLink con AccettaLink, prima di visualizzarli in initContent()
+     */
+    public void usaBottoneAccetta() {
+        super.button = buttonAccetta;
+    }// end of method
 
     @Override
     public Component initContent() {
@@ -57,6 +85,7 @@ public class ALinkField extends AField {
             return null;
         }// end of if/else cycle
     }// end of method
+
 
     /**
      * Visualizza graficamente nella UI i componenti grafici (uno o più)

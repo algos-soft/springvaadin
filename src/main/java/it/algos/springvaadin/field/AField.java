@@ -90,12 +90,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of Spring constructor
 
 
-    @Override
-    public Component initContent() {
-        return null;
-    }// end of method
-
-
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
@@ -108,10 +102,17 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         this.regolaParametri();
     }// end of method
 
+
     /**
      * Crea (o ricrea dopo una clonazione) il componente base
      */
     public void creaContent() {
+    }// end of method
+
+
+    @Override
+    public Component initContent() {
+        return null;
     }// end of method
 
 

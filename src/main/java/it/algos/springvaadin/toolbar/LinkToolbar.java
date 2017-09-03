@@ -17,24 +17,25 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.BAR_LINK)
 public class LinkToolbar extends AlgosToolbar {
 
 
     private final Bottone buttonAnnulla;
     private final Bottone buttonRevert;
-    private final Bottone buttonAccettaLink;
-    private final Bottone buttonRegistraLink;
+    private final Bottone buttonLinkRegistra;
+    private final Bottone buttonLinkAccetta;
 
 
     public LinkToolbar(
             @Qualifier(Cost.BOT_BACK) Bottone buttonAnnulla,
             @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.BOT_REVERT) Bottone buttonAccettaLink,
-            @Qualifier(Cost.BOT_ACCETTA) Bottone buttonRegistraLink) {
+            @Qualifier(Cost.BOT_LINK_REGISTRA) Bottone buttonLinkRegistra,
+            @Qualifier(Cost.BOT_LINK_ACCETTA) Bottone buttonLinkAccetta) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
-        this.buttonAccettaLink = buttonAccettaLink;
-        this.buttonRegistraLink = buttonRegistraLink;
+        this.buttonLinkRegistra = buttonLinkRegistra;
+        this.buttonLinkAccetta = buttonLinkAccetta;
     }// end of @Autowired constructor
 
     /**
@@ -45,8 +46,8 @@ public class LinkToolbar extends AlgosToolbar {
     public void inizia() {
         super.addButton(buttonAnnulla);
         super.addButton(buttonRevert);
-        super.addButton(buttonAccettaLink);
-        super.addButton(buttonRegistraLink);
+        super.addButton(buttonLinkRegistra);
+        super.addButton(buttonLinkAccetta);
     }// end of method
 
     public void enableAnnulla(boolean status) {
@@ -61,17 +62,32 @@ public class LinkToolbar extends AlgosToolbar {
         }// end of if cycle
     }// end of method
 
-    public void enableAccetta(boolean status) {
-        if (buttonAccettaLink != null) {
-            buttonAccettaLink.setEnabled(status);
-        }// end of if cycle
-    }// end of method
 
     public void enableRegistra(boolean status) {
-        if (buttonRegistraLink != null) {
-            buttonRegistraLink.setEnabled(status);
+        if (buttonLinkRegistra != null) {
+            buttonLinkRegistra.setEnabled(status);
         }// end of if cycle
     }// end of method
 
+    public void enableAccetta(boolean status) {
+        if (buttonLinkAccetta != null) {
+            buttonLinkAccetta.setEnabled(status);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
+     *
+     * @param parentField che ha richiesto questo form
+     */
+    public void setParentField(AField parentField) {
+        if (buttonLinkRegistra != null) {
+            buttonLinkRegistra.setFieldParent(parentField);
+        }// end of if cycle
+        if (buttonLinkAccetta != null) {
+            buttonLinkAccetta.setFieldParent(parentField);
+        }// end of if cycle
+    }// end of method
 
 }// end of class

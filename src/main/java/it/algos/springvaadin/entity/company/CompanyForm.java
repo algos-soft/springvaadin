@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -29,13 +30,16 @@ public class CompanyForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public CompanyForm(FormToolbar toolbar) {
-        super(toolbar);
+    public CompanyForm(@Qualifier(Cost.BAR_FORM) AlgosToolbar toolbar,
+                       @Qualifier(Cost.BAR_LINK) AlgosToolbar toolbarLink) {
+        super(toolbar, toolbarLink);
     }// end of Spring constructor
 
 
     /**
      * Eventuali regolazioni specifiche per i fields
+     * <p>
+     * Indirizzo è un linkField che usa DBRef e quindi il bottone deve essere BottoneRegistraLink
      */
     @Override
     protected void fixFields() {
@@ -43,6 +47,10 @@ public class CompanyForm extends AlgosFormImpl {
         AEntity entityIndirizzo = ((Company) entityBean).getIndirizzo();
 
         if (field != null && field instanceof ALinkField) {
+
+            //--Se il link field NON fosse 'DBRef', abilitare la riga sottostante:
+//            ((ALinkField) field).usaBottoneAccetta();
+
             field.setEntityBean(entityIndirizzo);
             field.setTarget(target);
         }// end of if cycle

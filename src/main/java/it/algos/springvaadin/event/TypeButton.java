@@ -22,7 +22,6 @@ public enum TypeButton {
 
 
     accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    accettaLink(Cost.BOT_ACCETTA_LINK, VaadinIcons.CHECK, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
     annulla(Cost.BOT_ANNULLA, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     back(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
@@ -32,8 +31,9 @@ public enum TypeButton {
     editLink("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     image("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
+    linkAccetta(Cost.BOT_ACCETTA, VaadinIcons.EDIT, true, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    linkRegistra(Cost.BOT_REGISTRA, VaadinIcons.EDIT, true, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
     registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    registraLink(Cost.BOT_REGISTRA_LINK, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
     revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     show(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN);

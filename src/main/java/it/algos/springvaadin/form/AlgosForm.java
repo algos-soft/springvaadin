@@ -22,12 +22,12 @@ public interface AlgosForm {
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param presenter di riferimento per gli eventi
-     * @param entityBean istanza da presentare
-     * @param fields     del form da visualizzare
+     * @param presenter      di riferimento per gli eventi
+     * @param entityBean     istanza da presentare
+     * @param fields         del form da visualizzare
+     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields);
-
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink);
 
     /**
      * Esegue il 'rollback' del Form
@@ -139,6 +139,6 @@ public interface AlgosForm {
     /**
      * Registra eventuali dipendenze di un field del Form
      */
-    public void saveSons() ;
+    public void saveSons();
 
 }// end of interface

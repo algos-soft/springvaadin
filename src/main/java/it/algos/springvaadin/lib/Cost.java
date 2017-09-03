@@ -26,7 +26,6 @@ public abstract class Cost {
     public final static String TAG_HOME = "home";
 
     public final static String BOT_ACCETTA = "accetta";
-    public final static String BOT_ACCETTA_LINK = "accettalink";
     public final static String BOT_ANNULLA = "annulla";
     public final static String BOT_BACK = "back";
     public final static String BOT_CREATE = "nuovo";
@@ -34,8 +33,9 @@ public abstract class Cost {
     public final static String BOT_EDIT = "modifica";
     public final static String BOT_IMAGE = "immagine";
     public final static String BOT_IMPORT = "import";
+    public final static String BOT_LINK_ACCETTA = "linkaccetta";
+    public final static String BOT_LINK_REGISTRA = "linkregistra";
     public final static String BOT_REGISTRA = "registra";
-    public final static String BOT_REGISTRA_LINK = "registralink";
     public final static String BOT_REVERT = "revert";
     public final static String BOT_SEARCH = "ricerca";
     public final static String BOT_SHOW_ALL = "tutto";
@@ -51,6 +51,10 @@ public abstract class Cost {
 
     public final static String VIEW_IMAGE = "viewimage";
 
+    public final static String BAR_LIST = "toolbarlist";
+    public final static String BAR_FORM = "toolbarform";
+    public final static String BAR_LINK = "toolbarlink";
+
     public final static String STYLE_GREEN = "buttonGreen";
     public final static String STYLE_BLUE = "buttonBlue";
     public final static String STYLE_RED = "buttonRed";
@@ -62,6 +66,6 @@ public abstract class Cost {
     public final static String TAG_AZ_MULTI_SELECTION = "multiSelectionChanged";
     public final static String TAG_AZ_VALUE_CHANGED = "valueChange";
     public final static String TAG_AZ_LISTENER = "listener";
-	public final static String TAG_IND = "indirizzo";
+    public final static String TAG_IND = "indirizzo";
     public final static String TAG_STA = "stato";
 }// end of static class;

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.BAR_LIST)
 public class ListToolbar extends AlgosToolbar {
 
 

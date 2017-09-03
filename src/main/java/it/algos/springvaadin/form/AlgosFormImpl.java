@@ -6,16 +6,20 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.Bottone;
 import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.toolbar.AlgosToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
+import it.algos.springvaadin.toolbar.LinkToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -53,16 +57,20 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    protected FormToolbar toolbar;
+    protected AlgosToolbar toolbar;
+    private AlgosToolbar toolbarLink;
 
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
-     * @param toolbar iniettata da Spring
+     * @param toolbar     iniettata da Spring
+     * @param toolbarLink iniettata da Spring
      */
-    public AlgosFormImpl(FormToolbar toolbar) {
+    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AlgosToolbar toolbar,
+                         @Qualifier(Cost.BAR_LINK) AlgosToolbar toolbarLink) {
         this.toolbar = toolbar;
+        this.toolbarLink = toolbarLink;
     }// end of Spring constructor
 
 
@@ -82,13 +90,18 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param presenter  di riferimento per gli eventi
-     * @param entityBean istanza da presentare
-     * @param fields     del form da visualizzare
+     * @param presenter      di riferimento per gli eventi
+     * @param entityBean     istanza da presentare
+     * @param fields         del form da visualizzare
+     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields) {
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink) {
         this.entityBean = entityBean;
+
+        if (usaToolbarLink) {
+            toolbar = toolbarLink;
+        }// end of if cycle
 
         if (usaSeparateFormDialog) {
             usaSeparateFormDialog(presenter, fields);
@@ -153,8 +166,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void creaAddBindFields(AlgosPresenterImpl presenter, Layout layout, List<String> fieldsName) {
         creaFields(presenter, fieldsName);
         addFields(layout);
-        bindFields();
         fixFields();
+        bindFields();
     }// end of method
 
 
@@ -188,12 +201,17 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param layout in cui inserire i campi (window o panel)
      */
-    protected void addFields(Layout layout) {
-
+    private void addFields(Layout layout) {
         for (AField field : fieldList) {
             layout.addComponent(field);
         }// end of for cycle
+    }// end of method
 
+
+    /**
+     * Eventuali regolazioni specifiche per i fields
+     */
+    protected void fixFields() {
     }// end of method
 
 
@@ -206,7 +224,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Aggiunge eventuali validatori (successivamente ai convertitori)
      * Legge la entity, inserendo i valori nei campi grafici
      */
-    protected void bindFields() {
+    private void bindFields() {
         binder = new Binder(entityBean.getClass());
         String publicFieldName;
 
@@ -230,12 +248,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         binder.readBean(entityBean);
     }// end of method
 
-
-    /**
-     * Eventuali regolazioni specifiche per i fields
-     */
-    protected void fixFields() {
-    }// end of method
 
 
     /**

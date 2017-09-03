@@ -178,17 +178,27 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
 
     /**
-     * Evento
-     * Edit button pressed in field
-     * Riceve il record selezionato
-     * Riceve il form da utilizzare
+     * Evento - Edit button pressed in field coming from different collection
+     * <p>
+     * L'evento è stato generato in un modulo diverso da questo, che era 'linkato' dal field
+     * Apre un form in un dialogo separato
+     * Passa a view -> form -> toolbar -> buttonRegistraLink il parentField
+     * Al termine dell'elaborazione del dialogo, elabora un 'ritorno' al field di origine
+     * Se la property gestita dal field è '@DBRef', registra direttamente le modifiche alla conferma (bottone Registra)
+     * e passa al parentField le info necessarie a visualizzare correttamente le modifiche nel form di provenienza
+     * Se la property gestita dal field NON è '@DBRef', NON registra le modifiche alla conferma (bottone Accetta)
+     * ma passa le modifiche stesse al parentField che le visualizza e deciderà se registrare il tutto o meno.
+     *
+     * @param entityBean
+     * @param parentField
      */
     @Override
     public void editLink(AEntity entityBean, AField parentField) {
         if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setParentField(parentField);
-            modifica(entityBean);
+            ((AlgosViewImpl) view).getForm().setParentField(parentField);
+            modifica(entityBean, true);
         }// end of if cycle
     }// end of method
 
@@ -212,13 +222,21 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
+        modifica(entityBean, false);
+    }// end of method
+
+    /**
+     * Modifica singolo record (entityBean)
+     *
+     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
+     */
+    public void modifica(AEntity entityBean, boolean usaToolbarLink) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setForm(entityBean, fields);
-        int a = 87;
+        view.setForm(entityBean, fields, usaToolbarLink);
     }// end of method
 
     /**

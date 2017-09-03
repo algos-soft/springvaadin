@@ -48,15 +48,6 @@ public class AImageField extends AField {
     }// end of method
 
 
-    @Override
-    public Component initContent() {
-        if (placeholderImage != null && button != null) {
-            return new HorizontalLayout(button, placeholderImage);
-        } else {
-            return null;
-        }// end of if/else cycle
-    }// end of method
-
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
@@ -66,6 +57,16 @@ public class AImageField extends AField {
         if (button != null) {
             button.setTarget(target);
         }// end of if cycle
+    }// end of method
+
+
+    @Override
+    public Component initContent() {
+        if (placeholderImage != null && button != null) {
+            return new HorizontalLayout(button, placeholderImage);
+        } else {
+            return null;
+        }// end of if/else cycle
     }// end of method
 
 

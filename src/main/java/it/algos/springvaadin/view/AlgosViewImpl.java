@@ -72,11 +72,12 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @param entity di riferimento
      * @param fields visibili ed ordinati del Form
+     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void setForm(AEntity entity, List<String> fields) {
+    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink) {
         removeAllComponents();
-        form.restart(presenter, entity, fields);
+        form.restart(presenter, entity, fields, usaToolbarLink);
         addComponent(form.getComponent());
         form.enableRevert(false);
         form.enableRegistra(false);

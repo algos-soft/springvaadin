@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
+@Qualifier(Cost.BAR_FORM)
 public class FormToolbar extends AlgosToolbar {
 
 
@@ -64,15 +65,5 @@ public class FormToolbar extends AlgosToolbar {
         }// end of if cycle
     }// end of method
 
-    /**
-     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
-     *
-     * @param parentField che ha richiesto questo form
-     */
-    public void setParentField(AField parentField) {
-        if (buttonRegistra != null) {
-            buttonRegistra.setFieldParent(parentField);
-        }// end of if cycle
-    }// end of method
 
 }// end of class

@@ -168,7 +168,7 @@ public abstract class Bottone extends Button {
         AButtonEvent evento;
 
         if (source != null) {
-            evento = new AButtonEvent(type, source, null, null, null);
+            evento = new AButtonEvent(type, source, target, entityBean, fieldParent);
             if (parentDialog != null) {
                 evento.setParentDialog(parentDialog);
             }// end of if cycle
