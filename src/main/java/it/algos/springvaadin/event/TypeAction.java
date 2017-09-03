@@ -1,4 +1,4 @@
-package it.algos.springvaadin.azione;
+package it.algos.springvaadin.event;
 
 /**
  * Created by gac on 03/06/17.
@@ -9,7 +9,7 @@ package it.algos.springvaadin.azione;
  * Enumeration utilizzata per 'marcare' una azione, in fase di generazione
  * Enumeration utilizzata per 'riconoscerla' nel metodo onApplicationEvent()
  */
-public enum TipoAzione {
+public enum TypeAction {
 
     attach,
     click,

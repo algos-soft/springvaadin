@@ -7,7 +7,7 @@ package it.algos.springvaadin.event;
  * Date: ven, 01-set-2017
  * Time: 21:38
  */
-public enum EventType {
+public enum TypeField {
     valueChanged, linkTarget
 }// end of Enumeration
 

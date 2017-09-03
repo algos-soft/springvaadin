@@ -2,7 +2,8 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.AButtonEvent;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -18,7 +19,7 @@ public class BottoneEdit extends Bottone {
 
     public BottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.edit);
+        super.setType(TypeButton.edit);
     }// end of @Autowired constructor
 
 
@@ -32,7 +33,7 @@ public class BottoneEdit extends Bottone {
             entityBean = ((AlgosPresenterImpl) source).getView().getEntityBean();
         }// end of if cycle
 
-        applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type, entityBean));
+        applicationEventPublisher.publishEvent(new AButtonEvent(source, type, entityBean));
     }// end of method
 
 }// end of class

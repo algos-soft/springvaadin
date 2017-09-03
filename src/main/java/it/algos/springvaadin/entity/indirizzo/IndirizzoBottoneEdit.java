@@ -1,12 +1,10 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
-import it.algos.springvaadin.bottone.BottonType;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ public class IndirizzoBottoneEdit extends Bottone {
 
     public IndirizzoBottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.editLink);
+        super.setType(TypeButton.editLink);
     }// end of @Autowired constructor
 
 
@@ -44,7 +42,7 @@ public class IndirizzoBottoneEdit extends Bottone {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type, entityBean, field));
+        applicationEventPublisher.publishEvent(new AButtonEvent(source, type, entityBean, field));
     }// end of method
 
 }// end of class

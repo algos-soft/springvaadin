@@ -1,14 +1,11 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
@@ -18,7 +15,7 @@ public class BottoneCreate extends Bottone {
 
     public BottoneCreate(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.create);
+        super.setType(TypeButton.create);
     }// end of @Autowired constructor
 
 //    /**
@@ -28,7 +25,7 @@ public class BottoneCreate extends Bottone {
 //     */
 //    protected void fire(Button.ClickEvent clickEvent) {
 //        if (source != null) {
-//            applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
+//            applicationEventPublisher.publishEvent(new AButtonEvent(source, type));
 //        } else {
 //            int a=87;
 //        }// end of if/else cycle

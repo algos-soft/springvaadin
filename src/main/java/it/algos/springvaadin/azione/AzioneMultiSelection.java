@@ -5,6 +5,7 @@ import com.vaadin.event.selection.MultiSelectionListener;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.components.grid.GridSelectionModel;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
+import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +29,7 @@ public class AzioneMultiSelection extends Azione {
      */
     @PostConstruct
     protected void inizia() {
-        super.tipo = TipoAzione.multiSelectionChanged;
+        super.tipo = TypeAction.multiSelectionChanged;
     }// end of method
 
     /**

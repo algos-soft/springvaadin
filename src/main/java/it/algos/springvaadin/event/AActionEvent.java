@@ -1,30 +1,27 @@
 package it.algos.springvaadin.event;
 
+
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**
- * Project springvaadin
- * Created by Algos
- * User: gac
- * Date: ven, 01-set-2017
- * Time: 18:00
- * Eventi generati da un Field (campo) di un Form
+ * Created by gac on 04/06/17.
+ * Eventi generati da una azione (nella Grid, ad esempio)
+ * Link: http://www.baeldung.com/spring-events
  */
-public class AFieldEvent extends AEvent {
+public class AActionEvent extends AEvent {
 
 
     //--Obbligatorio specifica del tipo di evento
-    //--Valore modificato oppure link verso un target diverso dal field
-    private TypeField type;
+    private TypeAction type;
 
 
     /**
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
-    public AFieldEvent(ApplicationListener source) {
-        this(TypeField.valueChanged, source);
+    public AActionEvent(ApplicationListener source) {
+        this(TypeAction.click, source);
     }// end of constructor
 
 
@@ -32,7 +29,7 @@ public class AFieldEvent extends AEvent {
      * @param type   Obbligatorio specifica del tipo di evento
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
-    public AFieldEvent(TypeField type, ApplicationListener source) {
+    public AActionEvent(TypeAction type, ApplicationListener source) {
         this(type, source, (ApplicationListener) null, (AEntity) null, (AField) null);
     }// end of constructor
 
@@ -44,13 +41,13 @@ public class AFieldEvent extends AEvent {
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      * @param field      Opzionale (field) che ha generato l'evento. Ha senso solo per alcuni eventi
      */
-    public AFieldEvent(TypeField type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
+    public AActionEvent(TypeAction type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
         super(source, target, entityBean, field);
         this.type = type;
     }// end of constructor
 
 
-    public TypeField getType() {
+    public TypeAction getType() {
         return type;
     }// end of method
 

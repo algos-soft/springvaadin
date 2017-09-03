@@ -1,6 +1,7 @@
 package it.algos.springvaadin.azione;
 
-import it.algos.springvaadin.event.ActionSpringEvent;
+import it.algos.springvaadin.event.AActionEvent;
+import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.model.AEntity;
@@ -30,7 +31,7 @@ public abstract class Azione {
      * Enumeration utilizzata per 'marcare' una azione, in fase di generazione
      * Enumeration utilizzata per 'riconoscerla' nel metodo onApplicationEvent()
      */
-    public TipoAzione tipo;
+    public TypeAction tipo;
 
 
     /**
@@ -64,7 +65,7 @@ public abstract class Azione {
      */
     protected void fire(EventObject event, AEntity entityBean) {
         AlgosPresenterImpl presenter = LibVaadin.getCurrentPresenter();
-        applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, tipo, entityBean));
+        applicationEventPublisher.publishEvent(new AActionEvent(presenter, tipo, entityBean));
     }// end of method
 
 

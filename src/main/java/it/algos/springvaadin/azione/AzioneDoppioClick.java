@@ -3,6 +3,7 @@ package it.algos.springvaadin.azione;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.components.grid.ItemClickListener;
+import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
@@ -27,7 +28,7 @@ public class AzioneDoppioClick extends Azione {
      */
     @PostConstruct
     protected void inizia() {
-        super.tipo = TipoAzione.doppioClick;
+        super.tipo = TypeAction.doppioClick;
     }// end of method
 
     /**

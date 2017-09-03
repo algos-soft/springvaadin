@@ -5,7 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.MultiSelect;
 import com.vaadin.ui.SingleSelect;
-import it.algos.springvaadin.azione.TipoAzione;
+import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
@@ -81,9 +81,9 @@ public class AlgosGrid extends Grid {
 
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
         if (modelloSelezione == SelectionMode.SINGLE) {
-            applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, TipoAzione.singleSelectionChanged));
+            applicationEventPublisher.publishEvent(new AActionEvent(presenter, TypeAction.singleSelectionChanged));
         } else {
-            applicationEventPublisher.publishEvent(new ActionSpringEvent(presenter, TipoAzione.multiSelectionChanged));
+            applicationEventPublisher.publishEvent(new AActionEvent(presenter, TypeAction.multiSelectionChanged));
         }// end of if/else cycle
 
     }// end of method

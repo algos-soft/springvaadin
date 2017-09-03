@@ -4,14 +4,10 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.event.AEvent;
-import it.algos.springvaadin.event.AFieldEvent;
-import it.algos.springvaadin.event.ButtonSpringEvent;
-import it.algos.springvaadin.event.EventType;
+import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -153,22 +149,22 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
         Class thisClazz = this.getClass();
         Class sourceClazz = algosEvent.getSource() != null ? algosEvent.getSource().getClass() : null;
         Class targetClazz = algosEvent.getTarget() != null ? algosEvent.getTarget().getClass() : null;
-        ButtonSpringEvent eventButton = null;
+        AButtonEvent eventButton = null;
         AFieldEvent eventField = null;
-        BottonType type = null;
+        TypeButton type = null;
 
         if (algosEvent instanceof AFieldEvent) {
             eventField = (AFieldEvent) algosEvent;
-            if (eventField.getType() == EventType.valueChanged) {
+            if (eventField.getType() == TypeField.valueChanged) {
             }// end of if cycle
-            if (eventField.getType() == EventType.linkTarget && targetClazz == thisClazz) {
+            if (eventField.getType() == TypeField.linkTarget && targetClazz == thisClazz) {
                 this.show(eventField.getEntityBean(), (ApplicationListener) eventField.getSource());
             }// end of if cycle
         }// end of if cycle
 
 
-        if (algosEvent instanceof ButtonSpringEvent) {
-            eventButton = (ButtonSpringEvent) algosEvent;
+        if (algosEvent instanceof AButtonEvent) {
+            eventButton = (AButtonEvent) algosEvent;
             type = eventButton.getType();
 
             if (sourceClazz != null && sourceClazz == thisClazz) {
@@ -201,7 +197,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
     private void fireRevert() {
-        applicationEventPublisher.publishEvent(new ButtonSpringEvent(presenter, BottonType.revert));
+        applicationEventPublisher.publishEvent(new AButtonEvent(presenter, TypeButton.revert));
     }// end of method
 
 

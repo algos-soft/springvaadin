@@ -3,14 +3,13 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.azione.TipoAzione;
-import it.algos.springvaadin.bottone.BottonType;
+import it.algos.springvaadin.event.TypeAction;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 18/06/17
@@ -230,21 +229,21 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
 
         if (event instanceof AFieldEvent) {
-            if (((AFieldEvent) event).getType() == EventType.valueChanged) {
+            if (((AFieldEvent) event).getType() == TypeField.valueChanged) {
                 fieldModificato();
             }// end of if cycle
-            if (((AFieldEvent) event).getType() == EventType.linkTarget && targetClazz == thisClazz) {
+            if (((AFieldEvent) event).getType() == TypeField.linkTarget && targetClazz == thisClazz) {
                 AEntity entityBean = ((AFieldEvent) event).getEntityBean();
                 editLink(entityBean, ((AFieldEvent) event).getField());
             }// end of if cycle
         }// end of if cycle
 
-        if (event instanceof ButtonSpringEvent && sourceClazz == thisClazz) {
-            onListEvent((ButtonSpringEvent) event);
+        if (event instanceof AButtonEvent && sourceClazz == thisClazz) {
+            onListEvent((AButtonEvent) event);
         }// end of if cycle
 
-        if (event instanceof ActionSpringEvent && sourceClazz == thisClazz) {
-            onGridAction((ActionSpringEvent) event);
+        if (event instanceof AActionEvent && sourceClazz == thisClazz) {
+            onGridAction((AActionEvent) event);
         }// end of if cycle
 
     }// end of method
@@ -256,8 +255,8 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      *
      * @param event the event to respond to
      */
-    private void onListEvent(ButtonSpringEvent event) {
-        BottonType type = event.getType();
+    private void onListEvent(AButtonEvent event) {
+        TypeButton type = event.getType();
         AEntity entityBean = event.getEntityBean();
         AField parentField = event.getParentField();
         Window parentDialog = event.getParentDialog();
@@ -317,8 +316,8 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      *
      * @param event the event to respond to
      */
-    private void onGridAction(ActionSpringEvent event) {
-        TipoAzione tipo = event.geTipo();
+    private void onGridAction(AActionEvent event) {
+        TypeAction tipo = event.geTipo();
         AEntity entityBean = event.getEntityBean();
 
         switch (tipo) {

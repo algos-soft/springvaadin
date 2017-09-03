@@ -3,8 +3,8 @@ package it.algos.springvaadin.bottone;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.AFieldEvent;
-import it.algos.springvaadin.event.ButtonSpringEvent;
-import it.algos.springvaadin.event.EventType;
+import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -31,7 +31,7 @@ public class BottoneLink extends Bottone {
      */
     public BottoneLink(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.editLink);
+        super.setType(TypeButton.editLink);
     }// end of Spring constructor
 
 
@@ -42,7 +42,7 @@ public class BottoneLink extends Bottone {
      */
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(EventType.linkTarget, source, target, entityBean, fieldParent));
+            applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, fieldParent));
         }// end of if cycle
     }// end of if/else cycle
 

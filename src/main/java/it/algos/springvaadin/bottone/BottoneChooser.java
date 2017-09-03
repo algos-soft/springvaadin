@@ -1,6 +1,7 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +21,7 @@ public class BottoneChooser extends Bottone{
 
     public BottoneChooser(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(BottonType.chooser);
+        super.setType(TypeButton.chooser);
     }// end of @Autowired constructor
 
 }// end of class

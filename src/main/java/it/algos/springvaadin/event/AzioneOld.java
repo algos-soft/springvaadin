@@ -141,9 +141,9 @@ public enum AzioneOld {
 
 //        if (presenter != null) {
 //            if (entityBean != null && entityBean instanceof AEntity) {
-//                actionSpringEvent = new ActionSpringEvent(presenter, this, (AEntity) entityBean);
+//                actionSpringEvent = new AActionEvent(presenter, this, (AEntity) entityBean);
 //            } else {
-//                actionSpringEvent = new ActionSpringEvent(presenter, this);
+//                actionSpringEvent = new AActionEvent(presenter, this);
 //            }// end of if/else cycle
 //            presenter.getApplicationEventPublisher().publishEvent(actionSpringEvent);
 //        }// end of if cycle

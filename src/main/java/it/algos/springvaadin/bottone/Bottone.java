@@ -2,7 +2,8 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
-import it.algos.springvaadin.event.ButtonSpringEvent;
+import it.algos.springvaadin.event.AButtonEvent;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
@@ -57,7 +58,7 @@ public abstract class Bottone extends Button {
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
      * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
      */
-    protected BottonType type;
+    protected TypeButton type;
 
 
     /**
@@ -166,9 +167,9 @@ public abstract class Bottone extends Button {
     protected void fire(Button.ClickEvent clickEvent) {
         if (source != null) {
             if (parentDialog != null) {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type, parentDialog));
+                applicationEventPublisher.publishEvent(new AButtonEvent(source, type, parentDialog));
             } else {
-                applicationEventPublisher.publishEvent(new ButtonSpringEvent(source, type));
+                applicationEventPublisher.publishEvent(new AButtonEvent(source, type));
             }// end of if/else cycle
         } else {
             log.error("Bottone: manca il presenter nel bottone " + type);
@@ -194,12 +195,12 @@ public abstract class Bottone extends Button {
         this.fieldParent = fieldParent;
     }// end of method
 
-    public void setType(BottonType type) {
+    public void setType(TypeButton type) {
         this.type = type;
     }// end of method
 
 
-    public BottonType getType() {
+    public TypeButton getType() {
         return type;
     }// end of method
 

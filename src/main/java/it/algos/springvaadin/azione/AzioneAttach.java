@@ -2,6 +2,7 @@ package it.algos.springvaadin.azione;
 
 import com.vaadin.server.ClientConnector;
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +26,7 @@ public class AzioneAttach extends Azione {
      */
     @PostConstruct
     protected void inizia() {
-        super.tipo = TipoAzione.attach;
+        super.tipo = TypeAction.attach;
     }// end of method
 
     /**
