@@ -7,6 +7,7 @@ import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.model.AEntity;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -874,6 +875,48 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return width;
+    }// end of static method
+
+
+    /**
+     * Get the specific annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the Annotation for the specific field
+     */
+    @SuppressWarnings("all")
+    public static DBRef getDBRef(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        DBRef dbRef = null;
+        String tag = "DBRef";
+        Map mappa = getMap(clazz, publicFieldName);
+
+        if (mappa != null && mappa.containsKey(tag)) {
+            dbRef = (DBRef) mappa.get(tag);
+        }// end of if cycle
+
+        return dbRef;
+    }// end of static method
+
+    /**
+     * Get the existence of the DBRef annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return true if the notEmpty Annotation exists
+     */
+    @SuppressWarnings("all")
+    public static boolean isDBRef(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        boolean usaDBRef = false;
+        DBRef dbRef = getDBRef(clazz, publicFieldName);
+
+        if (dbRef != null) {
+            usaDBRef = true;
+        }// end of if cycle
+
+        return usaDBRef;
     }// end of static method
 
 }// end of static class

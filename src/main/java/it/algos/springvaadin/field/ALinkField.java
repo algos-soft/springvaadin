@@ -1,21 +1,12 @@
 package it.algos.springvaadin.field;
 
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneLink;
+import it.algos.springvaadin.bottone.BottoneEditLink;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.label.LabelBold;
-import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibResource;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.search.AlgosSearch;
-import it.algos.springvaadin.service.AlgosService;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
-import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -35,23 +26,19 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_LINK)
 public class ALinkField extends AField {
 
+
     //--componente grafico del field per visualizzare il toString() dell'istanza rappresentata nel field
     private Label label = new LabelBold();
 
-    //--può usare il bottone Registra (standard), oppure in alternativa il bottone Accetta
-    private Bottone buttonAccetta;
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public ALinkField(@Qualifier(Cost.BOT_LINK_REGISTRA) Bottone button,
-                      @Qualifier(Cost.BOT_LINK_ACCETTA) Bottone buttonAccetta) {
+    public ALinkField(@Qualifier(Cost.BOT_LINK) Bottone button) {
         super(button);
-        this.buttonAccetta = buttonAccetta;
     }// end of @Autowired constructor
-
 
 
     /**
@@ -63,18 +50,8 @@ public class ALinkField extends AField {
         if (button != null) {
             button.setSource(source);
         }// end of if cycle
-        if (buttonAccetta != null) {
-            buttonAccetta.setSource(source);
-        }// end of if cycle
     }// end of method
 
-
-    /**
-     * Sostituisce il bottone standard RegistraLink con AccettaLink, prima di visualizzarli in initContent()
-     */
-    public void usaBottoneAccetta() {
-        super.button = buttonAccetta;
-    }// end of method
 
     @Override
     public Component initContent() {
@@ -100,6 +77,12 @@ public class ALinkField extends AField {
         }// end of if/else cycle
     }// end of method
 
+
+    public void setTypeLink(TypeButton typeLink) {
+        if (button != null) {
+            ((BottoneEditLink) button).setTypeLink(typeLink);
+        }// end of if cycle
+    }// end of method
 
 }// end of class
 

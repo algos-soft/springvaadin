@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibAvviso;
@@ -193,12 +194,11 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * @param parentField
      */
     @Override
-    public void editLink(AEntity entityBean, AField parentField) {
+    public void editLink(AEntity entityBean, AField parentField, TypeButton type) {
         if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
-            ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setParentField(parentField);
             ((AlgosViewImpl) view).getForm().setParentField(parentField);
-            modifica(entityBean, true);
+            modifica(entityBean, true, type == TypeButton.editLinkDBRef);
         }// end of if cycle
     }// end of method
 
@@ -222,7 +222,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
-        modifica(entityBean, false);
+        modifica(entityBean, false, true);
     }// end of method
 
     /**
@@ -230,13 +230,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      *
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void modifica(AEntity entityBean, boolean usaToolbarLink) {
+    public void modifica(AEntity entityBean, boolean usaToolbarLink, boolean usaBottoneRegistra) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setForm(entityBean, fields, usaToolbarLink);
+        view.setForm(entityBean, fields, usaToolbarLink,usaBottoneRegistra);
     }// end of method
 
     /**

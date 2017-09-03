@@ -27,7 +27,7 @@ public interface AlgosForm {
      * @param fields         del form da visualizzare
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink);
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra);
 
     /**
      * Esegue il 'rollback' del Form

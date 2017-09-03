@@ -96,10 +96,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink) {
+    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra) {
         this.entityBean = entityBean;
 
         if (usaToolbarLink) {
+            ((LinkToolbar) toolbarLink).setUsaBottoneRegistra(usaBottoneRegistra);
             toolbar = toolbarLink;
         }// end of if cycle
 
@@ -247,7 +248,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         binder.readBean(entityBean);
     }// end of method
-
 
 
     /**

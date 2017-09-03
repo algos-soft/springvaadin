@@ -29,6 +29,8 @@ public enum TypeButton {
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
     editLink("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
+    editLinkDBRef("", null, true, "", ""),
+    editLinkNoDBRef("", null, true, "", ""),
     image("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
     importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
     linkAccetta(Cost.BOT_ACCETTA, VaadinIcons.EDIT, true, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),

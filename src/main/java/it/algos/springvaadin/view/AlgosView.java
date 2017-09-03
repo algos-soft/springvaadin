@@ -44,7 +44,7 @@ public interface AlgosView extends View {
      * @param fields visibili ed ordinati del Form
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink);
+    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra);
 
 
     /**

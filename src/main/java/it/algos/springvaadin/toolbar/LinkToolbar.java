@@ -26,6 +26,7 @@ public class LinkToolbar extends AlgosToolbar {
     private final Bottone buttonLinkRegistra;
     private final Bottone buttonLinkAccetta;
 
+    private boolean usaBottoneRegistra = true;
 
     public LinkToolbar(
             @Qualifier(Cost.BOT_BACK) Bottone buttonAnnulla,
@@ -39,16 +40,19 @@ public class LinkToolbar extends AlgosToolbar {
     }// end of @Autowired constructor
 
     /**
-     * Metodo invocato (dalla annotation) DOPO il costruttore
+     * Metodo invocato da Form
      * Aggiunge i bottoni al contenitore grafico
      */
-    @PostConstruct
     public void inizia() {
         super.addButton(buttonAnnulla);
         super.addButton(buttonRevert);
-        super.addButton(buttonLinkRegistra);
-        super.addButton(buttonLinkAccetta);
+        if (usaBottoneRegistra) {
+            super.addButton(buttonLinkRegistra);
+        } else {
+            super.addButton(buttonLinkAccetta);
+        }// end of if/else cycle
     }// end of method
+
 
     public void enableAnnulla(boolean status) {
         if (buttonAnnulla != null) {
@@ -75,6 +79,9 @@ public class LinkToolbar extends AlgosToolbar {
         }// end of if cycle
     }// end of method
 
+    public void setUsaBottoneRegistra(boolean usaBottoneRegistra) {
+        this.usaBottoneRegistra = usaBottoneRegistra;
+    }// end of method
 
     /**
      * Inserisce nei bottoni Registra o Accetta il Field che va notificato
