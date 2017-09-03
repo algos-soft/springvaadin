@@ -22,16 +22,19 @@ public class LinkToolbar extends AlgosToolbar {
 
     private final Bottone buttonAnnulla;
     private final Bottone buttonRevert;
-    private final Bottone buttonAccetta;
+    private final Bottone buttonAccettaLink;
+    private final Bottone buttonRegistraLink;
 
 
     public LinkToolbar(
             @Qualifier(Cost.BOT_BACK) Bottone buttonAnnulla,
             @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.BOT_ACCETTA) Bottone buttonAccetta) {
+            @Qualifier(Cost.BOT_REVERT) Bottone buttonAccettaLink,
+            @Qualifier(Cost.BOT_ACCETTA) Bottone buttonRegistraLink) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
-        this.buttonAccetta = buttonAccetta;
+        this.buttonAccettaLink = buttonAccettaLink;
+        this.buttonRegistraLink = buttonRegistraLink;
     }// end of @Autowired constructor
 
     /**
@@ -42,7 +45,8 @@ public class LinkToolbar extends AlgosToolbar {
     public void inizia() {
         super.addButton(buttonAnnulla);
         super.addButton(buttonRevert);
-        super.addButton(buttonAccetta);
+        super.addButton(buttonAccettaLink);
+        super.addButton(buttonRegistraLink);
     }// end of method
 
     public void enableAnnulla(boolean status) {
@@ -58,8 +62,14 @@ public class LinkToolbar extends AlgosToolbar {
     }// end of method
 
     public void enableAccetta(boolean status) {
-        if (buttonAccetta != null) {
-            buttonAccetta.setEnabled(status);
+        if (buttonAccettaLink != null) {
+            buttonAccettaLink.setEnabled(status);
+        }// end of if cycle
+    }// end of method
+
+    public void enableRegistra(boolean status) {
+        if (buttonRegistraLink != null) {
+            buttonRegistraLink.setEnabled(status);
         }// end of if cycle
     }// end of method
 

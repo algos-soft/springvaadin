@@ -12,19 +12,17 @@ import org.springframework.context.annotation.Scope;
  * Created by Algos
  * User: gac
  * Date: dom, 03-set-2017
- * Time: 08:46
- * Registra una entity nel modulo linkato
- * Esegue alcune regolazioni nel modulo chiamante
+ * Time: 10:15
  */
-@SpringComponent
-@Scope("prototype")
-@Qualifier(Cost.BOT_REGISTRA_LINK)
-public class BottoneRegistraLink extends Bottone {
+    @SpringComponent
+    @Scope("prototype")
+    @Qualifier(Cost.BOT_ACCETTA_LINK)
+    public class BottoneAccettaLink extends Bottone {
 
-    public BottoneRegistraLink(ApplicationEventPublisher publisher) {
-        super(publisher);
-        super.setType(TypeButton.registraLink);
-    }// end of @Autowired constructor
+        public BottoneAccettaLink(ApplicationEventPublisher publisher) {
+            super(publisher);
+            super.setType(TypeButton.registraLink);
+        }// end of @Autowired constructor
 
-}// end of class
+    }// end of class
 

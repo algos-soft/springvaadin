@@ -26,6 +26,7 @@ public abstract class Cost {
     public final static String TAG_HOME = "home";
 
     public final static String BOT_ACCETTA = "accetta";
+    public final static String BOT_ACCETTA_LINK = "accettalink";
     public final static String BOT_ANNULLA = "annulla";
     public final static String BOT_BACK = "back";
     public final static String BOT_CREATE = "nuovo";
@@ -34,6 +35,7 @@ public abstract class Cost {
     public final static String BOT_IMAGE = "immagine";
     public final static String BOT_IMPORT = "import";
     public final static String BOT_REGISTRA = "registra";
+    public final static String BOT_REGISTRA_LINK = "registralink";
     public final static String BOT_REVERT = "revert";
     public final static String BOT_SEARCH = "ricerca";
     public final static String BOT_SHOW_ALL = "tutto";
