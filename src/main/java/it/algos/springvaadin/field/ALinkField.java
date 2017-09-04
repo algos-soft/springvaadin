@@ -28,7 +28,7 @@ public class ALinkField extends AField {
 
 
     //--componente grafico del field per visualizzare il toString() dell'istanza rappresentata nel field
-    private Label label = new LabelBold();
+    private Label label = null;
 
 
     /**
@@ -47,6 +47,10 @@ public class ALinkField extends AField {
      */
     protected void inizia(String publicFieldName, ApplicationListener source) {
         super.inizia(publicFieldName, source);
+        if (label == null) {
+            label = new LabelBold();
+        }// end of if cycle
+
         if (button != null) {
             button.setSource(source);
         }// end of if cycle
@@ -55,7 +59,7 @@ public class ALinkField extends AField {
 
     @Override
     public Component initContent() {
-        if (button != null && label != null) {
+        if (button != null) {
             button.setFieldParent(this);
             return new HorizontalLayout(button, label);
         } else {
