@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.toolbar.FormToolbar;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 13/06/17
@@ -55,7 +56,6 @@ public class CompanyForm extends AlgosFormImpl {
             if (!LibAnnotation.isDBRef(Company.class, fieldName)) {
                 ((ALinkField) field).setTypeLink(TypeButton.editLinkNoDBRef);
             }// end of if cycle
-
 
             field.setEntityBean(entityIndirizzo);
             field.setTarget(target);

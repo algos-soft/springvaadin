@@ -34,7 +34,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
 
     //--Opzionale (entityBean) in elaborazione
-    protected AEntity entityBean;
+    private AEntity entityBean;
 
 
     /**
@@ -215,6 +215,9 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     protected void fixCombo(Object[] items, boolean nullSelectionAllowed) {
     }// end of method
 
+    protected void subClonazione(AField oldField) {
+    }// end of method
+
     /**
      * Creates and returns a copy of this object.  The precise meaning
      * of "copy" may depend on the class of the object. The general
@@ -282,7 +285,14 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-    protected AField clone(String publicFieldName, ApplicationListener source) {
+    /**
+     * Deep clonazione
+     * 1) I componenti iniettati tramite @Autowired di tipo Singletono, sono già stati clonati dal metodo standard
+     * 2) I componenti iniettati di tipo 'prototype', devono essere clonati a loro volta
+     * 3) I riferimenti ad altre classi, devono essere clonati a loro volta
+     * 4) Tutte le regolazioni effettuate DOPO il ciclo del costruttore, devono essere eseguite sul nuovo objClonato
+     */
+    public AField clone(String publicFieldName, ApplicationListener source) {
         AField fieldClonato = null;
         Object objClonato = null;
 
@@ -294,12 +304,13 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
         if (objClonato != null) {
             fieldClonato = (AField) objClonato;
             fieldClonato.inizia(publicFieldName, source);
+            fieldClonato.subClonazione(this);
         }// end of if cycle
 
         return fieldClonato;
     }// end of method
 
-    protected AField clone(String publicFieldName, ApplicationListener source, Object[] items, boolean nullSelectionAllowed) {
+    public AField clone(String publicFieldName, ApplicationListener source, Object[] items, boolean nullSelectionAllowed) {
         AField objClonato = clone(publicFieldName, source);
 
         if (objClonato != null) {

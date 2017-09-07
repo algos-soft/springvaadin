@@ -7,6 +7,7 @@ import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 01/06/17

@@ -6,6 +6,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 01/06/17

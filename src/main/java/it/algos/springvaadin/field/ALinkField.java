@@ -88,5 +88,9 @@ public class ALinkField extends AField {
         }// end of if cycle
     }// end of method
 
+    protected void subClonazione(AField oldField) {
+        button = oldField.button.clone("");
+    }// end of method
+
 }// end of class
 

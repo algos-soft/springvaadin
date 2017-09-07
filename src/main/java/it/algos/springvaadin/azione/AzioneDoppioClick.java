@@ -44,7 +44,7 @@ public class AzioneDoppioClick extends Azione {
                 if (itemClick.getMouseEventDetails().isDoubleClick()) {
                     Object obj = itemClick.getItem();
                     if (obj instanceof AEntity) {
-                        fire(itemClick, (AEntity) obj);
+//                        fire(itemClick, (AEntity) obj);
                     }// end of if cycle
                 }// end of if cycle
             }// end of inner method

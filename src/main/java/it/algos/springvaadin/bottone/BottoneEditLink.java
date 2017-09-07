@@ -37,6 +37,9 @@ public class BottoneEditLink extends Bottone {
         super.setType(TypeButton.editLink);
     }// end of Spring constructor
 
+    protected void addListener() {
+super.addListener();
+    }// end of method
 
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
