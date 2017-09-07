@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.BOT_ACCETTA)
-public class BottoneAccetta extends Bottone {
+public class AButtonAccetta extends AButton {
 
 
-    public BottoneAccetta(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonAccetta(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
         super.setType(TypeButton.accetta);
     }// end of @Autowired constructor

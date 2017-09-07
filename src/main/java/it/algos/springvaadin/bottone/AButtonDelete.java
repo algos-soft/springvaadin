@@ -7,22 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
-/**
- * Project springvaadin
- * Created by Algos
- * User: gac
- * Registra una entity nel modulo corrente
- */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_REGISTRA)
-public class BottoneRegistra extends Bottone {
+@Qualifier(Cost.BOT_DELETE)
+public class AButtonDelete extends AButton {
 
 
-    public BottoneRegistra(ApplicationEventPublisher applicationEventPublisher) {
-       super(applicationEventPublisher);
-        super.setType(TypeButton.registra);
+    public AButtonDelete(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
+        super.setType(TypeButton.delete);
     }// end of @Autowired constructor
-
 
 }// end of class

@@ -7,15 +7,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
+/**
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: dom, 03-set-2017
+ * Time: 10:15
+ */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_CREATE)
-public class BottoneCreate extends Bottone {
+@Qualifier(Cost.BOT_LINK_ACCETTA)
+public class AButtonLinkAccetta extends AButton {
 
 
-    public BottoneCreate(ApplicationEventPublisher applicationEventPublisher) {
-        super(applicationEventPublisher);
-        super.setType(TypeButton.create);
+    public AButtonLinkAccetta(ApplicationEventPublisher publisher) {
+        super(publisher);
+        super.setType(TypeButton.linkAccetta);
     }// end of @Autowired constructor
 
 //    /**
@@ -25,10 +32,9 @@ public class BottoneCreate extends Bottone {
 //     */
 //    protected void fire(Button.ClickEvent clickEvent) {
 //        if (source != null) {
-//            applicationEventPublisher.publishEvent(new AButtonEvent(source, type));
-//        } else {
-//            int a=87;
-//        }// end of if/else cycle
-//    }// end of method
+//            publisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, fieldParent));
+//        }// end of if cycle
+//    }// end of if/else cycle
 
 }// end of class
+

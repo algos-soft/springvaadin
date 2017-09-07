@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Scope;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_SHOW_ALL)
-public class BottoneShowAll extends Bottone {
+@Qualifier(Cost.BOT_SEARCH)
+public class AButtonSearch extends AButton {
 
 
-    public BottoneShowAll(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonSearch(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(TypeButton.show);
+        super.setType(TypeButton.search);
     }// end of @Autowired constructor
 
 

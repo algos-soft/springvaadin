@@ -25,7 +25,7 @@ import javax.annotation.PostConstruct;
  * I bottoni sono ''prototype'', cioè ne viene generato uno per ogni xxxPresenter -> xxxView
  */
 @Slf4j
-public abstract class Bottone extends Button {
+public abstract class AButton extends Button {
 
 
     public final static String NORMAL_WIDTH = "8em";
@@ -76,7 +76,14 @@ public abstract class Bottone extends Button {
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
      */
-    public Bottone(ApplicationEventPublisher publisher) {
+    public AButton() {
+    }// end of @Autowired constructor
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     */
+    public AButton(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }// end of @Autowired constructor
 
@@ -174,10 +181,13 @@ public abstract class Bottone extends Button {
             }// end of if cycle
             publisher.publishEvent(evento);
         } else {
-            log.error("Bottone: manca il presenter nel bottone " + type);
+            log.error("AButton: manca il presenter nel bottone " + type);
         }// end of if/else cycle
     }// end of method
 
+    public void setPublisher(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
 
     public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;

@@ -1,14 +1,12 @@
 package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneImport;
+import it.algos.springvaadin.bottone.AButtonImport;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
@@ -22,12 +20,12 @@ import javax.annotation.PostConstruct;
 @Qualifier(Cost.TAG_STA)
 public class StatoList extends AlgosListImpl {
 
-    private BottoneImport buttonImport;
+    private AButtonImport buttonImport;
 
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public StatoList(AlgosGrid grid, ListToolbar toolbar, BottoneImport buttonImport) {
+    public StatoList(AlgosGrid grid, ListToolbar toolbar, AButtonImport buttonImport) {
         super(grid, toolbar);
         toolbar.setUsaBottoneRicerca(false);
         this.buttonImport = buttonImport;

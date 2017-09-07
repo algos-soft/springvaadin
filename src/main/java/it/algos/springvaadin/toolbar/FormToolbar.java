@@ -1,8 +1,7 @@
 package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -19,15 +18,15 @@ import org.springframework.context.annotation.Scope;
 public class FormToolbar extends AlgosToolbar {
 
 
-    private final Bottone buttonAnnulla;
-    private final Bottone buttonRevert;
-    private final Bottone buttonRegistra;
+    private final AButton buttonAnnulla;
+    private final AButton buttonRevert;
+    private final AButton buttonRegistra;
 
 
     public FormToolbar(
-            @Qualifier(Cost.BOT_ANNULLA) Bottone buttonAnnulla,
-            @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.BOT_REGISTRA) Bottone buttonRegistra) {
+            @Qualifier(Cost.BOT_ANNULLA) AButton buttonAnnulla,
+            @Qualifier(Cost.BOT_REVERT) AButton buttonRevert,
+            @Qualifier(Cost.BOT_REGISTRA) AButton buttonRegistra) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
         this.buttonRegistra = buttonRegistra;

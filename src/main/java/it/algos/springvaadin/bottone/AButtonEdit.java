@@ -5,29 +5,35 @@ import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_BACK)
-public class BottoneBack extends Bottone {
+@Qualifier(Cost.BOT_EDIT)
+public class AButtonEdit extends AButton {
 
 
-    public BottoneBack(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(TypeButton.back);
+        super.setType(TypeButton.edit);
     }// end of @Autowired constructor
 
+
     /**
-     * Recupera il presenter dalla 'catena' grafica attiva
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        if (source != null) {
-            publisher.publishEvent(new AButtonEvent(type,source));
+        AEntity entityBean = null;
+
+        if (((AlgosPresenterImpl) source).getView().isUnaRigaSelezionata()) {
+            entityBean = ((AlgosPresenterImpl) source).getView().getEntityBean();
         }// end of if cycle
+
+        publisher.publishEvent(new AButtonEvent(type, source, null, entityBean, null));
     }// end of method
 
 }// end of class

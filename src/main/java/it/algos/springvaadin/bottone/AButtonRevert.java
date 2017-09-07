@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Scope;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_IMPORT)
-public class BottoneImport extends Bottone {
+@Qualifier(Cost.BOT_REVERT)
+public class AButtonRevert extends AButton {
 
 
-    public BottoneImport(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonRevert(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(TypeButton.importa);
+        super.setType(TypeButton.revert);
     }// end of @Autowired constructor
 
 

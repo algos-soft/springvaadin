@@ -1,12 +1,12 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.TextField;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.bottone.AButtonEditLink;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
+import org.springframework.cglib.core.internal.Function;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * Project springvaadin
@@ -18,56 +18,58 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 public class AFieldFactory implements AIFieldFactory {
 
-    @Autowired
-    @Qualifier(Cost.FIELD_ID)
-    private AField keyidFieldAutowired;
 
     @Autowired
-    @Qualifier(Cost.FIELD_TEXT)
-    private AField textFieldAutowired;
+    ApplicationEventPublisher publisher;
 
     @Autowired
-    @Qualifier(Cost.FIELD_INTEGER)
-    private AField integerFieldAutowired;
+    public Function<Class<? extends AButton>, AButton> buttonFactory;
 
     @Autowired
-    @Qualifier(Cost.FIELD_IMAGE)
-    private AField imageFieldAutowired;
+    private Function<Class<? extends AField>, AField> fieldFactory;
 
-    @Autowired
-    @Qualifier(Cost.FIELD_COMBO)
-    private AField comboFieldAutowired;
-
-    @Autowired
-    @Qualifier(Cost.FIELD_LINK)
-    private AField linkFieldAutowired;
 
     public AField crea(AFType type, String publicFieldName, AlgosPresenterImpl source, Object[] items) {
         AField field = null;
+        AButton button = null;
 
         try { // prova ad eseguire il codice
             switch (type) {
                 case id:
-                    field = keyidFieldAutowired.clone(publicFieldName, source);
+                    field = fieldFactory.apply(AIdField.class);
                     break;
                 case text:
-                    field = textFieldAutowired.clone(publicFieldName, source);
+                    field = fieldFactory.apply(ATextField.class);
                     break;
                 case integer:
-                    field = integerFieldAutowired.clone(publicFieldName, source);
+                    field = fieldFactory.apply(AIntegerField.class);
                     break;
                 case image:
-                    field = imageFieldAutowired.clone(publicFieldName, source);
+                    field = fieldFactory.apply(AImageField.class);
                     break;
                 case combo:
-                    field = comboFieldAutowired.clone(publicFieldName, source, items, false);
+                    field = fieldFactory.apply(AComboField.class);
+                    if (field != null) {
+                        field.fixCombo(items, false);
+                    }// end of if cycle
                     break;
                 case link:
-                    field = linkFieldAutowired.clone(publicFieldName, source);
+                    field = fieldFactory.apply(ALinkField.class);
+                    button = buttonFactory.apply(AButtonEditLink.class);
+                    if (button!=null) {
+                        button.inizia();
+                        button.setPublisher(publisher);
+                        field.button = button;
+                    }// end of if cycle
                     break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch
+
+            if (field != null) {
+                field.inizia(publicFieldName, source);
+            }// end of if cycle
+
         } catch (Exception unErrore) { // intercetta l'errore
         }// fine del blocco try-catch
 

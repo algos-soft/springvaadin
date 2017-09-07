@@ -37,20 +37,20 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
     private AEntity entityBean;
 
-    private final Bottone buttonBack;
-    private final Bottone buttonCreate;
-    private final Bottone buttonDelete;
-    private final Bottone buttonAccetta;
+    private final AButton buttonBack;
+    private final AButton buttonCreate;
+    private final AButton buttonDelete;
+    private final AButton buttonAccetta;
 
     private Edit2Dialog editDialog;
     private Image image;
 
     public ImageDialog(
             ApplicationEventPublisher applicationEventPublisher,
-            @Qualifier(Cost.BOT_BACK) Bottone buttonBack,
-            @Qualifier(Cost.BOT_CREATE) Bottone buttonCreate,
-            @Qualifier(Cost.BOT_DELETE) Bottone buttonDelete,
-            @Qualifier(Cost.BOT_ACCETTA) Bottone buttonAccetta,
+            @Qualifier(Cost.BOT_BACK) AButton buttonBack,
+            @Qualifier(Cost.BOT_CREATE) AButton buttonCreate,
+            @Qualifier(Cost.BOT_DELETE) AButton buttonDelete,
+            @Qualifier(Cost.BOT_ACCETTA) AButton buttonAccetta,
             Edit2Dialog editDialog) {
         this.applicationEventPublisher = applicationEventPublisher;
         this.buttonBack = buttonBack;

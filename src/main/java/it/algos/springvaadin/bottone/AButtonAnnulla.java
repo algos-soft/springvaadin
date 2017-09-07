@@ -7,22 +7,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
-/**
- * Project springvaadin
- * Created by Algos
- * User: gac
- * Date: lun, 21-ago-2017
- * Time: 06:24
- */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_CHOOSER)
-public class BottoneChooser extends Bottone{
+@Qualifier(Cost.BOT_ANNULLA)
+public class AButtonAnnulla extends AButton {
 
-    public BottoneChooser(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonAnnulla(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
-        super.setType(TypeButton.chooser);
+        super.setType(TypeButton.annulla);
     }// end of @Autowired constructor
 
 }// end of class
-

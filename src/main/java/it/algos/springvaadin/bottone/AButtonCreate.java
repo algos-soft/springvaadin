@@ -1,35 +1,22 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeButton;
-import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
-/**
- * Project springvaadin
- * Created by Algos
- * User: gac
- * Date: dom, 03-set-2017
- * Time: 08:46
- * Registra una entity nel modulo linkato
- * Esegue alcune regolazioni nel modulo chiamante
- */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BOT_LINK_REGISTRA)
-public class BottoneLinkRegistra extends Bottone {
+@Qualifier(Cost.BOT_CREATE)
+public class AButtonCreate extends AButton {
 
 
-    public BottoneLinkRegistra(ApplicationEventPublisher publisher) {
-        super(publisher);
-        super.setType(TypeButton.linkRegistra);
+    public AButtonCreate(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
+        super.setType(TypeButton.create);
     }// end of @Autowired constructor
-
 
 //    /**
 //     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
@@ -38,9 +25,10 @@ public class BottoneLinkRegistra extends Bottone {
 //     */
 //    protected void fire(Button.ClickEvent clickEvent) {
 //        if (source != null) {
-//            publisher.publishEvent(new AFieldEvent(TypeField.linkTargetDBRef, source, target, entityBean, fieldParent));
-//        }// end of if cycle
-//    }// end of if/else cycle
+//            applicationEventPublisher.publishEvent(new AButtonEvent(source, type));
+//        } else {
+//            int a=87;
+//        }// end of if/else cycle
+//    }// end of method
 
 }// end of class
-

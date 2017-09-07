@@ -1,6 +1,5 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AlgosField;
@@ -17,7 +16,7 @@ public class IndirizzoField extends CustomField<AEntity> implements AlgosField {
 
 
     private ApplicationEventPublisher applicationEventPublisher;
-    private IndirizzoBottoneEdit buttonEdit;
+    private IndirizzoAButtonEdit buttonEdit;
     private IndirizzoPresenter indirizzoPresenter;
     private ApplicationListener<AEvent> formSource;
 

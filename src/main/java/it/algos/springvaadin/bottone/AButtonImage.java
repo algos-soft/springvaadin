@@ -11,13 +11,13 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
 /**
- * Bottone affiancato al field dell'immagine, di norma a sinistra
+ * AButton affiancato al field dell'immagine, di norma a sinistra
  * Apre un dialogo di dettaglio o modifica del field immagine
  */
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.BOT_IMAGE)
-public class BottoneImage extends Bottone {
+public class AButtonImage extends AButton {
 
 
     /**
@@ -25,7 +25,7 @@ public class BottoneImage extends Bottone {
      *
      * @param applicationEventPublisher iniettata da Spring
      */
-    public BottoneImage(ApplicationEventPublisher applicationEventPublisher) {
+    public AButtonImage(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
         super.setType(TypeButton.image);
     }// end of Spring constructor

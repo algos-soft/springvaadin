@@ -18,19 +18,19 @@ import org.springframework.context.annotation.Scope;
 public class ListToolbar extends AlgosToolbar {
 
 
-    private final Bottone buttonCreate;
-    private final Bottone buttonEdit;
-    private final Bottone buttonDelete;
-    private final Bottone buttonSearch;
+    private final AButton buttonCreate;
+    private final AButton buttonEdit;
+    private final AButton buttonDelete;
+    private final AButton buttonSearch;
 
     private boolean usaBottoneRicerca = true;
 
 
     public ListToolbar(
-            @Qualifier(Cost.BOT_CREATE) Bottone buttonCreate,
-            @Qualifier(Cost.BOT_EDIT) Bottone buttonEdit,
-            @Qualifier(Cost.BOT_DELETE) Bottone buttonDelete,
-            @Qualifier(Cost.BOT_SEARCH) Bottone buttonSearch) {
+            @Qualifier(Cost.BOT_CREATE) AButton buttonCreate,
+            @Qualifier(Cost.BOT_EDIT) AButton buttonEdit,
+            @Qualifier(Cost.BOT_DELETE) AButton buttonDelete,
+            @Qualifier(Cost.BOT_SEARCH) AButton buttonSearch) {
         this.buttonCreate = buttonCreate;
         this.buttonEdit = buttonEdit;
         this.buttonDelete = buttonDelete;

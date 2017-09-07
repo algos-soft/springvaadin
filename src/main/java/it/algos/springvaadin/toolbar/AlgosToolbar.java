@@ -1,9 +1,8 @@
 package it.algos.springvaadin.toolbar;
 
 import com.vaadin.ui.HorizontalLayout;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 /**
@@ -23,8 +22,8 @@ public abstract class AlgosToolbar extends HorizontalLayout {
 
 
 
-    public void addButton(Bottone bottone) {
-        addComponent(bottone);
+    public void addButton(AButton AButton) {
+        addComponent(AButton);
     }// end of method
 
 
@@ -36,7 +35,7 @@ public abstract class AlgosToolbar extends HorizontalLayout {
      */
     public void regolaBottoni(AlgosPresenterImpl presenter) {
         for (int k = 0; k < getComponentCount(); k++) {
-            ((Bottone) getComponent(k)).regolaBottone(presenter);
+            ((AButton) getComponent(k)).regolaBottone(presenter);
         }// end of for cycle
     }// end of method
 

@@ -1,13 +1,11 @@
 package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 23/06/17
@@ -21,18 +19,18 @@ import javax.annotation.PostConstruct;
 public class LinkToolbar extends AlgosToolbar {
 
 
-    private final Bottone buttonAnnulla;
-    private final Bottone buttonRevert;
-    private final Bottone buttonLinkRegistra;
-    private final Bottone buttonLinkAccetta;
+    private final AButton buttonAnnulla;
+    private final AButton buttonRevert;
+    private final AButton buttonLinkRegistra;
+    private final AButton buttonLinkAccetta;
 
     private boolean usaBottoneRegistra = true;
 
     public LinkToolbar(
-            @Qualifier(Cost.BOT_BACK) Bottone buttonAnnulla,
-            @Qualifier(Cost.BOT_REVERT) Bottone buttonRevert,
-            @Qualifier(Cost.BOT_LINK_REGISTRA) Bottone buttonLinkRegistra,
-            @Qualifier(Cost.BOT_LINK_ACCETTA) Bottone buttonLinkAccetta) {
+            @Qualifier(Cost.BOT_BACK) AButton buttonAnnulla,
+            @Qualifier(Cost.BOT_REVERT) AButton buttonRevert,
+            @Qualifier(Cost.BOT_LINK_REGISTRA) AButton buttonLinkRegistra,
+            @Qualifier(Cost.BOT_LINK_ACCETTA) AButton buttonLinkAccetta) {
         this.buttonAnnulla = buttonAnnulla;
         this.buttonRevert = buttonRevert;
         this.buttonLinkRegistra = buttonLinkRegistra;
