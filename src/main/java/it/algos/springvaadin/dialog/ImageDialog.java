@@ -38,7 +38,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     private AEntity entityBean;
 
     private final AButton buttonBack;
-    private final AButton buttonCreate;
+//    private final AButton buttonCreate;
     private final AButton buttonDelete;
     private final AButton buttonAccetta;
 
@@ -48,13 +48,11 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
     public ImageDialog(
             ApplicationEventPublisher applicationEventPublisher,
             @Qualifier(Cost.BOT_BACK) AButton buttonBack,
-            @Qualifier(Cost.BOT_CREATE) AButton buttonCreate,
             @Qualifier(Cost.BOT_DELETE) AButton buttonDelete,
             @Qualifier(Cost.BOT_ACCETTA) AButton buttonAccetta,
             Edit2Dialog editDialog) {
         this.applicationEventPublisher = applicationEventPublisher;
         this.buttonBack = buttonBack;
-        this.buttonCreate = buttonCreate;
         this.buttonDelete = buttonDelete;
         this.buttonAccetta = buttonAccetta;
         this.editDialog = editDialog;
@@ -72,7 +70,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
         center();
 
         buttonAccetta.setEnabled(true);
-        toolBar.addComponent(new HorizontalLayout(buttonBack, buttonCreate));
+        toolBar.addComponent(new HorizontalLayout(buttonBack));
         toolBar.addComponent(new HorizontalLayout(buttonDelete, buttonAccetta));
 
         mainLayout.addComponent(new LabelRosso("Gestione delle immagini"));
@@ -93,7 +91,7 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
     private void resetButtons(ApplicationListener presenter) {
         buttonBack.regolaBottone(this, this);
-        buttonCreate.regolaBottone(this, this);
+//        buttonCreate.regolaBottone(this, this);
         buttonDelete.regolaBottone(this, this);
         buttonAccetta.regolaBottone(this, this);
 

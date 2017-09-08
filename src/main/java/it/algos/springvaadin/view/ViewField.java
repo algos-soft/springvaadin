@@ -22,7 +22,7 @@ public class ViewField {
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    private AIFieldFactory fieldFactory;
+    private AFieldFactory fieldFactory;
 
     /**
      * Costruttore @Autowired

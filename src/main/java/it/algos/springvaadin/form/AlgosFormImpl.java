@@ -11,7 +11,8 @@ import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
+import it.algos.springvaadin.toolbar.AToolbar;
+import it.algos.springvaadin.toolbar.AToolbarImpl;
 import it.algos.springvaadin.toolbar.LinkToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +55,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    protected AlgosToolbar toolbar;
-    private AlgosToolbar toolbarLink;
+    protected AToolbar toolbar;
+    private AToolbar toolbarLink;
 
     /**
      * Costruttore @Autowired
@@ -64,8 +65,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param toolbar     iniettata da Spring
      * @param toolbarLink iniettata da Spring
      */
-    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AlgosToolbar toolbar,
-                         @Qualifier(Cost.BAR_LINK) AlgosToolbar toolbarLink) {
+    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                         @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         this.toolbar = toolbar;
         this.toolbarLink = toolbarLink;
     }// end of Spring constructor
@@ -97,7 +98,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.entityBean = entityBean;
 
         if (usaToolbarLink) {
-            ((LinkToolbar) toolbarLink).setUsaBottoneRegistra(usaBottoneRegistra);
+//            ((LinkToolbar) toolbarLink).setUsaBottoneRegistra(usaBottoneRegistra);@todo rimettere
             toolbar = toolbarLink;
         }// end of if cycle
 
@@ -143,9 +144,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         creaAddBindFields(presenter, layout, fields);
 
         layout.addComponent(new Label());
-        toolbar.inizia();
-        toolbar.regolaBottoni(presenter);
-        layout.addComponent(toolbar);
+        toolbar.inizializza(presenter);
+//        toolbar.regolaBottoni(presenter);
+        layout.addComponent((AToolbarImpl)toolbar);
 
         window.setContent(layout);
         window.center();
@@ -353,9 +354,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         creaAddBindFields(presenter, this, fields);
 
         this.addComponent(new Label());
-        toolbar.inizia();
-        toolbar.regolaBottoni(presenter);
-        this.addComponent(toolbar);
+        toolbar.inizializza(presenter);
+//        toolbar.regolaBottoni(presenter);
+        this.addComponent((AToolbarImpl)toolbar);
     }// end of method
 
 
@@ -459,7 +460,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void setParentField(AField parentField) {
-        toolbar.setParentField(parentField);
+//        toolbar.setParentField(parentField);@todo rimettere
     }// end of method
 
     /**

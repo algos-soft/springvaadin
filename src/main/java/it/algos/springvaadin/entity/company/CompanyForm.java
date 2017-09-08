@@ -7,7 +7,7 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.model.AEntity;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
+import it.algos.springvaadin.toolbar.AToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
@@ -32,8 +32,8 @@ public class CompanyForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public CompanyForm(@Qualifier(Cost.BAR_FORM) AlgosToolbar toolbar,
-                       @Qualifier(Cost.BAR_LINK) AlgosToolbar toolbarLink) {
+    public CompanyForm(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                       @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 

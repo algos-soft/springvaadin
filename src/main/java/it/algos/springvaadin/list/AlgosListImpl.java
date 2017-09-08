@@ -9,8 +9,10 @@ import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
-    protected ListToolbar toolbar;
+    protected AToolbar toolbar;
 
 
     /**
@@ -79,8 +81,8 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         grid.inizia(entityClass, items, columns);
         this.addComponent(grid);
 
-        toolbarInizia(presenter);
-        this.addComponent(toolbar);
+        toolbarInizializza(presenter);
+        this.addComponent((ListToolbar)toolbar);
 
         if (AlgosApp.USE_DEBUG) {
             this.addStyleName("rosso");
@@ -92,9 +94,8 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
     /**
      * Prepara la toolbar
      */
-    protected void toolbarInizia(AlgosPresenterImpl presenter) {
-        toolbar.inizia();
-        toolbar.regolaBottoni(presenter);
+    protected void toolbarInizializza(AlgosPresenterImpl source) {
+        toolbar.inizializza(source);
     }// end of method
 
     /**
@@ -198,7 +199,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
     public void setPresenter(AlgosPresenterImpl presenter) {
-        toolbar.regolaBottoni(presenter);
+//        toolbar.regolaBottoni(presenter);
     }// end of method
 
 }// end of class

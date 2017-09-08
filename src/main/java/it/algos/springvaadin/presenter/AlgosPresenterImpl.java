@@ -195,11 +195,11 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(AEntity entityBean, AField parentField, TypeButton type) {
-        if (entityBean != null) {
+//        if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
             ((AlgosViewImpl) view).getForm().setParentField(parentField);
             modifica(entityBean, true, type == TypeButton.editLinkDBRef);
-        }// end of if cycle
+//        }// end of if cycle
     }// end of method
 
 

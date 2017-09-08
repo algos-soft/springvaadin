@@ -35,6 +35,7 @@ public class AlgosConfiguration {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
         return obj;
     }// end of method
 
@@ -55,6 +56,7 @@ public class AlgosConfiguration {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
         return obj;
     }// end of method
 

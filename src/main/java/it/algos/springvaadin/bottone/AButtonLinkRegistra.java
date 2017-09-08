@@ -1,7 +1,10 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
+import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;

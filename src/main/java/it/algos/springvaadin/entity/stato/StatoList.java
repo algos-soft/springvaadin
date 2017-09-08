@@ -1,7 +1,9 @@
 package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonImport;
+import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
@@ -20,15 +22,14 @@ import javax.annotation.PostConstruct;
 @Qualifier(Cost.TAG_STA)
 public class StatoList extends AlgosListImpl {
 
-    private AButtonImport buttonImport;
+    private AButton buttonImport;
 
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public StatoList(AlgosGrid grid, ListToolbar toolbar, AButtonImport buttonImport) {
+    public StatoList(AlgosGrid grid, ListToolbar toolbar) {
         super(grid, toolbar);
         toolbar.setUsaBottoneRicerca(false);
-        this.buttonImport = buttonImport;
     }// end of Spring constructor
 
     /**
@@ -49,10 +50,17 @@ public class StatoList extends AlgosListImpl {
      * Prepara la toolbar
      */
     @Override
-    protected void toolbarInizia(AlgosPresenterImpl presenter) {
-        super.toolbarInizia(presenter);
-        toolbar.addButton(buttonImport);
-        this.buttonImport.regolaBottone(presenter);
+    protected void toolbarInizializza(AlgosPresenterImpl source) {
+        super.toolbarInizializza(source);
+        buttonImport = toolbar.creaAddButton(TypeButton.importa, source);
     }// end of method
+
+
+    public void enableImport(boolean status) {
+        if (buttonImport != null) {
+            buttonImport.setEnabled(status);
+        }// end of if cycle
+    }// end of method
+
 
 }// end of class

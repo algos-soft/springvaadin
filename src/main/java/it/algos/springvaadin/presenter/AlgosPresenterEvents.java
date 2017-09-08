@@ -288,9 +288,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 }// end of if cycle
                 break;
             case linkRegistra:
-                if ((targetClazz == thisClazz)) {
-//                    editLink(entityBean, parentField);
-                }// end of if cycle
+                registra();
                 break;
             case linkAccetta:
                 if ((targetClazz == thisClazz)) {

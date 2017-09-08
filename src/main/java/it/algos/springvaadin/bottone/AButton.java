@@ -2,13 +2,16 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
+import it.algos.springvaadin.entity.company.CompanyForm;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -72,20 +75,28 @@ public abstract class AButton extends Button {
     protected AField fieldParent;
 
 
-    /**
-     * Costruttore @Autowired
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
-     */
-    public AButton() {
-    }// end of @Autowired constructor
 
     /**
-     * Costruttore @Autowired
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * Costruttore base senza parametri.
+     * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
+     * Il publisher viene iniettato successivamente
      */
+    public AButton() {
+    }// fine del metodo costruttore base
+
+
+    /**
+     * Costruttore @Autowired (nella sottoclasse concreta)
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
+     * Se ci sono DUE o più costruttori, va in errore
+     * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
+     */
+    @Deprecated //@todo utilizzo la Funzione -> BottoneFactory in AlgosConfiguration
     public AButton(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }// end of @Autowired constructor
+
 
 
     /**
