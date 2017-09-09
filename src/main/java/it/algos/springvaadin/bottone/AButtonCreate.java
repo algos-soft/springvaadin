@@ -15,7 +15,7 @@ public class AButtonCreate extends AButton {
 
 
     /**
-     * Costruttore base senza parametri.
+     * Costruttore base senza parametri
      * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
      * Il publisher viene iniettato successivamente
      * Regola alcuni parametri statici

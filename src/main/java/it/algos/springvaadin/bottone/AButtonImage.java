@@ -6,6 +6,7 @@ import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -21,26 +22,31 @@ public class AButtonImage extends AButton {
 
 
     /**
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
-     *
-     * @param applicationEventPublisher iniettata da Spring
+     * Costruttore base senza parametri
+     * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
+     * Il publisher viene iniettato successivamente
+     * Regola alcuni parametri statici
      */
-    public AButtonImage(ApplicationEventPublisher applicationEventPublisher) {
-        super(applicationEventPublisher);
+    public AButtonImage() {
+        super();
         super.setType(TypeButton.image);
-    }// end of Spring constructor
+    }// fine del metodo costruttore base
 
 
     /**
-     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
-     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
+     * Se ci sono DUE o più costruttori, va in errore
+     * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      */
-    protected void fire(Button.ClickEvent clickEvent) {
-        if (source != null) {
-            publisher.publishEvent(new AFieldEvent(TypeField.linkTarget, source, target, entityBean, null));
-        }// end of if cycle
-    }// end of if/else cycle
+    @Autowired
+    @Deprecated //@todo utilizzo la Funzione -> BottoneFactory in AlgosConfiguration
+    public AButtonImage(ApplicationEventPublisher publisher) {
+        super(publisher);
+        super.setType(TypeButton.image);
+    }// end of @Autowired constructor
+
 
 
 }// end of class

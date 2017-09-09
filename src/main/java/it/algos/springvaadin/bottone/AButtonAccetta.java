@@ -17,13 +17,14 @@ public class AButtonAccetta extends AButton {
 
 
     /**
-     * Costruttore base senza parametri.
-     * Viene utilizzato dalla Funzione -> BottoneFactory
+     * Costruttore base senza parametri
+     * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
      * Il publisher viene iniettato successivamente
-     * Rimanda al costruttore completo, in modo da usufruire di eventuali regolazioni di parametri statici
+     * Regola alcuni parametri statici
      */
     public AButtonAccetta() {
-        this(null);
+        super();
+        super.setType(TypeButton.accetta);
     }// fine del metodo costruttore base
 
 
@@ -35,20 +36,11 @@ public class AButtonAccetta extends AButton {
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      */
     @Autowired
+    @Deprecated //@todo utilizzo la Funzione -> BottoneFactory in AlgosConfiguration
     public AButtonAccetta(ApplicationEventPublisher publisher) {
         super(publisher);
         super.setType(TypeButton.accetta);
     }// end of @Autowired constructor
 
-
-
-    /**
-     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     */
-    protected void fire(Button.ClickEvent clickEvent) {
-        if (source != null) {
-            publisher.publishEvent(new AButtonEvent(type, source));
-        }// end of if cycle
-    }// end of method
 
 }// end of class

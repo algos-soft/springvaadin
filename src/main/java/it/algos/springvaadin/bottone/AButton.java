@@ -28,7 +28,7 @@ import javax.annotation.PostConstruct;
  * I bottoni sono ''prototype'', cioè ne viene generato uno per ogni xxxPresenter -> xxxView
  */
 @Slf4j
-public abstract class AButton extends Button {
+public class AButton extends Button {
 
 
     public final static String NORMAL_WIDTH = "8em";
@@ -75,13 +75,13 @@ public abstract class AButton extends Button {
     protected AField fieldParent;
 
 
-
     /**
      * Costruttore base senza parametri.
      * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
      * Il publisher viene iniettato successivamente
      */
     public AButton() {
+        int a = 87;
     }// fine del metodo costruttore base
 
 
@@ -98,14 +98,16 @@ public abstract class AButton extends Button {
     }// end of @Autowired constructor
 
 
-
     /**
      * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
      * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
      */
     @PostConstruct
     public void inizia() {
-        this.fixParametri();
+        if (type != null) {
+            this.fixParametri();
+        }// end of if cycle
+
         this.addListener();
     }// end of method
 
@@ -138,16 +140,14 @@ public abstract class AButton extends Button {
 
 
     /**
-     * Metodo invocato DOPO la chiamata del browser, da AlgosToolbar->setPresenter()
-     * I bottoni vengono creati da Spring in una fase iniziale 'statica' e non sanno chi li 'userà'
-     * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
+     * Metodo invocato alla creazione del bottone da parte di AButtonFactory
      * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
      * Regola lo style del bottone.
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(ApplicationListener source) {
-        regolaBottone(source, null);
+    public void inizializza(ApplicationEventPublisher publisher, ApplicationListener source) {
+        regolaBottone(publisher, source, null);
     }// end of method
 
 
@@ -160,8 +160,10 @@ public abstract class AButton extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      */
-    public void regolaBottone(ApplicationListener source, Window parentDialog) {
+    public void regolaBottone(ApplicationEventPublisher publisher, ApplicationListener source, Window parentDialog) {
+        this.setPublisher(publisher);
         this.setSource(source);
+        this.fixParametri();
 
         if (parentDialog != null) {
             this.parentDialog = parentDialog;
@@ -185,15 +187,21 @@ public abstract class AButton extends Button {
     protected void fire(Button.ClickEvent clickEvent) {
         AButtonEvent evento;
 
-        if (source != null) {
-            evento = new AButtonEvent(type, source, target, entityBean, fieldParent);
-            if (parentDialog != null) {
-                evento.setParentDialog(parentDialog);
-            }// end of if cycle
-            publisher.publishEvent(evento);
-        } else {
+        if (publisher == null) {
+            log.error("AButton: manca il publisher nel bottone " + type);
+            return;
+        }// end of if cycle
+
+        if (source == null) {
             log.error("AButton: manca il presenter nel bottone " + type);
-        }// end of if/else cycle
+            return;
+        }// end of if cycle
+
+        evento = new AButtonEvent(type, source, target, entityBean, fieldParent);
+        if (parentDialog != null) {
+            evento.setParentDialog(parentDialog);
+        }// end of if cycle
+        publisher.publishEvent(evento);
     }// end of method
 
     public void setPublisher(ApplicationEventPublisher publisher) {

@@ -90,10 +90,10 @@ public class ImageDialog extends Window implements ApplicationListener<AEvent> {
 
 
     private void resetButtons(ApplicationListener presenter) {
-        buttonBack.regolaBottone(this, this);
+        buttonBack.regolaBottone(null,this, this);
 //        buttonCreate.regolaBottone(this, this);
-        buttonDelete.regolaBottone(this, this);
-        buttonAccetta.regolaBottone(this, this);
+        buttonDelete.regolaBottone(null,this, this);
+        buttonAccetta.regolaBottone(null,this, this);
 
 
         try { // prova ad eseguire il codice

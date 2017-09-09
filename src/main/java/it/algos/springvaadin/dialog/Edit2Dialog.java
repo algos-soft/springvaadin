@@ -46,8 +46,8 @@ public class Edit2Dialog extends Window {
         this.recipient = recipient;
         final Window winDialog = this;
         field.setValue("");
-        buttonBack.regolaBottone(source);
-        buttonAccetta.regolaBottone(source);
+        buttonBack.inizializza(null,source);
+        buttonAccetta.inizializza(null,source);
         this.setModal(true);
         this.setResizable(false);
         this.setClosable(false);
