@@ -3,6 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AEntity;
@@ -79,8 +80,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         removeAllComponents();
         form.restart(presenter, entity, fields, usaToolbarLink, usaBottoneRegistra);
         addComponent(form.getComponent());
-        form.enableRevert(false);
-        form.enableRegistra(false);
+        enableButtonForm(AButtonType.revert, false);
+        enableButtonForm(AButtonType.registra, false);
     }// end of method
 
 
@@ -107,55 +108,58 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
 
     /**
-     * Abilita il bottone Revert del Form
+     * Abilita o disabilita lo specifico bottone della Toolbar della List
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
     @Override
-    public void enableRevert(boolean status) {
-        form.enableRevert(status);
+    public void enableButtonList(AButtonType type, boolean status) {
+        list.enableButton(type, status);
     }// end of method
 
     /**
-     * Abilita il bottone Registra del Form
+     * Abilita o disabilita lo specifico bottone della Toolbar del Form
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
     @Override
-    public void enableRegistra(boolean status) {
-        form.enableRegistra(status);
+    public void enableButtonForm(AButtonType type, boolean status) {
+        form.enableButton(type, status);
     }// end of method
 
 
-    /**
-     * Abilita il bottone Accetta del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableAccetta(boolean status) {
-        form.enableAccetta(status);
-    }// end of method
+//    /**
+//     * Abilita il bottone Revert del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    @Override
+//    public void enableRevert(boolean status) {
+//        form.enableRevert(status);
+//    }// end of method
+//
+//    /**
+//     * Abilita il bottone Registra del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    @Override
+//    public void enableRegistra(boolean status) {
+//        form.enableRegistra(status);
+//    }// end of method
 
-    /**
-     * Abilita il bottone Edit dela Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableEdit(boolean status) {
-        list.enableEdit(status);
-    }// end of method
 
-    /**
-     * Abilita il bottone Delet della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableDelete(boolean status) {
-        list.enableDelete(status);
-    }// end of method
+//    /**
+//     * Abilita il bottone Accetta del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    @Override
+//    public void enableAccetta(boolean status) {
+//        form.enableAccetta(status);
+//    }// end of method
 
 
     /**

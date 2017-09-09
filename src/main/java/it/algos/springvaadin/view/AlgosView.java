@@ -2,6 +2,7 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.View;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
@@ -64,19 +65,36 @@ public interface AlgosView extends View {
 
 
     /**
-     * Abilita il bottone Edit dela Grid
+     * Abilita o disabilita lo specifico bottone della Toolbar della List
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
-    public void enableEdit(boolean status);
+    public void enableButtonList(AButtonType type, boolean status);
 
 
     /**
-     * Abilita il bottone Delet della Grid
+     * Abilita o disabilita lo specifico bottone della Toolbar del Form
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
-    public void enableDelete(boolean status);
+    public void enableButtonForm(AButtonType type, boolean status);
+
+//    /**
+//     * Abilita il bottone Edit dela Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableEdit(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Delet della Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableDelete(boolean status);
 
 
     /**
@@ -157,28 +175,6 @@ public interface AlgosView extends View {
     public AEntity getEntityBean();
 
 
-    /**
-     * Abilita il bottone Revert del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRevert(boolean status);
-
-
-    /**
-     * Abilita il bottone Registra del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRegistra(boolean status);
-
-
-    /**
-     * Abilita il bottone Accetta del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableAccetta(boolean status);
 
 
     /**

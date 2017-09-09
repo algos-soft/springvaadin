@@ -1,6 +1,7 @@
 package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
@@ -22,7 +23,7 @@ public interface AlgosList {
      * Creazione della grid
      * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param presenter  di riferimento per gli eventi
+     * @param presenter   di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
@@ -47,35 +48,44 @@ public interface AlgosList {
 
 
     /**
-     * Abilita il bottone Create della Grid
+     * Abilita o disabilita lo specifico bottone della Toolbar
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
-    public void enableNew(boolean status);
+    public void enableButton(AButtonType type, boolean status);
 
 
-    /**
-     * Abilita il bottone Edit della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableEdit(boolean status);
-
-
-    /**
-     * Abilita il bottone Delete della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableDelete(boolean status);
-
-
-    /**
-     * Abilita il bottone Search della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableSearch(boolean status);
+//    /**
+//     * Abilita il bottone Create della Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableNew(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Edit della Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableEdit(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Delete della Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableDelete(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Search della Grid
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableSearch(boolean status);
 
 
     /**

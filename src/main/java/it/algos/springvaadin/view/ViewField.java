@@ -44,7 +44,7 @@ public class ViewField {
     public AField create(AlgosPresenterImpl presenter, final Class<? extends AEntity> clazz, final String publicFieldName) {
         AField field = null;
         Object[] items = null;
-        AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
+        AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
@@ -55,15 +55,15 @@ public class ViewField {
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
         if (fieldAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
-            type = AFType.id;
+            type = AFieldType.id;
         }// end of if cycle
 
-        if (type == AFType.combo && comboClazz != null) {
+        if (type == AFieldType.combo && comboClazz != null) {
             items = LibMongo.findAll(comboClazz).toArray();
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(type, publicFieldName, presenter, items);
+            field = fieldFactory.crea(type, publicFieldName, presenter);
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {

@@ -274,9 +274,6 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             case edit:
                 edit(entityBean, parentField);
                 break;
-            case editLink:
-                editLink(entityBean, parentField, type);
-                break;
             case editLinkDBRef:
                 if ((targetClazz == thisClazz)) {
                     editLink(entityBean, parentField, type);

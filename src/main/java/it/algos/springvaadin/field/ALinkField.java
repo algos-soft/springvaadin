@@ -3,7 +3,6 @@ package it.algos.springvaadin.field;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.bottone.AButtonEditLink;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.label.LabelBold;
 import it.algos.springvaadin.lib.Cost;
@@ -37,25 +36,25 @@ public class ALinkField extends AField {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
     public ALinkField() {
-        super(null);
+        super();
     }// end of @Autowired constructor
 
-    /**
-     * Costruttore @Autowired (nella superclasse)
-     * Si usa un @Qualifier(), per avere la sottoclasse specifica
-     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-     */
-    public ALinkField(@Qualifier(Cost.BOT_LINK) AButton button) {
-        super(button);
-    }// end of @Autowired constructor
+//    /**
+//     * Costruttore @Autowired (nella superclasse)
+//     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+//     */
+//    public ALinkField(@Qualifier(Cost.BOT_LINK) AButton button) {
+//        super(button);
+//    }// end of @Autowired constructor
 
 
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    protected void inizia(String publicFieldName, ApplicationListener source) {
-        super.inizia(publicFieldName, source);
+    protected void inizializza(String publicFieldName, ApplicationListener source) {
+        super.inizializza(publicFieldName, source);
         if (label == null) {
             label = new LabelBold();
         }// end of if cycle
@@ -93,7 +92,7 @@ public class ALinkField extends AField {
 
     public void setTypeLink(AButtonType typeLink) {
         if (button != null) {
-            ((AButtonEditLink) button).setTypeLink(typeLink);
+//            ((AButtonEditLink) button).setTypeLink(typeLink);
         }// end of if cycle
     }// end of method
 

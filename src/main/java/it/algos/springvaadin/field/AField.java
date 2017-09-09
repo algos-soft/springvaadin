@@ -3,13 +3,18 @@ package it.algos.springvaadin.field;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
+import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Project springvaadin
@@ -17,8 +22,20 @@ import org.springframework.context.ApplicationListener;
  * User: gac
  * Date: dom, 27-ago-2017
  * Time: 11:14
+ * <p>
+ * Field di un Form
+ * Sequenza alla creazione:
+ * AlgosPresenterImpl.edit() -> AlgosPresenterImpl.modifica()
+ * AlgosViewImpl.setForm() ->
+ * AlgosFormImpl.restart() -> AlgosFormImpl.creaAddBindFields() -> AlgosFormImpl.creaFields() ->
+ * ViewField.create() ->
+ * AFieldFactoryImpl.create() ->
+ * AlgosConfiguration.Function<Class<? extends AField>, AField> FieldFactory() -> AlgosConfiguration.getField() ->
+ * AField.<init> -> AField.inizia() ->
+ * inizializza() -> creaContent() -> setName() -> setSource() -> addListener() -> regolaParametri() -> setWidth() -> setFocus() ->
+ * AlgosFormImpl.bindFields() -> AField.initContent() -> AField.getValue() -> AField.doSetValue
  */
-public abstract class AField<T> extends CustomField<Object> implements Cloneable {
+public abstract class AField<T> extends CustomField<Object> {
 
 
     //--Obbligatorio publicFieldName
@@ -44,11 +61,12 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      */
     protected AButton button;
 
+
     /**
-     * Property iniettata da Spring PRIMA della chiamata del browser
+     * Property iniettata da Spring
      */
     @Autowired
-    protected ApplicationEventPublisher applicationEventPublisher;
+    protected ApplicationEventPublisher publisher;
 
 
     //--default che può essere sovrascritto nella sottoclasse specifica ed ulteriormente modificato da una @Annotation
@@ -73,28 +91,30 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
 
 
     /**
-     * Default constructor
+     * Costruttore base senza parametri
+     * Viene utilizzato dalla Funzione -> FieldFactory in AlgosConfiguration
      */
     public AField() {
     }// end of constructor
 
 
     /**
-     * Costruttore @Autowired
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
-     *
-     * @param button iniettato da Spring
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     * Aggiunge il listener al bottone
      */
-    public AField(AButton button) {
-        this.button = button;
-    }// end of Spring constructor
+    @PostConstruct
+    private void inizia() {
+    }// end of method
 
 
     /**
-     * Regolazioni varie DOPO aver creato l'istanza
-     * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
+     * Metodo invocato da parte di AFieldFactory subito dopo la creazione del field
+     * Non parte dal costruttore, perché AFieldFactory usa un costruttore SENZA parametri
+     *
+     * @param publicFieldName nome visibile del field
+     * @param source          del presenter che gestisce questo field
      */
-    protected void inizia(String publicFieldName, ApplicationListener source) {
+    void inizializza(String publicFieldName, ApplicationListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -160,9 +180,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     }// end of method
 
 
-//    public void saveSon() {
-//    }// end of method
-
     public AlgosPresenterImpl getFormPresenter() {
         return null;
     }// end of method
@@ -215,111 +232,6 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
     protected void fixCombo(Object[] items, boolean nullSelectionAllowed) {
     }// end of method
 
-    protected void subClonazione(AField oldField) {
-    }// end of method
-
-    /**
-     * Creates and returns a copy of this object.  The precise meaning
-     * of "copy" may depend on the class of the object. The general
-     * intent is that, for any object {@code x}, the expression:
-     * <blockquote>
-     * <pre>
-     * x.clone() != x</pre></blockquote>
-     * will be true, and that the expression:
-     * <blockquote>
-     * <pre>
-     * x.clone().getClass() == x.getClass()</pre></blockquote>
-     * will be {@code true}, but these are not absolute requirements.
-     * While it is typically the case that:
-     * <blockquote>
-     * <pre>
-     * x.clone().equals(x)</pre></blockquote>
-     * will be {@code true}, this is not an absolute requirement.
-     *
-     * By convention, the returned object should be obtained by calling
-     * {@code super.clone}.  If a class and all of its superclasses (except
-     * {@code Object}) obey this convention, it will be the case that
-     * {@code x.clone().getClass() == x.getClass()}.
-     *
-     * By convention, the object returned by this method should be independent
-     * of this object (which is being cloned).  To achieve this independence,
-     * it may be necessary to modify one or more fields of the object returned
-     * by {@code super.clone} before returning it.  Typically, this means
-     * copying any mutable objects that comprise the internal "deep structure"
-     * of the object being cloned and replacing the references to these
-     * objects with references to the copies.  If a class contains only
-     * primitive fields or references to immutable objects, then it is usually
-     * the case that no fields in the object returned by {@code super.clone}
-     * need to be modified.
-     *
-     * The method {@code clone} for class {@code Object} performs a
-     * specific cloning operation. First, if the class of this object does
-     * not implement the interface {@code Cloneable}, then a
-     * {@code CloneNotSupportedException} is thrown. Note that all arrays
-     * are considered to implement the interface {@code Cloneable} and that
-     * the return type of the {@code clone} method of an array type {@code T[]}
-     * is {@code T[]} where T is any reference or primitive type.
-     * Otherwise, this method creates a new instance of the class of this
-     * object and initializes all its fields with exactly the contents of
-     * the corresponding fields of this object, as if by assignment; the
-     * contents of the fields are not themselves cloned. Thus, this method
-     * performs a "shallow copy" of this object, not a "deep copy" operation.
-     *
-     * The class {@code Object} does not itself implement the interface
-     * {@code Cloneable}, so calling the {@code clone} method on an object
-     * whose class is {@code Object} will result in throwing an
-     * exception at run time.
-     *
-     * @return a clone of this instance.
-     *
-     * @throws CloneNotSupportedException if the object's class does not
-     *                                    support the {@code Cloneable} interface. Subclasses
-     *                                    that override the {@code clone} method can also
-     *                                    throw this exception to indicate that an instance cannot
-     *                                    be cloned.
-     * @see Cloneable
-     */
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }// end of method
-
-
-    /**
-     * Deep clonazione
-     * 1) I componenti iniettati tramite @Autowired di tipo Singletono, sono già stati clonati dal metodo standard
-     * 2) I componenti iniettati di tipo 'prototype', devono essere clonati a loro volta
-     * 3) I riferimenti ad altre classi, devono essere clonati a loro volta
-     * 4) Tutte le regolazioni effettuate DOPO il ciclo del costruttore, devono essere eseguite sul nuovo objClonato
-     */
-    public AField clone(String publicFieldName, ApplicationListener source) {
-        AField fieldClonato = null;
-        Object objClonato = null;
-
-        try { // prova ad eseguire il codice
-            objClonato = super.clone();
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        if (objClonato != null) {
-            fieldClonato = (AField) objClonato;
-            fieldClonato.inizia(publicFieldName, source);
-            fieldClonato.subClonazione(this);
-        }// end of if cycle
-
-        return fieldClonato;
-    }// end of method
-
-    public AField clone(String publicFieldName, ApplicationListener source, Object[] items, boolean nullSelectionAllowed) {
-        AField objClonato = clone(publicFieldName, source);
-
-        if (objClonato != null) {
-            objClonato.fixCombo(items, nullSelectionAllowed);
-        }// end of if cycle
-
-        return objClonato;
-    }// end of method
-
 
     /**
      * Fire event
@@ -328,9 +240,9 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * entityBean Opzionale (entityBean) in elaborazione
      * field      Opzionale (field) che ha generato l'evento
      */
-    protected void publish() {
+    void publish() {
         if (source != null) {
-            applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean, this));
+            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean, this));
         }// end of if cycle
     }// end of method
 

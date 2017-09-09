@@ -91,7 +91,7 @@ public class AlgosGrid extends Grid {
 
     /**
      * Utilizza l'Annotation @AIColumn del Model per regolare le caratteristiche delle colonne
-     * type() default AFType.text;
+     * type() default AFieldType.text;
      * header() default "";
      * width() default 80;
      * prompt() default "";

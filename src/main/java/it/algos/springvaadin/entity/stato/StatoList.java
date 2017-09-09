@@ -9,6 +9,7 @@ import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
 
@@ -47,10 +48,16 @@ public class StatoList extends AlgosListImpl {
 
     /**
      * Prepara la toolbar
+     * <p>
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source dell'evento generato dal bottone
      */
     @Override
-    protected void toolbarInizializza(AlgosPresenterImpl source) {
-        super.toolbarInizializza(source);
+    protected void inizializzaToolbar(ApplicationListener source) {
+        super.inizializzaToolbar(source);
         buttonImport = toolbar.creaAddButton(AButtonType.importa, source);
     }// end of method
 

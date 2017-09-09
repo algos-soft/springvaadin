@@ -1,6 +1,6 @@
 package it.algos.springvaadin.lib;
 
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIForm;
@@ -122,8 +122,8 @@ public abstract class LibAnnotation {
      * @return the type for the specific column
      */
     @SuppressWarnings("all")
-    public static AFType getTypeField(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        AFType type = null;
+    public static AFieldType getTypeField(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        AFieldType type = null;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
@@ -144,15 +144,15 @@ public abstract class LibAnnotation {
      * @return the type for the specific column
      */
     @SuppressWarnings("all")
-    public static AFType getTypeColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        AFType type = null;
+    public static AFieldType getTypeColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        AFieldType type = null;
         AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
 
         if (columnAnnotation != null) {
             type = columnAnnotation.type();
         }// end of if cycle
 
-        if (type == AFType.ugualeAlField) {
+        if (type == AFieldType.ugualeAlField) {
             type = getTypeField(clazz, publicFieldName);
         }// end of if cycle
 

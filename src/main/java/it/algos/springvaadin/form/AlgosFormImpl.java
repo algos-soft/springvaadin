@@ -414,45 +414,55 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         return entityBean;
     }// end of method
 
-
     /**
-     * Abilita il bottone Annulla del Form
+     * Abilita o disabilita lo specifico bottone della Toolbar
      *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableAnnulla(boolean status) {
-        toolbar.enableButton(AButtonType.annulla, status);
-    }// end of method
-
-
-    /**
-     * Abilita il bottone Revert del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRevert(boolean status) {
-        toolbar.enableButton(AButtonType.revert, status);
-    }// end of method
-
-
-    /**
-     * Abilita il bottone Registra del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRegistra(boolean status) {
-        toolbar.enableButton(AButtonType.registra, status);
-    }// end of method
-
-    /**
-     * Abilita il bottone Accetta del Form
-     *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
     @Override
-    public void enableAccetta(boolean status) {
-        toolbar.enableButton(AButtonType.accetta, status);
+    public void enableButton(AButtonType type, boolean status) {
+        toolbar.enableButton(type, status);
     }// end of method
+
+//    /**
+//     * Abilita il bottone Annulla del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableAnnulla(boolean status) {
+//        toolbar.enableButton(AButtonType.annulla, status);
+//    }// end of method
+//
+//
+//    /**
+//     * Abilita il bottone Revert del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableRevert(boolean status) {
+//        toolbar.enableButton(AButtonType.revert, status);
+//    }// end of method
+//
+//
+//    /**
+//     * Abilita il bottone Registra del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableRegistra(boolean status) {
+//        toolbar.enableButton(AButtonType.registra, status);
+//    }// end of method
+//
+//    /**
+//     * Abilita il bottone Accetta del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    @Override
+//    public void enableAccetta(boolean status) {
+//        toolbar.enableButton(AButtonType.accetta, status);
+//    }// end of method
 
     /**
      * Inserisce nei bottoni Registra o Accetta il Field che va notificato

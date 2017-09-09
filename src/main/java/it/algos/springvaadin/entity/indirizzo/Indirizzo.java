@@ -3,11 +3,10 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIForm;
-import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
@@ -54,7 +53,7 @@ public class Indirizzo extends AEntity {
      */
     @NotEmpty(message = "L'indirizzo è obbligatorio")
     @Size(min = 2, max = 40)
-    @AIField(type = AFType.text, widthEM = 20, focus = true, help = "Via, nome e numero")
+    @AIField(type = AFieldType.text, widthEM = 20, focus = true, help = "Via, nome e numero")
     @AIColumn(width = 300)
     private String indirizzo = "";
 
@@ -64,7 +63,7 @@ public class Indirizzo extends AEntity {
      */
     @NotEmpty(message = "La località è obbligatoria")
     @Size(min = 4, max = 40)
-    @AIField(type = AFType.text, firstCapital = true, widthEM = 20, help = "Città, comune, paese")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 20, help = "Città, comune, paese")
     @AIColumn(width = 300)
     private String localita = "";
 
@@ -74,7 +73,7 @@ public class Indirizzo extends AEntity {
      * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
     @Size(min = 5, max = 5, message = "CAP deve essere di 5 numeri")
-    @AIField(type = AFType.text, widthEM = 5, help = "Codice postale")
+    @AIField(type = AFieldType.text, widthEM = 5, help = "Codice postale")
     @AIColumn(width = 90)
     private String cap = "";
 
@@ -86,7 +85,7 @@ public class Indirizzo extends AEntity {
     @DBRef
     @NotEmpty(message = "Lo stato è obbligatorio")
     @Size(min = 3, max = 20)
-    @AIField(type = AFType.combo, clazz = Stato.class)
+    @AIField(type = AFieldType.combo, clazz = Stato.class)
     @AIColumn(width = 140)
     private Stato stato;
 

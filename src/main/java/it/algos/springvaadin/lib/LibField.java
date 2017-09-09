@@ -54,7 +54,7 @@ public class LibField {
 //    @SuppressWarnings("all")
 //    public static AlgosField create(AlgosPresenterImpl presenter, final Class<? extends AEntity> clazz, final String publicFieldName) {
 //        AlgosField field = null;
-//        AFType type = LibAnnotation.getTypeField(clazz, publicFieldName);
+//        AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
 //        String caption = LibAnnotation.getNameField(clazz, publicFieldName);
 //        AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
 //        Object[] items = null;

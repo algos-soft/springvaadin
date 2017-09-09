@@ -51,8 +51,8 @@ public class AImageField extends AField {
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    protected void inizia(String publicFieldName, ApplicationListener source) {
-        super.inizia(publicFieldName, source);
+    protected void inizializza(String publicFieldName, ApplicationListener source) {
+        super.inizializza(publicFieldName, source);
         if (button != null) {
             button.setTarget(target);
         }// end of if cycle

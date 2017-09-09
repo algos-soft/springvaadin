@@ -364,8 +364,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void revert() {
         view.revertEntity();
-        view.enableRevert(false);
-        view.enableRegistra(false);
+        view.enableButtonForm(AButtonType.revert, false);
+        view.enableButtonForm(AButtonType.registra, false);
     }// end of method
 
 
@@ -417,9 +417,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Override
     public void fieldModificato() {
-        view.enableRevert(true);
-        view.enableRegistra(true);
-        view.enableAccetta(true);
+        view.enableButtonForm(AButtonType.revert, true);
+        view.enableButtonForm(AButtonType.registra, true);
+        view.enableButtonForm(AButtonType.accetta, true);
     }// end of method
 
     /**
@@ -492,21 +492,21 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
         //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
         unaSolaRigaSelezionata = view.isUnaRigaSelezionata();
-        view.enableEdit(unaSolaRigaSelezionata);
+        view.enableButtonList(AButtonType.edit, unaSolaRigaSelezionata);
 
         //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
         switch (LibParams.gridSelectionMode()) {
             //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
             case SINGLE:
-                view.enableDelete(unaSolaRigaSelezionata);
+                view.enableButtonList(AButtonType.delete, unaSolaRigaSelezionata);
                 break;
             //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
             case MULTI:
                 numRigheSelezionate = view.numRigheSelezionate();
                 if (numRigheSelezionate >= 1) {
-                    view.enableDelete(true);
+                    view.enableButtonList(AButtonType.delete, true);
                 } else {
-                    view.enableDelete(false);
+                    view.enableButtonList(AButtonType.delete, false);
                 }// end of if/else cycle
                 break;
             case NONE:

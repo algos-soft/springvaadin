@@ -126,7 +126,7 @@ public class AButton extends Button {
         this.setPublisher(publisher);
         this.setSource(source);
 
-        fixParametri();
+        this.regolaParametri();
 
         if (LibParams.usaBottoniColorati()) {
             this.addStyleName(type.getStyle());
@@ -141,7 +141,7 @@ public class AButton extends Button {
     /**
      * Regola i parametri del bottone specifico (usando la Enumeration dei bottoni)
      */
-    private void fixParametri() {
+    private void regolaParametri() {
         super.setCaption(type.getCaption());
         super.setCaption(type.getCaption());
         super.setIcon(type.getIcon());
@@ -180,7 +180,7 @@ public class AButton extends Button {
 
     private void setPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
-    }
+    }// end of method
 
     public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;

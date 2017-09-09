@@ -3,7 +3,7 @@ package it.algos.springvaadin.entity.company;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.model.AEntity;
@@ -43,7 +43,7 @@ public class Company extends AEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La sigla interna è obbligatoria")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, widthEM = 8, focus = true, help = "Codice interno")
+    @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno")
     @AIColumn(width = 80)
     private String sigla;
 
@@ -52,14 +52,14 @@ public class Company extends AEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
-    @AIField(type = AFType.text, firstCapital = true, widthEM = 30, help = "Descrizione della company")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 30, help = "Descrizione della company")
     @AIColumn(width = 320)
     private String descrizione;
 
 
     //--indirizzo (facoltativo)
     @DBRef
-    @AIField(type = AFType.link, clazz = IndirizzoField.class, help = "Indirizzo")
+    @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
     private Indirizzo indirizzo;
 

@@ -22,7 +22,7 @@ public class IndirizzoAButtonEdit extends AButton {
 
     public IndirizzoAButtonEdit(ApplicationEventPublisher applicationEventPublisher) {
         super();
-        super.setType(AButtonType.editLink);
+//        super.setType(AButtonType.editLink);
     }// end of @Autowired constructor
 
 

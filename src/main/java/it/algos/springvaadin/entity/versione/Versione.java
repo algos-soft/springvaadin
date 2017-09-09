@@ -1,7 +1,7 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.model.AEntity;
@@ -46,7 +46,7 @@ public class Versione extends AEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-    @AIField(type = AFType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 80)
     private int ordine;
 
@@ -57,7 +57,7 @@ public class Versione extends AEntity {
      */
     @NotEmpty(message = "Il titolo è obbligatorio")
     @Size(min = 2, max = 20)
-    @AIField(type = AFType.text, focus = true, help = "Tipologia della versione")
+    @AIField(type = AFieldType.text, focus = true, help = "Tipologia della versione")
     @AIColumn()
     private String titolo;
 
@@ -68,7 +68,7 @@ public class Versione extends AEntity {
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 4, max = 200)
-    @AIField(type = AFType.text, widthEM = 30, help = "Descrizione della versione")
+    @AIField(type = AFieldType.text, widthEM = 30, help = "Descrizione della versione")
     @AIColumn(width = 500)
     private String descrizione;
 
@@ -78,7 +78,7 @@ public class Versione extends AEntity {
      * inserita automaticamente
      */
     @NotNull
-    @AIField(type = AFType.localdatetime, enabled = false, help = "Data di inserimento della versione")
+    @AIField(type = AFieldType.localdatetime, enabled = false, help = "Data di inserimento della versione")
     @AIColumn
     private LocalDateTime modifica;
 

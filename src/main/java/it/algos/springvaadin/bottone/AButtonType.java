@@ -28,7 +28,6 @@ public enum AButtonType {
     create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    editLink("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_GREEN),
     editLinkDBRef("", null, true, "", ""),
     editLinkNoDBRef("", null, true, "", ""),
     image("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_GREEN),

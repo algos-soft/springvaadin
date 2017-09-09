@@ -1,7 +1,7 @@
 package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
@@ -51,7 +51,7 @@ public class Stato extends AEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = AFType.integer, enabled = false, help = "Ordine di creazione. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, enabled = false, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;
 
@@ -61,7 +61,7 @@ public class Stato extends AEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 4)
-    @AIField(type = AFType.text, required = true, focus = true, firstCapital = true)
+    @AIField(type = AFieldType.text, required = true, focus = true, firstCapital = true)
     @AIColumn(width = 250)
     private String nome;
 
@@ -71,7 +71,7 @@ public class Stato extends AEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 2, max = 2)
-    @AIField(type = AFType.text, widthEM = 6, allUpper = true, onlyLetter = true)
+    @AIField(type = AFieldType.text, widthEM = 6, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaDue;
 
@@ -81,7 +81,7 @@ public class Stato extends AEntity {
     @NotEmpty
     @Indexed(unique = true)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 6, allUpper = true, onlyLetter = true)
+    @AIField(type = AFieldType.text, widthEM = 6, allUpper = true, onlyLetter = true)
     @AIColumn(width = 100)
     private String alfaTre;
 
@@ -90,7 +90,7 @@ public class Stato extends AEntity {
     //-- 249 codici assegnati
     @Indexed(unique = false)
     @Size(min = 3, max = 3)
-    @AIField(type = AFType.text, widthEM = 6, onlyNumber = true)
+    @AIField(type = AFieldType.text, widthEM = 6, onlyNumber = true)
     @AIColumn(width = 100)
     private String numerico;
 
@@ -98,7 +98,7 @@ public class Stato extends AEntity {
     //--immagine bandiera (facoltativo, unico)
     //-- 249 codici assegnati
     @Indexed(unique = false)
-    @AIField(type = AFType.image, widthEM = 8)
+    @AIField(type = AFieldType.image, widthEM = 8)
     @AIColumn(width = 100)
     private byte[] bandiera;
 

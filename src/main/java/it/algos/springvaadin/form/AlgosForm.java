@@ -2,6 +2,7 @@ package it.algos.springvaadin.form;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -97,35 +98,43 @@ public interface AlgosForm {
 
 
     /**
-     * Abilita il bottone Annulla del Form
+     * Abilita o disabilita lo specifico bottone della Toolbar
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
-    public void enableAnnulla(boolean status);
+    public void enableButton(AButtonType type, boolean status);
 
-
-    /**
-     * Abilita il bottone Revert del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRevert(boolean status);
-
-
-    /**
-     * Abilita il bottone Registra del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableRegistra(boolean status);
-
-
-    /**
-     * Abilita il bottone Accetta del Form
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    public void enableAccetta(boolean status);
+//    /**
+//     * Abilita il bottone Annulla del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableAnnulla(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Revert del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableRevert(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Registra del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableRegistra(boolean status);
+//
+//
+//    /**
+//     * Abilita il bottone Accetta del Form
+//     *
+//     * @param status true se abilitato, false se disabilitato
+//     */
+//    public void enableAccetta(boolean status);
 
 
     /**

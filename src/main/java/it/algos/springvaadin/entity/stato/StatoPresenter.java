@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
@@ -88,7 +89,7 @@ public class StatoPresenter extends AlgosPresenterImpl {
     @Override
     public void revert() {
         super.revert();
-        view.enableRegistra(true);
+        view.enableButtonForm(AButtonType.registra, true);
     }// end of method
 
 }// end of class

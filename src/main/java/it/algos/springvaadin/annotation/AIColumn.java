@@ -1,6 +1,6 @@
 package it.algos.springvaadin.annotation;
 
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +26,7 @@ public @interface AIColumn {
      * Se manca (valore di default), prende quello indicato in AIField
      * Se manca anche in AIField, prende il valore di default di AIField
      */
-    AFType type() default AFType.ugualeAlField;
+    AFieldType type() default AFieldType.ugualeAlField;
 
     /**
      * (Optional) The name of the field.

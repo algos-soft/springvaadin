@@ -1,6 +1,6 @@
 package it.algos.springvaadin.annotation;
 
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -27,7 +27,7 @@ public @interface AIField {
      * (Required) The type of the field.
      * Defaults to the text type.
      */
-    AFType type() default AFType.text;
+    AFieldType type() default AFieldType.text;
 
 
     /**
@@ -111,7 +111,7 @@ public @interface AIField {
 
     /**
      * (Optional) Status (allowed null selection in popup) of the the field.
-     * Meaning sense only for AFType.combo.
+     * Meaning sense only for AFieldType.combo.
      * Defaults to false.
      */
     boolean nullSelectionAllowed() default false;

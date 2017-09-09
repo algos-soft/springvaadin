@@ -4,14 +4,18 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +24,7 @@ import java.util.List;
  * Created by gac on 20/06/17
  * Implementazione standard dell'annotation AlgosList
  */
-public class AlgosListImpl extends VerticalLayout implements AlgosList {
+public abstract class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
     //--valore che può essere regolato nella classe specifica
@@ -38,14 +42,18 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
     protected AToolbar toolbar;
 
 
+
     /**
-     * Costruttore @Autowired
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     * Costruttore @Autowired (nella sottoclasse concreta)
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
+     * Se ci sono DUE o più costruttori, va in errore
+     * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
      * @param grid    iniettata da Spring
      * @param toolbar iniettata da Spring
      */
-    public AlgosListImpl(AlgosGrid grid, ListToolbar toolbar) {
+    public AlgosListImpl(AlgosGrid grid, @Qualifier(Cost.BAR_LIST) AToolbar toolbar) {
         this.grid = grid;
         this.toolbar = toolbar;
     }// end of Spring constructor
@@ -55,13 +63,13 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      * Creazione della grid
      * Ricrea tutto ogni volta che la finestra diventa attiva
      *
-     * @param presenter   di riferimento per gli eventi
+     * @param source      di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
      * @param columns     da visualizzare nella grid
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> columns) {
+    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> columns) {
         Label label;
         this.setMargin(false);
         String textLabel = "";
@@ -82,8 +90,9 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
         grid.inizia(entityClass, items, columns);
         this.addComponent(grid);
 
-        toolbarInizializza(presenter);
-        this.addComponent((ListToolbar)toolbar);
+        //--Prepara la toolbar e la aggiunge al contenitore grafico
+        inizializzaToolbar(source);
+        this.addComponent((ListToolbar) toolbar);
 
         if (AlgosApp.USE_DEBUG) {
             this.addStyleName("rosso");
@@ -94,10 +103,17 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
     /**
      * Prepara la toolbar
+     * <p>
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source dell'evento generato dal bottone
      */
-    protected void toolbarInizializza(AlgosPresenterImpl source) {
+    protected void inizializzaToolbar(ApplicationListener source) {
         toolbar.inizializza(source);
     }// end of method
+
 
     /**
      * Righe selezionate nella Grid
@@ -122,47 +138,16 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
 
 
     /**
-     * Abilita il bottone Create dela Grid
+     * Abilita o disabilita lo specifico bottone della Toolbar
      *
-     * @param status true se abilitato, false se disabilitato
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
     @Override
-    public void enableNew(boolean status) {
-        toolbar.enableButton(AButtonType.create, status);
+    public void enableButton(AButtonType type, boolean status) {
+        toolbar.enableButton(type, status);
     }// end of method
 
-
-    /**
-     * Abilita il bottone Edit dela Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableEdit(boolean status) {
-        toolbar.enableButton(AButtonType.edit, status);
-    }// end of method
-
-
-    /**
-     * Abilita il bottone Delet della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableDelete(boolean status) {
-        toolbar.enableButton(AButtonType.delete, status);
-    }// end of method
-
-
-    /**
-     * Abilita il bottone Search della Grid
-     *
-     * @param status true se abilitato, false se disabilitato
-     */
-    @Override
-    public void enableSearch(boolean status) {
-        toolbar.enableButton(AButtonType.search, status);
-    }// end of method
 
 
     /**

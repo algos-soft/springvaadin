@@ -3,7 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
-import it.algos.springvaadin.field.AFType;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.model.AEntity;
@@ -45,7 +45,7 @@ public abstract class LibColumn {
     public static int addColumn(final Class<? extends AEntity> clazz, Grid grid, String publicFieldName) {
         AIColumn columnAnnotation = getColumnAnnotation(clazz, publicFieldName);
         Grid.Column colonna = null;
-        AFType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
+        AFieldType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
         String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
         int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
