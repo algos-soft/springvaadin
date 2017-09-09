@@ -2,7 +2,7 @@ package it.algos.springvaadin.dialog;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -27,15 +27,15 @@ public class Edit2Dialog extends Window {
     String message = "";
 
     TextField field = new TextField();
-    Bottone buttonBack;
-    Bottone buttonAccetta;
+    AButton buttonBack;
+    AButton buttonAccetta;
 
 //    public Edit2Dialog() {
 //    }// end of constructor
 
 
-    public Edit2Dialog(@Qualifier(Cost.BOT_BACK) Bottone buttonBack,
-                       @Qualifier(Cost.BOT_ACCETTA) Bottone buttonAccetta) {
+    public Edit2Dialog(@Qualifier(Cost.BOT_BACK) AButton buttonBack,
+                       @Qualifier(Cost.BOT_ACCETTA) AButton buttonAccetta) {
         super();
         this.buttonBack = buttonBack;
         this.buttonAccetta = buttonAccetta;
@@ -46,8 +46,8 @@ public class Edit2Dialog extends Window {
         this.recipient = recipient;
         final Window winDialog = this;
         field.setValue("");
-        buttonBack.regolaBottone(source);
-        buttonAccetta.regolaBottone(source);
+        buttonBack.inizializza(null,source);
+        buttonAccetta.inizializza(null,source);
         this.setModal(true);
         this.setResizable(false);
         this.setClosable(false);

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
 /**
- * Created by gac on 18/06/17
+ * Created by gac on 18/06/17.
  * Riceve gli eventi, lanciati da Bottoni ed Azioni, e li gestisce in questa classe
  */
 public abstract class AlgosPresenterEvents implements AlgosPresenter {
@@ -288,9 +288,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 }// end of if cycle
                 break;
             case linkRegistra:
-                if ((targetClazz == thisClazz)) {
-//                    editLink(entityBean, parentField);
-                }// end of if cycle
+                registra();
                 break;
             case linkAccetta:
                 if ((targetClazz == thisClazz)) {

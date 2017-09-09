@@ -8,6 +8,7 @@ import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -35,7 +36,7 @@ public class AComboField extends AField {
     }// end of method
 
 
-    protected void fixCombo(Object[] items, boolean nullSelectionAllowed) {
+    public void fixCombo(Object[] items, boolean nullSelectionAllowed) {
         if (combo != null) {
             combo.setItems(items);
             combo.setEmptySelectionAllowed(nullSelectionAllowed);

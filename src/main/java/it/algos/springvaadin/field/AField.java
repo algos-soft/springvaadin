@@ -2,7 +2,7 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.model.AEntity;
@@ -42,7 +42,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      * Property iniettata nel costruttore della sottoclasse contreta
      */
-    protected Bottone button;
+    protected AButton button;
 
     /**
      * Property iniettata da Spring PRIMA della chiamata del browser
@@ -85,7 +85,7 @@ public abstract class AField<T> extends CustomField<Object> implements Cloneable
      *
      * @param button iniettato da Spring
      */
-    public AField(Bottone button) {
+    public AField(AButton button) {
         this.button = button;
     }// end of Spring constructor
 

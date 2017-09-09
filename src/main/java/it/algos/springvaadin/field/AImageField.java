@@ -2,11 +2,10 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -34,7 +33,7 @@ public class AImageField extends AField {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public AImageField(@Qualifier(Cost.BOT_IMAGE) Bottone button, ImageDialog targetAutowired) {
+    public AImageField(@Qualifier(Cost.BOT_IMAGE) AButton button, ImageDialog targetAutowired) {
         super(button);
         super.target = targetAutowired;
     }// end of @Autowired constructor

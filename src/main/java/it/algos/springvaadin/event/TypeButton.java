@@ -2,7 +2,7 @@ package it.algos.springvaadin.event;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.lib.Cost;
 
 /**
@@ -21,24 +21,24 @@ import it.algos.springvaadin.lib.Cost;
 public enum TypeButton {
 
 
-    accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    annulla(Cost.BOT_ANNULLA, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    back(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
-    edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    editLink("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
+    accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    annulla(Cost.BOT_ANNULLA, VaadinIcons.CLOSE, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    back(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, Cost.STYLE_RED),
+    edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    editLink("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_GREEN),
     editLinkDBRef("", null, true, "", ""),
     editLinkNoDBRef("", null, true, "", ""),
-    image("", VaadinIcons.EDIT, true, Bottone.ICON_WIDTH, Cost.STYLE_GREEN),
-    importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, Bottone.NORMAL_WIDTH, Cost.STYLE_RED),
-    linkAccetta(Cost.BOT_ACCETTA, VaadinIcons.EDIT, true, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    linkRegistra(Cost.BOT_REGISTRA, VaadinIcons.EDIT, true, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, Bottone.NORMAL_WIDTH, Cost.STYLE_BLUE),
-    revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    show(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, Bottone.NORMAL_WIDTH, Cost.STYLE_GREEN);
+    image("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_GREEN),
+    importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, AButton.NORMAL_WIDTH, Cost.STYLE_RED),
+    linkAccetta(Cost.BOT_ACCETTA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    linkRegistra(Cost.BOT_REGISTRA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
+    show(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN);
 
 
     private String caption;

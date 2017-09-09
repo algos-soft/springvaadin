@@ -2,8 +2,8 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.bottone.Bottone;
-import it.algos.springvaadin.bottone.BottoneEditLink;
+import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.bottone.AButtonEditLink;
 import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.label.LabelBold;
 import it.algos.springvaadin.lib.Cost;
@@ -36,7 +36,16 @@ public class ALinkField extends AField {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public ALinkField(@Qualifier(Cost.BOT_LINK) Bottone button) {
+    public ALinkField() {
+        super(null);
+    }// end of @Autowired constructor
+
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     */
+    public ALinkField(@Qualifier(Cost.BOT_LINK) AButton button) {
         super(button);
     }// end of @Autowired constructor
 
@@ -63,7 +72,7 @@ public class ALinkField extends AField {
             button.setFieldParent(this);
             return new HorizontalLayout(button, label);
         } else {
-            return null;
+            return label;
         }// end of if/else cycle
     }// end of method
 
@@ -84,7 +93,7 @@ public class ALinkField extends AField {
 
     public void setTypeLink(TypeButton typeLink) {
         if (button != null) {
-            ((BottoneEditLink) button).setTypeLink(typeLink);
+            ((AButtonEditLink) button).setTypeLink(typeLink);
         }// end of if cycle
     }// end of method
 

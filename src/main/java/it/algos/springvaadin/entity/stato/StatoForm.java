@@ -6,7 +6,7 @@ import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
-import it.algos.springvaadin.toolbar.AlgosToolbar;
+import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,8 +32,8 @@ public class StatoForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public StatoForm(@Qualifier(Cost.BAR_FORM) AlgosToolbar toolbar,
-                     @Qualifier(Cost.BAR_LINK) AlgosToolbar toolbarLink) {
+    public StatoForm(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                     @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 

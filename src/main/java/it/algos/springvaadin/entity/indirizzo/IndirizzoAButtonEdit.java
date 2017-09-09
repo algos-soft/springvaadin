@@ -2,7 +2,7 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.TypeButton;
-import it.algos.springvaadin.bottone.Bottone;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 
 //@SpringComponent
-public class IndirizzoBottoneEdit extends Bottone {
+public class IndirizzoAButtonEdit extends AButton {
 
     private AEntity entityBean;
 
@@ -20,7 +20,7 @@ public class IndirizzoBottoneEdit extends Bottone {
     @Qualifier(Cost.TAG_IND)
     private AField field;
 
-    public IndirizzoBottoneEdit(ApplicationEventPublisher applicationEventPublisher) {
+    public IndirizzoAButtonEdit(ApplicationEventPublisher applicationEventPublisher) {
         super(applicationEventPublisher);
         super.setType(TypeButton.editLink);
     }// end of @Autowired constructor

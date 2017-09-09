@@ -5,7 +5,9 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ import javax.annotation.PostConstruct;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare in AFieldFactory
  */
 @SpringComponent
+@Configurable("ATextField")
 @Scope("prototype")
 @Qualifier(Cost.FIELD_TEXT)
 public class ATextField extends AText {
