@@ -33,9 +33,9 @@ public class AImageField extends AField {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public AImageField(@Qualifier(Cost.BOT_IMAGE) AButton button, ImageDialog targetAutowired) {
-        super(button);
-        super.target = targetAutowired;
+    public AImageField( ImageDialog targetAutowired) {
+        super();
+//        super.target = targetAutowired;
     }// end of @Autowired constructor
 
 

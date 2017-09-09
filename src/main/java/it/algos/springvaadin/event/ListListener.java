@@ -2,6 +2,7 @@ package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Window;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 
@@ -20,7 +21,7 @@ public interface ListListener {
 
     public void edit(AEntity entityBean, AField parentField);
 
-    public void editLink(AEntity entityBean, AField parentField, TypeButton type);
+    public void editLink(AEntity entityBean, AField parentField, AButtonType type);
 
     public void editImage(AEntity entityBean, AField parentField);
 

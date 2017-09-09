@@ -1,4 +1,4 @@
-package it.algos.springvaadin.event;
+package it.algos.springvaadin.bottone;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
@@ -18,7 +18,7 @@ import it.algos.springvaadin.lib.Cost;
  * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
  * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
  */
-public enum TypeButton {
+public enum AButtonType {
 
 
     accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
@@ -51,7 +51,7 @@ public enum TypeButton {
     /**
      * Costruttore interno dell'Enumeration
      */
-    TypeButton(String caption, Resource icon, boolean enabled, String width, String style) {
+    AButtonType(String caption, Resource icon, boolean enabled, String width, String style) {
         this.setCaption(caption);
         this.setIcon(icon);
         this.setEnabled(enabled);

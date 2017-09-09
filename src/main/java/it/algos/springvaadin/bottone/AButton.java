@@ -2,16 +2,12 @@ package it.algos.springvaadin.bottone;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
-import it.algos.springvaadin.entity.company.CompanyForm;
 import it.algos.springvaadin.event.AButtonEvent;
-import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -20,7 +16,7 @@ import javax.annotation.PostConstruct;
 /**
  * Created by gac on 26/7/17
  * <p>
- * Classe astratta per i bottoni utilizzati in List e Form
+ * Bottoni utilizzati in List e Form
  * Nel costruttore viene iniettato il riferimento al singleton ApplicationEventPublisher
  * Nel @PostConstruct vengono regolati i parametri specifici di questo bottone
  * Nella superclasse viene aggiunto il listener per il click sul bottone
@@ -31,84 +27,114 @@ import javax.annotation.PostConstruct;
 public class AButton extends Button {
 
 
-    public final static String NORMAL_WIDTH = "8em";
-    public final static String ICON_WIDTH = "3em";
-
-
-    /**
-     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
-     */
-    protected ApplicationEventPublisher publisher;
-
-
-    /**
-     * Property iniettata manualmente DOPO il costruttore e DOPO la chiamata del browser
-     */
-    protected ApplicationListener source;
-
-
-    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
-    protected ApplicationListener target;
-
-
-    /**
-     * Property regolata DOPO la chiamata del browser
-     */
-    private Window parentDialog;
+    final static String NORMAL_WIDTH = "8em";
+    final static String ICON_WIDTH = "3em";
 
 
     /**
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
      * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
      */
-    protected TypeButton type;
+    protected AButtonType type;
 
 
     /**
-     * Property (facoltativa), necessaria per alcuni bottoni
-     * Property regolata DOPO la chiamata del browser
+     * Classe che gestisce gli eventi a livello Application
+     */
+    protected ApplicationEventPublisher publisher;
+
+
+    /**
+     * Source (presenter, window, dialog) dell'evento generato dal bottone
+     */
+    protected ApplicationListener source;
+
+
+    /**
+     * Target facoltativo (presenter, window, dialog) a cui indirizzare l'evento generato dal bottone
+     */
+    protected ApplicationListener target;
+
+
+    /**
+     * EntityBean (facoltativa), necessaria per alcuni bottoni
      */
     protected AEntity entityBean;
 
 
-    //--Opzionale (field) che che contiene il bottone (solo alcuni campi come Link, Image, ...)
-    protected AField fieldParent;
+    /**
+     * Window (facoltativa), necessaria per alcuni bottoni
+     */
+    private Window parentDialog;
 
 
     /**
-     * Costruttore base senza parametri.
+     * Field (facoltativo), che che contiene il bottone (solo alcuni campi come Link, Image, ...)
+     */
+    AField fieldParent;
+
+
+    /**
+     * Costruttore base senza parametri
      * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
-     * Il publisher viene iniettato successivamente
      */
     public AButton() {
-        int a = 87;
     }// fine del metodo costruttore base
 
 
     /**
-     * Costruttore @Autowired (nella sottoclasse concreta)
-     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
-     * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
-     * Se ci sono DUE o più costruttori, va in errore
-     * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     * Aggiunge il listener al bottone
      */
-    @Deprecated //@todo utilizzo la Funzione -> BottoneFactory in AlgosConfiguration
-    public AButton(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
-    }// end of @Autowired constructor
+    @PostConstruct
+    private void inizia() {
+        this.addListener();
+    }// end of method
 
 
     /**
-     * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
-     * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
+     * Aggiunge il listener al bottone
+     * Handle the event with an anonymous class
      */
-    @PostConstruct
-    public void inizia() {
-        if (type != null) {
-            this.fixParametri();
+    private void addListener() {
+        this.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                fire(clickEvent);
+            }// end of inner method
+        });// end of anonymous inner class
+    }// end of method
+
+
+    /**
+     * Metodo invocato da parte di AButtonFactory subito dopo la creazione del bottone
+     * Non parte dal costruttore, perché AButtonFactory usa un costruttore SENZA parametri
+     * <p>
+     * Regola il 'type' di bottone
+     * Inietta il publisher
+     * Il bottone usa il sorce (di tipo presenter, di solito) per identificare 'dove' gestire l'evento generato
+     * Regola lo style del bottone.
+     * Forza a maiuscola la prima lettera del testo del bottone
+     * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
+     *
+     * @param type      del bottone, secondo la Enumeration AButtonType
+     * @param publisher degli eventi a livello Application
+     * @param source    dell'evento generato dal bottone
+     */
+     void inizializza(AButtonType type, ApplicationEventPublisher publisher, ApplicationListener source) {
+        this.setType(type);
+        this.setPublisher(publisher);
+        this.setSource(source);
+
+        fixParametri();
+
+        if (LibParams.usaBottoniColorati()) {
+            this.addStyleName(type.getStyle());
         }// end of if cycle
 
-        this.addListener();
+        if (LibParams.usaBottoniPrimaMaiuscola()) {
+            this.setCaption(LibText.primaMaiuscola(getCaption()));
+        }// end of if cycle
     }// end of method
 
 
@@ -123,60 +149,6 @@ public class AButton extends Button {
         super.setWidth(type.getWidth());
     }// end of method
 
-
-    /**
-     * Aggiunge il listener al bottone
-     * Handle the event with an anonymous class
-     * Metodo invocato PRIMA della chiamata del browser, per i componenti gestiti da @SpringComponent
-     */
-    private void addListener() {
-        this.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                fire(clickEvent);
-            }// end of inner method
-        });// end of anonymous inner class
-    }// end of method
-
-
-    /**
-     * Metodo invocato alla creazione del bottone da parte di AButtonFactory
-     * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
-     * Regola lo style del bottone.
-     * Forza a maiuscola la prima lettera del testo del bottone
-     * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
-     */
-    public void inizializza(ApplicationEventPublisher publisher, ApplicationListener source) {
-        regolaBottone(publisher, source, null);
-    }// end of method
-
-
-    /**
-     * Metodo invocato DOPO la chiamata del browser, da AlgosToolbar->setPresenter()
-     * I bottoni vengono creati da Spring in una fase iniziale 'statica' e non sanno chi li 'userà'
-     * Quando parte la UI ed il corrispondente xxxPresenter, questo viene iniettato nel bottone
-     * Il bottone usa il presenter per identificare 'dove' gestire l'evento generato
-     * Regola lo style del bottone.
-     * Forza a maiuscola la prima lettera del testo del bottone
-     * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
-     */
-    public void regolaBottone(ApplicationEventPublisher publisher, ApplicationListener source, Window parentDialog) {
-        this.setPublisher(publisher);
-        this.setSource(source);
-        this.fixParametri();
-
-        if (parentDialog != null) {
-            this.parentDialog = parentDialog;
-        }// end of if cycle
-
-        if (LibParams.usaBottoniColorati()) {
-            this.addStyleName(type.getStyle());
-        }// end of if cycle
-
-        if (LibParams.usaBottoniPrimaMaiuscola()) {
-            this.setCaption(LibText.primaMaiuscola(getCaption()));
-        }// end of if cycle
-    }// end of method
 
 
     /**
@@ -204,7 +176,9 @@ public class AButton extends Button {
         publisher.publishEvent(evento);
     }// end of method
 
-    public void setPublisher(ApplicationEventPublisher publisher) {
+
+
+    private void setPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
     }
 
@@ -226,12 +200,12 @@ public class AButton extends Button {
         this.fieldParent = fieldParent;
     }// end of method
 
-    public void setType(TypeButton type) {
+    public void setType(AButtonType type) {
         this.type = type;
     }// end of method
 
 
-    public TypeButton getType() {
+    public AButtonType getType() {
         return type;
     }// end of method
 

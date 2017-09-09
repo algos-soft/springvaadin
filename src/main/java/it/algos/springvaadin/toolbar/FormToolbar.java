@@ -3,25 +3,28 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 23/06/17
  * <p>
  * Barra di comando con bottoni, specializzata per il form
- * Autowired nel costruttore e non nelle property
+ * Nel ciclo restart() di Form, la toolbar costruisce i bottoni ("prototype") usando la factory AButtonFactory
+ * Viene poi iniettato il parametro obbligatorio (source)
+ * Ulteriori parametri (target, entityBean), vengono iniettati direttamente solo in alcuni bottoni
+ * Tutti i bottoni possono essere abilitati/disabilitati
+ * I bottoni standard sono 3
+ * Eventuali bottoni aggiuntivi, possono essere aggiunti nella classe specifica xxxForm.toolbarInizializza()
+ * Tutti i bottoni possono essere abilitati/disabilitati
  */
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.BAR_FORM)
 public class FormToolbar extends AToolbarImpl {
-
-
-    private AButton buttonAnnulla;
-    private AButton buttonRevert;
-    private AButton buttonRegistra;
 
 
     /**
@@ -35,37 +38,23 @@ public class FormToolbar extends AToolbarImpl {
         super(buttonFactory);
     }// end of @Autowired constructor
 
-//    /**
-//     * Metodo invocato da Form
-//     * Aggiunge i bottoni al contenitore grafico
-//     */
-//    @Override
-//    public void inizia() {
-//        super.addButton(buttonAnnulla);
-//        super.addButton(buttonRevert);
-//        super.addButton(buttonRegistra);
-//    }// end of method
-//
-//    @Override
-//    public void enableAnnulla(boolean status) {
-//        if (buttonAnnulla != null) {
-//            buttonAnnulla.setEnabled(status);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void enableRevert(boolean status) {
-//        if (buttonRevert != null) {
-//            buttonRevert.setEnabled(status);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void enableRegistra(boolean status) {
-//        if (buttonRegistra != null) {
-//            buttonRegistra.setEnabled(status);
-//        }// end of if cycle
-//    }// end of method
+
+    /**
+     * Metodo invocato da restart() di Form e List
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source dell'evento generato dal bottone
+     */
+    @Override
+    public void inizializza(ApplicationListener source) {
+        this.removeAllComponents();
+
+        super.creaAddButton(AButtonType.annulla, source);
+        super.creaAddButton(AButtonType.revert, source);
+        super.creaAddButton(AButtonType.registra, source);
+    }// end of method
 
 
 }// end of class

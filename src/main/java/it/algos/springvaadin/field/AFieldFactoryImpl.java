@@ -58,12 +58,12 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    button = buttonFactory.apply(AButtonEditLink.class);
-                    if (button != null) {
-                        button.inizia();
-                        button.setPublisher(publisher);
-                        field.button = button;
-                    }// end of if cycle
+//                    button = buttonFactory.apply(AButtonEditLink.class);
+//                    if (button != null) {
+//                        button.inizia();
+//                        button.setPublisher(publisher);
+//                        field.button = button;
+//                    }// end of if cycle
                     break;
                 default: // caso non definito
                     break;

@@ -4,6 +4,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.LibParams;
@@ -127,7 +128,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      */
     @Override
     public void enableNew(boolean status) {
-        toolbar.enableNew(status);
+        toolbar.enableButton(AButtonType.create, status);
     }// end of method
 
 
@@ -138,7 +139,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      */
     @Override
     public void enableEdit(boolean status) {
-        toolbar.enableEdit(status);
+        toolbar.enableButton(AButtonType.edit, status);
     }// end of method
 
 
@@ -149,7 +150,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      */
     @Override
     public void enableDelete(boolean status) {
-        toolbar.enableDelete(status);
+        toolbar.enableButton(AButtonType.delete, status);
     }// end of method
 
 
@@ -160,7 +161,7 @@ public class AlgosListImpl extends VerticalLayout implements AlgosList {
      */
     @Override
     public void enableSearch(boolean status) {
-        toolbar.enableSearch(status);
+        toolbar.enableButton(AButtonType.search, status);
     }// end of method
 
 

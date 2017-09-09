@@ -6,6 +6,7 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
@@ -146,7 +147,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         layout.addComponent(new Label());
         toolbar.inizializza(presenter);
 //        toolbar.regolaBottoni(presenter);
-        layout.addComponent((AToolbarImpl)toolbar);
+        layout.addComponent((AToolbarImpl) toolbar);
 
         window.setContent(layout);
         window.center();
@@ -356,7 +357,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.addComponent(new Label());
         toolbar.inizializza(presenter);
 //        toolbar.regolaBottoni(presenter);
-        this.addComponent((AToolbarImpl)toolbar);
+        this.addComponent((AToolbarImpl) toolbar);
     }// end of method
 
 
@@ -420,7 +421,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableAnnulla(boolean status) {
-        toolbar.enableAnnulla(status);
+        toolbar.enableButton(AButtonType.annulla, status);
     }// end of method
 
 
@@ -430,7 +431,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableRevert(boolean status) {
-        toolbar.enableRevert(status);
+        toolbar.enableButton(AButtonType.revert, status);
     }// end of method
 
 
@@ -440,7 +441,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param status true se abilitato, false se disabilitato
      */
     public void enableRegistra(boolean status) {
-        toolbar.enableRegistra(status);
+        toolbar.enableButton(AButtonType.registra, status);
     }// end of method
 
     /**
@@ -450,7 +451,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void enableAccetta(boolean status) {
-        toolbar.enableAccetta(status);
+        toolbar.enableButton(AButtonType.accetta, status);
     }// end of method
 
     /**

@@ -34,8 +34,7 @@ public class Edit2Dialog extends Window {
 //    }// end of constructor
 
 
-    public Edit2Dialog(@Qualifier(Cost.BOT_BACK) AButton buttonBack,
-                       @Qualifier(Cost.BOT_ACCETTA) AButton buttonAccetta) {
+    public Edit2Dialog() {
         super();
         this.buttonBack = buttonBack;
         this.buttonAccetta = buttonAccetta;
@@ -46,8 +45,8 @@ public class Edit2Dialog extends Window {
         this.recipient = recipient;
         final Window winDialog = this;
         field.setValue("");
-        buttonBack.inizializza(null,source);
-        buttonAccetta.inizializza(null,source);
+//        buttonBack.inizializza(null,source);
+//        buttonAccetta.inizializza(null,source);
         this.setModal(true);
         this.setResizable(false);
         this.setClosable(false);

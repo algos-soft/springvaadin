@@ -1,9 +1,8 @@
 package it.algos.springvaadin.toolbar;
 
 import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.model.AEntity;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -14,10 +13,10 @@ import org.springframework.context.ApplicationListener;
  * Time: 22:46
  * <p>
  * Interfaccia per le barre di comando con bottoni
- * Le toolbar costruiscono i bottoni ("prototype") usando la factory AButtonFactory
- * Nel ciclo restart() di Form e List, viene poi iniettato il parametro obbligatorio (source)
+ * Nel ciclo restart() di Form e List, le toolbar costruiscono i bottoni ("prototype") usando la factory AButtonFactory
+ * Viene poi iniettato il parametro obbligatorio (source)
  * Ulteriori parametri (target, entityBean), vengono iniettati direttamente solo in alcuni bottoni
- * Eventuali bottoni aggiuntivi, oltre quelli standard, possono essere aggiunti in AListImpl.toolbarInizializza()
+ * Eventuali bottoni aggiuntivi, oltre quelli standard, possono essere aggiunti sovrascrivendo AListImpl.toolbarInizializza()
  * Tutti i bottoni possono essere abilitati/disabilitati
  */
 public interface AToolbar {
@@ -32,6 +31,17 @@ public interface AToolbar {
      * @param source dell'evento generato dal bottone
      */
     public void inizializza(ApplicationListener source);
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone al contenitore grafico
+     *
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param source dell'evento generato dal bottone
+     */
+    public AButton creaAddButton(AButtonType type, ApplicationListener source);
 
 
     /**
@@ -54,27 +64,13 @@ public interface AToolbar {
 
 
     /**
-     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
-     * Inietta nei bottoni il parametro obbligatorio (source)
-     * Aggiunge il bottone al contenitore grafico
+     * Abilita o disabilita lo specifico bottone
+     *
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param status abilitare o disabilitare
      */
-    public AButton creaAddButton(TypeButton type, ApplicationListener source);
+    public void enableButton(AButtonType type, boolean status);
 
 
-    public void enableNew(boolean status);
-
-    public void enableEdit(boolean status);
-
-    public void enableDelete(boolean status);
-
-    public void enableRevert(boolean status);
-
-    public void enableRegistra(boolean status);
-
-    public void enableAccetta(boolean status);
-
-    public void enableAnnulla(boolean status);
-
-    public void enableSearch(boolean status);
 
 }// end of interface

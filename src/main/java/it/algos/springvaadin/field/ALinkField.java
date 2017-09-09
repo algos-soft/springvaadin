@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonEditLink;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.label.LabelBold;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -91,7 +91,7 @@ public class ALinkField extends AField {
     }// end of method
 
 
-    public void setTypeLink(TypeButton typeLink) {
+    public void setTypeLink(AButtonType typeLink) {
         if (button != null) {
             ((AButtonEditLink) button).setTypeLink(typeLink);
         }// end of if cycle

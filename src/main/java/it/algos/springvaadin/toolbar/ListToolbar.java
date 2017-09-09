@@ -2,11 +2,9 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.*;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.lib.Cost;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
@@ -14,9 +12,10 @@ import org.springframework.context.annotation.Scope;
  * Created by gac on 03/06/17
  * <p>
  * Barra di comando con bottoni, specializzata per la lista (Grid)
- * Le toolbar costruiscono i bottoni ("prototype") usando la factory AButtonFactory
- * Nel ciclo restart() di Form e List, viene poi iniettato il parametro obbligatorio (source)
+ * Nel ciclo restart() di List, la toolbar costruisce i bottoni ("prototype") usando la factory AButtonFactory
+ * Viene poi iniettato il parametro obbligatorio (source)
  * Ulteriori parametri (target, entityBean), vengono iniettati direttamente solo in alcuni bottoni
+ * Tutti i bottoni possono essere abilitati/disabilitati
  * I bottoni standard sono 3 o 4
  * Eventuali bottoni aggiuntivi, possono essere aggiunti nella classe specifica xxxList.toolbarInizializza()
  * Tutti i bottoni possono essere abilitati/disabilitati
@@ -27,11 +26,9 @@ import org.springframework.context.annotation.Scope;
 public class ListToolbar extends AToolbarImpl {
 
 
-    private AButton buttonCreate;
-    private AButton buttonEdit;
-    private AButton buttonDelete;
-    private AButton buttonSearch;
-
+    /**
+     * Flag per visualizzare o meno il bottone Search - di default true
+     */
     private boolean usaBottoneRicerca = true;
 
 
@@ -59,40 +56,15 @@ public class ListToolbar extends AToolbarImpl {
     public void inizializza(ApplicationListener source) {
         this.removeAllComponents();
 
-        buttonCreate = super.creaAddButton(TypeButton.create, source);
-        buttonEdit = super.creaAddButton(TypeButton.edit, source);
-        buttonDelete = super.creaAddButton(TypeButton.delete, source);
+        super.creaAddButton(AButtonType.create, source);
+        super.creaAddButton(AButtonType.edit, source);
+        super.creaAddButton(AButtonType.delete, source);
 
         if (usaBottoneRicerca) {
-            buttonSearch = super.creaAddButton(TypeButton.search, source);
-        }// end of if cycle
-
-    }// end of method
-
-
-    public void enableNew(boolean status) {
-        if (buttonCreate != null) {
-            buttonCreate.setEnabled(status);
+            super.creaAddButton(AButtonType.search, source);
         }// end of if cycle
     }// end of method
 
-    public void enableEdit(boolean status) {
-        if (buttonEdit != null) {
-            buttonEdit.setEnabled(status);
-        }// end of if cycle
-    }// end of method
-
-    public void enableDelete(boolean status) {
-        if (buttonDelete != null) {
-            buttonDelete.setEnabled(status);
-        }// end of if cycle
-    }// end of method
-
-    public void enableSearch(boolean status) {
-        if (buttonSearch != null) {
-            buttonSearch.setEnabled(status);
-        }// end of if cycle
-    }// end of method
 
     public void setUsaBottoneRicerca(boolean usaBottoneRicerca) {
         this.usaBottoneRicerca = usaBottoneRicerca;

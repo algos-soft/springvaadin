@@ -3,7 +3,6 @@ package it.algos.springvaadin.bottone;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.event.AButtonEvent;
-import it.algos.springvaadin.event.TypeButton;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -22,7 +21,7 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.BOT_LINK)
 public class AButtonEditLink extends AButton {
 
-    private TypeButton typeLink = TypeButton.editLinkDBRef;
+    private AButtonType typeLink = AButtonType.editLinkDBRef;
 
 
     /**
@@ -39,8 +38,8 @@ public class AButtonEditLink extends AButton {
      * @param applicationEventPublisher iniettata da Spring
      */
     public AButtonEditLink(ApplicationEventPublisher applicationEventPublisher) {
-        super(applicationEventPublisher);
-        super.setType(TypeButton.editLink);
+        super();
+        super.setType(AButtonType.editLink);
     }// end of Spring constructor
 
     protected void addListener() {
@@ -59,7 +58,7 @@ public class AButtonEditLink extends AButton {
     }// end of if/else cycle
 
 
-    public void setTypeLink(TypeButton typeLink) {
+    public void setTypeLink(AButtonType typeLink) {
         this.typeLink = typeLink;
     }// end of method
 

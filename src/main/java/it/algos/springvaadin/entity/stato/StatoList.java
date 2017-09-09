@@ -2,8 +2,7 @@ package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.bottone.AButtonImport;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
@@ -52,7 +51,7 @@ public class StatoList extends AlgosListImpl {
     @Override
     protected void toolbarInizializza(AlgosPresenterImpl source) {
         super.toolbarInizializza(source);
-        buttonImport = toolbar.creaAddButton(TypeButton.importa, source);
+        buttonImport = toolbar.creaAddButton(AButtonType.importa, source);
     }// end of method
 
 

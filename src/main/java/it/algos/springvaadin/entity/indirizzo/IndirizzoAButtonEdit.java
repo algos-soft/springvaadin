@@ -1,7 +1,7 @@
 package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.ui.Button;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
@@ -21,8 +21,8 @@ public class IndirizzoAButtonEdit extends AButton {
     private AField field;
 
     public IndirizzoAButtonEdit(ApplicationEventPublisher applicationEventPublisher) {
-        super(applicationEventPublisher);
-        super.setType(TypeButton.editLink);
+        super();
+        super.setType(AButtonType.editLink);
     }// end of @Autowired constructor
 
 

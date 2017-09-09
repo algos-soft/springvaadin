@@ -2,6 +2,7 @@ package it.algos.springvaadin.event;
 
 
 import com.vaadin.ui.Window;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
@@ -15,7 +16,7 @@ public class AButtonEvent extends AEvent {
 
 
     //--Obbligatorio specifica del tipo di evento
-    private TypeButton type;
+    private AButtonType type;
 
 
     //--opzionale
@@ -26,7 +27,7 @@ public class AButtonEvent extends AEvent {
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
     public AButtonEvent(ApplicationListener source) {
-        this(TypeButton.annulla, source);
+        this(AButtonType.annulla, source);
     }// end of constructor
 
 
@@ -34,7 +35,7 @@ public class AButtonEvent extends AEvent {
      * @param type   Obbligatorio specifica del tipo di evento
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
-    public AButtonEvent(TypeButton type, ApplicationListener source) {
+    public AButtonEvent(AButtonType type, ApplicationListener source) {
         this(type, source, (ApplicationListener) null, (AEntity) null, (AField) null);
     }// end of constructor
 
@@ -46,13 +47,13 @@ public class AButtonEvent extends AEvent {
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      * @param field      Opzionale (field) che ha generato l'evento. Ha senso solo per alcuni eventi
      */
-    public AButtonEvent(TypeButton type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
+    public AButtonEvent(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
         super(source, target, entityBean, field);
         this.type = type;
     }// end of constructor
 
 
-    public TypeButton getType() {
+    public AButtonType getType() {
         return type;
     }// end of method
 

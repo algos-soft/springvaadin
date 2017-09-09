@@ -4,7 +4,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.event.TypeAction;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
@@ -61,7 +61,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void editLink(AEntity entityBean, AField parentField, TypeButton type) {
+    public void editLink(AEntity entityBean, AField parentField, AButtonType type) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -258,7 +258,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onListEvent(AButtonEvent event) {
-        TypeButton type = event.getType();
+        AButtonType type = event.getType();
         Class thisClazz = this.getClass();
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
         AEntity entityBean = event.getEntityBean();

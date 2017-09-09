@@ -2,7 +2,7 @@ package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAnnotation;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.toolbar.FormToolbar;
-import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 13/06/17
@@ -54,7 +52,7 @@ public class CompanyForm extends AlgosFormImpl {
 
             //--Se il link field non è 'DBRef', cambia il bottone da Registra ad Accetta:
             if (!LibAnnotation.isDBRef(Company.class, fieldName)) {
-                ((ALinkField) field).setTypeLink(TypeButton.editLinkNoDBRef);
+                ((ALinkField) field).setTypeLink(AButtonType.editLinkNoDBRef);
             }// end of if cycle
 
             field.setEntityBean(entityIndirizzo);

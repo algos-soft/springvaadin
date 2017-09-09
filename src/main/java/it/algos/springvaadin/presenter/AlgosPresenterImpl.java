@@ -2,8 +2,7 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.*;
 import it.algos.springvaadin.dialog.ImageDialog;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.event.TypeButton;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.LibAvviso;
@@ -15,7 +14,6 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -194,11 +192,11 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * @param parentField
      */
     @Override
-    public void editLink(AEntity entityBean, AField parentField, TypeButton type) {
+    public void editLink(AEntity entityBean, AField parentField, AButtonType type) {
 //        if (entityBean != null) {
             ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
             ((AlgosViewImpl) view).getForm().setParentField(parentField);
-            modifica(entityBean, true, type == TypeButton.editLinkDBRef);
+            modifica(entityBean, true, type == AButtonType.editLinkDBRef);
 //        }// end of if cycle
     }// end of method
 
