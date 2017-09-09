@@ -44,7 +44,7 @@ public class AButtonEditLink extends AButton {
     }// end of Spring constructor
 
     protected void addListener() {
-super.addListener();
+//super.addListener();
     }// end of method
 
     /**
