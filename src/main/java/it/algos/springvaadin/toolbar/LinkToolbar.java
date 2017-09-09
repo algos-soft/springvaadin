@@ -73,6 +73,7 @@ public class LinkToolbar extends AToolbarImpl {
         this.usaBottoneRegistra = usaBottoneRegistra;
     }// end of method
 
+
 //    /**
 //     * Inserisce nei bottoni Registra o Accetta il Field che va notificato
 //     *
