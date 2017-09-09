@@ -97,10 +97,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     field = fieldFactory.apply(AImageField.class);
                     break;
                 case combo:
-//                    field = fieldFactory.apply(AComboField.class);
-//                    if (field != null) {
-//                        field.fixCombo(items, false);
-//                    }// end of if cycle
+                    field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);

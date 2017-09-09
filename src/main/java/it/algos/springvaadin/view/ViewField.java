@@ -58,12 +58,14 @@ public class ViewField {
             type = AFieldType.id;
         }// end of if cycle
 
-        if (type == AFieldType.combo && comboClazz != null) {
-            items = LibMongo.findAll(comboClazz).toArray();
-        }// end of if cycle
-
         if (type != null) {
             field = fieldFactory.crea(type, publicFieldName, presenter);
+        }// end of if cycle
+
+        //@todo aggiungere la nullSelection letta dalla Annotation
+        if (type == AFieldType.combo && comboClazz != null && field != null) {
+            items = LibMongo.findAll(comboClazz).toArray();
+            ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {

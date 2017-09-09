@@ -100,7 +100,6 @@ public abstract class AField<T> extends CustomField<Object> {
 
     /**
      * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
-     * Aggiunge il listener al bottone
      */
     @PostConstruct
     private void inizia() {
@@ -227,9 +226,6 @@ public abstract class AField<T> extends CustomField<Object> {
 
     public void setEntityBean(AEntity entityBean) {
         this.entityBean = entityBean;
-    }// end of method
-
-    protected void fixCombo(Object[] items, boolean nullSelectionAllowed) {
     }// end of method
 
 
