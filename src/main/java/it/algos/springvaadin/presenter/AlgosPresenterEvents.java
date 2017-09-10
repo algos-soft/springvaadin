@@ -17,7 +17,6 @@ import org.springframework.context.ApplicationEventPublisher;
  */
 public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
-
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
