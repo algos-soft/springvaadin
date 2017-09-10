@@ -23,8 +23,6 @@ public class StatoForm extends AlgosFormImpl {
     @Autowired
     private StatoService statoService;
 
-    @Autowired
-    private AImageField imageField;
 
     /**
      * Costruttore @Autowired (nella superclasse)

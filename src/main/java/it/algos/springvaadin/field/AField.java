@@ -57,7 +57,7 @@ public abstract class AField<T> extends CustomField<Object> {
     /**
      * Alcuni fields usano un bottone come componente interno
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
-     * Property iniettata nel costruttore della sottoclasse contreta
+     * Property iniettata nel costruttore della sottoclasse concreta
      */
     protected AButton button;
 
@@ -228,6 +228,9 @@ public abstract class AField<T> extends CustomField<Object> {
         this.entityBean = entityBean;
     }// end of method
 
+    public void setButton(AButton button) {
+        this.button = button;
+    }// end of method
 
     /**
      * Fire event

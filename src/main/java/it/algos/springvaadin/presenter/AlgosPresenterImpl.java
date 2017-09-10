@@ -44,7 +44,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
 
     //--dialogo di gestione delle immagini
-    @Autowired
     protected ImageDialog imageDialog;
 
 
@@ -194,9 +193,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void editLink(AEntity entityBean, AField parentField, AButtonType type) {
 //        if (entityBean != null) {
-            ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
-            ((AlgosViewImpl) view).getForm().setParentField(parentField);
-            modifica(entityBean, true, type == AButtonType.editLinkDBRef);
+        ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
+        ((AlgosViewImpl) view).getForm().setParentField(parentField);
+        modifica(entityBean, true, type == AButtonType.editLinkDBRef);
 //        }// end of if cycle
     }// end of method
 
@@ -234,7 +233,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setForm(entityBean, fields, usaToolbarLink,usaBottoneRegistra);
+        view.setForm(entityBean, fields, usaToolbarLink, usaBottoneRegistra);
     }// end of method
 
     /**
@@ -353,7 +352,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void back() {
         view.closeFormWindow();
-        UI.getCurrent().removeWindow(imageDialog);
+        if (imageDialog != null) {
+            UI.getCurrent().removeWindow(imageDialog);
+        }// end of if cycle
     }// end of method
 
     /**

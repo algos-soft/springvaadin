@@ -2,6 +2,9 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.bottone.AButtonFactory;
+import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +36,8 @@ public class AFieldFactoryImpl implements AFieldFactory {
      * Funzione specificata in AlgosConfiguration
      * Alcuni fields hanno anche un bottone
      */
-    private Function<Class<? extends AButton>, AButton> buttonFactory;
-
+//    private Function<Class<? extends AButton>, AButton> buttonFactory;
+    private AButtonFactory buttonFactory;
 
     /**
      * Funzione specificata in AlgosConfiguration
@@ -48,6 +51,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
     private ApplicationEventPublisher publisher;
 
 
+    @Autowired
+    private ImageDialog targetAutowired;
+
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
@@ -60,7 +66,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
      * @param publisher     degli eventi a livello Application
      */
     public AFieldFactoryImpl(
-            Function<Class<? extends AButton>, AButton> buttonFactory,
+            AButtonFactory buttonFactory,
             Function<Class<? extends AField>, AField> fieldFactory,
             ApplicationEventPublisher publisher) {
         this.buttonFactory = buttonFactory;
@@ -95,18 +101,15 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case image:
                     field = fieldFactory.apply(AImageField.class);
+                    field.setTarget(targetAutowired);
+                    field.setButton(buttonFactory.crea(AButtonType.image, source));
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-//                    button = buttonFactory.apply(AButtonEditLink.class);
-//                    if (button != null) {
-//                        button.inizia();
-//                        button.setPublisher(publisher);
-//                        field.button = button;
-//                    }// end of if cycle
+                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source));
                     break;
                 default: // caso non definito
                     break;

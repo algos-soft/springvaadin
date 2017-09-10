@@ -9,6 +9,7 @@ import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -23,188 +24,216 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Qualifier(Cost.VIEW_IMAGE)
-public class ImageDialog extends Window  {
+public class ImageDialog extends Window implements ApplicationListener {
+
+    private final static String WIDTH = "20em";
+    private final static String HEIGHT = "10em";
+
+    /**
+     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
+     */
+    protected ApplicationEventPublisher applicationEventPublisher;
+    private ApplicationListener presenter;
+    private AButtonFactory buttonFactory;
+
+    private Label labelLayout = new LabelRosso("Gestione delle immagini");
+    private VerticalLayout imageLayout = new VerticalLayout();
+    private VerticalLayout buttonsLayout = new VerticalLayout();
+
+    private AEntity entityBean;
+
+    private String space7 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+    private AButton buttonBack;
+    private AButton buttonCreate;
+    private AButton buttonDelete;
+    private AButton buttonAccetta;
+    private boolean accettaEnabled;
+
+    private Edit2Dialog editDialog;
+    private Image image;
+
+    public ImageDialog(
+            ApplicationEventPublisher applicationEventPublisher,
+            Edit2Dialog editDialog,
+            AButtonFactory buttonFactory) {
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.editDialog = editDialog;
+        this.buttonFactory = buttonFactory;
+    }// end of constructor
 
 
-//    /**
-//     * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
-//     */
-//    protected ApplicationEventPublisher applicationEventPublisher;
-//    private ApplicationListener presenter;
-//
-//    private VerticalLayout mainLayout = new VerticalLayout();
-//    private VerticalLayout toolBar = new VerticalLayout();
-//
-//    private AEntity entityBean;
-//
-//    private  AButton buttonBack;
-////    private final AButton buttonCreate;
-//    private  AButton buttonDelete;
-//    private  AButton buttonAccetta;
-//
-//    private Edit2Dialog editDialog;
-//    private Image image;
-//
-//    public ImageDialog(
-//            ApplicationEventPublisher applicationEventPublisher,
-//            Edit2Dialog editDialog) {
-//        this.applicationEventPublisher = applicationEventPublisher;
-////        this.buttonBack = buttonBack;
-////        this.buttonDelete = buttonDelete;
-////        this.buttonAccetta = buttonAccetta;
-//        this.editDialog = editDialog;
-//    }// end of constructor
-//
-//
-//    /**
-//     * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
-//     */
-//    @PostConstruct
-//    public void inizia() {
-//        setModal(true);
-//        setClosable(true);
-//        setResizable(false);
-//        center();
-//
-//        buttonAccetta.setEnabled(true);
-//        toolBar.addComponent(new HorizontalLayout(buttonBack));
-//        toolBar.addComponent(new HorizontalLayout(buttonDelete, buttonAccetta));
-//
-//        mainLayout.addComponent(new LabelRosso("Gestione delle immagini"));
+    /**
+     * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
+     */
+    @PostConstruct
+    public void inizia() {
+        setModal(true);
+        setClosable(true);
+        setResizable(false);
+        center();
+
+        Layout mainLayout = new VerticalLayout(labelLayout, imageLayout, getSpace(),buttonsLayout);
+        setContent(mainLayout);
+    }// end of method
+
+
+    public void show(AEntity entityBean, ApplicationListener presenter) {
+        this.entityBean = entityBean;
+        this.presenter = presenter;
+        this.accettaEnabled = false;
+        getImageFromEntity();
+        restart(presenter);
+        resetDialog();
+        UI.getCurrent().addWindow(this);
+    }// end of method
+
+
+    private void restart(ApplicationListener source) {
+//        mainLayout.removeAllComponents();
+
+        buttonBack = buttonFactory.crea(AButtonType.back, this);
+        buttonCreate = buttonFactory.crea(AButtonType.create, this);
+        buttonDelete = buttonFactory.crea(AButtonType.delete, this);
+        buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, source);
+
+        buttonsLayout.removeAllComponents();
+        buttonsLayout.addComponent(new HorizontalLayout(buttonBack, getSpace(), buttonDelete));
+        buttonsLayout.addComponent(new HorizontalLayout(buttonCreate, getSpace(), buttonAccetta));
+
+//        mainLayout.addComponent(captionLabel);
 //        mainLayout.addComponent(toolBar);
-//
-//        setContent(mainLayout);
-//    }// end of method
-//
-//
-//    public void show(AEntity entityBean, ApplicationListener presenter) {
-//        this.entityBean = entityBean;
-//        this.presenter = presenter;
-//        resetButtons(presenter);
-//        resetDialog();
-//        UI.getCurrent().addWindow(this);
-//    }// end of method
-//
-//
-//    private void resetButtons(ApplicationListener presenter) {
-//        buttonBack.regolaBottone(null,this, this);
-////        buttonCreate.regolaBottone(this, this);
-//        buttonDelete.regolaBottone(null,this, this);
-//        buttonAccetta.regolaBottone(null,this, this);
-//
-//
-//        try { // prova ad eseguire il codice
-//            mainLayout.removeComponent(image);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//            int a = 87;
-//        }// fine del blocco try-catch
-//
-//        getImage();
-//        mainLayout.addComponent(image, 1);
-//    }// end of method
-//
-//
-//    private void resetDialog() {
-//        try { // prova ad eseguire il codice
-//            mainLayout.removeComponent(image);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//            int a = 87;
-//        }// fine del blocco try-catch
-//
-//        getImage();
-//        mainLayout.addComponent(image, 1);
-//    }// end of method
-//
-//    private void getImage() {
-//        byte[] imgBytes = ((Stato) entityBean).getBandiera();
-//        image = LibResource.getImage(imgBytes);
-//
-//        if (image != null) {
-//            image.setWidth("24em");
-//            image.setHeight("12em");
-//        } else {
-//            LibAvviso.warn("Non esiste una immagine col nome selezionato");
-//        }// end of if/else cycle
-//
-//    }// end of method
-//
-//
-//    private void create() {
-//        this.editDialog.inizia(null, new Pippo());
-//    }// end of method
-//
-//
-//    /**
-//     * Handle an application event.
-//     *
-//     * @param algosEvent to respond to
-//     */
-//    @Override
-//    public void onApplicationEvent(AEvent algosEvent) {
-//        Class thisClazz = this.getClass();
-//        Class sourceClazz = algosEvent.getSource() != null ? algosEvent.getSource().getClass() : null;
-//        Class targetClazz = algosEvent.getTarget() != null ? algosEvent.getTarget().getClass() : null;
-//        AButtonEvent eventButton = null;
-//        AFieldEvent eventField = null;
-//        AButtonType type = null;
-//
-//        if (algosEvent instanceof AFieldEvent) {
-//            eventField = (AFieldEvent) algosEvent;
-//            if (eventField.getType() == TypeField.valueChanged) {
-//            }// end of if cycle
-//            if (eventField.getType() == TypeField.linkTarget && targetClazz == thisClazz) {
-//                this.show(eventField.getEntityBean(), (ApplicationListener) eventField.getSource());
-//            }// end of if cycle
-//        }// end of if cycle
-//
-//
-//        if (algosEvent instanceof AButtonEvent) {
-//            eventButton = (AButtonEvent) algosEvent;
-//            type = eventButton.getType();
-//
-//            if (sourceClazz != null && sourceClazz == thisClazz) {
-//                switch (type) {
-//                    case back:
-//                        this.close();
-//                        break;
-//                    case create:
-//                        this.create();
-//                        break;
-//                    case delete:
+    }// end of method
+
+
+    private Component getSpace() {
+        return new LabelRosso(space7);
+    }// end of method
+
+    private void resetDialog() {
+        imageLayout.removeAllComponents();
+        if (image != null) {
+            imageLayout.addComponent(image);
+        }// end of if cycle
+
+        buttonDelete.setEnabled(image != null);
+        buttonAccetta.setEnabled(accettaEnabled);
+    }// end of method
+
+
+    private void getImageFromEntity() {
+        byte[] imgBytes = ((Stato) entityBean).getBandiera();
+        image = LibResource.getImage(imgBytes);
+
+        if (image != null) {
+            image.setWidth(WIDTH);
+            image.setHeight(HEIGHT);
+        } else {
+            LibAvviso.warn("Non esiste una immagine col nome selezionato");
+        }// end of if/else cycle
+
+        imageLayout.setWidth(WIDTH);
+        imageLayout.setHeight(HEIGHT);
+    }// end of method
+
+
+    private void create() {
+        this.editDialog.inizia(null, new Pippo());
+    }// end of method
+
+
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof AEvent) {
+            onEvent((AEvent) event);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Handle an application event.
+     *
+     * @param algosEvent the event to respond to
+     */
+    public void onEvent(AEvent algosEvent) {
+
+        Class thisClazz = this.getClass();
+        Class sourceClazz = algosEvent.getSource() != null ? algosEvent.getSource().getClass() : null;
+        Class targetClazz = algosEvent.getTarget() != null ? algosEvent.getTarget().getClass() : null;
+        AButtonEvent eventButton = null;
+        AFieldEvent eventField = null;
+        AButtonType type = null;
+
+        if (algosEvent instanceof AFieldEvent) {
+            eventField = (AFieldEvent) algosEvent;
+            if (eventField.getType() == TypeField.valueChanged) {
+            }// end of if cycle
+            if (eventField.getType() == TypeField.linkTarget && targetClazz == thisClazz) {
+                this.show(eventField.getEntityBean(), eventField.getSource());
+            }// end of if cycle
+        }// end of if cycle
+
+
+        if (algosEvent instanceof AButtonEvent) {
+            eventButton = (AButtonEvent) algosEvent;
+            type = eventButton.getType();
+
+            if (targetClazz != null && targetClazz == thisClazz && type == AButtonType.image) {
+                this.show(eventButton.getEntityBean(), eventButton.getSource());
+            }// end of if cycle
+
+
+            if (sourceClazz != null && sourceClazz == thisClazz) {
+                switch (type) {
+                    case back:
+                        this.close();
+                        break;
+                    case create:
+                        this.create();
+                        accettaEnabled = true;
+                        break;
+                    case delete:
 //                        ((Stato) entityBean).setBandiera(new byte[0]);
-//                        resetDialog();
-//                        break;
-//                    case accetta:
-//                        fireRevert();
-//                        this.close();
-//                        break;
-//                    default: // caso non definito
-//                        break;
-//                } // fine del blocco switch
-//            }// end of if cycle
-//        }// end of if cycle
-//
-//    }// end of method
-//
-//
-//    /**
-//     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-//     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
-//     */
-//    private void fireRevert() {
-//        applicationEventPublisher.publishEvent(new AButtonEvent(AButtonType.revert, presenter, null, null, null));
-//    }// end of method
-//
-//
-//    public class Pippo implements Edit2Dialog.Recipient {
-//        @Override
-//        public void gotInput(String input, Window win) {
-//            byte[] imageBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
-//            ((Stato) entityBean).setBandiera(imageBytes);
-//            resetDialog();
-//            win.close();
-//        }// end of method
-//    }// end of inner class
+                        image = null;
+                        accettaEnabled = true;
+                        resetDialog();
+                        break;
+                    case accetta:
+                        fireRevert();
+                        this.close();
+                        break;
+                    default: // caso non definito
+                        break;
+                } // fine del blocco switch
+            }// end of if cycle
+        }// end of if cycle
+
+    }// end of method
+
+
+    /**
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
+     */
+    private void fireRevert() {
+        applicationEventPublisher.publishEvent(new AButtonEvent(AButtonType.revert, presenter, null, null, null));
+    }// end of method
+
+
+    public class Pippo implements Edit2Dialog.Recipient {
+        @Override
+        public void gotInput(String input, Window win) {
+            byte[] imageBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
+            ((Stato) entityBean).setBandiera(imageBytes);
+            resetDialog();
+            win.close();
+        }// end of method
+    }// end of inner class
 
 }// end of class
 

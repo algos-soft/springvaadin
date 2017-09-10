@@ -6,6 +6,7 @@ import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -27,15 +28,16 @@ public class AImageField extends AField {
 
     private Layout placeholderImage = new HorizontalLayout();
 
+    @Autowired
+    private ImageDialog targetAutowired;
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public AImageField( ImageDialog targetAutowired) {
-        super();
-//        super.target = targetAutowired;
+    public AImageField() {
+        super.target = targetAutowired;
     }// end of @Autowired constructor
 
 
@@ -104,6 +106,10 @@ public class AImageField extends AField {
         }// end of if cycle
     }// end of method
 
+    public void setButton(AButton button) {
+        this.button = button;
+        this.button.setTarget(target);
+    }// end of method
 
 }// end of class
 

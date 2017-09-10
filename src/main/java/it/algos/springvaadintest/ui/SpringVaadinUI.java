@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.ui.AlgosUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +40,7 @@ public class SpringVaadinUI extends AlgosUI {
         super.printBefore(InterfacciaUtente.specifica);
         this.specificFixAndPrint();
         super.printAfter(InterfacciaUtente.specifica);
+
     }// end of method
 
 
@@ -81,6 +83,7 @@ public class SpringVaadinUI extends AlgosUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+        getNavigator().navigateTo(Cost.TAG_STA);
     }// end of method
 
 }// end of class
