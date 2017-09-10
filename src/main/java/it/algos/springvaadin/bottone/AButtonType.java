@@ -3,6 +3,7 @@ package it.algos.springvaadin.bottone;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 
 /**

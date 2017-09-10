@@ -73,7 +73,7 @@ public class ImageDialog extends Window implements ApplicationListener {
         setResizable(false);
         center();
 
-        Layout mainLayout = new VerticalLayout(labelLayout, imageLayout, getSpace(),buttonsLayout);
+        Layout mainLayout = new VerticalLayout(labelLayout, imageLayout, getSpace(), buttonsLayout);
         setContent(mainLayout);
     }// end of method
 
@@ -92,10 +92,10 @@ public class ImageDialog extends Window implements ApplicationListener {
     private void restart(ApplicationListener source) {
 //        mainLayout.removeAllComponents();
 
-        buttonBack = buttonFactory.crea(AButtonType.back, this);
-        buttonCreate = buttonFactory.crea(AButtonType.create, this);
-        buttonDelete = buttonFactory.crea(AButtonType.delete, this);
-        buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, source);
+        buttonBack = buttonFactory.crea(AButtonType.back, this, this);
+        buttonCreate = buttonFactory.crea(AButtonType.create, this, this);
+        buttonDelete = buttonFactory.crea(AButtonType.delete, this, this);
+        buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, this, source);
 
         buttonsLayout.removeAllComponents();
         buttonsLayout.addComponent(new HorizontalLayout(buttonBack, getSpace(), buttonDelete));
@@ -221,7 +221,7 @@ public class ImageDialog extends Window implements ApplicationListener {
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
     private void fireRevert() {
-        applicationEventPublisher.publishEvent(new AButtonEvent(AButtonType.revert, presenter, null, null, null));
+        applicationEventPublisher.publishEvent(new AButtonEvent(AButtonType.revert, presenter, presenter, null));
     }// end of method
 
 

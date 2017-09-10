@@ -19,8 +19,6 @@ public interface ListListener {
 
     public void edit(AEntity entityBean);
 
-    public void edit(AEntity entityBean, AField parentField);
-
     public void editLink(AEntity entityBean, AField parentField, AButtonType type);
 
     public void editImage(AEntity entityBean, AField parentField);

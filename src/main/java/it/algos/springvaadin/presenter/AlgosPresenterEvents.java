@@ -53,12 +53,6 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
     }// end of method
 
-    @Override
-    public void edit(AEntity entityBean, AField parentField) {
-        if (AlgosApp.USE_DEBUG) {
-            Notification.show("TipoBottone", "Premuto Modifica (con parentField)", Notification.Type.HUMANIZED_MESSAGE);
-        }// end of if cycle
-    }// end of method
 
     @Override
     public void editLink(AEntity entityBean, AField parentField, AButtonType type) {
@@ -239,7 +233,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
 
         if (event instanceof AButtonEvent) {
-            if (sourceClazz == thisClazz || targetClazz == thisClazz) {
+            if (targetClazz == thisClazz) {
                 onListEvent((AButtonEvent) event);
             }// end of if cycle
         }// end of if cycle
@@ -262,7 +256,6 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         Class thisClazz = this.getClass();
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
         AEntity entityBean = event.getEntityBean();
-        AField parentField = event.getField();
 
         switch (type) {
             case create:
@@ -272,16 +265,16 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 //                chooser(entityBean, parentDialog);
                 break;
             case edit:
-                edit(entityBean, parentField);
+                edit(entityBean);
                 break;
             case editLinkDBRef:
                 if ((targetClazz == thisClazz)) {
-                    editLink(entityBean, parentField, type);
+//                    editLink(entityBean, parentField, type);
                 }// end of if cycle
                 break;
             case editLinkNoDBRef:
                 if ((targetClazz == thisClazz)) {
-                    editLink(entityBean, parentField, type);
+//                    editLink(entityBean, parentField, type);
                 }// end of if cycle
                 break;
             case linkRegistra:
@@ -336,7 +329,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * @param event the event to respond to
      */
     private void onGridAction(AActionEvent event) {
-        TypeAction tipo = event.getType();
+        TypeAction tipo = event.getActionType();
         AEntity entityBean = event.getEntityBean();
 
         switch (tipo) {

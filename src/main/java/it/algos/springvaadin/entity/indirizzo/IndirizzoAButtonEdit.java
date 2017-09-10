@@ -36,11 +36,11 @@ public class IndirizzoAButtonEdit extends AButton {
     }// end of method
 
 
-    /**
-     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     */
-    protected void fire(Button.ClickEvent clickEvent) {
-        publisher.publishEvent(new AButtonEvent(type, source, null, entityBean, field));
-    }// end of method
+//    /**
+//     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+//     */
+//    protected void fire(Button.ClickEvent clickEvent) {
+//        publisher.publishEvent(new AButtonEvent(type, source, null, entityBean, field));
+//    }// end of method
 
 }// end of class

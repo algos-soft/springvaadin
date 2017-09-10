@@ -30,7 +30,7 @@ public class AActionEvent extends AEvent {
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
     public AActionEvent(TypeAction type, ApplicationListener source) {
-        this(type, source, (ApplicationListener) null, (AEntity) null, (AField) null);
+        this(type, source, (ApplicationListener) null, (AEntity) null);
     }// end of constructor
 
 
@@ -39,11 +39,9 @@ public class AActionEvent extends AEvent {
      * @param source     Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      * @param target     Opzionale (window, dialog, presenter) a cui indirizzare l'evento
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
-     * @param field      Opzionale (field) che ha generato l'evento. Ha senso solo per alcuni eventi
      */
-    public AActionEvent(TypeAction type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
-        super(source, target, entityBean, field);
-        this.type = type;
+    public AActionEvent(TypeAction type, ApplicationListener source, ApplicationListener target, AEntity entityBean) {
+        super(type,source, target, entityBean);
     }// end of constructor
 
 

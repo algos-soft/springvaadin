@@ -120,6 +120,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
+
     /**
      * Evento
      * Edit button pressed in grid
@@ -131,34 +132,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void edit(AEntity entityBean) {
-
-        if (entityBean != null) {
-            modifica(entityBean);
-        } else {
-            List<AEntity> beanList = view.getEntityBeans();
-
-            //patch @todo passa qui due volte (per errore) non trovato perché
-            //la seconda volta il presenter è 'farlocco'
-            if (beanList != null && beanList.size() == 1) {
-                modifica(beanList.get(0));
-            }// end of if cycle
-        }// end of if/else cycle
-
-    }// end of method
-
-
-    /**
-     * Evento
-     * Edit button pressed in grid
-     * Recupera il record selezionato
-     * Display the item in a form
-     * <p>
-     * Recupera i dati dal service
-     * Passa i dati alla view
-     */
-    @Override
-    public void edit(AEntity entityBean, AField parentField) {
-        this.parentField = parentField;
 
         if (entityBean != null) {
             modifica(entityBean);

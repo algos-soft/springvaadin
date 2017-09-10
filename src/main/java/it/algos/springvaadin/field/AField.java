@@ -241,7 +241,7 @@ public abstract class AField<T> extends CustomField<Object> {
      */
     void publish() {
         if (source != null) {
-            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean, this));
+            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean));
         }// end of if cycle
     }// end of method
 

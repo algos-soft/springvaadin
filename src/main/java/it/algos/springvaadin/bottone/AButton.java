@@ -32,6 +32,12 @@ public class AButton extends Button {
 
 
     /**
+     * Classe che gestisce gli eventi a livello Application
+     */
+    protected ApplicationEventPublisher publisher;
+
+
+    /**
      * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
      * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
      */
@@ -39,39 +45,21 @@ public class AButton extends Button {
 
 
     /**
-     * Classe che gestisce gli eventi a livello Application
-     */
-    protected ApplicationEventPublisher publisher;
-
-
-    /**
-     * Source (presenter, window, dialog) dell'evento generato dal bottone
+     * Source (presenter, form, field, window, dialog,... ) che ha generato l'evento
      */
     protected ApplicationListener source;
 
 
     /**
-     * Target facoltativo (presenter, window, dialog) a cui indirizzare l'evento generato dal bottone
+     * Target (presenter, form, field, window, dialog,... ) a cui indirizzare l'evento
      */
     protected ApplicationListener target;
 
 
     /**
-     * EntityBean (facoltativa), necessaria per alcuni bottoni
+     * Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni bottoni
      */
     protected AEntity entityBean;
-
-
-    /**
-     * Window (facoltativa), necessaria per alcuni bottoni
-     */
-    private Window parentDialog;
-
-
-    /**
-     * Field (facoltativo), che che contiene il bottone (solo alcuni campi come Link, Image, ...)
-     */
-    AField fieldParent;
 
 
     /**
@@ -117,14 +105,16 @@ public class AButton extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      *
-     * @param type      del bottone, secondo la Enumeration AButtonType
      * @param publisher degli eventi a livello Application
+     * @param type      del bottone, secondo la Enumeration AButtonType
      * @param source    dell'evento generato dal bottone
+     * @param target    a cui indirizzare l'evento generato dal bottone
      */
-     void inizializza(AButtonType type, ApplicationEventPublisher publisher, ApplicationListener source) {
-        this.setType(type);
+    void inizializza(ApplicationEventPublisher publisher, AButtonType type, ApplicationListener source, ApplicationListener target) {
         this.setPublisher(publisher);
+        this.setType(type);
         this.setSource(source);
+        this.setTarget(target);
 
         this.regolaParametri();
 
@@ -150,14 +140,16 @@ public class AButton extends Button {
     }// end of method
 
 
-
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
-     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
-     * Bottoni specifici possono costruire un evento con informazioni aggiuntive
+     * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event),
+     * oppure in qualsiasi altra classe che implementa ApplicationListener
      */
     protected void fire(Button.ClickEvent clickEvent) {
-        AButtonEvent evento;
+        if (type == null) {
+            log.error("AButton: manca il type nel bottone");
+            return;
+        }// end of if cycle
 
         if (publisher == null) {
             log.error("AButton: manca il publisher nel bottone " + type);
@@ -165,25 +157,21 @@ public class AButton extends Button {
         }// end of if cycle
 
         if (source == null) {
-            log.error("AButton: manca il presenter nel bottone " + type);
+            log.error("AButton: manca il source nel bottone " + type);
             return;
         }// end of if cycle
 
-        evento = new AButtonEvent(type, source, target, entityBean, fieldParent);
-        if (parentDialog != null) {
-            evento.setParentDialog(parentDialog);
+        if (target == null) {
+            log.error("AButton: manca il target nel bottone " + type);
+            return;
         }// end of if cycle
-        publisher.publishEvent(evento);
-    }// end of method
 
+        publisher.publishEvent(new AButtonEvent(type, source, target, entityBean));
+    }// end of method
 
 
     private void setPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
-    }// end of method
-
-    public void setEntityBean(AEntity entityBean) {
-        this.entityBean = entityBean;
     }// end of method
 
 
@@ -196,12 +184,12 @@ public class AButton extends Button {
     }// end of method
 
 
-    public void setFieldParent(AField fieldParent) {
-        this.fieldParent = fieldParent;
-    }// end of method
-
     public void setType(AButtonType type) {
         this.type = type;
+    }// end of method
+
+    public void setEntityBean(AEntity entityBean) {
+        this.entityBean = entityBean;
     }// end of method
 
 

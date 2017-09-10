@@ -21,9 +21,10 @@ public interface AButtonFactory {
      *
      * @param type   del bottone, secondo la Enumeration AButtonType
      * @param source dell'evento generato dal bottone
+     * @param target a cui indirizzare l'evento generato dal bottone
      *
      * @return il bottone creato
      */
-    public AButton crea(AButtonType type, ApplicationListener source);
+    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target);
 
 }// end of interface

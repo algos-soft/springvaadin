@@ -1,6 +1,8 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.event.AButtonEvent;
+import it.algos.springvaadin.event.AEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.context.ApplicationEventPublisher;
@@ -58,15 +60,16 @@ public class AButtonFactoryImpl implements AButtonFactory {
      *
      * @param type   del bottone, secondo la Enumeration AButtonType
      * @param source dell'evento generato dal bottone
+     * @param target a cui indirizzare l'evento generato dal bottone
      *
      * @return il bottone creato
      */
     @Override
-    public AButton crea(AButtonType type, ApplicationListener source) {
+    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target) {
         AButton button = buttonFactory.apply(AButton.class);
 
         if (button != null) {
-            button.inizializza(type, publisher, source);
+            button.inizializza(publisher, type, source, target);
         }// end of if cycle
 
         return button;

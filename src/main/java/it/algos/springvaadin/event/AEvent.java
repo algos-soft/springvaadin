@@ -1,5 +1,6 @@
 package it.algos.springvaadin.event;
 
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -18,42 +19,39 @@ import org.springframework.context.ApplicationListener;
 public abstract class AEvent extends ApplicationEvent {
 
 
-    //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
-    private ApplicationListener target;
+    //--Obbligatorio (presenter, form, field, window, dialog,... ) che ha generato l'evento
+    //--ApplicationListener source -> gestito dalla superclasse
+
+
+    //--Obbligatorio specifica del tipo di evento
+    protected Object type;
+
+
+    //--Obbligatorio (presenter, form, field, window, dialog,... ) a cui indirizzare l'evento
+    protected ApplicationListener target;
 
 
     //--Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
-    private AEntity entityBean;
-
-
-    //--Opzionale (field) che ha generato l'evento. Ha senso solo per alcuni eventi
-    private AField field;
+    protected AEntity entityBean;
 
 
     /**
-     * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
-     */
-    public AEvent(ApplicationListener source) {
-        this(source, (ApplicationListener) null, (AEntity) null, (AField) null);
-    }// end of constructor
-
-
-    /**
-     * @param source     Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
-     * @param target     Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+     * @param type       Obbligatorio specifica del tipo di evento
+     * @param source     Obbligatorio (presenter, form, field, window, dialog,... ) che ha generato l'evento
+     * @param target     Obbligatorio (presenter, form, field, window, dialog,... ) a cui indirizzare l'evento
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
-     * @param field      Opzionale (field) che ha generato l'evento. Ha senso solo per alcuni eventi
      */
-    public AEvent(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField field) {
+    public AEvent(Object type,ApplicationListener source, ApplicationListener target, AEntity entityBean) {
         super(source);
+        this.type = type;
         this.target = target;
         this.entityBean = entityBean;
-        this.field = field;
     }// end of constructor
+
 
 
     public Object getType() {
-        return null;
+        return type;
     }// end of method
 
 
@@ -73,13 +71,37 @@ public abstract class AEvent extends ApplicationEvent {
     }// end of method
 
 
+
+    public AButtonType getButtonType() {
+        if (type != null && type instanceof AButtonType) {
+            return (AButtonType) type;
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+
+    public TypeAction getActionType() {
+        if (type != null && type instanceof TypeAction) {
+            return (TypeAction) type;
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+
+    public TypeField getFieldType() {
+        if (type != null && type instanceof TypeField) {
+            return (TypeField) type;
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+
     public AEntity getEntityBean() {
         return entityBean;
     }// end of method
 
-
-    public AField getField() {
-        return field;
-    }// end of method
 
 }// end of abstract class
