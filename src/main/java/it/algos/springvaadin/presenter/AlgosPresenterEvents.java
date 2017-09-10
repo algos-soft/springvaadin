@@ -328,6 +328,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
 
+
     /**
      * Handle an action event
      * Vedi enum AzioneOld
