@@ -52,7 +52,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
 
 
     @Autowired
-    private ImageDialog targetAutowired;
+    private ImageDialog targetImageAutowired;
 
     /**
      * Costruttore @Autowired
@@ -87,6 +87,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
     public AField crea(AFieldType type, String publicFieldName, ApplicationListener source) {
         AField field = null;
         AButton button = null;
+        ApplicationListener target = null;
 
         try { // prova ad eseguire il codice
             switch (type) {
@@ -101,22 +102,22 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case image:
                     field = fieldFactory.apply(AImageField.class);
-                    field.setTarget(targetAutowired);
-                    field.setButton(buttonFactory.crea(AButtonType.image, source,source));
+                    target = targetImageAutowired;
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, target));
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source,source));
+                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, source));
                     break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch
 
             if (field != null) {
-                field.inizializza(publicFieldName, source);
+                field.inizializza(publicFieldName, source, target);
             }// end of if cycle
 
         } catch (Exception unErrore) { // intercetta l'errore

@@ -1,5 +1,6 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import it.algos.springvaadin.bottone.AButton;
@@ -11,6 +12,7 @@ import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -35,6 +37,7 @@ import javax.annotation.PostConstruct;
  * inizializza() -> creaContent() -> setName() -> setSource() -> addListener() -> regolaParametri() -> setWidth() -> setFocus() ->
  * AlgosFormImpl.bindFields() -> AField.initContent() -> AField.getValue() -> AField.doSetValue
  */
+@SpringComponent
 public abstract class AField<T> extends CustomField<Object> {
 
 
@@ -112,11 +115,13 @@ public abstract class AField<T> extends CustomField<Object> {
      *
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
+     * @param target          a cui indirizzare l'evento generato dal bottone
      */
-    void inizializza(String publicFieldName, ApplicationListener source) {
+    void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
+        this.setTarget(target != null ? target : source);
         this.addListener();
         this.regolaParametri();
     }// end of method
@@ -232,12 +237,12 @@ public abstract class AField<T> extends CustomField<Object> {
         this.button = button;
     }// end of method
 
+
     /**
      * Fire event
-     * source     Obbligatorio presenter che gestisce l'evento
-     * target     Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+     * source     Obbligatorio questo field
+     * target     Obbligatorio (window, dialog, presenter) a cui indirizzare l'evento
      * entityBean Opzionale (entityBean) in elaborazione
-     * field      Opzionale (field) che ha generato l'evento
      */
     void publish() {
         if (source != null) {

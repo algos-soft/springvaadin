@@ -222,8 +222,8 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
 
-        if (event instanceof AFieldEvent) {
-            if (((AFieldEvent) event).getType() == TypeField.valueChanged) {
+        if (event instanceof AFieldEvent && targetClazz == thisClazz) {
+            if (event.getFieldType() == TypeField.valueChanged) {
                 fieldModificato();
             }// end of if cycle
 //            if (((AFieldEvent) event).getType() == TypeField.linkTarget && targetClazz == thisClazz) {
@@ -319,7 +319,6 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
         } // fine del blocco switch
     }// end of method
-
 
 
     /**

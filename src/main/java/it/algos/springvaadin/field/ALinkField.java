@@ -54,7 +54,7 @@ public class ALinkField extends AField {
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
     protected void inizializza(String publicFieldName, ApplicationListener source) {
-        super.inizializza(publicFieldName, source);
+        super.inizializza(publicFieldName, source, source);
         if (label == null) {
             label = new LabelBold();
         }// end of if cycle

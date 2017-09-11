@@ -8,6 +8,8 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Project springvaadin
@@ -18,7 +20,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @SuppressWarnings("serial")
-public class Edit2Dialog extends Window {
+public class Edit2Dialog extends Window implements ApplicationListener {
 
     private static String CAPTION = "Inserimento di un valore";
 
@@ -94,6 +96,15 @@ public class Edit2Dialog extends Window {
 
     public interface Recipient {
         public void gotInput(String input, Window win);
+    }// end of method
+
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
     }// end of method
 
 }// end of class

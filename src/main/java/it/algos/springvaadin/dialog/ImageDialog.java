@@ -33,6 +33,7 @@ public class ImageDialog extends Window implements ApplicationListener {
      * Property iniettata nel costruttore usato da Spring PRIMA della chiamata del browser
      */
     protected ApplicationEventPublisher applicationEventPublisher;
+
     private ApplicationListener presenter;
     private AButtonFactory buttonFactory;
 
@@ -92,8 +93,8 @@ public class ImageDialog extends Window implements ApplicationListener {
     private void restart(ApplicationListener source) {
 //        mainLayout.removeAllComponents();
 
-        buttonBack = buttonFactory.crea(AButtonType.back, this, this);
-        buttonCreate = buttonFactory.crea(AButtonType.create, this, this);
+        buttonBack = buttonFactory.crea(AButtonType.back, this, source);
+        buttonCreate = buttonFactory.crea(AButtonType.create, this, editDialog);
         buttonDelete = buttonFactory.crea(AButtonType.delete, this, this);
         buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, this, source);
 
@@ -203,7 +204,11 @@ public class ImageDialog extends Window implements ApplicationListener {
                         accettaEnabled = true;
                         resetDialog();
                         break;
-                    case accetta:
+                    case linkAccetta:
+                        fireRevert();
+                        this.close();
+                        break;
+                    case linkRegistra:
                         fireRevert();
                         this.close();
                         break;
