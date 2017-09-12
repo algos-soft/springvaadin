@@ -114,7 +114,7 @@ public class LibField {
 //                    field = new AlgosDateField();
 //                    break;
 //                case localdatetime:
-//                    field = new AlgosDateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
+//                    field = new ADateTimeField("Localtime");//@todo viene sovrascritto dall'Annotation
 //                    break;
 //                case image:
 ////                    field = new AlgosImageField();

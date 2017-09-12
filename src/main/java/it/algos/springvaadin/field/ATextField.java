@@ -26,7 +26,7 @@ import javax.annotation.PostConstruct;
 @Configurable("ATextField")
 @Scope("prototype")
 @Qualifier(Cost.FIELD_TEXT)
-public class ATextField extends AText {
+public class ATextField extends AField {
 
 
     /**
@@ -36,8 +36,8 @@ public class ATextField extends AText {
      */
     @Override
     public String getValue() {
-        if (field != null) {
-            return field.getValue();
+        if (textField != null) {
+            return textField.getValue();
         } else {
             return null;
         }// end of if/else cycle

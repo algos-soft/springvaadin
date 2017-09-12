@@ -80,6 +80,10 @@ public class ViewField {
             if (LibParams.displayToolTips()) {
                 field.setDescription(fieldAnnotation.help());
             }// end of if cycle
+
+            if (type == AFieldType.dateNotEnabled) {
+                field.setEnabled(false);
+            }// end of if cycle
         }// end of if cycle
 
         return field;

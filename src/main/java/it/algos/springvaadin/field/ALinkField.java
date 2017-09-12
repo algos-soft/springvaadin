@@ -39,15 +39,6 @@ public class ALinkField extends AField {
         super();
     }// end of @Autowired constructor
 
-//    /**
-//     * Costruttore @Autowired (nella superclasse)
-//     * Si usa un @Qualifier(), per avere la sottoclasse specifica
-//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-//     */
-//    public ALinkField(@Qualifier(Cost.BOT_LINK) AButton button) {
-//        super(button);
-//    }// end of @Autowired constructor
-
 
     /**
      * Regolazioni varie DOPO aver creato l'istanza

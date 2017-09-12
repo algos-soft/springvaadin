@@ -1,8 +1,11 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.TextField;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.AFieldEvent;
@@ -42,7 +45,7 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     //--Obbligatorio publicFieldName
-    private String name;
+    protected String name;
 
 
     //--Obbligatorio presenter che gestisce l'evento
@@ -94,6 +97,11 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     /**
+     * Componente principale
+     */
+    protected TextField textField;
+
+    /**
      * Costruttore base senza parametri
      * Viene utilizzato dalla Funzione -> FieldFactory in AlgosConfiguration
      */
@@ -131,12 +139,13 @@ public abstract class AField<T> extends CustomField<Object> {
      * Crea (o ricrea dopo una clonazione) il componente base
      */
     public void creaContent() {
+        textField = new TextField();
     }// end of method
 
 
     @Override
     public Component initContent() {
-        return null;
+        return textField;
     }// end of method
 
 
@@ -158,7 +167,10 @@ public abstract class AField<T> extends CustomField<Object> {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object o) {
+    protected void doSetValue(Object value) {
+        if (textField != null) {
+            textField.setValue((String) value);
+        }// end of if cycle
     }// end of method
 
 
@@ -190,9 +202,16 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     public void setWidth(String width) {
+        if (textField != null) {
+            textField.setWidth(width);
+        }// end of if cycle
     }// end of method
 
+
     public void setFocus(boolean focus) {
+        if (textField != null && focus) {
+            textField.focus();
+        }// end of if cycle
     }// end of method
 
 
@@ -222,10 +241,19 @@ public abstract class AField<T> extends CustomField<Object> {
         }// end of if cycle
     }// end of method
 
+
     /**
-     * Aggiunge il listener al componente base del field
+     * Aggiunge il listener al field
      */
     protected void addListener() {
+        if (textField != null) {
+            textField.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+                @Override
+                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+                    publish();
+                }// end of inner method
+            });// end of anonymous inner class
+        }// end of if cycle
     }// end of method
 
 

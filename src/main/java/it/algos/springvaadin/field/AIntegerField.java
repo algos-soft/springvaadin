@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.FIELD_INTEGER)
-public class AIntegerField extends AText {
+public class AIntegerField extends AField {
 
 
     /**
@@ -42,8 +42,8 @@ public class AIntegerField extends AText {
      */
     @Override
     protected void doSetValue(Object value) {
-        if (field != null && value instanceof Integer) {
-            field.setValue(Integer.toString((int) value));
+        if (textField != null && value instanceof Integer) {
+            textField.setValue(Integer.toString((int) value));
         }// end of if cycle
     }// end of method
 
@@ -57,8 +57,8 @@ public class AIntegerField extends AText {
     public Integer getValue() {
         String textValue = "";
 
-        if (field != null) {
-            textValue = field.getValue();
+        if (textField != null) {
+            textValue = textField.getValue();
             if (textValue != null && textValue.length() > 0) {
                 return Integer.decode(textValue);
             } else {

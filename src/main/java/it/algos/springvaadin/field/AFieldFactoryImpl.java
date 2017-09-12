@@ -100,6 +100,12 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case integer:
                     field = fieldFactory.apply(AIntegerField.class);
                     break;
+                case localdatetime:
+                    field = fieldFactory.apply(ADateTimeField.class);
+                    break;
+                case dateNotEnabled:
+                    field = fieldFactory.apply(ADateNotEnabledField.class);
+                    break;
                 case image:
                     field = fieldFactory.apply(AImageField.class);
                     target = targetImageAutowired;
