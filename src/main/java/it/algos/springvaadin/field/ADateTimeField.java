@@ -32,42 +32,30 @@ public class ADateTimeField extends AField {
     /**
      * Componente principale
      */
-    protected DateField textField;
+    protected DateField dateField;
 
-//    public ADateTimeField(String caption) {
-//        super();
-//        textField = new TextField();
-//        setCaption(caption);
-//        setWidth("10em");
-//    }
 
     /**
      * Crea (o ricrea dopo una clonazione) il componente base
      */
     public void creaContent() {
-        textField = new DateField();
+        dateField = new DateField();
         // Display only year, month, and day in ISO format
-        textField.setDateFormat("dd-MM-yyyy");
-//        textField.setDateFormat("&w, &d &N &C");
-
+        dateField.setDateFormat("dd-MM-yyyy");
     }// end of method
 
 
     public void setWidth(String width) {
-        if (textField != null) {
-            textField.setWidth(width);
+        if (dateField != null) {
+            dateField.setWidth(width);
         }// end of if cycle
     }// end of method
 
+
     @Override
     public Component initContent() {
-        return textField;
+        return dateField;
     }// end of method
-
-
-//    public Class<? extends LocalDateTime> getType() {
-//        return LocalDateTime.class;
-//    }
 
 
     /**
@@ -76,11 +64,7 @@ public class ADateTimeField extends AField {
      */
     @Override
     protected void doSetValue(Object value) {
-        String valueTxt = "";
         LocalDateTime localDateTime = null;
-        String sepD = "-";
-        String sepDT = "  ";
-        String sepT = ":";
 
         if (value instanceof LocalDateTime) {
             localDateTime = (LocalDateTime) value;
@@ -88,49 +72,19 @@ public class ADateTimeField extends AField {
             return;
         }// end of if/else cycle
 
-        //        DateTimeFormatter formatter = DateTimeFormatter
-//                .ofLocalizedDateTime(FormatStyle.FULL)
-//                .withLocale(Locale.ITALY);
-
-
-        valueTxt += localDateTime.getDayOfMonth();
-        valueTxt += sepD;
-        valueTxt += MeseEnum.getShort(localDateTime.getMonthValue());//nome breve (3 caratteri) in italiano
-        valueTxt += sepD;
-        valueTxt += localDateTime.getYear();//le ultime due cifre
-        valueTxt += sepDT;
-        valueTxt += LibNum.addZeri(localDateTime.getHour());//aggiunge eventuale zero iniziale per avere sempre 2 cifre
-        valueTxt += sepT;
-        valueTxt += LibNum.addZeri(localDateTime.getMinute());//aggiunge eventuale zero iniziale per avere sempre 2 cifre
-        valueTxt += sepT;
-        valueTxt += LibNum.addZeri(localDateTime.getSecond());//aggiunge eventuale zero iniziale per avere sempre 2 cifre
-
-
-        textField.setValue(localDateTime.toLocalDate());
+        dateField.setValue(localDateTime.toLocalDate());
     }// end of method
 
-//    @Override
-//    public LocalDateTime getValue() {
-//        return null;
-//    }
-
-
-//    @Override
-//    public void doValue(AEntity entityBean) {
-//    }// end of method
-//
-//    @Override
-//    public void saveSon() {
-//    }// end of method
-//
-//    @Override
-//    public AlgosPresenterImpl getFormPresenter() {
-//        return null;
-//    }// end of method
-//
-//
-//    @Override
-//    public void setSource(ApplicationListener<AEvent> formSource) {
-//    }// end of method
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
+    @Override
+    public Object getValue() {
+        LocalDate localDate=dateField.getValue();
+//        LocalDateTime localTime = LocalDateTime.of(localDate,null);
+        return LocalDateTime.now();
+    }// end of method
 
 }// end of class
