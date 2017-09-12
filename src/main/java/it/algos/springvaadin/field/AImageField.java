@@ -86,7 +86,7 @@ public class AImageField extends AField {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         byte[] imgByte = null;
         Image image = null;
         placeholderImage.removeAllComponents();
@@ -109,6 +109,11 @@ public class AImageField extends AField {
     public void setButton(AButton button) {
         this.button = button;
         this.button.setTarget(target);
+    }// end of method
+
+    @Override
+    public void setValue(Object value) {
+        super.setValue(value);
     }// end of method
 
 }// end of class

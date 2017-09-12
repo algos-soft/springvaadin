@@ -5,6 +5,7 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.event.*;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
@@ -42,6 +43,7 @@ public class ImageDialog extends Window implements ApplicationListener {
     private VerticalLayout buttonsLayout = new VerticalLayout();
 
     private AEntity entityBean;
+    private AField sourceField;
 
     private String space7 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -78,24 +80,25 @@ public class ImageDialog extends Window implements ApplicationListener {
     }// end of method
 
 
-    public void show(AEntity entityBean, ApplicationListener presenter) {
+    public void show(AEntity entityBean, ApplicationListener presenter, AField sourceField) {
         this.entityBean = entityBean;
+        this.sourceField = sourceField;
         this.presenter = presenter;
         this.accettaEnabled = false;
         getImageFromEntity();
-        restart(presenter);
+        restart();
         resetDialog();
         UI.getCurrent().addWindow(this);
     }// end of method
 
 
-    private void restart(ApplicationListener source) {
+    private void restart() {
 //        mainLayout.removeAllComponents();
 
-        buttonBack = buttonFactory.crea(AButtonType.back, this, source);
-        buttonCreate = buttonFactory.crea(AButtonType.create, this, editDialog);
-        buttonDelete = buttonFactory.crea(AButtonType.delete, this, this);
-        buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, this, source);
+        buttonBack = buttonFactory.crea(AButtonType.back, this, presenter, sourceField);
+        buttonCreate = buttonFactory.crea(AButtonType.create, this, editDialog, sourceField);
+        buttonDelete = buttonFactory.crea(AButtonType.delete, this, this, sourceField);
+        buttonAccetta = buttonFactory.crea(AButtonType.linkAccetta, this, presenter, sourceField);
 
         buttonsLayout.removeAllComponents();
         buttonsLayout.addComponent(new HorizontalLayout(buttonBack, getSpace(), buttonDelete));
@@ -160,11 +163,11 @@ public class ImageDialog extends Window implements ApplicationListener {
      *
      * @param algosEvent the event to respond to
      */
-    public void onEvent(AEvent algosEvent) {
-
+    private void onEvent(AEvent algosEvent) {
         Class thisClazz = this.getClass();
         Class sourceClazz = algosEvent.getSource() != null ? algosEvent.getSource().getClass() : null;
         Class targetClazz = algosEvent.getTarget() != null ? algosEvent.getTarget().getClass() : null;
+        AField sourceField = algosEvent.getSourceField();
         AButtonEvent eventButton = null;
         AFieldEvent eventField = null;
         AButtonType type = null;
@@ -174,7 +177,7 @@ public class ImageDialog extends Window implements ApplicationListener {
             if (eventField.getType() == TypeField.valueChanged) {
             }// end of if cycle
             if (eventField.getType() == TypeField.linkTarget && targetClazz == thisClazz) {
-                this.show(eventField.getEntityBean(), eventField.getSource());
+                this.show(eventField.getEntityBean(), eventField.getSource(), sourceField);
             }// end of if cycle
         }// end of if cycle
 
@@ -184,7 +187,7 @@ public class ImageDialog extends Window implements ApplicationListener {
             type = eventButton.getType();
 
             if (targetClazz != null && targetClazz == thisClazz && type == AButtonType.image) {
-                this.show(eventButton.getEntityBean(), eventButton.getSource());
+                this.show(eventButton.getEntityBean(), eventButton.getSource(), sourceField);
             }// end of if cycle
 
 
@@ -198,17 +201,17 @@ public class ImageDialog extends Window implements ApplicationListener {
                         accettaEnabled = true;
                         break;
                     case delete:
-//                        ((Stato) entityBean).setBandiera(new byte[0]);
+                        ((Stato) entityBean).setBandiera(new byte[0]);
                         image = null;
                         accettaEnabled = true;
                         resetDialog();
                         break;
                     case linkAccetta:
-                        fireRevert();
+                        sourceField.doSetValue(image);
                         this.close();
                         break;
                     case linkRegistra:
-                        fireRevert();
+                        fireBack();
                         this.close();
                         break;
                     default: // caso non definito
@@ -224,8 +227,10 @@ public class ImageDialog extends Window implements ApplicationListener {
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
-    private void fireRevert() {
-        applicationEventPublisher.publishEvent(new AButtonEvent(AButtonType.revert, presenter, presenter, null));
+    private void fireBack() {
+//        String name = sourceField.getName();
+//        sourceField.doSetValue(image);
+//        applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.returnBack, this, presenter, entityBean, sourceField));
     }// end of method
 
 

@@ -83,7 +83,7 @@ public class AIdField extends AField {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         if (field != null && value != null) {
             field.setValue((String) value);
         }// end of if cycle

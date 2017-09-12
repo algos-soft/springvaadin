@@ -167,7 +167,7 @@ public abstract class AField<T> extends CustomField<Object> {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         if (textField != null) {
             textField.setValue((String) value);
         }// end of if cycle

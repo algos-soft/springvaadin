@@ -59,7 +59,7 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
      */
     @Override
     public AButton creaAddButton(AButtonType type, ApplicationListener source) {
-        AButton button = buttonFactory.crea(type, source,source);
+        AButton button = buttonFactory.crea(type, source,source,null);
 
         if (button != null) {
             addComponent(button);

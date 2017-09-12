@@ -1,5 +1,6 @@
 package it.algos.springvaadin.bottone;
 
+import it.algos.springvaadin.field.AField;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -19,12 +20,13 @@ public interface AButtonFactory {
     /**
      * Creazione di un bottone
      *
-     * @param type   del bottone, secondo la Enumeration AButtonType
-     * @param source dell'evento generato dal bottone
-     * @param target a cui indirizzare l'evento generato dal bottone
+     * @param type        del bottone, secondo la Enumeration AButtonType
+     * @param source      dell'evento generato dal bottone
+     * @param target      a cui indirizzare l'evento generato dal bottone
+     * @param sourceField che contiene il bottone bottone
      *
      * @return il bottone creato
      */
-    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target);
+    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target, AField sourceField);
 
 }// end of interface

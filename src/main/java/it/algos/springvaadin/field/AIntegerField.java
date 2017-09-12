@@ -41,7 +41,7 @@ public class AIntegerField extends AField {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         if (textField != null && value instanceof Integer) {
             textField.setValue(Integer.toString((int) value));
         }// end of if cycle

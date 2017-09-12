@@ -60,7 +60,7 @@ public class ADateTimeField extends AField {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         dateField.setValue((LocalDateTime)value);
     }// end of method
 

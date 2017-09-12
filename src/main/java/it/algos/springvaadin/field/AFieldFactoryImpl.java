@@ -109,14 +109,14 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case image:
                     field = fieldFactory.apply(AImageField.class);
                     target = targetImageAutowired;
-                    field.setButton(buttonFactory.crea(AButtonType.image, source, target));
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, target, field));
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, source));
+                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field));
                     break;
                 default: // caso non definito
                     break;

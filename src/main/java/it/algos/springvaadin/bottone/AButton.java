@@ -62,6 +62,10 @@ public class AButton extends Button {
     protected AEntity entityBean;
 
 
+    //--Opzionale (field) in elaborazione. Ha senso solo per alcuni bottoni
+    protected AField sourceField;
+
+
     /**
      * Costruttore base senza parametri
      * Viene utilizzato dalla Funzione -> BottoneFactory in AlgosConfiguration
@@ -105,17 +109,18 @@ public class AButton extends Button {
      * Forza a maiuscola la prima lettera del testo del bottone
      * Non si poteva fare prima perché la LibParams non è 'visibile' durante la fase iniziale gestita  da Spring
      *
-     * @param publisher degli eventi a livello Application
-     * @param type      del bottone, secondo la Enumeration AButtonType
-     * @param source    dell'evento generato dal bottone
-     * @param target    a cui indirizzare l'evento generato dal bottone
+     * @param publisher   degli eventi a livello Application
+     * @param type        del bottone, secondo la Enumeration AButtonType
+     * @param source      dell'evento generato dal bottone
+     * @param target      a cui indirizzare l'evento generato dal bottone
+     * @param sourceField che contiene il bottone bottone
      */
-    void inizializza(ApplicationEventPublisher publisher, AButtonType type, ApplicationListener source, ApplicationListener target) {
+    void inizializza(ApplicationEventPublisher publisher, AButtonType type, ApplicationListener source, ApplicationListener target, AField sourceField) {
         this.setPublisher(publisher);
         this.setType(type);
         this.setSource(source);
         this.setTarget(target);
-
+        this.setSourceField(sourceField);
         this.regolaParametri();
 
         if (LibParams.usaBottoniColorati()) {
@@ -166,7 +171,7 @@ public class AButton extends Button {
             return;
         }// end of if cycle
 
-        publisher.publishEvent(new AButtonEvent(type, source, target, entityBean));
+        publisher.publishEvent(new AButtonEvent(type, source, target, entityBean, sourceField));
     }// end of method
 
 
@@ -192,6 +197,9 @@ public class AButton extends Button {
         this.entityBean = entityBean;
     }// end of method
 
+    public void setSourceField(AField sourceField) {
+        this.sourceField = sourceField;
+    }// end of method
 
     public AButtonType getType() {
         return type;

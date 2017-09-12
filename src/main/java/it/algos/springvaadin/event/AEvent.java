@@ -34,20 +34,24 @@ public abstract class AEvent extends ApplicationEvent {
     //--Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
     protected AEntity entityBean;
 
+    //--Opzionale (field) in elaborazione. Ha senso solo per alcuni eventi
+    protected AField sourceField;
+
 
     /**
-     * @param type       Obbligatorio specifica del tipo di evento
-     * @param source     Obbligatorio (presenter, form, field, window, dialog,... ) che ha generato l'evento
-     * @param target     Obbligatorio (presenter, form, field, window, dialog,... ) a cui indirizzare l'evento
-     * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
+     * @param type        Obbligatorio specifica del tipo di evento
+     * @param source      Obbligatorio (presenter, form, field, window, dialog,... ) che ha generato l'evento
+     * @param target      Obbligatorio (presenter, form, field, window, dialog,... ) a cui indirizzare l'evento
+     * @param entityBean  Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
+     * @param sourceField Opzionale (field) in elaborazione. Ha senso solo per alcuni eventi
      */
-    public AEvent(Object type,ApplicationListener source, ApplicationListener target, AEntity entityBean) {
+    public AEvent(Object type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
         super(source);
         this.type = type;
         this.target = target;
         this.entityBean = entityBean;
+        this.sourceField = sourceField;
     }// end of constructor
-
 
 
     public Object getType() {
@@ -69,7 +73,6 @@ public abstract class AEvent extends ApplicationEvent {
     public ApplicationListener getTarget() {
         return target;
     }// end of method
-
 
 
     public AButtonType getButtonType() {
@@ -103,5 +106,8 @@ public abstract class AEvent extends ApplicationEvent {
         return entityBean;
     }// end of method
 
+    public AField getSourceField() {
+        return sourceField;
+    }// end of method
 
 }// end of abstract class

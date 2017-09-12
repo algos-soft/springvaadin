@@ -71,7 +71,7 @@ public class ALinkField extends AField {
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
-    protected void doSetValue(Object value) {
+    public void doSetValue(Object value) {
         if (value != null) {
             label.setValue(value.toString());
         } else {

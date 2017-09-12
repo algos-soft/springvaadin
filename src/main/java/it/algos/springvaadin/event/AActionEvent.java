@@ -41,7 +41,7 @@ public class AActionEvent extends AEvent {
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      */
     public AActionEvent(TypeAction type, ApplicationListener source, ApplicationListener target, AEntity entityBean) {
-        super(type,source, target, entityBean);
+        super(type,source, target, entityBean,null);
     }// end of constructor
 
 

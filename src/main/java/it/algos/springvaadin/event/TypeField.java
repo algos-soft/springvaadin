@@ -8,6 +8,6 @@ package it.algos.springvaadin.event;
  * Time: 21:38
  */
 public enum TypeField {
-    valueChanged, linkTarget, linkTargetDBRef
+    valueChanged, linkTarget, linkTargetDBRef, returnBack
 }// end of Enumeration
 

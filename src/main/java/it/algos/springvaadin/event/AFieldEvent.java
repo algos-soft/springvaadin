@@ -44,7 +44,19 @@ public class AFieldEvent extends AEvent {
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      */
     public AFieldEvent(TypeField type, ApplicationListener source, ApplicationListener target, AEntity entityBean) {
-        super(type,source, target, entityBean);
+        this(type, source, target, entityBean, (AField) null);
+    }// end of constructor
+
+
+    /**
+     * @param type        Obbligatorio specifica del tipo di evento
+     * @param source      Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
+     * @param target      Opzionale (window, dialog, presenter) a cui indirizzare l'evento
+     * @param entityBean  Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
+     * @param sourceField Opzionale (field) in elaborazione. Ha senso solo per alcuni eventi
+     */
+    public AFieldEvent(TypeField type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+        super(type, source, target, entityBean, sourceField);
     }// end of constructor
 
 
