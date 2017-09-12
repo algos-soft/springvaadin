@@ -78,7 +78,6 @@ public class Versione extends AEntity {
      * inserita automaticamente
      */
     @NotNull
-//    @AIField(type = AFieldType.dateNotEnabled, help = "Data di inserimento della versione")
     @AIField(type = AFieldType.localdatetime, help = "Data di inserimento della versione")
     @AIColumn
     private LocalDateTime modifica;

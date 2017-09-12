@@ -1,10 +1,8 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibNum;
@@ -32,16 +30,15 @@ public class ADateTimeField extends AField {
     /**
      * Componente principale
      */
-    protected DateField dateField;
+    private DateTimeField dateField;
 
 
     /**
      * Crea (o ricrea dopo una clonazione) il componente base
      */
     public void creaContent() {
-        dateField = new DateField();
-        // Display only year, month, and day in ISO format
-        dateField.setDateFormat("dd-MM-yyyy");
+        dateField = new DateTimeField();
+        dateField.setDateFormat("EEE, d-MMM-yyyy HH:mm");
     }// end of method
 
 
@@ -64,16 +61,9 @@ public class ADateTimeField extends AField {
      */
     @Override
     protected void doSetValue(Object value) {
-        LocalDateTime localDateTime = null;
-
-        if (value instanceof LocalDateTime) {
-            localDateTime = (LocalDateTime) value;
-        } else {
-            return;
-        }// end of if/else cycle
-
-        dateField.setValue(localDateTime.toLocalDate());
+        dateField.setValue((LocalDateTime)value);
     }// end of method
+
 
     /**
      * Recupera dalla UI il valore (eventualmente) selezionato
@@ -82,9 +72,22 @@ public class ADateTimeField extends AField {
      */
     @Override
     public Object getValue() {
-        LocalDate localDate=dateField.getValue();
-//        LocalDateTime localTime = LocalDateTime.of(localDate,null);
-        return LocalDateTime.now();
+        return dateField.getValue();
+    }// end of method
+
+
+    /**
+     * Aggiunge il listener al field
+     */
+    protected void addListener() {
+        if (dateField != null) {
+            dateField.addValueChangeListener(new ValueChangeListener<LocalDateTime>() {
+                @Override
+                public void valueChange(ValueChangeEvent<LocalDateTime> valueChangeEvent) {
+                    publish();
+                }// end of inner method
+            });// end of anonymous inner class
+        }// end of if cycle
     }// end of method
 
 }// end of class
