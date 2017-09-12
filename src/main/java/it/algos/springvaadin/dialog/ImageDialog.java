@@ -63,7 +63,6 @@ public class ImageDialog extends Window implements ApplicationListener {
         this.buttonFactory = buttonFactory;
     }// end of constructor
 
-
     /**
      * Metodo invocato (automaticamente dalla annotation Spring) DOPO il costruttore
      */
