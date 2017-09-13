@@ -45,7 +45,7 @@ public class ImageDialog extends Window implements ApplicationListener {
 
     private AEntity entityBean;
     private AField sourceField;
-    private byte[] imgByte;
+    private byte[] imgBytes;
 
     private String space7 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -127,22 +127,7 @@ public class ImageDialog extends Window implements ApplicationListener {
 
 
     private void getImageFromField() {
-        byte[] imgBytes = ((AImageField) sourceField).getImgByte();
-        image = LibResource.getImage(imgBytes);
-
-        if (image != null) {
-            image.setWidth(WIDTH);
-            image.setHeight(HEIGHT);
-        } else {
-            LibAvviso.warn("Non esiste una immagine col nome selezionato");
-        }// end of if/else cycle
-
-        this.imgByte = imgByte;
-    }// end of method
-
-
-    private void getImageFromEntity() {
-        byte[] imgBytes = ((Stato) entityBean).getBandiera();
+        imgBytes = ((AImageField) sourceField).getImgByte();
         image = LibResource.getImage(imgBytes);
 
         if (image != null) {
@@ -152,6 +137,19 @@ public class ImageDialog extends Window implements ApplicationListener {
             LibAvviso.warn("Non esiste una immagine col nome selezionato");
         }// end of if/else cycle
     }// end of method
+
+
+//    private void getImageFromEntity() {
+//        byte[] imgBytes = ((Stato) entityBean).getBandiera();
+//        image = LibResource.getImage(imgBytes);
+//
+//        if (image != null) {
+//            image.setWidth(WIDTH);
+//            image.setHeight(HEIGHT);
+//        } else {
+//            LibAvviso.warn("Non esiste una immagine col nome selezionato");
+//        }// end of if/else cycle
+//    }// end of method
 
 
     private void create() {
@@ -215,15 +213,15 @@ public class ImageDialog extends Window implements ApplicationListener {
                         accettaEnabled = true;
                         break;
                     case delete:
-                        imgByte = new byte[0];
+                        imgBytes = new byte[0];
                         image = null;
                         accettaEnabled = true;
                         resetDialog();
                         break;
                     case linkAccetta:
-                        ((AImageField) sourceField).setImgByte(imgByte);
+                        ((AImageField) sourceField).setImgByte(imgBytes);
                         sourceField.doSetValue(image);
-                        ((Stato) entityBean).setBandiera(imgByte);
+                        ((Stato) entityBean).setBandiera(imgBytes);
                         this.close();
                         fireBack();
                         break;
@@ -247,8 +245,16 @@ public class ImageDialog extends Window implements ApplicationListener {
     public class Pippo implements Edit2Dialog.Recipient {
         @Override
         public void gotInput(String input, Window win) {
-            byte[] imageBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
-            ((Stato) entityBean).setBandiera(imageBytes);
+            imgBytes = LibResource.getImgBytes(input.toUpperCase() + ".png");
+            image = LibResource.getImage(imgBytes);
+            if (image != null) {
+                image.setWidth(WIDTH);
+                image.setHeight(HEIGHT);
+            } else {
+                LibAvviso.warn("Non esiste una immagine col nome selezionato");
+            }// end of if/else cycle
+
+//            ((Stato) entityBean).setBandiera(imageBytes);
             resetDialog();
             win.close();
         }// end of method

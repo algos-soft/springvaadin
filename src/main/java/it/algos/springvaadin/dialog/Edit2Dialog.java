@@ -3,6 +3,8 @@ package it.algos.springvaadin.dialog;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.bottone.AButtonFactory;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -29,23 +31,29 @@ public class Edit2Dialog extends Window implements ApplicationListener {
     String message = "";
 
     TextField field = new TextField();
-    AButton buttonBack;
-    AButton buttonAccetta;
+
+    private AButtonFactory buttonFactory;
+    private AButton buttonBack;
+    private AButton buttonAccetta;
 
 //    public Edit2Dialog() {
 //    }// end of constructor
 
 
-    public Edit2Dialog() {
+    public Edit2Dialog(AButtonFactory buttonFactory) {
         super();
-        this.buttonBack = buttonBack;
-        this.buttonAccetta = buttonAccetta;
+        this.buttonFactory = buttonFactory;
     }// end of constructor
 
 
     public void inizia(AlgosPresenterImpl source, Recipient recipient) {
         this.recipient = recipient;
         final Window winDialog = this;
+
+        buttonBack = buttonFactory.crea(AButtonType.back, this, this, null);
+        buttonAccetta = buttonFactory.crea(AButtonType.accetta, this, this, null);
+
+
         field.setValue("");
 //        buttonBack.inizializza(null,source);
 //        buttonAccetta.inizializza(null,source);
