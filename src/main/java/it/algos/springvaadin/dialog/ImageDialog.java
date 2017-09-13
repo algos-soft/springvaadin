@@ -6,6 +6,7 @@ import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.model.AEntity;
@@ -44,6 +45,7 @@ public class ImageDialog extends Window implements ApplicationListener {
 
     private AEntity entityBean;
     private AField sourceField;
+    private byte[] imgByte;
 
     private String space7 = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
@@ -85,7 +87,7 @@ public class ImageDialog extends Window implements ApplicationListener {
         this.sourceField = sourceField;
         this.presenter = presenter;
         this.accettaEnabled = false;
-        getImageFromEntity();
+        getImageFromField();
         restart();
         resetDialog();
         UI.getCurrent().addWindow(this);
@@ -104,8 +106,8 @@ public class ImageDialog extends Window implements ApplicationListener {
         buttonsLayout.addComponent(new HorizontalLayout(buttonBack, getSpace(), buttonDelete));
         buttonsLayout.addComponent(new HorizontalLayout(buttonCreate, getSpace(), buttonAccetta));
 
-//        mainLayout.addComponent(captionLabel);
-//        mainLayout.addComponent(toolBar);
+        imageLayout.setWidth(WIDTH);
+        imageLayout.setHeight(HEIGHT);
     }// end of method
 
 
@@ -124,6 +126,21 @@ public class ImageDialog extends Window implements ApplicationListener {
     }// end of method
 
 
+    private void getImageFromField() {
+        byte[] imgBytes = ((AImageField) sourceField).getImgByte();
+        image = LibResource.getImage(imgBytes);
+
+        if (image != null) {
+            image.setWidth(WIDTH);
+            image.setHeight(HEIGHT);
+        } else {
+            LibAvviso.warn("Non esiste una immagine col nome selezionato");
+        }// end of if/else cycle
+
+        this.imgByte = imgByte;
+    }// end of method
+
+
     private void getImageFromEntity() {
         byte[] imgBytes = ((Stato) entityBean).getBandiera();
         image = LibResource.getImage(imgBytes);
@@ -134,9 +151,6 @@ public class ImageDialog extends Window implements ApplicationListener {
         } else {
             LibAvviso.warn("Non esiste una immagine col nome selezionato");
         }// end of if/else cycle
-
-        imageLayout.setWidth(WIDTH);
-        imageLayout.setHeight(HEIGHT);
     }// end of method
 
 
@@ -201,25 +215,23 @@ public class ImageDialog extends Window implements ApplicationListener {
                         accettaEnabled = true;
                         break;
                     case delete:
-                        ((Stato) entityBean).setBandiera(new byte[0]);
+                        imgByte = new byte[0];
                         image = null;
                         accettaEnabled = true;
                         resetDialog();
                         break;
                     case linkAccetta:
+                        ((AImageField) sourceField).setImgByte(imgByte);
                         sourceField.doSetValue(image);
+                        ((Stato) entityBean).setBandiera(imgByte);
                         this.close();
-                        break;
-                    case linkRegistra:
                         fireBack();
-                        this.close();
                         break;
                     default: // caso non definito
                         break;
                 } // fine del blocco switch
             }// end of if cycle
         }// end of if cycle
-
     }// end of method
 
 
@@ -228,9 +240,7 @@ public class ImageDialog extends Window implements ApplicationListener {
      * L'evento viene intercettato nella classe AlgosPresenterEvents->onApplicationEvent(AEvent event)
      */
     private void fireBack() {
-//        String name = sourceField.getName();
-//        sourceField.doSetValue(image);
-//        applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.returnBack, this, presenter, entityBean, sourceField));
+        applicationEventPublisher.publishEvent(new AFieldEvent(TypeField.valueChanged, this, presenter, entityBean, sourceField));
     }// end of method
 
 

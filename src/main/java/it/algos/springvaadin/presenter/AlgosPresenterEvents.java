@@ -101,14 +101,14 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     @Override
     public void attach() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("AzioneOld", "Aggiunta  una riga nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("Azione", "Aggiunta  una riga nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void click() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("AzioneOld", "Click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("Azione", "Click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -116,21 +116,21 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     @Override
     public void doppioClick(AEntity entityBean) {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("AzioneOld", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("Azione", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void selectionChanged() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("AzioneOld", "Modificata la selezione della Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("Azione", "Modificata la selezione della Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
     @Override
     public void listener() {
         if (AlgosApp.USE_DEBUG) {
-            Notification.show("AzioneOld", "AzioneOld generica della Grid", Notification.Type.HUMANIZED_MESSAGE);
+            Notification.show("Azione", "AzioneOld generica della Grid", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
@@ -192,6 +192,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             Notification.show("Field", "Modificato valore del campo", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
+
 
 
     /**

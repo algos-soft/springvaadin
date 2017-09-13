@@ -1,5 +1,8 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.server.DownloadStream;
+import com.vaadin.server.Resource;
+import com.vaadin.server.StreamResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.AButton;
@@ -10,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 /**
  * Project springvaadin
@@ -26,10 +33,13 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_IMAGE)
 public class AImageField extends AField {
 
-    private Layout placeholderImage = new HorizontalLayout();
+    private HorizontalLayout placeholderImage = new HorizontalLayout();
 
     @Autowired
     private ImageDialog targetAutowired;
+
+    private byte[] imgByte;
+
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -81,13 +91,13 @@ public class AImageField extends AField {
         return null;
     }// end of method
 
+
     /**
      * Visualizza graficamente nella UI i componenti grafici (uno o più)
      * Riceve il valore dal DB Mongo, già col casting al typo previsto
      */
     @Override
     public void doSetValue(Object value) {
-        byte[] imgByte = null;
         Image image = null;
         placeholderImage.removeAllComponents();
 
@@ -114,6 +124,14 @@ public class AImageField extends AField {
     @Override
     public void setValue(Object value) {
         super.setValue(value);
+    }// end of method
+
+    public byte[] getImgByte() {
+        return imgByte;
+    }// end of method
+
+    public void setImgByte(byte[] imgByte) {
+        this.imgByte = imgByte;
     }// end of method
 
 }// end of class
