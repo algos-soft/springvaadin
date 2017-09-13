@@ -161,15 +161,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * ma passa le modifiche stesse al parentField che le visualizza e deciderà se registrare il tutto o meno.
      *
      * @param entityBean
-     * @param parentField
+     * @param sourceField
      */
     @Override
-    public void editLink(AEntity entityBean, AField parentField, AButtonType type) {
-//        if (entityBean != null) {
+    public void editLink(AEntity entityBean, AField sourceField, AButtonType type) {
         ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
-        ((AlgosViewImpl) view).getForm().setParentField(parentField);
+        ((AlgosViewImpl) view).getForm().setParentField(sourceField);
         modifica(entityBean, true, type == AButtonType.editLinkDBRef);
-//        }// end of if cycle
     }// end of method
 
 

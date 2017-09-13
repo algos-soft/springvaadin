@@ -139,21 +139,11 @@ public class ImageDialog extends Window implements ApplicationListener {
     }// end of method
 
 
-//    private void getImageFromEntity() {
-//        byte[] imgBytes = ((Stato) entityBean).getBandiera();
-//        image = LibResource.getImage(imgBytes);
-//
-//        if (image != null) {
-//            image.setWidth(WIDTH);
-//            image.setHeight(HEIGHT);
-//        } else {
-//            LibAvviso.warn("Non esiste una immagine col nome selezionato");
-//        }// end of if/else cycle
-//    }// end of method
 
 
     private void create() {
-        this.editDialog.inizia(null, new Pippo());
+        String message = "Bandiera dello stato</br>Sigla di 3 caratteri";
+        this.editDialog.inizia(message, null, new Pippo());
     }// end of method
 
 
@@ -253,8 +243,6 @@ public class ImageDialog extends Window implements ApplicationListener {
             } else {
                 LibAvviso.warn("Non esiste una immagine col nome selezionato");
             }// end of if/else cycle
-
-//            ((Stato) entityBean).setBandiera(imageBytes);
             resetDialog();
             win.close();
         }// end of method

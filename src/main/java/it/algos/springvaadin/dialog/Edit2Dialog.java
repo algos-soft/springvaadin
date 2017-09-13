@@ -28,8 +28,6 @@ public class Edit2Dialog extends Window implements ApplicationListener {
 
     Recipient recipient;
 
-    String message = "";
-
     TextField field = new TextField();
 
     private AButtonFactory buttonFactory;
@@ -46,7 +44,7 @@ public class Edit2Dialog extends Window implements ApplicationListener {
     }// end of constructor
 
 
-    public void inizia(AlgosPresenterImpl source, Recipient recipient) {
+    public void inizia(String message, AlgosPresenterImpl source, Recipient recipient) {
         this.recipient = recipient;
         final Window winDialog = this;
 
@@ -61,10 +59,15 @@ public class Edit2Dialog extends Window implements ApplicationListener {
         this.setResizable(false);
         this.setClosable(false);
         this.setWidth("18em");
-        this.setHeight("9em");
+        this.setHeight("11em");
         VerticalLayout layout = new VerticalLayout();
 
-        layout.addComponent(new LabelRosso(CAPTION));
+        if (message.equals("")) {
+            layout.addComponent(new LabelRosso(CAPTION));
+        } else {
+            layout.addComponent(new LabelRosso(message));
+        }// end of if/else cycle
+
         layout.addComponent(field);
         layout.addComponent(new HorizontalLayout(buttonBack, buttonAccetta));
         field.focus();

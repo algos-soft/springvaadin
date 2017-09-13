@@ -44,7 +44,7 @@ public class ALinkField extends AField {
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    protected void inizializza(String publicFieldName, ApplicationListener source) {
+    protected void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
         super.inizializza(publicFieldName, source, source);
         if (label == null) {
             label = new LabelBold();
@@ -58,7 +58,7 @@ public class ALinkField extends AField {
 
     @Override
     public Component initContent() {
-        if (button != null) {
+        if (button != null && label != null) {
             return new HorizontalLayout(button, label);
         } else {
             return label;
@@ -86,9 +86,6 @@ public class ALinkField extends AField {
         }// end of if cycle
     }// end of method
 
-    protected void subClonazione(AField oldField) {
-//        button = oldField.button.clone("");
-    }// end of method
 
 }// end of class
 
