@@ -7,6 +7,8 @@ import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.ATextField;
+import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -276,6 +278,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
             case linkRegistra:
                 registra();
+                ((ATextField)sourceField).textField.setValue((String)sourceField.getValue());
+//                sourceField.doSetValue(sourceField.getValue());
+                LibAvviso.info("Le modifiche sono state registrate");
                 break;
             case linkAccetta:
 //                    editLink(entityBean, parentField);

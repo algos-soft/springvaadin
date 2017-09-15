@@ -8,6 +8,7 @@ import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Project springvaadin
@@ -37,11 +38,11 @@ public class ViewField {
      * Create a single field.
      * The field type is chosen according to the annotation @AIField.
      *
-     * @param presenter di riferimento per gli eventi
+     * @param source     presenter di riferimento da cui vengono generati gli eventi
      * @param attr      the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public AField create(AlgosPresenterImpl presenter, final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName) {
         AField field = null;
         Object[] items = null;
         AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
@@ -59,7 +60,7 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(type, publicFieldName, presenter);
+            field = fieldFactory.crea(type, publicFieldName, source);
         }// end of if cycle
 
         //@todo aggiungere la nullSelection letta dalla Annotation

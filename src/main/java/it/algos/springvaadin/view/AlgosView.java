@@ -5,6 +5,7 @@ import com.vaadin.navigator.View;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import org.springframework.context.ApplicationListener;
 
 import java.util.List;
 
@@ -38,14 +39,28 @@ public interface AlgosView extends View {
     public void setList(Class<? extends AEntity> clazz, List items, List<String> columns);
 
 
+
+
     /**
-     * Costruisce un Form
+     * Creazione di un form
      *
-     * @param entity di riferimento
-     * @param fields visibili ed ordinati del Form
-     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
+     * @param entityBean            istanza da elaborare
+     * @param fields                campi del form da visualizzare
+     * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra);
+    public void setForm(AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog);
+
+
+    /**
+     * Creazione di un form di un altro modulo/collezione
+     * Solo finestra popup
+     *
+     * @param entityBean         istanza da elaborare
+     * @param fields             campi del form da visualizzare
+     * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
+     *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
+     */
+    public void setFormLink(AEntity entityBean, List<String> fields, boolean usaBottoneRegistra);
 
 
     /**
@@ -173,8 +188,6 @@ public interface AlgosView extends View {
      * @return entityBean
      */
     public AEntity getEntityBean();
-
-
 
 
     /**

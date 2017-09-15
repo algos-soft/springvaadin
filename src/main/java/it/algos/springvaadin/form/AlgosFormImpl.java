@@ -19,6 +19,7 @@ import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected Window window;
 
     //--flag
-    private boolean usaSeparateFormDialog;
+//    private boolean usaSeparateFormDialog;
 
     //--L'entityBean viene inserita come parametro nel metodo restart, chiamato dal presenter
     protected AEntity entityBean;
@@ -57,31 +58,32 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
     protected AToolbar toolbar;
+    protected AToolbar toolbarNormale;
     private AToolbar toolbarLink;
 
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
-     * @param toolbar     iniettata da Spring
-     * @param toolbarLink iniettata da Spring
+     * @param toolbarNormale iniettata da Spring
+     * @param toolbarLink    iniettata da Spring
      */
-    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AToolbar toolbarNormale,
                          @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
-        this.toolbar = toolbar;
+        this.toolbarNormale = toolbarNormale;
         this.toolbarLink = toolbarLink;
     }// end of Spring constructor
 
 
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     * Regola il modello-dati specifico nel Service
-     */
-    @PostConstruct
-    protected void inizia() {
-        usaSeparateFormDialog = LibParams.usaSeparateFormDialog();
-    }// end of method
+//    /**
+//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+//     * (si può usare qualsiasi firma)
+//     * Regola il modello-dati specifico nel Service
+//     */
+//    @PostConstruct
+//    protected void inizia() {
+////        usaSeparateFormDialog = LibParams.usaSeparateFormDialog();
+//    }// end of method
 
 
     /**
@@ -89,35 +91,47 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param presenter      di riferimento per gli eventi
-     * @param entityBean     istanza da presentare
-     * @param fields         del form da visualizzare
-     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
+     * @param source                presenter di riferimento da cui vengono generati gli eventi
+     * @param entityBean            istanza da elaborare
+     * @param fields                campi del form da visualizzare
+     * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void restart(AlgosPresenterImpl presenter, AEntity entityBean, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra) {
+    public void restart(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog) {
         this.entityBean = entityBean;
-
-        if (usaToolbarLink) {
-//            ((LinkToolbar) toolbarLink).setUsaBottoneRegistra(usaBottoneRegistra);@todo rimettere
-            toolbar = toolbarLink;
-        }// end of if cycle
+        toolbar = toolbarNormale;
 
         if (usaSeparateFormDialog) {
-            usaSeparateFormDialog(presenter, fields);
+            usaSeparateFormDialog(source, fields);
         } else {
-            usaAllScreen(presenter, fields);
+            usaAllScreen(source, fields);
         }// end of if/else cycle
     }// end of method
 
 
     /**
+     * Creazione del form di un altro modulo/collezione
+     * Solo finestra popup
+     *
+     * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param entityBean         istanza da elaborare
+     * @param fields             campi del form da visualizzare
+     * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
+     */
+    @Override
+    public void restartLink(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaBottoneRegistra) {
+        this.entityBean = entityBean;
+        toolbar = toolbarLink;
+        usaSeparateFormDialog(source, fields);
+    }// end of method
+
+    /**
      * Crea una finestra a se, che verrà chiusa alla dismissione del Form
      *
-     * @param presenter di riferimento per gli eventi
-     * @param fields    del form da visualizzare
+     * @param source presenter di riferimento da cui vengono generati gli eventi
+     * @param fields del form da visualizzare
      */
-    protected void usaSeparateFormDialog(AlgosPresenterImpl presenter, List<String> fields) {
+    protected void usaSeparateFormDialog(ApplicationListener source, List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -142,10 +156,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaAddBindFields(presenter, layout, fields);
+        creaAddBindFields(source, layout, fields);
 
         layout.addComponent(new Label());
-        toolbar.inizializza(presenter);
+        toolbar.inizializza(source);
 //        toolbar.regolaBottoni(presenter);
         layout.addComponent((AToolbarImpl) toolbar);
 
@@ -159,12 +173,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi, li aggiunge al layout, li aggiunge al binder
      *
-     * @param presenter  di riferimento per gli eventi
+     * @param source     presenter di riferimento da cui vengono generati gli eventi
      * @param layout     in cui inserire i campi (window o panel)
      * @param fieldsName del form da visualizzare
      */
-    protected void creaAddBindFields(AlgosPresenterImpl presenter, Layout layout, List<String> fieldsName) {
-        creaFields(presenter, fieldsName);
+    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<String> fieldsName) {
+        creaFields(source, fieldsName);
         addFields(layout);
         fixFields();
         bindFields();
@@ -174,17 +188,17 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi
      *
-     * @param presenter  di riferimento per gli eventi
+     * @param source     presenter di riferimento da cui vengono generati gli eventi
      * @param fieldsName del form da visualizzare
      *
      * @return lista di fields
      */
-    protected List<AField> creaFields(AlgosPresenterImpl presenter, List<String> fieldsName) {
+    protected List<AField> creaFields(ApplicationListener source, List<String> fieldsName) {
         List<AField> lista = new ArrayList<>();
         AField field;
 
         for (String publicFieldName : fieldsName) {
-            field = viewField.create(presenter, entityBean.getClass(), publicFieldName);
+            field = viewField.create(source, entityBean.getClass(), publicFieldName);
 
             if (field != null) {
                 lista.add(field);
@@ -340,10 +354,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Usa tutto lo schermo
      *
-     * @param presenter di riferimento per gli eventi
-     * @param fields    del form da visualizzare
+     * @param source presenter di riferimento da cui vengono generati gli eventi
+     * @param fields del form da visualizzare
      */
-    protected void usaAllScreen(AlgosPresenterImpl presenter, List<String> fields) {
+    protected void usaAllScreen(ApplicationListener source, List<String> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -352,10 +366,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new LabelRosso(caption);
         this.addComponent(label);
 
-        creaAddBindFields(presenter, this, fields);
+        creaAddBindFields(source, this, fields);
 
         this.addComponent(new Label());
-        toolbar.inizializza(presenter);
+        toolbar.inizializza(source);
 //        toolbar.regolaBottoni(presenter);
         this.addComponent((AToolbarImpl) toolbar);
     }// end of method
@@ -425,44 +439,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         toolbar.enableButton(type, status);
     }// end of method
 
-//    /**
-//     * Abilita il bottone Annulla del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    public void enableAnnulla(boolean status) {
-//        toolbar.enableButton(AButtonType.annulla, status);
-//    }// end of method
-//
-//
-//    /**
-//     * Abilita il bottone Revert del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    public void enableRevert(boolean status) {
-//        toolbar.enableButton(AButtonType.revert, status);
-//    }// end of method
-//
-//
-//    /**
-//     * Abilita il bottone Registra del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    public void enableRegistra(boolean status) {
-//        toolbar.enableButton(AButtonType.registra, status);
-//    }// end of method
-//
-//    /**
-//     * Abilita il bottone Accetta del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    @Override
-//    public void enableAccetta(boolean status) {
-//        toolbar.enableButton(AButtonType.accetta, status);
-//    }// end of method
 
     /**
      * Inserisce nei bottoni Registra o Accetta il Field che va notificato
@@ -483,9 +459,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 //            field.saveSon();
         }// end of for cycle
     }// end of method
-
-    public void setUsaSeparateFormDialog(boolean usaSeparateFormDialog) {
-        this.usaSeparateFormDialog = usaSeparateFormDialog;
-    }// end of method
+//
+//    public void setUsaSeparateFormDialog(boolean usaSeparateFormDialog) {
+//        this.usaSeparateFormDialog = usaSeparateFormDialog;
+//    }// end of method
 
 }// end of class

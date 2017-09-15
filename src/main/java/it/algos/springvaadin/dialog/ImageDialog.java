@@ -214,6 +214,7 @@ public class ImageDialog extends Window implements ApplicationListener {
                         ((Stato) entityBean).setBandiera(imgBytes);
                         this.close();
                         fireBack();
+                        LibAvviso.info("Occorre registrare la scheda per rendere definitive le modifiche effettuate");
                         break;
                     default: // caso non definito
                         break;

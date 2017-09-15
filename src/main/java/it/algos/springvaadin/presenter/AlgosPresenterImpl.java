@@ -165,9 +165,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(AEntity entityBean, AField sourceField, AButtonType type) {
-        ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
+//        ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
         ((AlgosViewImpl) view).getForm().setParentField(sourceField);
-        modifica(entityBean, true, type == AButtonType.editLinkDBRef);
+        modifica(entityBean, true,true, type == AButtonType.editLinkDBRef);
     }// end of method
 
 
@@ -190,7 +190,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
-        modifica(entityBean, false, true);
+        modifica(entityBean, false,false, true);
     }// end of method
 
     /**
@@ -198,13 +198,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      *
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void modifica(AEntity entityBean, boolean usaToolbarLink, boolean usaBottoneRegistra) {
+    public void modifica(AEntity entityBean, boolean usaSeparateFormDialog,boolean usaToolbarLink, boolean usaBottoneRegistra) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setForm(entityBean, fields, usaToolbarLink, usaBottoneRegistra);
+        view.setForm(entityBean, fields, usaSeparateFormDialog);
     }// end of method
 
     /**

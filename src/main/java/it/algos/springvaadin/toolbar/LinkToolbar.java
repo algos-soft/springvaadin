@@ -62,9 +62,9 @@ public class LinkToolbar extends AToolbarImpl {
         super.creaAddButton(AButtonType.revert, source);
 
         if (usaBottoneRegistra) {
-            super.creaAddButton(AButtonType.registra, source);
+            super.creaAddButton(AButtonType.linkRegistra, source);
         } else {
-            super.creaAddButton(AButtonType.accetta, source);
+            super.creaAddButton(AButtonType.linkAccetta, source);
         }// end of if/else cycle
     }// end of method
 

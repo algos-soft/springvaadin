@@ -99,7 +99,7 @@ public abstract class AField<T> extends CustomField<Object> {
     /**
      * Componente principale
      */
-    protected TextField textField;
+    public TextField textField;
 
     /**
      * Costruttore base senza parametri

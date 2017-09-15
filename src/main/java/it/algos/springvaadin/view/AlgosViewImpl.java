@@ -69,16 +69,33 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
 
     /**
-     * Costruisce un Form
+     * Creazione di un form
      *
-     * @param entity         di riferimento
-     * @param fields         visibili ed ordinati del Form
-     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
+     * @param entityBean            istanza da elaborare
+     * @param fields                campi del form da visualizzare
+     * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void setForm(AEntity entity, List<String> fields, boolean usaToolbarLink, boolean usaBottoneRegistra) {
+    public void setForm(AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog) {
         removeAllComponents();
-        form.restart(presenter, entity, fields, usaToolbarLink, usaBottoneRegistra);
+        form.restart(presenter, entityBean, fields, usaSeparateFormDialog);
+        addComponent(form.getComponent());
+        enableButtonForm(AButtonType.revert, false);
+        enableButtonForm(AButtonType.registra, false);
+    }// end of method
+
+    /**
+     * Creazione di un form di un altro modulo/collezione
+     * Solo finestra popup
+     *
+     * @param entityBean         istanza da elaborare
+     * @param fields             campi del form da visualizzare
+     * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
+     */
+    @Override
+    public void setFormLink(AEntity entityBean, List<String> fields, boolean usaBottoneRegistra) {
+        removeAllComponents();
+        form.restartLink(presenter, entityBean, fields, usaBottoneRegistra);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
