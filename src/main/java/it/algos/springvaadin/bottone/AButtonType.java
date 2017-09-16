@@ -28,6 +28,7 @@ public enum AButtonType {
     chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
     create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, Cost.STYLE_RED),
+    deleteLink("", VaadinIcons.CLOSE, false, AButton.ICON_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
     editLinkDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, ""),
     editLinkNoDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, ""),
