@@ -5,6 +5,7 @@ import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.internal.Function;
@@ -71,10 +72,25 @@ public class AButtonFactoryImpl implements AButtonFactory {
      * @return il bottone creato
      */
     public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target, AField sourceField) {
+        return crea(type, source, target, null, sourceField);
+    }// end of method
+
+
+    /**
+     * Creazione di un bottone
+     *
+     * @param type        del bottone, secondo la Enumeration AButtonType
+     * @param source      dell'evento generato dal bottone
+     * @param target      a cui indirizzare l'evento generato dal bottone
+     * @param sourceField che contiene il bottone bottone
+     *
+     * @return il bottone creato
+     */
+    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
         AButton button = buttonFactory.apply(AButton.class);
 
         if (button != null) {
-            button.inizializza(publisher, type, source, target, sourceField);
+            button.inizializza(publisher, type, source, target, entityBean, sourceField);
         }// end of if cycle
 
         return button;

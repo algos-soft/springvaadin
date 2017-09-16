@@ -3,6 +3,7 @@ package it.algos.springvaadin.toolbar;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;

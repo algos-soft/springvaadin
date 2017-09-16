@@ -6,6 +6,7 @@ import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -47,24 +48,25 @@ public class LinkToolbar extends AToolbarImpl {
 
 
     /**
-     * Metodo invocato da restart() di Form e List
+     * Metodo invocato da restart() di Form, nella classe LinkToolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source      dell'evento generato dal bottone
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
     @Override
-    public void inizializza(ApplicationListener source) {
+    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
         this.removeAllComponents();
 
-        super.creaAddButton(AButtonType.annulla, source);
-        super.creaAddButton(AButtonType.revert, source);
+        super.creaAddButton(AButtonType.annulla, source, target, entityBean,sourceField);
+        super.creaAddButton(AButtonType.revert, source, target, entityBean,sourceField);
 
         if (usaBottoneRegistra) {
-            super.creaAddButton(AButtonType.linkRegistra, source);
+            super.creaAddButton(AButtonType.linkRegistra, source, target, entityBean,sourceField);
         } else {
-            super.creaAddButton(AButtonType.linkAccetta, source);
+            super.creaAddButton(AButtonType.linkAccetta, source, target, entityBean,sourceField);
         }// end of if/else cycle
     }// end of method
 

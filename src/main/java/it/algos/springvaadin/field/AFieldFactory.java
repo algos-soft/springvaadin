@@ -28,6 +28,7 @@ public interface AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(AFieldType type, String publicFieldName, ApplicationListener source);
+    public AField crea(AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName);
+
 
 }// end of interface

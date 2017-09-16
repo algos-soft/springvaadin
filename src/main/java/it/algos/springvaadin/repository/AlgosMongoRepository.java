@@ -2,6 +2,7 @@ package it.algos.springvaadin.repository;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;
+import org.bson.types.ObjectId;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -16,11 +17,13 @@ import java.io.Serializable;
 import java.util.List;
 
 @SpringComponent
-public class AlgosMongoRepository  implements  AlgosRepository,MongoRepository {
+public class AlgosMongoRepository implements AlgosRepository, MongoRepository {
+
     @Override
     public List save(Iterable iterable) {
         return null;
     }
+
 
     @Override
     public List findAll() {
@@ -41,6 +44,25 @@ public class AlgosMongoRepository  implements  AlgosRepository,MongoRepository {
     public List insert(Iterable iterable) {
         return null;
     }
+
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param serializable must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    @Override
+    public Object findOne(Serializable serializable) {
+        return null;
+    }
+
+    public Object findOne(ObjectId id) {
+        return null;
+    }
+
 
     @Override
     public List findAll(Example example) {
@@ -77,19 +99,6 @@ public class AlgosMongoRepository  implements  AlgosRepository,MongoRepository {
         return null;
     }
 
-    /**
-     * Retrieves an entity by its id.
-     *
-     * @param serializable must not be {@literal null}.
-     *
-     * @return the entity with the given id or {@literal null} if none found
-     *
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    @Override
-    public Object findOne(Serializable serializable) {
-        return null;
-    }
 
     /**
      * Returns whether an entity with the given id exists.

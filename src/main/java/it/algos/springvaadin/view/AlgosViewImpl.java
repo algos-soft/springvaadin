@@ -4,11 +4,13 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 
 import java.util.List;
 
@@ -84,18 +86,20 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         enableButtonForm(AButtonType.registra, false);
     }// end of method
 
+
     /**
      * Creazione di un form di un altro modulo/collezione
      * Solo finestra popup
      *
      * @param entityBean         istanza da elaborare
+     * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param fields             campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
+     *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    @Override
-    public void setFormLink(AEntity entityBean, List<String> fields, boolean usaBottoneRegistra) {
+    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<String> fields, boolean usaBottoneRegistra) {
         removeAllComponents();
-        form.restartLink(presenter, entityBean, fields, usaBottoneRegistra);
+        form.restartLink(source,presenter, sourceField, entityBean, fields, usaBottoneRegistra);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
@@ -250,7 +254,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public AEntity getEntityForm() {
-        return form.getEntity();
+        return form.getEntityBean();
     }// end of method
 
     /**
@@ -272,10 +276,19 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @return entityBean
      */
-    public AEntity getEntityBean() {
+    public AEntity getListEntityBean() {
         return list.getEntityBean();
     }// end of method
 
+    /**
+     * Elemento corrente nel Form
+     *
+     * @return entityBean
+     */
+    @Override
+    public AEntity getFormEntityBean() {
+        return form.getEntityBean();
+    }// end of method
 
     public void setPresenter(AlgosPresenterImpl presenter) {
         this.presenter = presenter;

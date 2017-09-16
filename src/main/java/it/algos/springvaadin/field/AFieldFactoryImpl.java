@@ -84,10 +84,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(AFieldType type, String publicFieldName, ApplicationListener source) {
+    public AField crea(AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName) {
         AField field = null;
         AButton button = null;
-        ApplicationListener target = null;
 
         try { // prova ad eseguire il codice
             switch (type) {
@@ -116,7 +115,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field));
+                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
                     break;
                 default: // caso non definito
                     break;

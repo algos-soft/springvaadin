@@ -7,6 +7,7 @@ import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,19 @@ public abstract class AlgosServiceImpl implements AlgosService {
         return (AEntity) repository.save(entityBean);
     }// end of method
 
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param serializable must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    @Override
+    public Object findOne(Serializable serializable) {
+        return (AEntity) repository.findOne(serializable);
+    }// end of method
 
 //    /**
 //     * Returns all entities of the type.

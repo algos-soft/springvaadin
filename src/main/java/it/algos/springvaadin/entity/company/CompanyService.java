@@ -4,6 +4,7 @@ import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,15 @@ public class CompanyService extends AlgosServiceImpl {
         return new Company(sigla, descrizione, indirizzo);
     }// end of method
 
+
+    /**
+     * Returns entity
+     *
+     * @return entity
+     */
+    public Company find(ObjectId id) {
+        return ((CompanyRepository) repository).findById(id);
+    }// end of method
 
     /**
      * Returns all instances of the type.

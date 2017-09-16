@@ -5,6 +5,7 @@ import com.vaadin.ui.Window;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 03/06/17.
@@ -19,7 +20,7 @@ public interface ListListener {
 
     public void edit(AEntity entityBean);
 
-    public void editLink(AEntity entityBean, AField sourceField, AButtonType type);
+    public void editLink(ApplicationListener source,AEntity entityBean, AField sourceField, AButtonType type);
 
     public void editImage(AEntity entityBean, AField sourceField);
 

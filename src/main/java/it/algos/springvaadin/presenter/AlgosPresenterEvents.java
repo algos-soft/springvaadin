@@ -7,11 +7,14 @@ import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.field.ATextField;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 18/06/17.
@@ -20,7 +23,7 @@ import org.springframework.context.ApplicationEventPublisher;
 public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
     @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    protected ApplicationEventPublisher publisher;
 
 
     /**
@@ -57,7 +60,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
 
     @Override
-    public void editLink(AEntity entityBean, AField sourceField, AButtonType type) {
+    public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
@@ -174,6 +177,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         }// end of if cycle
     }// end of method
 
+
+    protected void registraLink(ApplicationListener source, ApplicationListener target, AField sourceField) {
+    }// end of method
+
     /**
      * Evento 'accetta' (conferma) button pressed in form
      * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
@@ -189,12 +196,15 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void fieldModificato() {
+    public void valoreCambiato() {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("Field", "Modificato valore del campo", Notification.Type.HUMANIZED_MESSAGE);
         }// end of if cycle
     }// end of method
 
+    @Override
+    public void fieldModificato(ApplicationListener source, AEntity entityBean) {
+    }// end of method
 
     /**
      * Metodo invocato dalla view ogni volta che questa diventa attiva
@@ -209,7 +219,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
      * Usato da TipoBottone
      */
     public ApplicationEventPublisher getApplicationEventPublisher() {
-        return applicationEventPublisher;
+        return publisher;
     }// end of method
 
 
@@ -223,21 +233,17 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
         Class thisClazz = this.getClass();
         Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
+        ApplicationListener source = event.getSource();
+        ApplicationListener target = event.getTarget();
+        AEntity entityBean = event.getEntityBean();
+        AField sourceField = event.getSourceField();
 
         if (event instanceof AFieldEvent && targetClazz == thisClazz) {
-            if (event.getFieldType() == TypeField.valueChanged) {
-                fieldModificato();
-            }// end of if cycle
-//            if (((AFieldEvent) event).getType() == TypeField.linkTarget && targetClazz == thisClazz) {
-//                AEntity entityBean = ((AFieldEvent) event).getEntityBean();
-//                editLink(entityBean, ((AFieldEvent) event).getField());
-//            }// end of if cycle
+            onFieldEvent((AFieldEvent) event, source, target, entityBean, sourceField);
         }// end of if cycle
 
-        if (event instanceof AButtonEvent) {
-            if (targetClazz == thisClazz) {
-                onListEvent((AButtonEvent) event);
-            }// end of if cycle
+        if (event instanceof AButtonEvent && targetClazz == thisClazz) {
+            onListEvent((AButtonEvent) event);
         }// end of if cycle
 
         if (event instanceof AActionEvent && sourceClazz == thisClazz) {
@@ -248,15 +254,38 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 
 
     /**
+     * Handle a field event
+     *
+     * @param event the event to respond to
+     */
+    private void onFieldEvent(AFieldEvent event, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+        TypeField type = event.getFieldType();
+
+        switch (type) {
+            case valueChanged:
+                valoreCambiato();
+                break;
+            case fieldModificato:
+                fieldModificato(source, entityBean);
+                break;
+            default: // caso non definito
+                break;
+        } // fine del blocco switch
+    }// end of method
+
+
+    /**
      * Handle a button event
      * Vedi enum TipoBottone
      *
      * @param event the event to respond to
      */
     private void onListEvent(AButtonEvent event) {
-        AButtonType type = event.getType();
+        AButtonType type = event.getButtonType();
         Class thisClazz = this.getClass();
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
+        ApplicationListener source = event.getSource();
+        ApplicationListener target = event.getTarget();
         AEntity entityBean = event.getEntityBean();
         AField sourceField = event.getSourceField();
 
@@ -271,16 +300,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 edit(entityBean);
                 break;
             case editLinkDBRef:
-                editLink(entityBean, sourceField, type);
+                editLink(source, entityBean, sourceField, type);
                 break;
             case editLinkNoDBRef:
 //                    editLink(entityBean, parentField, type);
                 break;
             case linkRegistra:
-                registra();
-                ((ATextField)sourceField).textField.setValue((String)sourceField.getValue());
-//                sourceField.doSetValue(sourceField.getValue());
-                LibAvviso.info("Le modifiche sono state registrate");
+                registraLink(source, target, sourceField);
                 break;
             case linkAccetta:
 //                    editLink(entityBean, parentField);

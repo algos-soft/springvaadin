@@ -1,9 +1,12 @@
 package it.algos.springvaadin.entity.indirizzo;
 
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.company.CompanyRepository;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -42,7 +45,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
-        Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
+        Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo( indirizzo);
         if (entity == null) {
             entity = (Indirizzo) repository.save(newEntity(indirizzo, localita, cap, stato));
         }// end of if cycle
@@ -114,6 +117,11 @@ public class IndirizzoService extends AlgosServiceImpl {
         return trovato;
     }// end of method
 
+
+    public Indirizzo find(ObjectId id) {
+//        return ((IndirizzoRepository) repository).find(id);
+        return null;
+    }// end of method
 
     /**
      * Returns entity

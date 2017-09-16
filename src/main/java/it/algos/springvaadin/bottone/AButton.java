@@ -115,11 +115,12 @@ public class AButton extends Button {
      * @param target      a cui indirizzare l'evento generato dal bottone
      * @param sourceField che contiene il bottone bottone
      */
-    void inizializza(ApplicationEventPublisher publisher, AButtonType type, ApplicationListener source, ApplicationListener target, AField sourceField) {
+    void inizializza(ApplicationEventPublisher publisher, AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean,AField sourceField) {
         this.setPublisher(publisher);
         this.setType(type);
         this.setSource(source);
         this.setTarget(target);
+        this.setEntityBean(entityBean);
         this.setSourceField(sourceField);
         this.regolaParametri();
 

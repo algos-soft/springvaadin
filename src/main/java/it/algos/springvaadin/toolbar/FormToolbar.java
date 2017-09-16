@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;

@@ -2,6 +2,7 @@ package it.algos.springvaadin.service;
 
 import it.algos.springvaadin.model.AEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -31,17 +32,17 @@ public interface AlgosService {
     public AEntity newEntity();
 
 
-    /**
-     * Saves a given entity.
-     * Use the returned instance for further operations
-     * as the save operation might have changed the entity instance completely.
-     *
-     * @param entityBean to be saved
-     *
-     * @return the saved entity
-     */
-    public AEntity save(AEntity entityBean) throws Exception;
 
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param serializable must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public Object findOne(Serializable serializable);
 
     /**
      * Returns all entities of the type.
@@ -65,6 +66,17 @@ public interface AlgosService {
      */
     public int count();
 
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entityBean to be saved
+     *
+     * @return the saved entity
+     */
+    public AEntity save(AEntity entityBean) throws Exception;
 
     /**
      * Deletes a given entity.

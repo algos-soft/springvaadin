@@ -57,7 +57,7 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     //--Opzionale (entityBean) in elaborazione
-    private AEntity entityBean;
+    protected AEntity entityBean;
 
 
     /**

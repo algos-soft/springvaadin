@@ -1,6 +1,9 @@
 package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.model.AEntity;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Created by gac on 04/06/17.
@@ -20,6 +23,8 @@ public interface FormListener {
 
     public void accetta();
 
-    public void fieldModificato();
+    public void valoreCambiato();
+
+    public void fieldModificato(ApplicationListener source, AEntity entityBean) ;
 
 }// end of interface

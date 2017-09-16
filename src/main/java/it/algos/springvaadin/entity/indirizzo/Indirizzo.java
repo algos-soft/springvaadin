@@ -51,7 +51,7 @@ public class Indirizzo extends AEntity {
     /**
      * indirizzo: via, nome e numero (obbligatoria, non unica)
      */
-    @NotEmpty(message = "L'indirizzo è obbligatorio")
+    @NotEmpty()
     @Size(min = 2, max = 40)
     @AIField(type = AFieldType.text, widthEM = 20, focus = true, help = "Via, nome e numero")
     @AIColumn(width = 300)
@@ -61,7 +61,7 @@ public class Indirizzo extends AEntity {
     /**
      * località (obbligatoria, non unica)
      */
-    @NotEmpty(message = "La località è obbligatoria")
+    @NotEmpty()
     @Size(min = 4, max = 40)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 20, help = "Città, comune, paese")
     @AIColumn(width = 300)
@@ -83,7 +83,7 @@ public class Indirizzo extends AEntity {
      * riferimento dinamico
      */
     @DBRef
-    @NotEmpty(message = "Lo stato è obbligatorio")
+    @NotEmpty()
     @Size(min = 3, max = 20)
     @AIField(type = AFieldType.combo, clazz = Stato.class)
     @AIColumn(width = 140)
@@ -102,7 +102,7 @@ public class Indirizzo extends AEntity {
         value += indirizzo;
         value += (LibText.isValid(cap) ? sep + cap : sep);
         value += spazio + localita;
-        value += spazio + stato;
+        value += spazio + (stato != null ? stato : "");
 
         return value;
     }// end of method

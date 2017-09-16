@@ -36,12 +36,13 @@ public interface AlgosForm {
      * Solo finestra popup
      *
      * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param entityBean         istanza da elaborare
      * @param fields             campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaBottoneRegistra);
+    public void restartLink(ApplicationListener source,ApplicationListener target, AField sourceField, AEntity entityBean, List<String> fields, boolean usaBottoneRegistra);
 
     /**
      * Esegue il 'rollback' del Form
@@ -107,7 +108,7 @@ public interface AlgosForm {
      *
      * @return la entityBean del Form
      */
-    public AEntity getEntity();
+    public AEntity getEntityBean();
 
 
     /**

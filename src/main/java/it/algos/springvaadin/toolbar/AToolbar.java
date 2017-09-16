@@ -2,6 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
 
@@ -34,6 +35,18 @@ public interface AToolbar {
 
 
     /**
+     * Metodo invocato da restart() di Form, nella classe LinkToolbar
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source      dell'evento generato dal bottone
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean,AField sourceField);
+
+
+    /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
      * Aggiunge il bottone al contenitore grafico
@@ -42,6 +55,18 @@ public interface AToolbar {
      * @param source dell'evento generato dal bottone
      */
     public AButton creaAddButton(AButtonType type, ApplicationListener source);
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone al contenitore grafico
+     *
+     * @param type        del bottone, secondo la Enumeration AButtonType
+     * @param source      dell'evento generato dal bottone
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean,AField sourceField);
 
 
     /**
@@ -70,7 +95,6 @@ public interface AToolbar {
      * @param status abilitare o disabilitare
      */
     public void enableButton(AButtonType type, boolean status);
-
 
 
 }// end of interface

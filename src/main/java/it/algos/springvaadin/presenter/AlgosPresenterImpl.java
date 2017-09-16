@@ -3,12 +3,14 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.form.AlgosFormImpl;
+import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
-import it.algos.springvaadin.view.AlgosViewImpl;
+import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
@@ -19,7 +21,6 @@ import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -36,7 +37,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
 
     //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
-    protected AlgosService service;
+    public AlgosService service;
 
 
     //--dialogo di ricerca
@@ -120,7 +121,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
 
-
     /**
      * Evento
      * Edit button pressed in grid
@@ -161,13 +161,18 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * ma passa le modifiche stesse al parentField che le visualizza e deciderà se registrare il tutto o meno.
      *
      * @param entityBean
-     * @param sourceField
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
     @Override
-    public void editLink(AEntity entityBean, AField sourceField, AButtonType type) {
-//        ((AlgosFormImpl) ((AlgosViewImpl) view).getForm()).setUsaSeparateFormDialog(true);
-        ((AlgosViewImpl) view).getForm().setParentField(sourceField);
-        modifica(entityBean, true,true, type == AButtonType.editLinkDBRef);
+    public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
+        List<String> fields = service.getFormFields();
+
+        if (entityBean == null) {
+            entityBean = service.newEntity();
+        }// end of if cycle
+        view.setFormLink(source, entityBean, sourceField, fields, type == AButtonType.editLinkDBRef);
+
+//        ((AlgosViewImpl) view).getForm().setParentField(sourceField);
     }// end of method
 
 
@@ -190,7 +195,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
-        modifica(entityBean, false,false, true);
+        modifica(entityBean, false, false, true);
     }// end of method
 
     /**
@@ -198,7 +203,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      *
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void modifica(AEntity entityBean, boolean usaSeparateFormDialog,boolean usaToolbarLink, boolean usaBottoneRegistra) {
+    public void modifica(AEntity entityBean, boolean usaSeparateFormDialog, boolean usaToolbarLink, boolean usaBottoneRegistra) {
         List<String> fields = service.getFormFields();
 
         if (entityBean == null) {
@@ -354,6 +359,16 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
     }// end of method
 
+    protected void registraLink(ApplicationListener target, ApplicationListener source, AField sourceField) {
+        if (registraModifiche()) {
+            ((ALinkField) sourceField).refreshFromDB(view.commit());
+            AEntity entityBean = view.getFormEntityBean();
+            publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, source, target, entityBean, sourceField));
+            LibAvviso.info("Le modifiche sono state registrate");
+        }// end of if cycle
+    }// end of method
+
+
     /**
      * Evento 'accetta' (conferma) button pressed in form
      * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
@@ -371,7 +386,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             view.closeFormWindow();
             if (parentField != null) {
                 parentField.doValue(entityBean);
-                parentField.getFormPresenter().fieldModificato();
+                parentField.getFormPresenter().valoreCambiato();
             }// end of if cycle
             this.presentaLista();
         } else {
@@ -388,10 +403,14 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
     @Override
-    public void fieldModificato() {
+    public void valoreCambiato() {
         view.enableButtonForm(AButtonType.revert, true);
         view.enableButtonForm(AButtonType.registra, true);
         view.enableButtonForm(AButtonType.accetta, true);
+    }// end of method
+
+    @Override
+    public void fieldModificato(ApplicationListener source, AEntity entityBean) {
     }// end of method
 
     /**

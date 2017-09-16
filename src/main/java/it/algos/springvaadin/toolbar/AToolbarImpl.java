@@ -5,6 +5,7 @@ import com.vaadin.ui.HorizontalLayout;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.model.AEntity;
 import org.springframework.context.ApplicationListener;
 
@@ -51,6 +52,19 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     public void inizializza(ApplicationListener source) {
     }// end of method
 
+    /**
+     * Metodo invocato da restart() di Form, nella classe LinkToolbar
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source      dell'evento generato dal bottone
+     * @param target
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    @Override
+    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+    }// end of method
 
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
@@ -59,7 +73,20 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
      */
     @Override
     public AButton creaAddButton(AButtonType type, ApplicationListener source) {
-        AButton button = buttonFactory.crea(type, source,source,null);
+        return creaAddButton(type, source, source, (AEntity) null, (AField) null);
+    }// end of method
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone al contenitore grafico
+     *
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    @Override
+    public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+        AButton button = buttonFactory.crea(type, source, target, entityBean,sourceField);
 
         if (button != null) {
             addComponent(button);

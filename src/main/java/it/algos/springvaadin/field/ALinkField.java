@@ -6,6 +6,8 @@ import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.label.LabelBold;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +29,7 @@ public class ALinkField extends AField {
 
 
     //--componente grafico del field per visualizzare il toString() dell'istanza rappresentata nel field
-    private Label label = null;
+    public Label label = null;
 
 
     /**
@@ -58,6 +60,10 @@ public class ALinkField extends AField {
 
     @Override
     public Component initContent() {
+        if (entityBean != null) {
+            label.setValue(entityBean.toString());
+        }// end of if cycle
+
         if (button != null && label != null) {
             return new HorizontalLayout(button, label);
         } else {
@@ -72,10 +78,24 @@ public class ALinkField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
-        if (value != null) {
+        if (((AEntity)value).id != null) {
             label.setValue(value.toString());
         } else {
             label.setValue("");
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
+    public Object getValue() {
+        if (entityBean != null) {
+            return entityBean;
+        } else {
+            return null;
         }// end of if/else cycle
     }// end of method
 
@@ -84,6 +104,11 @@ public class ALinkField extends AField {
         if (button != null) {
 //            ((AButtonEditLink) button).setTypeLink(typeLink);
         }// end of if cycle
+    }// end of method
+
+
+    public void refreshFromDB(AEntity entityBean) {
+        doSetValue(entityBean);
     }// end of method
 
 
