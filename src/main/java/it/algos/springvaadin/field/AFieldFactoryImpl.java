@@ -115,7 +115,8 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    field.setButton(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
+                    ((ALinkField)field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
+                    ((ALinkField)field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, target, field));
                     break;
                 default: // caso non definito
                     break;

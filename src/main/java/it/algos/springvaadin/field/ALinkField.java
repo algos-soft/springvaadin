@@ -31,6 +31,8 @@ public class ALinkField extends AField {
     //--componente grafico del field per visualizzare il toString() dell'istanza rappresentata nel field
     public Label label = null;
 
+    private AButton buttonEdit;
+    private AButton buttonDelete;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -52,8 +54,11 @@ public class ALinkField extends AField {
             label = new LabelBold();
         }// end of if cycle
 
-        if (button != null) {
-            button.setSource(source);
+        if (buttonEdit != null) {
+            buttonEdit.setSource(source);
+        }// end of if cycle
+        if (buttonDelete != null) {
+            buttonDelete.setSource(source);
         }// end of if cycle
     }// end of method
 
@@ -64,8 +69,17 @@ public class ALinkField extends AField {
             label.setValue(entityBean.toString());
         }// end of if cycle
 
-        if (button != null && label != null) {
-            return new HorizontalLayout(button, label);
+        if (buttonEdit != null && label != null) {
+            if (buttonDelete != null) {
+                if (label.getValue().equals("")) {
+                    buttonDelete.setEnabled(false);
+                } else {
+                    buttonDelete.setEnabled(true);
+                }// end of if/else cycle
+                return new HorizontalLayout(buttonEdit, buttonDelete, label);
+            } else {
+                return new HorizontalLayout(buttonEdit, label);
+            }// end of if/else cycle
         } else {
             return label;
         }// end of if/else cycle
@@ -78,7 +92,7 @@ public class ALinkField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
-        if (((AEntity)value).id != null) {
+        if (value != null && ((AEntity) value).id != null) {
             label.setValue(value.toString());
         } else {
             label.setValue("");
@@ -97,6 +111,67 @@ public class ALinkField extends AField {
         } else {
             return null;
         }// end of if/else cycle
+    }// end of method
+
+    @Override
+    public void setButton(AButton button) {
+    }// end of method
+
+    public void setButtonEdit(AButton buttonEdit) {
+        this.buttonEdit = buttonEdit;
+    }// end of method
+
+    public void setButtonDelete(AButton buttonDelete) {
+        this.buttonDelete = buttonDelete;
+    }// end of method
+
+    /**
+     * ATTENZIONE - per il bottone Delete, source e target sono invertiti
+     */
+    public void setSource(ApplicationListener source) {
+        if (buttonEdit != null) {
+            if (source != null) {
+                buttonEdit.setSource(source);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                buttonEdit.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
+        if (buttonDelete != null) {
+            if (source != null) {
+                buttonDelete.setSource(source);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                buttonDelete.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
+    }// end of method
+
+    /**
+     * ATTENZIONE - per il bottone Delete, source e target sono invertiti
+     */
+    public void setTarget(ApplicationListener target) {
+        this.target = target;
+        if (buttonEdit != null) {
+            if (target != null) {
+                buttonEdit.setTarget(target);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                buttonEdit.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
+        if (buttonDelete != null) {
+            if (target != null) {
+                buttonDelete.setTarget(target);
+            }// end of if cycle
+
+            if (entityBean != null) {
+                buttonDelete.setEntityBean(entityBean);
+            }// end of if cycle
+        }// end of if cycle
     }// end of method
 
 

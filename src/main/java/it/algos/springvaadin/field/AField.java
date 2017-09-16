@@ -261,6 +261,7 @@ public abstract class AField<T> extends CustomField<Object> {
         this.entityBean = entityBean;
     }// end of method
 
+
     public void setButton(AButton button) {
         this.button = button;
     }// end of method

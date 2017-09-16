@@ -20,11 +20,13 @@ public interface ListListener {
 
     public void edit(AEntity entityBean);
 
-    public void editLink(ApplicationListener source,AEntity entityBean, AField sourceField, AButtonType type);
+    public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type);
 
     public void editImage(AEntity entityBean, AField sourceField);
 
     public void delete();
+
+    public void deleteLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type);
 
     public void search();
 

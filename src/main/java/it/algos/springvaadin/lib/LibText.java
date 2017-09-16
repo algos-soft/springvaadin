@@ -564,7 +564,11 @@ public abstract class LibText {
      * Carattere  bold
      */
     public static String setBold(String testoIn) {
-        return "<strong>" + testoIn + "</strong>";
+        if (LibText.isValid(testoIn)) {
+            return "<strong>" + testoIn + "</strong>";
+        } else {
+            return "";
+        }// end of if/else cycle
     }// end of inner enumeration
 
 

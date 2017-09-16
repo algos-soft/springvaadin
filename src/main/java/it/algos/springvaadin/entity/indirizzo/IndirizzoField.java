@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.indirizzo;
 
+import lombok.extern.slf4j.Slf4j;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AlgosField;
@@ -9,6 +10,16 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
+
+/**
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: sab, 16-set-2017
+ * Time: 15:57
+ */
+@Slf4j
+
 
 //@SpringComponent
 @Qualifier(Cost.TAG_IND)
@@ -83,3 +94,4 @@ public class IndirizzoField extends CustomField<AEntity> implements AlgosField {
     }// end of method
 
 }// end of class
+

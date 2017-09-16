@@ -23,6 +23,7 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -234,6 +235,15 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
     }// end of method
 
+    @Override
+    public void deleteLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type) {
+        if (LibParams.chiedeConfermaPrimaDiCancellare()) {
+            chiedeConfermaPrimaDiCancellare(source, target, entityBean, sourceField, type);
+        } else {
+            service.delete(entityBean);
+            publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, target, source, (AEntity) null, sourceField));
+        }// end of if/else cycle
+    }// end of method
 
     @Override
     public void search() {
@@ -243,6 +253,33 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Override
     public void importa() {
+    }// end of method
+
+    /**
+     * Presenta un dialogo di conferma prima della cancellazione effettiva
+     */
+    public void chiedeConfermaPrimaDiCancellare(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type) {
+        String message = "Sei sicuro di voler eliminare il record: " + LibText.setRossoBold(entityBean + "") + " ?";
+        ConfirmDialog dialog = new ConfirmDialog("Delete", message, new ConfirmDialog.Listener() {
+
+            @Override
+            public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                if (confirmed) {
+                    service.delete(entityBean);
+                    publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, target, source, (AEntity) null, sourceField));
+                }// end of if cycle
+            }// end of inner method
+        });// end of anonymous inner class
+        dialog.getCancelButton().setIcon(VaadinIcons.ARROW_BACKWARD);
+        dialog.getConfirmButton().setIcon(VaadinIcons.CLOSE);
+        dialog.setConfirmButtonText("Elimina");
+
+        if (LibParams.usaBottoniColorati()) {
+            dialog.getCancelButton().addStyleName("buttonGreen");
+            dialog.getConfirmButton().addStyleName("buttonRed");
+        }// end of if cycle
+
+        dialog.show(LibVaadin.getUI());
     }// end of method
 
     /**
@@ -273,7 +310,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             public void onClose(ConfirmDialog dialog, boolean confirmed) {
                 if (confirmed) {
                     cancellazione(beanList);
-                    presentaLista();
                 }// end of if cycle
             }// end of inner method
         });// end of anonymous inner class
@@ -410,7 +446,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
     @Override
-    public void fieldModificato(ApplicationListener source, AEntity entityBean) {
+    public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
     }// end of method
 
     /**

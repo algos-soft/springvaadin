@@ -2,6 +2,8 @@ package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -36,15 +38,16 @@ public class CompanyPresenter extends AlgosPresenterImpl {
 
 
     @Override
-    public void fieldModificato(ApplicationListener source, AEntity entityBean) {
-        Company company = (Company) view.getListEntityBean();
-        company = (Company) view.commit();
-        company.setIndirizzo((Indirizzo)entityBean);
+    public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
+        Company company = (Company) view.commit();
+        company.setIndirizzo((Indirizzo) entityBean);
         try { // prova ad eseguire il codice
             service.save(company);
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.getMessage());
         }// fine del blocco try-catch
+//        ((ALinkField) sourceField).setEntityBean(entityBean);
+        ((ALinkField) sourceField).refreshFromDB(entityBean);
     }// end of method
 
 }// end of class

@@ -82,6 +82,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
+    public void deleteLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type) {
+    }// end of method
+
+    @Override
     public void search() {
         if (AlgosApp.USE_DEBUG) {
             Notification.show("TipoBottone", "Premuto Cerca", Notification.Type.HUMANIZED_MESSAGE);
@@ -203,7 +207,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     }// end of method
 
     @Override
-    public void fieldModificato(ApplicationListener source, AEntity entityBean) {
+    public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
     }// end of method
 
     /**
@@ -266,7 +270,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 valoreCambiato();
                 break;
             case fieldModificato:
-                fieldModificato(source, entityBean);
+                fieldModificato(source, entityBean, sourceField);
                 break;
             default: // caso non definito
                 break;
@@ -316,6 +320,10 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
 //                break;
             case delete:
                 delete();
+                break;
+            case deleteLink:
+                deleteLink(source, target, entityBean, sourceField, type);
+//                publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, target, source, (AEntity) null, sourceField));
                 break;
             case search:
                 search();

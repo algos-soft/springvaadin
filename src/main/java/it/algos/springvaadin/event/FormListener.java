@@ -25,6 +25,6 @@ public interface FormListener {
 
     public void valoreCambiato();
 
-    public void fieldModificato(ApplicationListener source, AEntity entityBean) ;
+    public void fieldModificato(ApplicationListener source, AEntity entityBean,AField sourceField) ;
 
 }// end of interface
