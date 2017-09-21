@@ -162,7 +162,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         layout.addComponent(new Label());
         toolbar.inizializza(source, target, entityBean, sourceField);
-//        toolbar.regolaBottoni(presenter);
+        fixToolbar();
         layout.addComponent((AToolbarImpl) toolbar);
 
         window.setContent(layout);
@@ -372,8 +372,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         this.addComponent(new Label());
         toolbar.inizializza(source);
-//        toolbar.regolaBottoni(presenter);
+        fixToolbar();
         this.addComponent((AToolbarImpl) toolbar);
+    }// end of method
+
+
+    protected void fixToolbar() {
     }// end of method
 
 

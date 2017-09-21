@@ -5,6 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.MenuBar;
+import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
 import org.springframework.context.annotation.Lazy;
@@ -45,8 +46,7 @@ public class MenuLayout extends CssLayout {
     public void addView(Class<? extends View> viewClass) {
         MenuBar.Command viewCommand = null;
         Object obj = LibReflection.getMethodButton(viewClass, "getButtoneMenu");
-        String viewName = LibReflection.getPropertyStr(viewClass, "VIEW_NAME");
-        String viewCaption = LibReflection.getPropertyStr(viewClass, "VIEW_CAPTION");
+        String viewName = LibAnnotation.getNameView(viewClass);
         Resource viewIcon = LibReflection.getPropertyRes(viewClass, "VIEW_ICON");
 
         if (obj instanceof MenuBar.Command) {
@@ -61,11 +61,7 @@ public class MenuLayout extends CssLayout {
             };// end of anonymous inner class
         }// end of if/else cycle
 
-        if (LibText.isEmpty(viewCaption)) {
-            viewCaption = LibText.primaMaiuscola(viewName);
-        }// end of if cycle
-
-        firstMenuBar.addItem(viewCaption, viewIcon, viewCommand);
+        firstMenuBar.addItem(LibText.primaMaiuscola(viewName), viewIcon, viewCommand);
     }// end of method
 
     /**

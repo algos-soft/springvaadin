@@ -49,6 +49,7 @@ public abstract class Cost {
     public final static String FIELD_IMAGE = "image";
     public final static String FIELD_COMBO = "combobox";
     public final static String FIELD_LINK = "fieldlink";
+    public final static String FIELD_CHEK_BOX = "fieldcheckbox";
 
     public final static String VIEW_IMAGE = "viewimage";
 

@@ -123,67 +123,67 @@ public class LibReflectionTest {
     }// end of single test
 
 
-    /**
-     * Properties di una entity
-     *
-     * @param entity da esaminare
-     *
-     * @return tutte le properties, elencate in ordine alfabetico
-     */
-//    @Test
-    public void getAllProperties() {
-        String[] risultato;
+//    /**
+//     * Properties di una entity
+//     *
+//     * @param entity da esaminare
+//     *
+//     * @return tutte le properties, elencate in ordine alfabetico
+//     */
+////    @Test
+//    public void getAllProperties() {
+//        String[] risultato;
+//
+//        risultato = LibReflection.getAllProperties(vers);
+//        assert risultato != null;
+//        assertEquals(risultato.length, 7);
+//        assertEquals(risultato[0], "callbacks");
+//        assertEquals(risultato[1], "class");
+//        assertEquals(risultato[2], "descrizione");
+//        assertEquals(risultato[3], "id");
+//        assertEquals(risultato[4], "modifica");
+//        assertEquals(risultato[5], "ordine");
+//        assertEquals(risultato[6], "titolo");
+//    }// end of single test
 
-        risultato = LibReflection.getAllProperties(vers);
-        assert risultato != null;
-        assertEquals(risultato.length, 7);
-        assertEquals(risultato[0], "callbacks");
-        assertEquals(risultato[1], "class");
-        assertEquals(risultato[2], "descrizione");
-        assertEquals(risultato[3], "id");
-        assertEquals(risultato[4], "modifica");
-        assertEquals(risultato[5], "ordine");
-        assertEquals(risultato[6], "titolo");
-    }// end of single test
+//    /**
+//     * Properties di una entity class
+//     *
+//     * @param entityClass da esaminare
+//     *
+//     * @return tutte le properties, elencate in ordine alfabetico
+//     */
+////    @Test
+//    public void getAllProperties2() {
+//        String[] risultato;
+//
+//        risultato = LibReflection.getAllProperties(Versione.class);
+//        assert risultato != null;
+//        assertEquals(risultato.length, 40);
+//    }// end of single test
 
-    /**
-     * Properties di una entity class
-     *
-     * @param entityClass da esaminare
-     *
-     * @return tutte le properties, elencate in ordine alfabetico
-     */
-//    @Test
-    public void getAllProperties2() {
-        String[] risultato;
-
-        risultato = LibReflection.getAllProperties(Versione.class);
-        assert risultato != null;
-        assertEquals(risultato.length, 40);
-    }// end of single test
-
-    /**
-     * Properties di una entity class. Solo i campi dichiarati.
-     * Escluso 'callbacks'
-     * Escluso 'class'
-     * Escluso 'id'
-     *
-     * @param entityClass da esaminare
-     *
-     * @return properties, elencate in ordine alfabetico
-     */
-//    @Test
-    public void getProperties() {
-        List risultato;
-
-        risultato = LibReflection.getProperties(Versione.class);
-        assert risultato != null;
-        assertEquals(risultato.size(), 4);
-        assertEquals(risultato.get(0), "descrizione");
-        assertEquals(risultato.get(1), "modifica");
-        assertEquals(risultato.get(2), "ordine");
-        assertEquals(risultato.get(3), "titolo");
-    }// end of single test
+//    /**
+//     * Properties di una entity class. Solo i campi dichiarati.
+//     * Escluso 'callbacks'
+//     * Escluso 'class'
+//     * Escluso 'id'
+//     *
+//     * @param entityClass da esaminare
+//     *
+//     * @return properties, elencate in ordine alfabetico
+//     */
+////    @Test
+//    public void getProperties() {
+//        List risultato;
+//
+//        risultato = LibReflection.getProperties(Versione.class);
+//        assert risultato != null;
+//        assertEquals(risultato.size(), 4);
+//        assertEquals(risultato.get(0), "descrizione");
+//        assertEquals(risultato.get(1), "modifica");
+//        assertEquals(risultato.get(2), "ordine");
+//        assertEquals(risultato.get(3), "titolo");
+//    }// end of single test
 
 
     /**

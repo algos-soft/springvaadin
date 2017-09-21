@@ -46,7 +46,6 @@ public class CompanyPresenter extends AlgosPresenterImpl {
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.getMessage());
         }// fine del blocco try-catch
-//        ((ALinkField) sourceField).setEntityBean(entityBean);
         ((ALinkField) sourceField).refreshFromDB(entityBean);
     }// end of method
 

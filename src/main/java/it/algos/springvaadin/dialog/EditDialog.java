@@ -2,6 +2,7 @@ package it.algos.springvaadin.dialog;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.field.ATextField;
+import it.algos.springvaadin.lib.LibAvviso;
 
 /**
  * Created by gac on 19 ago 2015.
@@ -88,7 +89,7 @@ public class EditDialog extends ConfirmDialog {
         String value = field.getValue();
 
         if (value.equals("")) {
-            new Notification("ATTENZIONE", "È necessario inserire un valore", Notification.TYPE_ERROR_MESSAGE, true).show(com.vaadin.server.Page.getCurrent());
+            LibAvviso.error("È necessario inserire un valore");
         } else {
             if (listener != null) {
                 listener.onClose(field.getValue());

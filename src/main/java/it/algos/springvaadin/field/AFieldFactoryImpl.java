@@ -99,6 +99,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case integer:
                     field = fieldFactory.apply(AIntegerField.class);
                     break;
+                case checkbox:
+                    field = fieldFactory.apply(ACheckBoxField.class);
+                    break;
                 case localdatetime:
                     field = fieldFactory.apply(ADateTimeField.class);
                     break;

@@ -84,7 +84,6 @@ public class Indirizzo extends AEntity {
      */
     @DBRef
     @NotEmpty()
-    @Size(min = 3, max = 20)
     @AIField(type = AFieldType.combo, clazz = Stato.class)
     @AIColumn(width = 140)
     private Stato stato;

@@ -144,31 +144,30 @@ public abstract class LibReflection {
     }// end of static method
 
 
+//    /**
+//     * Valore della property statica di una classe
+//     *
+//     * @param clazz           classe su cui operare la riflessione
+//     * @param publicFieldName property statica e pubblica
+//     */
+//    @Deprecated
+//    public static String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
+//        String value = "";
+//        Object obj = getPropertyValus(clazz, publicFieldName);
+//
+//        if (obj != null && obj instanceof String) {
+//            value = (String) obj;
+//        }// end of if cycle
+//
+//        return value;
+//    }// end of static method
+
     /**
      * Valore della property statica di una classe
      *
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
-    @Deprecated
-    public static String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
-        String value = "";
-        Object obj = getPropertyValus(clazz, publicFieldName);
-
-        if (obj != null && obj instanceof String) {
-            value = (String) obj;
-        }// end of if cycle
-
-        return value;
-    }// end of static method
-
-    /**
-     * Valore della property statica di una classe
-     *
-     * @param clazz           classe su cui operare la riflessione
-     * @param publicFieldName property statica e pubblica
-     */
-    @Deprecated
     public static Resource getPropertyRes(final Class<?> clazz, final String publicFieldName) {
         Resource value = null;
         Object obj = getPropertyValus(clazz, publicFieldName);
@@ -206,7 +205,6 @@ public abstract class LibReflection {
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
-    @Deprecated
     public static Object getPropertyValus(final Class<?> clazz, final String publicFieldName) {
         Object value = "";
 

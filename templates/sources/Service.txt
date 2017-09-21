@@ -1,14 +1,13 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 @IMPORT_COST@
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AlgosEntity;
-import it.algos.springvaadin.repository.AlgosRepository;
+import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

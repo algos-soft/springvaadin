@@ -12,7 +12,7 @@ public class ConfirmDialog extends BaseDialog {
 
     private Listener listener;
     //private ConfirmListener confirmListener;
-    private ArrayList<ConfirmListener> confirmListeners = new ArrayList();
+    private ArrayList<ConfirmListener> confirmListeners = new ArrayList<>();
 
     protected Button cancelButton;
     protected Button confirmButton;

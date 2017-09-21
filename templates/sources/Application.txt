@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
+@EnableMongoRepositories({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
 @ComponentScan({"it.algos.springvaadin", "it.algos.@PACKAGE@"})
 @EntityScan({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
 public class @PROJECT@Application {

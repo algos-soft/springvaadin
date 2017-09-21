@@ -2,7 +2,7 @@
 <project name="newPackage" default="creaPackage">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="Stato"/>
+    <property name="newEntity" value="xxx"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
@@ -43,6 +43,7 @@
         <property name="thisProject" value="${nomeBaseFramework}"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
         <property name="pathBaseProject" value="${basedir}${risalita}/${nomeProgettoMinuscolo}"/>
+        <property name="projectsIdea" value="${basedir}${risalita}"/>
         <property name="baseTag" value="Cost"/>
         <property name="dirCost" value="lib/Cost"/>
         <property name="pathUIProject" value="${pathBaseProject}/${tagPathJava}/${nomeProgettoMinuscolo}/${dirUI}"/>
@@ -53,6 +54,7 @@
     <target name="newproject" description="Regola alcune property per il nuovi progetti">
         <property name="risalita" value="/.."/>
         <property name="pathBaseProject" value="${basedir}${risalita}"/>
+        <property name="projectsIdea" value="${pathBaseProject}/.."/>
         <property name="thisProject" value="${currentProject}"/>
         <lower string="${thisProject}" to="nomeProgettoMinuscolo"/>
         <property name="baseTag" value="AppCost"/>
@@ -66,7 +68,6 @@
 
     <target name="init" description="Converte la directory">
         <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
-        <property name="projectsIdea" value="${basedir}${risalita}"/>
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
@@ -299,7 +300,8 @@
             description="Crea un nuovo package (modulo) per un nuovo progetto">
     </target>
 
-    <target name="creaPackageSpringvaadin" depends="springvaadin,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+    <target name="creaPackageSpringvaadin"
+            depends="springvaadin,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
             description="Crea un nuovo package (modulo) per il progetto-base springvaadin">
         <echo message="thisProject = ${thisProject}"/>
     </target>

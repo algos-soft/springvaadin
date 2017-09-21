@@ -1,10 +1,17 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 @IMPORT_COST@
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
@@ -22,8 +29,8 @@ public class @ENTITY@Presenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public @ENTITY@Presenter(@Qualifier(@TAG@) AlgosView view, @Qualifier(@TAG@) AlgosService service) {
-        super(view, service);
+    public @ENTITY@Presenter(@Qualifier(@TAG@) AlgosView view, @Qualifier(@TAG@) AlgosService service, AlgosSearch search) {
+        super(view, service, search);
         super.entityClass = @ENTITY@.class;
      }// end of Spring constructor
 

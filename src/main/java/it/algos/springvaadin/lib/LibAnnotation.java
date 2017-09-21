@@ -1,5 +1,7 @@
 package it.algos.springvaadin.lib;
 
+import com.vaadin.navigator.View;
+import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
@@ -7,6 +9,7 @@ import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.model.AEntity;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotNull;
@@ -405,7 +408,7 @@ public abstract class LibAnnotation {
 
         if (fieldAnnotation != null) {
             widthInt = fieldAnnotation.widthEM();
-            if (widthInt>0) {
+            if (widthInt > 0) {
                 width = widthInt + tag;
             }// end of if cycle
         }// end of if cycle
@@ -701,6 +704,49 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the specific annotation of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the Annotation for the specific field
+     */
+    @SuppressWarnings("all")
+    public static Indexed getIndexed(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        Indexed indexed = null;
+        String tag = "Indexed";
+        Map mappa = getMap(clazz, publicFieldName);
+
+        if (mappa != null && mappa.containsKey(tag)) {
+            indexed = (Indexed) mappa.get(tag);
+        }// end of if cycle
+
+        return indexed;
+    }// end of static method
+
+
+    /**
+     * Get the value of unique field of Indexed annotation
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return true if the Indexed Annotation exists and is true
+     */
+    @SuppressWarnings("all")
+    public static boolean isUnico(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        boolean unico = false;
+        Indexed indexed = getIndexed(clazz, publicFieldName);
+
+        if (indexed != null) {
+            unico = indexed.unique();
+        }// end of if cycle
+
+        return unico;
+    }// end of static method
+
+
+    /**
      * Get the class of the property.
      *
      * @param clazz           the entity class
@@ -918,5 +964,37 @@ public abstract class LibAnnotation {
 
         return usaDBRef;
     }// end of static method
+
+    /**
+     * Get the specific annotation of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public static SpringView getSpringView(final Class<? extends View> clazz) {
+        return clazz.getAnnotation(SpringView.class);
+    }// end of static method
+
+
+    /**
+     * Get the name of the spring-view.
+     *
+     * @param clazz the entity class
+     *
+     * @return the name of the spring-view
+     */
+    @SuppressWarnings("all")
+    public static String getNameView(final Class<? extends View> clazz) {
+        String name = "";
+        SpringView viewAnnotation = getSpringView(clazz);
+
+        if (viewAnnotation != null) {
+            name = viewAnnotation.name();
+        }// end of if cycle
+
+        return name;
+    }// end of static method
+
 
 }// end of static class
