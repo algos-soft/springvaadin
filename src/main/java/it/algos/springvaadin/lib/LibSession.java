@@ -2,6 +2,7 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.login.Login;
 
 import javax.servlet.ServletContext;
@@ -333,6 +334,7 @@ public abstract class LibSession {
 
         return status;
     }// end of static method
+
 
     public enum Attribute {
         company, debug, login, loggato, developer, admin, servletContext

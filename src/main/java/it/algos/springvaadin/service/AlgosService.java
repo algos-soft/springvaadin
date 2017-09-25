@@ -1,8 +1,12 @@
 package it.algos.springvaadin.service;
 
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibSession;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -30,7 +34,6 @@ public interface AlgosService {
      * Eventuali regolazioni iniziali delle property
      */
     public AEntity newEntity();
-
 
 
     /**
@@ -122,7 +125,34 @@ public interface AlgosService {
      *
      * @return lista di fileds visibili nel Form
      */
+    @Deprecated
     public List<String> getFormFields();
+
+
+    /**
+     * Fields visibili nel Form
+     * Sovrascrivibile
+     * Il campo key ID normalmente non viene visualizzato
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
+     * <p>
+     *
+     * @return lista di fields da visualizzare nel Form
+     */
+    public List<Field> getFields();
+
+
+    /**
+     * Flag.
+     * Deve essere true il flag useMultiCompany
+     * La Entity deve estendere ACompanyEntity
+     * L'utente collegato deve essere developer
+     */
+    public  boolean displayCompany() ;
 
 
     public void setEntityClass(Class<? extends AEntity> entityClass);

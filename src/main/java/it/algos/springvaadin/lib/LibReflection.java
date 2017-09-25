@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.server.Resource;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.AEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by gac on 21/12/16.
  * .
  */
+@Slf4j
 public abstract class LibReflection {
 
 
@@ -43,6 +45,7 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      */
+    @Deprecated
     private static List<Field> getAllFieldsBase(Class<? extends AEntity> entityClazz, boolean idCompreso) {
         List<Field> fieldsList = null;
         Field[] fieldsArray = null;
@@ -61,7 +64,7 @@ public abstract class LibReflection {
                         fieldsList.add(field);
                     }// end of if cycle
                 }// end of for cycle
-                int a=87;
+                int a = 87;
             }// end of if cycle
 
 
@@ -81,6 +84,63 @@ public abstract class LibReflection {
 
         return fieldsList;
     }// end of static method
+
+    /**
+     * Fields dichiarati nella Entity
+     * <p>
+     * Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (con o senza ID)
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     * @param addKeyID      flag per aggiungere (per primo) il field keyId
+     * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
+     *
+     * @return lista di fields
+     */
+    public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
+        ArrayList<Field> fieldsList = new ArrayList<>();
+        Field[] fieldsArray = null;
+        Field fieldCompany = null;
+        Field fieldKeyId = null;
+        String fieldName;
+
+        //--recupera tutti i fields della entity
+        try { // prova ad eseguire il codice
+            fieldsArray = entityClazz.getDeclaredFields();
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        //--controlla che i fields siano quelli richiesti
+        //--se la lista dei nomi dei fields è nulla, li prende tutti
+        for (Field field : fieldsArray) {
+            fieldName = field.getName();
+            if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                if (listaNomi == null || listaNomi.contains(fieldName)) {
+                    fieldsList.add(field);
+                }// end of if cycle
+            }// end of if cycle
+        }// end of for cycle
+
+        //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento
+        if (addKeyCompany && ACompanyEntity.class.isAssignableFrom(entityClazz)) {
+            fieldCompany = getField(ACompanyEntity.class, Cost.PROPERTY_COMPANY);
+            if (fieldCompany != null) {
+                fieldsList.add(0, fieldCompany);
+            } else {
+                log.warn("Non ho trovato il field company");
+            }// end of if/else cycle
+        }// end of if cycle
+
+        //--se il flag booleano addKeyID è true, aggiunge (all'inizio) il field keyId
+        if (addKeyID) {
+            fieldsList.add(0, entityClazz.getFields()[0]);
+        }// end of if cycle
+
+        return fieldsList;
+    }// end of method
+
 
     /**
      * All fields properties di una EntityClass, compreso l'ID
@@ -234,13 +294,12 @@ public abstract class LibReflection {
     /**
      * Property statica di una classe
      *
-     * @param entityClazz           classe su cui operare la riflessione
+     * @param entityClazz     classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
     public static Field getField(final Class<?> entityClazz, final String publicFieldName) {
         Field field = null;
-        String fieldName="";
-
+        String fieldName = "";
 
         try { // prova ad eseguire il codice
             field = entityClazz.getDeclaredField(publicFieldName);

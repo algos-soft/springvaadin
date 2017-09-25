@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -49,9 +50,100 @@ public class LibReflectionTest {
 
 
     /**
+     * Fields dichiarati nella Entity
+     * <p>
+     * Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (con o senza ID)
+     *
+     * @param entityClazz da cui estrarre i fields
+     * @param listaNomi   dei fields da considerare. Tutti, se listaNomi=null
+     * @param addKeyID    flag per aggiungere (per primo) il campo keyId
+     *
+     * @return lista di fields
+     */
+    @Test
+    public void getFields() {
+        List<Field> fieldsList;
+        ArrayList listaNomi = new ArrayList<>();
+        listaNomi.add("ordine");
+        listaNomi.add("descrizione");
+
+        fieldsList = LibReflection.getFields(entityClazz, null, false, false);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 4);
+        assertEquals(fieldsList.get(0).getName(), "ordine");
+        assertEquals(fieldsList.get(1).getName(), "titolo");
+        assertEquals(fieldsList.get(2).getName(), "descrizione");
+        assertEquals(fieldsList.get(3).getName(), "modifica");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, null, true, false);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 5);
+        assertEquals(fieldsList.get(0).getName(), "id");
+        assertEquals(fieldsList.get(1).getName(), "ordine");
+        assertEquals(fieldsList.get(2).getName(), "titolo");
+        assertEquals(fieldsList.get(3).getName(), "descrizione");
+        assertEquals(fieldsList.get(4).getName(), "modifica");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, null, false, true);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 5);
+        assertEquals(fieldsList.get(0).getName(), "company");
+        assertEquals(fieldsList.get(1).getName(), "ordine");
+        assertEquals(fieldsList.get(2).getName(), "titolo");
+        assertEquals(fieldsList.get(3).getName(), "descrizione");
+        assertEquals(fieldsList.get(4).getName(), "modifica");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, null, true, true);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 6);
+        assertEquals(fieldsList.get(0).getName(), "id");
+        assertEquals(fieldsList.get(1).getName(), "company");
+        assertEquals(fieldsList.get(2).getName(), "ordine");
+        assertEquals(fieldsList.get(3).getName(), "titolo");
+        assertEquals(fieldsList.get(4).getName(), "descrizione");
+        assertEquals(fieldsList.get(5).getName(), "modifica");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, listaNomi, false,false);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 2);
+        assertEquals(fieldsList.get(0).getName(), "ordine");
+        assertEquals(fieldsList.get(1).getName(), "descrizione");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, listaNomi, true,false);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 3);
+        assertEquals(fieldsList.get(0).getName(), "id");
+        assertEquals(fieldsList.get(1).getName(), "ordine");
+        assertEquals(fieldsList.get(2).getName(), "descrizione");
+
+
+        fieldsList = LibReflection.getFields(entityClazz, listaNomi, false,true);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 3);
+        assertEquals(fieldsList.get(0).getName(), "company");
+        assertEquals(fieldsList.get(1).getName(), "ordine");
+        assertEquals(fieldsList.get(2).getName(), "descrizione");
+
+        fieldsList = LibReflection.getFields(entityClazz, listaNomi, true,true);
+        assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 4);
+        assertEquals(fieldsList.get(0).getName(), "id");
+        assertEquals(fieldsList.get(1).getName(), "company");
+        assertEquals(fieldsList.get(2).getName(), "ordine");
+        assertEquals(fieldsList.get(3).getName(), "descrizione");
+    }// end of single test
+
+
+    /**
      * Field property di una EntityClass
      *
-     * @param entityClazz su cui operare la riflessione
+     * @param entityClazz     su cui operare la riflessione
      * @param publicFieldName property name
      */
     @Test
@@ -77,7 +169,7 @@ public class LibReflectionTest {
 
         fields = LibReflection.getAllFieldsNoID(entityClazz);
         assertNotNull(fields);
-        assertEquals(fields.size(), 4);
+        assertEquals(fields.size(), 5);
     }// end of single test
 
 
@@ -92,13 +184,14 @@ public class LibReflectionTest {
     public void getAllFieldName() {
         List<String> fieldNames;
 
-        fieldNames = LibReflection.getAllFieldName(entityClazz,false);
+        fieldNames = LibReflection.getAllFieldName(entityClazz, false);
         assertNotNull(fieldNames);
-        assertEquals(fieldNames.size(), 4);
-        assertEquals(fieldNames.get(0), "ordine");
-        assertEquals(fieldNames.get(1), "titolo");
-        assertEquals(fieldNames.get(2), "descrizione");
-        assertEquals(fieldNames.get(3), "modifica");
+        assertEquals(fieldNames.size(), 5);
+        assertEquals(fieldNames.get(0), "company");
+        assertEquals(fieldNames.get(1), "ordine");
+        assertEquals(fieldNames.get(2), "titolo");
+        assertEquals(fieldNames.get(3), "descrizione");
+        assertEquals(fieldNames.get(4), "modifica");
     }// end of single test
 
 
@@ -115,11 +208,12 @@ public class LibReflectionTest {
 
         fieldNames = LibReflection.getAllFieldNameAlfabetico(entityClazz);
         assertNotNull(fieldNames);
-        assertEquals(fieldNames.size(), 4);
-        assertEquals(fieldNames.get(0), "descrizione");
-        assertEquals(fieldNames.get(1), "modifica");
-        assertEquals(fieldNames.get(2), "ordine");
-        assertEquals(fieldNames.get(3), "titolo");
+        assertEquals(fieldNames.size(), 5);
+        assertEquals(fieldNames.get(0), "company");
+        assertEquals(fieldNames.get(1), "descrizione");
+        assertEquals(fieldNames.get(2), "modifica");
+        assertEquals(fieldNames.get(3), "ordine");
+        assertEquals(fieldNames.get(4), "titolo");
     }// end of single test
 
 
@@ -184,21 +278,6 @@ public class LibReflectionTest {
 //        assertEquals(risultato.get(2), "ordine");
 //        assertEquals(risultato.get(3), "titolo");
 //    }// end of single test
-
-
-    /**
-     * Table di una classe entity. Inserita (opzionale) come Annotation.
-     *
-     * @param entityClazz su cui operare la riflessione
-     *
-     * @return tableName dichiarato nella Annotation @Table
-     */
-    @Test
-    public void getTable() {
-        previsto = "versione";
-        ottenuto = LibReflection.getTable(Versione.class);
-        assertEquals(ottenuto, previsto);
-    }// end of single test
 
 
     /**
@@ -318,12 +397,12 @@ public class LibReflectionTest {
 
         listaMetodiOttenuta = LibReflection.getMethods(Versione.class);
         assert listaMetodiOttenuta != null;
-        assertEquals(listaMetodiOttenuta.size(), 4);
+        assertEquals(listaMetodiOttenuta.size(), 5);
 
-        metodoOttenutoName = listaMetodiOttenuta.get(0).getName();
+        metodoOttenutoName = listaMetodiOttenuta.get(1).getName();
         assertEquals(metodoOttenutoName, metodoPrevistoName);
 
-        metodoOttenutoTipo = listaMetodiOttenuta.get(3).getReturnType();
+        metodoOttenutoTipo = listaMetodiOttenuta.get(4).getReturnType();
         assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
     }// end of single test
 

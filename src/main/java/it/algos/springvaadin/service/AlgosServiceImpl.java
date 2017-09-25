@@ -1,13 +1,14 @@
 package it.algos.springvaadin.service;
 
 import com.vaadin.ui.Notification;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibAnnotation;
-import it.algos.springvaadin.lib.LibReflection;
+import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by gac on 07/07/17
  * Implementazione standard dell'annotation AlgosService
  */
+@Slf4j
 public abstract class AlgosServiceImpl implements AlgosService {
 
 
@@ -171,6 +173,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return lista di fields visibili nel Form
      */
     @Override
+    @Deprecated
     public List<String> getFormFields() {
         List<String> lista = null;
         boolean showsID = false;
@@ -192,12 +195,73 @@ public abstract class AlgosServiceImpl implements AlgosService {
             lista = LibReflection.getAllFieldName(entityClass, showsID);
         }// end of if cycle
 
+
+        log.error(displayCompany() + "");
+
         return lista;
     }// end of method
+
+    /**
+     * Fields visibili nel Form
+     * Sovrascrivibile
+     * Il campo key ID normalmente non viene visualizzato
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
+     * <p>
+     *
+     * @return lista di fields da visualizzare nel Form
+     */
+    @Override
+    public List<Field> getFields() {
+        List<String> listaNomi = null;
+
+        //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        listaNomi = LibAnnotation.getFormFields(entityClass);
+
+        //--Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+        //--Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (con o senza ID)
+        return LibReflection.getFields(
+                entityClass, listaNomi,
+                LibAnnotation.isFormShowsID(entityClass),
+                displayCompany());
+    }// end of method
+
+
+    /**
+     * Flag.
+     * Deve essere true il flag useMultiCompany
+     * La Entity deve estendere ACompanyEntity
+     * L'utente collegato deve essere developer
+     */
+    @Override
+    public boolean displayCompany() {
+
+        //--Deve essere true il flag useMultiCompany
+        if (!LibParams.useMultiCompany()) {
+            return false;
+        }// end of if cycle
+
+        //--La Entity deve estendere ACompanyEntity
+        if (!ACompanyEntity.class.isAssignableFrom(entityClass)) {
+            return false;
+        }// end of if cycle
+
+        //--L'utente collegato deve essere developer
+        if (!LibSession.isDeveloper()) {
+            return false;
+        }// end of if cycle
+
+        return true;
+    }// end of static method
 
 
     public void setEntityClass(Class<? extends AEntity> entityClass) {
         this.entityClass = entityClass;
     }// end of method
+
 
 }// end of class
