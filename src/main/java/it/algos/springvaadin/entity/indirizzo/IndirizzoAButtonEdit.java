@@ -1,12 +1,9 @@
 package it.algos.springvaadin.entity.indirizzo;
 
-import com.vaadin.ui.Button;
-import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;

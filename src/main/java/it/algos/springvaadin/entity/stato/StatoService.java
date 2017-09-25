@@ -2,7 +2,7 @@ package it.algos.springvaadin.entity.stato;
 
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;

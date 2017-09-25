@@ -1,6 +1,6 @@
 package it.algos.springvaadin.event;
 
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 
 /**
  * Project springvaadin

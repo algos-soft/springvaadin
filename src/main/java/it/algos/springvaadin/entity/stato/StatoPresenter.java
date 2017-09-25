@@ -11,7 +11,6 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
-import it.algos.springvaadintest.bootstrap.StatoData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -24,8 +23,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Qualifier(Cost.TAG_STA)
 public class StatoPresenter extends AlgosPresenterImpl {
 
-    @Autowired
-    private StatoData statodata;
 
 
     /**
@@ -76,7 +73,6 @@ public class StatoPresenter extends AlgosPresenterImpl {
      * Creazione dei dati
      */
     public void creazione() {
-        statodata.creaStati();
         super.presentaLista();
     }// end of method
 

@@ -1,21 +1,12 @@
 package it.algos.springvaadin.field;
 
-import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibNum;
-import it.algos.springvaadin.lib.MeseEnum;
-import it.algos.springvaadin.model.AEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by gac on 24/06/17

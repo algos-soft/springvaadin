@@ -9,7 +9,7 @@ import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

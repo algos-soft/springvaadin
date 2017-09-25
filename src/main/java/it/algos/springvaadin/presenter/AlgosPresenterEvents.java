@@ -7,11 +7,7 @@ import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.field.ALinkField;
-import it.algos.springvaadin.field.ATextField;
-import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -217,6 +213,12 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     public void enter() {
     }// end of method
 
+    /**
+     * Metodo invocato da un daemon per spedire mail
+     */
+    @Override
+    public void daemonMail() {
+    }// end of method
 
     /**
      * Usato da AzioneOld
@@ -381,6 +383,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 break;
             case listener:
                 listener();
+                break;
+            case daemonMail:
+                daemonMail();
                 break;
             default: // caso non definito
                 break;

@@ -23,18 +23,35 @@ import java.util.*;
 @Service
 public class SpringEmailService {
 
+    private static String FROM_RECIPIENT = "gac@algos.it";
+
     /**
      * Sends an email message with no attachments.
      *
-     * @param from       email address from which the message will be sent.
-     * @param recipient  the recipients of the message.
-     * @param subject    subject header field.
-     * @param text       content of the message.
+     * @param subject subject header field.
+     * @param text    content of the message.
      *
      * @throws MessagingException
      * @throws IOException
      */
-    public static void send(String from, String recipient, String subject, String text)
+    public void send(String subject, String text)
+            throws MessagingException, IOException {
+        send(FROM_RECIPIENT, Arrays.asList(FROM_RECIPIENT), subject, text, null, null, null);
+    }// end of method
+
+
+    /**
+     * Sends an email message with no attachments.
+     *
+     * @param from      email address from which the message will be sent.
+     * @param recipient the recipients of the message.
+     * @param subject   subject header field.
+     * @param text      content of the message.
+     *
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void send(String from, String recipient, String subject, String text)
             throws MessagingException, IOException {
         send(from, Arrays.asList(recipient), subject, text, null, null, null);
     }// end of method
@@ -44,14 +61,14 @@ public class SpringEmailService {
      * Sends an email message with no attachments.
      *
      * @param from       email address from which the message will be sent.
-     * @param recipients  array of strings containing the recipients of the message.
+     * @param recipients array of strings containing the recipients of the message.
      * @param subject    subject header field.
      * @param text       content of the message.
      *
      * @throws MessagingException
      * @throws IOException
      */
-    public static void send(String from, Collection<String> recipients, String subject, String text)
+    public void send(String from, Collection<String> recipients, String subject, String text)
             throws MessagingException, IOException {
         send(from, recipients, subject, text, null, null, null);
     }// end of method
@@ -70,8 +87,8 @@ public class SpringEmailService {
      * @throws MessagingException
      * @throws IOException
      */
-    public static void send(String from, String recipient, String subject, String text,
-                            InputStream attachment, String fileName, String mimeType)
+    public void send(String from, String recipient, String subject, String text,
+                     InputStream attachment, String fileName, String mimeType)
             throws MessagingException, IOException {
         send(from, Arrays.asList(recipient), subject, text, Arrays.asList(attachment), Arrays.asList(fileName),
                 Arrays.asList(mimeType));
@@ -91,8 +108,8 @@ public class SpringEmailService {
      * @throws MessagingException
      * @throws IOException
      */
-    public static void send(String from, Collection<String> recipients, String subject, String text,
-                            List<InputStream> attachments, List<String> fileNames, List<String> mimeTypes)
+    public void send(String from, Collection<String> recipients, String subject, String text,
+                     List<InputStream> attachments, List<String> fileNames, List<String> mimeTypes)
             throws MessagingException, IOException {
 
         // check for null references

@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**

@@ -1,12 +1,11 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;

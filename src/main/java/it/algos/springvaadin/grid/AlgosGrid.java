@@ -8,7 +8,7 @@ import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;

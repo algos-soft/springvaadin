@@ -9,7 +9,7 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;

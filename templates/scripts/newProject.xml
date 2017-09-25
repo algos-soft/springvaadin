@@ -28,11 +28,13 @@
     <property name="tagCost" value="AppCost"/>
     <property name="tagBoot" value="SpringBoot"/>
     <property name="tagUI" value="UI"/>
-    <property name="tagPom" value="pom.xml"/>
+    <property name="tagPom" value="pom"/>
     <property name="tagRes" value="spring.datasource"/>
     <property name="tagRead" value="README${tagTxt}"/>
     <property name="tagFrameworkProperties" value="Properties"/>
+    <property name="tagFrameworkMailProperties" value="Mail"/>
     <property name="tagProjectProperties" value="application.properties"/>
+    <property name="tagProjectMailProperties" value="mail.properties"/>
     <property name="tagPackage" value="newPackage"/>
     <property name="tagOldProject" value="newProject"/>
     <property name="tagNewProject" value="updateProject"/>
@@ -41,6 +43,7 @@
     <property name="tagAlgos" value="it/algos"/>
     <property name="tagPathJava" value="${tagIdea}/${tagAlgos}"/>
     <property name="tagWebapp" value="webapp"/>
+    <property name="tagStatic" value="resources/static"/>
     <property name="tagScripts" value="templates/scripts"/>
     <property name="tagProjectScripts" value="scripts"/>
     <property name="tagSources" value="templates/sources"/>
@@ -50,10 +53,12 @@
     <property name="pathBaseProject" value="${basedir}${risalita}"/>
     <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
     <property name="pathWebappProject" value="${pathBaseProject}/${tagMain}/${tagWebapp}"/>
+    <property name="pathStaticProject" value="${pathBaseProject}/${tagMain}/${tagStatic}"/>
     <property name="projectsIdea" value="${basedir}/..${risalita}"/>
     <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
     <property name="pathJavaFramework" value="${pathBaseFramework}/${tagPathJava}/${nomeBaseFramework}"/>
     <property name="pathWebappFramework" value="${pathBaseFramework}/${tagMain}/${tagWebapp}"/>
+    <property name="pathStaticFramework" value="${pathBaseFramework}/${tagMain}/${tagStatic}"/>
     <property name="pathScriptsFramework" value="${pathBaseFramework}/${tagScripts}"/>
     <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
     <!--Fine dei valori di Ant-->
@@ -82,8 +87,8 @@
         <property name="srcRead" value="${pathBaseFramework}/${tagRead}"/>
         <property name="destRead" value="${pathBaseProject}/${tagRead}"/>
 
-        <property name="srcPom" value="${pathBaseFramework}/${tagPom}"/>
-        <property name="destPom" value="${pathBaseProject}/${tagPom}"/>
+        <property name="srcPom" value="${pathSourcesFramework}/${tagPom}${tagTxt}"/>
+        <property name="destPom" value="${pathBaseProject}/${tagPom}${tagXml}"/>
 
         <property name="srcXmlPackage" value="${pathScriptsFramework}/${tagPackage}${tagXml}"/>
         <property name="destXmlPackage" value="${pathBaseProject}/${tagProjectScripts}/${tagPackage}${tagXml}"/>
@@ -92,6 +97,9 @@
 
         <property name="srcProperties" value="${pathSourcesFramework}/${tagFrameworkProperties}${tagTxt}"/>
         <property name="destProperties" value="${pathResourcesProject}/${tagProjectProperties}"/>
+
+        <property name="srcMailProperties" value="${pathSourcesFramework}/${tagFrameworkMailProperties}${tagTxt}"/>
+        <property name="destMailProperties" value="${pathResourcesProject}/${tagProjectMailProperties}"/>
 
         <property name="dirOldApp" value="${pathJavaProject}/${nomeProgettoMinuscolo}"/>
 
@@ -141,6 +149,10 @@
         <echo message="dirOldApp = ${dirOldApp}"/>
         <echo message="srcPom = ${srcPom}"/>
         <echo message="destPom = ${destPom}"/>
+
+        <echo message="pathStaticFramework = ${pathStaticFramework}"/>
+        <echo message="pathStaticProject = ${pathStaticProject}"/>
+
     </target>
 
 
@@ -231,18 +243,27 @@
 
     <target name="resVuoto" depends="init" unless="${fileResValido}">
         <antcall target="creaSingoloFile">
+            <param name="srcFile" value="${srcMailProperties}"/>
+            <param name="destFile" value="${destMailProperties}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
             <param name="srcFile" value="${srcProperties}"/>
             <param name="destFile" value="${destProperties}"/>
         </antcall>
         <replace file="${destProperties}"
-                 token="3306/algostest"
-                 value="3306/${nomeProgettoMinuscolo}">
+                 token="spring.data.mongodb.database = algostest"
+                 value="spring.data.mongodb.database = ${nomeProgettoMinuscolo}">
         </replace>
     </target>
 
 
     <target name="copiaWeb" depends="init" description="Copia la cartella webapp">
         <copydir src="${pathWebappFramework}" dest="${pathWebappProject}"/>
+    </target>
+
+
+    <target name="copiaStatic" depends="init" description="Copia la cartella resources.static">
+        <copydir src="${pathStaticFramework}" dest="${pathStaticProject}"/>
     </target>
 
 
@@ -337,7 +358,7 @@
 
 
     <target name="creaProgettoSenzaPom"
-            depends="init,creaApp,creaCost,creaBoot,creaUI,copiaVaadin,creaRead,checkRes,copiaWeb,checkFooter,deleteOldApp,creaScript,modificaScript"
+            depends="init,creaApp,creaCost,creaBoot,creaUI,copiaVaadin,creaRead,checkRes,copiaWeb,copiaStatic,checkFooter,deleteOldApp,creaScript,modificaScript"
             description="Crea un nuovo progetto, modificando ed adeguando la struttura del project">
     </target>
 

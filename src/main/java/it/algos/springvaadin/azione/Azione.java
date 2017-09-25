@@ -4,7 +4,7 @@ import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationEventPublisher;
 

@@ -1,13 +1,9 @@
 package it.algos.springvaadin.bottone;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.dialog.ImageDialog;
-import it.algos.springvaadin.event.AButtonEvent;
-import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -40,8 +36,6 @@ public class AButtonFactoryImpl implements AButtonFactory {
      */
     private ApplicationEventPublisher publisher;
 
-    @Autowired
-    private ImageDialog imageDialog;
 
     /**
      * Costruttore @Autowired

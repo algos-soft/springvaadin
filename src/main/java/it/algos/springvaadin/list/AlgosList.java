@@ -2,7 +2,7 @@ package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
 import it.algos.springvaadin.bottone.AButtonType;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
 import java.util.List;

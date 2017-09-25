@@ -1,7 +1,6 @@
 package it.algos.springvaadin.event;
 
-import com.vaadin.ui.Window;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 
 /**
  * Project springvaadin

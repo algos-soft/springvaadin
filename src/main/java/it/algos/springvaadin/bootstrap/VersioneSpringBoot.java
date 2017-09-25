@@ -1,11 +1,12 @@
-package it.algos.springvaadintest.bootstrap;
+package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
 
@@ -19,7 +20,7 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Slf4j
-public class VersSpringBoot {
+public class VersioneSpringBoot {
 
 
     //--il service (contenente la repository) viene iniettato nel costruttore
@@ -30,8 +31,8 @@ public class VersSpringBoot {
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      */
-    public VersSpringBoot(VersioneService service) {
-        this.service = service;
+    public VersioneSpringBoot(@Qualifier(Cost.TAG_VERS) AlgosService service) {
+        this.service = (VersioneService) service;
     }// end of Spring constructor
 
 
@@ -40,7 +41,17 @@ public class VersSpringBoot {
      * (si può usare qualsiasi firma)
      */
     @PostConstruct
-    private void cronistoriaVersioni() {
+    private void inizializza() {
+        cronistoriaVersioni();
+    }// end of method
+
+
+    /**
+     * Cronistoria delle versioni istallate
+     * Viene sovrascritto dalla sottoclasse
+     * Rimanda alla superclasse PRIMA di essere eseguito nella sottoclasse
+     */
+    protected int cronistoriaVersioni() {
         int k = 1;
 
         //--prima installazione del programma
@@ -53,6 +64,7 @@ public class VersSpringBoot {
             creaAndLog("Flag", "Regolazione dei flags di controllo");
         }// fine del blocco if
 
+        return k;
     }// end of method
 
 
@@ -63,9 +75,8 @@ public class VersSpringBoot {
      * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione descrizione (obbligatoria, non unica)
      */
-    private void creaAndLog(String titolo, String descrizione) {
-        Versione vers = service.crea(titolo, descrizione);
-        log.warn("Versione: " + vers);
+    protected void creaAndLog(String titolo, String descrizione) {
+        log.warn("Versione: " + service.crea(titolo, descrizione));
     }// end of method
 
 }// end of class

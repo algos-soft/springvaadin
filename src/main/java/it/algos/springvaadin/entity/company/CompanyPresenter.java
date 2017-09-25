@@ -5,7 +5,7 @@ import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;

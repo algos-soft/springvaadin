@@ -1,6 +1,6 @@
 package it.algos.springvaadin.service;
 
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 
 import java.io.Serializable;
 import java.util.List;

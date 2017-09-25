@@ -5,9 +5,8 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.toolbar.AToolbar;
-import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

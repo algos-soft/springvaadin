@@ -5,12 +5,9 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
-import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.model.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**

@@ -8,7 +8,7 @@ import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
 import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,7 +23,6 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

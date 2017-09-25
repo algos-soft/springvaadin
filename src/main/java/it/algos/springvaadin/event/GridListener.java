@@ -1,7 +1,7 @@
 package it.algos.springvaadin.event;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 
 /**
  * Created by gac on 03/06/17.

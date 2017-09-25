@@ -29,4 +29,9 @@ public interface AlgosPresenter extends GridListener, ListListener, FormListener
      */
     public void enter();
 
+    /**
+     * Metodo invocato da un daemon per spedire mail
+     */
+    public void daemonMail();
+
 }// end of interface

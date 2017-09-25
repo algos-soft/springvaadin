@@ -5,7 +5,7 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AlgosField;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;

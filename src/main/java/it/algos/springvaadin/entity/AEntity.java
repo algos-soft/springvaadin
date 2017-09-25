@@ -1,4 +1,4 @@
-package it.algos.springvaadin.model;
+package it.algos.springvaadin.entity;
 
 import lombok.Getter;
 import org.hibernate.validator.constraints.NotEmpty;

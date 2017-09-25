@@ -6,7 +6,7 @@ import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

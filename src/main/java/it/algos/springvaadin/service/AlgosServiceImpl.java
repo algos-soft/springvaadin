@@ -4,7 +4,7 @@ import com.vaadin.ui.Notification;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;

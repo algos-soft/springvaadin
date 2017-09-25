@@ -2,7 +2,7 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.ui.Component;
 import it.algos.springvaadin.event.AEvent;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
 

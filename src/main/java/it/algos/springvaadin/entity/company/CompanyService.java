@@ -2,14 +2,12 @@ package it.algos.springvaadin.entity.company;
 
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.model.AEntity;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

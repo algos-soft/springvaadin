@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.versione;
 
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
+@Slf4j
 @Qualifier(Cost.TAG_VERS)
 public class VersioneService extends AlgosServiceImpl {
 
@@ -54,6 +56,8 @@ public class VersioneService extends AlgosServiceImpl {
         if (vers == null) {
             vers = (Versione) repository.save(newEntity(titolo, descrizione));
         }// end of if cycle
+
+        log.info(titolo + " - " + descrizione);
 
         return vers;
     }// end of method

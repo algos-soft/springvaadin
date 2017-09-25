@@ -1,7 +1,8 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.persistence.Table;
@@ -50,6 +51,19 @@ public abstract class LibReflection {
         try { // prova ad eseguire il codice
             fieldsArray = entityClazz.getDeclaredFields();
             fieldsList = new ArrayList();
+
+            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
+                Field[] fieldsArray2 = ACompanyEntity.class.getDeclaredFields();
+
+                for (Field field : fieldsArray2) {
+                    fieldName = field.getName();
+                    if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                        fieldsList.add(field);
+                    }// end of if cycle
+                }// end of for cycle
+                int a=87;
+            }// end of if cycle
+
 
             if (idCompreso) {
                 fieldsList.add(entityClazz.getFields()[0]);
@@ -128,7 +142,7 @@ public abstract class LibReflection {
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
     public static List<String> getAllFieldNameAlfabetico(final AEntity entityBean) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(),false));
+        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(), false));
     }// end of static method
 
 
@@ -140,7 +154,7 @@ public abstract class LibReflection {
      * @return tutte i fieldNames, elencati in ordine alfabetico
      */
     public static List<String> getAllFieldNameAlfabetico(final Class<? extends AEntity> entityClazz) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityClazz,false));
+        return LibArray.sort((ArrayList) getAllFieldName(entityClazz, false));
     }// end of static method
 
 
@@ -220,15 +234,23 @@ public abstract class LibReflection {
     /**
      * Property statica di una classe
      *
-     * @param clazz           classe su cui operare la riflessione
+     * @param entityClazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
-    public static Field getField(final Class<?> clazz, final String publicFieldName) {
+    public static Field getField(final Class<?> entityClazz, final String publicFieldName) {
         Field field = null;
+        String fieldName="";
+
 
         try { // prova ad eseguire il codice
-            field = clazz.getDeclaredField(publicFieldName);
+            field = entityClazz.getDeclaredField(publicFieldName);
         } catch (Exception unErrore) { // intercetta l'errore
+            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
+                try { // prova ad eseguire il codice
+                    field = ACompanyEntity.class.getDeclaredField(publicFieldName);
+                } catch (Exception unErrore2) { // intercetta l'errore
+                }// fine del blocco try-catch
+            }// end of if cycle
         }// fine del blocco try-catch
 
         return field;
@@ -417,7 +439,7 @@ public abstract class LibReflection {
      */
     public static List<Method> getMethods(Class<? extends AEntity> entityClazz) {
         List<Method> methods = null;
-        List<String> propertyNames = getAllFieldName(entityClazz,false);
+        List<String> propertyNames = getAllFieldName(entityClazz, false);
 
         if (propertyNames != null && propertyNames.size() > 0) {
             methods = new ArrayList();

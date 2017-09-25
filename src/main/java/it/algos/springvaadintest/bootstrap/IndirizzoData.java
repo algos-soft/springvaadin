@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoService;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

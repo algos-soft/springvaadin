@@ -1,8 +1,6 @@
 package it.algos.springvaadin.entity.indirizzo;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.model.AEntity;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.algos.springvaadin.lib.Cost;

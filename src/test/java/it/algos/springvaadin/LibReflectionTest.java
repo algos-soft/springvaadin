@@ -2,7 +2,7 @@ package it.algos.springvaadin;
 
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.LibReflection;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

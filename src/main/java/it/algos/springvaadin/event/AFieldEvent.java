@@ -1,7 +1,7 @@
 package it.algos.springvaadin.event;
 
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**

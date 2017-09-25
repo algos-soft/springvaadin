@@ -4,18 +4,14 @@ import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
-import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -168,7 +164,7 @@ public abstract class AField<T> extends CustomField<Object> {
      */
     @Override
     public void doSetValue(Object value) {
-        if (textField != null) {
+        if (textField != null && LibText.isValid((String) value)) {
             textField.setValue((String) value);
         }// end of if cycle
     }// end of method

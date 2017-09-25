@@ -1,42 +1,26 @@
-package it.algos.springvaadintest.bootstrap;
+package it.algos.springvaadin.bootstrap;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.gridfs.GridFSInputFile;
-import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.company.CompanyService;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoService;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibFile;
-import it.algos.springvaadin.lib.LibResource;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.WebApplicationInitializer;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
+ * Project springwam
+ * Created by Algos
+ * User: gac
+ * Date: dom, 24-set-2017
+ * Time: 18:18
  * Executed on container startup
  * Setup non-UI logic here
  * <p>
@@ -45,31 +29,36 @@ import java.util.stream.Stream;
  */
 @SpringComponent
 @Slf4j
-public class StatoData {
+public class StatoSpringBoot {
 
 
-    //--il service (contenente la repository) viene iniettato qui
-    @Autowired
-    protected StatoService service;
+    //--il service (contenente la repository) viene iniettato nel costruttore
+    private StatoService service;
+
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     */
+    public StatoSpringBoot(@Qualifier(Cost.TAG_STA) AlgosService service) {
+        this.service = (StatoService) service;
+    }// end of Spring constructor
 
 
     /**
      * Crea una collezione di stati
+     * Controlla se la collezione esiste già
+     * <p>
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
      */
-    public void creaAll() {
-        if (nessunRecordEsistente()) {
+    @PostConstruct
+    public void inizializza() {
+        if (service.count() < 2) {
             creaStati();
         } else {
             log.info("La collezione di stati è presente");
         }// end of if/else cycle
-    }// end of method
-
-
-    /**
-     * Controlla se la collezione esiste già
-     */
-    private boolean nessunRecordEsistente() {
-        return service.count() == 0;
     }// end of method
 
 

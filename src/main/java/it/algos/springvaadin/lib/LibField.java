@@ -14,12 +14,11 @@ import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
 import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
 import it.algos.springvaadin.validator.AlgosUniqueValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;

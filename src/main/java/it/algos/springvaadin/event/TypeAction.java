@@ -17,6 +17,7 @@ public enum TypeAction {
     singleSelectionChanged,
     multiSelectionChanged,
     valueChange,
+    daemonMail,
     listener;
 
 }// end of enumeration

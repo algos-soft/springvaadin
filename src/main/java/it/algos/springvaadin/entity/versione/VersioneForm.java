@@ -2,11 +2,15 @@ package it.algos.springvaadin.entity.versione;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Layout;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
+
+import java.util.List;
 
 /**
  * Created by gac on 13/06/17
@@ -29,5 +33,16 @@ public class VersioneForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
-
+    /**
+     * Crea i campi, li aggiunge al layout, li aggiunge al binder
+     *
+     * @param source     presenter di riferimento da cui vengono generati gli eventi
+     * @param target
+     * @param layout     in cui inserire i campi (window o panel)
+     * @param fieldsName del form da visualizzare
+     */
+    @Override
+    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<String> fieldsName) {
+        super.creaAddBindFields(source, target, layout, fieldsName);
+    }
 }// end of class

@@ -82,8 +82,8 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-		menuLayout.addView(StatoNavView.class);
-		menuLayout.addView(IndirizzoNavView.class);
+        menuLayout.addView(StatoNavView.class);
+        menuLayout.addView(IndirizzoNavView.class);
         if (LibParams.useVers()) {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
@@ -119,6 +119,16 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      */
     protected void addView(Class<? extends View> viewClass) {
         menuLayout.addView(viewClass);
+    }// end of method
+
+
+    /**
+     * Mostra una view
+     *
+     * @param viewName the view to show
+     */
+    public void navigateTo(String viewName) {
+        getNavigator().navigateTo(viewName);
     }// end of method
 
 }// end of class

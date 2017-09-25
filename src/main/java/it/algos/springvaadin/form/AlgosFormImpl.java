@@ -10,18 +10,15 @@ import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
-import it.algos.springvaadin.model.AEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.AToolbarImpl;
-import it.algos.springvaadin.toolbar.LinkToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +45,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     private Binder binder;
 
     protected List<AField> fieldList;
+
+    protected ApplicationListener source;
 
     //--intestazioni informative per Form
     //--valori standard
@@ -98,6 +97,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void restart(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog) {
+        this.source = source;
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
 

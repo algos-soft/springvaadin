@@ -1,6 +1,6 @@
 package it.algos.springvaadin.lib;
 
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.apache.tomcat.util.buf.StringUtils;
 
 import java.util.ArrayList;

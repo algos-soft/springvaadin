@@ -1,7 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.mongodb.MongoClient;
-import it.algos.springvaadin.model.AEntity;
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 

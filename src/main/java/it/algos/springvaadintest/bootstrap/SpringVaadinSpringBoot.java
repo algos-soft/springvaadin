@@ -21,8 +21,6 @@ import java.time.LocalDateTime;
 public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
 
-    @Autowired
-    protected StatoData statoData;
 
     @Autowired
     protected IndirizzoData indirizzoData;
@@ -38,7 +36,6 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      */
     @PostConstruct
     private void check() {
-        statoData.creaAll();
         indirizzoData.creaAll();
         companyData.creaAll();
     }// end of method
