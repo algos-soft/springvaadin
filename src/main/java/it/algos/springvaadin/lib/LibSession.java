@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.login.Login;
 
 import javax.servlet.ServletContext;
@@ -16,15 +17,15 @@ public abstract class LibSession {
     /**
      * Recupera dalla sessione l'attributo company
      */
-    public static String getCompany() {
-        return getAttributeStr(Attribute.company);
+    public static Company getCompany() {
+        return (Company) getAttribute(Attribute.company);
     }// end of static method
 
     /**
      * Regola per la sessione corrente l'attributo company
      */
-    public static void setCompany(String companyName) {
-        setAttribute(Attribute.company, companyName);
+    public static void setCompany(Company company) {
+        setAttribute(Attribute.company, company);
     }// end of static method
 
 
@@ -47,7 +48,7 @@ public abstract class LibSession {
      * Recupera dalla sessione l'attributo login
      */
     public static Login getLogin() {
-        return (Login)getAttribute(Attribute.login);
+        return (Login) getAttribute(Attribute.login);
     }// end of static method
 
     /**
@@ -56,7 +57,6 @@ public abstract class LibSession {
     public static void setLogin(Login login) {
         setAttribute(Attribute.login, login);
     }// end of static method
-
 
 
     /**
@@ -72,7 +72,6 @@ public abstract class LibSession {
     public static void setLoggato(boolean status) {
         setBool(Attribute.loggato, status);
     }// end of static method
-
 
 
     /**
@@ -105,12 +104,11 @@ public abstract class LibSession {
     }// end of static method
 
 
-
     /**
      * Recupera dalla sessione l'attributo servletContext
      */
     public static ServletContext getServletContext() {
-        return (ServletContext)getAttribute(Attribute.servletContext);
+        return (ServletContext) getAttribute(Attribute.servletContext);
     }// end of static method
 
     /**
@@ -121,13 +119,12 @@ public abstract class LibSession {
     }// end of static method
 
 
-
     /**
-     * Recupera dalla request l'attributo developer (se esiste)
+     * Recupera dalla request l'attributo company (se esiste)
      * Regola la variabile statica
      */
-    public static void checkCompany(VaadinRequest request) {
-        LibSession.checkStr(request, Attribute.company);
+    public static String checkCompany(VaadinRequest request) {
+        return LibSession.getStr(request, Attribute.company);
     }// end of static method
 
     /**
@@ -145,7 +142,6 @@ public abstract class LibSession {
     public static void checkDebug(VaadinRequest request) {
         LibSession.checkBool(request, Attribute.debug);
     }// end of static method
-
 
 
     /**

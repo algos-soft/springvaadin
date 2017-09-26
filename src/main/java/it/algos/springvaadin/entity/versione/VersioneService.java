@@ -1,6 +1,10 @@
 package it.algos.springvaadin.entity.versione;
 
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAnnotation;
+import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,7 +58,7 @@ public class VersioneService extends AlgosServiceImpl {
         Versione vers = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
 
         if (vers == null) {
-            vers = (Versione) repository.save(newEntity(titolo, descrizione));
+            vers = (Versione) repository.save(newEntity(null, 0, titolo, descrizione, null));
         }// end of if cycle
 
         log.info(titolo + " - " + descrizione);
@@ -69,10 +73,10 @@ public class VersioneService extends AlgosServiceImpl {
      * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
-     * @return la nuova entity appena creata
+     * @return la nuova entity appena creata (vuota e non salvata)
      */
     public Versione newEntity() {
-        return newEntity("", "");
+        return newEntity((Company) null, 0, "", "", (LocalDateTime) null);
     }// end of method
 
 
@@ -82,31 +86,35 @@ public class VersioneService extends AlgosServiceImpl {
      * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
      * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
      *
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
-     *
-     * @return la nuova entity appena creata
-     */
-    public Versione newEntity(String titolo, String descrizione) {
-        return newEntity(titolo, descrizione, 0, null);
-    }// end of method
-
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
-     * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
-     *
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
+     * @param company     di riferimento (facoltativa, non unica)
      * @param ordine      di creazione (obbligatorio, unico)
+     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione descrizione (obbligatoria, non unica)
      * @param modifica    data di inserimento della versione (obbligatoria, non unica)
      *
-     * @return la nuova entity appena creata
+     * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(String titolo, String descrizione, int ordine, LocalDateTime modifica) {
-        return new Versione(ordine == 0 ? this.getNewOrdine() : ordine, titolo, descrizione, modifica != null ? modifica : LocalDateTime.now());
+    public Versione newEntity(Company company, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
+        Versione versione = null;
+
+        if (company == null) {
+            company = LibSession.getCompany();
+        }// end of if cycle
+
+        if (company == null && LibAnnotation.isCompanyNotNull(Versione.class)) {
+            LibAvviso.warn("Non riesco a creare una nuova scheda, perché manca la Company (obbligatoria)");
+            log.warn("Entity non registrata perché manca la Company (obbligatoria)");
+            return null;
+        }// end of if cycle
+
+        versione = new Versione(
+                ordine == 0 ? this.getNewOrdine() : ordine,
+                titolo,
+                descrizione,
+                modifica != null ? modifica : LocalDateTime.now());
+        versione.setCompany(company);
+
+        return versione;
     }// end of method
 
 

@@ -250,10 +250,10 @@ public abstract class AlgosServiceImpl implements AlgosService {
             return false;
         }// end of if cycle
 
-        //--L'utente collegato deve essere developer
-        if (!LibSession.isDeveloper()) {
-            return false;
-        }// end of if cycle
+//        //--L'utente collegato deve essere developer
+//        if (!LibSession.isDeveloper()) {
+//            return false;
+//        }// end of if cycle
 
         return true;
     }// end of static method

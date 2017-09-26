@@ -8,6 +8,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -44,10 +45,10 @@ public interface AlgosView extends View {
      * Creazione di un form
      *
      * @param entityBean            istanza da elaborare
-     * @param fields                campi del form da visualizzare
+     * @param reflectFields         campi del form da visualizzare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void setForm(AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog);
+    public void setForm(AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
 
 
     /**
@@ -56,11 +57,11 @@ public interface AlgosView extends View {
      *
      * @param entityBean         istanza da elaborare
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param fields             campi del form da visualizzare
+     * @param reflectFields      campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<String> fields, boolean usaBottoneRegistra);
+    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, boolean usaBottoneRegistra);
 
 
     /**

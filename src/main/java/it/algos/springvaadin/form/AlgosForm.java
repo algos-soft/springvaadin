@@ -7,6 +7,7 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -25,10 +26,10 @@ public interface AlgosForm {
      *
      * @param source                presenter di riferimento da cui vengono generati gli eventi
      * @param entityBean            istanza da elaborare
-     * @param fields                campi del form da visualizzare
+     * @param reflectFields                campi del form da visualizzare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void restart(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog);
+    public void restart(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
 
     /**
      * Creazione del form di un altro modulo/collezione
@@ -37,11 +38,11 @@ public interface AlgosForm {
      * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param entityBean         istanza da elaborare
-     * @param fields             campi del form da visualizzare
+     * @param reflectFields             campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source,ApplicationListener target, AField sourceField, AEntity entityBean, List<String> fields, boolean usaBottoneRegistra);
+    public void restartLink(ApplicationListener source,ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, boolean usaBottoneRegistra);
 
     /**
      * Esegue il 'rollback' del Form

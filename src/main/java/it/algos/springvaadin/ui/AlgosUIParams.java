@@ -4,8 +4,10 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.service.AlgosStartService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +21,10 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 public abstract class AlgosUIParams extends UI {
+
+
+    @Autowired
+    private AlgosStartService algosStartService;
 
     /**
      * Flag di utilizzo di tre componenti per la view (top, body e footer)
@@ -190,7 +196,7 @@ public abstract class AlgosUIParams extends UI {
 
         //--Controlla la company selezionata
         if (AlgosApp.USE_MULTI_COMPANY) {
-            AlgosStartService.checkCompany(request);
+            algosStartService.checkCompany(request);
         }// end of if cycle
     }// end of method
 
@@ -206,7 +212,7 @@ public abstract class AlgosUIParams extends UI {
                 log.info("Application received the server requests - DOPO la chiamata del browser - start generic initializing code nella classe AlgosUIParams");
                 break;
             case specifica:
-                log.info("Start specific initializing code nella classe "+className);
+                log.info("Start specific initializing code nella classe " + className);
                 break;
         } // fine del blocco switch
     }// end of method
@@ -260,7 +266,7 @@ public abstract class AlgosUIParams extends UI {
         this.usaDialoghiVerbosi = false;
         log.info("AlgosUIParams.usaDialoghiVerbosi: " + this.usaDialoghiVerbosi);
 
-        log.info("All this params can be found in LibParams" );
+        log.info("All this params can be found in LibParams");
 
     }// end of method
 

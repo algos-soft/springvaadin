@@ -2,6 +2,8 @@ package it.algos.springvaadin.entity.indirizzo;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.annotation.AIEntity;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
@@ -33,13 +35,13 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_IND)
-//@AIList()
+@AIEntity()
 @AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Indirizzo extends AEntity {
+public class Indirizzo extends ACompanyEntity {
 
 
     /**

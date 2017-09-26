@@ -10,6 +10,7 @@ import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -39,10 +40,11 @@ public class VersioneForm extends AlgosFormImpl {
      * @param source     presenter di riferimento da cui vengono generati gli eventi
      * @param target
      * @param layout     in cui inserire i campi (window o panel)
-     * @param fieldsName del form da visualizzare
+     * @param reflectFields del form da visualizzare
      */
     @Override
-    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<String> fieldsName) {
-        super.creaAddBindFields(source, target, layout, fieldsName);
-    }
+    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<Field> reflectFields) {
+        super.creaAddBindFields(source, target, layout, reflectFields);
+    }// end of method
+
 }// end of class

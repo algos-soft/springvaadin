@@ -44,7 +44,7 @@ public class AlgosFooter extends HorizontalLayout {
 
         message += this.appMessage;
 
-        companyCode = LibSession.getCompany();
+        companyCode = LibSession.getCompany()!=null?LibSession.getCompany().getSigla():"";
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
             message += " - " + companyCode;
         }// end of if cycle

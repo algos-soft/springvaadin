@@ -12,6 +12,7 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void setForm(AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog) {
+    public void setForm(AEntity entityBean, List<Field> fields, boolean usaSeparateFormDialog) {
         removeAllComponents();
         form.restart(presenter, entityBean, fields, usaSeparateFormDialog);
         addComponent(form.getComponent());
@@ -93,13 +94,13 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @param entityBean         istanza da elaborare
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param fields             campi del form da visualizzare
+     * @param reflectFields             campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<String> fields, boolean usaBottoneRegistra) {
+    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<Field> reflectFields, boolean usaBottoneRegistra) {
         removeAllComponents();
-        form.restartLink(source,presenter, sourceField, entityBean, fields, usaBottoneRegistra);
+        form.restartLink(source,presenter, sourceField, entityBean, reflectFields, usaBottoneRegistra);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);

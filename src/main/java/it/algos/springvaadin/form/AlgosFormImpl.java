@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,19 +93,19 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @param source                presenter di riferimento da cui vengono generati gli eventi
      * @param entityBean            istanza da elaborare
-     * @param fields                campi del form da visualizzare
+     * @param reflectFields         campi del form da visualizzare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void restart(ApplicationListener source, AEntity entityBean, List<String> fields, boolean usaSeparateFormDialog) {
+    public void restart(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog) {
         this.source = source;
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
 
         if (usaSeparateFormDialog) {
-            usaSeparateFormDialog(source, null, null, null, fields);
+            usaSeparateFormDialog(source, null, null, null, reflectFields);
         } else {
-            usaAllScreen(source, fields);
+            usaAllScreen(source, reflectFields);
         }// end of if/else cycle
     }// end of method
 
@@ -116,24 +117,24 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param entityBean         istanza da elaborare
-     * @param fields             campi del form da visualizzare
+     * @param reflectFields      campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<String> fields, boolean usaBottoneRegistra) {
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, boolean usaBottoneRegistra) {
         this.entityBean = entityBean;
         toolbar = toolbarLink;
-        usaSeparateFormDialog(source, target, entityBean, sourceField, fields);
+        usaSeparateFormDialog(source, target, entityBean, sourceField, reflectFields);
     }// end of method
 
     /**
      * Crea una finestra a se, che verrà chiusa alla dismissione del Form
      *
-     * @param source      presenter di riferimento da cui vengono generati gli eventi
-     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param fields      del form da visualizzare
+     * @param source        presenter di riferimento da cui vengono generati gli eventi
+     * @param sourceField   di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     * @param reflectFields del form da visualizzare
      */
-    protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<String> fields) {
+    protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -158,7 +159,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaAddBindFields(source, target, layout, fields);
+        creaAddBindFields(source, target, layout, reflectFields);
 
         layout.addComponent(new Label());
         toolbar.inizializza(source, target, entityBean, sourceField);
@@ -175,12 +176,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi, li aggiunge al layout, li aggiunge al binder
      *
-     * @param source     presenter di riferimento da cui vengono generati gli eventi
-     * @param layout     in cui inserire i campi (window o panel)
-     * @param fieldsName del form da visualizzare
+     * @param source        presenter di riferimento da cui vengono generati gli eventi
+     * @param layout        in cui inserire i campi (window o panel)
+     * @param reflectFields del form da visualizzare
      */
-    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<String> fieldsName) {
-        creaFields(source, target, fieldsName);
+    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<Field> reflectFields) {
+        creaFields(source, target, reflectFields);
         addFields(layout);
         fixFields();
         bindFields();
@@ -190,16 +191,18 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Crea i campi
      *
-     * @param source     presenter di riferimento da cui vengono generati gli eventi
-     * @param fieldsName del form da visualizzare
+     * @param source        presenter di riferimento da cui vengono generati gli eventi
+     * @param reflectFields del form da visualizzare
      *
      * @return lista di fields
      */
-    protected List<AField> creaFields(ApplicationListener source, ApplicationListener target, List<String> fieldsName) {
+    protected List<AField> creaFields(ApplicationListener source, ApplicationListener target, List<Field> reflectFields) {
         List<AField> lista = new ArrayList<>();
         AField field;
+        String publicFieldName;
 
-        for (String publicFieldName : fieldsName) {
+        for (Field reflectField : reflectFields) {
+            publicFieldName = reflectField.getName();
             field = viewField.create(source, target, entityBean.getClass(), publicFieldName);
 
             if (field != null) {
@@ -359,7 +362,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param source presenter di riferimento da cui vengono generati gli eventi
      * @param fields del form da visualizzare
      */
-    protected void usaAllScreen(ApplicationListener source, List<String> fields) {
+    protected void usaAllScreen(ApplicationListener source, List<Field> fields) {
         String caption = "";
         Label label;
         this.removeAllComponents();

@@ -84,6 +84,16 @@ public class CompanyService extends AlgosServiceImpl {
     }// end of method
 
     /**
+     * Returns entity
+     *
+     * @return entity
+     */
+    public Company findBySigla(String sigla) {
+        return ((CompanyRepository) repository).findBySigla(sigla);
+    }// end of method
+
+
+    /**
      * Returns all instances of the type.
      *
      * @return all entities

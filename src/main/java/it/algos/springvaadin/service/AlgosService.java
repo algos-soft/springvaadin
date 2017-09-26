@@ -147,12 +147,13 @@ public interface AlgosService {
 
 
     /**
-     * Flag.
+     * Flag per visualizzare il field company
+     * <p>
      * Deve essere true il flag useMultiCompany
      * La Entity deve estendere ACompanyEntity
      * L'utente collegato deve essere developer
      */
-    public  boolean displayCompany() ;
+    public boolean displayCompany();
 
 
     public void setEntityClass(Class<? extends AEntity> entityClass);

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.annotation.AIEntity;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
@@ -29,6 +30,7 @@ import java.time.LocalDateTime;
  * Non prevede la differenziazione per Company
  */
 @SpringComponent
+@AIEntity(companyNotNull = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

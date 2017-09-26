@@ -2,11 +2,8 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.annotation.AIForm;
-import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -996,5 +993,36 @@ public abstract class LibAnnotation {
         return name;
     }// end of static method
 
+
+    /**
+     * Get the specific annotation of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public static AIEntity getAIEntity(final Class<? extends AEntity> clazz) {
+        return clazz.getAnnotation(AIEntity.class);
+    }// end of static method
+
+
+    /**
+     * Get the status companyNotNull of the class.
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    @SuppressWarnings("all")
+    public static boolean isCompanyNotNull(final Class<? extends AEntity> clazz) {
+        boolean status = false;
+        AIEntity entityAnnotation = getAIEntity(clazz);
+
+        if (entityAnnotation != null) {
+            status = entityAnnotation.companyNotNull();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
 
 }// end of static class

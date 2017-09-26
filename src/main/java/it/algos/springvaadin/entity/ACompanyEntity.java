@@ -4,7 +4,9 @@ import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -25,14 +27,21 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Sottoclasse annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Sottoclasse annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Sottoclasse annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
+ *
+ * Le Entity possono estendere AEntity direttamente, oppure estendere questa classe per usare la property company
+ * Se il flag AlgosApp.USE_MULTI_COMPANY=false, anche se la Entity estende questa classe,
+ * il valore della property è sempre nullo
+ * Se il flag AlgosApp.USE_MULTI_COMPANY=true, e la Entity estende questa classe,
+ * la property può essere obbligatoria (es:Turni, Fatture, Utenti) oppure facoltativa (es:Preferenze)
+ * secondo l'Annotation della classe @AIEntity(companyNotNull=true) oppure @AIEntity(companyNotNull=false)
  */
 @Getter
-public abstract class ACompanyEntity extends AEntity{
+@Setter
+public abstract class ACompanyEntity extends AEntity {
 
     /**
-     * riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
+     * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
      */
-    @NotEmpty
     @AIField(type = AFieldType.combo, clazz = Company.class)
     private Company company;
 

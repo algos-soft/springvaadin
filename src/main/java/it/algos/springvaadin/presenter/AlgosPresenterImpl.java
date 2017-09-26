@@ -10,6 +10,7 @@ import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
@@ -23,12 +24,14 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
  * Created by gac on 14/06/17.
  * Implementazione standard dell'annotation AlgosPresenter
  */
+@Slf4j
 public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
 
@@ -165,12 +168,12 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
-        List<String> fields = service.getFormFields();
+        List<Field> reflectFields = service.getFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setFormLink(source, entityBean, sourceField, fields, type == AButtonType.editLinkDBRef);
+        view.setFormLink(source, entityBean, sourceField, reflectFields, type == AButtonType.editLinkDBRef);
 
 //        ((AlgosViewImpl) view).getForm().setParentField(sourceField);
     }// end of method
@@ -204,12 +207,16 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     public void modifica(AEntity entityBean, boolean usaSeparateFormDialog, boolean usaToolbarLink, boolean usaBottoneRegistra) {
-        List<String> fields = service.getFormFields();
+        List<Field> reflectFields = service.getFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setForm(entityBean, fields, usaSeparateFormDialog);
+
+        if (entityBean != null) {
+            view.setForm(entityBean, reflectFields, usaSeparateFormDialog);
+        }// end of if cycle
+
     }// end of method
 
     /**
