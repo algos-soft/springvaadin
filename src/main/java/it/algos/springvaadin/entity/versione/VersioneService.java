@@ -58,10 +58,15 @@ public class VersioneService extends AlgosServiceImpl {
         Versione vers = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
 
         if (vers == null) {
-            vers = (Versione) repository.save(newEntity(null, 0, titolo, descrizione, null));
+            vers = newEntity(null, 0, titolo, descrizione, null);
         }// end of if cycle
 
-        log.info(titolo + " - " + descrizione);
+        if (vers != null) {
+            vers = (Versione) repository.save(vers);
+            log.info(titolo + " - " + descrizione);
+        } else {
+            log.warn("Non sono riuscito a creare la versione: "+titolo + " - " + descrizione);
+        }// end of if/else cycle
 
         return vers;
     }// end of method
@@ -102,7 +107,6 @@ public class VersioneService extends AlgosServiceImpl {
         }// end of if cycle
 
         if (company == null && LibAnnotation.isCompanyNotNull(Versione.class)) {
-            LibAvviso.warn("Non riesco a creare una nuova scheda, perché manca la Company (obbligatoria)");
             log.warn("Entity non registrata perché manca la Company (obbligatoria)");
             return null;
         }// end of if cycle

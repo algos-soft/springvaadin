@@ -26,6 +26,8 @@ import java.util.List;
  * <p>
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat) <br>
  * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
+ *
+ * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
 @SpringComponent
 @Slf4j
@@ -52,7 +54,7 @@ public class StatoSpringBoot {
      * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
      * (si può usare qualsiasi firma)
      */
-    @PostConstruct
+//    @PostConstruct
     public void inizializza() {
         if (service.count() < 2) {
             service.creaStati();

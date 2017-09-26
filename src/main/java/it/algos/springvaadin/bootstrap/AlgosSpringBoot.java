@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
  * and its afterPropertiesSet method will be called
  *
  * @see http://www.ekiras.com/2015/10/spring-boot-how-to-create-bootstrap-class.html
+ *
+ * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
 @Component
 @Slf4j

@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +18,8 @@ import javax.annotation.PostConstruct;
  * <p>
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat) <br>
  * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
+ * <p>
+ * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
 @SpringComponent
 @Slf4j
