@@ -4,6 +4,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.LibFile;
+import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -255,7 +256,7 @@ public class StatoService extends AlgosServiceImpl {
         }// end of if cycle
         if (parti.length > 2) {
             alfaTre = parti[2];
-            bandiera = getImageBytes(alfaTre.toUpperCase());
+            bandiera = LibResource.getImgBytes(alfaTre.toUpperCase() + ".png");
         }// end of if cycle
         if (parti.length > 3) {
             numerico = parti[3];
@@ -283,26 +284,5 @@ public class StatoService extends AlgosServiceImpl {
     }// end of method
 
 
-    /**
-     * Recupera una bandiera dalle risorse statiche
-     */
-    private byte[] getImageBytes(String alfaTre) {
-        byte[] imgBytes = new byte[0];
-        File filePath;
-//        String realPath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        String realPath = "/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/";
-        String name = alfaTre.toUpperCase();
-        String fullPath = realPath + name + ".png";
-
-        try { // prova ad eseguire il codice
-            filePath = new File(fullPath);
-            if (filePath.exists() && !filePath.isDirectory()) {
-                imgBytes = Files.readAllBytes(Paths.get(fullPath));
-            }// end of if cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return imgBytes;
-    }// end of method
 
 }// end of class

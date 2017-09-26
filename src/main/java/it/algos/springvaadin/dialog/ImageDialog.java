@@ -95,7 +95,6 @@ public class ImageDialog extends Window implements ApplicationListener {
 
 
     private void restart() {
-//        mainLayout.removeAllComponents();
 
         buttonBack = buttonFactory.crea(AButtonType.back, this, presenter, sourceField);
         buttonCreate = buttonFactory.crea(AButtonType.create, this, editDialog, sourceField);
