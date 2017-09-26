@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.versione;
 
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
@@ -55,20 +56,20 @@ public class VersioneService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Versione crea(String titolo, String descrizione) {
-        Versione vers = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
+        Versione entity = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
 
-        if (vers == null) {
-            vers = newEntity(null, 0, titolo, descrizione, null);
+        if (entity == null) {
+            entity = newEntity((Company) null, 0, titolo, descrizione, null);
         }// end of if cycle
 
-        if (vers != null) {
-            vers = (Versione) repository.save(vers);
+        if (entity != null) {
+            entity = (Versione) repository.save(entity);
             log.info(titolo + " - " + descrizione);
         } else {
-            log.warn("Non sono riuscito a creare la versione: "+titolo + " - " + descrizione);
+            log.warn("Non sono riuscito a creare la versione: " + titolo + " - " + descrizione);
         }// end of if/else cycle
 
-        return vers;
+        return entity;
     }// end of method
 
 
@@ -83,6 +84,7 @@ public class VersioneService extends AlgosServiceImpl {
     public Versione newEntity() {
         return newEntity((Company) null, 0, "", "", (LocalDateTime) null);
     }// end of method
+
 
 
     /**
@@ -100,26 +102,15 @@ public class VersioneService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (non salvata)
      */
     public Versione newEntity(Company company, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
-        Versione versione = null;
-
-        if (company == null) {
-            company = LibSession.getCompany();
-        }// end of if cycle
-
-        if (company == null && LibAnnotation.isCompanyNotNull(Versione.class)) {
-            log.warn("Entity non registrata perché manca la Company (obbligatoria)");
-            return null;
-        }// end of if cycle
-
-        versione = new Versione(
+        Versione entity = new Versione(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 titolo,
                 descrizione,
                 modifica != null ? modifica : LocalDateTime.now());
-        versione.setCompany(company);
 
-        return versione;
+        return (Versione) checkCompany(company, entity);
     }// end of method
+
 
 
     /**

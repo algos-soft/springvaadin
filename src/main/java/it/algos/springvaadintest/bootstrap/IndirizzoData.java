@@ -75,7 +75,7 @@ public class IndirizzoData {
      * @param stato:     stato (obbligatoria, non unica)
      */
     private AEntity creaAndLog(String indirizzo, String localita, String cap, Stato stato) {
-        AEntity ind = service.crea(indirizzo, localita, cap, stato);
+        AEntity ind = service.crea(null,indirizzo, localita, cap, stato);
         log.warn("Indirizzo: " + ind);
         return ind;
     }// end of method

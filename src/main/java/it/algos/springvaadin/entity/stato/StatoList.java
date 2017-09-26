@@ -8,6 +8,8 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
@@ -19,10 +21,14 @@ import javax.annotation.PostConstruct;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @SpringComponent
+@Slf4j
 @Qualifier(Cost.TAG_STA)
 public class StatoList extends AlgosListImpl {
 
     private AButton buttonImport;
+
+    @Autowired
+    private StatoService service;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -37,12 +43,26 @@ public class StatoList extends AlgosListImpl {
      * (si può usare qualsiasi firma)
      */
     @PostConstruct
-    private void inizia() {
+    private void inizializza() {
+        chekStatiEsistenti();
         caption = "</br>Lista visibile solo al developer.";
         caption += "</br>La collezione viene usata dalle altre collezioni come 'references' (tramite @DBRef) e non 'embedded'";
         caption += "</br>La key property ID utilizza la property alfaTre";
         caption += "</br>Le property nome, alfaDue e alfaTre sono uniche e non possono essere nulle";
         caption += "</br>La property numerico può essere nulla";
+    }// end of method
+
+
+    /**
+     * Crea una collezione di stati
+     * Controlla se la collezione esiste già
+     */
+    public void chekStatiEsistenti() {
+        if (service.count() < 2) {
+            service.creaStati();
+        } else {
+            log.info("La collezione di stati è presente");
+        }// end of if/else cycle
     }// end of method
 
 

@@ -2,6 +2,8 @@ package it.algos.springvaadin.service;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +39,24 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of Spring constructor
 
 
-//    /**
-//     * Creazione in memoria di una nuova entity che NON viene salvata
-//     * Eventuali regolazioni iniziali delle property
-//     */
-//    public AEntity newEntity() {
-//        return null;
-//    }// end of method
+    /**
+     * Controlla se la company è obbligatoria e se esiste
+     */
+    protected ACompanyEntity checkCompany(Company company, ACompanyEntity entity) {
+
+        if (company == null) {
+            company = LibSession.getCompany();
+        }// end of if cycle
+
+        if (company == null && LibAnnotation.isCompanyNotNull(Versione.class)) {
+            log.warn("Entity non creata perché manca la Company (obbligatoria)");
+            return null;
+        }// end of if cycle
+
+        entity.setCompany(company);
+
+        return entity;
+    }// end of method
 
 
     /**
@@ -72,23 +85,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public Object findOne(Serializable serializable) {
         return (AEntity) repository.findOne(serializable);
     }// end of method
-
-//    /**
-//     * Returns all entities of the type.
-//     * <p>
-//     * Senza filtri
-//     * Ordinati per ID
-//     * <p>
-//     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
-//     * L'annotation standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
-//     * Eseguo qui la conversione, che rimane trasparente al resto del programma
-//     *
-//     * @return all entities
-//     */
-//    @Override
-//    public List findAll() {
-//        return null;
-//    }// end of method
 
 
     /**

@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
  * Non prevede la differenziazione per Company
  */
 @SpringComponent
-@AIEntity(companyNotNull = true)
+@AIEntity(companyNotNull = false)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

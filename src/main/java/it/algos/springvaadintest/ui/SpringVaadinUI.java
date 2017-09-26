@@ -1,7 +1,9 @@
 package it.algos.springvaadintest.ui;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;

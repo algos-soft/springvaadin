@@ -29,7 +29,7 @@ import java.util.List;
  * <p>
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat) <br>
  * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
- *
+ * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
 @SpringComponent
@@ -85,19 +85,44 @@ public class CompanySpringBoot {
 
 
     /**
-     * Creazione di una entity
+     * Creazione di una company
+     * <p>
+     * Prima crea la company (senza indirizzo, che è facoltativo)
+     * Poi creo un stato
+     * Poi crea l'indirizzo, con la company (obbligatoria) e lo stato (facoltativo)
+     * Poi regola la company con l'indirizzo appena creato
+     * <p>
      * Log a video
      */
     private void creaCompanyDemo() {
-        log.warn("Company: " + service.crea("demo", "Algos s.r.l.", creaIndirizzoDemo()));
+        Company company = creaCompany();
+        Stato stato = creaStato();
+        Indirizzo indirizzo = creaIndirizzo(company, stato);
+
+        company.setIndirizzo(indirizzo);
+        try { // prova ad eseguire il codice
+            service.save(company);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        log.warn("Company: " + company);
     }// end of method
 
 
     /**
-     * Crea un indirizzo di company
+     * Crea la company (senza indirizzo, che è facoltativo)
      */
-    private Indirizzo creaIndirizzoDemo() {
-        return serviceIndirizzo.crea("Via Soderini, 55", "Milano", "20146", creaStato());
+    private Company creaCompany() {
+        return service.crea("demo", "Algos s.r.l.", (Indirizzo) null);
+    }// end of method
+
+
+    /**
+     * Crea l'indirizzo, con la company (obbligatoria) e con lo stato (facoltativo)
+     */
+    private Indirizzo creaIndirizzo(Company company, Stato stato) {
+        return serviceIndirizzo.crea(company,"Via Soderini, 55", "Milano", "20146", stato);
     }// end of method
 
 
@@ -107,7 +132,5 @@ public class CompanySpringBoot {
     private Stato creaStato() {
         return serviceStato.crea("Italia");
     }// end of method
-
-
 
 }// end of class
