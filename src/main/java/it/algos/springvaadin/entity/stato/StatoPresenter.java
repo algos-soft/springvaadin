@@ -24,15 +24,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class StatoPresenter extends AlgosPresenterImpl {
 
 
-
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public StatoPresenter(@Qualifier(Cost.TAG_STA) AlgosView view, @Qualifier(Cost.TAG_STA) AlgosService service,AlgosSearch search) {
-        super(view, service,search);
+    public StatoPresenter(@Qualifier(Cost.TAG_STA) AlgosView view, @Qualifier(Cost.TAG_STA) AlgosService service, AlgosSearch search) {
+        super(view, service, search);
         super.entityClass = Stato.class;
     }// end of Spring constructor
 
@@ -73,6 +72,7 @@ public class StatoPresenter extends AlgosPresenterImpl {
      * Creazione dei dati
      */
     public void creazione() {
+        ((StatoService) service).creaStati();
         super.presentaLista();
     }// end of method
 

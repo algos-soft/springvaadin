@@ -3,11 +3,16 @@ package it.algos.springvaadin.entity.stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibFile;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -16,6 +21,7 @@ import java.util.List;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
+@Slf4j
 @Qualifier(Cost.TAG_STA)
 public class StatoService extends AlgosServiceImpl {
 
@@ -214,34 +220,89 @@ public class StatoService extends AlgosServiceImpl {
     }// end of method
 
 
-//    public void alfa(String imageName) {
-////        String imageName = "AUS.png";
-//        Mongo mongo = new Mongo("localhost", 27017);
-//        DB db = mongo.getDB("test");
-//        DBCollection collection = db.getCollection("stato");
-//
-//
-//        byte[] byteStream = LibResource.getImgBytes(imageName);
-//        Binary data = new Binary(byteStream);
-//        BasicDBObject obj = new BasicDBObject();
-//        obj.append("name", "nomeLink").append("photo", data);
-//        collection.insert(obj);
-//        int a = 87;
-//
-////        Image imageA = LibResource.getImage("AUS.png");
-////        imageA.setHeight("4em");
-////        imageA.setWidth("8em");
-////
-////        //inizio
-////        String newFileName = "my-image";
-////        File imageFile = new File("/users/victor/images/image.png");
-////        GridFS gfsPhoto = new GridFS("test", "photo");
-////        GridFSInputFile gfsFile = gfsPhoto.createFile(imageFile);
-////        gfsFile.setFilename(newFileName);
-////        gfsFile.save();
-////        Resource stream = LibResource.getImgResource("AUS.svg");
-////        StreamResource resourceSVG = new StreamResource(stream, "graphe.svg");
-//    }// end of method
+    /**
+     * Creazione di una collezione di stati
+     */
+    public void creaStati() {
+        String fileName = "Stati";
+        List<String> righe = LibFile.readResources(fileName);
+        this.deleteAll();
 
+        for (String riga : righe) {
+            creaStato(riga);
+        }// end of for cycle
+    }// end of method
+
+
+    /**
+     * Creazione di un singolo stato
+     */
+    private boolean creaStato(String riga) {
+        String[] parti = riga.split(",");
+        Stato stato;
+        int ordine = 0;
+        String nome = "";
+        String alfaDue = "";
+        String alfaTre = "";
+        String numerico = "";
+        byte[] bandiera = null;
+
+        if (parti.length > 0) {
+            nome = parti[0];
+        }// end of if cycle
+        if (parti.length > 1) {
+            alfaDue = parti[1];
+        }// end of if cycle
+        if (parti.length > 2) {
+            alfaTre = parti[2];
+            bandiera = getImageBytes(alfaTre.toUpperCase());
+        }// end of if cycle
+        if (parti.length > 3) {
+            numerico = parti[3];
+        }// end of if cycle
+
+        stato = this.newEntity(ordine, nome, alfaDue, alfaTre, numerico, bandiera);
+
+        try { // prova ad eseguire il codice
+            stato = (Stato) this.save(stato);
+            if (bandiera == null || bandiera.length == 0) {
+                log.warn("Stato: " + riga + " - Manca la bandiera");
+            } else {
+                log.info("Stato: " + riga + " - Tutto OK");
+            }// end of if/else cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+            try { // prova ad eseguire il codice
+                stato = this.newEntity(ordine, nome, alfaDue, alfaTre, numerico, new byte[0]);
+                log.warn("Stato: " + riga + " - Dimensioni bandiera eccessive");
+            } catch (Exception unErrore2) { // intercetta l'errore
+                log.error("Stato: " + riga + " - Non sono riuscito a crearlo");
+            }// fine del blocco try-catch
+        }// fine del blocco try-catch
+
+        return stato != null;
+    }// end of method
+
+
+    /**
+     * Recupera una bandiera dalle risorse statiche
+     */
+    private byte[] getImageBytes(String alfaTre) {
+        byte[] imgBytes = new byte[0];
+        File filePath;
+//        String realPath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        String realPath = "/Users/gac/Documents/IdeaProjects/springvaadin/src/main/webapp/img/";
+        String name = alfaTre.toUpperCase();
+        String fullPath = realPath + name + ".png";
+
+        try { // prova ad eseguire il codice
+            filePath = new File(fullPath);
+            if (filePath.exists() && !filePath.isDirectory()) {
+                imgBytes = Files.readAllBytes(Paths.get(fullPath));
+            }// end of if cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return imgBytes;
+    }// end of method
 
 }// end of class

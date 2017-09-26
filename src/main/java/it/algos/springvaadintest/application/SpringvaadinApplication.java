@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,8 +32,13 @@ import javax.servlet.ServletException;
 @EnableMongoRepositories(basePackages = "it.algos.springvaadin")
 @ComponentScan({"it.algos.springvaadin", "it.algos.springvaadintest"})
 @EntityScan("it.algos.springvaadin.entity")
-public class SpringvaadinApplication {
+public class SpringvaadinApplication extends SpringBootServletInitializer {
 
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SpringvaadinApplication.class);
+    }// end of method
 
     /**
      * Constructor
@@ -41,7 +48,6 @@ public class SpringvaadinApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringvaadinApplication.class, args);
     }// end of constructor
-
 
 
 }// end of main class
