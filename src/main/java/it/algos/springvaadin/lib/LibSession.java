@@ -17,6 +17,14 @@ public abstract class LibSession {
     /**
      * Recupera dalla sessione l'attributo company
      */
+    public static boolean isCompanyValida() {
+        return getCompany() != null;
+    }// end of static method
+
+
+    /**
+     * Recupera dalla sessione l'attributo company
+     */
     public static Company getCompany() {
         return (Company) getAttribute(Attribute.company);
     }// end of static method

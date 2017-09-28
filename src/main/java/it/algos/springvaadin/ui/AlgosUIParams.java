@@ -1,6 +1,7 @@
 package it.algos.springvaadin.ui;
 
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 import it.algos.springvaadin.app.AlgosApp;
@@ -24,7 +25,7 @@ public abstract class AlgosUIParams extends UI {
 
 
     @Autowired
-    private AlgosStartService algosStartService;
+    protected AlgosStartService algosStartService;
 
     /**
      * Flag di utilizzo di tre componenti per la view (top, body e footer)

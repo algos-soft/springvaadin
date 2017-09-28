@@ -26,4 +26,15 @@ public class VersioneList extends AlgosListImpl {
         super(grid, toolbar);
     }// end of Spring constructor
 
+    /**
+     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+     * (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void inizializza() {
+        caption = "</br>Lista visibile solo all'admin.";
+        caption += "</br>Usa la company ma NON è obbligatoria";
+        caption += "</br>Solo il developer vede queste note";
+    }// end of method
+
 }// end of class

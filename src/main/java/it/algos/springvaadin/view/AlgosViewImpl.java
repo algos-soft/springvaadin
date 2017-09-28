@@ -152,38 +152,6 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     }// end of method
 
 
-//    /**
-//     * Abilita il bottone Revert del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    @Override
-//    public void enableRevert(boolean status) {
-//        form.enableRevert(status);
-//    }// end of method
-//
-//    /**
-//     * Abilita il bottone Registra del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    @Override
-//    public void enableRegistra(boolean status) {
-//        form.enableRegistra(status);
-//    }// end of method
-
-
-//    /**
-//     * Abilita il bottone Accetta del Form
-//     *
-//     * @param status true se abilitato, false se disabilitato
-//     */
-//    @Override
-//    public void enableAccetta(boolean status) {
-//        form.enableAccetta(status);
-//    }// end of method
-
-
     /**
      * Chiude la (eventuale) finestra utilizzata nel Form
      */

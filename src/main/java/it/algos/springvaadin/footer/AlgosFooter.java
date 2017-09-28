@@ -6,6 +6,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
 import org.springframework.context.annotation.Lazy;
@@ -21,7 +22,7 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public class AlgosFooter extends HorizontalLayout {
 
-    private String appMessage="";
+    private String appMessage = "";
 
     /**
      * Metodo invocato subito DOPO il costruttore
@@ -44,7 +45,9 @@ public class AlgosFooter extends HorizontalLayout {
 
         message += this.appMessage;
 
-        companyCode = LibSession.getCompany()!=null?LibSession.getCompany().getSigla():"";
+        boolean vero=LibSession.isCompanyValida();
+        Company company= LibSession.getCompany();
+        companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getSigla() : "";
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
             message += " - " + companyCode;
         }// end of if cycle
@@ -55,9 +58,9 @@ public class AlgosFooter extends HorizontalLayout {
         }// fine del blocco if
 
         //--colore
-        message = "<strong style=\"color:blue;font-family:verdana;font-size:80%;\">" + message + "</strong>";
+//        message = "<strong style=\"color:blue;font-family:verdana;font-size:80%;\">" + message + "</strong>";
         Label label = new Label(message, ContentMode.HTML);
-        label.addStyleName("rosso");
+//        label.addStyleName("rosso");
 
         this.addComponent(label);
     }// end of method

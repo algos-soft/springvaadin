@@ -8,8 +8,10 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.ui.AlgosUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +40,16 @@ public class SpringVaadinUI extends AlgosUI {
     @Override
     protected void inizia() {
         super.inizia();
+
+
+        String message = "Algos® ";
+        String companyCode = "";
+        boolean vero=LibSession.isCompanyValida();
+        Company company= LibSession.getCompany();
+        companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getSigla() : "";
+        if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
+            message += " - " + companyCode;
+        }// end of if cycle
         footer.setAppMessage("SpringVaadin 1.0");
         log.info("Versione dell'applicazione: SpringVaadin 1.0");
 

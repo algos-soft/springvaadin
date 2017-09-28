@@ -4,11 +4,14 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
+import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.view.ViewPlaceholder;
@@ -73,8 +76,18 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     protected void init(VaadinRequest request) {
         super.init(request);
 
-        //--Crea l'annotation utente (User Interface)
-        this.creaUI();
+        //--Controlla (se MultiUtenza) che sia stata selezionata una company valida
+        //--Crea la User Interface
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            if (LibSession.isCompanyValida()) {
+                this.creaUI();
+            } else {
+                LibAvviso.warn("Non sono riuscito a far partire il programma. Occorre indicare una company di riferimento");
+            }// end of if/else cycle
+        } else {
+            this.creaUI();
+        }// end of if/else cycle
+
     }// end of method
 
     /**
@@ -132,7 +145,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         }// fine del blocco try-catch
 
         try { // prova ad eseguire il codice
-//            log.info("Error ", "Pippoz");
             if (menuLayout != null) {
                 root.addComponent(menuLayout);
             }// end of if cycle
@@ -141,7 +153,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             root.addComponent(footer);
 
         } catch (Exception unErrore) { // intercetta l'errore
-//            Logger.logMsg(1, unErrore.toString());
         }// fine del blocco try-catch
 
 
@@ -175,15 +186,9 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             navView = ((AlgosNavView) view).getLinkedView();
         }// end of if cycle
 
-
         if (usaViewTreComponenti) {
             creaViewTreComponenti();
             viewPlaceholder.setContent((Component) navView);
-
-//            root.removeAllComponents();
-//            root.addComponent(menuLayout);
-//            root.addComponent((Component)view);
-//            root.addComponent(footer);
         } else {
             panel.setContent((Component) view);
         }// end of if/else cycle

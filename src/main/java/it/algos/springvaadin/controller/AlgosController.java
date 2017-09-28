@@ -4,9 +4,14 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
+import it.algos.springvaadin.service.AlgosStartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
@@ -56,9 +61,14 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping()
+@RestController
+@EnableAutoConfiguration
 public class AlgosController {
 
     private final static String NAME_APPLICATION = "wam";
+
+    @Autowired
+    private AlgosStartService startService;
 
     @RequestMapping("/hello/{name}")
     String hello(@PathVariable String name) {
@@ -152,10 +162,10 @@ public class AlgosController {
      * Costruisce un ritorno con (eventuale) modello dati e vista (url) di destinazione
      * (@todo mi ricorda molto Grails)
      */
-    @RequestMapping(value = "/errore")
+    @RequestMapping(value = "/erroremancacompany")
     public String erroreTipo(HttpServletRequest request) {
         //@todo posso estrarre le info dalla Request
-        return "errore";
+        return new LabelRosso("Manca una company valida. Non posso aprire l'applicazione.").getValue();
     }// end of method
 
     /**
@@ -179,7 +189,7 @@ public class AlgosController {
         if (AlgosApp.USE_MULTI_COMPANY) {
 
             //--se l'applicazione usaMultiCompany, deve esistere una tavola coi nomi delle company (valide)
-            String[] array = {"crf", "pap", "crpt", "gaps"};//@todo provvisorio
+            String[] array = {"demo", "crf", "pap", "crpt", "gaps"};//@todo provvisorio
             companies = LibArray.fromString(array);//@todo provvisorio
 
             //--esiste nel DB la company indicata?
@@ -212,33 +222,22 @@ public class AlgosController {
         String companyName = "";
         List<String> companies;
         String[] parti = uri.split("/");
-
-        if (parti != null && parti.length > 0) {
-            companyName = parti[1];
-        }// end of if cycle
+        Map<String, String[]> mappa2 = request.getParameterMap();
 
         //--l'applicazione usa usaMultiCompany?
         if (AlgosApp.USE_MULTI_COMPANY) {
 
-            //--se l'applicazione usaMultiCompany, deve esistere una tavola coi nomi delle company (valide)
-            String[] array = {"crf", "pap", "crpt", "gaps"};//@todo provvisorio
-            companies = LibArray.fromString(array);//@todo provvisorio
-
-            //--esiste nel DB la company indicata?
-            if (companies.contains(companyName)) {
-                HashMap<String, String> mappa = new HashMap();
-                mappa.put(Cost.KEY_MAP_COMPANY, companyName);
-                return new ModelAndView(new RedirectView("/"), mappa);
+            //--è specificata la company nella requeste ed esiste nel DB la company indicata?
+            if (startService.isCompanyValida(request)) {
+                AlgosApp.COMPANY_PROVVISORIA = startService.getCompany(request);
+                return new ModelAndView(new RedirectView("/?company=demo", true));
             } else {
-                //@todo non gestisce bene l'errore. Va alla partenza normale
-                ModelAndView modelAndView = new ModelAndView();
-                modelAndView.setViewName("/error");
+                return new ModelAndView(new RedirectView("/erroremancacompany", true));
             }// end of if/else cycle
         } else {
-            return new ModelAndView(new RedirectView("/", true));
+            return new ModelAndView(new RedirectView("/#!versione", true));
         }// end of if/else cycle
 
-        return new ModelAndView(new RedirectView("/", true));
     }// end of method
 
 
