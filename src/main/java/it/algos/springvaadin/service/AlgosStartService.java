@@ -78,17 +78,36 @@ public class AlgosStartService {
      * Creazione del wrapper di informazioni mantenuto nella sessione <br>
      */
     //@todo da sviluppare
-    public static boolean checkSecurity(VaadinRequest request) {
+    public  boolean checkSecurity(VaadinRequest request) {
         boolean continua = false;
+        LibSession.setLogin(null);
+        LibSession.setDeveloper(false);
+        LibSession.setAdmin(false);
+        String siglaUser = getSiglaUser(request);
 
-        Object alfa = request.getContextPath();
-        Object beta = request.getParameterMap();
-        Object delta = request.getPathInfo();
-        Object gamma = request.getCookies();
+        if (LibText.isValid(siglaUser)) {
+            if (siglaUser.equals("gac")) {
+                LibSession.setDeveloper(true);
+            }// end of if cycle
+        }// end of if cycle
 
         return continua;
     }// end of static method
 
+
+    public String getSiglaUser(VaadinRequest request) {
+        String siglaUser = "";
+        HttpServletRequest httpRequest;
+        String queryString;
+
+        if (request instanceof HttpServletRequest) {
+            httpRequest = (HttpServletRequest) request;
+            queryString = httpRequest.getQueryString();
+            siglaUser = getSiglaUser(queryString);
+        }// end of if cycle
+
+        return siglaUser;
+    }// end of  method
 
     /**
      * Controlla la company selezionata (sigla nell'url del browser come company=xxx)
@@ -106,7 +125,7 @@ public class AlgosStartService {
      */
     public boolean checkCompany(VaadinRequest request) {
         boolean continua = false;
-        LibSession.setCompany((Company)null);
+        LibSession.setCompany((Company) null);
         String siglaCompany = getSiglaCompany(request);
         Company company = null;
 
@@ -231,5 +250,41 @@ public class AlgosStartService {
         return queryMultiParams.toSingleValueMap();
     }// end of method
 
+    /**
+     * Recupera la sigla dell'Utente come parametro in ingresso.
+     * Il nickname del User, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /user=gac
+     * 2) /utente=gac
+     * 3) /admin=gac
+     * 4) /developer=gac
+     * 5) /?user=gac
+     * 6) /?utente=gac
+     * 7) /?admin=gac
+     * 8) /?developer=gac
+     * 9) /company=demo&user=gac
+     * 10) /?company=demo&user=gac
+     * 11) http://localhost:8090?demo&user=gac
+     * 12) /demo&user=gac
+     * 13) /?demo&user=gac
+     * 14) /user=gac&demo
+     * 15) /?user=gac&demo
+     */
+    public String getSiglaUser(String url) {
+        String siglaUser = "";
+        Map<String, String> mappaParams = getParams(url);
+        String[] tagUsers = {"user", "ute", "utente", "admin", "dev", "developer"};
+        String tagVuoto = "";
+        String tagIniPatch = "v-";
+
+        if (mappaParams.size() > 0) {
+            for (String tag : tagUsers) {
+                if (mappaParams.containsKey(tag)) {
+                    return mappaParams.get(tag);
+                }// end of if cycle
+            }// end of for cycle
+        }// end of if cycle
+
+        return siglaUser;
+    }// end of method
 
 }// end of static class

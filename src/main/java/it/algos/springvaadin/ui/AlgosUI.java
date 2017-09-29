@@ -81,7 +81,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         //--Controlla (se MultiUtenza) che sia stata selezionata una company valida
         //--Crea la User Interface
         if (AlgosApp.USE_MULTI_COMPANY) {
-            if (LibSession.isCompanyValida()) {
+            if (LibSession.isCompanyValida() || LibSession.isDeveloper()) {
                 this.creaUI();
             } else {
                 if (algosStartService.getSiglaCompany(request).equals("")) {

@@ -226,7 +226,171 @@ public class AlgosStarterServiceTest {
         uriSorgente = "v-1506692572130";
         siglaOttenuta = service.getSiglaCompany(uriSorgente);
         assertEquals(siglaOttenuta, "");
+    }// end of single test
+
+    /**
+     * Recupera i parametri in ingresso.
+     * 1) /demo
+     * 2) /demo=
+     * 3) /company=demo
+     * 4) /?company=demo
+     * 5) /?company=demo&user=gac
+     * 6) http://localhost:8090?demo
+     */
+    @Test
+    public void getParams2() {
+        String uriSorgente;
+        Map<String, String> queryParamsOttenuti;
+
+
+        uriSorgente = "http://localhost:8090?param1=value1&param2=&param3=value3&param3";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 3);
+        assertTrue(queryParamsOttenuti.containsKey("param1"));
+        assertTrue(queryParamsOttenuti.containsValue("value1"));
+        assertEquals(queryParamsOttenuti.get("param1"), "value1");
+        assertEquals(queryParamsOttenuti.get("param2"), "");
+        assertEquals(queryParamsOttenuti.get("param3"), "value3");
+
+        uriSorgente = "?param1=value1&param2=&param3=value3&param3";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 3);
+        assertTrue(queryParamsOttenuti.containsKey("param1"));
+        assertTrue(queryParamsOttenuti.containsValue("value1"));
+        assertEquals(queryParamsOttenuti.get("param1"), "value1");
+        assertEquals(queryParamsOttenuti.get("param2"), "");
+        assertEquals(queryParamsOttenuti.get("param3"), "value3");
+
+        uriSorgente = "param1=value1&param2=&param3=value3&param3";
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 3);
+        assertTrue(queryParamsOttenuti.containsKey("param1"));
+        assertTrue(queryParamsOttenuti.containsValue("value1"));
+        assertEquals(queryParamsOttenuti.get("param1"), "value1");
+        assertEquals(queryParamsOttenuti.get("param2"), "");
+        assertEquals(queryParamsOttenuti.get("param3"), "value3");
+
+        uriSorgente = "/demo&user=gac";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 2);
+        assertTrue(queryParamsOttenuti.containsKey("demo"));
+        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsValue("gac"));
+        assertEquals(queryParamsOttenuti.get("company"), null);
+        assertEquals(queryParamsOttenuti.get("user"), "gac");
+
+        uriSorgente = "/company=demo&user=gac";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 2);
+        assertTrue(queryParamsOttenuti.containsKey("company"));
+        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsValue("demo"));
+        assertTrue(queryParamsOttenuti.containsValue("gac"));
+        assertEquals(queryParamsOttenuti.get("company"), "demo");
+        assertEquals(queryParamsOttenuti.get("user"), "gac");
+
+        uriSorgente = "/?company=demo&user=gac";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 2);
+        assertTrue(queryParamsOttenuti.containsKey("company"));
+        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsValue("demo"));
+        assertTrue(queryParamsOttenuti.containsValue("gac"));
+        assertEquals(queryParamsOttenuti.get("company"), "demo");
+        assertEquals(queryParamsOttenuti.get("user"), "gac");
+
+        uriSorgente = "pippoz&v-1506692572130";
+        queryParamsOttenuti = service.getParams(uriSorgente);
+        assertNotNull(queryParamsOttenuti);
+        assertEquals(queryParamsOttenuti.size(), 2);
+    }// end of single test
+
+
+    /**
+     * Recupera la sigla dell'Utente come parametro in ingresso.
+     * Il nickname del User, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /user=gac
+     * 2) /utente=gac
+     * 3) /admin=gac
+     * 4) /developer=gac
+     * 5) /?user=gac
+     * 6) /?utente=gac
+     * 7) /?admin=gac
+     * 8) /?developer=gac
+     * 9) /company=demo&user=gac
+     * 10) /?company=demo&user=gac
+     * 11) http://localhost:8090?demo&user=gac
+     * 12) /demo&user=gac
+     * 13) /?demo&user=gac
+     * 14) /user=gac&demo
+     * 15) /?user=gac&demo
+     */
+    @Test
+    public void getSiglaUser() {
+        String uriSorgente;
+        String siglaOttenuta;
+
+        uriSorgente = "gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "");
+
+        uriSorgente = "user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "utente=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "admin=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "developer=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "?user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "?utente=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "?admin=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "?developer=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "company=demo&user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "?company=demo&user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "http://localhost:8090?demo&user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "demo&user=gac";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
+
+        uriSorgente = "user=gac&demo";
+        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        assertEquals(siglaOttenuta, "gac");
 
     }// end of single test
 
-}// end of test class
+    }// end of test class

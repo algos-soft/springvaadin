@@ -101,7 +101,7 @@ public class AlgosGrid extends Grid {
         int lar = 0;
 
         if (LibSession.isDeveloper()) {
-            lar = LibColumn.addColumns(this);
+            lar = LibColumn.addColumns(this.getBeanType(), this, colonneVisibili);
         } else {
             lar = LibColumn.addColumns(this.getBeanType(), this, colonneVisibili);
         }// end of if/else cycle

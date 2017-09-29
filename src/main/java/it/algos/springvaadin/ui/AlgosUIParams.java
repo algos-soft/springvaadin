@@ -6,6 +6,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosStartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,8 +193,12 @@ public abstract class AlgosUIParams extends UI {
 
         //--Controlla il login della security
         if (AlgosApp.USE_SECURITY) {
-            AlgosStartService.checkSecurity(request);
-        }// end of if cycle
+            algosStartService.checkSecurity(request);
+        } else {
+            LibSession.setDeveloper(true);
+        }// end of if/else cycle
+
+
 
         //--Controlla la company selezionata
         if (AlgosApp.USE_MULTI_COMPANY) {
