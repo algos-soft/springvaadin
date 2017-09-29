@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by gac on 30/05/17.
  * <p>
@@ -82,7 +84,11 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             if (LibSession.isCompanyValida()) {
                 this.creaUI();
             } else {
-                LibAvviso.warn("Non sono riuscito a far partire il programma. Occorre indicare una company di riferimento");
+                if (algosStartService.getSiglaCompany(request).equals("")) {
+                    LibAvviso.warn("Manca una company di riferimento");
+                } else {
+                    LibAvviso.warn("La company indicata non esiste");
+                }// end of if/else cycle
             }// end of if/else cycle
         } else {
             this.creaUI();

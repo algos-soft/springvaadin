@@ -89,6 +89,7 @@ public class AlgosStartService {
         return continua;
     }// end of static method
 
+
     /**
      * Controlla la company selezionata (sigla nell'url del browser come company=xxx)
      * È stata intercettata nella @RequestMapping di AlgosController
@@ -105,21 +106,9 @@ public class AlgosStartService {
      */
     public boolean checkCompany(VaadinRequest request) {
         boolean continua = false;
-        String siglaCompany = "";
+        LibSession.setCompany((Company)null);
+        String siglaCompany = getSiglaCompany(request);
         Company company = null;
-        HttpServletRequest httpRequest;
-        String queryString;
-
-        if (request instanceof HttpServletRequest) {
-            httpRequest = (HttpServletRequest) request;
-            queryString = httpRequest.getQueryString();
-            siglaCompany = getCompanyName(queryString);
-        }// end of if cycle
-
-//        @todo DEMO demo DEMO DA  LLEEVVAARREE
-//        if (siglaCompany.equals("")) {
-//            siglaCompany = "demo";
-//        }// end of if cycle
 
         if (LibText.isValid(siglaCompany)) {
             company = companyService.findBySigla(siglaCompany);
@@ -131,8 +120,21 @@ public class AlgosStartService {
         }// end of if cycle
 
         return continua;
-    }// end of static method
+    }// end of  method
 
+    public String getSiglaCompany(VaadinRequest request) {
+        String siglaCompany = "";
+        HttpServletRequest httpRequest;
+        String queryString;
+
+        if (request instanceof HttpServletRequest) {
+            httpRequest = (HttpServletRequest) request;
+            queryString = httpRequest.getQueryString();
+            siglaCompany = getSiglaCompany(queryString);
+        }// end of if cycle
+
+        return siglaCompany;
+    }// end of  method
 
     /**
      * Controlla che la company ricevuta come parametro in ingresso, sia valida
@@ -154,7 +156,7 @@ public class AlgosStartService {
      */
     public Company getCompany(HttpServletRequest request) {
         Company company = null;
-        String siglaCompany = getCompanyName(request.getRequestURI());
+        String siglaCompany = getSiglaCompany(request.getRequestURI());
 
         if (!siglaCompany.equals("")) {
             company = companyService.findBySigla(siglaCompany);
@@ -173,25 +175,29 @@ public class AlgosStartService {
      * 5) /?company=demo&user=gac
      * 6) http://localhost:8090?demo
      */
-    public static String getCompanyName(String url) {
+    public String getSiglaCompany(String url) {
         String companyName = "";
         Map<String, String> mappaParams = getParams(url);
         String tagCompany = "company";
         String tagVuoto = "";
+        String tagIniPatch = "v-";
 
         if (mappaParams.size() > 0) {
             if (mappaParams.containsKey(tagCompany)) {
                 companyName = mappaParams.get(tagCompany);
                 return companyName;
-            }// end of if cycle
-
-            if (mappaParams.size() == 1) {
+            } else {
+                Object[] chiavi = mappaParams.keySet().toArray();
                 Object[] valori = mappaParams.values().toArray();
+
+                if (mappaParams.size() == 1 && ((String) chiavi[0]).startsWith(tagIniPatch)) {
+                    return "";
+                }// end of if cycle
+
                 if (valori[0] == null || valori[0].equals(tagVuoto)) {
-                    Object[] chiavi = mappaParams.keySet().toArray();
                     return (String) chiavi[0];
                 }// end of if cycle
-            }// end of if cycle
+            }// end of if/else cycle
         }// end of if cycle
 
         return companyName;
@@ -207,7 +213,7 @@ public class AlgosStartService {
      * 5) /?company=demo&user=gac
      * 6) http://localhost:8090?demo
      */
-    public static Map getParams(String url) {
+    public Map getParams(String url) {
         MultiValueMap<String, String> queryMultiParams = null;
         String tagMettere = "?";
         String tagLevare = "/";

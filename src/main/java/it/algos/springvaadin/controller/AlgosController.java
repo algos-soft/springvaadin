@@ -8,6 +8,7 @@ import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosStartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -174,8 +175,49 @@ public class AlgosController {
      * Quando si arriva nella AlgosUIParams, la request ha come path solo "/"
      * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
      */
-    @RequestMapping()
+    @RequestMapping(value = {""}, method = RequestMethod.GET)
     public ModelAndView seleziono(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String companyName = "";
+        List<String> companies;
+        String[] parti = uri.split("/");
+
+        if (parti != null && parti.length > 0) {
+            companyName = parti[1];
+        }// end of if cycle
+
+        //--l'applicazione usa usaMultiCompany?
+        if (AlgosApp.USE_MULTI_COMPANY) {
+
+            //--se l'applicazione usaMultiCompany, deve esistere una tavola coi nomi delle company (valide)
+            String[] array = {"demo", "crf", "pap", "crpt", "gaps"};//@todo provvisorio
+            companies = LibArray.fromString(array);//@todo provvisorio
+
+            //--esiste nel DB la company indicata?
+            if (companies.contains(companyName)) {
+                HashMap<String, String> mappa = new HashMap();
+                mappa.put(Cost.KEY_MAP_COMPANY, companyName);
+                return new ModelAndView(new RedirectView("/"), mappa);
+            } else {
+                //@todo non gestisce bene l'errore. Va alla partenza normale
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.setViewName("/error");
+            }// end of if/else cycle
+        } else {
+            return new ModelAndView(new RedirectView("/", true));
+        }// end of if/else cycle
+
+        return new ModelAndView(new RedirectView("/", true));
+    }// end of method
+
+    /**
+     * Il controllo della company deve (DEVE) essere fatto qui,
+     * perché adesso la request è quella originale e contiene il nome della company nell'uri
+     * Quando si arriva nella AlgosUIParams, la request ha come path solo "/"
+     * Costruisce un ritorno con modello dati della company selezionata e vista (url) di destinazione
+     */
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public ModelAndView seleziono2(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String companyName = "";
         List<String> companies;
@@ -218,22 +260,29 @@ public class AlgosController {
      */
     @RequestMapping(value = {"*"}, method = RequestMethod.GET)
     public ModelAndView selezionoCompany(HttpServletRequest request) {
+        String tag = "/";
+        String tagParam = "?";
         String uri = request.getRequestURI();
-        String companyName = "";
-        List<String> companies;
-        String[] parti = uri.split("/");
-        Map<String, String[]> mappa2 = request.getParameterMap();
+        String[] parti = uri.split(tag);
+        String uriRedirect = "erroremancacompany";
 
         //--l'applicazione usa usaMultiCompany?
         if (AlgosApp.USE_MULTI_COMPANY) {
+            if (parti != null && parti.length > 1) {
+                uriRedirect = parti[1];
+                uriRedirect = LibText.levaTesta(uriRedirect, tag);
+                uriRedirect = tag + tagParam + uriRedirect;
+            }// end of if cycle
 
-            //--è specificata la company nella requeste ed esiste nel DB la company indicata?
-            if (startService.isCompanyValida(request)) {
-                AlgosApp.COMPANY_PROVVISORIA = startService.getCompany(request);
-                return new ModelAndView(new RedirectView("/?company=demo", true));
-            } else {
-                return new ModelAndView(new RedirectView("/erroremancacompany", true));
-            }// end of if/else cycle
+            return new ModelAndView(new RedirectView(uriRedirect, true));
+
+//            //--è specificata la company nella requeste ed esiste nel DB la company indicata?
+//            if (startService.isCompanyValida(request)) {
+//                AlgosApp.COMPANY_PROVVISORIA = startService.getCompany(request);
+//                return new ModelAndView(new RedirectView("/?company=demo", true));
+//            } else {
+//                return new ModelAndView(new RedirectView("/", true));
+//            }// end of if/else cycle
         } else {
             return new ModelAndView(new RedirectView("/#!versione", true));
         }// end of if/else cycle

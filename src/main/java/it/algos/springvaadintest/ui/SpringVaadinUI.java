@@ -31,16 +31,31 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class SpringVaadinUI extends AlgosUI {
 
-    /**
-     * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
-     * Serve per regolare eventuali parametri utilizzati nel metodo init(VaadinRequest request)
-     * Stampa a video (productionMode) i valori per controllo
-     */
-    @PostConstruct
-    @Override
-    protected void inizia() {
-        super.inizia();
-
+//    /**
+//     * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
+//     * Serve per regolare eventuali parametri utilizzati nel metodo init(VaadinRequest request)
+//     * Stampa a video (productionMode) i valori per controllo
+//     */
+//    @PostConstruct
+//    @Override
+//    protected void inizia() {
+        /**
+         * Initializes this UI.
+         * This method is intended to build the view and configure non-component functionality.
+         * Performing the initialization in a constructor is not suggested as the state of the UI
+         * is not properly set up when the constructor is invoked.
+         * <p>
+         * The {@link VaadinRequest} can be used to get information about the request that caused this UI to be created.
+         * </p>
+         * Se viene sovrascritto dalla sottoclasse, deve (DEVE) richiamare anche il metodo della superclasse
+         * di norma DOPO aver effettuato alcune regolazioni <br>
+         * Nella sottoclasse specifica viene eventualmente regolato il nome del modulo di partenza <br>
+         *
+         * @param request the Vaadin request that caused this UI to be created
+         */
+        @Override
+        protected void init(VaadinRequest request) {
+            super.init(request);
 
         String message = "Algos® ";
         String companyCode = "";
