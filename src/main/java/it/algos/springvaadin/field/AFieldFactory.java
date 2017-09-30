@@ -1,5 +1,6 @@
 package it.algos.springvaadin.field;
 
+import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
 /**
@@ -28,7 +29,7 @@ public interface AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName);
+    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName);
 
 
 }// end of interface

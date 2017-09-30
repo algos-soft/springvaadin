@@ -181,6 +181,9 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
     protected void registraLink(ApplicationListener source, ApplicationListener target, AField sourceField) {
     }// end of method
 
+    protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
+    }// end of method
+
     /**
      * Evento 'accetta' (conferma) button pressed in form
      * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
@@ -309,13 +312,13 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
                 editLink(source, entityBean, sourceField, type);
                 break;
             case editLinkNoDBRef:
-//                    editLink(entityBean, parentField, type);
+                editLink(source, entityBean, sourceField, type);
                 break;
             case linkRegistra:
                 registraLink(source, target, sourceField);
                 break;
             case linkAccetta:
-//                    editLink(entityBean, parentField);
+                registraLinkBack(source, entityBean, sourceField);
                 break;
 //            case image:
 //                editImage(entityBean, parentField);

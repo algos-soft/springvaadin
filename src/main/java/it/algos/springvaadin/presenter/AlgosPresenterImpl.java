@@ -173,9 +173,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setFormLink(source, entityBean, sourceField, reflectFields, type == AButtonType.editLinkDBRef);
-
-//        ((AlgosViewImpl) view).getForm().setParentField(sourceField);
+        view.setFormLink(source, entityBean, sourceField, reflectFields, type);
     }// end of method
 
 
@@ -403,13 +401,24 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     protected void registraLink(ApplicationListener target, ApplicationListener source, AField sourceField) {
         if (registraModifiche()) {
-            ((ALinkField) sourceField).refreshFromDB(view.commit());
+            ((ALinkField) sourceField).refreshFromDialogLinkato(view.commit());
             AEntity entityBean = view.getFormEntityBean();
             publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, source, target, entityBean, sourceField));
             LibAvviso.info("Le modifiche sono state registrate");
         }// end of if cycle
     }// end of method
 
+    protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
+        AEntity entityBeanNew = null;
+
+        if (view.entityIsOk()) {
+            entityBeanNew = view.commit();
+            entityBeanNew.id = "";
+            view.closeFormWindow();
+        }// end of if cycle
+
+        publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, target, target, entityBeanNew, sourceField));
+    }// end of method
 
     /**
      * Evento 'accetta' (conferma) button pressed in form

@@ -26,7 +26,7 @@ public interface AlgosForm {
      *
      * @param source                presenter di riferimento da cui vengono generati gli eventi
      * @param entityBean            istanza da elaborare
-     * @param reflectFields                campi del form da visualizzare
+     * @param reflectFields         campi del form da visualizzare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     public void restart(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
@@ -38,11 +38,11 @@ public interface AlgosForm {
      * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param entityBean         istanza da elaborare
-     * @param reflectFields             campi del form da visualizzare
+     * @param reflectFields      campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source,ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, boolean usaBottoneRegistra);
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type);
 
     /**
      * Esegue il 'rollback' del Form

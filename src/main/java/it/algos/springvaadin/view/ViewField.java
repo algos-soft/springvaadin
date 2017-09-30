@@ -59,7 +59,7 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(type, source, target, publicFieldName);
+            field = fieldFactory.crea(clazz,type, source, target, publicFieldName);
         }// end of if cycle
 
         //@todo aggiungere la nullSelection letta dalla Annotation

@@ -58,7 +58,7 @@ public class Company extends AEntity {
 
 
     //--indirizzo (facoltativo)
-    @DBRef
+//    @DBRef
     @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
     private Indirizzo indirizzo;

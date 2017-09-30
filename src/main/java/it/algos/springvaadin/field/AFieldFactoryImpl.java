@@ -5,6 +5,8 @@ import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.dialog.ImageDialog;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,9 +86,8 @@ public class AFieldFactoryImpl implements AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName) {
+    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName) {
         AField field = null;
-        AButton button = null;
 
         try { // prova ad eseguire il codice
             switch (type) {
@@ -118,8 +119,12 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    ((ALinkField)field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
-                    ((ALinkField)field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, target, field));
+                    if (LibAnnotation.isDBRef(clazz,publicFieldName)) {
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
+                    } else {
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, target, field));
+                    }// end of if/else cycle
+                    ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, target, field));
                     break;
                 default: // caso non definito
                     break;

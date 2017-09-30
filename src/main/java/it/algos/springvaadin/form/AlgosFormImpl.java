@@ -13,6 +13,7 @@ import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.AToolbarImpl;
+import it.algos.springvaadin.toolbar.LinkToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,9 +122,15 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, boolean usaBottoneRegistra) {
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type) {
         this.entityBean = entityBean;
+
         toolbar = toolbarLink;
+        if (type == AButtonType.editLinkDBRef) {
+            ((LinkToolbar) toolbar).setUsaBottoneRegistra(true);
+        } else {
+            ((LinkToolbar) toolbar).setUsaBottoneRegistra(false);
+        }// end of if/else cycle
         usaSeparateFormDialog(source, target, entityBean, sourceField, reflectFields);
     }// end of method
 

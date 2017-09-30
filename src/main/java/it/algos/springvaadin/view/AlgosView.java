@@ -61,7 +61,7 @@ public interface AlgosView extends View {
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, boolean usaBottoneRegistra);
+    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type);
 
 
     /**

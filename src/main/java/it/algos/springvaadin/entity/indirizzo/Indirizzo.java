@@ -41,7 +41,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Indirizzo extends ACompanyEntity {
+public class Indirizzo extends AEntity {
 
 
     /**

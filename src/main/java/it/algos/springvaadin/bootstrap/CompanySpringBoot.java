@@ -83,48 +83,17 @@ public class CompanySpringBoot {
         return service.count() == 0;
     }// end of method
 
-
     /**
      * Creazione di una company
-     * <p>
-     * Prima crea la company (senza indirizzo, che è facoltativo)
-     * Poi creo un stato
-     * Poi crea l'indirizzo, con la company (obbligatoria) e lo stato (facoltativo)
-     * Poi regola la company con l'indirizzo appena creato
-     * <p>
      * Log a video
      */
     private void creaCompanyDemo() {
-        Company company = creaCompany();
         Stato stato = creaStato();
-        Indirizzo indirizzo = creaIndirizzo(company, stato);
-
-        company.setIndirizzo(indirizzo);
-        try { // prova ad eseguire il codice
-            service.save(company);
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
+        Indirizzo indirizzo = new Indirizzo("Via Soderini, 55", "Milano", "20146", stato);
+        Company company = service.crea("demo", "Algos s.r.l.", indirizzo);
 
         log.warn("Company: " + company);
     }// end of method
-
-
-    /**
-     * Crea la company (senza indirizzo, che è facoltativo)
-     */
-    private Company creaCompany() {
-        return service.crea("demo", "Algos s.r.l.", (Indirizzo) null);
-    }// end of method
-
-
-    /**
-     * Crea l'indirizzo, con la company (obbligatoria) e con lo stato (facoltativo)
-     */
-    private Indirizzo creaIndirizzo(Company company, Stato stato) {
-        return serviceIndirizzo.crea(company,"Via Soderini, 55", "Milano", "20146", stato);
-    }// end of method
-
 
     /**
      * Recupera (se esiste già) oppure crea uno stato per l'indirizzo di company

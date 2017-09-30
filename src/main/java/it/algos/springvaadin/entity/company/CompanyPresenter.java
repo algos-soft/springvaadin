@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
@@ -39,14 +40,8 @@ public class CompanyPresenter extends AlgosPresenterImpl {
 
     @Override
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
-        Company company = (Company) view.commit();
-        company.setIndirizzo((Indirizzo) entityBean);
-        try { // prova ad eseguire il codice
-            service.save(company);
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.getMessage());
-        }// fine del blocco try-catch
-        ((ALinkField) sourceField).refreshFromDB(entityBean);
+        ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
+        this.view.enableButtonForm(AButtonType.registra,true);
     }// end of method
 
 }// end of class

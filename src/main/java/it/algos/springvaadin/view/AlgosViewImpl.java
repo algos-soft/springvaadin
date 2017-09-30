@@ -98,9 +98,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<Field> reflectFields, boolean usaBottoneRegistra) {
+    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
         removeAllComponents();
-        form.restartLink(source,presenter, sourceField, entityBean, reflectFields, usaBottoneRegistra);
+        form.restartLink(source,presenter, sourceField, entityBean, reflectFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);

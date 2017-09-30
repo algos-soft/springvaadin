@@ -105,7 +105,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (vuota e non salvata)
      */
     public Indirizzo newEntity(Company company, String indirizzo, String localita, String cap, Stato stato) {
-        return (Indirizzo) checkCompany(company, new Indirizzo(indirizzo, localita, cap, stato));
+        return  new Indirizzo(indirizzo, localita, cap, stato);
     }// end of method
 
 
