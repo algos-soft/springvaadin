@@ -1,10 +1,11 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.entity.AEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 30-set-17
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
@@ -29,7 +30,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class @ENTITY@ extends AEntity {
+public class Log extends ACompanyEntity {
 
 
     //--versione della classe per la serializzazione

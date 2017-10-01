@@ -1,5 +1,5 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
+package it.algos.springvaadin.entity.log;
+
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 30-set-17
  * Annotated with @Service (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @Service
-@Qualifier(@TAG@)
-public class @ENTITY@Service extends AlgosServiceImpl {
+@Qualifier(Cost.TAG_LOG)
+public class LogService extends AlgosServiceImpl {
 
 
     /**
@@ -25,7 +25,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
+    public LogService(@Qualifier(Cost.TAG_LOG) MongoRepository repository) {
         super(repository);
     }// end of Spring constructor
 
@@ -35,10 +35,10 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      *
      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
      */
-    public @ENTITY@ crea(String sigla) {
-        @ENTITY@ entity = ((@ENTITY@Repository) repository).findBySigla(sigla);
+    public Log crea(String sigla) {
+        Log entity = ((LogRepository) repository).findBySigla(sigla);
         if (entity == null) {
-            entity = (@ENTITY@) repository.save(newEntity(sigla));
+            entity = (Log) repository.save(newEntity(sigla));
         }// end of if cycle
 
         return entity;
@@ -49,7 +49,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
       * Creazione in memoria di una nuova entity che NON viene salvata
       * Eventuali regolazioni iniziali delle property
       */
-     public @ENTITY@ newEntity() {
+     public Log newEntity() {
          return newEntity("");
      }// end of method
 
@@ -60,8 +60,8 @@ public class @ENTITY@Service extends AlgosServiceImpl {
       *
       * @param sigla di riferimento interna (interna, obbligatoria ed unica)
       */
-     public @ENTITY@ newEntity(String sigla) {
-         return new @ENTITY@(sigla);
+     public Log newEntity(String sigla) {
+         return new Log(sigla);
      }// end of method
 
 
@@ -71,7 +71,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * @return all entities
      */
     public List findAll() {
-        return ((@ENTITY@Repository) repository).findAll();
+        return ((LogRepository) repository).findAll();
     }// end of method
 
 }// end of class

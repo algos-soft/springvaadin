@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name="newPackage" default="creaPackage">
+<project name="newPackage" default="creaPackageSpringvaadin">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="xxx"/>
+    <property name="newEntity" value="Log"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->

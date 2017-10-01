@@ -1,5 +1,5 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
+package it.algos.springvaadin.entity.log;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 30-set-17
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(@TAG@)
-public class @ENTITY@Form extends AlgosFormImpl {
+@Qualifier(Cost.TAG_LOG)
+public class LogForm extends AlgosFormImpl {
 
 
     /**
@@ -26,7 +26,7 @@ public class @ENTITY@Form extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public @ENTITY@Form (@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+    public LogForm (@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
                         @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
