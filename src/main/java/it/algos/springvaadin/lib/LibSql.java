@@ -174,6 +174,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
+    @Deprecated
     public static String getQueryUpdate(AEntity entityBean) {
         return getQueryUpdate(LibReflection.getTable(entityBean), entityBean);
     }// end of static method
@@ -186,6 +187,7 @@ public class LibSql {
      *
      * @return stringa della query
      */
+    @Deprecated
     public static String getQueryUpdate(String tableName, AEntity entityBean) {
         return getQueryUpdate(tableName, getAllFieldNameWithValidValue(entityBean));
     }// end of static method
@@ -200,7 +202,7 @@ public class LibSql {
      */
     private static List<String> getAllFieldNameWithValidValue(final AEntity entityBean) {
         ArrayList lista = new ArrayList();
-        List<String> allEsistenti = LibReflection.getAllFieldNameAlfabetico(entityBean);
+        List<String> allEsistenti = LibReflection.getAllFieldNames(entityBean.getClass());
         Object value;
 
         for (String name : allEsistenti) {

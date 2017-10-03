@@ -145,15 +145,17 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public List<String> getListColumnNames() {
         List<String> listaNomi = null;
-        boolean showsID = false;
+        boolean useID = false;
+        boolean useCompany = false;
 
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getListColumns(entityClass);
 
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
         if (listaNomi == null) {
-            showsID = LibAnnotation.isListShowsID(entityClass);
-            listaNomi = LibReflection.getAllFieldName(entityClass, showsID);
+            useID = LibAnnotation.isListShowsID(entityClass);
+            useCompany = LibParams.useMultiCompany();
+            listaNomi = LibReflection.getAllFieldNames(entityClass, useID, useCompany);
         }// end of if cycle
 
         return listaNomi;

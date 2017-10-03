@@ -22,82 +22,45 @@ import java.util.List;
 public abstract class LibReflection {
 
 
-//    /**
-//     * Field property di una EntityClass
-//     *
-//     * @param entityClazz     su cui operare la riflessione
-//     * @param publicFieldName property name
-//     */
-//    public static Field getField(Class<? extends AEntity> entityClazz, final String publicFieldName) {
-//        Field field = null;
-//
-//        try { // prova ad eseguire il codice
-//            field = entityClazz.getDeclaredField(publicFieldName);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//        }// fine del blocco try-catch
-//
-//        return field;
-//    }// end of static method
-
-
     /**
-     * All fields properties di una EntityClass
+     * Fields dichiarati nella Entity
      *
-     * @param entityClazz su cui operare la riflessione
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields da considerare per List e Form
      */
-    @Deprecated
-    private static List<Field> getAllFieldsBase(Class<? extends AEntity> entityClazz, boolean idCompreso) {
-        List<Field> fieldsList = null;
-        Field[] fieldsArray = null;
-        String fieldName = "";
-
-        try { // prova ad eseguire il codice
-            fieldsArray = entityClazz.getDeclaredFields();
-            fieldsList = new ArrayList();
-
-            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
-                Field[] fieldsArray2 = ACompanyEntity.class.getDeclaredFields();
-
-                for (Field field : fieldsArray2) {
-                    fieldName = field.getName();
-                    if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
-                        fieldsList.add(field);
-                    }// end of if cycle
-                }// end of for cycle
-                int a = 87;
-            }// end of if cycle
-
-
-            if (idCompreso) {
-                fieldsList.add(entityClazz.getFields()[0]);
-            }// end of if cycle
-
-            for (Field field : fieldsArray) {
-                fieldName = field.getName();
-                if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
-                    fieldsList.add(field);
-                }// end of if cycle
-            }// end of for cycle
-
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return fieldsList;
+    @SuppressWarnings("all")
+    public static List<Field> getFields(Class<? extends AEntity> entityClazz) {
+        return getFields(entityClazz, (List) null, false, false);
     }// end of static method
+
 
     /**
      * Fields dichiarati nella Entity
-     * <p>
-     * Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
-     * Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (con o senza ID)
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param addKeyID      flag per aggiungere (per primo) il field keyId
+     * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
+     *
+     * @return lista di fields da considerare per List e Form
+     */
+    @SuppressWarnings("all")
+    public static List<Field> getFields(Class<? extends AEntity> entityClazz, boolean addKeyID, boolean addKeyCompany) {
+        return getFields(entityClazz, (List) null, addKeyID, addKeyCompany);
+    }// end of static method
+
+
+    /**
+     * Fields dichiarati nella Entity
      *
      * @param entityClazz   da cui estrarre i fields
      * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
      * @param addKeyID      flag per aggiungere (per primo) il field keyId
      * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
      *
-     * @return lista di fields
+     * @return lista di fields da considerare per List e Form
      */
+    @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
         Field[] fieldsArray = null;
@@ -114,14 +77,16 @@ public abstract class LibReflection {
 
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
-        for (Field field : fieldsArray) {
-            fieldName = field.getName();
-            if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
-                if (listaNomi == null || listaNomi.contains(fieldName)) {
-                    fieldsList.add(field);
+        if (fieldsArray != null && fieldsArray.length > 0) {
+            for (Field field : fieldsArray) {
+                fieldName = field.getName();
+                if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                    if (listaNomi == null || listaNomi.contains(fieldName)) {
+                        fieldsList.add(field);
+                    }// end of if cycle
                 }// end of if cycle
-            }// end of if cycle
-        }// end of for cycle
+            }// end of for cycle
+        }// end of if cycle
 
         //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento
         if (addKeyCompany && ACompanyEntity.class.isAssignableFrom(entityClazz)) {
@@ -139,30 +104,6 @@ public abstract class LibReflection {
         }// end of if cycle
 
         return fieldsList;
-    }// end of method
-
-
-    /**
-     * All fields properties di una EntityClass, compreso l'ID
-     *
-     * @param entityClazz su cui operare la riflessione
-     *
-     * @return lista di fields
-     */
-    public static List<Field> getAllFieldsPiuID(Class<? extends AEntity> entityClazz) {
-        return getAllFieldsBase(entityClazz, true);
-    }// end of static method
-
-
-    /**
-     * All fields properties di una EntityClass, escluso l'ID
-     *
-     * @param entityClazz su cui operare la riflessione
-     *
-     * @return lista di fields
-     */
-    public static List<Field> getAllFieldsNoID(Class<? extends AEntity> entityClazz) {
-        return getAllFieldsBase(entityClazz, false);
     }// end of static method
 
 
@@ -170,19 +111,16 @@ public abstract class LibReflection {
      * All field names di una EntityClass
      *
      * @param entityClazz su cui operare la riflessione
+     * @param useID       per comprendere anche il field key ID
+     * @param useCompany  per comprendere anche il field company
      *
      * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
-    public static List<String> getAllFieldName(final Class<? extends AEntity> entityClazz, boolean showsID) {
+    public static List<String> getAllFieldNames(final Class<? extends AEntity> entityClazz, boolean useID, boolean useCompany) {
         List<String> nameList = null;
         List<Field> fieldsList = null;
 
-        if (showsID) {
-            fieldsList = getAllFieldsPiuID(entityClazz);
-        } else {
-            fieldsList = getAllFieldsNoID(entityClazz);
-        }// end of if/else cycle
-
+        fieldsList = getFields(entityClazz, useID, useCompany);
         if (fieldsList != null && fieldsList.size() > 0) {
             nameList = new ArrayList();
             for (Field field : fieldsList) {
@@ -194,16 +132,28 @@ public abstract class LibReflection {
     }// end of static method
 
 
-    /**
-     * All field names di una Entity
-     *
-     * @param entityBean su cui operare la riflessione
-     *
-     * @return tutte i fieldNames, elencati in ordine alfabetico
-     */
-    public static List<String> getAllFieldNameAlfabetico(final AEntity entityBean) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(), false));
-    }// end of static method
+//    /**
+//     * All fields properties di una EntityClass, compreso l'ID
+//     *
+//     * @param entityClazz su cui operare la riflessione
+//     *
+//     * @return lista di fields
+//     */
+//    public static List<Field> getAllFieldsPiuID(Class<? extends AEntity> entityClazz) {
+//        return getAllFieldsBase(entityClazz, true);
+//    }// end of static method
+
+
+//    /**
+//     * All fields properties di una EntityClass, escluso l'ID
+//     *
+//     * @param entityClazz su cui operare la riflessione
+//     *
+//     * @return lista di fields
+//     */
+//    public static List<Field> getAllFieldsNoID(Class<? extends AEntity> entityClazz) {
+//        return getAllFieldsBase(entityClazz, false);
+//    }// end of static method
 
 
     /**
@@ -211,11 +161,63 @@ public abstract class LibReflection {
      *
      * @param entityClazz su cui operare la riflessione
      *
-     * @return tutte i fieldNames, elencati in ordine alfabetico
+     * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
-    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AEntity> entityClazz) {
-        return LibArray.sort((ArrayList) getAllFieldName(entityClazz, false));
+    public static List<String> getAllFieldNames(final Class<? extends AEntity> entityClazz) {
+        return getAllFieldNames(entityClazz, false, false);
     }// end of static method
+
+
+//    /**
+//     * All field names di una EntityClass
+//     *
+//     * @param entityClazz su cui operare la riflessione
+//     *
+//     * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
+//     */
+//    public static List<String> getAllFieldName(final Class<? extends AEntity> entityClazz, boolean showsID) {
+//        List<String> nameList = null;
+//        List<Field> fieldsList = null;
+//
+//        if (showsID) {
+//            fieldsList = getAllFieldsPiuID(entityClazz);
+//        } else {
+//            fieldsList = getAllFieldsNoID(entityClazz);
+//        }// end of if/else cycle
+//
+//        if (fieldsList != null && fieldsList.size() > 0) {
+//            nameList = new ArrayList();
+//            for (Field field : fieldsList) {
+//                nameList.add(field.getName());
+//            }// end of for cycle
+//        }// end of if cycle
+//
+//        return nameList;
+//    }// end of static method
+
+
+//    /**
+//     * All field names di una Entity
+//     *
+//     * @param entityBean su cui operare la riflessione
+//     *
+//     * @return tutte i fieldNames, elencati in ordine alfabetico
+//     */
+//    public static List<String> getAllFieldNameAlfabetico(final AEntity entityBean) {
+//        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(), false));
+//    }// end of static method
+//
+//
+//    /**
+//     * All field names di una EntityClass
+//     *
+//     * @param entityClazz su cui operare la riflessione
+//     *
+//     * @return tutte i fieldNames, elencati in ordine alfabetico
+//     */
+//    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AEntity> entityClazz) {
+//        return LibArray.sort((ArrayList) getAllFieldName(entityClazz, false));
+//    }// end of static method
 
 
 //    /**
@@ -498,7 +500,7 @@ public abstract class LibReflection {
      */
     public static List<Method> getMethods(Class<? extends AEntity> entityClazz) {
         List<Method> methods = null;
-        List<String> propertyNames = getAllFieldName(entityClazz, false);
+        List<String> propertyNames = getAllFieldNames(entityClazz, false, false);
 
         if (propertyNames != null && propertyNames.size() > 0) {
             methods = new ArrayList();
