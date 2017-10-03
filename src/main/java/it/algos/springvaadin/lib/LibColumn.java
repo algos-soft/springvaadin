@@ -19,6 +19,11 @@ import java.util.Locale;
  */
 public abstract class LibColumn {
 
+
+    private final static int WIDTH_TEXT_NORMAL = 80;
+    private final static int WIDTH_LOCAL_DATE_TIME = 130;
+
+
     public static Annotation getAnnotation(Field field) {
         return field.getAnnotation(AIColumn.class);
     }// end of method
@@ -40,7 +45,7 @@ public abstract class LibColumn {
 
     /**
      * Aggiunge una colonna
-     * Se ci sono Annotazioni, le regola
+     * Se ci sono Annotazioni, la regola
      */
     public static int addColumn(final Class<? extends AEntity> clazz, Grid grid, String publicFieldName) {
         AIColumn columnAnnotation = getColumnAnnotation(clazz, publicFieldName);
@@ -48,6 +53,7 @@ public abstract class LibColumn {
         AFieldType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
         String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
         int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
+
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
 
@@ -57,7 +63,12 @@ public abstract class LibColumn {
 
         colonna = grid.addColumn(publicFieldName);
         colonna.setCaption(name);
-        colonna.setWidth(width > 0 ? width : 80);
+        colonna.setWidth(width > 0 ? width : WIDTH_TEXT_NORMAL);
+
+        if (type == AFieldType.localdatetime) {
+            colonna.setRenderer(renderLocal);
+            colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
+        }// end of if cycle
 
         if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
             colonna.setWidth(LibAnnotation.getListWithID(clazz));

@@ -129,100 +129,59 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
 
-//    /**
-//     * Fields visibili (e ordinati) nel Form
-//     * Può essere modificato nella sottoclasse
-//     * Il campo key ID normalmente non si visualizza
-//     * <p>
-//     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
-//     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-//     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-//     * 4) Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
-//     *
-//     * @return lista di fields visibili nel Form
-//     */
-//    @Override
-//    @Deprecated
-    public List<String> getFormFields() {
-        List<String> lista = null;
-//        boolean showsID = false;
-//
-//        //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-//        lista = LibAnnotation.getFormFields(entityClass);
-//
-//        //--Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
-//        showsID = LibAnnotation.isFormShowsID(entityClass);
-//        if (lista != null && showsID) {
-//            ArrayList<String> listaTmp = new ArrayList<>();
-//            listaTmp.add(Cost.PROPERTY_ID);
-//            listaTmp.addAll(lista);
-//            lista = listaTmp;
-//        }// end of if cycle
-//
-//        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-//        if (lista == null) {
-//            lista = LibReflection.getAllFieldName(entityClass, showsID);
-//        }// end of if cycle
-//
-//
-//        log.error(displayCompany() + "");
-//
-        return lista;
-    }// end of method
-
-
     /**
      * Colonne visibili (e ordinate) nella Grid
-     * Può essere modificato nella sottoclasse
+     * Sovrascrivibile
      * La colonna ID normalmente non si visualizza
-     * <p>
-     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
-     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIList(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
      *
-     * @return lista di colonne visibili nella Grid
+     * @return lista di nomi di colonne visibili nella Grid
      */
     @Override
-    public List<String> getListColumns() {
-        List<String> lista = null;
+    public List<String> getListColumnNames() {
+        List<String> listaNomi = null;
         boolean showsID = false;
 
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-        lista = LibAnnotation.getListColumns(entityClass);
+        listaNomi = LibAnnotation.getListColumns(entityClass);
 
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-        if (lista == null) {
+        if (listaNomi == null) {
             showsID = LibAnnotation.isListShowsID(entityClass);
-            lista = LibReflection.getAllFieldName(entityClass, showsID);
+            listaNomi = LibReflection.getAllFieldName(entityClass, showsID);
         }// end of if cycle
 
-        return lista;
+        return listaNomi;
     }// end of method
 
 
     /**
-     * Fields visibili nel Form
+     * Fields visibili (e ordinati) nel Form
      * Sovrascrivibile
      * Il campo key ID normalmente non viene visualizzato
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
-     * 2) Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-     * 3) Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (senza ID)
-     * 4) Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
      * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
      * Ad esempio: company della classe ACompanyEntity
-     * <p>
      *
-     * @return lista di fields da visualizzare nel Form
+     * @return lista di fields visibili nel Form
      */
     @Override
-    public List<Field> getFields() {
+    public List<Field> getFormFields() {
         List<String> listaNomi = null;
 
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getFormFields(entityClass);
 
-        //--Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
-        //--Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (con o senza ID)
+        //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+        //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
         return LibReflection.getFields(
                 entityClass, listaNomi,
                 LibAnnotation.isFormShowsID(entityClass),

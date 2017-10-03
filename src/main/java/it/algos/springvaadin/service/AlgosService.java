@@ -101,49 +101,34 @@ public interface AlgosService {
 
     /**
      * Colonne visibili (e ordinate) nella Grid
-     * Può essere modificato nella sottoclasse
+     * Sovrascrivibile
      * La colonna ID normalmente non si visualizza
-     * <p>
-     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
-     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIList(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
      *
-     * @return lista di colonne visibili nella Grid
+     * @return lista di nomi di colonne visibili nella Grid
      */
-    public List<String> getListColumns();
+    public List<String> getListColumnNames();
 
 
     /**
      * Fields visibili (e ordinati) nel Form
-     * Può essere modificato nella sottoclasse
-     * Il campo key ID normalmente non si visualizza
-     * <p>
-     * 1) Se questo metodo viene sovrascritto nella sottoclasse specifica, si utilizza quella lista (con o senza ID)
-     * 2) Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-     * 3) Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-     * 4) Se la classe Entity->@Annotation prevede esplicitamente l'ID, questo viene aggiunto, indipendentemente dalla lista
-     *
-     * @return lista di fileds visibili nel Form
-     */
-    @Deprecated
-    public List<String> getFormFields();
-
-
-    /**
-     * Fields visibili nel Form
      * Sovrascrivibile
      * Il campo key ID normalmente non viene visualizzato
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
-     * 2) Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-     * 3) Se non trova AEntity->@Annotation, usa tutti i campi della AEntity (senza ID)
-     * 4) Se trova AEntity->@Annotation @AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
      * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
      * Ad esempio: company della classe ACompanyEntity
-     * <p>
      *
-     * @return lista di fields da visualizzare nel Form
+     * @return lista di fields visibili nel Form
      */
-    public List<Field> getFields();
+    public List<Field> getFormFields();
 
 
     /**

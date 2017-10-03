@@ -113,7 +113,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
         if (service != null) {
             items = service.findAll();
-            columns = service.getListColumns();
+            columns = service.getListColumnNames();
         }// end of if cycle
 
         view.setList(entityClass, items, columns);
@@ -178,7 +178,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
-        List<Field> reflectFields = service.getFields();
+        List<Field> reflectFields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
@@ -215,7 +215,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     public void modifica(AEntity entityBean, boolean usaSeparateFormDialog, boolean usaToolbarLink, boolean usaBottoneRegistra) {
-        List<Field> reflectFields = service.getFields();
+        List<Field> reflectFields = service.getFormFields();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
