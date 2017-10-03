@@ -154,7 +154,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
         if (listaNomi == null) {
             useID = LibAnnotation.isListShowsID(entityClass);
-            useCompany = LibParams.useMultiCompany();
+            useCompany = this.displayCompany();
             listaNomi = LibReflection.getAllFieldNames(entityClass, useID, useCompany);
         }// end of if cycle
 
@@ -178,16 +178,18 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public List<Field> getFormFields() {
         List<String> listaNomi = null;
+        boolean useID = false;
+        boolean useCompany = false;
 
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getFormFields(entityClass);
 
         //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
         //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
-        return LibReflection.getFields(
-                entityClass, listaNomi,
-                LibAnnotation.isFormShowsID(entityClass),
-                displayCompany());
+        useID = LibAnnotation.isFormShowsID(entityClass);
+        useCompany = this.displayCompany();
+
+        return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
     }// end of method
 
 
@@ -210,10 +212,10 @@ public abstract class AlgosServiceImpl implements AlgosService {
             return false;
         }// end of if cycle
 
-//        //--L'utente collegato deve essere developer
-//        if (!LibSession.isDeveloper()) {
-//            return false;
-//        }// end of if cycle
+        //--L'utente collegato deve essere developer
+        if (!LibSession.isDeveloper()) {
+            return false;
+        }// end of if cycle
 
         return true;
     }// end of static method

@@ -70,7 +70,7 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
         AlgosApp.USE_VERS = true;
         log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
-        AlgosApp.USE_MULTI_COMPANY = false;
+        AlgosApp.USE_MULTI_COMPANY = true;
         log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_LOG = true;
