@@ -2,6 +2,7 @@ package it.algos.springvaadin.nav;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.view.AlgosView;
 
@@ -18,7 +19,7 @@ import it.algos.springvaadin.view.AlgosView;
  * Il metodo getLinkedView() fornisce, tramite xxxPresenter,
  * la view effettiva da visualizzare richiesta da AlgosUI.showView()
  */
-public abstract class AlgosNavView implements View {
+public abstract class AlgosNavView extends VerticalLayout implements View {
 
 
     //--gestore principale del modulo, iniettato dal costruttore
@@ -64,7 +65,11 @@ public abstract class AlgosNavView implements View {
      * Richiesta da AlgosUI.showView()
      */
     public AlgosView getLinkedView() {
-        return presenter.getView();
+        if (presenter != null) {
+            return presenter.getView();
+        } else {
+            return null;
+        }// end of if/else cycle
     }// end of method
 
 

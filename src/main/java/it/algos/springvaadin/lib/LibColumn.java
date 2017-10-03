@@ -51,30 +51,17 @@ public abstract class LibColumn {
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
 
-        if (grid == null && LibText.isEmpty(publicFieldName)) {
+        if (grid == null || LibText.isEmpty(publicFieldName)) {
             return 0;
         }// end of if cycle
 
-        if (columnAnnotation != null) {
-            switch (type) {
-                case date:
-                    colonna = grid.addColumn(publicFieldName, render);
-                    break;
-                case localdatetime:
-                    colonna = grid.addColumn(publicFieldName, renderLocal);
-                    break;
-                default: // caso non definito
-                    colonna = grid.addColumn(publicFieldName);
-                    break;
-            } // fine del blocco switch
-            colonna.setCaption(name);
-            colonna.setWidth(width);
-        } else {
-            colonna = grid.addColumn(publicFieldName);
-            if (publicFieldName.equals(Cost.PROPERTY_ID)) {
-                colonna.setWidth(LibAnnotation.getListWithID(clazz));
-            }// end of if cycle
-        }// end of if/else cycle
+        colonna = grid.addColumn(publicFieldName);
+        colonna.setCaption(name);
+        colonna.setWidth(width > 0 ? width : 80);
+
+        if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
+            colonna.setWidth(LibAnnotation.getListWithID(clazz));
+        }// end of if cycle
 
         return ((Double) colonna.getWidth()).intValue();
     }// end of method

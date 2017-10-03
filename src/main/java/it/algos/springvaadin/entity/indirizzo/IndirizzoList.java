@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.indirizzo;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,5 +27,15 @@ public class IndirizzoList extends AlgosListImpl {
         super(grid, toolbar);
     }// end of Spring constructor
 
+    /**
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected void inizializza() {
+        if (LibSession.isDeveloper()) {
+            caption = "</br>Lista visibile solo al developer.";
+            caption += "</br>L'entity è 'embedded' nelle collezioni che la usano (property no DbRef)";
+            caption += "</br>In pratica questa lista non dovrebbe mai essere usata.";
+        }// end of if cycle
+    }// end of method
 
 }// end of class

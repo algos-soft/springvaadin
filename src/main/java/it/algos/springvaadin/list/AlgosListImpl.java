@@ -10,6 +10,7 @@ import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
@@ -38,7 +39,6 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
     protected AToolbar toolbar;
-
 
 
     /**
@@ -74,7 +74,11 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
         this.removeAllComponents();
 
-        textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
+        caption = "";
+        this.inizializza();
+        if (items != null) {
+            textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
+        }// end of if cycle
         if (caption != null) {
             textLabel += caption;
         }// end of if cycle
@@ -98,6 +102,12 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         }// fine del blocco if
     }// end of method
 
+
+    /**
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected void inizializza() {
+    }// end of method
 
     /**
      * Prepara la toolbar
@@ -145,7 +155,6 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     public void enableButton(AButtonType type, boolean status) {
         toolbar.enableButton(type, status);
     }// end of method
-
 
 
     /**

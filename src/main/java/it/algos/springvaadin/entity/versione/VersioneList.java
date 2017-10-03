@@ -4,6 +4,7 @@ package it.algos.springvaadin.entity.versione;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,14 +28,14 @@ public class VersioneList extends AlgosListImpl {
     }// end of Spring constructor
 
     /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
+     * Chiamato ogni volta che la finestra diventa attiva
      */
-    @PostConstruct
-    private void inizializza() {
-        caption = "</br>Lista visibile solo all'admin.";
-        caption += "</br>Usa la company ma NON è obbligatoria";
-        caption += "</br>Solo il developer vede queste note";
+    protected void inizializza() {
+        if (LibSession.isDeveloper()) {
+            caption = "</br>Lista visibile solo all'admin.";
+            caption += "</br>Usa la company ma NON è obbligatoria";
+            caption += "</br>Solo il developer vede queste note";
+        }// end of if cycle
     }// end of method
 
 }// end of class

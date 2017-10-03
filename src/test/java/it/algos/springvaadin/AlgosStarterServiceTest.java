@@ -2,6 +2,7 @@ package it.algos.springvaadin;
 
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.LibDate;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.service.AlgosStartService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.BeforeClass;
@@ -331,66 +332,162 @@ public class AlgosStarterServiceTest {
      * 15) /?user=gac&demo
      */
     @Test
-    public void getSiglaUser() {
+    public void getSiglaUtente() {
         String uriSorgente;
         String siglaOttenuta;
 
         uriSorgente = "gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "");
 
         uriSorgente = "user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "utente=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "admin=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "developer=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "?user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "?utente=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "?admin=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "?developer=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "company=demo&user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "?company=demo&user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "http://localhost:8090?demo&user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "demo&user=gac";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
         uriSorgente = "user=gac&demo";
-        siglaOttenuta = service.getSiglaUser(uriSorgente);
+        siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
-
     }// end of single test
 
-    }// end of test class
+
+    /**
+     * Recupera il ruolo dell'utente come parametro in ingresso.
+     * Il ruolo dell'utente, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /user=gac
+     * 2) /utente=gac
+     * 3) /admin=gac
+     * 4) /developer=gac
+     * 5) /?user=gac
+     * 6) /?utente=gac
+     * 7) /?admin=gac
+     * 8) /?developer=gac
+     * 9) /company=demo&user=gac
+     * 10) /?company=demo&user=gac
+     * 11) http://localhost:8090?demo&user=gac
+     * 12) /demo&user=gac
+     * 13) /?demo&user=gac
+     * 14) /user=gac&demo
+     * 15) /?user=gac&demo
+     */
+    @Test
+    public void getRoleUtente() {
+        String uriSorgente;
+        ARoleType ruoloOttenuto;
+        ARoleType ruoloPrevisto;
+
+        uriSorgente = "gac";
+        ruoloPrevisto = null;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "utente=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "admin=gac";
+        ruoloPrevisto = ARoleType.admin;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "developer=gac";
+        ruoloPrevisto = ARoleType.developer;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "?user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "?utente=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "?admin=gac";
+        ruoloPrevisto = ARoleType.admin;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "?developer=gac";
+        ruoloPrevisto = ARoleType.developer;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "company=demo&user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "?company=demo&user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "http://localhost:8090?demo&user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "demo&user=gac";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+
+        uriSorgente = "user=gac&demo";
+        ruoloPrevisto = ARoleType.user;
+        ruoloOttenuto = service.getRoleUtente(uriSorgente);
+        assertEquals(ruoloOttenuto, ruoloPrevisto);
+    }// end of single test
+
+}// end of test class

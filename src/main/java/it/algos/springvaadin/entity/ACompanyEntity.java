@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity;
 
+import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.stato.Stato;
@@ -43,6 +44,7 @@ public abstract class ACompanyEntity extends AEntity {
      * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
      */
     @AIField(type = AFieldType.combo, clazz = Company.class)
+    @AIColumn(name = "Company", width = 100)
     private Company company;
 
 }// end of class

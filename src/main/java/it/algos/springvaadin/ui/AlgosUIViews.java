@@ -15,6 +15,7 @@ import it.algos.springvaadin.home.HomeNavView;
 import it.algos.springvaadin.home.HomeView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -84,16 +85,20 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-        menuLayout.addView(StatoNavView.class);
-        if (LibParams.useVers()) {
+        if (LibSession.isDeveloper()) {
+            menuLayout.addView(StatoNavView.class);
+        }// end of if cycle
+        if (LibParams.useVers() && LibSession.isAdmin()) {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
-        if (LibParams.useLog()) {
+        if (LibParams.useLog() && LibSession.isAdmin()) {
             menuLayout.addView(LogNavView.class);
         }// end of if cycle
-        if (LibParams.useMultiCompany()) {
-            menuLayout.addView(IndirizzoNavView.class);
+        if (LibParams.useMultiCompany() && LibSession.isAdmin()) {
             menuLayout.addView(CompanyNavView.class);
+        }// end of if cycle
+        if (LibSession.isDeveloper()) {
+            menuLayout.addView(IndirizzoNavView.class);
         }// end of if cycle
     }// end of method
 

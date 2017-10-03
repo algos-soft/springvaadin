@@ -52,6 +52,16 @@ public class AlgosFooter extends HorizontalLayout {
             message += " - " + companyCode;
         }// end of if cycle
 
+        if (LibSession.isDeveloper()) {
+            message += " (dev)";
+        } else {
+            if (LibSession.isAdmin()) {
+                message += " (admin)";
+            } else {
+                message += " (user)";
+            }// end of if/else cycle
+        }// end of if/else cycle
+
         if (AlgosApp.USE_DEBUG) {
 //            this.addStyleName("redBg");
             message += debugMessage;

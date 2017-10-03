@@ -101,7 +101,7 @@ public abstract class LibSession {
      * Recupera dalla sessione l'attributo admin
      */
     public static boolean isAdmin() {
-        return isBool(Attribute.admin);
+        return isBool(Attribute.admin) || isBool(Attribute.developer);
     }// end of static method
 
     /**

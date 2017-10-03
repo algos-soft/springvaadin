@@ -75,6 +75,9 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
         AlgosApp.USE_LOG = true;
         log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+
+        AlgosApp.USE_SECURITY = true;
+        log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
     }// end of method
 
 }// end of class

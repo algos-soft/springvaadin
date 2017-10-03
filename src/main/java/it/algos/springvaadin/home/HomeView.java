@@ -1,7 +1,10 @@
 package it.algos.springvaadin.home;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.field.AlgosField;
+import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.view.AlgosViewImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -22,23 +25,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Qualifier(Cost.TAG_HOME)
 public class HomeView extends AlgosViewImpl {
 
-//    /**
-//     * Costruttore @Autowired (nella superclasse)
-//     * Si usa un @Qualifier(), per avere la sottoclasse specifica
-//     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-//     */
-//    public HomeView(@Qualifier(Cost.TAG_HOME) AlgosList list, @Qualifier(Cost.TAG_HOME) AlgosField form) {
-//        super(list, form);
-//    }// end of Spring constructor
-
 
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public HomeView() {
-        super(null, null);
+    public HomeView(@Qualifier(Cost.TAG_HOME) AlgosList list, @Qualifier(Cost.TAG_HOME) AlgosForm form) {
+        super(list, form);
     }// end of Spring constructor
+
 
 }// end of class

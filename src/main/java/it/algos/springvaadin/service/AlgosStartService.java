@@ -13,6 +13,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.login.ARoleType;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -78,24 +79,36 @@ public class AlgosStartService {
      * Creazione del wrapper di informazioni mantenuto nella sessione <br>
      */
     //@todo da sviluppare
-    public  boolean checkSecurity(VaadinRequest request) {
+    public boolean checkSecurity(VaadinRequest request) {
         boolean continua = false;
         LibSession.setLogin(null);
-        LibSession.setDeveloper(false);
         LibSession.setAdmin(false);
-        String siglaUser = getSiglaUser(request);
+        LibSession.setDeveloper(false);
+        String siglaUser = getSiglaUtente(request);
 
-        if (LibText.isValid(siglaUser)) {
-            if (siglaUser.equals("gac")) {
-                LibSession.setDeveloper(true);
-            }// end of if cycle
+//        if (LibText.isValid(siglaUser)) {
+//            if (siglaUser.equals("gac")) {
+//                LibSession.setDeveloper(true);
+//            }// end of if cycle
+//        }// end of if cycle
+
+        if (getRoleUtente(request) == ARoleType.user) {
+//            LibSession.setAdmin(true);
+        }// end of if cycle
+
+        if (getRoleUtente(request) == ARoleType.admin) {
+            LibSession.setAdmin(true);
+        }// end of if cycle
+
+        if (getRoleUtente(request) == ARoleType.developer) {
+            LibSession.setDeveloper(true);
         }// end of if cycle
 
         return continua;
     }// end of static method
 
 
-    public String getSiglaUser(VaadinRequest request) {
+    public String getSiglaUtente(VaadinRequest request) {
         String siglaUser = "";
         HttpServletRequest httpRequest;
         String queryString;
@@ -103,7 +116,7 @@ public class AlgosStartService {
         if (request instanceof HttpServletRequest) {
             httpRequest = (HttpServletRequest) request;
             queryString = httpRequest.getQueryString();
-            siglaUser = getSiglaUser(queryString);
+            siglaUser = getSiglaUtente(queryString);
         }// end of if cycle
 
         return siglaUser;
@@ -269,22 +282,102 @@ public class AlgosStartService {
      * 14) /user=gac&demo
      * 15) /?user=gac&demo
      */
-    public String getSiglaUser(String url) {
-        String siglaUser = "";
+    public String getSiglaUtente(String url) {
+        String siglaUtente = "";
         Map<String, String> mappaParams = getParams(url);
-        String[] tagUsers = {"user", "ute", "utente", "admin", "dev", "developer"};
+        String[] tagUtenti = {"user", "ute", "utente", "admin", "dev", "developer"};
         String tagVuoto = "";
         String tagIniPatch = "v-";
 
         if (mappaParams.size() > 0) {
-            for (String tag : tagUsers) {
+            for (String tag : tagUtenti) {
                 if (mappaParams.containsKey(tag)) {
                     return mappaParams.get(tag);
                 }// end of if cycle
             }// end of for cycle
         }// end of if cycle
 
-        return siglaUser;
+        return siglaUtente;
+    }// end of method
+
+    /**
+     * Recupera il ruolo dell'utente come parametro in ingresso.
+     * Il ruolo dell'utente, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /user=gac
+     * 2) /utente=gac
+     * 3) /admin=gac
+     * 4) /developer=gac
+     * 5) /?user=gac
+     * 6) /?utente=gac
+     * 7) /?admin=gac
+     * 8) /?developer=gac
+     * 9) /company=demo&user=gac
+     * 10) /?company=demo&user=gac
+     * 11) http://localhost:8090?demo&user=gac
+     * 12) /demo&user=gac
+     * 13) /?demo&user=gac
+     * 14) /user=gac&demo
+     * 15) /?user=gac&demo
+     */
+    public ARoleType getRoleUtente(VaadinRequest request) {
+        ARoleType ruoloUtente = null;
+        HttpServletRequest httpRequest;
+        String queryString;
+
+        if (request instanceof HttpServletRequest) {
+            httpRequest = (HttpServletRequest) request;
+            queryString = httpRequest.getQueryString();
+            ruoloUtente = getRoleUtente(queryString);
+        }// end of if cycle
+
+        return ruoloUtente;
+    }// end of  method
+
+    /**
+     * Recupera il ruolo dell'utente come parametro in ingresso.
+     * Il ruolo dell'utente, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /user=gac
+     * 2) /utente=gac
+     * 3) /admin=gac
+     * 4) /developer=gac
+     * 5) /?user=gac
+     * 6) /?utente=gac
+     * 7) /?admin=gac
+     * 8) /?developer=gac
+     * 9) /company=demo&user=gac
+     * 10) /?company=demo&user=gac
+     * 11) http://localhost:8090?demo&user=gac
+     * 12) /demo&user=gac
+     * 13) /?demo&user=gac
+     * 14) /user=gac&demo
+     * 15) /?user=gac&demo
+     */
+    public ARoleType getRoleUtente(String url) {
+        ARoleType ruoloUtente = null;
+        String[] tagUtente = {"user", "ute", "utente"};
+        String[] tagAdmin = {"admin"};
+        String[] tagDeveloper = {"dev", "developer"};
+        Map<String, String> mappaParams = getParams(url);
+
+        if (mappaParams.size() > 0) {
+            for (String tag : tagUtente) {
+                if (mappaParams.containsKey(tag)) {
+                    return ARoleType.user;
+                }// end of if cycle
+            }// end of for cycle
+            for (String tag : tagAdmin) {
+                if (mappaParams.containsKey(tag)) {
+                    return ARoleType.admin;
+                }// end of if cycle
+            }// end of for cycle
+            for (String tag : tagDeveloper) {
+                if (mappaParams.containsKey(tag)) {
+                    return ARoleType.developer;
+                }// end of if cycle
+            }// end of for cycle
+        }// end of if cycle
+
+        return ruoloUtente;
     }// end of method
 
 }// end of static class

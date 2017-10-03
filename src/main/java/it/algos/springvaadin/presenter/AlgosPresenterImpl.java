@@ -77,8 +77,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @PostConstruct
     private void inizia() {
-        this.service.setEntityClass(entityClass);
-        this.view.setPresenter(this);
+        if (service != null) {
+            service.setEntityClass(entityClass);
+        }// end of if cycle
+
+        if (view != null) {
+            view.setPresenter(this);
+        }// end of if cycle
     }// end of method
 
 
@@ -103,8 +108,13 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     protected void presentaLista() {
-        List items = service.findAll();
-        List<String> columns = service.getListColumns();
+        List items = null;
+        List<String> columns = null;
+
+        if (service != null) {
+            items = service.findAll();
+            columns = service.getListColumns();
+        }// end of if cycle
 
         view.setList(entityClass, items, columns);
     }// end of method

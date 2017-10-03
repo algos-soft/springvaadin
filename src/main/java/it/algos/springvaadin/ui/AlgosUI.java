@@ -188,16 +188,19 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      */
     public void showView(View view) {
         View navView = view;
+
         if (view instanceof AlgosNavView) {
             navView = ((AlgosNavView) view).getLinkedView();
         }// end of if cycle
 
-        if (usaViewTreComponenti) {
-            creaViewTreComponenti();
-            viewPlaceholder.setContent((Component) navView);
-        } else {
-            panel.setContent((Component) view);
-        }// end of if/else cycle
+        if (navView != null) {
+            if (usaViewTreComponenti) {
+                creaViewTreComponenti();
+                viewPlaceholder.setContent((Component) navView);
+            } else {
+                panel.setContent((Component) view);
+            }// end of if/else cycle
+        }// end of if cycle
     }// end of method
 
 

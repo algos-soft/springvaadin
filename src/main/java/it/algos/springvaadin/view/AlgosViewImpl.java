@@ -94,13 +94,13 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @param entityBean         istanza da elaborare
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param reflectFields             campi del form da visualizzare
+     * @param reflectFields      campi del form da visualizzare
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source,AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
+    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
         removeAllComponents();
-        form.restartLink(source,presenter, sourceField, entityBean, reflectFields, type);
+        form.restartLink(source, presenter, sourceField, entityBean, reflectFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
@@ -261,7 +261,10 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
     public void setPresenter(AlgosPresenterImpl presenter) {
         this.presenter = presenter;
-        list.setPresenter(presenter);
+
+        if (list != null) {
+            list.setPresenter(this.presenter);
+        }// end of if cycle
     }// end of method
 
     /**

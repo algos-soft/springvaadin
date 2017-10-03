@@ -195,10 +195,8 @@ public abstract class AlgosUIParams extends UI {
         if (AlgosApp.USE_SECURITY) {
             algosStartService.checkSecurity(request);
         } else {
-            LibSession.setDeveloper(true);
+//            LibSession.setDeveloper(true);
         }// end of if/else cycle
-
-
 
         //--Controlla la company selezionata
         if (AlgosApp.USE_MULTI_COMPANY) {

@@ -50,7 +50,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
-    @AIColumn(name = "#", width = 80)
+    @AIColumn(name = "#", width = 50)
     private int ordine;
 
 

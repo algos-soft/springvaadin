@@ -373,7 +373,7 @@ public abstract class LibAnnotation {
      */
     @SuppressWarnings("all")
     public static String getNameColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        String name = "";
+        String name = publicFieldName;
         AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
 
         if (columnAnnotation != null) {
