@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.indirizzo;
 
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.stato.Stato;
+import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
@@ -9,6 +10,7 @@ import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import java.util.List;
 @Qualifier(Cost.TAG_IND)
 public class IndirizzoService extends AlgosServiceImpl {
 
+    @Autowired
+    StatoService statoService;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -48,14 +52,13 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Indirizzo crea(String indirizzo, String localita, String cap) {
-        return crea((Company) null, indirizzo, localita, cap, (Stato) null);
+        return crea(indirizzo, localita, cap, (Stato) null);
     }// end of method
 
 
     /**
      * Creazione di una entity
      *
-     * @param company    di riferimento (obbligatoria, non unica)
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
      * @param localita:  località (obbligatoria, non unica)
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
@@ -63,11 +66,11 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Indirizzo crea(Company company, String indirizzo, String localita, String cap, Stato stato) {
+    public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
         Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
 
         if (entity == null) {
-            entity = newEntity(company, indirizzo, localita, cap, stato);
+            entity = newEntity(indirizzo, localita, cap, stato);
         }// end of if cycle
 
         if (entity != null) {
@@ -88,7 +91,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (vuota e non salvata)
      */
     public Indirizzo newEntity() {
-        return newEntity((Company) null, "", "", "", (Stato) null);
+        return newEntity("", "", "", (Stato) null);
     }// end of method
 
 
@@ -96,7 +99,21 @@ public class IndirizzoService extends AlgosServiceImpl {
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
      *
-     * @param company    di riferimento (obbligatoria, non unica)
+     * @param indirizzo: via, nome e numero (obbligatoria, non unica)
+     * @param localita:  località (obbligatoria, non unica)
+     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
+     */
+    public Indirizzo newEntity(String indirizzo, String localita, String cap) {
+        return new Indirizzo(indirizzo, localita, cap, (Stato) null);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
      * @param localita:  località (obbligatoria, non unica)
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
@@ -104,8 +121,8 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (vuota e non salvata)
      */
-    public Indirizzo newEntity(Company company, String indirizzo, String localita, String cap, Stato stato) {
-        return  new Indirizzo(indirizzo, localita, cap, stato);
+    public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
+        return new Indirizzo(indirizzo, localita, cap, stato != null ? stato : statoService.find());
     }// end of method
 
 

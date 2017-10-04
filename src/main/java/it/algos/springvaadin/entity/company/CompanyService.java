@@ -75,18 +75,39 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Returns entity
+     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @return entity
+     * @return vero se esiste, false se non trovata
+     */
+    public boolean isEsiste(String sigla) {
+        return findBySigla(sigla) != null;
+    }// end of method
+
+
+    /**
+     * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
+     *
+     * @return vero se esiste, false se non trovata
+     */
+    public boolean isNonEsiste(String sigla) {
+        return findBySigla(sigla) == null;
+    }// end of method
+
+
+    /**
+     * Recupera una istanza della Entity usando la query di una property specifica
+     *
+     * @return istanza della Entity, null se non trovata
      */
     public Company find(ObjectId id) {
         return ((CompanyRepository) repository).findById(id);
     }// end of method
 
+
     /**
-     * Returns entity
+     * Recupera una istanza della Entity usando la query di una property specifica
      *
-     * @return entity
+     * @return istanza della Entity, null se non trovata
      */
     public Company findBySigla(String sigla) {
         return ((CompanyRepository) repository).findBySigla(sigla);
@@ -94,9 +115,9 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Returns all instances of the type.
+     * Returns all instances of the type
      *
-     * @return all entities
+     * @return lista di tutte le entities
      */
     public List findAll() {
         return ((CompanyRepository) repository).findAllByOrderBySiglaAsc();

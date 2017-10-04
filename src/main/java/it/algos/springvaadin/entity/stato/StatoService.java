@@ -26,6 +26,7 @@ import java.util.List;
 @Qualifier(Cost.TAG_STA)
 public class StatoService extends AlgosServiceImpl {
 
+    private final static String DEFAULT = "Italia";
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -69,7 +70,6 @@ public class StatoService extends AlgosServiceImpl {
         if (entity == null) {
             entity = newEntity(0, nome);
             entity = (Stato) repository.save(newEntity(0, nome));
-            int a = 87;
         }// end of if cycle
 
         return entity;
@@ -184,6 +184,15 @@ public class StatoService extends AlgosServiceImpl {
         return ((StatoRepository) repository).findByNome(nome);
     }// end of method
 
+    /**
+     * Find the default state.
+     *
+     * @return the entity
+     */
+    public Stato find() {
+        return crea(DEFAULT);
+    }// end of method
+
 
     /**
      * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
@@ -282,7 +291,6 @@ public class StatoService extends AlgosServiceImpl {
 
         return stato != null;
     }// end of method
-
 
 
 }// end of class

@@ -15,6 +15,7 @@ public abstract class Cost {
     public final static String COOKIE_LOGIN_ROLE = "cookieLoginRole";
 
     public final static String KEY_MAP_COMPANY = "company";
+    public final static String SIGLA_COMPANY_DEMO = "demo";
 
     public final static String PROPERTY_ID = "id";
     public final static String PROPERTY_COMPANY = "company";

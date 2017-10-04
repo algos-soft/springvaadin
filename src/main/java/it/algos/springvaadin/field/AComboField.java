@@ -7,6 +7,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Scope;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare in AFieldFactory
  */
 @SpringComponent
+@Slf4j
 @Scope("prototype")
 @Qualifier(Cost.FIELD_COMBO)
 public class AComboField extends AField {
@@ -40,7 +42,11 @@ public class AComboField extends AField {
         if (combo != null) {
             combo.setItems(items);
             combo.setEmptySelectionAllowed(nullSelectionAllowed);
-            combo.setValue(items[0]);
+            try { // prova ad eseguire il codice
+                combo.setValue(items[0]);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
         }// end of if cycle
     }// end of method
 

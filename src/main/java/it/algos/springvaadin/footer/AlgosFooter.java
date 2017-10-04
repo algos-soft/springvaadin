@@ -39,14 +39,10 @@ public class AlgosFooter extends HorizontalLayout {
         this.setMargin(new MarginInfo(false, false, true, false));
         this.setSpacing(true);
         this.setHeight("30px");
-        String message = "Algos® ";
+        String message = "Algos® " + this.appMessage;
         String companyCode = "";
         String debugMessage = " (footerLayout)";
 
-        message += this.appMessage;
-
-        boolean vero=LibSession.isCompanyValida();
-        Company company= LibSession.getCompany();
         companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getSigla() : "";
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
             message += " - " + companyCode;

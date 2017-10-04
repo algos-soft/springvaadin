@@ -38,25 +38,20 @@ public class CompanySpringBoot {
 
 
     //--il service (contenente la repository) viene iniettato nel costruttore
-    private CompanyService service;
+    private CompanyService serviceCompany;
 
     //--il service (contenente la repository) viene iniettato nel costruttore
     private IndirizzoService serviceIndirizzo;
-
-    //--il service (contenente la repository) viene iniettato nel costruttore
-    private StatoService serviceStato;
 
 
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      */
-    public CompanySpringBoot(@Qualifier(Cost.TAG_COMP) AlgosService service,
-                             @Qualifier(Cost.TAG_IND) AlgosService serviceIndirizzo,
-                             @Qualifier(Cost.TAG_STA) AlgosService serviceStato) {
-        this.service = (CompanyService) service;
+    public CompanySpringBoot(@Qualifier(Cost.TAG_COMP) AlgosService serviceCompany,
+                             @Qualifier(Cost.TAG_IND) AlgosService serviceIndirizzo) {
+        this.serviceCompany = (CompanyService) serviceCompany;
         this.serviceIndirizzo = (IndirizzoService) serviceIndirizzo;
-        this.serviceStato = (StatoService) serviceStato;
     }// end of Spring constructor
 
 
@@ -68,38 +63,28 @@ public class CompanySpringBoot {
      */
     @PostConstruct
     public void creaAll() {
-        if (nessunRecordEsistente()) {
-            creaCompanyDemo();
+        if (serviceCompany.isNonEsiste(Cost.SIGLA_COMPANY_DEMO)) {
+            creaAndLog(Cost.SIGLA_COMPANY_DEMO, "Algos s.r.l.", "Via Soderini, 55", "Milano", "20146");
         } else {
-            log.info("La collezione di company è presente");
+            log.info("La company demo è presente");
         }// end of if/else cycle
     }// end of method
 
 
     /**
-     * Controlla se la collezione esiste già
-     */
-    private boolean nessunRecordEsistente() {
-        return service.count() == 0;
-    }// end of method
-
-    /**
-     * Creazione di una company
+     * Creazione di una entity
      * Log a video
+     *
+     * @param sigla sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param desc  ragione sociale o descrizione della company (visibile - obbligatoria)
+     * @param ind   indirizzo stradale
+     * @param loc   citta, paese
+     * @param cap   postale
      */
-    private void creaCompanyDemo() {
-        Stato stato = creaStato();
-        Indirizzo indirizzo = new Indirizzo("Via Soderini, 55", "Milano", "20146", stato);
-        Company company = service.crea("demo", "Algos s.r.l.", indirizzo);
-
-        log.warn("Company: " + company);
+    private void creaAndLog(String sigla, String desc, String ind, String loc, String cap) {
+        serviceCompany.crea(sigla, desc, serviceIndirizzo.newEntity(ind, loc, cap));
+        log.warn("Company: " + sigla);
     }// end of method
 
-    /**
-     * Recupera (se esiste già) oppure crea uno stato per l'indirizzo di company
-     */
-    private Stato creaStato() {
-        return serviceStato.crea("Italia");
-    }// end of method
 
 }// end of class

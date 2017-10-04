@@ -30,11 +30,18 @@ public abstract class LibColumn {
 
 
     public static AIColumn getColumnAnnotation(final Class<? extends AEntity> clazz, String publicFieldName) {
+        Field field = LibReflection.getField(clazz, publicFieldName);
+
         if (publicFieldName.equals(Cost.PROPERTY_ID)) {
             return null;
         } else {
-            return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIColumn.class);
+            if (field != null) {
+                return field.getAnnotation(AIColumn.class);
+            } else {
+                return null;
+            }// end of if/else cycle
         }// end of if/else cycle
+
     }// end of method
 
 
@@ -100,7 +107,7 @@ public abstract class LibColumn {
      * Se ci sono Annotazioni, le regola
      */
     public static int addColumns(final Class<? extends AEntity> beanType, Grid grid) {
-        return addColumns(beanType, grid, LibReflection.getAllFieldNames(beanType, false,false));
+        return addColumns(beanType, grid, LibReflection.getAllFieldNames(beanType, false, false));
     }// end of method
 
     /**
