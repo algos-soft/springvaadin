@@ -78,7 +78,7 @@ public abstract class LibColumn {
         }// end of if cycle
 
         if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
-            colonna.setWidth(LibAnnotation.getListWithID(clazz));
+            colonna.setWidth(LibAnnotation.getListWidthID(clazz));
         }// end of if cycle
 
         return ((Double) colonna.getWidth()).intValue();

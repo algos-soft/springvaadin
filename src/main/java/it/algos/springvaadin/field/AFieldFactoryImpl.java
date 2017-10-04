@@ -114,6 +114,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     target = targetImageAutowired;
                     field.setButton(buttonFactory.crea(AButtonType.image, source, target, field));
                     break;
+                case resource:
+                    field = fieldFactory.apply(AImageField.class);
+                    break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;

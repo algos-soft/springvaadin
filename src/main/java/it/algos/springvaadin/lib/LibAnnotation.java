@@ -829,8 +829,8 @@ public abstract class LibAnnotation {
      * @return the width of the column expressed in int
      */
     @SuppressWarnings("all")
-    public static int getListWithID(final Class<? extends AEntity> clazz) {
-        int width = 0;
+    public static int getListWidthID(final Class<? extends AEntity> clazz) {
+        int width = 270;
         AIList listAnnotation = getAIList(clazz);
 
         if (listAnnotation != null) {

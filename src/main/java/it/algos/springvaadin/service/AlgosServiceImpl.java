@@ -158,6 +158,11 @@ public abstract class AlgosServiceImpl implements AlgosService {
             listaNomi = LibReflection.getAllFieldNames(entityClass, useID, useCompany);
         }// end of if cycle
 
+        //--il developer vede tutto (si potrebbe migliorare)
+        if (LibSession.isDeveloper()) {
+            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+        }// end of if cycle
+
         return listaNomi;
     }// end of method
 
@@ -188,6 +193,13 @@ public abstract class AlgosServiceImpl implements AlgosService {
         //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
         useID = LibAnnotation.isFormShowsID(entityClass);
         useCompany = this.displayCompany();
+
+        //--il developer vede tutto (si potrebbe migliorare)
+        if (LibSession.isDeveloper()) {
+            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+            useID = true;
+            useCompany = true;
+        }// end of if cycle
 
         return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
     }// end of method
