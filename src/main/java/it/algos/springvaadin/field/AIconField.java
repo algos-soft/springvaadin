@@ -1,0 +1,61 @@
+package it.algos.springvaadin.field;
+
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Component;
+import it.algos.springvaadin.lib.Cost;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Scope;
+
+/**
+ * Project springwam
+ * Created by Algos
+ * User: gac
+ * Date: gio, 05-ott-2017
+ * Time: 10:22
+ */
+@SpringComponent
+@Scope("prototype")
+@Qualifier(Cost.FIELD_IMAGE)
+public class AIconField extends AField {
+
+
+    /**
+     * Regolazioni varie DOPO aver creato l'istanza
+     * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
+     */
+    protected void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
+        super.inizializza(publicFieldName, source, source);
+        if (button != null) {
+            button.setIcon(VaadinIcons.CHECK);
+        }// end of if cycle
+    }// end of method
+
+
+    @Override
+    public Component initContent() {
+        return button;
+    }// end of method
+
+
+    /**
+     * Recupera dalla UI il valore (eventualmente) selezionato
+     * Alcuni fields (ad esempio quelli non enabled, ed altri) non modificano il valore
+     * Elabora le (eventuali) modifiche effettuate dalla UI e restituisce un valore del typo previsto per il DB mongo
+     */
+    @Override
+    public Integer getValue() {
+        return 0;
+    }// end of method
+
+
+    /**
+     * Visualizza graficamente nella UI i componenti grafici (uno o più)
+     * Riceve il valore dal DB Mongo, già col casting al typo previsto
+     */
+    @Override
+    public void doSetValue(Object value) {
+    }// end of method
+
+}// end of class
