@@ -1,6 +1,8 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -260,6 +262,12 @@ public abstract class AField<T> extends CustomField<Object> {
 
     public void setButton(AButton button) {
         this.button = button;
+    }// end of method
+
+    public void setIconButton(Resource res) {
+        if (button!=null) {
+            button.setIcon(res);
+        }// end of if cycle
     }// end of method
 
 
