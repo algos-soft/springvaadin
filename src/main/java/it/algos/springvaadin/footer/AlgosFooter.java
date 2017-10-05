@@ -66,7 +66,7 @@ public class AlgosFooter extends HorizontalLayout {
         //--colore
 //        message = "<strong style=\"color:blue;font-family:verdana;font-size:80%;\">" + message + "</strong>";
         Label label = new Label(message, ContentMode.HTML);
-//        label.addStyleName("rosso");
+        label.addStyleName("rosso");
 
         this.addComponent(label);
     }// end of method

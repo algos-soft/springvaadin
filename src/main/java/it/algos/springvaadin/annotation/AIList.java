@@ -27,7 +27,7 @@ public @interface AIList {
      * (Optional) The width of the ID column.
      * Defaults to 270
      */
-    int widthID() default 270;
+    int widthID() default 290;
 
 
     /**

@@ -830,7 +830,7 @@ public abstract class LibAnnotation {
      */
     @SuppressWarnings("all")
     public static int getListWidthID(final Class<? extends AEntity> clazz) {
-        int width = 270;
+        int width = 290;
         AIList listAnnotation = getAIList(clazz);
 
         if (listAnnotation != null) {

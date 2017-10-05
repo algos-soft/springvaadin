@@ -44,7 +44,7 @@ public abstract class ACompanyEntity extends AEntity {
      * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
      */
     @AIField(type = AFieldType.combo, clazz = Company.class)
-    @AIColumn(name = "Company", width = 100)
+    @AIColumn(name = "Company", width = 110)
     private Company company;
 
 }// end of class

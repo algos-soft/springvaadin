@@ -44,7 +44,7 @@ public class Company extends AEntity {
     @NotEmpty(message = "La sigla interna è obbligatoria")
     @Size(min = 2, max = 20)
     @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno")
-    @AIColumn(width = 80)
+    @AIColumn(width = 100)
     private String sigla;
 
 
@@ -53,7 +53,7 @@ public class Company extends AEntity {
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 30, help = "Descrizione della company")
-    @AIColumn(width = 320)
+    @AIColumn(width = 400)
     private String descrizione;
 
 
