@@ -7,6 +7,7 @@ import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -28,8 +29,8 @@ import java.util.List;
 @Qualifier(Cost.TAG_IND)
 public class IndirizzoService extends AlgosServiceImpl {
 
-    @Autowired
-    StatoService statoService;
+    //    @Autowired
+    public StatoService statoService;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -37,8 +38,9 @@ public class IndirizzoService extends AlgosServiceImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public IndirizzoService(@Qualifier(Cost.TAG_IND) MongoRepository repository) {
+    public IndirizzoService(@Qualifier(Cost.TAG_IND) MongoRepository repository, StatoService statoService) {
         super(repository);
+        this.statoService = statoService;
     }// end of Spring constructor
 
 
@@ -122,7 +124,15 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (vuota e non salvata)
      */
     public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
-        return new Indirizzo(indirizzo, localita, cap, stato != null ? stato : statoService.find());
+        if (statoService != null && statoService.repository != null) {
+            return new Indirizzo(indirizzo, localita, cap, stato != null ? stato : statoService.find());
+        } else {
+            if (statoService != null) {
+                return new Indirizzo(indirizzo, localita, cap, statoService.newEntity());
+            } else {
+                return new Indirizzo(indirizzo, localita, cap, (Stato) null);
+            }// end of if/else cycle
+        }// end of if/else cycle
     }// end of method
 
 
@@ -176,5 +186,56 @@ public class IndirizzoService extends AlgosServiceImpl {
     public Indirizzo findById(String id) {
         return ((IndirizzoRepository) repository).findOne(id);
     }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
+     * @param indirizzoOld: via, nome e numero - località - cap
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
+     */
+    public Indirizzo newEntity(String indirizzoOld) {
+        Indirizzo indirizzo = null;
+        String sep = "-";
+        String spazio = " ";
+        String secondaParte = "";
+        String ind = "";
+        String loc = "";
+        String cap = "";
+        String[] parti = indirizzoOld.split(sep);
+        int posCap = 0;
+        int posLoc = 0;
+
+        if (parti != null) {
+            if (parti.length > 0) {
+                ind = parti[0].trim();
+            }// end of if cycle
+
+            if (parti.length > 1) {
+                secondaParte = parti[1].trim();
+                if (secondaParte != null) {
+
+                    if (LibText.isLeadingDigit(secondaParte)) {
+                        posCap = secondaParte.indexOf(spazio);
+                        cap = secondaParte.substring(0, posCap).trim();
+                        posLoc = secondaParte.lastIndexOf(spazio, secondaParte.length());
+                        if (posLoc == posCap) {
+                            loc = secondaParte.substring(posCap).trim();
+                        } else {
+                            loc = secondaParte.substring(posCap, posLoc).trim();
+                        }// end of if/else cycle
+                    }// end of if cycle
+                }// end of if cycle
+
+            }// end of if cycle
+        }// end of if cycle
+
+        indirizzo = newEntity(ind, loc, cap, null);
+
+        return indirizzo;
+    }// end of method
+
 
 }// end of class

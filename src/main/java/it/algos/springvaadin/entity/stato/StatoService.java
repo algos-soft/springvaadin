@@ -66,13 +66,18 @@ public class StatoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Stato crea(String nome) {
-        Stato entity = ((StatoRepository) repository).findByNome(nome);
-        if (entity == null) {
-            entity = newEntity(0, nome);
-            entity = (Stato) repository.save(newEntity(0, nome));
+        Stato  entity = null;
+
+        if (repository != null) {
+             entity= ((StatoRepository) repository).findByNome(nome);
         }// end of if cycle
 
-        return entity;
+        if (repository != null&& entity == null) {
+             entity = newEntity(0, nome);
+             entity = (Stato) repository.save(newEntity(0, nome));
+        }// end of if cycle
+
+        return  entity;
     }// end of method
 
     /**
@@ -126,7 +131,7 @@ public class StatoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Stato newEntity() {
-        return newEntity(0, "");
+        return newEntity(0, DEFAULT);
     }// end of method
 
     /**
@@ -210,8 +215,11 @@ public class StatoService extends AlgosServiceImpl {
      */
     private int getMax() {
         int ordine = 0;
+        List<Stato> lista = null;
 
-        List<Stato> lista = ((StatoRepository) repository).findTop1ByOrderByOrdineDesc();
+        if (repository != null) {
+            lista = ((StatoRepository) repository).findTop1ByOrderByOrdineDesc();
+        }// end of if cycle
 
         if (lista != null && lista.size() == 1) {
             ordine = lista.get(0).getOrdine();

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -58,11 +59,22 @@ public class Company extends AEntity {
 
 
     //--indirizzo (facoltativo)
-//    @DBRef
+    //    @DBRef
     @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
     @AIColumn(width = 400)
     private Indirizzo indirizzo;
 
+    @Email
+    @AIField(type = AFieldType.email)
+    private String email;
+
+    // persona di riferimento (facoltativo)
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 20, name = "Riferimento")
+    private String contact;
+
+    //--eventuali note (facoltativo)
+    @AIField(type = AFieldType.note)
+    private String note;
 
     /**
      * @return a string representation of the object.

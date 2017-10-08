@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.company;
 
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosServiceImpl;
@@ -41,6 +42,7 @@ public class CompanyService extends AlgosServiceImpl {
      */
     public Company crea(String sigla, String descrizione, Indirizzo indirizzo) {
         Company comp = ((CompanyRepository) repository).findBySigla(sigla);
+
         if (comp == null) {
             comp = (Company) repository.save(newEntity(sigla, descrizione, indirizzo));
         }// end of if cycle
@@ -70,7 +72,22 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo) {
-        return new Company(sigla, descrizione, indirizzo);
+        return newEntity(sigla, descrizione, indirizzo, "", "", "");
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
+     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
+     * @param indirizzo   (facoltativo)
+     *
+     * @return la nuova entity appena creata
+     */
+    public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, String contact, String note) {
+        return new Company(sigla, descrizione, indirizzo, email, contact, note);
     }// end of method
 
 

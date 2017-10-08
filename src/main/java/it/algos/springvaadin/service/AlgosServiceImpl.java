@@ -23,7 +23,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
 
     //--la repository dei dati viene iniettata dal costruttore della sottoclasse concreta
-    protected MongoRepository repository;
+    public MongoRepository repository;
 
 
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore

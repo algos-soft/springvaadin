@@ -1,6 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFieldType;
@@ -63,6 +64,7 @@ public abstract class LibColumn {
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
+        ButtonRenderer renderIcon = new ButtonRenderer();
 
         if (grid == null || LibText.isEmpty(publicFieldName)) {
             return 0;
@@ -75,6 +77,11 @@ public abstract class LibColumn {
         if (type == AFieldType.localdatetime) {
             colonna.setRenderer(renderLocal);
             colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
+        }// end of if cycle
+
+        if (type == AFieldType.icon) {
+            colonna.setRenderer(renderIcon);
+            colonna.setWidth(WIDTH_TEXT_NORMAL);
         }// end of if cycle
 
         if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {

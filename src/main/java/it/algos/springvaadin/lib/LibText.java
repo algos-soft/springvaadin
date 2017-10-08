@@ -613,6 +613,12 @@ public abstract class LibText {
         return stringaOut;
     } // fine del metodo
 
+
+    public static boolean isLeadingDigit(final String value){
+        final char c = value.charAt(0);
+        return (c >= '0' && c <= '9');
+    } // fine del metodo
+
     /**
      * Enumeration locale per il flag del primo carattere
      */
