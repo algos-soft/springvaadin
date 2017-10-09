@@ -94,6 +94,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico
         inizializzaToolbar(source);
+        fixToolbar();
         this.addComponent((ListToolbar) toolbar);
 
         if (AlgosApp.USE_DEBUG) {
@@ -107,6 +108,10 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
      * Chiamato ogni volta che la finestra diventa attiva
      */
     protected void inizializza() {
+    }// end of method
+
+
+    protected void fixToolbar() {
     }// end of method
 
     /**

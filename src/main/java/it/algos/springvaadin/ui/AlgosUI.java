@@ -50,14 +50,11 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
 
     //--A placeholder for spring views
-    @Autowired
-    @Lazy
-    protected ViewPlaceholder viewPlaceholder;
+    @Autowired protected ViewPlaceholder viewPlaceholder;
 
     //--A placeholder for a footer component
     @Autowired
-    @Lazy
-    protected AlgosFooter footer;
+    public AlgosFooter footer;
 
 
     /**
@@ -126,11 +123,14 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             root.addStyleName("blueBg");
             panel.addStyleName("blueBg");
             viewPlaceholder.addStyleName("yellowBg");
+            footer.addStyleName("yellowBg");
         } else {
             root.addStyleName("colorebase");
             panel.addStyleName("colorebase");
             viewPlaceholder.addStyleName("colorebase");
+            footer.addStyleName("colorebase");
         }// end of if/else cycle
+
     }// end of method
 
     /**

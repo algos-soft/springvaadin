@@ -1,14 +1,27 @@
 package it.algos.springvaadin.entity.company;
 
+import com.vaadin.data.HasValue;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
+import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.toolbar.AToolbarImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
+import it.algos.springvaadin.ui.AlgosUI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.Property;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gac on 13/06/17.
@@ -19,6 +32,8 @@ import javax.annotation.PostConstruct;
 @Qualifier(Cost.TAG_COMP)
 public class CompanyList extends AlgosListImpl {
 
+    @Autowired
+    private CompanyService service;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -36,6 +51,40 @@ public class CompanyList extends AlgosListImpl {
             caption += "</br>Usabile direttamente, ma più probabile che la classe venga estesa e si usi quella.";
             caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
+    }// end of method
+
+    protected void fixToolbar() {
+        if (LibSession.isDeveloper()) {
+            this.addChangeCompanyButton();
+        }// end of if cycle
+    }// end of method
+
+
+    private void addChangeCompanyButton() {
+        List<String> companyList = service.findAll();
+        companyList.add(0, "Tutte");
+
+        final ComboBox country = new ComboBox("", companyList);
+        ((AToolbarImpl) toolbar).addComponent(country);
+
+        country.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+            @Override
+            public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+                Object event = valueChangeEvent.getValue();
+
+                if (event != null && event instanceof Company) {
+                    LibSession.setCompany((Company) event);
+                } else {
+                    LibSession.setCompany(null);
+                }// end of if/else cycle
+
+                Object ui = getUI();
+                if (ui instanceof AlgosUI) {
+                    ((AlgosUI) ui).footer.setAppMessage("SpringVaadin 1.0");
+                }// end of if cycle
+
+            }// end of inner method
+        });// end of anonymous inner class
     }// end of method
 
 }// end of class

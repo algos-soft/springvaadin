@@ -1,12 +1,15 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.annotation.AIForm;
+import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.Cost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +17,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Size;
 
@@ -27,6 +31,9 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
+@Document(collection = Cost.TAG_COMP)
+@AIList(columns = {"sigla", "descrizione", "contatto"})
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,7 +60,7 @@ public class Company extends AEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 30, help = "Descrizione della company")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 26, help = "Descrizione della company")
     @AIColumn(width = 400)
     private String descrizione;
 
@@ -65,15 +72,16 @@ public class Company extends AEntity {
     private Indirizzo indirizzo;
 
     @Email
-    @AIField(type = AFieldType.email)
+    @AIField(type = AFieldType.email, widthEM = 18)
     private String email;
 
     // persona di riferimento (facoltativo)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 20, name = "Riferimento")
-    private String contact;
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 18, name = "Riferimento")
+    @AIColumn(width = 300, name = "Riferimento")
+    private String contatto;
 
     //--eventuali note (facoltativo)
-    @AIField(type = AFieldType.note)
+    @AIField(type = AFieldType.note, widthEM = 18)
     private String note;
 
     /**

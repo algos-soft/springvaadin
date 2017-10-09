@@ -97,6 +97,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case text:
                     field = fieldFactory.apply(ATextField.class);
                     break;
+                case email:
+                    field = fieldFactory.apply(ATextField.class);
+                    break;
                 case integer:
                     field = fieldFactory.apply(AIntegerField.class);
                     break;
@@ -128,6 +131,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                         ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, target, field));
                     }// end of if/else cycle
                     ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, target, field));
+                    break;
+                case note:
+                    field = fieldFactory.apply(ATextField.class);
                     break;
                 default: // caso non definito
                     break;

@@ -3,10 +3,12 @@ package it.algos.springvaadin.footer;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
 import org.springframework.context.annotation.Lazy;
@@ -18,11 +20,12 @@ import javax.annotation.PostConstruct;
  * Created by gac on 12/06/17
  * .
  */
-@Lazy
 @SpringComponent
 public class AlgosFooter extends HorizontalLayout {
 
-    private String appMessage = "";
+    private final static String DEVELOPER_NAME = "Algos® ";
+    private String message = "";
+    private Label label;
 
     /**
      * Metodo invocato subito DOPO il costruttore
@@ -38,14 +41,27 @@ public class AlgosFooter extends HorizontalLayout {
         this.setWidth("100%");
         this.setMargin(new MarginInfo(false, false, true, false));
         this.setSpacing(true);
-        this.setHeight("30px");
-        String message = "Algos® " + this.appMessage;
+        this.setHeight("60px");
+    }// end of method
+
+    public void setAppMessage(String message) {
+        this.message = message;
+        this.fixMessage();
+    }// end of method
+
+
+    private void fixMessage() {
+        String tag="all companies";
         String companyCode = "";
-        String debugMessage = " (footerLayout)";
+        this.removeAllComponents();
 
         companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getSigla() : "";
-        if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
-            message += " - " + companyCode;
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            if (LibText.isValid(companyCode)) {
+                message += " - " + companyCode;
+            } else {
+                message += " - " + tag;
+            }// end of if/else cycle
         }// end of if cycle
 
         if (LibSession.isDeveloper()) {
@@ -58,23 +74,9 @@ public class AlgosFooter extends HorizontalLayout {
             }// end of if/else cycle
         }// end of if/else cycle
 
-        if (AlgosApp.USE_DEBUG) {
-//            this.addStyleName("redBg");
-            message += debugMessage;
-        }// fine del blocco if
-
-        //--colore
-//        message = "<strong style=\"color:blue;font-family:verdana;font-size:80%;\">" + message + "</strong>";
-        Label label = new Label(message, ContentMode.HTML);
-        label.addStyleName("rosso");
-
+//        label.setValue(DEVELOPER_NAME + message);
+        label = new LabelRosso(DEVELOPER_NAME + message);
         this.addComponent(label);
-    }// end of method
-
-    public void setAppMessage(String appMessage) {
-        this.removeAllComponents();
-        this.appMessage = appMessage;
-        this.inizia();
     }// end of method
 
 }// end of class
