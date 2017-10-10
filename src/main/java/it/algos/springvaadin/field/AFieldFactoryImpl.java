@@ -120,6 +120,10 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case resource:
                     field = fieldFactory.apply(AImageField.class);
                     break;
+                case icon:
+                    field = fieldFactory.apply(AIconField.class);
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, target, field));
+                    break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;

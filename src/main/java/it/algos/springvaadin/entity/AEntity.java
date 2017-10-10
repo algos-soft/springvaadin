@@ -1,5 +1,9 @@
 package it.algos.springvaadin.entity;
 
+import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.field.AFieldType;
 import lombok.Getter;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -34,6 +38,12 @@ public abstract class AEntity implements Serializable {
     @NotEmpty
     public String id;
 
+    /**
+     * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
+     */
+    @AIField(type = AFieldType.combo, clazz = Company.class)
+    @AIColumn(name = "Company", width = 110)
+    public String prova="pippo";
 
 }// end of entity abstract class
 

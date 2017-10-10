@@ -78,14 +78,25 @@ public abstract class LibReflection {
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
         if (fieldsArray != null && fieldsArray.length > 0) {
-            for (Field field : fieldsArray) {
-                fieldName = field.getName();
-                if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
-                    if (listaNomi == null || listaNomi.contains(fieldName)) {
+            if (listaNomi != null && listaNomi.size() > 0) {
+                for (String nome : listaNomi) {
+                    for (Field field : fieldsArray) {
+                        fieldName = field.getName();
+                        if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                            if (fieldName.equals(nome)) {
+                                fieldsList.add(field);
+                            }// end of if cycle
+                        }// end of if cycle
+                    }// end of for cycle
+                }// end of for cycle
+            } else {
+                for (Field field : fieldsArray) {
+                    fieldName = field.getName();
+                    if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
                         fieldsList.add(field);
                     }// end of if cycle
-                }// end of if cycle
-            }// end of for cycle
+                }// end of for cycle
+            }// end of if/else cycle
         }// end of if cycle
 
         //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento

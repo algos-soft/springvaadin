@@ -53,7 +53,18 @@ public class AIconField extends AField {
      */
     @Override
     public Integer getValue() {
-        return 0;
+        int val = 0;
+        VaadinIcons icona = null;
+
+        if (button != null) {
+            icona = (VaadinIcons) button.getIcon();
+        }// end of if cycle
+
+        if (icona != null) {
+            val = icona.getCodepoint();
+        }// end of if cycle
+
+        return val;
     }// end of method
 
 
@@ -73,7 +84,5 @@ public class AIconField extends AField {
 
         button.setIcon(icona);
     }// end of method
-
-
 
 }// end of class

@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.renderer.IconRenderer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -64,7 +65,7 @@ public abstract class LibColumn {
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
-        ButtonRenderer renderIcon = new ButtonRenderer();
+        IconRenderer renderIcon = new IconRenderer();
 
         if (grid == null || LibText.isEmpty(publicFieldName)) {
             return 0;
