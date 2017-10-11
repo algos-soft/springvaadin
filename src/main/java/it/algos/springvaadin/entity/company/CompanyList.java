@@ -62,6 +62,10 @@ public class CompanyList extends AlgosListImpl {
 
     private void addChangeCompanyButton() {
         List<String> companyList = service.findAll();
+
+        if (companyList == null) {
+            return;
+        }// end of if cycle
         companyList.add(0, "Tutte");
 
         final ComboBox country = new ComboBox("", companyList);

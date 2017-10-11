@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
     /**
      * Controlla se la company è obbligatoria e se esiste
      */
-    protected ACompanyEntity checkCompany(Company company, ACompanyEntity entity) {
+    protected AEntity checkCompany(Company company, AEntity entity) {
 
         if (company == null) {
             company = LibSession.getCompany();
@@ -53,7 +54,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
             return null;
         }// end of if cycle
 
-        entity.setCompany(company);
+//        entity.setCompany(company); @todo RIMETTERE
 
         return entity;
     }// end of method
@@ -69,6 +70,11 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
+        if (entityBean.id == null) {
+            entityBean.dataCreazione = LocalDateTime.now();
+        }// end of if cycle
+        entityBean.dataModifica = LocalDateTime.now();
+
         return (AEntity) repository.save(entityBean);
     }// end of method
 

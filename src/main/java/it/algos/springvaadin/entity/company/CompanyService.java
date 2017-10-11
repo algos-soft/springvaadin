@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.company;
 
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.bson.types.ObjectId;
@@ -72,7 +73,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo) {
-        return newEntity(sigla, descrizione, indirizzo, "", "", "");
+        return newEntity(sigla, descrizione, indirizzo, "", null);
     }// end of method
 
 
@@ -86,8 +87,8 @@ public class CompanyService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata
      */
-    public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, String contact, String note) {
-        return new Company(sigla, descrizione, indirizzo, email, contact, note);
+    public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, Persona contact) {
+        return new Company(sigla, descrizione, indirizzo, email, contact);
     }// end of method
 
 
@@ -137,7 +138,8 @@ public class CompanyService extends AlgosServiceImpl {
      * @return lista di tutte le entities
      */
     public List findAll() {
-        return ((CompanyRepository) repository).findAllByOrderBySiglaAsc();
+        return null;
+//        return ((CompanyRepository) repository).findAllByOrderBySiglaAsc();@todo rimettere ASSOLUTAMENTE
     }// end of method
 
 }// end of class

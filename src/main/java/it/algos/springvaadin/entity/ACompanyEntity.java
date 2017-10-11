@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
+
+import javax.persistence.Column;
 
 /**
  * Project springvaadin
@@ -40,11 +43,42 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Setter
 public abstract class ACompanyEntity extends AEntity {
 
+
     /**
      * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
+     * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
+     * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
+    @Indexed()
     @AIField(type = AFieldType.combo, clazz = Company.class)
     @AIColumn(name = "Company", width = 110)
     private Company company;
+
+
+    /**
+     * Sigla di codifica interna specifica per ogni company (obbligatoria, non unica in generale ma unica all'interno della company)
+     * Visibile solo per admin e developer
+     * Non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+     * Not null se il flag AlgosApp.USE_MULTI_COMPANY=true
+     */
+    @Column(length = 20)
+    @Indexed()
+    @AIField(type = AFieldType.text, required = true, widthEM = 9)
+    @AIColumn(width = 120)
+    private String code;
+
+
+    /**
+     * Sigla di codifica interna (obbligatoria, unica in generale indipendentemente dalla company)
+     * Calcolata -> codeCompanyUnico = company.companyCode + xxx.code (20+20=40);
+     * Visibile solo per admin e developer
+     * Non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+     * Not null e unica se il flag AlgosApp.USE_MULTI_COMPANY=true
+     */
+    @Column(length = 40)
+    @Indexed()
+    @AIField(type = AFieldType.text, required = true, enabled = true, widthEM = 15)
+    @AIColumn(width = 200)
+    private String codeCompanyUnico;
 
 }// end of class

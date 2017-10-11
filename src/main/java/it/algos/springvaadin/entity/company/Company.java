@@ -3,8 +3,10 @@ package it.algos.springvaadin.entity.company;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
@@ -40,7 +42,6 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = false)
 public class Company extends AEntity {
 
-
     /**
      * versione della classe per la serializzazione
      */
@@ -65,24 +66,22 @@ public class Company extends AEntity {
     private String descrizione;
 
 
-    //--indirizzo (facoltativo)
-    //    @DBRef
-    @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
-    @AIColumn(width = 400)
-    private Indirizzo indirizzo;
-
     @Email
     @AIField(type = AFieldType.email, widthEM = 18)
     private String email;
 
-    // persona di riferimento (facoltativo)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 18, name = "Riferimento")
-    @AIColumn(width = 300, name = "Riferimento")
-    private String contatto;
 
-    //--eventuali note (facoltativo)
-    @AIField(type = AFieldType.note, widthEM = 18)
-    private String note;
+    //--indirizzo (facoltativo)
+    @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
+    @AIColumn(width = 400, name = "Indirizzo")
+    private Indirizzo indirizzo;
+
+
+    // persona di riferimento (facoltativo)
+    @AIField(type = AFieldType.link, clazz = Persona.class, help = "Riferimento")
+    @AIColumn(width = 300, name = "Riferimento")
+    private Persona contatto;
+
 
     /**
      * @return a string representation of the object.

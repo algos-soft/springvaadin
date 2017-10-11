@@ -72,4 +72,5 @@ public abstract class Cost {
     public final static String TAG_AZ_LISTENER = "listener";
     public final static String TAG_IND = "indirizzo";
     public final static String TAG_STA = "stato";
+	public final static String TAG_PER = "persona";
 }// end of static class;

@@ -31,7 +31,7 @@ public abstract class LibReflection {
      */
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz) {
-        return getFields(entityClazz, (List) null, false, false);
+        return getFields(entityClazz, (List) null, true, true);
     }// end of static method
 
 
@@ -52,6 +52,8 @@ public abstract class LibReflection {
 
     /**
      * Fields dichiarati nella Entity
+     * Compresa la entity
+     * Compresa la superclasse AEntity
      *
      * @param entityClazz   da cui estrarre i fields
      * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
@@ -63,24 +65,43 @@ public abstract class LibReflection {
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
-        Field[] fieldsArray = null;
+        ArrayList<Field> fieldsTmp = new ArrayList<>();;
+        Field[] fieldsArrayClazz = null;
+        Field[] fieldsArraySuper = null;
         Field fieldCompany = null;
         Field fieldKeyId = null;
         String fieldName;
 
         //--recupera tutti i fields della entity
         try { // prova ad eseguire il codice
-            fieldsArray = entityClazz.getDeclaredFields();
+            fieldsArrayClazz = entityClazz.getDeclaredFields();
+            for (Field field : fieldsArrayClazz) {
+                fieldsTmp.add(field);
+            }// end of for cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        //--recupera tutti i fields della superclasse
+        //--esclusi 'id' e 'company' che decido dopo se metterli o no
+        try { // prova ad eseguire il codice
+            fieldsArraySuper = AEntity.class.getDeclaredFields();
+            for (Field field : fieldsArraySuper) {
+                fieldName = field.getName();
+                if (!fieldName.equals(Cost.PROPERTY_ID) && !fieldName.equals(Cost.PROPERTY_COMPANY)) {
+                    fieldsTmp.add(field);
+                }// end of if cycle
+            }// end of for cycle
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
-        if (fieldsArray != null && fieldsArray.length > 0) {
+        if (fieldsTmp != null && fieldsTmp.size() > 0) {
             if (listaNomi != null && listaNomi.size() > 0) {
                 for (String nome : listaNomi) {
-                    for (Field field : fieldsArray) {
+                    for (Field field : fieldsTmp) {
                         fieldName = field.getName();
                         if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
                             if (fieldName.equals(nome)) {
@@ -90,7 +111,7 @@ public abstract class LibReflection {
                     }// end of for cycle
                 }// end of for cycle
             } else {
-                for (Field field : fieldsArray) {
+                for (Field field : fieldsTmp) {
                     fieldName = field.getName();
                     if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
                         fieldsList.add(field);
@@ -330,36 +351,21 @@ public abstract class LibReflection {
 
 
     /**
-     * Properties di una entity
+     * Properties di una entity. Tutte.
+     * Compresa la entity
+     * Compresa la superclasse AEntity
      *
      * @param entity da esaminare
      *
-     * @return tutte le properties, elencate in ordine alfabetico
+     * @return tutte le properties, anche della superclasse, elencate in ordine alfabetico
      */
-    @Deprecated
-    public static String[] getAllProperties(AEntity entity) {
-        String[] propertyNames = null;
+    public static List<String> getAllPropertyNames(AEntity entity) {
+        List<String> propertyNames = null;
+        String[] stringArray;
 
         BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entity);
-        propertyNames = bean.getReadablePropertyNames();
-
-        return propertyNames;
-    }// end of static method
-
-
-    /**
-     * Properties di una entity class
-     *
-     * @param entityClazz da esaminare
-     *
-     * @return tutte le properties, elencate in ordine alfabetico
-     */
-    @Deprecated
-    public static String[] getAllProperties(Class<? extends AEntity> entityClazz) {
-        String[] propertyNames = null;
-
-        BeanPropertySqlParameterSource bean = new BeanPropertySqlParameterSource(entityClazz);
-        propertyNames = bean.getReadablePropertyNames();
+        stringArray = bean.getReadablePropertyNames();
+        propertyNames = LibArray.fromString(stringArray);
 
         return propertyNames;
     }// end of static method
@@ -367,6 +373,8 @@ public abstract class LibReflection {
 
     /**
      * Properties di una entity. Solo i campi dichiarati.
+     * Compresa la entity
+     * Compresa la superclasse AEntity
      * Escluso 'callbacks'
      * Escluso 'class'
      *
@@ -374,44 +382,14 @@ public abstract class LibReflection {
      *
      * @return properties, elencate in ordine alfabetico
      */
-    @Deprecated
-    public static List<String> getProperties(AEntity entity) {
+    public static List<String> getPropertyNames(AEntity entity) {
         List<String> propertyNames = null;
-        String[] propertyNamesAll = getAllProperties(entity);
+        List<String> propertyNamesAll = getAllPropertyNames(entity);
 
-        if (propertyNamesAll != null && propertyNamesAll.length > 0) {
+        if (propertyNamesAll != null && propertyNamesAll.size() > 0) {
             propertyNames = new ArrayList();
             for (String property : propertyNamesAll) {
-                if (!property.equals("callbacks") && !property.equals("class") && !property.equals("id")) {
-                    propertyNames.add(property);
-                }// end of if cycle
-            }// end of for cycle
-        }// end of if cycle
-
-        return propertyNames;
-    }// end of static method
-
-    /**
-     * Properties di una entity. Solo i campi dichiarati.
-     * Escluso 'callbacks'
-     * Escluso 'class'
-     *
-     * @param entityClazz da esaminare
-     *
-     * @return properties, elencate in ordine alfabetico
-     */
-    @Deprecated
-    public static List<String> getProperties(Class<? extends AEntity> entityClazz) {
-        List<String> propertyNames = null;
-        String[] propertyNamesAll = getAllProperties(entityClazz);
-
-        Object alfa = entityClazz.getFields();
-        Object beta = entityClazz.getDeclaredFields();
-
-        if (propertyNamesAll != null && propertyNamesAll.length > 0) {
-            propertyNames = new ArrayList();
-            for (String property : propertyNamesAll) {
-                if (!property.equals("callbacks") && !property.equals("class") && !property.equals("id")) {
+                if (!property.equals("callbacks") && !property.equals("class")) {
                     propertyNames.add(property);
                 }// end of if cycle
             }// end of for cycle
@@ -538,7 +516,7 @@ public abstract class LibReflection {
     public static LinkedHashMap<String, Object> getBeanMap(AEntity entity) {
         LinkedHashMap<String, Object> map = new LinkedHashMap();
         Method method = null;
-        List<String> propertiesName = getProperties(entity);
+        List<String> propertiesName = getAllPropertyNames(entity);
         propertiesName.add(Cost.PROPERTY_ID);
         Object value = null;
 

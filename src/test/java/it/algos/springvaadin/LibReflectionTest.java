@@ -68,6 +68,16 @@ public class LibReflectionTest {
 
         fieldsList = LibReflection.getFields(entityClazz);
         assertNotNull(fieldsList);
+        assertEquals(fieldsList.size(), 6);
+        assertEquals(fieldsList.get(0).getName(), "id");
+        assertEquals(fieldsList.get(1).getName(), "company");
+        assertEquals(fieldsList.get(2).getName(), "ordine");
+        assertEquals(fieldsList.get(3).getName(), "titolo");
+        assertEquals(fieldsList.get(4).getName(), "descrizione");
+        assertEquals(fieldsList.get(5).getName(), "modifica");
+
+        fieldsList = LibReflection.getFields(entityClazz, false, false);
+        assertNotNull(fieldsList);
         assertEquals(fieldsList.size(), 4);
         assertEquals(fieldsList.get(0).getName(), "ordine");
         assertEquals(fieldsList.get(1).getName(), "titolo");
@@ -206,7 +216,7 @@ public class LibReflectionTest {
      * @param entityClazz     su cui operare la riflessione
      * @param publicFieldName property name
      */
-//    @Test
+    @Test
     public void getField() {
         Field field;
         String publicFieldName = "titolo";
@@ -218,104 +228,46 @@ public class LibReflectionTest {
         assertEquals(ottenuto, previsto);
     }// end of single test
 
-//    /**
-//     * All fields properties di una EntityClass
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     */
-//    @Test
-//    public void getAllFields() {
-//        List<Field> fields;
-//
-//        fields = LibReflection.getAllFieldsNoID(entityClazz);
-//        assertNotNull(fields);
-//        assertEquals(fields.size(), 5);
-//    }// end of single test
 
 
-//    /**
-//     * All field names di una EntityClass
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return tutte i fieldNames, elencati in ordine alfabetico
-//     */
-//    @Test
-//    public void getAllFieldName2() {
-//        List<String> fieldNames;
-//
-//        fieldNames = LibReflection.getAllFieldNameAlfabetico(entityClazz);
-//        assertNotNull(fieldNames);
-//        assertEquals(fieldNames.size(), 5);
-//        assertEquals(fieldNames.get(0), "company");
-//        assertEquals(fieldNames.get(1), "descrizione");
-//        assertEquals(fieldNames.get(2), "modifica");
-//        assertEquals(fieldNames.get(3), "ordine");
-//        assertEquals(fieldNames.get(4), "titolo");
-//    }// end of single test
+    /**
+     * Properties di una entity. Tutte.
+     * Compresa la entity
+     * Compresa la superclasse AEntity
+     *
+     * @param entity da esaminare
+     *
+     * @return tutte le properties, anche della superclasse, elencate in ordine alfabetico
+     */
+    @Test
+    public void getAllPropertyNames() {
+       List risultato;
 
+        risultato = LibReflection.getAllPropertyNames(vers);
+        assert risultato != null;
+        assertEquals(risultato.size(), 9);
+    }// end of single test
 
-//    /**
-//     * Properties di una entity
-//     *
-//     * @param entity da esaminare
-//     *
-//     * @return tutte le properties, elencate in ordine alfabetico
-//     */
-////    @Test
-//    public void getAllProperties() {
-//        String[] risultato;
-//
-//        risultato = LibReflection.getAllProperties(vers);
-//        assert risultato != null;
-//        assertEquals(risultato.length, 7);
-//        assertEquals(risultato[0], "callbacks");
-//        assertEquals(risultato[1], "class");
-//        assertEquals(risultato[2], "descrizione");
-//        assertEquals(risultato[3], "id");
-//        assertEquals(risultato[4], "modifica");
-//        assertEquals(risultato[5], "ordine");
-//        assertEquals(risultato[6], "titolo");
-//    }// end of single test
+    /**
+     * Properties di una entity. Solo i campi dichiarati.
+     * Compresa la entity
+     * Compresa la superclasse AEntity
+     * Escluso 'callbacks'
+     * Escluso 'class'
+     *
+     * @param entity da esaminare
+     *
+     * @return properties, elencate in ordine alfabetico
+     */
+    @Test
+    public void getPropertyNames() {
+        List risultato;
 
-//    /**
-//     * Properties di una entity class
-//     *
-//     * @param entityClass da esaminare
-//     *
-//     * @return tutte le properties, elencate in ordine alfabetico
-//     */
-////    @Test
-//    public void getAllProperties2() {
-//        String[] risultato;
-//
-//        risultato = LibReflection.getAllProperties(Versione.class);
-//        assert risultato != null;
-//        assertEquals(risultato.length, 40);
-//    }// end of single test
+        risultato = LibReflection.getPropertyNames(vers);
+        assert risultato != null;
+        assertEquals(risultato.size(), 7);
+    }// end of single test
 
-//    /**
-//     * Properties di una entity class. Solo i campi dichiarati.
-//     * Escluso 'callbacks'
-//     * Escluso 'class'
-//     * Escluso 'id'
-//     *
-//     * @param entityClass da esaminare
-//     *
-//     * @return properties, elencate in ordine alfabetico
-//     */
-////    @Test
-//    public void getProperties() {
-//        List risultato;
-//
-//        risultato = LibReflection.getProperties(Versione.class);
-//        assert risultato != null;
-//        assertEquals(risultato.size(), 4);
-//        assertEquals(risultato.get(0), "descrizione");
-//        assertEquals(risultato.get(1), "modifica");
-//        assertEquals(risultato.get(2), "ordine");
-//        assertEquals(risultato.get(3), "titolo");
-//    }// end of single test
 
 
     /**
@@ -326,7 +278,7 @@ public class LibReflectionTest {
      *
      * @return method pubblico
      */
-//    @Test
+    @Test
     public void getMethod() {
         Method metodoPrevisto = null;
         Method metodoOttenuto = null;
@@ -363,7 +315,7 @@ public class LibReflectionTest {
      *
      * @return method pubblico
      */
-//    @Test
+    @Test
     public void getMethod2() {
         Method metodoPrevisto = null;
         Method metodoOttenuto = null;
@@ -391,31 +343,31 @@ public class LibReflectionTest {
         assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
     }// end of single test
 
-//    /**
-//     * Metodi getter di una classe entity.
-//     *
-//     * @param entity da esaminare
-//     *
-//     * @return tutti i metodi getter, in ordine alfabetico
-//     */
+    /**
+     * Metodi getter di una classe entity.
+     *
+     * @param entity da esaminare
+     *
+     * @return tutti i metodi getter, in ordine alfabetico
+     */
 //    @Test
-//    public void getMethods() {
-//        List<Method> listaMetodiOttenuta;
-//        String metodoPrevistoName = "getOrdine";
-//        String metodoOttenutoName = "";
-//        Class metodoPrevistoTipo = LocalDateTime.class;
-//        Class metodoOttenutoTipo = null;
-//
-//        listaMetodiOttenuta = LibReflection.getMethods(vers);
-//        assert listaMetodiOttenuta != null;
-//        assertEquals(listaMetodiOttenuta.size(), 4);
-//
-//        metodoOttenutoName = listaMetodiOttenuta.get(2).getName();
-//        assertEquals(metodoOttenutoName, metodoPrevistoName);
-//
-//        metodoOttenutoTipo = listaMetodiOttenuta.get(1).getReturnType();
-//        assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
-//    }// end of single test
+    public void getMethods2() {
+        List<Method> listaMetodiOttenuta;
+        String metodoPrevistoName = "getOrdine";
+        String metodoOttenutoName = "";
+        Class metodoPrevistoTipo = LocalDateTime.class;
+        Class metodoOttenutoTipo = null;
+
+        listaMetodiOttenuta = LibReflection.getMethods(vers);
+        assert listaMetodiOttenuta != null;
+        assertEquals(listaMetodiOttenuta.size(), 4);
+
+        metodoOttenutoName = listaMetodiOttenuta.get(2).getName();
+        assertEquals(metodoOttenutoName, metodoPrevistoName);
+
+        metodoOttenutoTipo = listaMetodiOttenuta.get(1).getReturnType();
+        assertEquals(metodoOttenutoTipo, metodoPrevistoTipo);
+    }// end of single test
 
 
     /**

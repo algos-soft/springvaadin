@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.persona.PersonaNavView;
 import it.algos.springvaadin.entity.log.LogNavView;
 import com.vaadin.server.VaadinSession;
 import it.algos.springvaadin.entity.stato.StatoNavView;
@@ -88,6 +89,12 @@ public abstract class AlgosUIViews extends AlgosUIParams {
         if (LibSession.isDeveloper()) {
             menuLayout.addView(StatoNavView.class);
         }// end of if cycle
+        if (LibSession.isDeveloper()) {
+            menuLayout.addView(IndirizzoNavView.class);
+        }// end of if cycle
+        if (LibSession.isAdmin()) {
+            menuLayout.addView(PersonaNavView.class);
+        }// end of if cycle
         if (LibParams.useVers() && LibSession.isAdmin()) {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
@@ -96,9 +103,6 @@ public abstract class AlgosUIViews extends AlgosUIParams {
         }// end of if cycle
         if (LibParams.useMultiCompany() && LibSession.isAdmin()) {
             menuLayout.addView(CompanyNavView.class);
-        }// end of if cycle
-        if (LibSession.isDeveloper()) {
-            menuLayout.addView(IndirizzoNavView.class);
         }// end of if cycle
     }// end of method
 

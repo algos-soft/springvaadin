@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.persona.PersonaNavView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
@@ -111,7 +112,7 @@ public class SpringVaadinUI extends AlgosUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-        getNavigator().navigateTo(Cost.TAG_VERS);
+        getNavigator().navigateTo(Cost.TAG_COMP);
     }// end of method
 
 }// end of class

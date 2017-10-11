@@ -212,6 +212,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             publicFieldName = reflectField.getName();
             field = viewField.create(source, target, entityBean.getClass(), publicFieldName);
 
+            //--recupera anche i fields della superclasse AEntity
+            if (field == null) {
+                field = viewField.create(source, target, AEntity.class, publicFieldName);
+            }// end of if cycle
+
             if (field != null) {
                 lista.add(field);
             }// end of if cycle
@@ -367,9 +372,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Usa tutto lo schermo
      *
      * @param source presenter di riferimento da cui vengono generati gli eventi
-     * @param fields del form da visualizzare
+     * @param reflectFields del form da visualizzare
      */
-    protected void usaAllScreen(ApplicationListener source, List<Field> fields) {
+    protected void usaAllScreen(ApplicationListener source, List<Field> reflectFields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -378,7 +383,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new LabelRosso(caption);
         this.addComponent(label);
 
-        creaAddBindFields(source, source, this, fields);
+        creaAddBindFields(source, source, this, reflectFields);
 
         this.addComponent(new Label());
         toolbar.inizializza(source);
