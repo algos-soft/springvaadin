@@ -33,10 +33,12 @@ public class LogList extends AlgosListImpl {
      */
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
-            caption = "</br>Lista visibile solo all'admin.";
-            caption += "</br>Usa la company che è obbligatoria se l'applicazione è MultiCompany";
+            caption = "";
+            caption += "</br>Lista visibile solo all'admin";
+            caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è obbligatoria";
             caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
     }// end of method
+
 
 }// end of class

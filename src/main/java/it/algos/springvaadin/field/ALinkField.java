@@ -48,7 +48,7 @@ public class ALinkField extends AField {
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
     protected void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
-        super.inizializza(publicFieldName, source, source);
+        super.inizializza(publicFieldName, source);
         if (label == null) {
             label = new LabelBold();
         }// end of if cycle
@@ -80,7 +80,7 @@ public class ALinkField extends AField {
                 return new HorizontalLayout(buttonEdit, label);
             }// end of if/else cycle
         } else {
-            return label;
+            return buttonEdit;
         }// end of if/else cycle
     }// end of method
 
@@ -91,11 +91,13 @@ public class ALinkField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
-        if (value != null && ((AEntity) value).id != null) {
-            label.setValue(value.toString());
-        } else {
-            label.setValue("");
-        }// end of if/else cycle
+        if (label != null) {
+            if (value != null && ((AEntity) value).id != null) {
+                label.setValue(value.toString());
+            } else {
+                label.setValue("");
+            }// end of if/else cycle
+        }// end of if cycle
     }// end of method
 
 

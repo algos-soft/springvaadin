@@ -41,16 +41,6 @@ public class AImageField extends AField {
     private byte[] imgByte;
 
 
-    /**
-     * Costruttore @Autowired (nella superclasse)
-     * Si usa un @Qualifier(), per avere la sottoclasse specifica
-     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-     */
-    public AImageField() {
-        super.target = targetAutowired;
-    }// end of @Autowired constructor
-
-
     public void setWidth(String width) {
         if (placeholderImage != null) {
             placeholderImage.setWidth(width);
@@ -58,15 +48,14 @@ public class AImageField extends AField {
         }// end of if cycle
     }// end of method
 
-
     /**
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
     protected void inizializza(String publicFieldName, ApplicationListener source) {
-        super.inizializza(publicFieldName, source, source);
+        super.inizializza(publicFieldName, source);
         if (button != null) {
-            button.setTarget(target);
+            button.setTarget(targetAutowired);
         }// end of if cycle
     }// end of method
 

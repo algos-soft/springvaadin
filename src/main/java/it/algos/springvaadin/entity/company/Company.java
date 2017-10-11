@@ -6,7 +6,9 @@ import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.persona.PersonaPresenter;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
@@ -72,13 +74,13 @@ public class Company extends AEntity {
 
 
     //--indirizzo (facoltativo)
-    @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
+    @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
     @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
 
 
     // persona di riferimento (facoltativo)
-    @AIField(type = AFieldType.link, clazz = Persona.class, help = "Riferimento")
+    @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento")
     @AIColumn(width = 300, name = "Riferimento")
     private Persona contatto;
 

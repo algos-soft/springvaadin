@@ -32,9 +32,11 @@ public class IndirizzoList extends AlgosListImpl {
      */
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
-            caption = "</br>Lista visibile solo al developer.";
-            caption += "</br>L'entity è 'embedded' nelle collezioni che la usano (property no DbRef)";
-            caption += "</br>In pratica questa lista non dovrebbe mai essere usata.";
+            caption = "";
+            caption += "</br>Lista visibile solo al developer";
+            caption += "</br>NON usa la company";
+            caption += "</br>L'entity è 'embedded' nelle collezioni che la usano (no @Annotation property DbRef)";
+            caption += "</br>In pratica questa lista non dovrebbe mai essere usata";
         }// end of if cycle
     }// end of method
 

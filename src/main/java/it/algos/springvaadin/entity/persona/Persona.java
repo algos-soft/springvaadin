@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
@@ -44,7 +45,7 @@ public class Persona extends ACompanyEntity {
     //--nome (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true, widthEM = 10)
+    @AIField(type = AFieldType.text, required = true)
     @AIColumn()
     private String nome;
 
@@ -52,19 +53,19 @@ public class Persona extends ACompanyEntity {
     //--cognome (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true, widthEM = 10)
+    @AIField(type = AFieldType.text, required = true)
     @AIColumn()
     private String cognome;
 
 
     //--indirizzo (facoltativo)
-    @AIField(type = AFieldType.link, clazz = IndirizzoField.class, help = "Indirizzo")
-    @AIColumn(width = 400)
+    @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
+    @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
 
 
     //--telefono (facoltativo)
-    @AIField(type = AFieldType.text, required = true, widthEM = 10)
+    @AIField(type = AFieldType.text)
     @AIColumn()
     private String telefono;
 

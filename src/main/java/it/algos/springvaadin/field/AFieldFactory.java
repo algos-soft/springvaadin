@@ -29,7 +29,7 @@ public interface AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName);
+    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, String publicFieldName);
 
 
 }// end of interface

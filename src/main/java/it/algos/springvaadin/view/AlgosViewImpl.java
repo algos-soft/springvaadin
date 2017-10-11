@@ -36,7 +36,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    @Autowired //@todo in realtà funziona anche senza @Autowired. Non capisco :-(
+    @Autowired
     public AlgosViewImpl(AlgosList list, AlgosForm form) {
         this.list = list;
         this.form = form;
@@ -79,9 +79,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void setForm(AEntity entityBean, List<Field> fields, boolean usaSeparateFormDialog) {
+    public void setForm(ApplicationListener source, AEntity entityBean, List<Field> fields, boolean usaSeparateFormDialog) {
         removeAllComponents();
-        form.restart(presenter, entityBean, fields, usaSeparateFormDialog);
+        form.restart(source, entityBean, fields, usaSeparateFormDialog);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
@@ -100,7 +100,7 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
         removeAllComponents();
-        form.restartLink(source, presenter, sourceField, entityBean, reflectFields, type);
+        form.restartLink(source, sourceField, entityBean, reflectFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);

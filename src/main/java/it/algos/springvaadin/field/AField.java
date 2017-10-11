@@ -123,7 +123,7 @@ public abstract class AField<T> extends CustomField<Object> {
      * @param source          del presenter che gestisce questo field
      * @param target          a cui indirizzare l'evento generato dal bottone
      */
-    void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
+    void inizializza(String publicFieldName, ApplicationListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);

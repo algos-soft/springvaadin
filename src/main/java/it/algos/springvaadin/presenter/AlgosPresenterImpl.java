@@ -222,7 +222,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
 
         if (entityBean != null) {
-            view.setForm(entityBean, reflectFields, usaSeparateFormDialog);
+            view.setForm(this,entityBean, reflectFields, usaSeparateFormDialog);
         }// end of if cycle
 
     }// end of method

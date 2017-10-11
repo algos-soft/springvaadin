@@ -23,6 +23,7 @@ public @interface AIField {
      */
     Class<? extends Object> clazz() default Object.class;
 
+
     /**
      * (Required) The type of the field.
      * Defaults to the text type.

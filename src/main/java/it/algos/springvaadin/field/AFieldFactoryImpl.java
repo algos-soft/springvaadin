@@ -86,7 +86,8 @@ public class AFieldFactoryImpl implements AFieldFactory {
      *
      * @return il field creato
      */
-    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, ApplicationListener target, String publicFieldName) {
+    @Override
+    public AField crea(final Class<? extends AEntity> clazz, AFieldType type, ApplicationListener source, String publicFieldName) {
         AField field = null;
 
         try { // prova ad eseguire il codice
@@ -114,27 +115,26 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case image:
                     field = fieldFactory.apply(AImageField.class);
-                    target = targetImageAutowired;
-                    field.setButton(buttonFactory.crea(AButtonType.image, source, target, field));
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, targetImageAutowired, field));
                     break;
                 case resource:
                     field = fieldFactory.apply(AImageField.class);
                     break;
                 case icon:
                     field = fieldFactory.apply(AIconField.class);
-                    field.setButton(buttonFactory.crea(AButtonType.image, source, target, field));
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, source, field));
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
-                    if (LibAnnotation.isDBRef(clazz,publicFieldName)) {
-                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, target, field));
+                    if (LibAnnotation.isDBRef(clazz, publicFieldName)) {
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field));
                     } else {
-                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, target, field));
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, source, field));
                     }// end of if/else cycle
-                    ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, target, field));
+                    ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
                     break;
                 case note:
                     field = fieldFactory.apply(ATextField.class);
@@ -144,7 +144,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
             } // fine del blocco switch
 
             if (field != null) {
-                field.inizializza(publicFieldName, source, target);
+                field.inizializza(publicFieldName, source);
             }// end of if cycle
 
         } catch (Exception unErrore) { // intercetta l'errore

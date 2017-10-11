@@ -55,7 +55,7 @@ public abstract class AEntity implements Serializable {
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.note, widthEM = 18)
+    @AIField(type = AFieldType.note)
     public String note;
 
     /**

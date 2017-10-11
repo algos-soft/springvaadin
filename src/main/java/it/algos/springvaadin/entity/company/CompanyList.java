@@ -47,11 +47,15 @@ public class CompanyList extends AlgosListImpl {
      */
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
-            caption = "</br>Lista visibile solo all'admin. Filtrata su una sola company";
-            caption += "</br>Usabile direttamente, ma più probabile che la classe venga estesa e si usi quella.";
+            caption = "";
+            caption += "</br>Lista visibile solo all'admin. Filtrata su una sola company";
+            caption += "</br>NON usa la company (ovvio)";
+            caption += "</br>Usabile direttamente, ma anche estendendo la classe";
             caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
     }// end of method
+
+
 
     protected void fixToolbar() {
         if (LibSession.isDeveloper()) {

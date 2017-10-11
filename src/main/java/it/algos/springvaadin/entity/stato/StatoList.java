@@ -45,8 +45,9 @@ public class StatoList extends AlgosListImpl {
     protected void inizializza() {
         chekStatiEsistenti();
         if (LibSession.isDeveloper()) {
-            caption = "</br>Lista visibile solo al developer.";
-            caption += "</br>La collezione viene usata dalle altre collezioni come 'references' (tramite @DBRef) e non 'embedded'";
+            caption = "";
+            caption += "</br>Lista visibile solo al developer";
+            caption += "</br>NON usa la company";
             caption += "</br>La key property ID utilizza la property alfaTre";
             caption += "</br>Le property nome, alfaDue e alfaTre sono uniche e non possono essere nulle";
             caption += "</br>La property numerico può essere nulla";

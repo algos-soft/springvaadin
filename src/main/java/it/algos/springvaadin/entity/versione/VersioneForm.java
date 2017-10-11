@@ -43,8 +43,8 @@ public class VersioneForm extends AlgosFormImpl {
      * @param reflectFields del form da visualizzare
      */
     @Override
-    protected void creaAddBindFields(ApplicationListener source, ApplicationListener target, Layout layout, List<Field> reflectFields) {
-        super.creaAddBindFields(source, target, layout, reflectFields);
+    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields) {
+        super.creaAddBindFields(source, layout, reflectFields);
     }// end of method
 
 }// end of class

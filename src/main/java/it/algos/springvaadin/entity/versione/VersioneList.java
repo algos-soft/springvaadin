@@ -32,8 +32,9 @@ public class VersioneList extends AlgosListImpl {
      */
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
-            caption = "</br>Lista visibile solo all'admin.";
-            caption += "</br>Usa la company ma NON è obbligatoria";
+            caption = "";
+            caption += "</br>Lista visibile solo all'admin";
+            caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è obbligatoria";
             caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
     }// end of method

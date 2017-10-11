@@ -22,8 +22,6 @@ import it.algos.springvaadin.lib.Cost;
 @Qualifier(Cost.TAG_COMP)
 public class CompanyForm extends AlgosFormImpl {
 
-    @Autowired
-    private IndirizzoPresenter target;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -36,30 +34,6 @@ public class CompanyForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
-
-    /**
-     * Eventuali regolazioni specifiche per i fields
-     * <p>
-     * Indirizzo è un linkField che usa DBRef e quindi il bottone deve essere BottoneRegistraLink
-     */
-    @Override
-    protected void fixFields() {
-        String fieldName = "indirizzo";
-        AField field = getField(fieldName);
-        AEntity entityIndirizzo = ((Company) entityBean).getIndirizzo();
-
-        if (field != null && field instanceof ALinkField) {
-
-            //--Se il link field non è 'DBRef', cambia il bottone da Registra ad Accetta:
-            if (!LibAnnotation.isDBRef(Company.class, fieldName)) {
-                ((ALinkField) field).setTypeLink(AButtonType.editLinkNoDBRef);
-            }// end of if cycle
-
-            field.setEntityBean(entityIndirizzo);
-            field.setTarget(target);
-        }// end of if cycle
-
-    }// end of method
 
 
 }// end of class

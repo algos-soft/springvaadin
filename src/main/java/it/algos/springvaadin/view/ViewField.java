@@ -1,10 +1,14 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
+import it.algos.springvaadin.entity.persona.PersonaPresenter;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.presenter.AlgosPresenter;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -24,6 +28,12 @@ public class ViewField {
     @Autowired
     private AFieldFactory fieldFactory;
 
+    @Autowired
+    private IndirizzoPresenter indirizzoPresenter;
+
+    @Autowired
+    private PersonaPresenter personaPresenter;
+
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
@@ -41,7 +51,7 @@ public class ViewField {
      * @param attr   the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public AField create(ApplicationListener source, ApplicationListener target, final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName) {
         AField field = null;
         Object[] items = null;
         AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
@@ -51,7 +61,7 @@ public class ViewField {
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
-        Class comboClazz = LibAnnotation.getClass(clazz, publicFieldName);
+        Class targetClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
         if (fieldAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
@@ -59,13 +69,23 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(clazz,type, source, target, publicFieldName);
+            field = fieldFactory.crea(clazz,type, source, publicFieldName);
         }// end of if cycle
 
         //@todo aggiungere la nullSelection letta dalla Annotation
-        if (type == AFieldType.combo && comboClazz != null && field != null) {
-            items = LibMongo.findAll(comboClazz).toArray();
+        if (type == AFieldType.combo && targetClazz != null && field != null) {
+            items = LibMongo.findAll(targetClazz).toArray();
             ((AComboField) field).fixCombo(items, false);
+        }// end of if cycle
+
+        //--@todo sicuramente migliorabile !!!
+        if (type == AFieldType.link && targetClazz != null && field != null) {
+            if (targetClazz.getSimpleName().equals("IndirizzoPresenter")) {
+                field.setTarget(indirizzoPresenter);
+            }// end of if cycle
+            if (targetClazz.getSimpleName().equals("PersonaPresenter")) {
+                field.setTarget(personaPresenter);
+            }// end of if cycle
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {

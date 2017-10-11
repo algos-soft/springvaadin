@@ -88,7 +88,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, Persona contact) {
-        return new Company(sigla, descrizione, indirizzo, email, contact);
+        return new Company(sigla, descrizione, email, indirizzo, contact);
     }// end of method
 
 
@@ -138,8 +138,8 @@ public class CompanyService extends AlgosServiceImpl {
      * @return lista di tutte le entities
      */
     public List findAll() {
-        return null;
-//        return ((CompanyRepository) repository).findAllByOrderBySiglaAsc();@todo rimettere ASSOLUTAMENTE
+//        return null;
+        return ((CompanyRepository) repository).findAll();
     }// end of method
 
 }// end of class
