@@ -66,18 +66,18 @@ public class StatoService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Stato crea(String nome) {
-        Stato  entity = null;
+        Stato entity = null;
 
         if (repository != null) {
-             entity= ((StatoRepository) repository).findByNome(nome);
+            entity = ((StatoRepository) repository).findByNome(nome);
         }// end of if cycle
 
-        if (repository != null&& entity == null) {
-             entity = newEntity(0, nome);
-             entity = (Stato) repository.save(newEntity(0, nome));
+        if (repository != null && entity == null) {
+            entity = newEntity(0, nome);
+            entity = (Stato) repository.save(newEntity(0, nome));
         }// end of if cycle
 
-        return  entity;
+        return entity;
     }// end of method
 
     /**

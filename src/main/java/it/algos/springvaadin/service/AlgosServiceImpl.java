@@ -70,7 +70,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
-        if (entityBean.id == null) {
+        if (entityBean.dataCreazione == null ) {
             entityBean.dataCreazione = LocalDateTime.now();
         }// end of if cycle
         entityBean.dataModifica = LocalDateTime.now();
