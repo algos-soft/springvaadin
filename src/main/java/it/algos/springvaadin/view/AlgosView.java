@@ -5,6 +5,7 @@ import com.vaadin.navigator.View;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
 
@@ -61,7 +62,7 @@ public interface AlgosView extends View {
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type);
+    public void setFormLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type);
 
 
     /**

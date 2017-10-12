@@ -104,9 +104,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         toolbar = toolbarNormale;
 
         if (usaSeparateFormDialog) {
-            usaSeparateFormDialog(source, null, null, reflectFields);
+            usaSeparateFormDialog(source, null, entityBean, null, reflectFields);
         } else {
-            usaAllScreen(source, reflectFields);
+            usaAllScreen(source, reflectFields, entityBean);
         }// end of if/else cycle
     }// end of method
 
@@ -122,7 +122,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type) {
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type) {
         this.entityBean = entityBean;
 
         toolbar = toolbarLink;
@@ -131,7 +131,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         } else {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(false);
         }// end of if/else cycle
-        usaSeparateFormDialog(source, entityBean, sourceField, reflectFields);
+        usaSeparateFormDialog(source, target, entityBean, sourceField, reflectFields);
     }// end of method
 
     /**
@@ -141,7 +141,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param sourceField   di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      * @param reflectFields del form da visualizzare
      */
-    protected void usaSeparateFormDialog(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields) {
+    protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -166,10 +166,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaAddBindFields(source, layout, reflectFields);
+        creaAddBindFields(target, layout, reflectFields, entityBean);
 
         layout.addComponent(new Label());
-        toolbar.inizializza(source, source, entityBean, sourceField);
+        toolbar.inizializza(source, target, entityBean, sourceField);
         fixToolbar();
         layout.addComponent((AToolbarImpl) toolbar);
 
@@ -187,8 +187,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param layout        in cui inserire i campi (window o panel)
      * @param reflectFields del form da visualizzare
      */
-    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields) {
-        creaFields(source, reflectFields);
+    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields, AEntity entityBean) {
+        creaFields(source, reflectFields, entityBean);
         addFields(layout);
         fixFields();
         bindFields();
@@ -203,18 +203,18 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      *
      * @return lista di fields
      */
-    protected List<AField> creaFields(ApplicationListener source, List<Field> reflectFields) {
+    protected List<AField> creaFields(ApplicationListener source, List<Field> reflectFields, AEntity entityBean) {
         List<AField> lista = new ArrayList<>();
         AField field;
         String publicFieldName;
 
         for (Field reflectField : reflectFields) {
             publicFieldName = reflectField.getName();
-            field = viewField.create(source, entityBean.getClass(), publicFieldName);
+            field = viewField.create(source, entityBean.getClass(), publicFieldName, entityBean);
 
             //--recupera anche i fields della superclasse AEntity
             if (field == null) {
-                field = viewField.create(source, AEntity.class, publicFieldName);
+                field = viewField.create(source, AEntity.class, publicFieldName, entityBean);
             }// end of if cycle
 
             if (field != null) {
@@ -371,10 +371,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Usa tutto lo schermo
      *
-     * @param source presenter di riferimento da cui vengono generati gli eventi
+     * @param source        presenter di riferimento da cui vengono generati gli eventi
      * @param reflectFields del form da visualizzare
      */
-    protected void usaAllScreen(ApplicationListener source, List<Field> reflectFields) {
+    protected void usaAllScreen(ApplicationListener source, List<Field> reflectFields, AEntity entityBean) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -383,7 +383,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         label = new LabelRosso(caption);
         this.addComponent(label);
 
-        creaAddBindFields(source, this, reflectFields);
+        creaAddBindFields(source, this, reflectFields, entityBean);
 
         this.addComponent(new Label());
         toolbar.inizializza(source);

@@ -51,7 +51,7 @@ public class ViewField {
      * @param attr   the metamodel Attribute
      */
     @SuppressWarnings("all")
-    public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName, AEntity entityBean) {
         AField field = null;
         Object[] items = null;
         AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
@@ -69,7 +69,7 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(clazz,type, source, publicFieldName);
+            field = fieldFactory.crea(clazz, type, source, publicFieldName,entityBean);
         }// end of if cycle
 
         //@todo aggiungere la nullSelection letta dalla Annotation

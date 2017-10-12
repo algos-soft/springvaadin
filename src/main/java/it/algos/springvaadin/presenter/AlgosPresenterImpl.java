@@ -180,10 +180,14 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
         List<Field> reflectFields = service.getFormFields();
 
+//        //--inversione - cambio Collection (modulo)
+//        ApplicationListener target = oldSource;
+//        ApplicationListener newSource = this;
+
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
-        view.setFormLink(source, entityBean, sourceField, reflectFields, type);
+        view.setFormLink(source, this, entityBean, sourceField, reflectFields, type);
     }// end of method
 
 
@@ -222,7 +226,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
 
         if (entityBean != null) {
-            view.setForm(this,entityBean, reflectFields, usaSeparateFormDialog);
+            view.setForm(this, entityBean, reflectFields, usaSeparateFormDialog);
         }// end of if cycle
 
     }// end of method
@@ -421,7 +425,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
         AEntity entityBeanNew = null;
 
-        if (view.entityIsOk()) {
+        if (true) {
+//            if (view.entityIsOk()) {
             entityBeanNew = view.commit();
             entityBeanNew.id = "";
             view.closeFormWindow();
@@ -472,6 +477,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Override
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
+        ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
+        this.view.enableButtonForm(AButtonType.registra,true);
     }// end of method
 
     /**

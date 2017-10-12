@@ -47,7 +47,7 @@ public class ALinkField extends AField {
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
-    protected void inizializza(String publicFieldName, ApplicationListener source, ApplicationListener target) {
+    protected void inizializza(String publicFieldName, ApplicationListener source) {
         super.inizializza(publicFieldName, source);
         if (label == null) {
             label = new LabelBold();
@@ -70,6 +70,7 @@ public class ALinkField extends AField {
 
         if (buttonEdit != null && label != null) {
             if (buttonDelete != null) {
+                String pippoz = label.getValue();
                 if (label.getValue().equals("")) {
                     buttonDelete.setEnabled(false);
                 } else {
@@ -91,6 +92,10 @@ public class ALinkField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
+        if (value != null && value instanceof AEntity) {
+            entityBean = (AEntity) value;
+        }// end of if cycle
+
         if (label != null) {
             if (value != null && ((AEntity) value).id != null) {
                 label.setValue(value.toString());

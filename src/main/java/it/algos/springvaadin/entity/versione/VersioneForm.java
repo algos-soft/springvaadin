@@ -34,17 +34,5 @@ public class VersioneForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
-    /**
-     * Crea i campi, li aggiunge al layout, li aggiunge al binder
-     *
-     * @param source     presenter di riferimento da cui vengono generati gli eventi
-     * @param target
-     * @param layout     in cui inserire i campi (window o panel)
-     * @param reflectFields del form da visualizzare
-     */
-    @Override
-    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields) {
-        super.creaAddBindFields(source, layout, reflectFields);
-    }// end of method
 
 }// end of class

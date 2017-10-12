@@ -40,6 +40,6 @@ public interface AButtonFactory {
      *
      * @return il bottone creato
      */
-    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField);
+    public AButton crea(AButtonType type, ApplicationListener source, ApplicationListener target, AField sourceField,AEntity entityBean);
 
 }// end of interface

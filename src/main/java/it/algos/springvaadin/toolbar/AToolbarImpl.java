@@ -53,6 +53,18 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     }// end of method
 
     /**
+     * Metodo invocato da restart() di Form e List
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source dell'evento generato dal bottone
+     */
+    @Override
+    public void inizializza(ApplicationListener source, ApplicationListener target) {
+    }// end of method
+
+    /**
      * Metodo invocato da restart() di Form, nella classe LinkToolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
@@ -86,7 +98,7 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
      */
     @Override
     public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
-        AButton button = buttonFactory.crea(type, source, target, entityBean,sourceField);
+        AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {
             addComponent(button);

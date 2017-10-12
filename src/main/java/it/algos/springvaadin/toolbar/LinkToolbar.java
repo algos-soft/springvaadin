@@ -59,13 +59,13 @@ public class LinkToolbar extends AToolbarImpl {
     public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
         this.removeAllComponents();
 
-        super.creaAddButton(AButtonType.annulla, source, target, entityBean,sourceField);
-        super.creaAddButton(AButtonType.revert, source, target, entityBean,sourceField);
+        super.creaAddButton(AButtonType.back, source, target, entityBean, sourceField);
+        super.creaAddButton(AButtonType.revert, target, target, entityBean, sourceField);
 
         if (usaBottoneRegistra) {
-            super.creaAddButton(AButtonType.linkRegistra, source, target, entityBean,sourceField);
+            super.creaAddButton(AButtonType.linkRegistra, source, target, entityBean, sourceField);
         } else {
-            super.creaAddButton(AButtonType.linkAccetta, source, target, entityBean,sourceField);
+            super.creaAddButton(AButtonType.linkAccetta, source, target, entityBean, sourceField);
         }// end of if/else cycle
     }// end of method
 

@@ -88,7 +88,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la nuova entity appena creata
      */
     public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, Persona contact) {
-        return new Company(sigla, descrizione, email, indirizzo, contact);
+        return new Company(sigla, descrizione, contact, email, indirizzo);
     }// end of method
 
 

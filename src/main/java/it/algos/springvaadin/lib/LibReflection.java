@@ -65,7 +65,8 @@ public abstract class LibReflection {
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
-        ArrayList<Field> fieldsTmp = new ArrayList<>();;
+        ArrayList<Field> fieldsTmp = new ArrayList<>();
+        ;
         Field[] fieldsArrayClazz = null;
         Field[] fieldsArraySuper = null;
         Field fieldCompany = null;
@@ -599,6 +600,26 @@ public abstract class LibReflection {
                 value = mappa.get(publicFieldName);
             }// end of if cycle
         }// end of if cycle
+
+        return value;
+    }// end of static method
+
+    /**
+     * Valore di una property linkata della entity.
+     *
+     * @param entityBean      da esaminare
+     * @param publicFieldName da esaminare
+     *
+     * @return valore della property
+     */
+    public static AEntity getValueLink(AEntity entityBean, String publicFieldName) {
+        AEntity value = null;
+        Object valueObj = getValue(entityBean, publicFieldName);
+
+        if (valueObj != null && valueObj instanceof AEntity) {
+            value = (AEntity) valueObj;
+        }// end of if cycle
+
 
         return value;
     }// end of static method

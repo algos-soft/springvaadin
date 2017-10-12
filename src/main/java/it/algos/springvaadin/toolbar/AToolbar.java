@@ -28,10 +28,18 @@ public interface AToolbar {
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
+     */
+    public void inizializza(ApplicationListener source);
+
+    /**
+     * Metodo invocato da restart() di Form e List
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
      *
      * @param source dell'evento generato dal bottone
      */
-    public void inizializza(ApplicationListener source);
+    public void inizializza(ApplicationListener source,ApplicationListener target);
 
 
     /**

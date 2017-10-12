@@ -68,6 +68,12 @@ public class Company extends AEntity {
     private String descrizione;
 
 
+    // persona di riferimento (facoltativo)
+    @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento")
+    @AIColumn(width = 300, name = "Riferimento")
+    private Persona contatto;
+
+
     @Email
     @AIField(type = AFieldType.email, widthEM = 18)
     private String email;
@@ -79,10 +85,6 @@ public class Company extends AEntity {
     private Indirizzo indirizzo;
 
 
-    // persona di riferimento (facoltativo)
-    @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento")
-    @AIColumn(width = 300, name = "Riferimento")
-    private Persona contatto;
 
 
     /**

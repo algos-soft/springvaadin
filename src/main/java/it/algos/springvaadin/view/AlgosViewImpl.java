@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -98,9 +99,10 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void setFormLink(ApplicationListener source, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
+    @Override
+    public void setFormLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
         removeAllComponents();
-        form.restartLink(source, sourceField, entityBean, reflectFields, type);
+        form.restartLink(source, target, sourceField, entityBean, reflectFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);

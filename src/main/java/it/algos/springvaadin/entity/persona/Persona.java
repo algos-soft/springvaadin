@@ -35,7 +35,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Persona extends ACompanyEntity {
+public class Persona extends AEntity {
 
 
     //--versione della classe per la serializzazione
@@ -45,7 +45,7 @@ public class Persona extends ACompanyEntity {
     //--nome (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true)
+    @AIField(type = AFieldType.text, required = true, focus = true, firstCapital = true)
     @AIColumn()
     private String nome;
 
@@ -53,7 +53,7 @@ public class Persona extends ACompanyEntity {
     //--cognome (facoltativo)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true)
+    @AIField(type = AFieldType.text, required = true, firstCapital = true)
     @AIColumn()
     private String cognome;
 
@@ -74,7 +74,7 @@ public class Persona extends ACompanyEntity {
      */
     @Override
     public String toString() {
-        return getNome() + "" + getCognome();
+        return getNome() + " " + getCognome();
     }// end of method
 
 
