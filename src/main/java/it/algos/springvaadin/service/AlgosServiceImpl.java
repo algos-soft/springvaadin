@@ -2,8 +2,13 @@ package it.algos.springvaadin.service;
 
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.versione.Versione;
+import it.algos.springvaadin.exception.CompanyException;
+import it.algos.springvaadin.exception.NotCompanyEntityException;
+import it.algos.springvaadin.exception.NullCodeCompanyException;
+import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -41,42 +46,97 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
 
     /**
-     * Controlla se la company è obbligatoria e se esiste
-     */
-    protected AEntity checkCompany(Company company, AEntity entity) {
-
-        if (company == null) {
-            company = LibSession.getCompany();
-        }// end of if cycle
-
-        if (company == null && LibAnnotation.isCompanyNotNull(Versione.class)) {
-            log.warn("Entity non creata perché manca la Company (obbligatoria)");
-            return null;
-        }// end of if cycle
-
-//        entity.setCompany(company); @todo RIMETTERE
-
-        return entity;
-    }// end of method
-
-
-    /**
      * Saves a given entity.
      * Use the returned instance for further operations
      * as the save operation might have changed the entity instance completely.
+     * <p>
+     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+     * Controlla se la collection (table) usa la company
      *
      * @param entityBean da salvare
      *
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
-        if (entityBean.dataCreazione == null ) {
-            entityBean.dataCreazione = LocalDateTime.now();
-        }// end of if cycle
-        entityBean.dataModifica = LocalDateTime.now();
+        entityBean = checkDate(entityBean);
+        ACompanyRequired companyRequired = LibAnnotation.company(entityClass);
 
-        return (AEntity) repository.save(entityBean);
+        if (LibParams.useMultiCompany()) {
+            switch (companyRequired) {
+                case nonUsata:
+                    return (AEntity) repository.save(entityBean);
+                case facoltativa:
+                    return (AEntity) repository.save(entityBean);
+                case obbligatoria:
+                    if (checkCompany(entityBean, false)) {
+                        return (AEntity) repository.save(entityBean);
+                    } else {
+                        log.warn("Entity non creata perché manca la Company (obbligatoria)");
+                        return null;
+                    }// end of if/else cycle
+                case usaCodeCompanyUnico:
+                    if (checkCompany(entityBean, true)) {
+                        return (AEntity) repository.save(entityBean);
+                    } else {
+                        log.warn("Entity non creata perché manca la Company (obbligatoria)");
+                        return null;
+                    }// end of if/else cycle
+                default:
+                    log.warn("Switch - caso non definito");
+                    return (AEntity) repository.save(entityBean);
+            } // end of switch statement
+        } else {
+            return (AEntity) repository.save(entityBean);
+        }// end of if/else cycle
     }// end of method
+
+
+    private AEntity checkDate(AEntity entityBeanIn) {
+        AEntity entityBeanOut = entityBeanIn;
+
+        if (entityBeanOut.dataCreazione == null) {
+            entityBeanOut.dataCreazione = LocalDateTime.now();
+        }// end of if cycle
+        entityBeanOut.dataModifica = LocalDateTime.now();
+
+        return entityBeanOut;
+    }// end of method
+
+
+    /**
+     * Controlla che la entity estenda ACompanyEntity
+     * Se manca la company, cerca di usare quella della sessione (se esiste)
+     * Se la campany manca ancora, lancia l'eccezione
+     * Controlla che la gestione della chiave unica sia soddisfatta
+     */
+    private boolean checkCompany(AEntity entity, boolean usaCodeCompanyUnico) throws Exception {
+        boolean status = true;
+        ACompanyEntity companyEntity;
+        Company company;
+
+        if (entity instanceof ACompanyEntity) {
+            companyEntity = (ACompanyEntity) entity;
+            company = companyEntity.getCompany();
+        } else {
+            throw new NotCompanyEntityException(entityClass);
+        }// end of if/else cycle
+
+        if (company == null) {
+            company = LibSession.getCompany();
+            companyEntity.setCompany(company);
+        }// end of if cycle
+
+        if (companyEntity.getCompany() == null) {
+            throw new NullCompanyException();
+        }// end of if cycle
+
+        if (usaCodeCompanyUnico) {
+            throw new NullCodeCompanyException("amb");
+        }// end of if cycle
+
+        return status;
+    }// end of method
+
 
     /**
      * Retrieves an entity by its id.

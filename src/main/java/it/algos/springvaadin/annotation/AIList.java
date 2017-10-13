@@ -1,5 +1,7 @@
 package it.algos.springvaadin.annotation;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE) //can use in class and interface.
-public @interface AIList {
+public @interface AIList{
 
 
     /**

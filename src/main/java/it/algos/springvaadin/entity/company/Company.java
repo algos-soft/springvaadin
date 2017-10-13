@@ -1,27 +1,21 @@
 package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.annotation.AIForm;
-import it.algos.springvaadin.annotation.AIList;
-import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.persona.PersonaPresenter;
 import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Size;
@@ -37,6 +31,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_COMP)
+@AIEntity(company = ACompanyRequired.nonUsata)
 @AIList(columns = {"sigla", "descrizione", "contatto"})
 @AIForm()
 @Data

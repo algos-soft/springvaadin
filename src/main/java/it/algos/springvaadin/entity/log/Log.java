@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
@@ -11,11 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Created by gac on 30-set-17
@@ -26,6 +23,8 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
+@Document(collection = Cost.TAG_LOG)
+@AIEntity(company = ACompanyRequired.usaCodeCompanyUnico)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

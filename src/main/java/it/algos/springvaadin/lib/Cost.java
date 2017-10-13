@@ -1,5 +1,8 @@
 package it.algos.springvaadin.lib;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Repository di costanti della applicazione
  * <p>
@@ -19,7 +22,11 @@ public abstract class Cost {
 
     public final static String PROPERTY_ID = "id";
     public final static String PROPERTY_COMPANY = "company";
-    public final static String PROPERTY_EXCLUDED = "serialVersionUID";
+    public final static String PROPERTY_SERIAL = "serialVersionUID";
+//    public final static String PROPERTY_TRANSIENT = "companyRequired";
+
+    public final static String[] esclusiMatrice = {Cost.PROPERTY_SERIAL, Cost.PROPERTY_ID, Cost.PROPERTY_COMPANY};
+    public final static  List<String> esclusi = Arrays.asList(esclusiMatrice);
 
     public final static String TAG_VERS = "versione";
     public final static String TAG_COMP = "company";

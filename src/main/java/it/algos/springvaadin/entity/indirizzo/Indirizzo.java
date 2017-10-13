@@ -2,13 +2,10 @@ package it.algos.springvaadin.entity.indirizzo;
 
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.annotation.AIEntity;
-import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.entity.AEntity;
@@ -35,7 +32,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_IND)
-@AIEntity()
+@AIEntity(company = ACompanyRequired.nonUsata)
 @AIForm()
 @Data
 @NoArgsConstructor

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.stato;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
@@ -30,7 +31,8 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
-@AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "prova","alfaDue", "alfaTre", "numerico"})
+@AIEntity(company = ACompanyRequired.nonUsata)
+@AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "prova", "alfaDue", "alfaTre", "numerico"})
 @AIForm(showsID = true, widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})
 @Data

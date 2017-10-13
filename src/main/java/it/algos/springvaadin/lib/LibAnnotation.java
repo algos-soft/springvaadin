@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.login.ARoleType;
@@ -1015,15 +1016,15 @@ public abstract class LibAnnotation {
      * @return status of class - default false
      */
     @SuppressWarnings("all")
-    public static boolean isCompanyNotNull(final Class<? extends AEntity> clazz) {
-        boolean status = false;
+    public static ACompanyRequired company(final Class<? extends AEntity> clazz) {
+        ACompanyRequired companyRequired = ACompanyRequired.nonUsata;
         AIEntity entityAnnotation = getAIEntity(clazz);
 
         if (entityAnnotation != null) {
-            status = entityAnnotation.companyNotNull();
+            companyRequired = entityAnnotation.company();
         }// end of if cycle
 
-        return status;
+        return companyRequired;
     }// end of static method
 
 

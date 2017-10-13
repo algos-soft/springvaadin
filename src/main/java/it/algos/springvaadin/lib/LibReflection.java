@@ -10,9 +10,7 @@ import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by gac on 21/12/16.
@@ -66,7 +64,6 @@ public abstract class LibReflection {
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
         ArrayList<Field> fieldsTmp = new ArrayList<>();
-        ;
         Field[] fieldsArrayClazz = null;
         Field[] fieldsArraySuper = null;
         Field fieldCompany = null;
@@ -77,7 +74,9 @@ public abstract class LibReflection {
         try { // prova ad eseguire il codice
             fieldsArrayClazz = entityClazz.getDeclaredFields();
             for (Field field : fieldsArrayClazz) {
-                fieldsTmp.add(field);
+                if (!Cost.esclusi.contains(field.getName())) {
+                    fieldsTmp.add(field);
+                }// end of if cycle
             }// end of for cycle
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
@@ -88,8 +87,7 @@ public abstract class LibReflection {
         try { // prova ad eseguire il codice
             fieldsArraySuper = AEntity.class.getDeclaredFields();
             for (Field field : fieldsArraySuper) {
-                fieldName = field.getName();
-                if (!fieldName.equals(Cost.PROPERTY_ID) && !fieldName.equals(Cost.PROPERTY_COMPANY)) {
+                if (!Cost.esclusi.contains(field.getName())) {
                     fieldsTmp.add(field);
                 }// end of if cycle
             }// end of for cycle
@@ -104,7 +102,7 @@ public abstract class LibReflection {
                 for (String nome : listaNomi) {
                     for (Field field : fieldsTmp) {
                         fieldName = field.getName();
-                        if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                        if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
                             if (fieldName.equals(nome)) {
                                 fieldsList.add(field);
                             }// end of if cycle
@@ -114,7 +112,7 @@ public abstract class LibReflection {
             } else {
                 for (Field field : fieldsTmp) {
                     fieldName = field.getName();
-                    if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_EXCLUDED)) {
+                    if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
                         fieldsList.add(field);
                     }// end of if cycle
                 }// end of for cycle
@@ -133,7 +131,12 @@ public abstract class LibReflection {
 
         //--se il flag booleano addKeyID è true, aggiunge (all'inizio) il field keyId
         if (addKeyID) {
-            fieldsList.add(0, entityClazz.getFields()[0]);
+            fieldKeyId = getField(AEntity.class, Cost.PROPERTY_ID);
+            if (fieldKeyId != null) {
+                fieldsList.add(0, fieldKeyId);
+            } else {
+                log.error("Non ho trovato il field keyId");
+            }// end of if/else cycle
         }// end of if cycle
 
         return fieldsList;
@@ -157,7 +160,9 @@ public abstract class LibReflection {
         if (fieldsList != null && fieldsList.size() > 0) {
             nameList = new ArrayList();
             for (Field field : fieldsList) {
-                nameList.add(field.getName());
+                if (!nameList.contains(field.getName())) {
+                    nameList.add(field.getName());
+                }// end of if cycle
             }// end of for cycle
         }// end of if cycle
 

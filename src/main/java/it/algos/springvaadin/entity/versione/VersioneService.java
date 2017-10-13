@@ -109,7 +109,8 @@ public class VersioneService extends AlgosServiceImpl {
                 descrizione,
                 modifica != null ? modifica : LocalDateTime.now());
 
-        return (Versione) checkCompany(company, entity);
+//        return (Versione) checkCompany(company, entity);@todo sviluppare
+        return entity;
     }// end of method
 
 

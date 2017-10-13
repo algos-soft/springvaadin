@@ -1,11 +1,9 @@
 package it.algos.springvaadin.entity.persona;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
-import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
@@ -15,12 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Created by gac on 11-ott-17
@@ -31,6 +24,8 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
+@Document(collection = Cost.TAG_PER)
+@AIEntity(company = ACompanyRequired.nonUsata)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

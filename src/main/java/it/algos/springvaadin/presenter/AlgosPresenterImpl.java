@@ -5,6 +5,7 @@ import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
+import it.algos.springvaadin.exception.CompanyException;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.lib.LibAvviso;
@@ -532,6 +533,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
                 message = message.substring(message.indexOf(tagIni), message.indexOf(tagEnd));
                 LibAvviso.error(message);
             }// end of if cycle
+            if (unErrore instanceof CompanyException) {
+                LibAvviso.error(unErrore.getMessage());
+            }// end of if cycle
+
         }// fine del blocco try-catch
 
         return entityRegistrata;

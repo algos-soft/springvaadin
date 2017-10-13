@@ -8,6 +8,7 @@ import it.algos.springvaadin.login.ARoleType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.Column;
@@ -43,6 +44,8 @@ import java.time.LocalDateTime;
 @Getter
 public abstract class AEntity implements Serializable {
 
+//    @Transient
+//    public ACompanyRequired companyRequired;
 
     /**
      * key property ObjectId

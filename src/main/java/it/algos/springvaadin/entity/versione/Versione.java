@@ -3,15 +3,17 @@ package it.algos.springvaadin.entity.versione;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIEntity;
 import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.Cost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,7 +32,8 @@ import java.time.LocalDateTime;
  * Non prevede la differenziazione per Company
  */
 @SpringComponent
-@AIEntity(companyNotNull = false)
+@Document(collection = Cost.TAG_VERS)
+@AIEntity(company = ACompanyRequired.facoltativa)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
