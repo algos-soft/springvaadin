@@ -13,6 +13,7 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Created by gac on 11-ott-17

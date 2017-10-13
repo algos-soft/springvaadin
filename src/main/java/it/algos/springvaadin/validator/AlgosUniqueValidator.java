@@ -4,12 +4,18 @@ import com.mongodb.MongoClient;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.entity.AEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 
 /**
  * Controlla che il valore del campo unico non esista già
@@ -35,8 +41,9 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
         this.oldValue = oldValue;
         this.dbName = entityClazz.getSimpleName().toLowerCase();
 
+        String dataBase="springvaadin";
         mongo = new MongoClient("localhost", 27017);
-        mongoOps = new MongoTemplate(mongo, "springvaadin");
+        mongoOps = new MongoTemplate(mongo, dataBase);
     }// end of constructor
 
 

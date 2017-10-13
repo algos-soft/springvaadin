@@ -3,6 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.entity.persona.PersonaPresenter;
+import it.algos.springvaadin.entity.persona.PersonaService;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
@@ -10,6 +11,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -28,11 +30,9 @@ public class ViewField {
     @Autowired
     private AFieldFactory fieldFactory;
 
-    @Autowired
-    private IndirizzoPresenter indirizzoPresenter;
 
     @Autowired
-    private PersonaPresenter personaPresenter;
+    private ApplicationContext context;
 
     /**
      * Costruttore @Autowired
@@ -69,7 +69,7 @@ public class ViewField {
         }// end of if cycle
 
         if (type != null) {
-            field = fieldFactory.crea(clazz, type, source, publicFieldName,entityBean);
+            field = fieldFactory.crea(clazz, type, source, publicFieldName, entityBean);
         }// end of if cycle
 
         //@todo aggiungere la nullSelection letta dalla Annotation
@@ -78,14 +78,10 @@ public class ViewField {
             ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
 
-        //--@todo sicuramente migliorabile !!!
         if (type == AFieldType.link && targetClazz != null && field != null) {
-            if (targetClazz.getSimpleName().equals("IndirizzoPresenter")) {
-                field.setTarget(indirizzoPresenter);
-            }// end of if cycle
-            if (targetClazz.getSimpleName().equals("PersonaPresenter")) {
-                field.setTarget(personaPresenter);
-            }// end of if cycle
+            String lowerName = LibText.primaMinuscola(targetClazz.getSimpleName());
+            Object bean = context.getBean(lowerName);
+            field.setTarget((ApplicationListener) bean);
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {
