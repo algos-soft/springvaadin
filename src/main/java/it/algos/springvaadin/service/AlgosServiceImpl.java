@@ -5,10 +5,7 @@ import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.exception.CompanyException;
-import it.algos.springvaadin.exception.NotCompanyEntityException;
-import it.algos.springvaadin.exception.NullCodeCompanyException;
-import it.algos.springvaadin.exception.NullCompanyException;
+import it.algos.springvaadin.exception.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +56,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     public AEntity save(AEntity entityBean) throws Exception {
         entityBean = checkDate(entityBean);
-        ACompanyRequired companyRequired = LibAnnotation.company(entityClass);
+        ACompanyRequired companyRequired = LibAnnotation.companyType(entityClass);
 
         if (LibParams.useMultiCompany()) {
             switch (companyRequired) {
@@ -110,9 +107,9 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * Controlla che la gestione della chiave unica sia soddisfatta
      */
     private boolean checkCompany(AEntity entity, boolean usaCodeCompanyUnico) throws Exception {
-        boolean status = true;
         ACompanyEntity companyEntity;
         Company company;
+        String codeCompanyUnico;
 
         if (entity instanceof ACompanyEntity) {
             companyEntity = (ACompanyEntity) entity;
@@ -131,10 +128,26 @@ public abstract class AlgosServiceImpl implements AlgosService {
         }// end of if cycle
 
         if (usaCodeCompanyUnico) {
-            throw new NullCodeCompanyException("amb");
+            codeCompanyUnico = companyEntity.getCodeCompanyUnico();
+            if (LibText.isValid(codeCompanyUnico)) {
+                checkCodeCompany(companyEntity, codeCompanyUnico);
+                return true;
+            } else {
+                throw new NullCodeCompanyException();
+            }// end of if/else cycle
         }// end of if cycle
 
-        return status;
+        return true;
+    }// end of method
+
+
+    /**
+     * Controlla che la gestione della chiave unica sia soddisfatta
+     */
+    private void checkCodeCompany(ACompanyEntity companyEntity, String codeCompanyUnico) throws Exception {
+        if (LibMongo.esiste(companyEntity.getClass(), codeCompanyUnico)) {
+            throw new DuplicateCodeCompanyException(codeCompanyUnico);
+        }// end of if cycle
     }// end of method
 
 

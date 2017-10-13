@@ -65,10 +65,12 @@ public abstract class LibReflection {
         ArrayList<Field> fieldsList = new ArrayList<>();
         ArrayList<Field> fieldsTmp = new ArrayList<>();
         Field[] fieldsArrayClazz = null;
-        Field[] fieldsArraySuper = null;
+        Field[] fieldsArrayCompany = null;
+        Field[] fieldsArrayEntity = null;
         Field fieldCompany = null;
         Field fieldKeyId = null;
         String fieldName;
+        boolean useCompany = LibAnnotation.useCompanyFields(entityClazz);
 
         //--recupera tutti i fields della entity
         try { // prova ad eseguire il codice
@@ -82,11 +84,25 @@ public abstract class LibReflection {
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
-        //--recupera tutti i fields della superclasse
+        //--recupera tutti i fields della superclasse ACompanyEntity
+        if (useCompany) {
+            try { // prova ad eseguire il codice
+                fieldsArrayCompany = ACompanyEntity.class.getDeclaredFields();
+                for (Field field : fieldsArrayCompany) {
+                    if (!Cost.esclusi.contains(field.getName())) {
+                        fieldsTmp.add(field);
+                    }// end of if cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+
+        //--recupera tutti i fields della superclasse AEntity
         //--esclusi 'id' e 'company' che decido dopo se metterli o no
         try { // prova ad eseguire il codice
-            fieldsArraySuper = AEntity.class.getDeclaredFields();
-            for (Field field : fieldsArraySuper) {
+            fieldsArrayEntity = AEntity.class.getDeclaredFields();
+            for (Field field : fieldsArrayEntity) {
                 if (!Cost.esclusi.contains(field.getName())) {
                     fieldsTmp.add(field);
                 }// end of if cycle

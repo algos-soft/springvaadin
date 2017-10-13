@@ -62,6 +62,7 @@ public class ViewField {
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
         boolean visible = LibAnnotation.isVisibile(clazz, publicFieldName);
+        boolean nullSelection = LibAnnotation.isNullSelectionAllowed(clazz, publicFieldName);
         Class targetClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
@@ -73,10 +74,9 @@ public class ViewField {
             field = fieldFactory.crea(clazz, type, source, publicFieldName, entityBean);
         }// end of if cycle
 
-        //@todo aggiungere la nullSelection letta dalla Annotation
         if (type == AFieldType.combo && targetClazz != null && field != null) {
             items = LibMongo.findAll(targetClazz).toArray();
-            ((AComboField) field).fixCombo(items, false);
+            ((AComboField) field).fixCombo(items, nullSelection);
         }// end of if cycle
 
         if (type == AFieldType.link && targetClazz != null && field != null) {

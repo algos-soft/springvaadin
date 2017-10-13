@@ -182,10 +182,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
         List<Field> reflectFields = service.getFormFields();
 
-//        //--inversione - cambio Collection (modulo)
-//        ApplicationListener target = oldSource;
-//        ApplicationListener newSource = this;
-
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle

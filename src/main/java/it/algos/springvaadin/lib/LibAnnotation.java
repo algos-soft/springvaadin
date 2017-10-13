@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
@@ -271,6 +272,27 @@ public abstract class LibAnnotation {
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.allUpper();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
+     * Get the status nullSelectionAllowed of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isNullSelectionAllowed(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        boolean status = true;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.nullSelectionAllowed();
         }// end of if cycle
 
         return status;
@@ -1012,11 +1034,9 @@ public abstract class LibAnnotation {
      * Get the status companyNotNull of the class.
      *
      * @param clazz the entity class
-     *
-     * @return status of class - default false
      */
     @SuppressWarnings("all")
-    public static ACompanyRequired company(final Class<? extends AEntity> clazz) {
+    public static ACompanyRequired companyType(final Class<? extends AEntity> clazz) {
         ACompanyRequired companyRequired = ACompanyRequired.nonUsata;
         AIEntity entityAnnotation = getAIEntity(clazz);
 
@@ -1025,6 +1045,35 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return companyRequired;
+    }// end of static method
+
+    /**
+     * Get the status of visibility for the field of ACompanyEntity.
+     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+     * Controlla se la collection (table) usa la company
+     * Controlla se l'utente collegato è un developer
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    @SuppressWarnings("all")
+    public static boolean useCompanyFields(final Class<? extends AEntity> clazz) {
+        boolean status = true;
+
+        if (!AlgosApp.USE_MULTI_COMPANY) {
+            return false;
+        }// end of if cycle
+
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.nonUsata) {
+            return false;
+        }// end of if cycle
+
+        if (!LibSession.isDeveloper()) {
+            return false;
+        }// end of if cycle
+
+        return status;
     }// end of static method
 
 

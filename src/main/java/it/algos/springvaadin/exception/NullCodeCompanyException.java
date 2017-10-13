@@ -12,14 +12,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 public class NullCodeCompanyException extends CompanyException {
 
-    private final static String MESSAGE_INI = "Esiste già un codeCompanyUnico con code=";
-    private final static String MESSAGE_END = " per questa company";
+    private final static String MESSAGE = "Manca il codeCompanyUnico";
 
     /**
      * Constructor for NullCompanyException.
      */
-    public NullCodeCompanyException(String code) {
-        super(MESSAGE_INI + code + MESSAGE_END);
+    public NullCodeCompanyException() {
+        super(MESSAGE);
     }// fine del costruttore
 
 }// end of class
