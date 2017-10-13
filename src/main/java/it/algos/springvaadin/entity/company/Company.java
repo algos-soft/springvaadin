@@ -14,6 +14,7 @@ import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -83,8 +84,6 @@ public class Company extends AEntity {
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
     @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
-
-
 
 
     /**

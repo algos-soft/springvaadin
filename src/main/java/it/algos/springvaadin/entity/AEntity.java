@@ -4,6 +4,7 @@ import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -31,12 +32,12 @@ import java.time.LocalDateTime;
  * Sottoclassi annotated (facoltativo) with @Data (Lombok) for automatic use of Getter and Setter
  * Sottoclassi annotated (facoltativo) with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Sottoclassi annotated (facoltativo) with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- *
+ * <p>
  * La classe NON può usare la Annotation @Setter (contrariamente alle altre classi di Entity),
  * perché 'oscurerebbe' la gestione automatica della key property ObjectId da parte di Mongo
  * Le properety sono tutte pubbliche (contrariamente alle altre classi di Entity),
  * per essere accessibili visto che mancano i 'setters'
- *
+ * <p>
  * La gestione delle property 'dataCreazione' e 'dataModifica' è automatica in AlgosServiceImpl.save()
  */
 @Getter
@@ -65,7 +66,7 @@ public abstract class AEntity implements Serializable {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Creazione", type = AFieldType.localdatetime, enabled = false)
+    @AIField(name = "Creazione", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(name = "Creazione", width = 110)
     public LocalDateTime dataCreazione;
 
@@ -76,7 +77,7 @@ public abstract class AEntity implements Serializable {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Modifica", type = AFieldType.localdatetime, enabled = false)
+    @AIField(name = "Modifica", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(name = "Modifica", width = 110)
     public LocalDateTime dataModifica;
 

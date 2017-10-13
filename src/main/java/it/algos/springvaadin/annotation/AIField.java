@@ -1,6 +1,7 @@
 package it.algos.springvaadin.annotation;
 
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.login.ARoleType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -41,7 +42,7 @@ public @interface AIField {
     /**
      * (Optional) The width of the field.
      * Expressed in int, to be converted in String ending with "em"
-     * Defaults to "14em".
+     * Defaults to 0.
      */
     int widthEM() default 0;
 
@@ -58,6 +59,13 @@ public @interface AIField {
      * Defaults to true.
      */
     boolean enabled() default true;
+
+
+    /**
+     * (Optional) Visibilità a secondo del ruolo dell'User collegato
+     * Defaults to true.
+     */
+    ARoleType roleTypeVisibility() default ARoleType.guest;
 
 
     /**

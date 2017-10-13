@@ -61,6 +61,7 @@ public class ViewField {
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
+        boolean visible = LibAnnotation.isVisibile(clazz, publicFieldName);
         Class targetClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
@@ -85,6 +86,7 @@ public class ViewField {
         }// end of if cycle
 
         if (field != null && fieldAnnotation != null) {
+            field.setVisible(visible);
             field.setEnabled(enabled);
             field.setRequiredIndicatorVisible(required);
             field.setCaption(caption);

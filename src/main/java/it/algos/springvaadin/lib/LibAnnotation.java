@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.login.ARoleType;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -1023,6 +1024,68 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return status;
+    }// end of static method
+
+
+    /**
+     * Get the roleTypeVisibility of the property.
+     * Se manca, usa il ruolo Guest
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the ARoleType of the field
+     */
+    @SuppressWarnings("all")
+    public static ARoleType getRoleType(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        ARoleType roleTypeVisibility = ARoleType.guest;
+
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            roleTypeVisibility = fieldAnnotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility;
+    }// end of static method
+
+    /**
+     * Get the visibility of the field.
+     * Di default true
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        boolean visibile = false;
+        ARoleType roleTypeVisibility = getRoleType(clazz, publicFieldName);
+
+        switch (roleTypeVisibility) {
+            case developer:
+                if (LibSession.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (LibSession.isAdmin()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                visibile = true;
+                break;
+            case guest:
+                visibile = true;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
     }// end of static method
 
 }// end of static class
