@@ -1,14 +1,18 @@
 package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.*;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.entity.ACompanyRequired;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.exception.CompanyException;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
-import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +23,6 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Page;
 import it.algos.springvaadin.dialog.ConfirmDialog;
-import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
@@ -218,9 +219,14 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     public void modifica(AEntity entityBean, boolean usaSeparateFormDialog, boolean usaToolbarLink, boolean usaBottoneRegistra) {
         List<Field> reflectFields = service.getFormFields();
+        Company company;
 
         if (entityBean == null) {
             entityBean = service.newEntity();
+            if (entityBean instanceof ACompanyEntity && AlgosApp.USE_MULTI_COMPANY && !(LibAnnotation.companyType(entityBean.getClass()) == ACompanyRequired.nonUsata)) {
+                company = LibSession.getCompany();
+                ((ACompanyEntity) entityBean).setCompany(company);
+            }// end of if cycle
         }// end of if cycle
 
         if (entityBean != null) {

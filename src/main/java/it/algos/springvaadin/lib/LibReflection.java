@@ -355,18 +355,29 @@ public abstract class LibReflection {
      */
     public static Field getField(final Class<?> entityClazz, final String publicFieldName) {
         Field field = null;
-        String fieldName = "";
 
         try { // prova ad eseguire il codice
             field = entityClazz.getDeclaredField(publicFieldName);
         } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        if (field == null) {
             if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
                 try { // prova ad eseguire il codice
                     field = ACompanyEntity.class.getDeclaredField(publicFieldName);
                 } catch (Exception unErrore2) { // intercetta l'errore
                 }// fine del blocco try-catch
             }// end of if cycle
-        }// fine del blocco try-catch
+        }// end of if cycle
+
+        if (field == null) {
+            if (AEntity.class.isAssignableFrom(entityClazz)) {
+                try { // prova ad eseguire il codice
+                    field = AEntity.class.getDeclaredField(publicFieldName);
+                } catch (Exception unErrore2) { // intercetta l'errore
+                }// fine del blocco try-catch
+            }// end of if cycle
+        }// end of if cycle
 
         return field;
     }// end of method

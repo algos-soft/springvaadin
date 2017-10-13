@@ -98,13 +98,13 @@ public class AlgosGrid extends Grid {
      * prompt() default "";
      * help() default "";
      */
-    public void setColumns(List<String> colonneVisibili) {
+    public void setColumns(List<String> columns) {
         int lar = 0;
 
         if (LibSession.isDeveloper()) {
-            lar = LibColumn.addColumns(this.getBeanType(), this, colonneVisibili);
+            lar = LibColumn.addColumns(this.getBeanType(), this, columns);
         } else {
-            lar = LibColumn.addColumns(this.getBeanType(), this, colonneVisibili);
+            lar = LibColumn.addColumns(this.getBeanType(), this, columns);
         }// end of if/else cycle
 
         //--spazio per la colonna automatica di selezione

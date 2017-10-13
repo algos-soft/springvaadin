@@ -77,7 +77,7 @@ public abstract class ACompanyEntity extends AEntity {
      */
     @Column(length = 40)
     @Indexed()
-    @AIField(type = AFieldType.text, required = true, enabled = true, widthEM = 15)
+    @AIField(type = AFieldType.text, required = true, enabled = false, widthEM = 15)
     @AIColumn(width = 200)
     private String codeCompanyUnico;
 

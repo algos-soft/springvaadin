@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
@@ -107,6 +108,11 @@ public abstract class LibAnnotation {
         AIColumn annotation = null;
         String tag = "AIColumn";
         Map mappa = getMap(clazz, publicFieldName);
+
+        //--recupera l'annotation della entity corrente
+        mappa = getMap(clazz, publicFieldName);
+
+
 
         if (mappa != null && mappa.containsKey(tag)) {
             annotation = (AIColumn) mappa.get(tag);

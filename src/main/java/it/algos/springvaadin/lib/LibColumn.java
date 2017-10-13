@@ -97,13 +97,15 @@ public abstract class LibColumn {
      * Aggiunge le colonne
      * Se ci sono Annotazioni, le regola
      */
-    public static int addColumns(final Class<? extends AEntity> clazz, Grid grid, List<String> colonneVisibili) {
+    public static int addColumns(final Class<? extends AEntity> clazz, Grid grid, List<String> columns) {
         int lar = 0;
         grid.removeAllColumns();
 
-        if (colonneVisibili != null) {
-            for (String titolo : colonneVisibili) {
-                lar += addColumn(clazz, grid, titolo);
+        if (columns != null) {
+            for (String titolo : columns) {
+                if (LibAnnotation.isVisibile(clazz, titolo)) {
+                    lar += addColumn(clazz, grid, titolo);
+                }// end of if cycle
             }// end of for cycle
         }// end of if cycle
 
