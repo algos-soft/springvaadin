@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.versione;
 
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.company.CompanyRepository;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibAvviso;
@@ -149,6 +150,15 @@ public class VersioneService extends AlgosServiceImpl {
         return ((VersioneRepository) repository).findAllByOrderByOrdineAsc();
     }// end of method
 
+
+    /**
+     * Recupera una istanza della Entity usando la query di una property specifica
+     *
+     * @return istanza della Entity, null se non trovata
+     */
+    public Versione findByTitolo(String titolo) {
+        return ((VersioneRepository) repository).findByTitolo(titolo);
+    }// end of method
 
     /**
      * Controlla se esiste il numero di versione da installare
