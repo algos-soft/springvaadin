@@ -36,7 +36,7 @@ public class AlgosUniqueValidator extends AbstractValidator<String> {
         this.dbName = entityClazz.getSimpleName().toLowerCase();
 
         mongo = new MongoClient("localhost", 27017);
-        mongoOps = new MongoTemplate(mongo, "test");
+        mongoOps = new MongoTemplate(mongo, "springvaadin");
     }// end of constructor
 
 

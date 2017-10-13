@@ -11,6 +11,7 @@ import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.Object;
 import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
@@ -478,7 +479,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     @Override
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
         ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
-        this.view.enableButtonForm(AButtonType.registra,true);
+        this.view.enableButtonForm(AButtonType.registra, true);
     }// end of method
 
     /**
@@ -501,6 +502,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         } else {
             if (LibParams.usaDialoghiVerbosi()) {
                 String message = "";
+                List<ValidationResult> alfa = view.getEntityErrors();
                 for (ValidationResult errore : view.getEntityErrors()) {
                     message += tag + "* " + errore.getErrorMessage();
                 }// end of for cycle
