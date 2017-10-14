@@ -109,6 +109,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case checkbox:
                     field = fieldFactory.apply(ACheckBoxField.class);
                     break;
+                case localdate:
+                    field = fieldFactory.apply(ADateTimeField.class);
+                    break;
                 case localdatetime:
                     field = fieldFactory.apply(ADateTimeField.class);
                     break;
@@ -127,6 +130,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     field.setButton(buttonFactory.crea(AButtonType.image, source, source, field));
                     break;
                 case combo:
+                    field = fieldFactory.apply(AComboField.class);
+                    break;
+                case enumeration:
                     field = fieldFactory.apply(AComboField.class);
                     break;
                 case link:

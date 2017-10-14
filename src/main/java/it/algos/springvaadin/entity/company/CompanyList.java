@@ -44,14 +44,16 @@ public class CompanyList extends AlgosListImpl {
 
     /**
      * Chiamato ogni volta che la finestra diventa attiva
+     * Può essere sovrascritto per un'intestazione (caption) della grid
      */
+    @Override
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
-            caption = "";
-            caption += "</br>Lista visibile solo all'admin. Filtrata su una sola company";
-            caption += "</br>NON usa la company (ovvio)";
-            caption += "</br>Usabile direttamente, ma anche estendendo la classe";
-            caption += "</br>Solo il developer vede queste note";
+            super.caption = "";
+            super.caption += "</br>Lista visibile solo all'admin. Filtrata su una sola company";
+            super.caption += "</br>NON usa la company (ovvio)";
+            super.caption += "</br>Usabile direttamente, ma anche estendendo la classe";
+            super.caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
     }// end of method
 

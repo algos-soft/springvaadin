@@ -1,10 +1,12 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +27,10 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
+@Document(collection = @TAG@)
+@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.nonUsata)
+@AIList(columns = {"sigla"})
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,8 +45,8 @@ public class @ENTITY@ extends AEntity {
     //--sigla (obbligatoria, unica)
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true, widthEM = 10)
-    @AIColumn()
+    @AIField(type = AFieldType.text, required = true, firstCapital = true, widthEM = 8)
+    @AIColumn(width = 100, name = "Sigla")
     private String sigla;
 
 

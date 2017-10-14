@@ -1,11 +1,14 @@
 package it.algos.springvaadin.entity.log;
 
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -36,33 +39,36 @@ public class LogService extends AlgosServiceImpl {
      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
      */
     public Log crea(String sigla) {
-        Log entity = ((LogRepository) repository).findBySigla(sigla);
+//        Log entity = ((LogRepository) repository).findBySigla(sigla);
+        Log entity = null;
         if (entity == null) {
-            entity = (Log) repository.save(newEntity(sigla));
+            entity = (Log) repository.save(newEntity(sigla,"",null));
         }// end of if cycle
 
         return entity;
     }// end of method
 
 
-     /**
-      * Creazione in memoria di una nuova entity che NON viene salvata
-      * Eventuali regolazioni iniziali delle property
-      */
-     public Log newEntity() {
-         return newEntity("");
-     }// end of method
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     */
+    public Log newEntity() {
+        return newEntity("","",null);
+    }// end of method
 
 
-     /**
-      * Creazione in memoria di una nuova entity che NON viene salvata
-      * Eventuali regolazioni iniziali delle property
-      *
-      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
-      */
-     public Log newEntity(String sigla) {
-         return new Log(sigla);
-     }// end of method
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     *
+     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     */
+    public Log newEntity(String evento, String descrizione, LocalDateTime data) {
+        return new Log("",
+                descrizione,
+                data != null ? data : LocalDateTime.now());
+    }// end of method
 
 
     /**
@@ -72,6 +78,16 @@ public class LogService extends AlgosServiceImpl {
      */
     public List findAll() {
         return ((LogRepository) repository).findAll();
+    }// end of method
+
+
+    /**
+     * Returns all instances of the type.
+     *
+     * @return all entities
+     */
+    public List findAllByCompany(Company company) {
+        return ((LogRepository) repository).findAllByCompany(company);
     }// end of method
 
 }// end of class

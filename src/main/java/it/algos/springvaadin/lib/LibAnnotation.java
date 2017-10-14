@@ -1060,7 +1060,7 @@ public abstract class LibAnnotation {
      *
      * @param clazz the entity class
      *
-     * @return status of class - default false
+     * @return status - default true
      */
     @SuppressWarnings("all")
     public static boolean useCompanyFields(final Class<? extends AEntity> clazz) {
@@ -1075,6 +1075,34 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         if (!LibSession.isDeveloper()) {
+            return false;
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
+     * Get the status of visibility for the optional field of ACompanyEntity.
+     * Definiti in Cost.COMPANY_OPTIONAL
+     *
+     * @param clazz the entity class
+     *
+     * @return status - default true
+     */
+    @SuppressWarnings("all")
+    public static boolean useCompanyOptionalFields(final Class<? extends AEntity> clazz) {
+        boolean status = true;
+
+        if (!useCompanyFields(clazz)) {
+            return false;
+        }// end of if cycle
+
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.facoltativaSenzaCodeUnico) {
+            return false;
+        }// end of if cycle
+
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.obbligatoriaSenzaCodeUnico) {
             return false;
         }// end of if cycle
 

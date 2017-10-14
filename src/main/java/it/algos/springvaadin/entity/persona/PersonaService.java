@@ -62,7 +62,7 @@ public class PersonaService extends AlgosServiceImpl {
      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
      */
     public Persona newEntity(String nome, String cognome) {
-        return new Persona(nome, cognome,null,"");
+        return new Persona(nome, cognome,null,"","");
     }// end of method
 
 

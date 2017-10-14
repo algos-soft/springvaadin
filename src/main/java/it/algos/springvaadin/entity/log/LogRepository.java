@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.log;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.company.Company;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.algos.springvaadin.lib.Cost;
@@ -16,6 +17,8 @@ import java.util.List;
 @Qualifier(Cost.TAG_LOG)
 public interface LogRepository extends MongoRepository<Log, String> {
 
-    public Log findBySigla(String sigla);
+    //    public Log findBySigla(String sigla);
+
+    public List<Log> findAllByCompany(Company company);
 
 }// end of class

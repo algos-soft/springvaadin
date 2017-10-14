@@ -49,9 +49,11 @@ public abstract class AEntity implements Serializable {
      * key property ObjectId
      * di default gestita direttamente da Mongo
      * può essere usata direttamente per identificare la entity con key 'leggibili'
+     * NON va usato @NotEmpty, perchè altrimenti binder.validate().isOk() va in errore
+     * Ci pensa Mongo a riempire il valore
      */
-    @NotEmpty
-    @AIColumn(name = "key", roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String id;
 
 

@@ -23,10 +23,13 @@ public abstract class Cost {
     public final static String PROPERTY_ID = "id";
     public final static String PROPERTY_COMPANY = "company";
     public final static String PROPERTY_SERIAL = "serialVersionUID";
-//    public final static String PROPERTY_TRANSIENT = "companyRequired";
+    public final static String COMPANY_CODE = "code";
+    public final static String COMPANY_UNICO = "codeCompanyUnico";
 
-    public final static String[] esclusiMatrice = {Cost.PROPERTY_SERIAL, Cost.PROPERTY_ID, Cost.PROPERTY_COMPANY};
-    public final static  List<String> esclusi = Arrays.asList(esclusiMatrice);
+    private final static String[] esclusiMatrice = {Cost.PROPERTY_SERIAL, Cost.PROPERTY_ID, Cost.PROPERTY_COMPANY};
+    public final static List<String> ESCLUSI = Arrays.asList(esclusiMatrice);
+    private final static String[] companyMatrice = {Cost.COMPANY_CODE, Cost.COMPANY_UNICO};
+    public final static List<String> COMPANY_OPTIONAL = Arrays.asList(companyMatrice);
 
     public final static String TAG_VERS = "versione";
     public final static String TAG_COMP = "company";
@@ -79,5 +82,7 @@ public abstract class Cost {
     public final static String TAG_AZ_LISTENER = "listener";
     public final static String TAG_IND = "indirizzo";
     public final static String TAG_STA = "stato";
-	public final static String TAG_PER = "persona";
+    public final static String TAG_PER = "persona";
+    public final static String TAG_PRO = "prova";
+    public final static String TAG_FAT = "fattura";
 }// end of static class;

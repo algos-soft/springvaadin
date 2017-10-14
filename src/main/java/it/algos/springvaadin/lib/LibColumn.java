@@ -22,7 +22,8 @@ public abstract class LibColumn {
 
 
     private final static int WIDTH_TEXT_NORMAL = 80;
-    private final static int WIDTH_LOCAL_DATE_TIME = 130;
+    private final static int WIDTH_LOCAL_DATE = 130;
+    private final static int WIDTH_LOCAL_DATE_TIME = 160;
 
 
     public static Annotation getAnnotation(Field field) {
@@ -63,7 +64,8 @@ public abstract class LibColumn {
         int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
-        LocalDateTimeRenderer renderLocal = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
+        LocalDateTimeRenderer renderDate = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
+        LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
         IconRenderer renderIcon = new IconRenderer();
 
         if (grid == null || LibText.isEmpty(publicFieldName)) {
@@ -74,8 +76,13 @@ public abstract class LibColumn {
         colonna.setCaption(name);
         colonna.setWidth(width > 0 ? width : WIDTH_TEXT_NORMAL);
 
+        if (type == AFieldType.localdate) {
+            colonna.setRenderer(renderDate);
+            colonna.setWidth(WIDTH_LOCAL_DATE);
+        }// end of if cycle
+
         if (type == AFieldType.localdatetime) {
-            colonna.setRenderer(renderLocal);
+            colonna.setRenderer(renderTime);
             colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
         }// end of if cycle
 

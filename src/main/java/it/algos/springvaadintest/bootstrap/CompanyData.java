@@ -5,6 +5,9 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
+import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.persona.PersonaService;
+import it.algos.springvaadin.entity.stato.Stato;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,22 +26,18 @@ import java.util.List;
 public class CompanyData {
 
 
-    //--il service (contenente la repository) viene iniettato qui
     @Autowired
     protected CompanyService service;
 
     @Autowired
-    protected IndirizzoService indirizzoService;
+    protected PersonaService personaService;
 
-//    @Autowired
-//    protected StatoData statoData;
-//
-//    @Autowired
-//    protected IndirizzoData indirizzoData;
+    @Autowired
+    protected IndirizzoService indirizzoService;
 
 
     /**
-     * Creazione di una collezione di indirizzi
+     * Creazione di una collezione
      */
     public void creaAll() {
         if (nessunRecordEsistente()) {
@@ -56,28 +55,24 @@ public class CompanyData {
         return service.count() == 0;
     }// end of method
 
+
     /**
      * Crea una collezione di company
      */
     private void creaCompany() {
-        List<Indirizzo> lista = indirizzoService.findAll();
-        assert lista != null;
+        creaAndLog(
+                "demo",
+                "Algos s.r.l.",
+                personaService.newEntity("Mario", "Rossi"),
+                "mariorossi@win.com",
+                indirizzoService.newEntity("via Soderini, 55", "Milano", "20131", (Stato) null));
 
-        if (lista.size() > 0) {
-            creaAndLog("crf", "Croce Rossa Fidenza", lista.get(0));
-        }// end of if cycle
-
-        if (lista.size() > 1) {
-            creaAndLog("crtp", "Croce Rossa Ponte Taro", lista.get(1));
-        }// end of if cycle
-
-        if (lista.size() > 2) {
-            creaAndLog("pap", "Pubblica Assistenza Pianoro", lista.get(2));
-        }// end of if cycle
-
-        if (lista.size() > 3) {
-            creaAndLog("gaps", "Gruppo Accoglienza Pronto Soccorso", lista.get(3));
-        }// end of if cycle
+        creaAndLog(
+                "test",
+                "Associazione Volontaria di Misericordia",
+                personaService.newEntity("Marcello", "Tamburini"),
+                "presidente@associazioneroverasco.it",
+                indirizzoService.newEntity("piazza Libertà", "Roverasco", "35117", (Stato) null));
     }// end of method
 
 
@@ -85,14 +80,15 @@ public class CompanyData {
      * Creazione di una entity
      * Log a video
      *
-     * @param sigla       sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
-     * @param indirizzo   (facoltativo)
+     * @param contact     persona di riferimento (facoltativo)
+     * @param email       delal company (facoltativo)
+     * @param indirizzo   della company (facoltativo)
      */
-    private Company creaAndLog(String sigla, String descrizione, Indirizzo indirizzo) {
-        Company comp = service.crea(sigla, descrizione, indirizzo);
-        log.warn("Company: " + comp);
-        return comp;
+    private void creaAndLog(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
+        service.findOrCrea(sigla, descrizione, contact, email, indirizzo);
+        log.warn("Company: " + sigla);
     }// end of method
 
 

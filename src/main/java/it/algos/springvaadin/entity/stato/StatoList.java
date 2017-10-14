@@ -26,10 +26,9 @@ import javax.annotation.PostConstruct;
 @Qualifier(Cost.TAG_STA)
 public class StatoList extends AlgosListImpl {
 
+
     private AButton buttonImport;
 
-    @Autowired
-    private StatoService service;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -43,7 +42,6 @@ public class StatoList extends AlgosListImpl {
      * Chiamato ogni volta che la finestra diventa attiva
      */
     protected void inizializza() {
-        chekStatiEsistenti();
         if (LibSession.isDeveloper()) {
             caption = "";
             caption += "</br>Lista visibile solo al developer";
@@ -52,19 +50,6 @@ public class StatoList extends AlgosListImpl {
             caption += "</br>Le property nome, alfaDue e alfaTre sono uniche e non possono essere nulle";
             caption += "</br>La property numerico può essere nulla";
         }// end of if cycle
-    }// end of method
-
-
-    /**
-     * Crea una collezione di stati
-     * Controlla se la collezione esiste già
-     */
-    public void chekStatiEsistenti() {
-        if (service.count() < 2) {
-            service.creaStati();
-        } else {
-            log.info("La collezione di stati è presente");
-        }// end of if/else cycle
     }// end of method
 
 

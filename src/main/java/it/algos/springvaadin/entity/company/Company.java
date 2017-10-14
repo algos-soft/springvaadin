@@ -47,8 +47,9 @@ public class Company extends AEntity {
     private final static long serialVersionUID = 1L;
 
 
-    //--sigla di riferimento interna (interna, obbligatoria ed unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+    /**
+     * sigla di riferimento interna (interna, obbligatoria ed unica)
+     */
     @NotEmpty(message = "La sigla interna è obbligatoria")
     @Size(min = 2, max = 20)
     @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno")
@@ -56,29 +57,40 @@ public class Company extends AEntity {
     private String sigla;
 
 
-    //--ragione sociale o descrizione della company (obbligatoria, non unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+    /**
+     * ragione sociale o descrizione della company (obbligatoria, non unica)
+     */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company")
-    @AIColumn(width = 400)
+    @AIColumn(width = 350)
     private String descrizione;
 
 
-    // persona di riferimento (facoltativo)
+    /**
+     * persona di riferimento (facoltativo)
+     * riferimento statico SENZA @DBRef
+     */
     @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento")
-    @AIColumn(width = 300, name = "Riferimento")
+    @AIColumn(width = 250, name = "Riferimento")
     private Persona contatto;
 
 
+    /**
+     * posta elettronica (facoltativo)
+     */
     @Email
     @AIField(type = AFieldType.email, widthEM = 24)
+    @AIColumn(width = 350, name = "Mail")
     private String email;
 
 
-    //--indirizzo (facoltativo)
+    /**
+     * indirizzo (facoltativo)
+     * riferimento statico SENZA @DBRef
+     */
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
-    @AIColumn(width = 400, name = "Indirizzo")
+    @AIColumn(width = 350, name = "Indirizzo")
     private Indirizzo indirizzo;
 
 

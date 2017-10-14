@@ -2,14 +2,17 @@ package it.algos.springvaadin.entity.company;
 
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +22,10 @@ import java.util.List;
  */
 @Service
 @Qualifier(Cost.TAG_COMP)
+@Slf4j
 public class CompanyService extends AlgosServiceImpl {
 
+    private CompanyRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -30,64 +35,77 @@ public class CompanyService extends AlgosServiceImpl {
      */
     public CompanyService(@Qualifier(Cost.TAG_COMP) MongoRepository repository) {
         super(repository);
+        this.repository = (CompanyRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
      *
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      *
-     * @return la nuova entity appena creata
+     * @return la entity trovata o appena creata
      */
-    public Company crea(String sigla, String descrizione, Indirizzo indirizzo) {
-        Company comp = ((CompanyRepository) repository).findBySigla(sigla);
+    public Company findOrCrea(String sigla, String descrizione) {
+        return findOrCrea(sigla, descrizione, (Persona) null, "", (Indirizzo) null);
+    }// end of method
 
-        if (comp == null) {
-            comp = (Company) repository.save(newEntity(sigla, descrizione, indirizzo));
-        }// end of if cycle
 
-        return comp;
+    /**
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
+     * @param contact     persona di riferimento (facoltativo)
+     * @param email       delal company (facoltativo)
+     * @param indirizzo   della company (facoltativo)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Company findOrCrea(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
+        if (isNonEsiste(sigla)) {
+            try { // prova ad eseguire il codice
+                return (Company) save(newEntity(sigla, descrizione, contact, email, indirizzo));
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+                return null;
+            }// fine del blocco try-catch
+        } else {
+            return repository.findBySigla(sigla);
+        }// end of if/else cycle
     }// end of method
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
      *
-     * @return la nuova entity appena creata
+     * @return la nuova entity appena creata (non salvata)
      */
+    @Override
     public Company newEntity() {
-        return newEntity("", "", (Indirizzo) null);
+        return newEntity("", "", (Persona) null, "", (Indirizzo) null);
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
-     * @param indirizzo   (facoltativo)
+     * @param contact     persona di riferimento (facoltativo)
+     * @param email       delal company (facoltativo)
+     * @param indirizzo   della company (facoltativo)
      *
-     * @return la nuova entity appena creata
+     * @return la nuova entity appena creata (non salvata)
      */
-    public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo) {
-        return newEntity(sigla, descrizione, indirizzo, "", null);
-    }// end of method
-
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     *
-     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
-     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
-     * @param indirizzo   (facoltativo)
-     *
-     * @return la nuova entity appena creata
-     */
-    public Company newEntity(String sigla, String descrizione, Indirizzo indirizzo, String email, Persona contact) {
+    public Company newEntity(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
         return new Company(sigla, descrizione, contact, email, indirizzo);
     }// end of method
 
@@ -113,33 +131,33 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Recupera una istanza della Entity usando la query di una property specifica
+     * Recupera una istanza della Entity usando la query della key ID
      *
      * @return istanza della Entity, null se non trovata
      */
     public Company find(ObjectId id) {
-        return ((CompanyRepository) repository).findById(id);
+        return repository.findById(id);
     }// end of method
 
 
     /**
-     * Recupera una istanza della Entity usando la query di una property specifica
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
      * @return istanza della Entity, null se non trovata
      */
     public Company findBySigla(String sigla) {
-        return ((CompanyRepository) repository).findBySigla(sigla);
+        return repository.findBySigla(sigla);
     }// end of method
 
 
     /**
      * Returns all instances of the type
+     * Non usa MultiCompany, quindi senza filtri
      *
      * @return lista di tutte le entities
      */
     public List findAll() {
-//        return null;
-        return ((CompanyRepository) repository).findAll();
+        return repository.findAllByOrderBySiglaAsc();
     }// end of method
 
 }// end of class

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.indirizzo;
 
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.entity.versione.Versione;
@@ -25,11 +26,10 @@ import java.util.List;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
-@Slf4j
 @Qualifier(Cost.TAG_IND)
+@Slf4j
 public class IndirizzoService extends AlgosServiceImpl {
 
-    //    @Autowired
     public StatoService statoService;
 
     /**
@@ -45,76 +45,58 @@ public class IndirizzoService extends AlgosServiceImpl {
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
+     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
      *
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
      * @param localita:  località (obbligatoria, non unica)
-     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      *
-     * @return la nuova entity appena creata
+     * @return la entity trovata o appena creata
      */
-    public Indirizzo crea(String indirizzo, String localita, String cap) {
-        return crea(indirizzo, localita, cap, (Stato) null);
+    public Indirizzo findOrCrea(String indirizzo, String localita) {
+        return findOrCrea(indirizzo, localita, "", (Stato) null);
     }// end of method
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
+     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
      *
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
      * @param localita:  località (obbligatoria, non unica)
      * @param cap:       codice di avviamento postale (obbligatoria, non unica)
      * @param stato:     stato (obbligatoria, non unica)
      *
-     * @return la nuova entity appena creata
+     * @return la entity trovata o appena creata
      */
-    public Indirizzo crea(String indirizzo, String localita, String cap, Stato stato) {
-        Indirizzo entity = ((IndirizzoRepository) repository).findByIndirizzo(indirizzo);
-
-        if (entity == null) {
-            entity = newEntity(indirizzo, localita, cap, stato);
-        }// end of if cycle
-
-        if (entity != null) {
-            entity = (Indirizzo) repository.save(entity);
-            log.info(indirizzo + " - " + indirizzo);
-        } else {
-            log.warn("Non sono riuscito a creare l'indirizzo: " + indirizzo + " - " + indirizzo);
-        }// end of if/else cycle
-
-        return entity;
+    public Indirizzo findOrCrea(String indirizzo, String localita, String cap, Stato stato) {
+            return newEntity(indirizzo, localita, cap, stato);
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
      *
      * @return la nuova entity appena creata (vuota e non salvata)
      */
+    @Override
     public Indirizzo newEntity() {
         return newEntity("", "", "", (Stato) null);
     }// end of method
 
 
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     *
-     * @param indirizzo: via, nome e numero (obbligatoria, non unica)
-     * @param localita:  località (obbligatoria, non unica)
-     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
-     *
-     * @return la nuova entity appena creata (vuota e non salvata)
-     */
-    public Indirizzo newEntity(String indirizzo, String localita, String cap) {
-        return new Indirizzo(indirizzo, localita, cap, (Stato) null);
-    }// end of method
-
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param indirizzo: via, nome e numero (obbligatoria, non unica)
      * @param localita:  località (obbligatoria, non unica)
@@ -125,7 +107,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      */
     public Indirizzo newEntity(String indirizzo, String localita, String cap, Stato stato) {
         if (statoService != null && statoService.repository != null) {
-            return new Indirizzo(indirizzo, localita, cap, stato != null ? stato : statoService.find());
+            return new Indirizzo(indirizzo, localita, cap, stato != null ? stato : statoService.findDefault());
         } else {
             if (statoService != null) {
                 return new Indirizzo(indirizzo, localita, cap, statoService.newEntity());
@@ -138,6 +120,7 @@ public class IndirizzoService extends AlgosServiceImpl {
 
     /**
      * Returns all instances of the type.
+     * Non usa MultiCompany, quindi senza filtri
      *
      * @return all entities
      */
@@ -146,51 +129,12 @@ public class IndirizzoService extends AlgosServiceImpl {
     }// end of method
 
 
-    /**
-     * Returns selected instances of the type.
-     *
-     * @return selected entities
-     */
-    public List findAllByLocalita(String localita) {
-        return ((IndirizzoRepository) repository).findAllByLocalita(localita);
-    }// end of method
-
-
-    /**
-     * Returns selected instances of the type.
-     *
-     * @return selected entities
-     */
-    public Indirizzo findFirstByLocalita(String localita) {
-        Indirizzo trovato = null;
-        List lista = findAllByLocalita(localita);
-
-        if (lista != null && lista.size() == 1) {
-            trovato = (Indirizzo) lista.get(0);
-        }// end of if cycle
-
-        return trovato;
-    }// end of method
-
-
-    public Indirizzo find(ObjectId id) {
-//        return ((IndirizzoRepository) repository).find(id);
-        return null;
-    }// end of method
-
-    /**
-     * Returns entity
-     *
-     * @return entity
-     */
-    public Indirizzo findById(String id) {
-        return ((IndirizzoRepository) repository).findOne(id);
-    }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Usato da Migration per convertire la vecchia versione dell'applicazione WAM
      *
      * @param indirizzoOld: via, nome e numero - località - cap
      *

@@ -194,7 +194,7 @@ public class StatoService extends AlgosServiceImpl {
      *
      * @return the entity
      */
-    public Stato find() {
+    public Stato findDefault() {
         return crea(DEFAULT);
     }// end of method
 

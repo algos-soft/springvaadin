@@ -62,16 +62,18 @@ public abstract class AlgosServiceImpl implements AlgosService {
             switch (companyRequired) {
                 case nonUsata:
                     return (AEntity) repository.save(entityBean);
-                case facoltativa:
+                case facoltativaSenzaCodeUnico:
                     return (AEntity) repository.save(entityBean);
-                case obbligatoria:
+                case facoltativaConCodeUnico:
+                    return (AEntity) repository.save(entityBean);
+                case obbligatoriaSenzaCodeUnico:
                     if (checkCompany(entityBean, false)) {
                         return (AEntity) repository.save(entityBean);
                     } else {
                         log.warn("Entity non creata perché manca la Company (obbligatoria)");
                         return null;
                     }// end of if/else cycle
-                case usaCodeCompanyUnico:
+                case obbligatoriaCodeCompanyUnico:
                     if (checkCompany(entityBean, true)) {
                         return (AEntity) repository.save(entityBean);
                     } else {
@@ -187,6 +189,24 @@ public abstract class AlgosServiceImpl implements AlgosService {
     @Override
     public Object findOne(Serializable serializable) {
         return (AEntity) repository.findOne(serializable);
+    }// end of method
+
+
+    @Override
+    public List<AEntity> findAllByCompany() {
+        Company company = LibSession.getCompany();
+
+        if (company != null) {
+            return findAllByCompany(company);
+        } else {
+            return findAll();
+        }// end of if/else cycle
+
+    }// end of method
+
+
+    public List<AEntity> findAllByCompany(Company company) {
+        return null;
     }// end of method
 
 

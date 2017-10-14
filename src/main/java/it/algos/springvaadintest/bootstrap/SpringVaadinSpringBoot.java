@@ -2,6 +2,7 @@ package it.algos.springvaadintest.bootstrap;
 
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.AlgosSpringBoot;
+import it.algos.springvaadin.entity.stato.StatoService;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneRepository;
 import it.algos.springvaadin.entity.versione.VersioneService;
@@ -23,11 +24,10 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
 
 
     @Autowired
-    protected IndirizzoData indirizzoData;
-
-    @Autowired
     protected CompanyData companyData;
 
+    @Autowired
+    private StatoData statoData;
 
     /**
      * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
@@ -36,7 +36,7 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
      */
     @PostConstruct
     private void check() {
-        indirizzoData.creaAll();
+        statoData.creaAll();
         companyData.creaAll();
     }// end of method
 
@@ -67,17 +67,17 @@ public class SpringVaadinSpringBoot extends AlgosSpringBoot {
         AlgosApp.USE_DEBUG = false;
         log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
-        AlgosApp.USE_VERS = true;
-        log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+        AlgosApp.USE_SECURITY = true;
+        log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
 
         AlgosApp.USE_MULTI_COMPANY = true;
         log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
+        AlgosApp.USE_VERS = true;
+        log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+
         AlgosApp.USE_LOG = true;
         log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
-
-        AlgosApp.USE_SECURITY = true;
-        log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
     }// end of method
 
 }// end of class

@@ -12,7 +12,6 @@ import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoField;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
@@ -34,14 +33,6 @@ import java.util.List;
 @SpringComponent
 public class LibField {
 
-    private static IndirizzoField indirizzoField;
-    private IndirizzoField indirizzoFieldInstance;
-
-
-    @PostConstruct
-    public void initStaticDao() {
-        indirizzoField = this.indirizzoFieldInstance;
-    }// end of method
 
 
     /**

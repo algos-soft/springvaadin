@@ -1,6 +1,7 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 @IMPORT_COST@
 import com.vaadin.spring.annotation.SpringComponent;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.algos.springvaadin.lib.Cost;
@@ -16,6 +17,13 @@ import java.util.List;
 @Qualifier(@TAG@)
 public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
 
+
+    public @ENTITY@ findById(ObjectId id);
+
     public @ENTITY@ findBySigla(String sigla);
+
+    public List<@ENTITY@> findAllByOrderBySiglaAsc();
+
+    public @ENTITY@ save(@ENTITY@ entity);
 
 }// end of class

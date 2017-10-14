@@ -71,12 +71,13 @@ public abstract class LibReflection {
         Field fieldKeyId = null;
         String fieldName;
         boolean useCompany = LibAnnotation.useCompanyFields(entityClazz);
+        boolean useCompanyOptional = LibAnnotation.useCompanyOptionalFields(entityClazz);
 
         //--recupera tutti i fields della entity
         try { // prova ad eseguire il codice
             fieldsArrayClazz = entityClazz.getDeclaredFields();
             for (Field field : fieldsArrayClazz) {
-                if (!Cost.esclusi.contains(field.getName())) {
+                if (!Cost.ESCLUSI.contains(field.getName())) {
                     fieldsTmp.add(field);
                 }// end of if cycle
             }// end of for cycle
@@ -89,9 +90,15 @@ public abstract class LibReflection {
             try { // prova ad eseguire il codice
                 fieldsArrayCompany = ACompanyEntity.class.getDeclaredFields();
                 for (Field field : fieldsArrayCompany) {
-                    if (!Cost.esclusi.contains(field.getName())) {
-                        fieldsTmp.add(field);
-                    }// end of if cycle
+                    if (useCompanyOptional) {
+                        if (!Cost.ESCLUSI.contains(field.getName())) {
+                            fieldsTmp.add(field);
+                        }// end of if cycle
+                    } else {
+                        if (!(Cost.ESCLUSI.contains(field.getName())) && !(Cost.COMPANY_OPTIONAL.contains(field.getName()))) {
+                            fieldsTmp.add(field);
+                        }// end of if cycle
+                    }// end of if/else cycle
                 }// end of for cycle
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
@@ -103,7 +110,7 @@ public abstract class LibReflection {
         try { // prova ad eseguire il codice
             fieldsArrayEntity = AEntity.class.getDeclaredFields();
             for (Field field : fieldsArrayEntity) {
-                if (!Cost.esclusi.contains(field.getName())) {
+                if (!Cost.ESCLUSI.contains(field.getName())) {
                     fieldsTmp.add(field);
                 }// end of if cycle
             }// end of for cycle

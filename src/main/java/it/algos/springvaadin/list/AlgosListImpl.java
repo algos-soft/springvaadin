@@ -77,8 +77,17 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         caption = "";
         this.inizializza();
         if (items != null) {
-            textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
-        }// end of if cycle
+            if (items.size()==1) {
+                textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " scheda. ";
+            } else {
+                textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
+            }// end of if/else cycle
+        } else {
+            textLabel = entityClass.getSimpleName() + " - Al momento non c'è nessuna scheda. ";
+        }// end of if/else cycle
+
+
+
         if (caption != null) {
             textLabel += caption;
         }// end of if cycle
@@ -106,6 +115,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
     /**
      * Chiamato ogni volta che la finestra diventa attiva
+     * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     protected void inizializza() {
     }// end of method

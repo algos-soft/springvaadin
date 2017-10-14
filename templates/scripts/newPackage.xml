@@ -2,7 +2,7 @@
 <project name="newPackage" default="creaPackageSpringvaadin">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="Persona"/>
+    <property name="newEntity" value="Fattura"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->

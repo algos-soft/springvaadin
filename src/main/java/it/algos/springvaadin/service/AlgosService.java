@@ -32,6 +32,9 @@ public interface AlgosService {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
      */
     public AEntity newEntity();
 
@@ -61,6 +64,7 @@ public interface AlgosService {
      */
     public List<AEntity> findAll();
 
+    public List<AEntity> findAllByCompany();
 
     /**
      * Returns the number of entities available.

@@ -13,7 +13,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 /**
  * Created by gac on 30-set-17
@@ -25,33 +30,61 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
-@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.usaCodeCompanyUnico)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoriaSenzaCodeUnico)
+@AIList(columns = {"evento", "descrizione", "dataEvento"})
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Log extends ACompanyEntity {
 
-
-    //--versione della classe per la serializzazione
+    /**
+     * versione della classe per la serializzazione
+     */
     private final static long serialVersionUID = 1L;
 
 
-    //--sigla (obbligatoria, unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
-    @NotEmpty
-    @AIField(type = AFieldType.text, required = true, widthEM = 10)
-    @AIColumn()
-    private String sigla;
+    /**
+     * gruppo/titolo/evento (obbligatorio)
+     */
+    @NotEmpty(message = "La tipologia del log è obbligatoria")
+    @Indexed()
+    @AIField(type = AFieldType.enumeration, clazz = LogType.class, required = true, widthEM = 10)
+    @AIColumn(width = 140)
+    private String evento;
 
 
     /**
-     * @return a string representation of the object.
+     * descrizione (obbligatoria)
      */
-    @Override
-    public String toString() {
-        return getSigla();
-    }// end of method
+    @NotEmpty(message = "La descrizione è obbligatoria")
+    @Indexed()
+    @Size(min = 2, max = 100)
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Messaggio del log")
+    @AIColumn(width = 350)
+    private String descrizione;
+
+
+    /**
+     * Data dell'evento (obbligatoria, non modificabile)
+     * Gestita in automatico
+     * Field visibile solo al admin
+     */
+    @NotNull
+    @Indexed()
+    @AIField(name = "Data dell'evento di log", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.admin)
+    @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
+    public LocalDateTime dataEvento;
+
+
+//    /**
+//     * @return a string representation of the object.
+//     */
+//    @Override
+//    public String toString() {
+//        return getSigla();
+//    }// end of method
 
 
 }// end of entity class

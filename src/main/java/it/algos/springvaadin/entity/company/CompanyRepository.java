@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
+ * La classe concreta, che implementa tutti i metodi, viene creata da Spring a Runtime
  */
 @SpringComponent
 @Qualifier(Cost.TAG_COMP)
@@ -21,5 +22,7 @@ public interface CompanyRepository extends MongoRepository<Company, String> {
     public Company findBySigla(String sigla);
 
     public List<Company> findAllByOrderBySiglaAsc();
+
+    public Company save(Company entity);
 
 }// end of class

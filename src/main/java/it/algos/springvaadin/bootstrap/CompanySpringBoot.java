@@ -32,7 +32,6 @@ import java.util.List;
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
-@SpringComponent
 @Slf4j
 public class CompanySpringBoot {
 
@@ -82,7 +81,7 @@ public class CompanySpringBoot {
      * @param cap   postale
      */
     private void creaAndLog(String sigla, String desc, String ind, String loc, String cap) {
-        serviceCompany.crea(sigla, desc, serviceIndirizzo.newEntity(ind, loc, cap));
+//        serviceCompany.findOrCrea(sigla, desc, serviceIndirizzo.newEntity(ind, loc, cap));
         log.warn("Company: " + sigla);
     }// end of method
 

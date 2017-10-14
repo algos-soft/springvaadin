@@ -30,17 +30,18 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  * <p>
  * Usato da altre 'collection' (ex moduli)
+ * Questa Entity viene usata 'embedded'- Si può 'switchare' a @DBRef, implementando Service e Repository
  */
 @SpringComponent
 @Document(collection = Cost.TAG_IND)
 @AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
+//@AIList(columns = {"indirizzo", "localita", "cap"})
 @AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Indirizzo extends AEntity {
-
 
     /**
      * versione della classe per la serializzazione
@@ -51,11 +52,11 @@ public class Indirizzo extends AEntity {
     /**
      * indirizzo: via, nome e numero (obbligatoria, non unica)
      */
-    @NotEmpty()
-    @Size(min = 2, max = 40)
+    @NotEmpty(message = "L'indirizzo è obbligatorio")
+    @Size(min = 2, max = 50)
     @AIField(type = AFieldType.text, widthEM = 20, focus = true, help = "Via, nome e numero")
     @AIColumn(width = 300)
-    private String indirizzo = "";
+    private String indirizzo;
 
 
     /**
@@ -65,22 +66,21 @@ public class Indirizzo extends AEntity {
     @Size(min = 4, max = 40)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 20, help = "Città, comune, paese")
     @AIColumn(width = 300)
-    private String localita = "";
+    private String localita;
 
 
     /**
      * codice di avviamento postale (obbligatoria, non unica)
-     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
-    @Size(min = 5, max = 5, message = "CAP deve essere di 5 numeri")
-    @AIField(type = AFieldType.text, widthEM = 5, help = "Codice postale")
+    @Size(min = 5, max = 5, message = "Il codice postale deve essere di 5 cifre")
+    @AIField(type = AFieldType.text, widthEM = 5, help = "Codice di avviamento postale")
     @AIColumn(width = 90)
-    private String cap = "";
+    private String cap;
 
 
     /**
      * stato (obbligatoria, non unica)
-     * riferimento dinamico
+     * riferimento dinamico con @DBRef (obbligatorio per il ComboBox)
      */
     @DBRef
     @NotEmpty()

@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -59,6 +60,10 @@ public class Persona extends AEntity {
     @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
 
+
+    @Email
+    @AIField(type = AFieldType.email, widthEM = 24)
+    private String email;
 
     //--telefono (facoltativo)
     @AIField(type = AFieldType.text)

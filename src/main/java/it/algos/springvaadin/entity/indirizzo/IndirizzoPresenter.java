@@ -6,6 +6,7 @@ import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_IND)
+@Slf4j
 public class IndirizzoPresenter extends AlgosPresenterImpl {
 
     /**

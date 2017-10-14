@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_VERS)
-@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativaSenzaCodeUnico)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
