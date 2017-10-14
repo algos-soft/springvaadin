@@ -113,7 +113,6 @@ public abstract class LibAnnotation {
         mappa = getMap(clazz, publicFieldName);
 
 
-
         if (mappa != null && mappa.containsKey(tag)) {
             annotation = (AIColumn) mappa.get(tag);
         }// end of if cycle
@@ -1093,7 +1092,7 @@ public abstract class LibAnnotation {
      * @return the ARoleType of the field
      */
     @SuppressWarnings("all")
-    public static ARoleType getRoleType(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static ARoleType getFieldRoleType(final Class<? extends AEntity> clazz, final String publicFieldName) {
         ARoleType roleTypeVisibility = ARoleType.guest;
 
         AIField fieldAnnotation = getField(clazz, publicFieldName);
@@ -1105,6 +1104,7 @@ public abstract class LibAnnotation {
         return roleTypeVisibility;
     }// end of static method
 
+
     /**
      * Get the visibility of the field.
      * Di default true
@@ -1115,11 +1115,142 @@ public abstract class LibAnnotation {
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isFieldVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean visibile = false;
-        ARoleType roleTypeVisibility = getRoleType(clazz, publicFieldName);
+        ARoleType roleTypeVisibility = getFieldRoleType(clazz, publicFieldName);
 
         switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
+            case developer:
+                if (LibSession.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (LibSession.isAdmin()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                visibile = true;
+                break;
+            case guest:
+                visibile = true;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
+    }// end of static method
+
+
+    /**
+     * Get the roleTypeVisibility of the property.
+     * Se manca, usa il ruolo Guest
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the ARoleType of the field
+     */
+    @SuppressWarnings("all")
+    public static ARoleType getColumnRoleType(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        ARoleType roleTypeVisibility = ARoleType.guest;
+
+        AIColumn fieldAnnotation = getColumn(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            roleTypeVisibility = fieldAnnotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility;
+    }// end of static method
+
+    /**
+     * Get the visibility of the column.
+     * Di default true
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the column
+     */
+    @SuppressWarnings("all")
+    public static boolean isColumnVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        boolean visibile = false;
+        ARoleType roleTypeVisibility = getColumnRoleType(clazz, publicFieldName);
+
+        switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
+            case developer:
+                if (LibSession.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (LibSession.isAdmin()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                visibile = true;
+                break;
+            case guest:
+                visibile = true;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
+    }// end of static method
+
+
+    /**
+     * Get the roleTypeVisibility of the collection (modulo-table).
+     * Se manca, usa il ruolo Guest
+     *
+     * @param clazz           the entity class
+     *
+     * @return the ARoleType of the collection
+     */
+    @SuppressWarnings("all")
+    public static ARoleType getEntityRoleType(final Class<? extends AEntity> clazz) {
+        ARoleType roleTypeVisibility = ARoleType.guest;
+        AIEntity entityAnnotation = getAIEntity(clazz);
+
+        if (entityAnnotation != null) {
+            roleTypeVisibility = entityAnnotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility;
+    }// end of static method
+
+
+    /**
+     * Get the visibility of the collection (modulo-table).
+     * Di default true
+     *
+     * @param clazz           the entity class
+     *
+     * @return the visibility of the collection
+     */
+    @SuppressWarnings("all")
+    public static boolean isEntityClassVisibile(final Class<? extends AEntity> clazz) {
+        boolean visibile = false;
+        ARoleType roleTypeVisibility = getEntityRoleType(clazz);
+
+        switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
             case developer:
                 if (LibSession.isDeveloper()) {
                     visibile = true;

@@ -6,6 +6,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
-@AIEntity(company = ACompanyRequired.nonUsata)
+@AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "prova", "alfaDue", "alfaTre", "numerico"})
 @AIForm(showsID = true, widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})

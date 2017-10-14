@@ -10,6 +10,7 @@ import it.algos.springvaadin.entity.persona.PersonaPresenter;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_COMP)
-@AIEntity(company = ACompanyRequired.nonUsata)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.nonUsata)
 @AIList(columns = {"sigla", "descrizione", "contatto"})
 @AIForm()
 @Data
@@ -59,7 +60,7 @@ public class Company extends AEntity {
     //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 26, help = "Descrizione della company")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company")
     @AIColumn(width = 400)
     private String descrizione;
 
@@ -71,7 +72,7 @@ public class Company extends AEntity {
 
 
     @Email
-    @AIField(type = AFieldType.email, widthEM = 18)
+    @AIField(type = AFieldType.email, widthEM = 24)
     private String email;
 
 

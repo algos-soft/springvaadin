@@ -1,6 +1,7 @@
 package it.algos.springvaadin.annotation;
 
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.login.ARoleType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,5 +41,11 @@ public @interface AIColumn {
      */
     int width() default 150;
 
+
+    /**
+     * (Optional) Visibilità a secondo del ruolo dell'User collegato
+     * Defaults to guest.
+     */
+    ARoleType roleTypeVisibility() default ARoleType.guest;
 
 }// end of interface annotation

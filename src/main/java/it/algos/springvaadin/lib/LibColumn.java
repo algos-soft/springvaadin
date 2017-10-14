@@ -1,7 +1,6 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFieldType;
@@ -103,7 +102,7 @@ public abstract class LibColumn {
 
         if (columns != null) {
             for (String titolo : columns) {
-                if (LibAnnotation.isVisibile(clazz, titolo)) {
+                if (LibAnnotation.isColumnVisibile(clazz, titolo)) {
                     lar += addColumn(clazz, grid, titolo);
                 }// end of if cycle
             }// end of for cycle

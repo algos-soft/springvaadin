@@ -1,15 +1,10 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
-import it.algos.springvaadin.entity.persona.PersonaPresenter;
-import it.algos.springvaadin.entity.persona.PersonaService;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.presenter.AlgosPresenter;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -61,7 +56,7 @@ public class ViewField {
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
-        boolean visible = LibAnnotation.isVisibile(clazz, publicFieldName);
+        boolean visible = LibAnnotation.isFieldVisibile(clazz, publicFieldName);
         boolean nullSelection = LibAnnotation.isNullSelectionAllowed(clazz, publicFieldName);
         Class targetClazz = LibAnnotation.getClass(clazz, publicFieldName);
 

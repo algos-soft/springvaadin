@@ -1,5 +1,6 @@
 package it.algos.springvaadin.annotation;
 
+import it.algos.springvaadin.login.ARoleType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.lang.annotation.ElementType;

@@ -7,6 +7,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
-@AIEntity(company = ACompanyRequired.usaCodeCompanyUnico)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.usaCodeCompanyUnico)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

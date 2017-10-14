@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,7 +34,7 @@ import java.time.LocalDateTime;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_VERS)
-@AIEntity(company = ACompanyRequired.facoltativa)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

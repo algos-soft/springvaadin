@@ -44,8 +44,6 @@ import java.time.LocalDateTime;
 @Getter
 public abstract class AEntity implements Serializable {
 
-//    @Transient
-//    public ACompanyRequired companyRequired;
 
     /**
      * key property ObjectId
@@ -53,13 +51,15 @@ public abstract class AEntity implements Serializable {
      * può essere usata direttamente per identificare la entity con key 'leggibili'
      */
     @NotEmpty
+    @AIColumn(name = "key", roleTypeVisibility = ARoleType.developer)
     public String id;
 
 
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.note)
+    @AIField(type = AFieldType.note, widthEM = 24)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String note;
 
     /**
@@ -69,8 +69,8 @@ public abstract class AEntity implements Serializable {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Creazione", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
-    @AIColumn(name = "Creazione", width = 110)
+    @AIField(name = "Data di creazione della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
 
     /**
@@ -80,8 +80,8 @@ public abstract class AEntity implements Serializable {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Modifica", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
-    @AIColumn(name = "Modifica", width = 110)
+    @AIField(name = "Data di modifica della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataModifica;
 
 }// end of entity abstract class

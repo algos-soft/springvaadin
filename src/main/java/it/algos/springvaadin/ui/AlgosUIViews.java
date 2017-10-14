@@ -1,13 +1,19 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.log.Log;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.persona.PersonaNavView;
 import it.algos.springvaadin.entity.log.LogNavView;
 import com.vaadin.server.VaadinSession;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoNavView;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoNavView;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import it.algos.springvaadin.entity.company.CompanyNavView;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.entity.versione.VersioneView;
 import it.algos.springvaadin.help.HelpNavView;
@@ -15,6 +21,7 @@ import it.algos.springvaadin.help.HelpView;
 import it.algos.springvaadin.home.HomeNavView;
 import it.algos.springvaadin.home.HomeView;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -86,24 +93,25 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-        if (LibSession.isDeveloper()) {
+        if (LibAnnotation.isEntityClassVisibile(Stato.class)) {
             menuLayout.addView(StatoNavView.class);
         }// end of if cycle
-        if (LibSession.isDeveloper()) {
+        if (LibAnnotation.isEntityClassVisibile(Indirizzo.class)) {
             menuLayout.addView(IndirizzoNavView.class);
         }// end of if cycle
-        if (LibSession.isAdmin()) {
+        if (LibAnnotation.isEntityClassVisibile(Persona.class)) {
             menuLayout.addView(PersonaNavView.class);
         }// end of if cycle
-        if (LibParams.useVers() && LibSession.isAdmin()) {
+        if (LibParams.useVers() && LibAnnotation.isEntityClassVisibile(Versione.class)) {
             menuLayout.addView(VersioneNavView.class);
         }// end of if cycle
-        if (LibParams.useLog() && LibSession.isAdmin()) {
+        if (LibParams.useLog() && LibAnnotation.isEntityClassVisibile(Log.class)) {
             menuLayout.addView(LogNavView.class);
         }// end of if cycle
-        if (LibParams.useMultiCompany() && LibSession.isAdmin()) {
+        if (LibParams.useMultiCompany() && LibAnnotation.isEntityClassVisibile(Company.class)) {
             menuLayout.addView(CompanyNavView.class);
         }// end of if cycle
+
     }// end of method
 
     /**
