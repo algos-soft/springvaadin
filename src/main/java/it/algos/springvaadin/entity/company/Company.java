@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Size;
@@ -51,6 +52,7 @@ public class Company extends AEntity {
      * sigla di riferimento interna (interna, obbligatoria ed unica)
      */
     @NotEmpty(message = "La sigla interna è obbligatoria")
+    @Indexed(unique = true)
     @Size(min = 2, max = 20)
     @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno")
     @AIColumn(width = 100)

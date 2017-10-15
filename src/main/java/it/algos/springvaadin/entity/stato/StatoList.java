@@ -9,7 +9,6 @@ import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -22,7 +21,6 @@ import javax.annotation.PostConstruct;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @SpringComponent
-@Slf4j
 @Qualifier(Cost.TAG_STA)
 public class StatoList extends AlgosListImpl {
 
@@ -38,9 +36,12 @@ public class StatoList extends AlgosListImpl {
         toolbar.setUsaBottoneRicerca(false);
     }// end of Spring constructor
 
+
     /**
      * Chiamato ogni volta che la finestra diventa attiva
+     * Può essere sovrascritto per un'intestazione (caption) della grid
      */
+    @Override
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
             caption = "";

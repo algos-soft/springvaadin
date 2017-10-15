@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
  * Time: 06:26
  */
 @Slf4j
-public enum  LogLevel {
-    debug, info, warn, error;
+public enum LogLevel {
+    debug, info, warn, error, mail;
 
     public static String[] getValues() {
         String[] valori;

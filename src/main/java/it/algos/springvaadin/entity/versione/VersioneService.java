@@ -153,6 +153,17 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
+     * Returns all instances of the type.
+     * Usa MultiCompany
+     * Filtrata sulla company indicata
+     * @return all entities
+     */
+    public List findAllByCompany(Company company) {
+        return ((VersioneRepository) repository).findAllByOrderByOrdineAsc();//@todo NOT TRUE
+    }// end of method
+
+
+    /**
      * Recupera una istanza della Entity usando la query di una property specifica
      *
      * @return istanza della Entity, null se non trovata

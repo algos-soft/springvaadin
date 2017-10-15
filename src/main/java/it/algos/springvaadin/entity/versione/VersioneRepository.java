@@ -15,11 +15,11 @@ import java.util.List;
 @Qualifier(Cost.TAG_VERS)
 public interface VersioneRepository extends MongoRepository<Versione, String> {
 
-    public Versione findByOrdine(int ordine);
+//    public Versione findByOrdine(int ordine);
 
     public Versione findByTitolo(String titolo);
 
-    public Versione findByDescrizione(String descrizione);
+//    public Versione findByDescrizione(String descrizione);
 
     public Versione findByTitoloAndDescrizione(String titolo, String descrizione);
 

@@ -19,9 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Qualifier(Cost.TAG_STA)
 public class StatoForm extends AlgosFormImpl {
 
-    @Autowired
-    private StatoService statoService;
-
 
     /**
      * Costruttore @Autowired (nella superclasse)

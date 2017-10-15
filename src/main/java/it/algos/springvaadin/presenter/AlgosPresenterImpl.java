@@ -433,10 +433,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
         AEntity entityBeanNew = null;
 
-        if (true) {
-//            if (view.entityIsOk()) {
+//        if (true) {
+            if (view.entityIsOk()) {
             entityBeanNew = view.commit();
-            entityBeanNew.id = "";
+//            entityBeanNew.id = "";
             view.closeFormWindow();
         }// end of if cycle
 

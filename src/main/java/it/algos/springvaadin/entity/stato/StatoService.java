@@ -1,5 +1,8 @@
 package it.algos.springvaadin.entity.stato;
 
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
@@ -7,6 +10,7 @@ import it.algos.springvaadin.lib.LibFile;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -22,11 +26,15 @@ import java.util.List;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
  */
 @Service
-@Slf4j
 @Qualifier(Cost.TAG_STA)
+@Slf4j
 public class StatoService extends AlgosServiceImpl {
 
-    private final static String DEFAULT = "Italia";
+    private final static String DEFAULT_3166 = "Italia";
+    private final static String DEFAULT_3166_1 = "IT";
+    private final static String DEFAULT_3166_2 = "ITA";
+
+    public StatoRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -36,49 +44,94 @@ public class StatoService extends AlgosServiceImpl {
      */
     public StatoService(@Qualifier(Cost.TAG_STA) MongoRepository repository) {
         super(repository);
+        this.repository = (StatoRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
      *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param nome    corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param alfaDue codice alfabetico di 2 cifre (obbligatorio, unico)
+     * @param alfaTre codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
      *
-     * @return true se è stata creata una nuova entity
+     * @return la entity trovata o appena creata
      */
-    public boolean isCreata(String nome) {
-        boolean creata = false;
-        Stato entity = ((StatoRepository) repository).findByNome(nome);
-        if (entity == null) {
-            crea(nome);
-            creata = true;
-        }// end of if cycle
-
-        return creata;
+    public Stato findOrCrea(String nome, String alfaDue, String alfaTre) {
+        return findOrCrea(0, nome, alfaDue, alfaTre, "", (byte[]) null);
     }// end of method
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
      *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param ordine   di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
+     * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
+     * @param numerico codice numerico di 3 cifre numeriche (facoltativo, vuoto oppure unico). Codifica ISO 3166-1 numerico
+     * @param bandiera immagine bandiera (facoltativo, unico).
      *
-     * @return la nuova entity appena creata
+     * @return la entity trovata o appena creata
      */
-    public Stato crea(String nome) {
-        Stato entity = null;
-
-        if (repository != null) {
-            entity = ((StatoRepository) repository).findByNome(nome);
-        }// end of if cycle
-
-        if (repository != null && entity == null) {
-            entity = newEntity(0, nome);
-            entity = (Stato) repository.save(newEntity(0, nome));
-        }// end of if cycle
-
-        return entity;
+    public Stato findOrCrea(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
+        if (nonEsiste(nome)) {
+            try { // prova ad eseguire il codice
+                return (Stato) save(newEntity(ordine, nome, alfaDue, alfaTre, numerico, bandiera));
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+                return null;
+            }// fine del blocco try-catch
+        } else {
+            return repository.findByNome(nome);
+        }// end of if/else cycle
     }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    @Override
+    public Stato newEntity() {
+        return newEntity(0, "", "", "", "", (byte[]) null);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param ordine   di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
+     * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
+     * @param numerico codice numerico di 3 cifre numeriche (facoltativo, vuoto oppure unico). Codifica ISO 3166-1 numerico
+     * @param bandiera immagine bandiera (facoltativo, unico).
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
+        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico, bandiera);
+    }// end of method
+
+
+    /**
+     * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
+     *
+     * @return vero se esiste, false se non trovata
+     */
+    public boolean nonEsiste(String nome) {
+        return findByNome(nome) == null;
+    }// end of method
+
 
     /**
      * Saves a given entity.
@@ -125,69 +178,35 @@ public class StatoService extends AlgosServiceImpl {
 
 
     /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
+     * Recupera una istanza della Entity usando la query della key ID
      *
-     * @return la nuova entity appena creata
+     * @return istanza della Entity, null se non trovata
      */
-    public Stato newEntity() {
-        return newEntity(0, DEFAULT);
-    }// end of method
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     *
-     * @return la nuova entity appena creata
-     */
-    public Stato newEntity(int ordine, String nome) {
-        return newEntity(ordine, nome, "", "", "");
+    public Stato find(ObjectId id) {
+        return repository.findById(id);
     }// end of method
 
 
     /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
-     *
-     * @return la nuova entity appena creata
-     */
-    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico) {
-        return newEntity(ordine, nome, alfaDue, alfaTre, numerico, new byte[23]);
-    }// end of method
-
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
-     *
-     * @return la nuova entity appena creata
-     */
-    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
-        return new Stato(ordine == 0 ? this.getNewOrdine() : ordine, nome, alfaDue, alfaTre, numerico, bandiera);
-    }// end of method
-
-
-    /**
-     * Returns all instances of the type.
-     *
-     * @return all entities
-     */
-    public List findAll() {
-        return ((StatoRepository) repository).findAll();
-    }// end of method
-
-    /**
-     * Find the entity by name.
-     *
-     * @return the entity
+     * @return istanza della Entity, null se non trovata
      */
     public Stato findByNome(String nome) {
-        return ((StatoRepository) repository).findByNome(nome);
+        return repository.findByNome(nome);
     }// end of method
+
+
+    /**
+     * Returns all instances of the type
+     * Non usa MultiCompany, quindi senza filtri
+     *
+     * @return lista di tutte le entities
+     */
+    public List findAll() {
+        return repository.findAll();
+    }// end of method
+
 
     /**
      * Find the default state.
@@ -195,7 +214,7 @@ public class StatoService extends AlgosServiceImpl {
      * @return the entity
      */
     public Stato findDefault() {
-        return crea(DEFAULT);
+        return findOrCrea(DEFAULT_3166, DEFAULT_3166_1, DEFAULT_3166_2);
     }// end of method
 
 
@@ -218,7 +237,7 @@ public class StatoService extends AlgosServiceImpl {
         List<Stato> lista = null;
 
         if (repository != null) {
-            lista = ((StatoRepository) repository).findTop1ByOrderByOrdineDesc();
+            lista = repository.findTop1ByOrderByOrdineDesc();
         }// end of if cycle
 
         if (lista != null && lista.size() == 1) {
@@ -226,15 +245,6 @@ public class StatoService extends AlgosServiceImpl {
         }// end of if cycle
 
         return ordine;
-    }// end of method
-
-    /**
-     * Find the entity by name.
-     *
-     * @return the entity
-     */
-    public boolean isEsisteByNome(String nome) {
-        return true;
     }// end of method
 
 

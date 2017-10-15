@@ -62,7 +62,7 @@ public class CompanySpringBoot {
      */
     @PostConstruct
     public void creaAll() {
-        if (serviceCompany.isNonEsiste(Cost.SIGLA_COMPANY_DEMO)) {
+        if (serviceCompany.nonEsiste(Cost.SIGLA_COMPANY_DEMO)) {
             creaAndLog(Cost.SIGLA_COMPANY_DEMO, "Algos s.r.l.", "Via Soderini, 55", "Milano", "20146");
         } else {
             log.info("La company demo è presente");

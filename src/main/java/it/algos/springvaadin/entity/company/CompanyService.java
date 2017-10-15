@@ -66,7 +66,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Company findOrCrea(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
-        if (isNonEsiste(sigla)) {
+        if (nonEsiste(sigla)) {
             try { // prova ad eseguire il codice
                 return (Company) save(newEntity(sigla, descrizione, contact, email, indirizzo));
             } catch (Exception unErrore) { // intercetta l'errore
@@ -90,7 +90,6 @@ public class CompanyService extends AlgosServiceImpl {
         return newEntity("", "", (Persona) null, "", (Indirizzo) null);
     }// end of method
 
-
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
@@ -111,21 +110,11 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-     *
-     * @return vero se esiste, false se non trovata
-     */
-    public boolean isEsiste(String sigla) {
-        return findBySigla(sigla) != null;
-    }// end of method
-
-
-    /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean isNonEsiste(String sigla) {
+    public boolean nonEsiste(String sigla) {
         return findBySigla(sigla) == null;
     }// end of method
 

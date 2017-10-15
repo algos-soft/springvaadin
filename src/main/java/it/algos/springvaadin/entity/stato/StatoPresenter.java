@@ -44,7 +44,7 @@ public class StatoPresenter extends AlgosPresenterImpl {
     /**
      * Presenta un dialogo di conferma prima della importazione effettiva
      */
-    public void chiedeConfermaPrimaDiImportare() {
+    private void chiedeConfermaPrimaDiImportare() {
         String message;
 
         message = "Sei sicuro di voler ricreare tutti gli stati? ";
@@ -71,7 +71,7 @@ public class StatoPresenter extends AlgosPresenterImpl {
     /**
      * Creazione dei dati
      */
-    public void creazione() {
+    private void creazione() {
         ((StatoService) service).creaStati();
         super.presentaLista();
     }// end of method
