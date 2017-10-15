@@ -115,7 +115,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         List<String> columns = null;
 
         if (service != null) {
-            if (LibParams.useMultiCompany()) {
+            if (LibAnnotation.useCompany(entityClass)) {
                 items = service.findAllByCompany();
             } else {
                 items = service.findAll();

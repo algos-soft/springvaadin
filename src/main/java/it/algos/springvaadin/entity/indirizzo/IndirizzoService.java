@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.indirizzo;
 
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.company.CompanyRepository;
 import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoService;
@@ -30,6 +31,7 @@ import java.util.List;
 @Slf4j
 public class IndirizzoService extends AlgosServiceImpl {
 
+    private IndirizzoRepository repository;
     public StatoService statoService;
 
     /**
@@ -40,6 +42,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      */
     public IndirizzoService(@Qualifier(Cost.TAG_IND) MongoRepository repository, StatoService statoService) {
         super(repository);
+        this.repository = (IndirizzoRepository) repository; //casting per uso locale
         this.statoService = statoService;
     }// end of Spring constructor
 
@@ -74,7 +77,7 @@ public class IndirizzoService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Indirizzo findOrCrea(String indirizzo, String localita, String cap, Stato stato) {
-            return newEntity(indirizzo, localita, cap, stato);
+        return newEntity(indirizzo, localita, cap, stato);
     }// end of method
 
 
@@ -89,7 +92,6 @@ public class IndirizzoService extends AlgosServiceImpl {
     public Indirizzo newEntity() {
         return newEntity("", "", "", (Stato) null);
     }// end of method
-
 
 
     /**
@@ -124,11 +126,10 @@ public class IndirizzoService extends AlgosServiceImpl {
      *
      * @return all entities
      */
+    @Override
     public List findAll() {
-        return ((IndirizzoRepository) repository).findAll();
+        return repository.findAll();
     }// end of method
-
-
 
 
     /**

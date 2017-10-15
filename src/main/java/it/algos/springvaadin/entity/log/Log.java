@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoriaSenzaCodeUnico)
-@AIList(columns = {"evento", "descrizione", "dataEvento"})
+@AIList(columns = {"livello","gruppo", "descrizione", "evento"})
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -48,11 +48,21 @@ public class Log extends ACompanyEntity {
     /**
      * gruppo/titolo/evento (obbligatorio)
      */
+    @NotEmpty(message = "Liovello del log è obbligatorio")
+    @Indexed()
+    @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, required = true, widthEM = 10)
+    @AIColumn(width = 140)
+    private String livello;
+
+
+    /**
+     * gruppo/titolo/evento (obbligatorio)
+     */
     @NotEmpty(message = "La tipologia del log è obbligatoria")
     @Indexed()
     @AIField(type = AFieldType.enumeration, clazz = LogType.class, required = true, widthEM = 10)
     @AIColumn(width = 140)
-    private String evento;
+    private String gruppo;
 
 
     /**
@@ -75,7 +85,7 @@ public class Log extends ACompanyEntity {
     @Indexed()
     @AIField(name = "Data dell'evento di log", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.admin)
     @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
-    public LocalDateTime dataEvento;
+    public LocalDateTime evento;
 
 
 //    /**

@@ -29,7 +29,9 @@ public class PersonaList extends AlgosListImpl {
 
     /**
      * Chiamato ogni volta che la finestra diventa attiva
+     * Può essere sovrascritto per un'intestazione (caption) della grid
      */
+    @Override
     protected void inizializza() {
         if (LibSession.isDeveloper()) {
             caption = "";

@@ -70,7 +70,7 @@ public class Indirizzo extends AEntity {
 
 
     /**
-     * codice di avviamento postale (obbligatoria, non unica)
+     * codice di avviamento postale (facoltativo, non unica)
      */
     @Size(min = 5, max = 5, message = "Il codice postale deve essere di 5 cifre")
     @AIField(type = AFieldType.text, widthEM = 5, help = "Codice di avviamento postale")

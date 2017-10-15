@@ -1,9 +1,13 @@
 package it.algos.springvaadin.entity.log;
 
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -19,8 +23,10 @@ import java.util.List;
  */
 @Service
 @Qualifier(Cost.TAG_LOG)
+@Slf4j
 public class LogService extends AlgosServiceImpl {
 
+    private LogRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -30,64 +36,86 @@ public class LogService extends AlgosServiceImpl {
      */
     public LogService(@Qualifier(Cost.TAG_LOG) MongoRepository repository) {
         super(repository);
+        this.repository = (LogRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie and all
+     * Le entites di questa collezione non sono uniche, quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità di firma'. In realtà si potrebbe chiamare 'crea'
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param livello:     rilevanza del log
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     * @param evento:      data dell'evento di log
+     *
+     * @return la entity trovata o appena creata
      */
-    public Log crea(String sigla) {
-//        Log entity = ((LogRepository) repository).findBySigla(sigla);
-        Log entity = null;
-        if (entity == null) {
-            entity = (Log) repository.save(newEntity(sigla,"",null));
-        }// end of if cycle
-
-        return entity;
+    public Log findOrCrea(String livello, String gruppo, String descrizione, LocalDateTime evento) {
+        try { // prova ad eseguire il codice
+            return (Log) save(newEntity(livello, gruppo, descrizione, evento));
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+            return null;
+        }// fine del blocco try-catch
     }// end of method
-
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (non salvata)
      */
+    @Override
     public Log newEntity() {
-        return newEntity("","",null);
+        return newEntity("", "", "", (LocalDateTime) null);
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param livello:     rilevanza del log
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     * @param evento:      data dell'evento di log
+     *
+     * @return la nuova entity appena creata (non salvata)
      */
-    public Log newEntity(String evento, String descrizione, LocalDateTime data) {
-        return new Log("",
-                descrizione,
-                data != null ? data : LocalDateTime.now());
+    public Log newEntity(String livello, String gruppo, String descrizione, LocalDateTime evento) {
+        return new Log(livello, gruppo, descrizione, evento != null ? evento : LocalDateTime.now());
     }// end of method
 
 
     /**
-     * Returns all instances of the type.
+     * Returns all instances of the type
+     * Usa MultiCompany
+     * Filtrata sulla company corrente
+     * Se non c'è la company corrente, prende tutte le company
+     * Non dovrebbe arrivare qui
      *
-     * @return all entities
+     * @return lista di tutte le entities
      */
+    @Deprecated
     public List findAll() {
-        return ((LogRepository) repository).findAll();
+        return  repository.findAll();
     }// end of method
 
 
     /**
      * Returns all instances of the type.
-     *
+     * Usa MultiCompany
+     * Filtrata sulla company indicata
      * @return all entities
      */
     public List findAllByCompany(Company company) {
-        return ((LogRepository) repository).findAllByCompany(company);
+        return repository.findAllByCompany(company);
     }// end of method
 
 }// end of class

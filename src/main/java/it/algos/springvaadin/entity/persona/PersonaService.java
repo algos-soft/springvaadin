@@ -1,8 +1,11 @@
 package it.algos.springvaadin.entity.persona;
 
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,10 @@ import java.util.List;
  */
 @Service
 @Qualifier(Cost.TAG_PER)
+@Slf4j
 public class PersonaService extends AlgosServiceImpl {
 
+    public PersonaRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -27,52 +32,101 @@ public class PersonaService extends AlgosServiceImpl {
      */
     public PersonaService(@Qualifier(Cost.TAG_PER) MongoRepository repository) {
         super(repository);
+        this.repository = (PersonaRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
+     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param nome:    obbligatorio
+     * @param cognome: obbligatorio
+     *
+     * @return la entity trovata o appena creata
      */
-    public Persona crea(String nome, String cognome) {
-//        Persona entity = ((PersonaRepository) repository).findBySigla(nome);@todo rimettere
-        Persona entity = null;
-        if (entity == null) {
-            entity = (Persona) repository.save(newEntity(nome,cognome));
-        }// end of if cycle
+    public Persona findOrCrea(String nome, String cognome) {
+        return findOrCrea(nome, cognome, "", "", (Indirizzo) null);
+    }// end of method
 
-        return entity;
+
+    /**
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
+     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
+     *
+     * @param nome:      obbligatorio
+     * @param cognome:   obbligatorio
+     * @param telefono:  facoltativo
+     * @param email:     facoltativo
+     * @param indirizzo: via, nome e numero (facoltativo)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Persona findOrCrea(String nome, String cognome, String telefono, String email, Indirizzo indirizzo) {
+        return newEntity(nome, cognome, telefono, email, indirizzo);
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
      */
+    @Override
     public Persona newEntity() {
-        return newEntity("","");
+        return newEntity("", "", "", "", (Indirizzo) null);
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
+     * Properties obbligatorie
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param nome:    obbligatorio
+     * @param cognome: obbligatorio
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
      */
     public Persona newEntity(String nome, String cognome) {
-        return new Persona(nome, cognome,null,"","");
+        return newEntity(nome, cognome, "", "", (Indirizzo) null);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param nome:      obbligatorio
+     * @param cognome:   obbligatorio
+     * @param telefono:  facoltativo
+     * @param email:     facoltativo
+     * @param indirizzo: via, nome e numero (facoltativo)
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
+     */
+    public Persona newEntity(String nome, String cognome, String telefono, String email, Indirizzo indirizzo) {
+        return new Persona(nome, cognome, telefono, email, indirizzo);
     }// end of method
 
 
     /**
      * Returns all instances of the type.
+     * Non usa MultiCompany, quindi senza filtri
      *
      * @return all entities
      */
+    @Override
     public List findAll() {
-        return ((PersonaRepository) repository).findAll();
+        return repository.findAll();
     }// end of method
 
 }// end of class

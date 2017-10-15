@@ -16,6 +16,5 @@ import java.util.List;
 @Qualifier(Cost.TAG_PER)
 public interface PersonaRepository extends MongoRepository<Persona, String> {
 
-//    public Persona findBySigla(String sigla);
 
 }// end of class

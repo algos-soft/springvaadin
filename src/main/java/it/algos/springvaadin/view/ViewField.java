@@ -1,6 +1,7 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
@@ -75,13 +76,15 @@ public class ViewField {
             ((AComboField) field).fixCombo(items, nullSelection);
         }// end of if cycle
 
-        //@todo PATCH - PATCH - PATCH
         if (type == AFieldType.enumeration && targetClazz != null && field != null) {
-             items= LogType.getValues();//@todo PATCH - PATCH - PATCH
-
-//            String lowerName = LibText.primaMinuscola(targetClazz.getSimpleName());
-//            Object bean = context.getBean(lowerName);
-//            items = LibMongo.findAll(targetClazz).toArray();
+            //@todo PATCH - PATCH - PATCH
+            if (publicFieldName.equals("livello")) {
+                items= LogLevel.getValues();
+            }// end of if cycle
+            if (publicFieldName.equals("gruppo")) {
+                items= LogType.getValues();
+            }// end of if cycle
+            //@todo PATCH - PATCH - PATCH
             ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
 

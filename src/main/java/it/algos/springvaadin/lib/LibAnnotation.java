@@ -1053,6 +1053,31 @@ public abstract class LibAnnotation {
     }// end of static method
 
     /**
+     * Get the status of use of ACompanyEntity.
+     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+     * Controlla se la collection (table) usa la company
+     *
+     * @param clazz the entity class
+     *
+     * @return status - default true
+     */
+    @SuppressWarnings("all")
+    public static boolean useCompany(final Class<? extends AEntity> clazz) {
+        boolean status = true;
+
+        if (!AlgosApp.USE_MULTI_COMPANY) {
+            return false;
+        }// end of if cycle
+
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.nonUsata) {
+            return false;
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
+
+    /**
      * Get the status of visibility for the field of ACompanyEntity.
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
      * Controlla se la collection (table) usa la company
