@@ -25,8 +25,8 @@ public class VersionePresenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public VersionePresenter(@Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) AlgosService service,AlgosSearch search) {
-        super(view, service,search);
+    public VersionePresenter(@Qualifier(Cost.TAG_VERS) AlgosView view, @Qualifier(Cost.TAG_VERS) AlgosService service, AlgosSearch search) {
+        super(view, service, search);
         super.entityClass = Versione.class;
     }// end of Spring constructor
 

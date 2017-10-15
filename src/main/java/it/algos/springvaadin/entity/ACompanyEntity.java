@@ -45,7 +45,7 @@ public abstract class ACompanyEntity extends AEntity {
 
 
     /**
-     * Riferimento alla company (obbligatorio per le sottoclassi che usano questa classe)
+     * Riferimento alla company (per le sottoclassi che usano questa classe)
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
@@ -58,7 +58,6 @@ public abstract class ACompanyEntity extends AEntity {
     /**
      * Sigla di codifica interna specifica per ogni company (obbligatoria, non unica in generale ma unica all'interno della company)
      * Visibile solo per admin e developer
-     * Non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      * Not null se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
     @Column(length = 20)
@@ -72,7 +71,6 @@ public abstract class ACompanyEntity extends AEntity {
      * Sigla di codifica interna (obbligatoria, unica in generale indipendentemente dalla company)
      * Calcolata -> codeCompanyUnico = company.companyCode + xxx.code (20+20=40);
      * Visibile solo per admin e developer
-     * Non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      * Not null e unica se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
     @Column(length = 40)

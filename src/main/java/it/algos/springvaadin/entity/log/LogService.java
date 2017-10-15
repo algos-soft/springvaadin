@@ -42,7 +42,24 @@ public class LogService extends AlgosServiceImpl {
 
     /**
      * Ricerca e creazione di una entity (la crea se non la trova)
-     * Properties obbligatorie and all
+     * Properties obbligatorie
+     * Le entites di questa collezione non sono uniche, quindi non ha senso controllare se esiste già nella collezione
+     * Metodo tenuto per 'omogeneità di firma'. In realtà si potrebbe chiamare 'crea'
+     *
+     * @param livello:     rilevanza del log
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Log findOrCrea(String livello, String gruppo, String descrizione) {
+        return findOrCrea(livello, gruppo, descrizione, (LocalDateTime) null);
+    }// end of method
+
+
+    /**
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
      * Le entites di questa collezione non sono uniche, quindi non ha senso controllare se esiste già nella collezione
      * Metodo tenuto per 'omogeneità di firma'. In realtà si potrebbe chiamare 'crea'
      *
@@ -104,7 +121,7 @@ public class LogService extends AlgosServiceImpl {
      */
     @Deprecated
     public List findAll() {
-        return  repository.findAll();
+        return repository.findAll();
     }// end of method
 
 
@@ -112,6 +129,9 @@ public class LogService extends AlgosServiceImpl {
      * Returns all instances of the type.
      * Usa MultiCompany
      * Filtrata sulla company indicata
+     *
+     * @param company obbligatoriaSenzaCodeUnico
+     *
      * @return all entities
      */
     public List findAllByCompany(Company company) {

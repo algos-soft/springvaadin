@@ -112,6 +112,8 @@ public class CompanyService extends AlgosServiceImpl {
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
+     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     *
      * @return vero se esiste, false se non trovata
      */
     public boolean nonEsiste(String sigla) {
@@ -131,6 +133,8 @@ public class CompanyService extends AlgosServiceImpl {
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
      *
      * @return istanza della Entity, null se non trovata
      */

@@ -3,6 +3,9 @@ package it.algos.springvaadin.entity.versione;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyRepository;
+import it.algos.springvaadin.entity.indirizzo.Indirizzo;
+import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibAvviso;
@@ -18,24 +21,15 @@ import java.util.List;
 
 /**
  * Created by gac on 01/06/17
- * <p>
- * La selezione del menu nella UI di partenza, invoca lo SpringNavigator che rimanda qui
- * SpringBoot inietta le sottoclassi specifiche (xxxPresenter, xxxList e xxxForm)
- * Nel metodo @PostConstruct, viene effettuato il casting alle property più generiche
- * Passa il controllo alla classe AlgosPresenter che gestisce la business logic
- * <p>
- * Riceve i comandi ed i dati da xxxPresenter (sottoclasse di AlgosPresenter)
- * Gestisce due modalità di presentazione dei dati: List e Form
- * Presenta i componenti grafici passivi
- * Presenta i componenti grafici attivi: azioni associate alla Grid e bottoni coi listener
  * Annotated with @Service (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come annotation
+ * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @Service
-@Slf4j
 @Qualifier(Cost.TAG_VERS)
+@Slf4j
 public class VersioneService extends AlgosServiceImpl {
 
+    private VersioneRepository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -45,74 +39,95 @@ public class VersioneService extends AlgosServiceImpl {
      */
     public VersioneService(@Qualifier(Cost.TAG_VERS) MongoRepository repository) {
         super(repository);
+        this.repository = (VersioneRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
 
     /**
-     * Creazione di una entity
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
      *
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
      *
-     * @return la nuova entity appena creata
+     * @return la entity trovata o appena creata
      */
-    public Versione crea(String titolo, String descrizione) {
-        Versione entity = ((VersioneRepository) repository).findByTitoloAndDescrizione(titolo, descrizione);
+    public Versione findOrCrea(String nome, String gruppo, String descrizione) {
+        return findOrCrea(0, gruppo, descrizione, (LocalDateTime) null);
+    }// end of method
 
-        if (entity == null) {
-            entity = newEntity((Company) null, 0, titolo, descrizione, null);
-        }// end of if cycle
 
-        if (entity != null) {
-            entity = (Versione) repository.save(entity);
-            log.info(titolo + " - " + descrizione);
+    /**
+     * Ricerca e creazione di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param ordine      di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
+     * @param evento      momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Versione findOrCrea(int ordine, String gruppo, String descrizione, LocalDateTime evento) {
+        if (nonEsiste(gruppo, descrizione)) {
+            try { // prova ad eseguire il codice
+                return (Versione) save(newEntity(ordine, gruppo, descrizione, evento));
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+                return null;
+            }// fine del blocco try-catch
         } else {
-            log.warn("Non sono riuscito a creare la versione: " + titolo + " - " + descrizione);
+            return repository.findByGruppoAndDescrizione(gruppo, descrizione);
         }// end of if/else cycle
-
-        return entity;
     }// end of method
 
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
-     * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
-     * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
-     *
-     * @return la nuova entity appena creata (vuota e non salvata)
-     */
-    public Versione newEntity() {
-        return newEntity((Company) null, 0, "", "", (LocalDateTime) null);
-    }// end of method
-
-
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     * L'ordine di creazione (obbligatorio, unico) viene calcolato in automatico (se manca)
-     * La data di modifica (obbligatoria, non unica), viene inserita in automatico (se manca)
-     *
-     * @param company     di riferimento (facoltativa, non unica)
-     * @param ordine      di creazione (obbligatorio, unico)
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
-     * @param modifica    data di inserimento della versione (obbligatoria, non unica)
+     * Senza properties per compatibilità con la superclasse
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(Company company, int ordine, String titolo, String descrizione, LocalDateTime modifica) {
-        Versione entity = new Versione(
-                ordine == 0 ? this.getNewOrdine() : ordine,
-                titolo,
-                descrizione,
-                modifica != null ? modifica : LocalDateTime.now());
-
-//        return (Versione) checkCompany(company, entity);@todo sviluppare
-        return entity;
+    @Override
+    public Versione newEntity() {
+        return newEntity(0, "", "", (LocalDateTime) null);
     }// end of method
 
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param ordine      di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
+     * @param evento      momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public Versione newEntity(int ordine, String gruppo, String descrizione, LocalDateTime evento) {
+        return new Versione(
+                ordine == 0 ? this.getNewOrdine() : ordine,
+                gruppo,
+                descrizione,
+                evento != null ? evento : LocalDateTime.now());
+    }// end of method
+
+
+    /**
+     * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
+     *
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
+     *
+     * @return vero se esiste, false se non trovata
+     */
+    public boolean nonEsiste(String gruppo, String descrizione) {
+        return findByGruppoAndDescrizione(gruppo, descrizione) == null;
+    }// end of method
 
 
     /**
@@ -132,8 +147,7 @@ public class VersioneService extends AlgosServiceImpl {
     private int getMax() {
         int ordine = 0;
 
-        List<Versione> lista = ((VersioneRepository) repository).findTop1ByOrderByOrdineDesc();
-
+        List<Versione> lista = repository.findTop1ByOrderByOrdineDesc();
         if (lista != null && lista.size() == 1) {
             ordine = lista.get(0).getOrdine();
         }// end of if cycle
@@ -143,12 +157,17 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
-     * Returns all instances of the type.
+     * Returns all instances of the type
+     * Usa MultiCompany
+     * Filtrata sulla company corrente
+     * Se non c'è la company corrente, prende tutte le company
+     * Non dovrebbe arrivare qui
      *
-     * @return all entities
+     * @return lista di tutte le entities
      */
+    @Deprecated
     public List findAll() {
-        return ((VersioneRepository) repository).findAllByOrderByOrdineAsc();
+        return repository.findAllByOrderByOrdineAsc();
     }// end of method
 
 
@@ -156,28 +175,37 @@ public class VersioneService extends AlgosServiceImpl {
      * Returns all instances of the type.
      * Usa MultiCompany
      * Filtrata sulla company indicata
+     *
+     * @param company facoltativaSenzaCodeUnico
+     *
      * @return all entities
      */
     public List findAllByCompany(Company company) {
-        return ((VersioneRepository) repository).findAllByOrderByOrdineAsc();//@todo NOT TRUE
+        return repository.findAllByOrderByOrdineAsc();//@todo NOT TRUE
     }// end of method
 
 
     /**
-     * Recupera una istanza della Entity usando la query di una property specifica
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Versione findByTitolo(String titolo) {
-        return ((VersioneRepository) repository).findByTitolo(titolo);
+    public Versione findByGruppoAndDescrizione(String gruppo, String descrizione) {
+        return repository.findByGruppoAndDescrizione(gruppo, descrizione);
     }// end of method
+
 
     /**
      * Controlla se esiste il numero di versione da installare
      *
+     * @param numeroVersioneDaInstallare per vedere che non sia già stata installata
+     *
      * @return true se la versione non esiste
      */
-    public boolean isVersioneInesistente(int numeroVersioneDaInstallare) {
+    public boolean isVersioneNonEsiste(int numeroVersioneDaInstallare) {
         boolean installa = false;
         int numeroVersioneEsistente = getMax();
 

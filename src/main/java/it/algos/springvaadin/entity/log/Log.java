@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoriaSenzaCodeUnico)
-@AIList(columns = {"livello","gruppo", "descrizione", "evento"})
+@AIList(columns = {"livello", "gruppo", "descrizione", "evento"})
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -46,7 +46,7 @@ public class Log extends ACompanyEntity {
 
 
     /**
-     * gruppo/titolo/evento (obbligatorio)
+     * rilevanza del log (obbligatorio)
      */
     @NotEmpty(message = "Liovello del log è obbligatorio")
     @Indexed()
@@ -56,7 +56,7 @@ public class Log extends ACompanyEntity {
 
 
     /**
-     * gruppo/titolo/evento (obbligatorio)
+     * raggruppamento logico dei log per categorie di eventi (obbligatorio)
      */
     @NotEmpty(message = "La tipologia del log è obbligatoria")
     @Indexed()
@@ -66,12 +66,12 @@ public class Log extends ACompanyEntity {
 
 
     /**
-     * descrizione (obbligatoria)
+     * descrizione: completa in forma testo (obbligatoria)
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Indexed()
     @Size(min = 2, max = 100)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Messaggio del log")
+    @AIField(type = AFieldType.text, focus = true, firstCapital = true, widthEM = 24, help = "Messaggio del log")
     @AIColumn(width = 350)
     private String descrizione;
 
@@ -88,13 +88,13 @@ public class Log extends ACompanyEntity {
     public LocalDateTime evento;
 
 
-//    /**
-//     * @return a string representation of the object.
-//     */
-//    @Override
-//    public String toString() {
-//        return getSigla();
-//    }// end of method
+    /**
+     * @return a string representation of the object.
+     */
+    @Override
+    public String toString() {
+        return getGruppo() + " - " + getDescrizione();
+    }// end of method
 
 
 }// end of entity class

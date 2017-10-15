@@ -1,12 +1,10 @@
 package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.annotation.AIEntity;
+import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
@@ -14,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -35,6 +34,8 @@ import java.time.LocalDateTime;
 @SpringComponent
 @Document(collection = Cost.TAG_VERS)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativaSenzaCodeUnico)
+@AIList(columns = {"ordine", "gruppo", "descrizione", "evento"})
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,6 +54,7 @@ public class Versione extends ACompanyEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
+    @Indexed()
     @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 50)
     private int ordine;
@@ -60,13 +62,13 @@ public class Versione extends ACompanyEntity {
 
     /**
      * codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
      */
-    @NotEmpty(message = "Il titolo è obbligatorio")
+    @NotEmpty(message = "Il titolo del grippo è obbligatorio")
+    @Indexed()
     @Size(min = 2, max = 20)
     @AIField(type = AFieldType.text, focus = true, help = "Tipologia della versione")
-    @AIColumn()
-    private String titolo;
+    @AIColumn(width = 140)
+    private String gruppo;
 
 
     /**
@@ -75,7 +77,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 4, max = 200)
-    @AIField(type = AFieldType.text, widthEM = 30, help = "Descrizione della versione")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 30, help = "Descrizione della versione")
     @AIColumn(width = 500)
     private String descrizione;
 
@@ -85,9 +87,10 @@ public class Versione extends ACompanyEntity {
      * inserita automaticamente
      */
     @NotNull
-    @AIField(type = AFieldType.localdatetime, help = "Data di inserimento della versione")
-    @AIColumn
-    private LocalDateTime modifica;
+    @Indexed()
+    @AIField(type = AFieldType.localdate, enabled = false, help = "Data di inserimento della versione")
+    @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
+    private LocalDateTime evento;
 
 
     /**
@@ -95,7 +98,7 @@ public class Versione extends ACompanyEntity {
      */
     @Override
     public String toString() {
-        return getTitolo() + "-" + getDescrizione();
+        return getGruppo() + " - " + getDescrizione();
     }// end of method
 
 

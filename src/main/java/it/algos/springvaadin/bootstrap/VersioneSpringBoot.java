@@ -59,11 +59,11 @@ public class VersioneSpringBoot {
 
         //--prima installazione del programma
         //--non fa nulla, solo informativo
-        if (service.isVersioneInesistente(k++)) {
+        if (service.isVersioneNonEsiste(k++)) {
             creaAndLog("Setup", "Creazione ed installazione iniziale dell'applicazione");
         }// fine del blocco if
 
-        if (service.isVersioneInesistente(k++)) {
+        if (service.isVersioneNonEsiste(k++)) {
             creaAndLog("Flag", "Regolazione dei flags di controllo");
         }// fine del blocco if
 
@@ -79,7 +79,7 @@ public class VersioneSpringBoot {
      * @param descrizione descrizione (obbligatoria, non unica)
      */
     protected void creaAndLog(String titolo, String descrizione) {
-        log.warn("Versione: " + service.crea(titolo, descrizione));
+//        log.warn("Versione: " + service.crea(titolo, descrizione));
     }// end of method
 
 }// end of class

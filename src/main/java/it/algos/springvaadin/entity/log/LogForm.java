@@ -26,11 +26,10 @@ public class LogForm extends AlgosFormImpl {
      *
      * @param toolbar iniettata da Spring
      */
-    public LogForm (@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
-                        @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
+    public LogForm(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                   @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
-
 
 
 }// end of class

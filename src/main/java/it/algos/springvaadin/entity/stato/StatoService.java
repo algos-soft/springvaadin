@@ -126,6 +126,8 @@ public class StatoService extends AlgosServiceImpl {
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
      * @return vero se esiste, false se non trovata
      */
     public boolean nonEsiste(String nome) {
@@ -189,6 +191,8 @@ public class StatoService extends AlgosServiceImpl {
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return istanza della Entity, null se non trovata
      */

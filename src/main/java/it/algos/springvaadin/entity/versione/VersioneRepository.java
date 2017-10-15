@@ -17,11 +17,11 @@ public interface VersioneRepository extends MongoRepository<Versione, String> {
 
 //    public Versione findByOrdine(int ordine);
 
-    public Versione findByTitolo(String titolo);
+//    public Versione findByTitolo(String titolo);
 
 //    public Versione findByDescrizione(String descrizione);
 
-    public Versione findByTitoloAndDescrizione(String titolo, String descrizione);
+    public Versione findByGruppoAndDescrizione(String gruppo, String descrizione);
 
     public List<Versione> findTop1ByOrderByOrdineDesc();
 

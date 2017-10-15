@@ -46,9 +46,9 @@ public class LibSqlTest {
 
 //        vers.setId(id);
         vers.setOrdine(ordine);
-        vers.setTitolo(titolo);
+//        vers.setTitolo(titolo);
         vers.setDescrizione(descrizione);
-        vers.setModifica(modifica);
+//        vers.setModifica(modifica);
     } // end of setup statico iniziale della classe
 
     /**
