@@ -56,7 +56,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     public AEntity save(AEntity entityBean) throws Exception {
         entityBean = checkDate(entityBean);
-        ACompanyRequired companyRequired = LibAnnotation.companyType(entityClass);
+        ACompanyRequired companyRequired = LibAnnotation.companyType(entityBean.getClass());
 
         if (LibParams.useMultiCompany()) {
             switch (companyRequired) {

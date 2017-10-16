@@ -1,36 +1,42 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.DateTimeField;
 import it.algos.springvaadin.lib.Cost;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
- * Created by gac on 24/06/17
- * .
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: dom, 15-ott-2017
+ * Time: 21:12
  */
+@Slf4j
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.FIELD_DATE_TIME)
-public class ADateTimeField extends AField {
+public class ADateField extends AField {
 
 
     /**
      * Componente principale
      */
-    private DateTimeField dateField;
+    private DateField dateField;
 
 
     /**
      * Crea (o ricrea dopo una clonazione) il componente base
      */
     public void creaContent() {
-        dateField = new DateTimeField();
-        dateField.setDateFormat("EEE, d-MMM-yyyy HH:mm");
+        dateField = new DateField();
+        dateField.setDateFormat("EEE, d-MMM-yyyy");
     }// end of method
 
 
@@ -53,7 +59,7 @@ public class ADateTimeField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
-        dateField.setValue((LocalDateTime)value);
+        dateField.setValue((LocalDate) value);
     }// end of method
 
 
@@ -73,9 +79,9 @@ public class ADateTimeField extends AField {
      */
     protected void addListener() {
         if (dateField != null) {
-            dateField.addValueChangeListener(new ValueChangeListener<LocalDateTime>() {
+            dateField.addValueChangeListener(new ValueChangeListener<LocalDate>() {
                 @Override
-                public void valueChange(ValueChangeEvent<LocalDateTime> valueChangeEvent) {
+                public void valueChange(ValueChangeEvent<LocalDate> valueChangeEvent) {
                     publish();
                 }// end of inner method
             });// end of anonymous inner class

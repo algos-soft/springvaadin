@@ -75,11 +75,11 @@ public class VersioneSpringBoot {
      * Creazione di una entity
      * Log a video
      *
-     * @param titolo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione descrizione (obbligatoria, non unica)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
      */
-    protected void creaAndLog(String titolo, String descrizione) {
-//        log.warn("Versione: " + service.crea(titolo, descrizione));
+    protected void creaAndLog(String gruppo, String descrizione) {
+        log.warn("Versione: " + service.findOrCrea(gruppo, descrizione));
     }// end of method
 
 }// end of class

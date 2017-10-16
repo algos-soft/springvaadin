@@ -55,7 +55,7 @@ public class Stato extends AEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-    @Indexed()
+    @Indexed(unique = true)
     @AIField(type = AFieldType.integer, enabled = false, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;

@@ -49,7 +49,6 @@ public abstract class ACompanyEntity extends AEntity {
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
-    @Indexed()
     @AIField(type = AFieldType.combo, clazz = Company.class)
     @AIColumn(name = "Company", width = 110)
     private Company company;

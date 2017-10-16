@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Versione findOrCrea(String nome, String gruppo, String descrizione) {
-        return findOrCrea(0, gruppo, descrizione, (LocalDateTime) null);
+    public Versione findOrCrea(String gruppo, String descrizione) {
+        return findOrCrea(0, gruppo, descrizione, (LocalDate) null);
     }// end of method
 
 
@@ -68,7 +69,7 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Versione findOrCrea(int ordine, String gruppo, String descrizione, LocalDateTime evento) {
+    public Versione findOrCrea(int ordine, String gruppo, String descrizione, LocalDate evento) {
         if (nonEsiste(gruppo, descrizione)) {
             try { // prova ad eseguire il codice
                 return (Versione) save(newEntity(ordine, gruppo, descrizione, evento));
@@ -91,7 +92,7 @@ public class VersioneService extends AlgosServiceImpl {
      */
     @Override
     public Versione newEntity() {
-        return newEntity(0, "", "", (LocalDateTime) null);
+        return newEntity(0, "", "", (LocalDate) null);
     }// end of method
 
 
@@ -108,12 +109,15 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(int ordine, String gruppo, String descrizione, LocalDateTime evento) {
-        return new Versione(
+    public Versione newEntity(int ordine, String gruppo, String descrizione, LocalDate evento) {
+        Versione versione= new Versione(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 gruppo,
                 descrizione,
-                evento != null ? evento : LocalDateTime.now());
+                evento != null ? evento : LocalDate.now());
+        int a=87;
+
+        return versione;
     }// end of method
 
 

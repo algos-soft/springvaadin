@@ -2,6 +2,7 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.LocalDateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
@@ -64,7 +65,7 @@ public abstract class LibColumn {
         int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
-        LocalDateTimeRenderer renderDate = new LocalDateTimeRenderer("d-MMM-u", Locale.ITALIAN);
+        LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
         LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
         IconRenderer renderIcon = new IconRenderer();
 

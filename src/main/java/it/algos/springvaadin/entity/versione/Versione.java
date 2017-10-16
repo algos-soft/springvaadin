@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -54,7 +55,7 @@ public class Versione extends ACompanyEntity {
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
-    @Indexed()
+    @Indexed(unique = true)
     @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 50)
     private int ordine;
@@ -90,7 +91,7 @@ public class Versione extends ACompanyEntity {
     @Indexed()
     @AIField(type = AFieldType.localdate, enabled = false, help = "Data di inserimento della versione")
     @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
-    private LocalDateTime evento;
+    private LocalDate evento;
 
 
     /**

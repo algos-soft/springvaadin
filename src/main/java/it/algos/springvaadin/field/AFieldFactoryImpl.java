@@ -110,7 +110,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     field = fieldFactory.apply(ACheckBoxField.class);
                     break;
                 case localdate:
-                    field = fieldFactory.apply(ADateTimeField.class);
+                    field = fieldFactory.apply(ADateField.class);
                     break;
                 case localdatetime:
                     field = fieldFactory.apply(ADateTimeField.class);

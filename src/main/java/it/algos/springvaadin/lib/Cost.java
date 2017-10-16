@@ -57,6 +57,7 @@ public abstract class Cost {
     public final static String FIELD_ID = "KeyID";
     public final static String FIELD_TEXT = "text";
     public final static String FIELD_INTEGER = "integer";
+    public final static String FIELD_DATE = "date";
     public final static String FIELD_DATE_TIME = "datetime";
     public final static String FIELD_IMAGE = "image";
     public final static String FIELD_COMBO = "combobox";
