@@ -33,7 +33,7 @@ public class LibSqlTest {
     private static Versione vers;
 
     /**
-     * SetUp iniziale eseguito solo una volta alla creazione della classe
+     * SetUp iniziale eseguito solo una volta alla nuovo della classe
      */
     @BeforeClass
     public static void setUpInizialeStaticoEseguitoSoloUnaVoltaAllaCreazioneDellaClasse() {
@@ -48,7 +48,7 @@ public class LibSqlTest {
         vers.setOrdine(ordine);
 //        vers.setTitolo(titolo);
         vers.setDescrizione(descrizione);
-//        vers.setModifica(modifica);
+//        vers.setModifica(edit);
     } // end of setup statico iniziale della classe
 
     /**
@@ -170,8 +170,8 @@ public class LibSqlTest {
         ottenuto = LibSql.getQueryInsert(tableName, columns);
         assertEquals(ottenuto, previsto);
 
-        columns = new String[]{"ordine", "titolo", "descrizione", "modifica"};
-        previsto = "INSERT INTO versione (ordine, titolo, descrizione, modifica) VALUES (?,?,?,?)";
+        columns = new String[]{"ordine", "titolo", "descrizione", "edit"};
+        previsto = "INSERT INTO versione (ordine, titolo, descrizione, edit) VALUES (?,?,?,?)";
         ottenuto = LibSql.getQueryInsert(tableName, columns);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -204,8 +204,8 @@ public class LibSqlTest {
         ottenuto = LibSql.getQueryInsert(tableName, columns);
         assertEquals(ottenuto, previsto);
 
-        columns.add("modifica");
-        previsto = "INSERT INTO versione (ordine, titolo, descrizione, modifica) VALUES (?,?,?,?)";
+        columns.add("edit");
+        previsto = "INSERT INTO versione (ordine, titolo, descrizione, edit) VALUES (?,?,?,?)";
         ottenuto = LibSql.getQueryInsert(tableName, columns);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -238,8 +238,8 @@ public class LibSqlTest {
         ottenuto = LibSql.getQueryUpdate(tableName, columns);
         assertEquals(ottenuto, previsto);
 
-        columns = new String[]{"ordine", "titolo", "descrizione", "modifica"};
-        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, modifica=? WHERE id=?";
+        columns = new String[]{"ordine", "titolo", "descrizione", "edit"};
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, edit=? WHERE id=?";
         ottenuto = LibSql.getQueryUpdate(tableName, columns);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -272,8 +272,8 @@ public class LibSqlTest {
         ottenuto = LibSql.getQueryUpdate(tableName, columns);
         assertEquals(ottenuto, previsto);
 
-        columns.add("modifica");
-        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, modifica=? WHERE id=?";
+        columns.add("edit");
+        previsto = "UPDATE versione SET ordine=?, titolo=?, descrizione=?, edit=? WHERE id=?";
         ottenuto = LibSql.getQueryUpdate(tableName, columns);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -283,7 +283,7 @@ public class LibSqlTest {
 //    public void getQueryUpdate3() {
 //        String tableName = "versione";
 //
-//        previsto = "UPDATE versione SET descrizione=?, modifica=?, ordine=?, titolo=? WHERE id=?";
+//        previsto = "UPDATE versione SET descrizione=?, edit=?, ordine=?, titolo=? WHERE id=?";
 //        ottenuto = LibSql.getQueryUpdate(tableName,vers);
 //        assertEquals(ottenuto, previsto);
 //    }// end of single test

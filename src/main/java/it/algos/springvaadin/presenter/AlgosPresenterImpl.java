@@ -7,6 +7,8 @@ import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.log.LogService;
+import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.exception.CompanyException;
@@ -16,7 +18,7 @@ import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.Object;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.dao.DuplicateKeyException;
 import com.vaadin.data.ValidationResult;
@@ -60,6 +62,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     private AField parentField;
 
+    @Autowired
+    private LogService logger;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -105,7 +109,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Metodo invocato dalla view ogni volta che questa diventa attiva
      * oppure
      * metodo invocato da un Evento (azione) che necessita di aggiornare e ripresentare la Lista
-     * tipo dopo un delete, dopo un nuovo record, dopo la modifica di un record
+     * tipo dopo un delete, dopo un nuovo record, dopo la edit di un record
      * <p>
      * Recupera dal service tutti i dati necessari (aggiornati)
      * Passa il controllo alla view con i dati necessari
@@ -282,7 +286,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
     /**
-     * Presenta un dialogo di conferma prima della cancellazione effettiva
+     * Presenta un dialogo di conferma prima della delete effettiva
      */
     public void chiedeConfermaPrimaDiCancellare(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type) {
         String message = "Sei sicuro di voler eliminare il record: " + LibText.setRossoBold(entityBean + "") + " ?";
@@ -309,7 +313,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
     /**
-     * Presenta un dialogo di conferma prima della cancellazione effettiva
+     * Presenta un dialogo di conferma prima della delete effettiva
      */
     public void chiedeConfermaPrimaDiCancellare(List<AEntity> beanList) {
         String message;
@@ -363,6 +367,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
                 if (service.delete(entityBean)) {
                     cancellato = true;
+                    logger.warn(LogType.delete, getBeanInfo(entityBean));
                 }// end of if cycle
 
             }// end of for cycle
@@ -433,10 +438,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
         AEntity entityBeanNew = null;
 
-//        if (true) {
-            if (view.entityIsOk()) {
+        if (view.entityIsOk()) {
             entityBeanNew = view.commit();
-//            entityBeanNew.id = "";
             view.closeFormWindow();
         }// end of if cycle
 
@@ -498,12 +501,15 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         boolean entityRegistrata = false;
         AEntity entityBean;
         String tag = "</br>";
+        boolean nuovaEntity = false;
 
         if (view.entityIsOk()) {
             entityBean = view.commit();
+            nuovaEntity = LibText.isEmpty(entityBean.id);
             if (saveNotDuplicated(entityBean)) {
                 view.saveSons();
                 entityRegistrata = true;
+                logger.info(nuovaEntity ? LogType.nuovo : LogType.edit, getBeanInfo(entityBean));
                 view.closeFormWindow();
             }// end of if cycle
         } else {
@@ -592,6 +598,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     public AEntity getModel() {
         return null;
+    }// end of method
+
+    public String getBeanInfo(AEntity entityBean) {
+        return entityBean.getClass().getSimpleName() + " - " + entityBean.toString();
     }// end of method
 
     public void setView(AlgosView view) {

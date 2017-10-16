@@ -42,7 +42,7 @@ public abstract class Cost {
     public final static String BOT_BACK = "back";
     public final static String BOT_CREATE = "nuovo";
     public final static String BOT_DELETE = "elimina";
-    public final static String BOT_EDIT = "modifica";
+    public final static String BOT_EDIT = "edit";
     public final static String BOT_IMAGE = "immagine";
     public final static String BOT_IMPORT = "import";
     public final static String BOT_LINK_ACCETTA = "linkaccetta";
@@ -86,4 +86,5 @@ public abstract class Cost {
     public final static String TAG_PER = "persona";
     public final static String TAG_PRO = "prova";
     public final static String TAG_FAT = "fattura";
+	public final static String TAG_PRE = "preferenza";
 }// end of static class;

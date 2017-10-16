@@ -110,7 +110,7 @@ public abstract class AlgosUIParams extends UI {
 
     /**
      * Flag.
-     * Dialogo di conferma prima della cancellazione
+     * Dialogo di conferma prima della delete
      * Regolato nel metodo genericFixAndPrint() di questa classe
      * Può essere modificato in @PostConstruct.inizia() della sottoclasse concreta
      */

@@ -230,7 +230,7 @@ public abstract class LibParams {
 
     /**
      * Flag.
-     * Dialogo di conferma prima della cancellazione
+     * Dialogo di conferma prima della delete
      * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
      * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
      */

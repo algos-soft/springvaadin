@@ -50,13 +50,13 @@ public class Stato extends AEntity {
 
 
     /**
-     * ordine di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * ordine di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * inserito automaticamente
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, enabled = false, help = "Ordine di creazione. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, enabled = false, help = "Ordine di nuovo. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 70)
     private int ordine;
 

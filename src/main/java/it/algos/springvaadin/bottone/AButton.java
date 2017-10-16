@@ -98,7 +98,7 @@ public class AButton extends Button {
 
 
     /**
-     * Metodo invocato da parte di AButtonFactory subito dopo la creazione del bottone
+     * Metodo invocato da parte di AButtonFactory subito dopo la nuovo del bottone
      * Non parte dal costruttore, perché AButtonFactory usa un costruttore SENZA parametri
      * <p>
      * Regola il 'type' di bottone

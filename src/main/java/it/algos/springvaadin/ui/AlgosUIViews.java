@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.log.Log;
@@ -32,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>
  * Superclasse astratta della UI di partenza dell'applicazione, selezionata da SpringBoot
  * Questa classe NON prevede l'Annotation @SpringViewDisplay()
- * Mantiene i metodi di creazione ed accesso delle views
+ * Mantiene i metodi di nuovo ed accesso delle views
  * Lascia che la sottoclasse AlgosUI si occupi SOLO della parte grafica
  */
 public abstract class AlgosUIViews extends AlgosUIParams {
@@ -93,6 +94,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
+		menuLayout.addView(PreferenzaNavView.class);
         if (LibAnnotation.isEntityClassVisibile(Stato.class)) {
             menuLayout.addView(StatoNavView.class);
         }// end of if cycle

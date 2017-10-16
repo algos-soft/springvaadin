@@ -40,7 +40,7 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
@@ -54,7 +54,7 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      *
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)

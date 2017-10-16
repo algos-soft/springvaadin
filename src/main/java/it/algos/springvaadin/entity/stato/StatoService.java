@@ -49,7 +49,7 @@ public class StatoService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
      * @param nome    corrente completo, non ufficiale (obbligatorio ed unico)
@@ -64,10 +64,10 @@ public class StatoService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      *
-     * @param ordine   di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param ordine   di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
      * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
      * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
@@ -109,7 +109,7 @@ public class StatoService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param ordine   di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param ordine   di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
      * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
      * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3

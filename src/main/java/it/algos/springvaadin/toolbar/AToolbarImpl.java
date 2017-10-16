@@ -23,7 +23,7 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
 
 
     /**
-     * Factory per la creazione dei bottoni
+     * Factory per la nuovo dei bottoni
      * Autowired nel costruttore
      */
     private AButtonFactory buttonFactory;

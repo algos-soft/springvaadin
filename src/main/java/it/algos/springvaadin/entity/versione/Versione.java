@@ -50,13 +50,13 @@ public class Versione extends ACompanyEntity {
 
 
     /**
-     * ordine di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * ordine di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * inserito automaticamente
      * se si cancella una entity, rimane il 'buco' del numero
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di creazione. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, enabled = false, widthEM = 3, help = "Ordine di nuovo. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 50)
     private int ordine;
 
@@ -84,7 +84,7 @@ public class Versione extends ACompanyEntity {
 
 
     /**
-     * momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     * momento in cui si effettua la edit della versione (obbligatoria, non unica, non modificabile)
      * inserita automaticamente
      */
     @NotNull

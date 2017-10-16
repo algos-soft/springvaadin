@@ -37,7 +37,7 @@ public class PersonaService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
      * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
@@ -53,7 +53,7 @@ public class PersonaService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
      * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property

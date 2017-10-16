@@ -22,11 +22,11 @@ import org.springframework.context.ApplicationListener;
  * Date: mer, 30-ago-2017
  * Time: 11:14
  * <p>
- * Factory class per la creazione dei fields di un Form
+ * Factory class per la nuovo dei fields di un Form
  * Crea ogni field del tpo richiesto e previsto nella Enumeration AFieldType
- * Nella creazione viene iniettato il parametro obbligatorio publicFieldName che serve sia per UI,
+ * Nella nuovo viene iniettato il parametro obbligatorio publicFieldName che serve sia per UI,
  * sia per la gestione interna dei fields
- * Nella creazione viene iniettato il parametro obbligatorio del presenter che gestisce il field,
+ * Nella nuovo viene iniettato il parametro obbligatorio del presenter che gestisce il field,
  * secondo lo schema: Presenter -> View -> Form -> Field
  * Eventuali altri parametri facoltativi, possono essere aggiunti.
  */

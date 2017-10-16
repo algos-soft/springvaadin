@@ -41,7 +41,7 @@ public class LogService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      * Le entites di questa collezione non sono uniche, quindi non ha senso controllare se esiste già nella collezione
      * Metodo tenuto per 'omogeneità di firma'. In realtà si potrebbe chiamare 'crea'
@@ -58,7 +58,7 @@ public class LogService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      * Le entites di questa collezione non sono uniche, quindi non ha senso controllare se esiste già nella collezione
      * Metodo tenuto per 'omogeneità di firma'. In realtà si potrebbe chiamare 'crea'
@@ -137,5 +137,84 @@ public class LogService extends AlgosServiceImpl {
     public List findAllByCompany(Company company) {
         return repository.findAllByCompany(company);
     }// end of method
+
+
+    /**
+     * Registra un log di debug
+     * Registra anche un log di sistema
+     *
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     */
+    public void debug(LogType gruppo, String descrizione) {
+        log.debug(logBase(LogLevel.debug, gruppo, descrizione));
+    }// fine del metodo
+
+    /**
+     * Registra un log di info
+     * Registra anche un log di sistema
+     *
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     */
+    public void info(LogType gruppo, String descrizione) {
+        log.info(logBase(LogLevel.info, gruppo, descrizione));
+    }// fine del metodo
+
+
+    /**
+     * Registra un log di warn
+     * Registra anche un log di sistema
+     *
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     */
+    public void warn(LogType gruppo, String descrizione) {
+        log.warn(logBase(LogLevel.warn, gruppo, descrizione));
+    }// fine del metodo
+
+
+    /**
+     * Registra un log di error
+     * Registra anche un log di sistema
+     *
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     */
+    public void error(LogType gruppo, String descrizione) {
+        log.error(logBase(LogLevel.error, gruppo, descrizione));
+    }// fine del metodo
+
+
+    /**
+     * Spedisce una mail
+     * Registra anche un log di sistema
+     *
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     */
+    public void mail(LogType gruppo, String descrizione) {
+        // spedisce la mail @todo da realizzare
+        log.info("Mail spedita: " + gruppo + " - " + descrizione);
+    }// fine del metodo
+
+
+    /**
+     * Registra un log del livello indicato
+     * Registra anche un log di sistema
+     * La data dell'evento di log viene inserita in automatico
+     *
+     * @param livello:     rilevanza del log
+     * @param gruppo:      raggruppamento logico dei log per categorie di eventi
+     * @param descrizione: completa in forma testuale
+     *
+     * @return messaggio per il log di sistema
+     */
+    private String logBase(LogLevel livello, LogType gruppo, String descrizione) {
+        findOrCrea(livello.toString(), gruppo.toString(), descrizione, (LocalDateTime) null);
+
+        return gruppo + " - " + descrizione;
+    }// fine del metodo
+
 
 }// end of class

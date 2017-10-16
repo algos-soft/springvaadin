@@ -45,7 +45,7 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
@@ -59,13 +59,13 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
+     * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      *
-     * @param ordine      di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param ordine      di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
-     * @param evento      momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     * @param evento      momento in cui si effettua la edit della versione (obbligatoria, non unica, non modificabile)
      *
      * @return la entity trovata o appena creata
      */
@@ -102,10 +102,10 @@ public class VersioneService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param ordine      di creazione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param ordine      di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
-     * @param evento      momento in cui si effettua la modifica della versione (obbligatoria, non unica, non modificabile)
+     * @param evento      momento in cui si effettua la edit della versione (obbligatoria, non unica, non modificabile)
      *
      * @return la nuova entity appena creata (non salvata)
      */

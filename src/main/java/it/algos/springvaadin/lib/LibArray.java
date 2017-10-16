@@ -762,7 +762,7 @@ public abstract class LibArray {
      * Ordina una mappa secondo le chiavi
      * <p>
      * Una HashMap è -automaticamente- ordinata secondo le proprie chiavi
-     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla creazione
+     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
      * @return mappa ordinata
@@ -796,7 +796,7 @@ public abstract class LibArray {
      * Ordina una mappa secondo le chiavi, tenendo conto degli accenti
      * <p>
      * Una HashMap è -automaticamente- ordinata secondo le proprie chiavi
-     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla creazione
+     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
      * @return mappa ordinata
@@ -833,7 +833,7 @@ public abstract class LibArray {
      * Ordina una mappa secondo le chiavi, eventualmente tenendo conto degli accenti
      * <p>
      * Una HashMap è -automaticamente- ordinata secondo le proprie chiavi
-     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla creazione
+     * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
      * @return mappa ordinata

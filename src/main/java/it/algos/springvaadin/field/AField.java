@@ -27,8 +27,8 @@ import javax.annotation.PostConstruct;
  * Time: 11:14
  * <p>
  * Field di un Form
- * Sequenza alla creazione:
- * AlgosPresenterImpl.edit() -> AlgosPresenterImpl.modifica()
+ * Sequenza alla nuovo:
+ * AlgosPresenterImpl.edit() -> AlgosPresenterImpl.edit()
  * AlgosViewImpl.setForm() ->
  * AlgosFormImpl.restart() -> AlgosFormImpl.creaAddBindFields() -> AlgosFormImpl.creaFields() ->
  * ViewField.create() ->
@@ -116,7 +116,7 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     /**
-     * Metodo invocato da parte di AFieldFactory subito dopo la creazione del field
+     * Metodo invocato da parte di AFieldFactory subito dopo la nuovo del field
      * Non parte dal costruttore, perché AFieldFactory usa un costruttore SENZA parametri
      *
      * @param publicFieldName nome visibile del field

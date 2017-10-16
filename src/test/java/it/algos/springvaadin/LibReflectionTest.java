@@ -30,7 +30,7 @@ public class LibReflectionTest {
     private Class<? extends AEntity> entityClazz = Versione.class;
 
     /**
-     * SetUp iniziale eseguito solo una volta alla creazione della classe
+     * SetUp iniziale eseguito solo una volta alla nuovo della classe
      */
     @BeforeClass
     public static void setUpInizialeStaticoEseguitoSoloUnaVoltaAllaCreazioneDellaClasse() {
@@ -45,7 +45,7 @@ public class LibReflectionTest {
         vers.setOrdine(ordine);
 //        vers.setTitolo(titolo);
         vers.setDescrizione(descrizione);
-//        vers.setModifica(modifica);
+//        vers.setModifica(edit);
     } // end of setup statico iniziale della classe
 
 
@@ -74,7 +74,7 @@ public class LibReflectionTest {
         assertEquals(fieldsList.get(2).getName(), "ordine");
         assertEquals(fieldsList.get(3).getName(), "titolo");
         assertEquals(fieldsList.get(4).getName(), "descrizione");
-        assertEquals(fieldsList.get(5).getName(), "modifica");
+        assertEquals(fieldsList.get(5).getName(), "edit");
 
         fieldsList = LibReflection.getFields(entityClazz, false, false);
         assertNotNull(fieldsList);
@@ -82,7 +82,7 @@ public class LibReflectionTest {
         assertEquals(fieldsList.get(0).getName(), "ordine");
         assertEquals(fieldsList.get(1).getName(), "titolo");
         assertEquals(fieldsList.get(2).getName(), "descrizione");
-        assertEquals(fieldsList.get(3).getName(), "modifica");
+        assertEquals(fieldsList.get(3).getName(), "edit");
 
 
         fieldsList = LibReflection.getFields(entityClazz, true, false);
@@ -92,7 +92,7 @@ public class LibReflectionTest {
         assertEquals(fieldsList.get(1).getName(), "ordine");
         assertEquals(fieldsList.get(2).getName(), "titolo");
         assertEquals(fieldsList.get(3).getName(), "descrizione");
-        assertEquals(fieldsList.get(4).getName(), "modifica");
+        assertEquals(fieldsList.get(4).getName(), "edit");
 
 
         fieldsList = LibReflection.getFields(entityClazz, false, true);
@@ -102,7 +102,7 @@ public class LibReflectionTest {
         assertEquals(fieldsList.get(1).getName(), "ordine");
         assertEquals(fieldsList.get(2).getName(), "titolo");
         assertEquals(fieldsList.get(3).getName(), "descrizione");
-        assertEquals(fieldsList.get(4).getName(), "modifica");
+        assertEquals(fieldsList.get(4).getName(), "edit");
 
 
         fieldsList = LibReflection.getFields(entityClazz, true, true);
@@ -113,7 +113,7 @@ public class LibReflectionTest {
         assertEquals(fieldsList.get(2).getName(), "ordine");
         assertEquals(fieldsList.get(3).getName(), "titolo");
         assertEquals(fieldsList.get(4).getName(), "descrizione");
-        assertEquals(fieldsList.get(5).getName(), "modifica");
+        assertEquals(fieldsList.get(5).getName(), "edit");
 
 
         fieldsList = LibReflection.getFields(entityClazz, listaNomi, false, false);
@@ -167,7 +167,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(0), "ordine");
         assertEquals(fieldNames.get(1), "titolo");
         assertEquals(fieldNames.get(2), "descrizione");
-        assertEquals(fieldNames.get(3), "modifica");
+        assertEquals(fieldNames.get(3), "edit");
 
 
         fieldNames = LibReflection.getAllFieldNames(entityClazz, false, false);
@@ -176,7 +176,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(0), "ordine");
         assertEquals(fieldNames.get(1), "titolo");
         assertEquals(fieldNames.get(2), "descrizione");
-        assertEquals(fieldNames.get(3), "modifica");
+        assertEquals(fieldNames.get(3), "edit");
 
 
         fieldNames = LibReflection.getAllFieldNames(entityClazz, true, false);
@@ -186,7 +186,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(1), "ordine");
         assertEquals(fieldNames.get(2), "titolo");
         assertEquals(fieldNames.get(3), "descrizione");
-        assertEquals(fieldNames.get(4), "modifica");
+        assertEquals(fieldNames.get(4), "edit");
 
 
         fieldNames = LibReflection.getAllFieldNames(entityClazz, false, true);
@@ -196,7 +196,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(1), "ordine");
         assertEquals(fieldNames.get(2), "titolo");
         assertEquals(fieldNames.get(3), "descrizione");
-        assertEquals(fieldNames.get(4), "modifica");
+        assertEquals(fieldNames.get(4), "edit");
 
         fieldNames = LibReflection.getAllFieldNames(entityClazz, true, true);
         assertNotNull(fieldNames);
@@ -206,7 +206,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(2), "ordine");
         assertEquals(fieldNames.get(3), "titolo");
         assertEquals(fieldNames.get(4), "descrizione");
-        assertEquals(fieldNames.get(5), "modifica");
+        assertEquals(fieldNames.get(5), "edit");
     }// end of single test
 
 
@@ -298,7 +298,7 @@ public class LibReflectionTest {
 
         metodoPrevistoName = "getModifica";
         metodoPrevistoTipo = LocalDateTime.class;
-        metodoOttenuto = LibReflection.getMethod(vers, "modifica");
+        metodoOttenuto = LibReflection.getMethod(vers, "edit");
         assert metodoOttenuto != null;
         metodoOttenutoName = metodoOttenuto.getName();
         assertEquals(metodoOttenutoName, metodoPrevistoName);
@@ -335,7 +335,7 @@ public class LibReflectionTest {
 
         metodoPrevistoName = "getModifica";
         metodoPrevistoTipo = LocalDateTime.class;
-        metodoOttenuto = LibReflection.getMethod(entityClazz, "modifica");
+        metodoOttenuto = LibReflection.getMethod(entityClazz, "edit");
         assert metodoOttenuto != null;
         metodoOttenutoName = metodoOttenuto.getName();
         assertEquals(metodoOttenutoName, metodoPrevistoName);

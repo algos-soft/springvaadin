@@ -65,22 +65,22 @@ public abstract class AEntity implements Serializable {
     public String note;
 
     /**
-     * Data di creazione del record (obbligatoria, non modificabile)
+     * Data di nuovo del record (obbligatoria, non modificabile)
      * Gestita in automatico
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Data di creazione della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Data di nuovo della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
 
     /**
-     * Data di modifica del record (obbligatoria, modificabile solo da codice, non da UI)
+     * Data di edit del record (obbligatoria, modificabile solo da codice, non da UI)
      * Gestita in automatico
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Data di modifica della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Data di edit della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataModifica;
 
