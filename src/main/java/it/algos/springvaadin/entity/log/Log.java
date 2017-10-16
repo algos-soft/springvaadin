@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
-@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoriaSenzaCodeUnico)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoria)
 @AIList(columns = {"livello", "gruppo", "descrizione", "evento"})
 @AIForm()
 @Data

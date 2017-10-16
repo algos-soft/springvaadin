@@ -1123,11 +1123,11 @@ public abstract class LibAnnotation {
             return false;
         }// end of if cycle
 
-        if (LibAnnotation.companyType(clazz) == ACompanyRequired.facoltativaSenzaCodeUnico) {
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.facoltativa) {
             return false;
         }// end of if cycle
 
-        if (LibAnnotation.companyType(clazz) == ACompanyRequired.obbligatoriaSenzaCodeUnico) {
+        if (LibAnnotation.companyType(clazz) == ACompanyRequired.facoltativa) {
             return false;
         }// end of if cycle
 

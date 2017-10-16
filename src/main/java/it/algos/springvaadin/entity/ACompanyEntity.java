@@ -54,28 +54,28 @@ public abstract class ACompanyEntity extends AEntity {
     private Company company;
 
 
-    /**
-     * Sigla di codifica interna specifica per ogni company (obbligatoria, non unica in generale ma unica all'interno della company)
-     * Visibile solo per admin e developer
-     * Not null se il flag AlgosApp.USE_MULTI_COMPANY=true
-     */
-    @Column(length = 20)
-    @Indexed()
-    @AIField(type = AFieldType.text, required = true, widthEM = 9)
-    @AIColumn(width = 120)
-    private String code;
-
-
-    /**
-     * Sigla di codifica interna (obbligatoria, unica in generale indipendentemente dalla company)
-     * Calcolata -> codeCompanyUnico = company.companyCode + xxx.code (20+20=40);
-     * Visibile solo per admin e developer
-     * Not null e unica se il flag AlgosApp.USE_MULTI_COMPANY=true
-     */
-    @Column(length = 40)
-    @Indexed()
-    @AIField(type = AFieldType.text, required = true, enabled = false, widthEM = 15)
-    @AIColumn(width = 200)
-    private String codeCompanyUnico;
+//    /**
+//     * Sigla di codifica interna specifica per ogni company (obbligatoria, non unica in generale ma unica all'interno della company)
+//     * Visibile solo per admin e developer
+//     * Not null se il flag AlgosApp.USE_MULTI_COMPANY=true
+//     */
+//    @Column(length = 20)
+//    @Indexed()
+//    @AIField(type = AFieldType.text, required = true, widthEM = 9)
+//    @AIColumn(width = 120)
+//    private String code;
+//
+//
+//    /**
+//     * Sigla di codifica interna (obbligatoria, unica in generale indipendentemente dalla company)
+//     * Calcolata -> codeCompanyUnico = company.companyCode + xxx.code (20+20=40);
+//     * Visibile solo per admin e developer
+//     * Not null e unica se il flag AlgosApp.USE_MULTI_COMPANY=true
+//     */
+//    @Column(length = 40)
+//    @Indexed()
+//    @AIField(type = AFieldType.text, required = true, enabled = false, widthEM = 15)
+//    @AIColumn(width = 200)
+//    private String codeCompanyUnico;
 
 }// end of class

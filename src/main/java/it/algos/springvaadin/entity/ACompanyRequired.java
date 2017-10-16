@@ -10,5 +10,5 @@ import lombok.extern.slf4j.Slf4j;
  * Time: 13:33
  */
 public enum ACompanyRequired {
-    nonUsata, facoltativaSenzaCodeUnico, facoltativaConCodeUnico, obbligatoriaSenzaCodeUnico, obbligatoriaCodeCompanyUnico
+    nonUsata, facoltativa, obbligatoria
 }// end of enum
