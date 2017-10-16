@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_PRE)
-@Slf4j
 public class PreferenzaPresenter extends AlgosPresenterImpl {
 
     /**

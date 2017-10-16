@@ -20,9 +20,9 @@ public interface PreferenzaRepository extends MongoRepository<Preferenza, String
 
     public Preferenza findById(ObjectId id);
 
-    public Preferenza findBySigla(String sigla);
+    public Preferenza findByCode(String code);
 
-    public List<Preferenza> findAllByOrderBySiglaAsc();
+    public List<Preferenza> findAllByOrderByCodeAsc();
 
     public Preferenza save(Preferenza entity);
 

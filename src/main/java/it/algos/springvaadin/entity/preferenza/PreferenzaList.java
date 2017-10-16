@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.preferenza;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +33,12 @@ public class PreferenzaList extends AlgosListImpl {
      */
     @Override
     protected void inizializza() {
-        super.caption = "";
+        if (LibSession.isDeveloper()) {
+            caption = "";
+            caption += "</br>Lista visibile solo all'admin che vede SOLO le schede della sua company";
+            caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è facoltativa";
+            caption += "</br>Solo il developer vede queste note";
+        }// end of if cycle
     }// end of method
 
 }// end of class

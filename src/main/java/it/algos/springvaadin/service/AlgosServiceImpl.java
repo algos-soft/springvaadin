@@ -182,6 +182,21 @@ public abstract class AlgosServiceImpl implements AlgosService {
         return (AEntity) repository.findOne(serializable);
     }// end of method
 
+    /**
+     * Returns all entities of the type.
+     * <p>
+     * Senza filtri
+     * Ordinati per ID
+     * <p>
+     * Methods of this library return Iterable<T>, while the rest of my code expects Collection<T>
+     * L'annotation standard di JPA prevede un ritorno di tipo Iterable, mentre noi usiamo List
+     * Eseguo qui la conversione, che rimane trasparente al resto del programma
+     *
+     * @return all entities
+     */
+    public List<AEntity> findAll() {
+        return null;
+    }// end of method
 
     @Override
     public List<AEntity> findAllByCompany() {

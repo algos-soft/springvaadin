@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
@@ -15,6 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,26 +30,56 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
-@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.nonUsata)
+@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
 @AIList(columns = {"sigla"})
 @AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Preferenza extends AEntity {
+public class Preferenza extends ACompanyEntity {
 
 
-    //--versione della classe per la serializzazione
+    /**
+     * versione della classe per la serializzazione
+     */
     private final static long serialVersionUID = 1L;
 
 
-    //--sigla (obbligatoria, unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
+    /**
+     * sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     */
     @NotEmpty
     @AIField(type = AFieldType.text, required = true, firstCapital = true, widthEM = 8)
-    @AIColumn(width = 100, name = "Sigla")
-    private String sigla;
+    @AIColumn(width = 100, name = "Code")
+    private String code;
+
+
+    /**
+     * tipo di dato memorizzato (obbligatorio)
+     */
+    @NotNull
+    @AIField(type = AFieldType.enumeration, required = true, widthEM = 8)
+    @AIColumn(width = 100, name = "Type")
+    private PrefType type;
+
+
+    /**
+     * descrizione visibile (obbligatoria)
+     */
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della preferenza")
+    @AIColumn(width = 350)
+    private String descrizione = "";
+
+
+    /**
+     * valore della preferenza (obbligatorio)
+     */
+    @NotNull
+    @AIField(type = AFieldType.image, required = true, widthEM = 8)
+    @AIColumn(width = 100, name = "Value")
+    private byte[] value;
+
 
 
     /**
@@ -55,7 +87,7 @@ public class Preferenza extends AEntity {
      */
     @Override
     public String toString() {
-        return getSigla();
+        return getCode();
     }// end of method
 
 

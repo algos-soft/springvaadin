@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.preferenza;
 
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
@@ -34,24 +35,29 @@ public class PreferenzaService extends AlgosServiceImpl {
         this.repository = (PreferenzaRepository) repository; //casting per uso locale
     }// end of Spring constructor
 
+
     /**
      * Ricerca e creazione di una entity (la crea se non la trova)
+     * Properties obbligatorie
      * All properties
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param descrizione visibile (obbligatoria)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param value       valore della preferenza (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(String sigla) {
-        if (isNonEsiste(sigla)) {
+    public Preferenza findOrCrea(String code, PrefType type, String descrizione, byte[] value) {
+        if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Preferenza) save(newEntity(sigla));
+                return (Preferenza) save(newEntity(code, type, descrizione, value));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return repository.findBySigla(sigla);
+            return repository.findByCode(code);
         }// end of if/else cycle
     }// end of method
 
@@ -65,7 +71,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      */
     @Override
     public Preferenza newEntity() {
-        return newEntity("");
+        return newEntity("", (PrefType) null, "", (byte[]) null);
     }// end of method
 
 
@@ -75,63 +81,53 @@ public class PreferenzaService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param descrizione visibile (obbligatoria)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param value       valore della preferenza (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(String sigla) {
-        return new Preferenza(sigla);
-    }// end of method
-
-
-    /**
-     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-     *
-     * @return vero se esiste, false se non trovata
-     */
-    public boolean isEsiste(String sigla) {
-        return findBySigla(sigla) != null;
+    public Preferenza newEntity(String code, PrefType type, String descrizione, byte[] value) {
+        return new Preferenza(code, type, descrizione, value);
     }// end of method
 
 
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
+     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     *
      * @return vero se esiste, false se non trovata
      */
-    public boolean isNonEsiste(String sigla) {
-        return findBySigla(sigla) == null;
-    }// end of method
-
-
-    /**
-     * Recupera una istanza della Entity usando la query della key ID
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public Preferenza find(ObjectId id) {
-        return repository.findById(id);
+    public boolean nonEsiste(String code) {
+        return findByCode(code) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
+     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     *
      * @return istanza della Entity, null se non trovata
      */
-    public Preferenza findBySigla(String sigla) {
-        return repository.findBySigla(sigla);
+    public Preferenza findByCode(String code) {
+        return repository.findByCode(code);
     }// end of method
 
 
     /**
-     * Returns all instances of the type
-     * Non usa MultiCompany, quindi senza filtri
+     * Returns all instances of the type.
+     * Usa MultiCompany
+     * Filtrata sulla company indicata
      *
-     * @return lista di tutte le entities
+     * @param company facoltativaSenzaCodeUnico
+     *
+     * @return all entities
      */
-    public List findAll() {
-        return repository.findAllByOrderBySiglaAsc();
+    public List findAllByCompany(Company company) {
+        return repository.findAll();//@todo NOT TRUE
     }// end of method
 
 }// end of class

@@ -38,13 +38,16 @@ import javax.validation.constraints.Size;
 public class @ENTITY@ extends AEntity {
 
 
-    //--versione della classe per la serializzazione
+    /**
+     * versione della classe per la serializzazione
+     */
     private final static long serialVersionUID = 1L;
 
 
-    //--sigla (obbligatoria, unica)
-    //--non va inizializzato con una stringa vuota, perché da Vaadin 8 in poi lo fa automaticamente
-    @NotEmpty
+    /**
+     * sigla di riferimento interna (interna, obbligatoria ed unica)
+     */
+    @NotEmpty(message = "La sigla interna è obbligatoria")
     @AIField(type = AFieldType.text, required = true, firstCapital = true, widthEM = 8)
     @AIColumn(width = 100, name = "Sigla")
     private String sigla;

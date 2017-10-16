@@ -110,14 +110,11 @@ public class VersioneService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (non salvata)
      */
     public Versione newEntity(int ordine, String gruppo, String descrizione, LocalDate evento) {
-        Versione versione= new Versione(
+        return new Versione(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 gruppo,
                 descrizione,
                 evento != null ? evento : LocalDate.now());
-        int a=87;
-
-        return versione;
     }// end of method
 
 
@@ -131,32 +128,6 @@ public class VersioneService extends AlgosServiceImpl {
      */
     public boolean nonEsiste(String gruppo, String descrizione) {
         return findByGruppoAndDescrizione(gruppo, descrizione) == null;
-    }// end of method
-
-
-    /**
-     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
-     * Recupera il valore massimo della property
-     * Incrementa di uno il risultato
-     */
-    private int getNewOrdine() {
-        return getMax() + 1;
-    }// end of method
-
-
-    /**
-     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
-     * Recupera il valore massimo della property
-     */
-    private int getMax() {
-        int ordine = 0;
-
-        List<Versione> lista = repository.findTop1ByOrderByOrdineDesc();
-        if (lista != null && lista.size() == 1) {
-            ordine = lista.get(0).getOrdine();
-        }// end of if cycle
-
-        return ordine;
     }// end of method
 
 
@@ -220,5 +191,30 @@ public class VersioneService extends AlgosServiceImpl {
         return installa;
     }// end of static method
 
+
+    /**
+     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
+     * Recupera il valore massimo della property
+     * Incrementa di uno il risultato
+     */
+    private int getNewOrdine() {
+        return getMax() + 1;
+    }// end of method
+
+
+    /**
+     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
+     * Recupera il valore massimo della property
+     */
+    private int getMax() {
+        int ordine = 0;
+
+        List<Versione> lista = repository.findTop1ByOrderByOrdineDesc();
+        if (lista != null && lista.size() == 1) {
+            ordine = lista.get(0).getOrdine();
+        }// end of if cycle
+
+        return ordine;
+    }// end of method
 
 }// end of class

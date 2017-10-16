@@ -43,7 +43,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public @ENTITY@ findOrCrea(String sigla) {
-        if (isNonEsiste(sigla)) {
+        if (nonEsiste(sigla)) {
             try { // prova ad eseguire il codice
                 return (@ENTITY@) save(newEntity(sigla));
             } catch (Exception unErrore) { // intercetta l'errore
@@ -85,21 +85,13 @@ public class @ENTITY@Service extends AlgosServiceImpl {
 
 
     /**
-     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-     *
-     * @return vero se esiste, false se non trovata
-     */
-    public boolean isEsiste(String sigla) {
-        return findBySigla(sigla) != null;
-    }// end of method
-
-
-    /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @return vero se esiste, false se non trovata
+     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     *
+     * @return vero se non esiste, false se trovata
      */
-    public boolean isNonEsiste(String sigla) {
+    public boolean nonEsiste(String gruppo, String descrizione) {
         return findBySigla(sigla) == null;
     }// end of method
 

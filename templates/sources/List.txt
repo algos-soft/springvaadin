@@ -32,7 +32,10 @@ public class @ENTITY@List extends AlgosListImpl {
      */
     @Override
     protected void inizializza() {
-        super.caption = "";
+        if (LibSession.isDeveloper()) {
+            caption = "";
+            caption += "</br>Solo il developer vede queste note";
+        }// end of if cycle
     }// end of method
 
 }// end of class
