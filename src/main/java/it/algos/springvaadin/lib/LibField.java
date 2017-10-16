@@ -271,6 +271,12 @@ public class LibField {
                 case combo:
                     break;
                 case enumeration:
+                    if (notEmpty) {
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
+                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+                        lista.add(new Validator(validator, Posizione.prima));
+                    }// end of if cycle
+
                     break;
                 default: // caso non definito
             } // fine del blocco switch

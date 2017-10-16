@@ -97,7 +97,7 @@ public class ALinkField extends AField {
         }// end of if cycle
 
         if (label != null) {
-            if (value != null && ((AEntity) value).id != null) {
+            if (value != null ) {
                 label.setValue(value.toString());
             } else {
                 label.setValue("");

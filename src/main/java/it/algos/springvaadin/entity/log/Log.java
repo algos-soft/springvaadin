@@ -48,9 +48,9 @@ public class Log extends ACompanyEntity {
     /**
      * rilevanza del log (obbligatorio)
      */
-    @NotEmpty(message = "Liovello del log è obbligatorio")
+    @NotEmpty(message = "Livello del log è obbligatorio")
     @Indexed()
-    @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, required = true, widthEM = 10)
+    @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, nullSelectionAllowed = false, widthEM = 10)
     @AIColumn(width = 140)
     private String livello;
 
@@ -60,7 +60,7 @@ public class Log extends ACompanyEntity {
      */
     @NotEmpty(message = "La tipologia del log è obbligatoria")
     @Indexed()
-    @AIField(type = AFieldType.enumeration, clazz = LogType.class, required = true, widthEM = 10)
+    @AIField(type = AFieldType.enumeration, clazz = LogType.class, nullSelectionAllowed = false, widthEM = 10)
     @AIColumn(width = 140)
     private String gruppo;
 

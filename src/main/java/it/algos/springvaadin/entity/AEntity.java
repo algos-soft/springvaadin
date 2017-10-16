@@ -70,7 +70,6 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @Indexed()
     @AIField(name = "Data di creazione della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
@@ -81,7 +80,6 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @Indexed()
     @AIField(name = "Data di modifica della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataModifica;
