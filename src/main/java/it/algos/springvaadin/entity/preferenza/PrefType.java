@@ -30,8 +30,10 @@ public enum PrefType {
 
         @Override
         public Object bytesToObject(byte[] bytes) {
-            Object obj = null;
-            obj = new String(bytes, Charset.forName("UTF-8"));
+            String obj = "";
+            if (bytes != null) {
+                obj = new String(bytes, Charset.forName("UTF-8"));
+            }// end of if cycle
             return obj;
         }// end of method
     },// end of single enumeration
@@ -173,6 +175,7 @@ public enum PrefType {
      * Sovrascritto
      *
      * @param obj il valore Object
+     *
      * @return il valore convertito in byte[]
      */
     public byte[] objectToBytes(Object obj) {
@@ -185,6 +188,7 @@ public enum PrefType {
      * Sovrascritto
      *
      * @param bytes il valore come byte[]
+     *
      * @return il valore convertito nell'oggetto del tipo adeguato
      */
     public Object bytesToObject(byte[] bytes) {
