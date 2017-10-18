@@ -1,8 +1,10 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.TextArea;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
@@ -55,6 +57,7 @@ public class ViewField {
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
+        int rows = LibAnnotation.getNumRows(clazz, publicFieldName);
         boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
@@ -79,11 +82,16 @@ public class ViewField {
         if (type == AFieldType.enumeration && targetClazz != null && field != null) {
             //@todo PATCH - PATCH - PATCH
             if (publicFieldName.equals("livello")) {
-                items= LogLevel.getValues();
+                items = LogLevel.getValues();
             }// end of if cycle
             if (publicFieldName.equals("gruppo")) {
-                items= LogType.getValues();
+                items = LogType.getValues();
             }// end of if cycle
+            if (publicFieldName.equals("type")) {
+                items = PrefType.getValues();
+            }// end of if cycle
+
+
             //@todo PATCH - PATCH - PATCH
             ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
@@ -99,8 +107,11 @@ public class ViewField {
             field.setEnabled(enabled);
             field.setRequiredIndicatorVisible(required);
             field.setCaption(caption);
-            if (!width.equals("")) {
+            if (LibText.isValid(width)) {
                 field.setWidth(width);
+            }// end of if cycle
+            if (rows > 0) {
+                field.setRows(rows);
             }// end of if cycle
             field.setFocus(focus);
 

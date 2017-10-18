@@ -50,8 +50,8 @@ public class Preferenza extends ACompanyEntity {
      * sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      */
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true, firstCapital = true, widthEM = 8)
-    @AIColumn(width = 100, name = "Code")
+    @AIField(type = AFieldType.text, required = true, focus = true)
+    @AIColumn(width = 300, name = "Code")
     private String code;
 
 
@@ -67,19 +67,19 @@ public class Preferenza extends ACompanyEntity {
     /**
      * descrizione visibile (obbligatoria)
      */
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della preferenza")
-    @AIColumn(width = 350)
-    private String descrizione = "";
+    @NotEmpty
+    @AIField(type = AFieldType.textarea, firstCapital = true,   help = "Descrizione della preferenza")
+    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 600)
+    private String descrizione;
 
 
     /**
      * valore della preferenza (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.image, required = true, widthEM = 8)
+    @AIField(type = AFieldType.json, required = true, widthEM = 8)
     @AIColumn(width = 100, name = "Value")
     private byte[] value;
-
 
 
     /**

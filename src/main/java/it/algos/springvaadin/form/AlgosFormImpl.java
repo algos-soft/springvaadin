@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by gac on 10/07/17
@@ -190,8 +191,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields, AEntity entityBean) {
         creaFields(source, reflectFields, entityBean);
         addFields(layout);
-        fixFields();
         bindFields();
+        fixFields();
     }// end of method
 
 
@@ -358,6 +359,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
+
+            //--@todo PATCH perché il binder non prende (ancora) i fields della superclasse
+            AField field = getField("note");
+            entityBean.note = (String) field.getValue();
         } catch (Exception unErrore) { // intercetta l'errore
             int errore = 87;
         }// fine del blocco try-catch

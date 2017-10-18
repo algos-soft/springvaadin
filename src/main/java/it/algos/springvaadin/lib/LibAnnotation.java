@@ -423,7 +423,7 @@ public abstract class LibAnnotation {
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
      *
-     * @return the width of the field expressed in int (to be converted)
+     * @return the width of the field expressed in em
      */
     @SuppressWarnings("all")
     public static String getWidthEM(final Class<? extends AEntity> clazz, final String publicFieldName) {
@@ -440,6 +440,27 @@ public abstract class LibAnnotation {
         }// end of if cycle
 
         return width;
+    }// end of static method
+
+
+    /**
+     * Get the number of rows of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the number of rows of the field expressed in int
+     */
+    @SuppressWarnings("all")
+    public static int getNumRows(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        int rows = 1;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            rows = fieldAnnotation.numRowsTextArea();
+        }// end of if cycle
+
+        return rows;
     }// end of static method
 
 

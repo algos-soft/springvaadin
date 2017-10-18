@@ -5,6 +5,7 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,19 @@ public class PreferenzaForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
+    /**
+     * Eventuali regolazioni specifiche per i fields
+     */
+    @Override
+    protected void fixFields() {
+        AField field = getField("type");
+        Object objValue = field.getValue();
+
+        if (entityBean != null && LibText.isEmpty(entityBean.id)) {
+            field.setValue(PrefType.string);
+        }// end of if cycle
+
+    }// end of method
 
 }// end of class
 

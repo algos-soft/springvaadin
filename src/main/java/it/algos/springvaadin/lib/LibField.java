@@ -14,6 +14,7 @@ import it.algos.springvaadin.converter.LowerConverter;
 import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
 import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
 import it.algos.springvaadin.validator.AlgosStringLengthValidator;
@@ -32,7 +33,6 @@ import java.util.List;
  */
 @SpringComponent
 public class LibField {
-
 
 
     /**
@@ -206,6 +206,7 @@ public class LibField {
         Class<? extends AEntity> clazz = entityBean.getClass();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
+        AFieldType type=null;
         String fieldName = LibText.primaMaiuscola(publicFieldName);
         fieldName = LibText.setRossoBold(fieldName);
         String message = "";
@@ -220,10 +221,12 @@ public class LibField {
         Object oldValue;
 
         if (fieldAnnotation != null) {
+            type = fieldAnnotation.type();
+            Object a= type;
             min = LibAnnotation.getMin(clazz, publicFieldName);
             max = LibAnnotation.getMax(clazz, publicFieldName);
 
-            switch (fieldAnnotation.type()) {
+            switch (type) {
                 case text:
                     if (checkUnico) {
                         oldValue = LibReflection.getValue(entityBean, publicFieldName);
@@ -269,6 +272,13 @@ public class LibField {
                 case password:
                     break;
                 case combo:
+                    break;
+                case textarea:
+                    if (notEmpty) {
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
+                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+                        lista.add(new Validator(validator, Posizione.prima));
+                    }// end of if cycle
                     break;
                 case enumeration:
                     if (notEmpty) {

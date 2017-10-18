@@ -6,6 +6,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.event.AFieldEvent;
@@ -89,7 +90,7 @@ public abstract class AField<T> extends CustomField<Object> {
     //--si applica al Component
     protected String STANDARD_SHORT_TEXT_WITH = "6em";
     protected String STANDARD_MEDIUM_TEXT_WITH = "15em";
-    protected String STANDARD_LONG_TEXT_WITH = "20em";
+    protected String STANDARD_LONG_TEXT_WITH = "24em";
     protected String STANDARD_INT_WITH = "6em";
     protected String STANDARD_DATE_WITH = "8em";
 
@@ -121,7 +122,6 @@ public abstract class AField<T> extends CustomField<Object> {
      *
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
-     * @param target          a cui indirizzare l'evento generato dal bottone
      */
     void inizializza(String publicFieldName, ApplicationListener source) {
         this.creaContent();
@@ -203,6 +203,10 @@ public abstract class AField<T> extends CustomField<Object> {
         if (textField != null) {
             textField.setWidth(width);
         }// end of if cycle
+    }// end of method
+
+
+    public void setRows(int rows) {
     }// end of method
 
 

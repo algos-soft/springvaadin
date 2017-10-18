@@ -60,7 +60,7 @@ public abstract class AEntity implements Serializable {
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.note, widthEM = 24)
+    @AIField(type = AFieldType.textarea, widthEM = 24)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String note;
 

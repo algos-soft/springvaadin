@@ -129,6 +129,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     field = fieldFactory.apply(AIconField.class);
                     field.setButton(buttonFactory.crea(AButtonType.image, source, source, field));
                     break;
+                case json:
+                    field = fieldFactory.apply(AJSonField.class);
+                    break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
@@ -145,8 +148,8 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     }// end of if/else cycle
                     ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
                     break;
-                case note:
-                    field = fieldFactory.apply(ATextField.class);
+                case textarea:
+                    field = fieldFactory.apply(ATextAreaField.class);
                     break;
                 default: // caso non definito
                     break;

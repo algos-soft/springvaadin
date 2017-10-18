@@ -48,6 +48,14 @@ public @interface AIField {
 
 
     /**
+     * (Optional) The number of rows of textArea field.
+     * Expressed in int
+     * Defaults to 2.
+     */
+    int numRowsTextArea() default 2;
+
+
+    /**
      * (Optional) Status (field required for DB) of the the field.
      * Defaults to false.
      */

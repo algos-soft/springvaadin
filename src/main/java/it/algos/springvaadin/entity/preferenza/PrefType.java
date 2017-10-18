@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.preferenza;
 import com.google.common.primitives.Longs;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
+import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.lib.LibByte;
 import it.algos.springvaadin.lib.LibImage;
 
@@ -215,5 +216,18 @@ public enum PrefType {
     public void setNome(String nome) {
         this.nome = nome;
     }//end of setter method
+
+
+    public static String[] getValues() {
+        String[] valori;
+        PrefType[] types = values();
+        valori = new String[values().length];
+
+        for (int k = 0; k < types.length; k++) {
+            valori[k] = types[k].toString();
+        }// end of for cycle
+
+        return valori;
+    }// end of static method
 
 }// end of enumeration class
