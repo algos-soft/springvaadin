@@ -47,6 +47,7 @@ public class ALinkField extends AField {
      * Regolazioni varie DOPO aver creato l'istanza
      * L'istanza può essere creata da Spring o con clone(), ma necessita comunque di questi due parametri
      */
+    @Override
     protected void inizializza(String publicFieldName, ApplicationListener source) {
         super.inizializza(publicFieldName, source);
         if (label == null) {

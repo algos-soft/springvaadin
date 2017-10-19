@@ -7,6 +7,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.dialog.ImageDialog;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibResource;
 import org.springframework.beans.factory.annotation.Autowired;

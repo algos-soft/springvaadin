@@ -4,11 +4,17 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.event.AActionEvent;
+import it.algos.springvaadin.event.AButtonEvent;
+import it.algos.springvaadin.event.AEvent;
+import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
@@ -25,9 +31,10 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.FIELD_IMAGE)
-public class AJSonField extends AField {
+public class AJSonField extends AField implements ApplicationListener {
 
     private AField jSonField = null;
+    private PrefType type;
 
     @Autowired
     private AFieldFactory fieldFactory;
@@ -39,6 +46,7 @@ public class AJSonField extends AField {
     @Override
     protected void inizializza(String publicFieldName, ApplicationListener source) {
         super.inizializza(publicFieldName, source);
+        this.entityBean = entityBean;
         chooseComponent();
     }// end of method
 
@@ -58,11 +66,9 @@ public class AJSonField extends AField {
     }// end of method
 
 
-    private Component chooseComponent() {
-        PrefType type = PrefType.string;
-        AFieldType fieldType = AFieldType.text;
+    private void chooseComponent() {
+        AFieldType fieldType = type.getFieldType();
         jSonField = fieldFactory.crea(null, fieldType, source, "value", null);
-        return jSonField;
     }// end of method
 
 
@@ -76,7 +82,7 @@ public class AJSonField extends AField {
         String textValue;
         if (jSonField != null) {
             textValue = (String) jSonField.getValue();
-            return PrefType.string.objectToBytes(textValue);
+            return type.objectToBytes(textValue);
         } else {
             return null;
         }// end of if/else cycle
@@ -89,8 +95,58 @@ public class AJSonField extends AField {
      */
     @Override
     public void doSetValue(Object value) {
-        String stringValue=(String)PrefType.string.bytesToObject((byte[])value);
+        String stringValue = (String) type.bytesToObject((byte[]) value);
         jSonField.setValue(stringValue);
     }// end of method
+
+
+    public void setType(PrefType type) {
+        this.type = type;
+    }// end of method
+
+
+    public void changeType(AField sourceField) {
+        AComboField comboField;
+        String typeName;
+        if (sourceField instanceof AComboField) {
+            comboField = (AComboField) sourceField;
+        } else {
+            return;
+        }// end of if/else cycle
+
+        if (comboField != null && comboField.name.equals("type")) {
+            typeName = (String) comboField.getValue();
+            type = PrefType.valueOf(typeName);
+            chooseComponent();
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Handle an application event.
+     *
+     * @param event to respond to
+     */
+    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        Class thisClazz = this.getClass();
+        AEvent event;
+        if (applicationEvent instanceof AEvent) {
+            event = ((AEvent) applicationEvent);
+        } else {
+            return;
+        }// end of if/else cycle
+        Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
+        ApplicationListener source = event.getSource();
+        ApplicationListener target = event.getTarget();
+        AEntity entityBean = event.getEntityBean();
+        AField sourceField = event.getSourceField();
+
+        if (event instanceof AFieldEvent && targetClazz == thisClazz) {
+//            changeType(sourceField);
+        }// end of if cycle
+
+    }// end of method
+
 
 }// end of class

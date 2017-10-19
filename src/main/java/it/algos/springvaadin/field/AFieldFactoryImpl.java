@@ -6,6 +6,7 @@ import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -131,6 +132,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case json:
                     field = fieldFactory.apply(AJSonField.class);
+                    ((AJSonField)field).setType(PrefType.string);
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);

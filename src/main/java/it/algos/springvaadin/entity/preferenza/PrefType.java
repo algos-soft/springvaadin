@@ -4,6 +4,7 @@ import com.google.common.primitives.Longs;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 import it.algos.springvaadin.entity.log.LogLevel;
+import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.lib.LibByte;
 import it.algos.springvaadin.lib.LibImage;
 
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 public enum PrefType {
 
-    string("stringa") {
+    string("stringa", AFieldType.text) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -38,7 +39,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    bool("booleano") {
+    bool("booleano", AFieldType.checkbox) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -63,7 +64,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    integer("intero") {
+    integer("intero", AFieldType.integer) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -80,7 +81,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    date("data") {
+    date("data", AFieldType.localdatetime) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -98,7 +99,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    email("email") {
+    email("email", AFieldType.email) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -117,7 +118,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    decimal("decimale") {
+    decimal("decimale", AFieldType.lungo) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
@@ -134,7 +135,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    image("image") {
+    image("image", AFieldType.image) {
         @Override
         public Object bytesToObject(byte[] bytes) {
             Image img = null;
@@ -145,7 +146,7 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    resource("resource") {
+    resource("resource", AFieldType.resource) {
         @Override
         public Object bytesToObject(byte[] bytes) {
             Resource res = null;
@@ -160,13 +161,15 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    bytes("blog");
+    bytes("blog", AFieldType.json);
 
-    String nome;
+    private String nome;
+    private AFieldType fieldType;
 
 
-    PrefType(String nome) {
+    PrefType(String nome, AFieldType tipoDiFieldPerVisualizzareQuestoTipoDiPreferenza) {
         this.setNome(nome);
+        this.setFieldType(tipoDiFieldPerVisualizzareQuestoTipoDiPreferenza);
     }// fine del costruttore
 
 
@@ -221,6 +224,13 @@ public enum PrefType {
         this.nome = nome;
     }//end of setter method
 
+    public AFieldType getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(AFieldType fieldType) {
+        this.fieldType = fieldType;
+    }
 
     public static String[] getValues() {
         String[] valori;

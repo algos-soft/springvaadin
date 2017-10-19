@@ -123,7 +123,7 @@ public abstract class AField<T> extends CustomField<Object> {
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
      */
-    void inizializza(String publicFieldName, ApplicationListener source) {
+    protected void inizializza(String publicFieldName, ApplicationListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -269,7 +269,7 @@ public abstract class AField<T> extends CustomField<Object> {
     }// end of method
 
     public void setIconButton(Resource res) {
-        if (button!=null) {
+        if (button != null) {
             button.setIcon(res);
         }// end of if cycle
     }// end of method
@@ -281,9 +281,9 @@ public abstract class AField<T> extends CustomField<Object> {
      * target     Obbligatorio (window, dialog, presenter) a cui indirizzare l'evento
      * entityBean Opzionale (entityBean) in elaborazione
      */
-    void publish() {
+    public void publish() {
         if (source != null) {
-            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean));
+            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean,this));
         }// end of if cycle
     }// end of method
 

@@ -1,8 +1,11 @@
 package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.ComboBox;
+import it.algos.springvaadin.field.AComboField;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
+import it.algos.springvaadin.field.AJSonField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
@@ -32,18 +35,33 @@ public class PreferenzaForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
+
     /**
      * Eventuali regolazioni specifiche per i fields
      */
     @Override
     protected void fixFields() {
-        AField field = getField("type");
-        Object objValue = field.getValue();
+        this.addChangeTypeButton();
+    }// end of method
 
-        if (entityBean != null && LibText.isEmpty(entityBean.id)) {
-            field.setValue(PrefType.string);
-        }// end of if cycle
 
+    /**
+     * Fissa il target del field Type in modo che 'lanci' i cambiamenti verso il field AJSonField
+     */
+    private void addChangeTypeButton() {
+        AField fType = getField("type");
+        AField fValue = getField("value");
+        AComboField fieldType;
+        AJSonField fieldValue;
+
+        if (fType != null && fType instanceof AComboField && fValue != null && fValue instanceof AJSonField) {
+            fieldType = (AComboField) fType;
+            fieldValue = (AJSonField) fValue;
+        } else {
+            return;
+        }// end of if/else cycle
+
+        fieldType.setTarget(fieldValue);
     }// end of method
 
 }// end of class
