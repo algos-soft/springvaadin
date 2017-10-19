@@ -33,6 +33,7 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_IMAGE)
 public class AJSonField extends AField implements ApplicationListener {
 
+    private HorizontalLayout placeholder = new HorizontalLayout();
     private AField jSonField = null;
     private PrefType type;
 
@@ -62,13 +63,15 @@ public class AJSonField extends AField implements ApplicationListener {
 
     @Override
     public Component initContent() {
-        return jSonField;
+        return placeholder;
     }// end of method
 
 
     private void chooseComponent() {
         AFieldType fieldType = type.getFieldType();
         jSonField = fieldFactory.crea(null, fieldType, source, "value", null);
+        placeholder.removeAllComponents();
+        placeholder.addComponent(jSonField);
     }// end of method
 
 
