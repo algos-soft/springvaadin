@@ -1,14 +1,13 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.renderers.DateRenderer;
-import com.vaadin.ui.renderers.LocalDateRenderer;
-import com.vaadin.ui.renderers.LocalDateTimeRenderer;
+import com.vaadin.ui.renderers.*;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.renderer.IconRenderer;
+import it.algos.springvaadin.renderer.ByteStringRenderer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -22,7 +21,10 @@ import java.util.Locale;
 public abstract class LibColumn {
 
 
-    private final static int WIDTH_TEXT_NORMAL = 80;
+    private final static int WIDTH_TEXT_SMALL = 80;
+    private final static int WIDTH_TEXT_NORMAL = 100;
+    private final static int WIDTH_TEXT_LARGE = 120;
+    private final static int WIDTH_BYTE = 160;
     private final static int WIDTH_LOCAL_DATE = 130;
     private final static int WIDTH_LOCAL_DATE_TIME = 160;
 
@@ -68,6 +70,7 @@ public abstract class LibColumn {
         LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
         LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
         IconRenderer renderIcon = new IconRenderer();
+        ByteStringRenderer renderByte = new ByteStringRenderer();
 
         if (grid == null || LibText.isEmpty(publicFieldName)) {
             return 0;
@@ -90,6 +93,11 @@ public abstract class LibColumn {
         if (type == AFieldType.icon) {
             colonna.setRenderer(renderIcon);
             colonna.setWidth(WIDTH_TEXT_NORMAL);
+        }// end of if cycle
+
+        if (type == AFieldType.json) {
+            colonna.setRenderer(renderByte);
+            colonna.setWidth(WIDTH_BYTE);
         }// end of if cycle
 
         if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
