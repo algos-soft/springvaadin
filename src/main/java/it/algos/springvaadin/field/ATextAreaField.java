@@ -34,7 +34,6 @@ public class ATextAreaField extends ATextField {
      */
     public TextArea textField;
 
-
     /**
      * Regola i parametri base per la visualizzazione del field nel form
      * Possono essere sovrascritti nella sottoclasse specifica

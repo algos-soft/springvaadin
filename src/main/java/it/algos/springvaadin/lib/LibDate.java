@@ -1387,6 +1387,14 @@ public abstract class LibDate {
         return calendario;
     }// end of static method
 
+    /**
+     * @param localDateTime da rappresentare
+     *
+     * @return millisecondi
+     */
+    public static long getLongSecs(LocalDateTime localDateTime) {
+        return localDateTimeToDate(localDateTime).getTime();
+    }// end of static method
 
     /**
      * Enumeration locale per il flag di inizio oppure fine

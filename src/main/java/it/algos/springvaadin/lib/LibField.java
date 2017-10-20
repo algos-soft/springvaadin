@@ -260,8 +260,9 @@ public class LibField {
                     }// end of if cycle
                     break;
                 case email:
-                    message = "Indirizzo eMail non valido";
+                    message = "This doesn't look like a valid email address";
                     validator = new EmailValidator(message);
+                    lista.add(new Validator(validator, Posizione.prima));
                     break;
                 case checkbox:
                     break;

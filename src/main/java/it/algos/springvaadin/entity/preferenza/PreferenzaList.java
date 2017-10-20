@@ -8,6 +8,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibColumn;
+import it.algos.springvaadin.lib.LibDate;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
@@ -17,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,7 +77,20 @@ public class PreferenzaList extends AlgosListImpl {
                         case string:
                         case bool:
                         case integer:
-                            value = type.bytesToObject(bytes);
+                        case email:
+                            try { // prova ad eseguire il codice
+                                value = type.bytesToObject(bytes);
+                            } catch (Exception unErrore) { // intercetta l'errore
+                                log.error(unErrore.toString());
+                            }// fine del blocco try-catch
+                            break;
+                        case date:
+                            try { // prova ad eseguire il codice
+                                value = type.bytesToObject(bytes);
+                                value = LibDate.getShort((LocalDateTime)value);
+                            } catch (Exception unErrore) { // intercetta l'errore
+                                log.error(unErrore.toString());
+                            }// fine del blocco try-catch
                             break;
                         default:
                             log.warn("Switch - caso non definito");

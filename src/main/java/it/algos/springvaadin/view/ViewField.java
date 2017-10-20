@@ -1,6 +1,7 @@
 package it.algos.springvaadin.view;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextArea;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;

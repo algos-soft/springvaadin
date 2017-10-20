@@ -78,7 +78,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.json, required = true)
-    @AIColumn(width = 200, name = "Value")
+    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "Value")
     private byte[] value;
 
 

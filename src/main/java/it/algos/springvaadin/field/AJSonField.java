@@ -108,6 +108,7 @@ public class AJSonField extends AField {
 
         if (jSonField != null) {
             value = jSonField.getValue();
+            byte[] alfa=type.objectToBytes(value);
             return type.objectToBytes(value);
         } else {
             return null;

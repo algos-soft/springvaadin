@@ -51,7 +51,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected AEntity entityBean;
 
     //--collegamento tra i fields e la entityBean
-    private Binder binder;
+    protected Binder binder;
 
     protected List<AField> fieldList;
 

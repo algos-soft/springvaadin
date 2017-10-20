@@ -6,10 +6,12 @@ import com.vaadin.ui.Image;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.lib.LibByte;
+import it.algos.springvaadin.lib.LibDate;
 import it.algos.springvaadin.lib.LibImage;
 
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -85,9 +87,8 @@ public enum PrefType {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];
-            if (obj instanceof Date) {
-                Date date = (Date) obj;
-                long millis = date.getTime();
+            if (obj instanceof LocalDateTime) {
+                long millis = LibDate.getLongSecs((LocalDateTime) obj);
                 bytes = Longs.toByteArray(millis);
             }// end of if cycle
             return bytes;
@@ -95,7 +96,7 @@ public enum PrefType {
 
         @Override
         public Object bytesToObject(byte[] bytes) {
-            return new Date(Longs.fromByteArray(bytes));
+            return bytes.length > 0 ? LibDate.dateToLocalDateTime(new Date(Longs.fromByteArray(bytes))) : null;
         }// end of method
     },// end of single enumeration
 
