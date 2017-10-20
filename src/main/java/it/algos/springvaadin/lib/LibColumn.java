@@ -24,7 +24,7 @@ public abstract class LibColumn {
     private final static int WIDTH_TEXT_SMALL = 80;
     private final static int WIDTH_TEXT_NORMAL = 100;
     private final static int WIDTH_TEXT_LARGE = 120;
-    private final static int WIDTH_BYTE = 160;
+    public final static int WIDTH_BYTE = 160;
     private final static int WIDTH_LOCAL_DATE = 130;
     private final static int WIDTH_LOCAL_DATE_TIME = 160;
 

@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"code", "type", "descrizione", "value"})
+@AIList(columns = {"code", "type", "descrizione"})
 @AIForm()
 @Data
 @NoArgsConstructor

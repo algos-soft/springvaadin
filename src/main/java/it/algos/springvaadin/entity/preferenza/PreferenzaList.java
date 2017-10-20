@@ -1,14 +1,23 @@
 package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Label;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibColumn;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.renderer.ByteStringRenderer;
 import it.algos.springvaadin.toolbar.ListToolbar;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by gac on 16-ott-17
@@ -17,6 +26,7 @@ import javax.annotation.PostConstruct;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_PRE)
+@Slf4j
 public class PreferenzaList extends AlgosListImpl {
 
 
@@ -39,6 +49,42 @@ public class PreferenzaList extends AlgosListImpl {
             caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è facoltativa";
             caption += "</br>Solo il developer vede queste note";
         }// end of if cycle
+    }// end of method
+
+    /**
+     * Creazione della grid
+     * Ricrea tutto ogni volta che la finestra diventa attiva
+     *
+     * @param source      di riferimento per gli eventi
+     * @param entityClass del modello dati
+     * @param items       da visualizzare nella grid
+     * @param columns     da visualizzare nella grid
+     */
+    @Override
+    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> columns) {
+        super.restart(source, entityClass, items, columns);
+
+        Grid.Column colonna = grid.addColumn(
+                preferenza -> {
+                    PrefType type = ((Preferenza) preferenza).getType();
+                    byte[] bytes = (byte[]) ((Preferenza) preferenza).getValue();
+                    Object value = null;
+
+                    switch (type) {
+                        case string:
+                        case bool:
+                        case integer:
+                            value = type.bytesToObject(bytes);
+                            break;
+                        default:
+                            log.warn("Switch - caso non definito");
+                            break;
+                    } // end of switch statement
+                    return value;
+                });//end of lambda expressions
+        colonna.setCaption("Value");
+        float lar = grid.getWidth();
+        grid.setWidth(lar + LibColumn.WIDTH_BYTE, Unit.PIXELS);
     }// end of method
 
 }// end of class

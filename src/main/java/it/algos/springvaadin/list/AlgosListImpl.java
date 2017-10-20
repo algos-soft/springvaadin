@@ -1,6 +1,7 @@
 package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
@@ -8,10 +9,12 @@ import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibColumn;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.renderer.ByteStringRenderer;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +36,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
     //--AlgosGrid, iniettata dal costruttore
     //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
-    private AlgosGrid grid;
+    protected AlgosGrid grid;
 
 
     //--toolbar coi bottoni, iniettato dal costruttore
@@ -77,7 +80,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         caption = "";
         this.inizializza();
         if (items != null) {
-            if (items.size()==1) {
+            if (items.size() == 1) {
                 textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " scheda. ";
             } else {
                 textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
@@ -85,7 +88,6 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         } else {
             textLabel = entityClass.getSimpleName() + " - Al momento non c'è nessuna scheda. ";
         }// end of if/else cycle
-
 
 
         if (caption != null) {
