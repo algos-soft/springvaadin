@@ -31,7 +31,7 @@ import javax.persistence.Column;
  * Sottoclasse annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Sottoclasse annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Sottoclasse annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- *
+ * <p>
  * Le Entity possono estendere AEntity direttamente, oppure estendere questa classe per usare la property company
  * Se il flag AlgosApp.USE_MULTI_COMPANY=false, anche se la Entity estende questa classe,
  * il valore della property è sempre nullo
@@ -49,7 +49,7 @@ public abstract class ACompanyEntity extends AEntity {
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
-    @AIField(type = AFieldType.combo, clazz = Company.class)
+    @AIField(type = AFieldType.combo, clazz = Company.class, updateVisibility = false)
     @AIColumn(name = "Company", width = 110)
     private Company company;
 

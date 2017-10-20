@@ -2,6 +2,8 @@ package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.ComboBox;
+import it.algos.springvaadin.entity.log.LogService;
+import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.field.AComboField;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
@@ -11,6 +13,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -21,8 +24,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_PRE)
+@Slf4j
 public class PreferenzaForm extends AlgosFormImpl {
 
+    @Autowired
+    private LogService logger;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -41,28 +47,26 @@ public class PreferenzaForm extends AlgosFormImpl {
      */
     @Override
     protected void fixFields() {
-        this.addChangeTypeButton();
+        String fieldName = "type";
+        AField field = null;
+
+        if (entityBean != null && entityBean instanceof Preferenza) {
+            try { // prova ad eseguire il codice
+                field = getField(fieldName);
+                if (entityBean.id == null) {
+                    //--valore di default per una nuova scheda
+                    field.setValue(PrefType.string);
+                } else {
+                    //--disabilita il campo in modifica scheda
+                    field.setEnabled(false);
+                }// end of if/else cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+
     }// end of method
 
-
-    /**
-     * Fissa il target del field Type in modo che 'lanci' i cambiamenti verso il field AJSonField
-     */
-    private void addChangeTypeButton() {
-        AField fType = getField("type");
-        AField fValue = getField("value");
-        AComboField fieldType;
-        AJSonField fieldValue;
-
-        if (fType != null && fType instanceof AComboField && fValue != null && fValue instanceof AJSonField) {
-            fieldType = (AComboField) fType;
-            fieldValue = (AJSonField) fValue;
-        } else {
-            return;
-        }// end of if/else cycle
-
-        fieldType.setTarget(fieldValue);
-    }// end of method
 
 }// end of class
 

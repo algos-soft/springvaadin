@@ -5,6 +5,7 @@ import com.vaadin.navigator.View;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.context.ApplicationListener;
@@ -49,7 +50,7 @@ public interface AlgosView extends View {
      * @param reflectFields         campi del form da visualizzare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void setForm(ApplicationListener source,AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
+    public void setForm(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
 
 
     /**
@@ -205,6 +206,7 @@ public interface AlgosView extends View {
      */
     public void saveSons();
 
+    public AlgosForm getForm();
 
     public void setPresenter(AlgosPresenterImpl presenter);
 

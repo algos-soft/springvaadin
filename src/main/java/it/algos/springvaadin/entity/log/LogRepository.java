@@ -21,4 +21,8 @@ public interface LogRepository extends MongoRepository<Log, String> {
 
     public List<Log> findAllByCompany(Company company);
 
+    public List<Log> findAllByCompanyOrderByEventoDesc(Company company);
+
+    public List<Log> findAllByOrderByEventoDesc();
+
 }// end of class

@@ -10,7 +10,9 @@ import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAvviso;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,8 +32,9 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
+@Slf4j
 @Qualifier(Cost.FIELD_IMAGE)
-public class AJSonField extends AField implements ApplicationListener {
+public class AJSonField extends AField {
 
     private HorizontalLayout placeholder = new HorizontalLayout();
     private AField jSonField = null;
@@ -63,13 +66,32 @@ public class AJSonField extends AField implements ApplicationListener {
 
     @Override
     public Component initContent() {
-        return placeholder;
+        if (placeholder != null) {
+            if (placeholder.getComponentCount() > 0) {
+                try { // prova ad eseguire il codice
+                    placeholder.removeAllComponents();
+                } catch (Exception unErrore) { // intercetta l'errore
+                    log.error(unErrore.toString());
+                }// fine del blocco try-catch
+            }// end of if/else cycle
+            if (jSonField != null) {
+                placeholder.addComponent(jSonField);
+                return placeholder;
+            } else {
+                LibAvviso.error("Manca il jsonfield");
+                return new LabelRosso("Errore");
+            }// end of if/else cycle
+        } else {
+            LibAvviso.error("Manca il placeholder");
+            return new LabelRosso("Errore");
+        }// end of if/else cycle
     }// end of method
 
 
     private void chooseComponent() {
         AFieldType fieldType = type.getFieldType();
         jSonField = fieldFactory.crea(null, fieldType, source, "value", null);
+
         placeholder.removeAllComponents();
         placeholder.addComponent(jSonField);
     }// end of method
@@ -82,10 +104,11 @@ public class AJSonField extends AField implements ApplicationListener {
      */
     @Override
     public byte[] getValue() {
-        String textValue;
+        Object value;
+
         if (jSonField != null) {
-            textValue = (String) jSonField.getValue();
-            return type.objectToBytes(textValue);
+            value = jSonField.getValue();
+            return type.objectToBytes(value);
         } else {
             return null;
         }// end of if/else cycle
@@ -98,8 +121,8 @@ public class AJSonField extends AField implements ApplicationListener {
      */
     @Override
     public void doSetValue(Object value) {
-        String stringValue = (String) type.bytesToObject((byte[]) value);
-        jSonField.setValue(stringValue);
+        Object valore = type.bytesToObject((byte[]) value);
+        jSonField.setValue(valore);
     }// end of method
 
 
@@ -125,31 +148,9 @@ public class AJSonField extends AField implements ApplicationListener {
     }// end of method
 
 
-    /**
-     * Handle an application event.
-     *
-     * @param event to respond to
-     */
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        Class thisClazz = this.getClass();
-        AEvent event;
-        if (applicationEvent instanceof AEvent) {
-            event = ((AEvent) applicationEvent);
-        } else {
-            return;
-        }// end of if/else cycle
-        Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
-        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
-        ApplicationListener source = event.getSource();
-        ApplicationListener target = event.getTarget();
-        AEntity entityBean = event.getEntityBean();
-        AField sourceField = event.getSourceField();
-
-        if (event instanceof AFieldEvent && targetClazz == thisClazz) {
-//            changeType(sourceField);
-        }// end of if cycle
-
+    public void refreshFromComboField(PrefType type) {
+        setType(type);
+        chooseComponent();
     }// end of method
-
 
 }// end of class

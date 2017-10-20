@@ -277,7 +277,8 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         form.saveSons();
     }// end of method
 
+    @Override
     public AlgosForm getForm() {
         return form;
-    }
+    }// end of method
 }// end of class

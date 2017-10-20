@@ -118,22 +118,22 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
-    decimal("decimale", AFieldType.lungo) {
-        @Override
-        public byte[] objectToBytes(Object obj) {
-            byte[] bytes = new byte[0];
-            if (obj instanceof BigDecimal) {
-                BigDecimal bd = (BigDecimal) obj;
-                bytes = LibByte.bigDecimalToByteArray(bd);
-            }// end of if cycle
-            return bytes;
-        }// end of method
-
-        @Override
-        public Object bytesToObject(byte[] bytes) {
-            return LibByte.byteArrayToBigDecimal(bytes);
-        }// end of method
-    },// end of single enumeration
+//    decimal("decimale", AFieldType.lungo) {
+//        @Override
+//        public byte[] objectToBytes(Object obj) {
+//            byte[] bytes = new byte[0];
+//            if (obj instanceof BigDecimal) {
+//                BigDecimal bd = (BigDecimal) obj;
+//                bytes = LibByte.bigDecimalToByteArray(bd);
+//            }// end of if cycle
+//            return bytes;
+//        }// end of method
+//
+//        @Override
+//        public Object bytesToObject(byte[] bytes) {
+//            return LibByte.byteArrayToBigDecimal(bytes);
+//        }// end of method
+//    },// end of single enumeration
 
     image("image", AFieldType.image) {
         @Override
@@ -243,5 +243,6 @@ public enum PrefType {
 
         return valori;
     }// end of static method
+
 
 }// end of enumeration class

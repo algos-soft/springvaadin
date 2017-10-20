@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"sigla"})
+@AIList(columns = {"code", "type", "descrizione", "value"})
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -51,7 +51,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotEmpty
     @AIField(type = AFieldType.text, required = true, focus = true)
-    @AIColumn(width = 300, name = "Code")
+    @AIColumn(width = 200, name = "Code")
     private String code;
 
 
@@ -59,7 +59,7 @@ public class Preferenza extends ACompanyEntity {
      * tipo di dato memorizzato (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.enumeration, required = true, widthEM = 8)
+    @AIField(type = AFieldType.enumeration, required = true, updateVisibility = false, widthEM = 8)
     @AIColumn(width = 100, name = "Type")
     private PrefType type;
 
@@ -68,7 +68,7 @@ public class Preferenza extends ACompanyEntity {
      * descrizione visibile (obbligatoria)
      */
     @NotEmpty
-    @AIField(type = AFieldType.textarea, firstCapital = true,   help = "Descrizione della preferenza")
+    @AIField(type = AFieldType.textarea, firstCapital = true, help = "Descrizione della preferenza")
     @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 600)
     private String descrizione;
 
@@ -78,7 +78,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.json, required = true)
-    @AIColumn(width = 100, name = "Value")
+    @AIColumn(width = 200, name = "Value")
     private byte[] value;
 
 

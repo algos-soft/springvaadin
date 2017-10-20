@@ -42,7 +42,7 @@ public interface AlgosForm {
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, ApplicationListener target,AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type);
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type);
 
     /**
      * Esegue il 'rollback' del Form
@@ -132,5 +132,7 @@ public interface AlgosForm {
      * Registra eventuali dipendenze di un field del Form
      */
     public void saveSons();
+
+    public List<AField> getFieldList();
 
 }// end of interface

@@ -89,7 +89,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (non salvata)
      */
     public Preferenza newEntity(String code, PrefType type, String descrizione, byte[] value) {
-        return new Preferenza(code, type, descrizione, value);
+        return new Preferenza(code,type, descrizione,value);
     }// end of method
 
 

@@ -14,6 +14,7 @@ import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.exception.CompanyException;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ALinkField;
+import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.search.AlgosSearch;
@@ -488,8 +489,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Override
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
-        ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
-        this.view.enableButtonForm(AButtonType.registra, true);
+        if (sourceField instanceof ALinkField) {
+            ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
+            this.view.enableButtonForm(AButtonType.registra, true);
+        }// end of if cycle
     }// end of method
 
     /**
@@ -606,9 +609,35 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     public void setView(AlgosView view) {
         this.view = view;
-    }
+    }// end of method
 
     public AlgosView getView() {
         return view;
-    }
+    }// end of method
+
+
+    public AField getField(String publicFieldName) {
+        AField field = null;
+        AlgosForm form = null;
+        List<AField> fieldList = null;
+
+        if (view != null) {
+            form = view.getForm();
+        }// end of if cycle
+
+        if (form != null) {
+            fieldList = form.getFieldList();
+        }// end of if cycle
+
+        if (fieldList != null && fieldList.size() > 0) {
+            for (AField fieldTmp : fieldList) {
+                if (fieldTmp.getName().equals(publicFieldName)) {
+                    field = fieldTmp;
+                }// end of if cycle
+            }// end of for cycle
+        }// end of if cycle
+
+        return field;
+    }// end of method
+
 }// end of class

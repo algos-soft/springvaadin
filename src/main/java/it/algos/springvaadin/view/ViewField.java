@@ -88,7 +88,7 @@ public class ViewField {
                 items = LogType.getValues();
             }// end of if cycle
             if (publicFieldName.equals("type")) {
-                items = PrefType.getValues();
+                items = PrefType.values();
             }// end of if cycle
 
 

@@ -1,12 +1,16 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.Converter;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import javax.xml.ws.handler.Handler;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,7 @@ import java.util.Optional;
  */
 @Slf4j
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
+
 
     @Autowired
     private ViewField viewField;
@@ -344,6 +350,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public List<ValidationResult> getEntityErrors() {
+        BinderValidationStatus<Preferenza> status = binder.validate();
         return binder != null ? binder.validate().getValidationErrors() : new ArrayList<>();
     }// end of method
 
@@ -489,5 +496,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 //    public void setUsaSeparateFormDialog(boolean usaSeparateFormDialog) {
 //        this.usaSeparateFormDialog = usaSeparateFormDialog;
 //    }// end of method
+
+
+    public List<AField> getFieldList() {
+        return fieldList;
+    }// end of method
 
 }// end of class

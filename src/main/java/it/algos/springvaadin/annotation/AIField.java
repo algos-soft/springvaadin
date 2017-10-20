@@ -77,6 +77,13 @@ public @interface AIField {
 
 
     /**
+     * (Optional) Visibilità anche in modifica scheda (oltre che in nuova scheda)
+     * Defaults to true.
+     */
+    boolean updateVisibility() default true;
+
+
+    /**
      * (Optional) field that get focus
      * Only one for form
      * Defaults to false.

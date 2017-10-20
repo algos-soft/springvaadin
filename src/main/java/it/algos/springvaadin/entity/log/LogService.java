@@ -121,7 +121,7 @@ public class LogService extends AlgosServiceImpl {
      */
     @Deprecated
     public List findAll() {
-        return repository.findAll();
+        return repository.findAllByOrderByEventoDesc();
     }// end of method
 
 
@@ -135,7 +135,7 @@ public class LogService extends AlgosServiceImpl {
      * @return all entities
      */
     public List findAllByCompany(Company company) {
-        return repository.findAllByCompany(company);
+        return repository.findAllByCompanyOrderByEventoDesc(company);
     }// end of method
 
 

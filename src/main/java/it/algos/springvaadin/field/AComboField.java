@@ -5,6 +5,8 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
+import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -104,6 +106,18 @@ public class AComboField extends AField {
     }// end of method
 
 
+    /**
+     * Fire event
+     * source     Obbligatorio questo field
+     * target     Obbligatorio (window, dialog, presenter) a cui indirizzare l'evento
+     * entityBean Opzionale (entityBean) in elaborazione
+     */
+    public void publish() {
+        if (source != null) {
+            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean, this));
+            publisher.publishEvent(new AFieldEvent(TypeField.fieldModificato, source, target, entityBean, this));
+        }// end of if cycle
+    }// end of method
 
 }// end of class
 
