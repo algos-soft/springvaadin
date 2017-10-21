@@ -4,6 +4,7 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.BindingValidationStatus;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.Validator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
@@ -16,6 +17,7 @@ import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.field.AJSonField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
@@ -42,6 +44,9 @@ public class PreferenzaForm extends AlgosFormImpl {
     @Autowired
     private LogService logger;
 
+    private final static String TYPE = "type";
+    private final static String VALUE = "value";
+
     /**
      * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
@@ -59,12 +64,11 @@ public class PreferenzaForm extends AlgosFormImpl {
      */
     @Override
     protected void fixFields() {
-        String fieldName = "type";
         AField field = null;
 
         if (entityBean != null && entityBean instanceof Preferenza) {
             try { // prova ad eseguire il codice
-                field = getField(fieldName);
+                field = getField(TYPE);
                 if (entityBean.id == null) {
                     //--valore di default per una nuova scheda
                     field.setValue(PrefType.string);
@@ -88,25 +92,56 @@ public class PreferenzaForm extends AlgosFormImpl {
     @Override
     public boolean entityIsOk() {
         boolean entityValida = false;
+        AField fieldType = null;
+        AField fieldValue = null;
+        PrefType type = null;
+        byte[] bytes;
+        Object objValue;
+        String stringValue;
+        int intValue;
 
         try { // prova ad eseguire il codice
 
+            fieldType = getField(TYPE);
+            if (fieldType != null && fieldType instanceof AComboField) {
+                type = (PrefType) ((AComboField) fieldType).getValue();
+            }// end of if cycle
 
-
-
-//            while(var2.hasNext()) {
-//                Binder.BindingImpl<?, ?, ?> binding = (Binder.BindingImpl)var2.next();
-//                results.add(binding.doValidation());
-//            }
-
-
-//            Stream<HasValue<?>> stream = binder.getFields();
-//            Optional alfa = stream.findFirst();
-//           Binder.Binding bind = (Binder.Binding)binder.getBinding("value");
-//            bind.doValidation();
-//            Iterator var2 = bind.iterator();
-
-
+            fieldValue = getField(VALUE);
+            if (fieldValue != null && fieldValue instanceof AJSonField) {
+                bytes = ((AJSonField) fieldValue).getValue();
+                objValue = type.bytesToObject(bytes);
+                switch (type) {
+                    case string:
+                        stringValue = (String) objValue;
+                        if (LibText.isEmpty(stringValue)) {
+                            LibAvviso.error("Occorre inserire un valore");
+                            return false;
+                        }// end of if cycle
+                        break;
+                    case integer:
+                        intValue = (Integer) objValue;
+                        if (intValue < 1) {
+                            LibAvviso.error("Il valore deve essere maggiore di zero");
+                            return false;
+                        }// end of if cycle
+                        break;
+                    case email:
+                        stringValue = (String) objValue;
+                        if (LibText.isEmpty(stringValue)) {
+                            LibAvviso.error("Occorre inserire un indirizzo email");
+                            return false;
+                        }// end of if cycle
+                        if (LibText.isWrongEmail(stringValue)) {
+                            LibAvviso.error("Non sembra un indirizzo email valido");
+                            return false;
+                        }// end of if cycle
+                        break;
+                    default:
+                        log.warn("Switch - caso non definito");
+                        break;
+                } // end of switch statement
+            }// end of if cycle
 
             entityValida = binder != null && binder.validate().isOk();
         } catch (Exception unErrore) { // intercetta l'errore

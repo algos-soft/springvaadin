@@ -4,18 +4,22 @@ import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.validator.AbstractValidator;
 import it.algos.springvaadin.lib.LibText;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Controlla che il campo (IntegerField) contenga solo cifre e non caratteri alfabetici
- * Un valore vuoto viene controllato da un altro validator
- * Un valore zero viene controllato da un altro validator
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: sab, 21-ott-2017
+ * Time: 14:05
+ * Controlla che il campo non sia nullo
  */
-public class AlgosNumberOnlyValidator extends AbstractValidator<String> {
-
+@Slf4j
+public class AlgosNotNullValidator extends AbstractValidator<String> {
 
     private String fieldName;
 
-    public AlgosNumberOnlyValidator(String fieldName) {
+    public AlgosNotNullValidator(String fieldName) {
         super("");
         this.fieldName = fieldName;
     }// end of constructor
@@ -23,8 +27,8 @@ public class AlgosNumberOnlyValidator extends AbstractValidator<String> {
     @Override
     public ValidationResult apply(String value, ValueContext valueContext) {
         boolean valido = true;
-        if (value ==null) {
-            return this.toResult(value, true);
+        if (value == null) {
+            return this.toResult(value, false);
         }// end of if cycle
 
         char[] caratteri = value.toCharArray();
@@ -50,13 +54,12 @@ public class AlgosNumberOnlyValidator extends AbstractValidator<String> {
 
     @Override
     protected String getMessage(String value) {
-        String tagIni = " accetta solo numeri ed il valore ";
-        String tagEnd = " non va bene";
+        String tagIni = " non può essere ";
         String name = LibText.primaMaiuscola(fieldName);
         name = LibText.setRossoBold(name);
         value = LibText.setRossoBold(value);
 
-        return name + tagIni + value + tagEnd;
+        return name + tagIni + value;
     }// end of method
 
 }// end of validator class

@@ -5,6 +5,8 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -60,7 +62,11 @@ public class AIntegerField extends AField {
         if (textField != null) {
             textValue = textField.getValue();
             if (textValue != null && textValue.length() > 0) {
-                return Integer.decode(textValue);
+                if (LibText.isNumber(textValue)) {
+                    return Integer.decode(textValue);
+                } else {
+                    return null;
+                }// end of if/else cycle
             } else {
                 return null;
             }// end of if/else cycle

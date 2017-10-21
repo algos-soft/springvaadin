@@ -15,10 +15,7 @@ import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.validator.AlgosLetterOnlyValidator;
-import it.algos.springvaadin.validator.AlgosNumberOnlyValidator;
-import it.algos.springvaadin.validator.AlgosStringLengthValidator;
-import it.algos.springvaadin.validator.AlgosUniqueValidator;
+import it.algos.springvaadin.validator.*;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
@@ -167,9 +164,9 @@ public class LibField {
      */
     public static List<AbstractValidator> creaValidatorsPre(AEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
+        List<AValidator> listaTmp = creaValidators(entityBean, publicFieldName);
 
-        for (Validator validator : listaTmp) {
+        for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.prima) {
                 lista.add(validator.validator);
             }// end of if cycle
@@ -185,9 +182,9 @@ public class LibField {
      */
     public static List<AbstractValidator> creaValidatorsPost(AEntity entityBean, final String publicFieldName) {
         List<AbstractValidator> lista = new ArrayList();
-        List<Validator> listaTmp = creaValidators(entityBean, publicFieldName);
+        List<AValidator> listaTmp = creaValidators(entityBean, publicFieldName);
 
-        for (Validator validator : listaTmp) {
+        for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.dopo) {
                 lista.add(validator.validator);
             }// end of if cycle
@@ -201,12 +198,12 @@ public class LibField {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista base, indifferenziata
      */
-    private static List<Validator> creaValidators(AEntity entityBean, final String publicFieldName) {
-        List<Validator> lista = new ArrayList<>();
+    private static List<AValidator> creaValidators(AEntity entityBean, final String publicFieldName) {
+        List<AValidator> lista = new ArrayList<>();
         Class<? extends AEntity> clazz = entityBean.getClass();
         AbstractValidator validator = null;
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
-        AFieldType type=null;
+        AFieldType type = null;
         String fieldName = LibText.primaMaiuscola(publicFieldName);
         fieldName = LibText.setRossoBold(fieldName);
         String message = "";
@@ -222,7 +219,7 @@ public class LibField {
 
         if (fieldAnnotation != null) {
             type = fieldAnnotation.type();
-            Object a= type;
+            Object a = type;
             min = LibAnnotation.getMin(clazz, publicFieldName);
             max = LibAnnotation.getMax(clazz, publicFieldName);
 
@@ -231,38 +228,37 @@ public class LibField {
                     if (checkUnico) {
                         oldValue = LibReflection.getValue(entityBean, publicFieldName);
                         validator = new AlgosUniqueValidator(clazz, publicFieldName, oldValue);
-                        lista.add(new Validator(validator, Posizione.prima));
+                        lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     if (notEmpty) {
                         String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new Validator(validator, Posizione.prima));
+                        lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
                         String messageSize = LibAnnotation.getSizeMessage(clazz, publicFieldName, notEmpty);
                         validator = new AlgosStringLengthValidator(messageSize, min, max);
-                        lista.add(new Validator(validator, Posizione.dopo));
+                        lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     if (checkOnlyNumber) {
                         validator = new AlgosNumberOnlyValidator(publicFieldName);
-                        lista.add(new Validator(validator, Posizione.dopo));
+                        lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     if (checkOnlyLetter) {
                         validator = new AlgosLetterOnlyValidator(publicFieldName);
-                        lista.add(new Validator(validator, Posizione.dopo));
+                        lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;
                 case integer:
-                    if (notNull) {
-                        message = fieldName + " non può essere nullo";
-                        validator = new IntegerRangeValidator(message, 1, 99999999);
-                        lista.add(new Validator(validator, Posizione.prima));
-                    }// end of if cycle
+                    addAnte(lista, new AlgosNumberNotNullValidator(publicFieldName));
+                    break;
+                case integernotzero:
+                    addAnte(lista, new AlgosNumberNotNullValidator(publicFieldName));
+                    addAnte(lista, new AlgosNumberNotZeroValidator(publicFieldName));
                     break;
                 case email:
                     message = "This doesn't look like a valid email address";
-                    validator = new EmailValidator(message);
-                    lista.add(new Validator(validator, Posizione.prima));
+                    addAnte(lista, new AlgosEmailValidator(publicFieldName));
                     break;
                 case checkbox:
                     break;
@@ -278,14 +274,14 @@ public class LibField {
                     if (notEmpty) {
                         String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new Validator(validator, Posizione.prima));
+                        lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     break;
                 case enumeration:
                     if (notEmpty) {
                         String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new Validator(validator, Posizione.prima));
+                        lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
 
                     break;
@@ -296,6 +292,13 @@ public class LibField {
         return lista;
     }// end of method
 
+    private static void addAnte(List<AValidator> lista, AbstractValidator validator) {
+        lista.add(new AValidator(validator, Posizione.prima));
+    }// end of method
+
+    private static void addPost(List<AValidator> lista, AbstractValidator validator) {
+        lista.add(new AValidator(validator, Posizione.dopo));
+    }// end of method
 
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
@@ -385,11 +388,11 @@ public class LibField {
 //
 //    }// end of method
 
-    private static class Validator {
+    private static class AValidator {
         AbstractValidator validator;
         Posizione posizione;
 
-        public Validator(AbstractValidator validator, Posizione posizione) {
+        public AValidator(AbstractValidator validator, Posizione posizione) {
             this.validator = validator;
             this.posizione = posizione;
         }// end of constructor

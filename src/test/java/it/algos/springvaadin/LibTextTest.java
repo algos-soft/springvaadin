@@ -13,11 +13,13 @@ import static org.junit.Assert.assertNull;
  */
 public class LibTextTest {
 
-    protected String sorgente = "";
-    protected String stringaUno = "";
-    protected String stringaDue = "";
-    protected String previsto = "";
-    protected String ottenuto = "";
+    private String sorgente = "";
+    private String stringaUno = "";
+    private String stringaDue = "";
+    private String previsto = "";
+    private String ottenuto = "";
+    private boolean previstoBooleano;
+    private boolean ottenutoBooleano;
 
     /**
      * Aggiunge parentesi all'inizio ed alla fine della stringa.
@@ -53,5 +55,65 @@ public class LibTextTest {
         assertEquals(ottenuto, previsto);
     }// end of single test
 
+    /**
+     * Controlla la validità di un indirizzo email
+     */
+    @Test
+    public void isEmail() {
+        previstoBooleano = true;
+        sorgente = "gac@algos.it";
+        ottenutoBooleano = LibText.isValid(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "gacalgosit";
+        ottenutoBooleano = LibText.isWrongEmail(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "gac@algosit";
+        ottenutoBooleano = LibText.isWrongEmail(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "@algos.it";
+        ottenutoBooleano = LibText.isWrongEmail(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+    }// end of single test
+
+    @Test
+    public void isNumber() {
+        previstoBooleano = true;
+        sorgente = "27";
+        ottenutoBooleano = LibText.isNumber(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "0";
+        ottenutoBooleano = LibText.isNumber(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        previstoBooleano = false;
+        sorgente = "dodici";
+        ottenutoBooleano = LibText.isNumber(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "37x65";
+        ottenutoBooleano = LibText.isNumber(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+    }// end of single test
+
+    @Test
+    public void isNumberNotNull() {
+        previstoBooleano = true;
+        sorgente = "27";
+        ottenutoBooleano = LibText.isNumberNotNull(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        previstoBooleano = false;
+        sorgente = "dodici";
+        ottenutoBooleano = LibText.isNumber(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+
+        sorgente = "0";
+        ottenutoBooleano = LibText.isNumberNotNull(sorgente);
+        assertEquals(ottenutoBooleano, previstoBooleano);
+    }// end of single test
 
 }// end of class

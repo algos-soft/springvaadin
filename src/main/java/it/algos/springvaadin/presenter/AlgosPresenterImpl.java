@@ -518,13 +518,15 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         } else {
             if (LibParams.usaDialoghiVerbosi()) {
                 String message = "";
-                List<ValidationResult> alfa = view.getEntityErrors();
-                for (ValidationResult errore : view.getEntityErrors()) {
-                    message += tag + "* " + errore.getErrorMessage();
-                }// end of for cycle
-                message = LibText.levaTesta(message, tag);
-                Notification nota = new Notification("Errore", message, Notification.Type.WARNING_MESSAGE, true);
-                nota.show(Page.getCurrent());
+                List<ValidationResult> lista = view.getEntityErrors();
+                if (lista!=null&&lista.size()>0) {
+                    for (ValidationResult errore : view.getEntityErrors()) {
+                        message += tag + "* " + errore.getErrorMessage();
+                    }// end of for cycle
+                    message = LibText.levaTesta(message, tag);
+                    Notification nota = new Notification("Errore", message, Notification.Type.WARNING_MESSAGE, true);
+                    nota.show(Page.getCurrent());
+                }// end of if cycle
             }// end of if cycle
         }// end of if/else cycle
 

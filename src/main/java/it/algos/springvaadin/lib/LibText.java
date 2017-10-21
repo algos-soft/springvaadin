@@ -1,6 +1,13 @@
 package it.algos.springvaadin.lib;
 
+import com.vaadin.data.ValidationResult;
+import com.vaadin.data.ValueContext;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class LibText {
 
@@ -613,8 +620,58 @@ public abstract class LibText {
         return stringaOut;
     } // fine del metodo
 
+    /**
+     * Controlla la validità di un indirizzo email
+     */
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+        Matcher matcher = pattern.matcher(email);
+        boolean status = matcher.matches();
+        return matcher.matches();
+    }// end of static method
 
-    public static boolean isLeadingDigit(final String value){
+    /**
+     * Controlla la validità di un indirizzo email
+     */
+    public static boolean isWrongEmail(String email) {
+        return !isValidEmail(email);
+    }// end of static method
+
+
+    public static boolean isNumber(String value) {
+        boolean status = true;
+        char[] caratteri = value.toCharArray();
+
+        for (char car : caratteri) {
+            if (isNotNumber(car)) {
+                status = false;
+            }// end of if cycle
+        }// end of for cycle
+
+        return status;
+    }// end of method
+
+    private static boolean isNotNumber(char ch) {
+        return !isNumber(ch);
+    }// end of method
+
+
+    private static boolean isNumber(char ch) {
+        return ch >= '0' && ch <= '9';
+    }// end of method
+
+    public static boolean isNumberNotNull(String value) {
+        int intValue = 0;
+
+        if (isNumber(value)) {
+            intValue = Integer.decode(value);
+        }// end of if cycle
+
+        return intValue > 0;
+    }// end of method
+
+
+    public static boolean isLeadingDigit(final String value) {
         final char c = value.charAt(0);
         return (c >= '0' && c <= '9');
     } // fine del metodo
