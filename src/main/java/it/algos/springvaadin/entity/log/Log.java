@@ -83,7 +83,7 @@ public class Log extends ACompanyEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Data dell'evento di log", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.admin)
+    @AIField(name = "Data dell'evento di log", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.admin)
     @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
     public LocalDateTime evento;
 

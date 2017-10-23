@@ -1,21 +1,16 @@
-package it.algos.springvaadin.bootstrap;
+package it.algos.springvaadin.abotstrrappe;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
-import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoService;
-import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.entity.stato.StatoService;
-import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * Project springwam
@@ -32,8 +27,9 @@ import java.util.List;
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
+@SpringComponent
 @Slf4j
-public class CompanySpringBoot {
+public class CompanySprringgBot {
 
 
     //--il service (contenente la repository) viene iniettato nel costruttore
@@ -47,12 +43,19 @@ public class CompanySpringBoot {
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      */
-    public CompanySpringBoot(@Qualifier(Cost.TAG_COMP) AlgosService serviceCompany,
-                             @Qualifier(Cost.TAG_IND) AlgosService serviceIndirizzo) {
+    public CompanySprringgBot(@Qualifier(Cost.TAG_COMP) AlgosService serviceCompany,
+                              @Qualifier(Cost.TAG_IND) AlgosService serviceIndirizzo) {
         this.serviceCompany = (CompanyService) serviceCompany;
         this.serviceIndirizzo = (IndirizzoService) serviceIndirizzo;
     }// end of Spring constructor
 
+    /**
+     * Running logic after the Spring context has been initialized
+     */
+    @EventListener
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        int a = 87;
+    }
 
     /**
      * Creazione di una company demo

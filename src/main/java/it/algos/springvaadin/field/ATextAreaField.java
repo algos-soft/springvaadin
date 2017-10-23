@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_TEXT_AREA)
 public class ATextAreaField extends ATextField {
 
-    private final static int STANDARD_ROWS = 2;
+    private final static int STANDARD_ROWS = 3;
 
     /**
      * Componente principale

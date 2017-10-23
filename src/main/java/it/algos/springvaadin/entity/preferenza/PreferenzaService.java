@@ -107,12 +107,14 @@ public class PreferenzaService extends AlgosServiceImpl {
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     * Filtrato sulla azienda corrente.
      *
      * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      *
      * @return istanza della Entity, null se non trovata
      */
     public Preferenza findByCode(String code) {
+
         return repository.findByCode(code);
     }// end of method
 
@@ -129,5 +131,8 @@ public class PreferenzaService extends AlgosServiceImpl {
     public List findAllByCompany(Company company) {
         return repository.findAll();//@todo NOT TRUE
     }// end of method
+
+
+
 
 }// end of class

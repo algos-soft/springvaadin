@@ -41,7 +41,7 @@ public abstract class AlgosApp {
     /**
      * Costante globale dell'applicazione. Non modificabile.
      * Name of the base folder for demo data.<br>
-     * Demo data is loaded at bootstrap to populate empty tables.<br>
+     * Demo data is loaded at abotstrrappe to populate empty tables.<br>
      */
     public final static String DEMODATA_FOLDER_NAME = "demo/";
 

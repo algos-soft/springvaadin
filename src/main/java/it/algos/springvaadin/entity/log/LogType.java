@@ -14,7 +14,7 @@ import java.util.Arrays;
  * Time: 16:42
  */
 public enum LogType {
-    nuovo, edit, delete;
+    nuovo, edit, delete,versione;
 
 
     public static String[] getValues() {

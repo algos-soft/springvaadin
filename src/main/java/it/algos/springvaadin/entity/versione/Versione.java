@@ -53,10 +53,11 @@ public class Versione extends ACompanyEntity {
      * ordine di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * inserito automaticamente
      * se si cancella una entity, rimane il 'buco' del numero
+     * unico indipendentemente dalla company
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, enabled = true, widthEM = 3, help = "Ordine di nuovo. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.never, widthEM = 3, help = "Ordine di nuovo. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 50)
     private int ordine;
 
@@ -78,8 +79,8 @@ public class Versione extends ACompanyEntity {
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 4, max = 200)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 30, help = "Descrizione della versione")
-    @AIColumn(width = 500)
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 32, help = "Descrizione della versione")
+    @AIColumn(width = 600)
     private String descrizione;
 
 
@@ -89,7 +90,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = AFieldType.localdate, enabled = false, help = "Data di inserimento della versione")
+    @AIField(type = AFieldType.localdate, typeEnabled = ATypeEnabled.never, help = "Data di inserimento della versione")
     @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
     private LocalDate evento;
 

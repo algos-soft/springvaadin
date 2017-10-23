@@ -209,15 +209,15 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isEnabled(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        boolean status = true;
+    public static ATypeEnabled getTypeEnabled(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        ATypeEnabled typeEnabled = ATypeEnabled.always;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
-            status = fieldAnnotation.enabled();
+            typeEnabled = fieldAnnotation.typeEnabled();
         }// end of if cycle
 
-        return status;
+        return typeEnabled;
     }// end of static method
 
 
@@ -1291,7 +1291,7 @@ public abstract class LibAnnotation {
      * Get the roleTypeVisibility of the collection (modulo-table).
      * Se manca, usa il ruolo Guest
      *
-     * @param clazz           the entity class
+     * @param clazz the entity class
      *
      * @return the ARoleType of the collection
      */
@@ -1312,7 +1312,7 @@ public abstract class LibAnnotation {
      * Get the visibility of the collection (modulo-table).
      * Di default true
      *
-     * @param clazz           the entity class
+     * @param clazz the entity class
      *
      * @return the visibility of the collection
      */

@@ -1,54 +1,77 @@
-package it.algos.springvaadin.bootstrap;
+package it.algos.springvaadin.abotstrrappe;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.app.AlgosApp;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 /**
- * Created by gac on 10/06/17.
+ * Created by gac on 10/06/17
+ * Regolazione di flag standard del framework
+ * <p>
+ * Setup non-UI logic here
+ * This class will be executed on container startup when the application is ready to server requests.
+ * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat)
+ * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione
  * <p>
  * In order to create a class that acts like a bootstrap for the application,
- * that class needs to implement the InitializingBean
- * of the package org.springframework.beans.factory.InitializingBean
+ * that class needs to implements the @EventListener annotation
+ * Any class that implements the @EventListener annotation will be executed before the application is up
+ * and its onApplicationEvent method will be called
  * <p>
- * This class will be executed first when the application is coming up and is ready to server requests.
- * <p>
- * Any class that implements InitializingBean will be executed before the application is up
- * and its afterPropertiesSet method will be called
- *
- * @see http://www.ekiras.com/2015/10/spring-boot-how-to-create-bootstrap-class.html
- *
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
-@Component
+@SpringComponent
 @Slf4j
-public class AlgosSpringBoot implements InitializingBean {
+public class AlgosBoot {
 
     /**
-     * InitializingBean chiama questo metodo per TUTTE le classi e sottoclassi che implementano l'annotation.
-     * Viene normalmente scritto ANCHE nella sottoclasse:
-     * - per regolare eventualmente alcuni flag dell'applicazione <br>
-     * - per lanciare eventualmente gli schedulers in background <br>
-     * - per regolare eventualmente una versione demo <br>
-     * - per controllare eventualmente l'esistenza di utenti abilitati all'accesso <br>
+     * Flag per assicurarsi che questa classe di inizializzazione venga eseguita PRIMA di un'eventuale sottoclasse
+     * Questo dovuto al fatto che l'ordine di 'chiamata' delle classi che usano l'Annotation @EventListener,
+     * non è controllabile
+     */
+    protected boolean classeAlgosBootAncoraDaEseguire = true;
+
+    /**
+     * Running logic after the Spring context has been initialized
+     * Any class that use this @EventListener annotation,
+     * will be executed before the application is up and its onApplicationEvent method will be called
+     * <p>
+     * Viene normalmente creata una sottoclasse per l'applicazione specifica:
+     * - per regolare eventualmente alcuni flag in maniera non standard
+     * - per lanciare eventualmente gli schedulers in background
+     * - per costruire e regolare eventualmente una versione demo
+     * - per controllare eventualmente l'esistenza di utenti abilitati all'accesso
      * <p>
      * Stampa a video (productionMode) i valori per controllo
      */
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @EventListener
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        if (this.classeAlgosBootAncoraDaEseguire) {
+            this.inizializzaValoriDefault();
+        }// end of if cycle
+    }// end of method
+
+    /**
+     * Prima vengono regolati i valori standard di default
+     * Una eventuale sottoclasse, dopo aver controllato che il metodo inizializzaValoriDefault()
+     * sia stato eseguito una ed una sola volta, può modificare le impostazioni/regolazioni di base
+     */
+    protected void inizializzaValoriDefault() {
         this.printBefore(Boot.generico);
         this.genericFixAndPrint();
         this.printAfter(Boot.generico);
+        this.classeAlgosBootAncoraDaEseguire = false;
     }// end of method
 
     /**
      * Regola alcuni flag dell'applicazione
      * Valori di default
-     * Can be overwritten on local xxxSpringBoot.specificFixAndPrint() method
+     * Can be overwritten on local xxxBoot.specificFixAndPrint() method
      * Stampa a video (productionMode) i valori per controllo
      */
-    protected void genericFixAndPrint() throws Exception {
+    private void genericFixAndPrint() {
         AlgosApp.USE_DEBUG = false;
         log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
@@ -93,10 +116,10 @@ public class AlgosSpringBoot implements InitializingBean {
     protected void printBefore(Boot boot) {
         switch (boot) {
             case generico:
-                log.info("Application is coming up and is ready to server requests - PRIMA della chiamata del browser - start generic bootstrap code nella classe AlgosSpringBoot");
+                log.info("Application is coming up and is ready to server requests - PRIMA della chiamata del browser - start generic bootstrap code nella classe AlgosBoot");
                 break;
             case specifico:
-                log.info("Start specific bootstrap code nella classe xxxSpringBoot");
+                log.info("Start specific bootstrap code nella classe xxxBoot");
                 break;
         } // fine del blocco switch
     }// end of method
@@ -115,7 +138,7 @@ public class AlgosSpringBoot implements InitializingBean {
         } // fine del blocco switch
     }// end of method
 
-    public enum Boot {
+    protected enum Boot {
         generico, specifico
     }// end of internal enumeration
 

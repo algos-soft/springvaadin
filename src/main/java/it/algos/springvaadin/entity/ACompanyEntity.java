@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity;
 
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
@@ -49,7 +50,7 @@ public abstract class ACompanyEntity extends AEntity {
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
-    @AIField(type = AFieldType.combo, clazz = Company.class, updateVisibility = false)
+    @AIField(type = AFieldType.combo, clazz = Company.class, typeEnabled = ATypeEnabled.newOnly)
     @AIColumn(name = "Company", width = 110)
     private Company company;
 

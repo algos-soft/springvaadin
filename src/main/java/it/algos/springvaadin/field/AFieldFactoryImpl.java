@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +133,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case json:
                     field = fieldFactory.apply(AJSonField.class);
-                    ((AJSonField)field).setType(PrefType.string);
+                    ((AJSonField) field).setType(PrefType.string);
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);

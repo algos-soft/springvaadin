@@ -3,10 +3,14 @@ package it.algos.springvaadin.entity.versione;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Layout;
+import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
@@ -20,6 +24,7 @@ import java.util.List;
  */
 @SpringComponent
 @Qualifier(Cost.TAG_VERS)
+@Slf4j
 public class VersioneForm extends AlgosFormImpl {
 
 
@@ -34,5 +39,25 @@ public class VersioneForm extends AlgosFormImpl {
         super(toolbar, toolbarLink);
     }// end of Spring constructor
 
+
+    /**
+     * Eventuali regolazioni specifiche per i fields
+     */
+    @Override
+    protected void fixFields() {
+//        AField field = null;
+//
+//        if (entityBean != null && entityBean instanceof Versione) {
+//            try { // prova ad eseguire il codice
+//                field = getField("company");
+//                if (field != null && entityBean.id != null) {
+//                    //--disabilita il campo in modifica scheda
+//                    field.setEnabled(false);
+//                }// end of if cycle
+//            } catch (Exception unErrore) { // intercetta l'errore
+//                log.error(unErrore.toString());
+//            }// fine del blocco try-catch
+//        }// end of if cycle
+    }// end of method
 
 }// end of class

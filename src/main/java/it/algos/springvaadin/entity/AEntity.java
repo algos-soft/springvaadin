@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity;
 
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.login.ARoleType;
@@ -52,7 +53,7 @@ public abstract class AEntity implements Serializable {
      * NON va usato @NotEmpty, perchè altrimenti binder.validate().isOk() va in errore
      * Ci pensa Mongo a riempire il valore
      */
-    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer, typeEnabled = ATypeEnabled.never)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String id;
 
@@ -70,7 +71,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Creazione della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Creazione della scheda", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
 
@@ -80,7 +81,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Ultima modifica della scheda", type = AFieldType.localdatetime, enabled = false, roleTypeVisibility = ARoleType.developer)
+    @AIField(name = "Ultima modifica della scheda", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.developer)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataModifica;
 

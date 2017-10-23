@@ -68,7 +68,7 @@ public class LibField {
             switch (fieldAnnotation.type()) {
                 case text:
                     vaadinField = new TextField();
-                    ((TextField) vaadinField).setEnabled(fieldAnnotation.enabled());
+//                    ((TextField) vaadinField).setEnabled(fieldAnnotation.());
                     if (LibParams.displayToolTips()) {
                         ((TextField) vaadinField).setDescription(fieldAnnotation.help());
                     }// end of if cycle
@@ -257,7 +257,6 @@ public class LibField {
                     addAnte(lista, new AlgosNumberNotZeroValidator(publicFieldName));
                     break;
                 case email:
-                    message = "This doesn't look like a valid email address";
                     addAnte(lista, new AlgosEmailValidator(publicFieldName));
                     break;
                 case checkbox:

@@ -3,6 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextArea;
+import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.entity.preferenza.PrefType;
@@ -10,6 +11,7 @@ import it.algos.springvaadin.field.*;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -23,6 +25,7 @@ import org.springframework.context.ApplicationListener;
  * Time: 14:25
  */
 @SpringComponent
+@Slf4j
 public class ViewField {
 
     private ApplicationEventPublisher applicationEventPublisher;
@@ -54,12 +57,13 @@ public class ViewField {
     public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName, AEntity entityBean) {
         AField field = null;
         Object[] items = null;
+        boolean enabled = false;
         AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
         int rows = LibAnnotation.getNumRows(clazz, publicFieldName);
-        boolean enabled = LibAnnotation.isEnabled(clazz, publicFieldName);
+        ATypeEnabled typeEnabled = LibAnnotation.getTypeEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
         boolean visible = LibAnnotation.isFieldVisibile(clazz, publicFieldName);
@@ -91,9 +95,8 @@ public class ViewField {
             if (publicFieldName.equals("type")) {
                 items = PrefType.values();
             }// end of if cycle
-
-
             //@todo PATCH - PATCH - PATCH
+
             ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
 
@@ -102,6 +105,27 @@ public class ViewField {
             Object bean = context.getBean(lowerName);
             field.setTarget((ApplicationListener) bean);
         }// end of if cycle
+
+
+        switch (typeEnabled) {
+            case always:
+                enabled = true;
+                break;
+            case never:
+                enabled = false;
+                break;
+            case newOnly:
+                if (entityBean.id == null) {
+                    enabled = true;
+                } else {
+                    enabled = false;
+                }// end of if/else cycle
+                break;
+            default:
+                log.warn("Switch - caso non definito");
+                break;
+        } // end of switch statement
+
 
         if (field != null && fieldAnnotation != null) {
             field.setVisible(visible);

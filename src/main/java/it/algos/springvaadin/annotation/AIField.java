@@ -50,9 +50,9 @@ public @interface AIField {
     /**
      * (Optional) The number of rows of textArea field.
      * Expressed in int
-     * Defaults to 2.
+     * Defaults to 3.
      */
-    int numRowsTextArea() default 2;
+    int numRowsTextArea() default 3;
 
 
     /**
@@ -62,11 +62,6 @@ public @interface AIField {
     boolean required() default false;
 
 
-    /**
-     * (Optional) Status (field enabled in form) of the the field.
-     * Defaults to true.
-     */
-    boolean enabled() default true;
 
 
     /**
@@ -77,10 +72,20 @@ public @interface AIField {
 
 
     /**
-     * (Optional) Visibilità anche in modifica scheda (oltre che in nuova scheda)
-     * Defaults to true.
+     * (Optional) Status (field enabled in form) of the the field.
+     * Defaults to always.
      */
-    boolean updateVisibility() default true;
+    ATypeEnabled typeEnabled() default ATypeEnabled.always;
+//    /**
+//     * (Optional) Status (field enabled in form) of the the field.
+//     * Defaults to true.
+//     */
+//    boolean enabled() default true;
+//    /**
+//     * (Optional) Status (field enabled in form) of the the field in editing mode
+//     * Defaults to true.
+//     */
+//    boolean updateEnabled() default true;
 
 
     /**
