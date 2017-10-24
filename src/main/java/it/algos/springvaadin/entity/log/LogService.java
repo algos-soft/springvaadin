@@ -146,7 +146,7 @@ public class LogService extends AlgosServiceImpl {
      * @param gruppo:      raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
      */
-    public void debug(LogType gruppo, String descrizione) {
+    public void debug(String gruppo, String descrizione) {
         log.debug(logBase(LogLevel.debug, gruppo, descrizione));
     }// fine del metodo
 
@@ -157,7 +157,7 @@ public class LogService extends AlgosServiceImpl {
      * @param gruppo:      raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
      */
-    public void info(LogType gruppo, String descrizione) {
+    public void info(String gruppo, String descrizione) {
         log.info(logBase(LogLevel.info, gruppo, descrizione));
     }// fine del metodo
 
@@ -169,7 +169,7 @@ public class LogService extends AlgosServiceImpl {
      * @param gruppo:      raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
      */
-    public void warn(LogType gruppo, String descrizione) {
+    public void warn(String gruppo, String descrizione) {
         log.warn(logBase(LogLevel.warn, gruppo, descrizione));
     }// fine del metodo
 
@@ -181,7 +181,7 @@ public class LogService extends AlgosServiceImpl {
      * @param gruppo:      raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
      */
-    public void error(LogType gruppo, String descrizione) {
+    public void error(String gruppo, String descrizione) {
         log.error(logBase(LogLevel.error, gruppo, descrizione));
     }// fine del metodo
 
@@ -193,7 +193,7 @@ public class LogService extends AlgosServiceImpl {
      * @param gruppo:      raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
      */
-    public void mail(LogType gruppo, String descrizione) {
+    public void mail(String gruppo, String descrizione) {
         // spedisce la mail @todo da realizzare
         log.info("Mail spedita: " + gruppo + " - " + descrizione);
     }// fine del metodo
@@ -210,7 +210,7 @@ public class LogService extends AlgosServiceImpl {
      *
      * @return messaggio per il log di sistema
      */
-    private String logBase(LogLevel livello, LogType gruppo, String descrizione) {
+    private String logBase(LogLevel livello, String gruppo, String descrizione) {
         findOrCrea(livello.toString(), gruppo.toString(), descrizione, (LocalDateTime) null);
 
         return gruppo + " - " + descrizione;

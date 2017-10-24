@@ -197,7 +197,7 @@ public class VersioneSpringVaadinBoot {
             }// fine del blocco try-catch
         }// end of if cycle
 
-        logger.warn(LogType.versione, descrizione);
+        logger.warn(LogType.versione.toString(), descrizione);
     }// end of method
 
 }// end of class

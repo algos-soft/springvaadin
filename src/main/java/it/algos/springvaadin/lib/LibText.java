@@ -2,13 +2,17 @@ package it.algos.springvaadin.lib;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.ValueContext;
+import it.algos.springvaadin.entity.preferenza.PrefType;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public abstract class LibText {
 
     public static final String REF = "<ref";
@@ -675,6 +679,73 @@ public abstract class LibText {
         final char c = value.charAt(0);
         return (c >= '0' && c <= '9');
     } // fine del metodo
+
+    public static String getDescrizione(Object oldValue, Object newValue) {
+        return getDescrizione(oldValue, newValue, PrefType.string);
+    } // fine del metodo
+
+
+    public static String getDescrizione(Object oldValue, Object newValue, PrefType type) {
+        String tatNew = "Aggiunto: ";
+        String tatEdit = "Modificato: ";
+        String tatDel = "Cancellato: ";
+        String tagSep = " -> ";
+
+        if (oldValue == null && newValue == null) {
+            return "";
+        }// end of if cycle
+
+        if (oldValue instanceof String && newValue instanceof String) {
+            if (isEmpty((String) oldValue) && isEmpty((String) newValue)) {
+                return "";
+            }// end of if cycle
+
+            if (isValid((String) oldValue) && isEmpty((String) newValue)) {
+                return tatDel + oldValue.toString();
+            }// end of if cycle
+
+            if (isEmpty((String) oldValue) && isValid((String) newValue)) {
+                return tatNew + newValue.toString();
+            }// end of if cycle
+
+            if (!oldValue.equals(newValue)) {
+                return tatEdit + oldValue.toString() + tagSep + newValue.toString();
+            }// end of if cycle
+        } else {
+            if (oldValue != null && newValue != null && oldValue.getClass() == newValue.getClass()) {
+                if (!oldValue.equals(newValue)) {
+                    if (oldValue instanceof byte[]) {
+                        try { // prova ad eseguire il codice
+                            return tatEdit + type.bytesToObject((byte[]) oldValue) + tagSep + type.bytesToObject((byte[]) newValue);
+                        } catch (Exception unErrore) { // intercetta l'errore
+                            log.error(unErrore.toString() + " LibText.getDescrizione() - Sembra che il PrefType non sia del tipo corretto");
+                            return "";
+                        }// fine del blocco try-catch
+                    } else {
+                        return tatEdit + oldValue.toString() + tagSep + newValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+            } else {
+                if (oldValue != null && newValue == null) {
+                    if (oldValue instanceof byte[]) {
+                        return "";
+                    } else {
+                        return tatDel + oldValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+
+                if (newValue != null && oldValue == null) {
+                    if (newValue instanceof byte[]) {
+                        return "";
+                    } else {
+                        return tatNew + newValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+        return "";
+    }// end of method
 
     /**
      * Enumeration locale per il flag del primo carattere

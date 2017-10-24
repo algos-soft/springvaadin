@@ -1,6 +1,7 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.server.Resource;
+import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -188,6 +189,28 @@ public abstract class LibReflection {
                 }// end of if cycle
             }// end of for cycle
         }// end of if cycle
+
+        return nameList;
+    }// end of static method
+
+    /**
+     * All editable field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     * @param useCompany  per comprendere anche il field company
+     *
+     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
+     */
+    public static List<String> getAllEnabledFieldNames(final Class<? extends AEntity> entityClazz, boolean useCompany) {
+        List<String> nameList = new ArrayList();
+        List<String> nameListTmp = getAllFieldNames(entityClazz, false, useCompany);
+
+        for (String publicFieldName : nameListTmp) {
+            if (LibAnnotation.getTypeEnabled(entityClazz, publicFieldName) == ATypeEnabled.always) {
+                nameList.add(publicFieldName);
+            }// end of if cycle
+
+        }// end of for cycle
 
         return nameList;
     }// end of static method

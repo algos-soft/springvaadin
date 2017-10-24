@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.exception.CompanyException;
@@ -30,8 +31,12 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
 import javax.annotation.PostConstruct;
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by gac on 14/06/17.
@@ -365,12 +370,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
         if (beanList != null && beanList.size() > 0) {
             for (AEntity entityBean : beanList) {
-
                 if (service.delete(entityBean)) {
                     cancellato = true;
-                    logger.warn(LogType.delete, getBeanInfo(entityBean));
+                    logger.warn(entityBean.getClass().getSimpleName(), entityBean + "\nCancellato");
                 }// end of if cycle
-
             }// end of for cycle
         }// end of if cycle
 
@@ -502,24 +505,31 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     public boolean registraModifiche() {
         boolean entityRegistrata = false;
-        AEntity entityBean;
+        AEntity oldBean = getBean();
+        AEntity newBean = null;
         String tag = "</br>";
         boolean nuovaEntity = false;
+        Map mappa = null;
 
         if (view.entityIsOk()) {
-            entityBean = view.commit();
-            nuovaEntity = LibText.isEmpty(entityBean.id);
-            if (saveNotDuplicated(entityBean)) {
+            newBean = view.commit();
+            nuovaEntity = LibText.isEmpty(newBean.id);
+            if (saveNotDuplicated(newBean)) {
                 view.saveSons();
                 entityRegistrata = true;
-                logger.info(nuovaEntity ? LogType.nuovo : LogType.edit, getBeanInfo(entityBean));
+                if (nuovaEntity) {
+                    logger.info(newBean.getClass().getSimpleName(), newBean + "\nCreato");
+                } else {
+                    mappa = chekDifferences(oldBean, newBean);
+                    logDifferences(mappa, newBean, nuovaEntity);
+                }// end of if/else cycle
                 view.closeFormWindow();
             }// end of if cycle
         } else {
             if (LibParams.usaDialoghiVerbosi()) {
                 String message = "";
                 List<ValidationResult> lista = view.getEntityErrors();
-                if (lista!=null&&lista.size()>0) {
+                if (lista != null && lista.size() > 0) {
                     for (ValidationResult errore : view.getEntityErrors()) {
                         message += tag + "* " + errore.getErrorMessage();
                     }// end of for cycle
@@ -531,6 +541,49 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if/else cycle
 
         return entityRegistrata;
+    }// end of method
+
+    public AEntity getBean() {
+        AEntity oldBean = null;
+        String oldId = getView().getForm().getEntityBean().getId();
+        if (LibText.isValid(oldId)) {
+            oldBean = (AEntity) service.findOne(oldId);
+        }// end of if cycle
+        return oldBean;
+    }// end of method
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity newBean) {
+        return chekDifferences(oldBean, newBean, (PrefType) null);
+    }// end of method
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity newBean, PrefType type) {
+        Map<String, String> mappa = new LinkedHashMap();
+        List<String> listaNomi = LibReflection.getAllEnabledFieldNames(oldBean.getClass(), true);
+        Object oldValue;
+        Object newValue;
+        String descrizione = "";
+
+        for (String publicFieldName : listaNomi) {
+            oldValue = LibReflection.getValue(oldBean, publicFieldName);
+            newValue = LibReflection.getValue(newBean, publicFieldName);
+            descrizione = LibText.getDescrizione(oldValue, newValue, type);
+            if (LibText.isValid(descrizione)) {
+                mappa.put(publicFieldName, descrizione);
+            }// end of if cycle
+        }// end of for cycle
+
+        return mappa;
+    }// end of method
+
+
+    public void logDifferences(Map<String, String> mappa, AEntity newBean, boolean nuovaEntity) {
+        String descrizione;
+
+        for (String publicFieldName : mappa.keySet()) {
+            descrizione = newBean + " - " + publicFieldName + "\n" + mappa.get(publicFieldName);
+            logger.info(newBean.getClass().getSimpleName(), descrizione);
+        }// end of for cycle
+
     }// end of method
 
     public boolean saveNotDuplicated(AEntity entityBean) {

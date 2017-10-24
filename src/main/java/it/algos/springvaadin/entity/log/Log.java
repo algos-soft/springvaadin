@@ -51,7 +51,7 @@ public class Log extends ACompanyEntity {
     @NotEmpty(message = "Livello del log è obbligatorio")
     @Indexed()
     @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, nullSelectionAllowed = false, widthEM = 10)
-    @AIColumn(width = 140)
+    @AIColumn(width = 100)
     private String livello;
 
 
@@ -71,7 +71,7 @@ public class Log extends ACompanyEntity {
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Indexed()
     @Size(min = 2, max = 100)
-    @AIField(type = AFieldType.text, focus = true, firstCapital = true, widthEM = 24, help = "Messaggio del log")
+    @AIField(type = AFieldType.textarea, focus = true, firstCapital = true, numRowsTextArea = 2, widthEM = 24, help = "Messaggio del log")
     @AIColumn(width = 350)
     private String descrizione;
 

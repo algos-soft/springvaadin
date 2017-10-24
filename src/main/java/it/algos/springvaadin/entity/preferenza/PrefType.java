@@ -32,7 +32,7 @@ public enum PrefType {
         }// end of method
 
         @Override
-        public Object bytesToObject(byte[] bytes) {
+        public String bytesToObject(byte[] bytes) {
             String obj = "";
             if (bytes != null) {
                 obj = new String(bytes, Charset.forName("UTF-8"));
