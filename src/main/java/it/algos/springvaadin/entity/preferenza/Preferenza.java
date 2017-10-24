@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;

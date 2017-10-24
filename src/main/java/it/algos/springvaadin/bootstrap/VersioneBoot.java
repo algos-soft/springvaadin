@@ -4,10 +4,14 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,6 +51,10 @@ public class VersioneBoot {
 
 
     //--il service (contenente la repository) viene iniettato nel costruttore
+    protected PreferenzaService preferenzaService;
+
+
+    //--il service (contenente la repository) viene iniettato nel costruttore
     protected LogService logger;
 
 
@@ -57,9 +65,11 @@ public class VersioneBoot {
     public VersioneBoot(
             @Qualifier(Cost.TAG_VERS) AlgosService service,
             @Qualifier(Cost.TAG_COMP) AlgosService companyService,
+            @Qualifier(Cost.TAG_PRE) AlgosService preferenzaService,
             @Qualifier(Cost.TAG_LOG) AlgosService logger) {
         this.service = (VersioneService) service;
         this.companyService = (CompanyService) companyService;
+        this.preferenzaService = (PreferenzaService) preferenzaService;
         this.logger = (LogService) logger;
     }// end of Spring constructor
 
@@ -72,8 +82,8 @@ public class VersioneBoot {
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      */
-    protected void creaAndLog(int ordine, String gruppo, String descrizione) {
-        creaAndLog(ordine, "", gruppo, descrizione, "");
+    protected void creaVersioneAndLog(int ordine, String gruppo, String descrizione) {
+        creaVersioneAndLog(ordine, "", gruppo, descrizione, "");
     }// end of method
 
 
@@ -87,7 +97,7 @@ public class VersioneBoot {
      * @param descrizione  (obbligatoria, non unica)
      */
     protected void creaAndLogCompany(int ordine, String siglaCompany, String gruppo, String descrizione) {
-        creaAndLog(ordine, siglaCompany, gruppo, descrizione, "");
+        creaVersioneAndLog(ordine, siglaCompany, gruppo, descrizione, "");
     }// end of method
 
 
@@ -100,8 +110,8 @@ public class VersioneBoot {
      * @param descrizione (obbligatoria, non unica)
      * @param note        descrittive (facoltative)
      */
-    protected void creaAndLog(int ordine, String gruppo, String descrizione, String note) {
-        creaAndLog(ordine, "", gruppo, descrizione, note);
+    protected void creaVersioneAndLog(int ordine, String gruppo, String descrizione, String note) {
+        creaVersioneAndLog(ordine, "", gruppo, descrizione, note);
     }// end of method
 
 
@@ -115,7 +125,7 @@ public class VersioneBoot {
      * @param descrizione  (obbligatoria, non unica)
      * @param note         descrittive (facoltative)
      */
-    protected void creaAndLog(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
+    private void creaVersioneAndLog(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
         Company company;
         Versione vers = service.findOrCrea(ordine, gruppo, descrizione);
 
@@ -142,5 +152,128 @@ public class VersioneBoot {
 
         logger.warn(LogType.versione.toString(), descrizione);
     }// end of method
+
+
+    /**
+     * Creazione di una versione (se non trovata)
+     * Creazione di una preferenza (se non trovata)
+     * Log a video
+     *
+     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param typePreferenza        di dato memorizzato (obbligatorio)
+     * @param descrizionePreferenza visibile (obbligatoria)
+     * @param valuePreferenza       valore della preferenza (obbligatorio)
+     */
+    protected void creaPreferenzaAndVersioneAndLog(
+            int ordineVersione,
+            String codePreferenza,
+            PrefType typePreferenza,
+            String descrizionePreferenza,
+            Object valuePreferenza) {
+        creaPreferenzaAndVersioneAndLog(
+                ordineVersione,
+                "",
+                codePreferenza,
+                typePreferenza,
+                ARoleType.developer,
+                descrizionePreferenza,
+                valuePreferenza,
+                false);
+    }// end of method
+
+
+    /**
+     * Creazione di una versione (se non trovata)
+     * Creazione di una preferenza (se non trovata)
+     * Log a video
+     *
+     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param siglaCompany          (facoltativa)
+     * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param typePreferenza        di dato memorizzato (obbligatorio)
+     * @param descrizionePreferenza visibile (obbligatoria)
+     * @param valuePreferenza       valore della preferenza (obbligatorio)
+     */
+    protected void creaPreferenzaAndVersioneAndLog(
+            int ordineVersione,
+            String siglaCompany,
+            String codePreferenza,
+            PrefType typePreferenza,
+            String descrizionePreferenza,
+            Object valuePreferenza) {
+        creaPreferenzaAndVersioneAndLog(
+                ordineVersione,
+                siglaCompany,
+                codePreferenza,
+                typePreferenza,
+                ARoleType.developer,
+                descrizionePreferenza,
+                valuePreferenza,
+                false);
+    }// end of method
+
+
+    /**
+     * Creazione di una versione (se non trovata)
+     * Creazione di una preferenza (se non trovata)
+     * Log a video
+     *
+     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param siglaCompany          (facoltativa)
+     * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param typePreferenza        di dato memorizzato (obbligatorio)
+     * @param levelPreferenza       di accesso alla preferenza (obbligatorio)
+     * @param descrizionePreferenza visibile (obbligatoria)
+     * @param valuePreferenza       valore della preferenza (obbligatorio)
+     * @param riavvioPreferenza     riavvio del programma per avere effetto (obbligatorio, di default false)
+     */
+    protected void creaPreferenzaAndVersioneAndLog(
+            int ordineVersione,
+            String siglaCompany,
+            String codePreferenza,
+            PrefType typePreferenza,
+            ARoleType levelPreferenza,
+            String descrizionePreferenza,
+            Object valuePreferenza,
+            boolean riavvioPreferenza) {
+        Company company = null;
+        Preferenza preferenza = null;
+        Versione versione = null;
+        String gruppo = "Pref";
+        String descrizioneVersione = "Creazione della preferenza " + codePreferenza + " di tipo " + typePreferenza;
+        String note = "Senza company specifica, perché è un valore di default \nPuò essere modificato nella singola company";
+
+//        if (LibText.isValid(siglaCompany)) {
+        company = companyService.findBySigla(siglaCompany);
+//        }// end of if cycle
+
+        preferenza = preferenzaService.findOrCrea(
+                0,
+                codePreferenza,
+                typePreferenza,
+                levelPreferenza,
+                descrizionePreferenza,
+                typePreferenza.objectToBytes(valuePreferenza),
+                riavvioPreferenza);
+        preferenza.setCompany(company);
+        try { // prova ad eseguire il codice
+            preferenzaService.save(preferenza);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        versione = service.findOrCrea(ordineVersione, gruppo, descrizioneVersione);
+        versione.setCompany(company);
+        versione.note = note;
+        try { // prova ad eseguire il codice
+            service.save(versione);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        logger.warn(LogType.versione.toString(), descrizioneVersione);
+    }// end of method
+
 
 }// end of class

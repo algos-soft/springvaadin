@@ -128,7 +128,6 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return istanza della Entity, null se non trovata
      */
     public Preferenza findByCode(String code) {
-
         return repository.findByCode(code);
     }// end of method
 

@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
@@ -48,8 +49,9 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
     public VersioneSpringVaadinBoot(
             @Qualifier(Cost.TAG_VERS) AlgosService service,
             @Qualifier(Cost.TAG_COMP) AlgosService companyService,
+            @Qualifier(Cost.TAG_PRE) AlgosService preferenzaService,
             @Qualifier(Cost.TAG_LOG) AlgosService logger) {
-        super(service, companyService, logger);
+        super(service, companyService, preferenzaService, logger);
     }// end of Spring constructor
 
 
@@ -73,7 +75,7 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         //--prima installazione del programma
         //--non fa nulla, solo informativo
         if (service.versioneNonAncoraUsata(k)) {
-            creaAndLog(k,
+            creaVersioneAndLog(k,
                     "Setup",
                     "Creazione ed installazione iniziale dell'applicazione",
                     "Senza company specifica, perché è un'operazione valida per tutte le companies");
@@ -81,24 +83,14 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         k++;
 
         if (service.versioneNonAncoraUsata(k)) {
-            creaAndLog(k,
-                    "Flag",
-                    "Regolazione di alcuni flags di controllo generali per l'applicazione",
-                    "Senza company specifica, perché è un'operazione valida per tutte le companies");
+            creaPreferenzaAndVersioneAndLog(k,
+                    Cost.KEY_USE_DEBUG,
+                    PrefType.bool,
+                    "Flag generale di debug (ce ne possono essere di specifici, validi solo se questo è vero)",
+                    false);
         }// fine del blocco if
         k++;
 
-        if (service.versioneNonAncoraUsata(k)) {
-            creaAndLog(k,
-                    "Company",
-                    "Creazione di una nuova company \"crf\"");
-        }// fine del blocco if
-        k++;
-
-        //--crea una nuova preferenza, globale per tutte le company
-//        if (LibVers.installa(++k)) {
-//            LibPref.newVersBool(WAMApp.DISPLAY_FOOTER_INFO, true, "Visualizza nel footer copyright ed informazioni sul programma");
-//        }// fine del blocco if
 
     }// end of method
 

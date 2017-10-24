@@ -88,5 +88,19 @@ public abstract class Cost {
     public final static String TAG_PER = "persona";
     public final static String TAG_PRO = "prova";
     public final static String TAG_FAT = "fattura";
-	public final static String TAG_PRE = "preferenza";
+    public final static String TAG_PRE = "preferenza";
+
+    //--chiavi per usare le preferenze della applicazione
+    public final static String KEY_USE_DEBUG = "useDebug";
+    public final static String KEY_USE_MULTI_COMPANY = "useMultiCompany";
+    public final static String DISPLAY_FOOTER_INFO = "displayFooterInfo";
+    public final static String DISPLAY_TOOLTIPS = "displayTooltips";
+    public final static String DISPLAY_FIELD_ORDINE = "displayFieldOrdine";
+    public final static String DISPLAY_LISTE_COLLEGATE = "displayListeCollegate";
+    public final static String USA_FORM_LAYOUT = "usaFormLayout";
+    public final static String USA_REFRESH_DEMO = "usaRefreshDemo";
+    public final static String ATTIVA_MIGRATION = "attivaMigration";
+    public final static String USA_MIGRATION_COMPLETA = "usaMigrationCompleta";
+    public final static String CLICK_BOTTONI_IN_LISTA = "clickBottoniInLista";
+    public final static String INFO_APP = "Algos® WAM-2.0 del 14.5.17";
 }// end of static class;
