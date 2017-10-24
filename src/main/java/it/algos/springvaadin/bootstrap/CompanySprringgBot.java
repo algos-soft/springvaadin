@@ -1,4 +1,4 @@
-package it.algos.springvaadin.abotstrrappe;
+package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.CompanyService;

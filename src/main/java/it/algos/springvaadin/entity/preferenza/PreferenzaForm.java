@@ -18,7 +18,9 @@ import it.algos.springvaadin.field.AJSonField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import lombok.extern.slf4j.Slf4j;
@@ -64,22 +66,10 @@ public class PreferenzaForm extends AlgosFormImpl {
      */
     @Override
     protected void fixFields() {
-        AField field = null;
+        super.setFieldValue("type", PrefType.bool);
+        super.setFieldValue("livello", ARoleType.developer);
 
-        if (entityBean != null && entityBean instanceof Preferenza) {
-            try { // prova ad eseguire il codice
-                field = getField(TYPE);
-                if (entityBean.id == null) {
-                    //--valore di default per una nuova scheda
-                    field.setValue(PrefType.string);
-                } else {
-                    //--disabilita il campo in modifica scheda
-                    field.setEnabled(false);
-                }// end of if/else cycle
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-            }// fine del blocco try-catch
-        }// end of if cycle
+        super.setFieldEnabled("ordine", LibSession.isDeveloper());
     }// end of method
 
 

@@ -252,6 +252,39 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void fixFields() {
     }// end of method
 
+    /**
+     * Valori di default per una nuova scheda
+     */
+    protected void setFieldValue(String publicFieldName, Object value) {
+        AField field = getField(publicFieldName);
+
+        if (entityBean != null && entityBean.id == null) {
+            try { // prova ad eseguire il codice
+                if (field != null) {
+                    field.setValue(value);
+                }// end of if cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+    }// end of method
+
+    /**
+     * Field enabled
+     */
+    protected void setFieldEnabled(String publicFieldName, boolean enabled) {
+        AField field = getField(publicFieldName);
+
+        if (entityBean != null ) {
+            try { // prova ad eseguire il codice
+                if (field != null) {
+                    field.setEnabled(enabled);
+                }// end of if cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+    }// end of method
 
     /**
      * Costruisce il binder per questo Form e questa Entity

@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import java.util.Map;
+
 /**
  * Created by gac on 16-ott-17
  * Annotated with @SpringComponent (obbligatorio)
@@ -64,7 +66,18 @@ public class PreferenzaPresenter extends AlgosPresenterImpl {
         if (obj != null && obj instanceof PrefType) {
             fieldValue.refreshFromComboField((PrefType) obj);
         }// end of if cycle
+    }// end of method
 
+
+    @Override
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity newBean) {
+        PrefType type = null;
+
+        if (oldBean instanceof Preferenza) {
+            type = ((Preferenza) oldBean).getType();
+        }// end of if cycle
+
+        return super.chekDifferences(oldBean, newBean, type);
     }// end of method
 
 }// end of class

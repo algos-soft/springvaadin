@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.preferenza;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -41,17 +42,20 @@ public class PreferenzaService extends AlgosServiceImpl {
      * Properties obbligatorie
      * All properties
      *
+     * @param ordine      (facoltativo, modificabile con controllo automatico prima del save se è zero)
      * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
-     * @param descrizione visibile (obbligatoria)
      * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     riavvio del programma per avere effetto (obbligatorio, di default false)
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(String code, PrefType type, String descrizione, byte[] value) {
+    public Preferenza findOrCrea(int ordine, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
         if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Preferenza) save(newEntity(code, type, descrizione, value));
+                return (Preferenza) save(newEntity(ordine, code, type, level, descrizione, value, riavvio));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -71,7 +75,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      */
     @Override
     public Preferenza newEntity() {
-        return newEntity("", (PrefType) null, "", (byte[]) null);
+        return newEntity(0, "", (PrefType) null, (ARoleType) null, "", (byte[]) null, false);
     }// end of method
 
 
@@ -81,15 +85,25 @@ public class PreferenzaService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
+     * @param ordine      (facoltativo, modificabile con controllo automatico prima del save se è zero)
      * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
-     * @param descrizione visibile (obbligatoria)
      * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     riavvio del programma per avere effetto (obbligatorio, di default false)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(String code, PrefType type, String descrizione, byte[] value) {
-        return new Preferenza(code,type, descrizione,value);
+    public Preferenza newEntity(int ordine, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
+        return new Preferenza(
+                ordine == 0 ? this.getNewOrdine() : ordine,
+                code,
+                type,
+                level,
+                descrizione,
+                value,
+                riavvio);
     }// end of method
 
 
@@ -132,7 +146,20 @@ public class PreferenzaService extends AlgosServiceImpl {
         return repository.findAll();//@todo NOT TRUE
     }// end of method
 
+    /**
+     * L'ordine di presentazione (obbligatorio, unico per tutte le company), viene calcolato in automatico prima del persist
+     * Recupera il valore massimo della property
+     * Incrementa di uno il risultato
+     */
+    private int getNewOrdine() {
+        int ordine = 0;
 
+        List<Preferenza> lista = repository.findTop1ByOrderByOrdineDesc();
+        if (lista != null && lista.size() == 1) {
+            ordine = lista.get(0).getOrdine();
+        }// end of if cycle
 
+        return ordine + 1;
+    }// end of method
 
 }// end of class

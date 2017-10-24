@@ -2,7 +2,7 @@ package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.abotstrrappe.AlgosBoot;
+import it.algos.springvaadin.bootstrap.AlgosBoot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;

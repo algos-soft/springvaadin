@@ -257,6 +257,11 @@ public class LibField {
                     addAnte(lista, new AlgosNumberNotZeroValidator(publicFieldName));
                     break;
                 case email:
+                    if (notEmpty) {
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(clazz, publicFieldName);
+                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+                        lista.add(new AValidator(validator, Posizione.prima));
+                    }// end of if cycle
                     addAnte(lista, new AlgosEmailValidator(publicFieldName));
                     break;
                 case checkbox:

@@ -22,7 +22,7 @@ public interface PreferenzaRepository extends MongoRepository<Preferenza, String
 
     public Preferenza findByCode(String code);
 
-    public List<Preferenza> findAllByOrderByCodeAsc();
+    public List<Preferenza> findTop1ByOrderByOrdineDesc();
 
     public Preferenza save(Preferenza entity);
 

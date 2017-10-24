@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class AlgosEmailValidator extends RegexpValidator {
-//    private static final String PATTERN = "^([a-zA-Z0-9_\\.\\-+])*@*[a-zA-Z0-9-.]*\\.*[a-zA-Z0-9-]*$";
+
+    //--accetta anche la stringa vuota
     private static final String PATTERN = "(^([a-zA-Z0-9_\\.\\-+])+@[a-zA-Z0-9-.]+\\.[a-zA-Z0-9-]{2,}$)?";
 
     public AlgosEmailValidator(String fieldName) {

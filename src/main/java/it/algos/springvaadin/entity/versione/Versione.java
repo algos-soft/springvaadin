@@ -50,14 +50,14 @@ public class Versione extends ACompanyEntity {
 
 
     /**
-     * ordine di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * ordine di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * inserito automaticamente
      * se si cancella una entity, rimane il 'buco' del numero
      * unico indipendentemente dalla company
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.never, widthEM = 3, help = "Ordine di nuovo. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.never, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo")
     @AIColumn(name = "#", width = 50)
     private int ordine;
 
@@ -65,7 +65,7 @@ public class Versione extends ACompanyEntity {
     /**
      * codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      */
-    @NotEmpty(message = "Il titolo del grippo è obbligatorio")
+    @NotEmpty(message = "Il titolo del gruppo è obbligatorio")
     @Indexed()
     @Size(min = 2, max = 20)
     @AIField(type = AFieldType.text, focus = true, help = "Tipologia della versione")

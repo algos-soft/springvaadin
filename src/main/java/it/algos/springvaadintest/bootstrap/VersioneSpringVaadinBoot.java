@@ -1,7 +1,7 @@
 package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.abotstrrappe.VersioneBoot;
+import it.algos.springvaadin.bootstrap.VersioneBoot;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.LogService;
@@ -12,7 +12,6 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -39,19 +38,7 @@ import org.springframework.context.event.EventListener;
  */
 @SpringComponent
 @Slf4j
-public class VersioneSpringVaadinBoot {
-
-
-    //--il service (contenente la repository) viene iniettato nel costruttore
-    private VersioneService service;
-
-
-    //--il service (contenente la repository) viene iniettato nel costruttore
-    private CompanyService companyService;
-
-
-    //--il service (contenente la repository) viene iniettato nel costruttore
-    private LogService logger;
+public class VersioneSpringVaadinBoot extends VersioneBoot {
 
 
     /**
@@ -62,9 +49,7 @@ public class VersioneSpringVaadinBoot {
             @Qualifier(Cost.TAG_VERS) AlgosService service,
             @Qualifier(Cost.TAG_COMP) AlgosService companyService,
             @Qualifier(Cost.TAG_LOG) AlgosService logger) {
-        this.service = (VersioneService) service;
-        this.companyService = (CompanyService) companyService;
-        this.logger = (LogService) logger;
+        super(service, companyService, logger);
     }// end of Spring constructor
 
 
@@ -87,7 +72,7 @@ public class VersioneSpringVaadinBoot {
 
         //--prima installazione del programma
         //--non fa nulla, solo informativo
-        if (service.ordineNonAncoraUsato(k)) {
+        if (service.versioneNonAncoraUsata(k)) {
             creaAndLog(k,
                     "Setup",
                     "Creazione ed installazione iniziale dell'applicazione",
@@ -95,7 +80,7 @@ public class VersioneSpringVaadinBoot {
         }// fine del blocco if
         k++;
 
-        if (service.ordineNonAncoraUsato(k)) {
+        if (service.versioneNonAncoraUsata(k)) {
             creaAndLog(k,
                     "Flag",
                     "Regolazione di alcuni flags di controllo generali per l'applicazione",
@@ -103,101 +88,18 @@ public class VersioneSpringVaadinBoot {
         }// fine del blocco if
         k++;
 
-        if (service.ordineNonAncoraUsato(k)) {
+        if (service.versioneNonAncoraUsata(k)) {
             creaAndLog(k,
                     "Company",
                     "Creazione di una nuova company \"crf\"");
         }// fine del blocco if
         k++;
 
-        if (service.ordineNonAncoraUsato(k)) {
-            creaAndLogCompany(k,
-                    "demo",
-                    "Company",
-                    "Creazione iniziale della company con i dati demo");
-        }// fine del blocco if
-        k++;
+        //--crea una nuova preferenza, globale per tutte le company
+//        if (LibVers.installa(++k)) {
+//            LibPref.newVersBool(WAMApp.DISPLAY_FOOTER_INFO, true, "Visualizza nel footer copyright ed informazioni sul programma");
+//        }// fine del blocco if
 
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param ordine      di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione (obbligatoria, non unica)
-     */
-    private void creaAndLog(int ordine, String gruppo, String descrizione) {
-        creaAndLog(ordine, "", gruppo, descrizione, "");
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     * @param siglaCompany (facoltativa)
-     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione  (obbligatoria, non unica)
-     */
-    private void creaAndLogCompany(int ordine, String siglaCompany, String gruppo, String descrizione) {
-        creaAndLog(ordine, siglaCompany, gruppo, descrizione, "");
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param ordine      di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione (obbligatoria, non unica)
-     * @param note        descrittive (facoltative)
-     */
-    private void creaAndLog(int ordine, String gruppo, String descrizione, String note) {
-        creaAndLog(ordine, "", gruppo, descrizione, note);
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     * @param siglaCompany (facoltativa)
-     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione  (obbligatoria, non unica)
-     * @param note         descrittive (facoltative)
-     */
-    private void creaAndLog(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
-        Company company;
-        Versione vers = service.findOrCrea(ordine, gruppo, descrizione);
-
-        if (LibText.isValid(siglaCompany)) {
-            company = companyService.findBySigla(siglaCompany);
-            if (company != null) {
-                vers.setCompany(company);
-                try { // prova ad eseguire il codice
-                    service.save(vers);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                }// fine del blocco try-catch
-            }// end of if cycle
-        }// end of if cycle
-
-        if (LibText.isValid(note)) {
-            vers.note = note;
-            try { // prova ad eseguire il codice
-                service.save(vers);
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-            }// fine del blocco try-catch
-        }// end of if cycle
-
-        logger.warn(LogType.versione.toString(), descrizione);
     }// end of method
 
 }// end of class

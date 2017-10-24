@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"code", "type", "descrizione"})
+@AIList(columns = {"ordine","code", "type", "value"})
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -44,6 +44,16 @@ public class Preferenza extends ACompanyEntity {
      * versione della classe per la serializzazione
      */
     private final static long serialVersionUID = 1L;
+
+
+    /**
+     * ordine (facoltativo, modificabile)
+     * inserito automaticamente
+     */
+    @Indexed()
+    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.newOnly, widthEM = 3, help = "Ordine di versione. Normalmente progressivo")
+    @AIColumn(name = "#", width = 50)
+    private int ordine;
 
 
     /**
@@ -65,6 +75,15 @@ public class Preferenza extends ACompanyEntity {
 
 
     /**
+     * tipo di utente che può visualizzare/modificare le preferenze (obbligatorio)
+     */
+    @NotNull
+    @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, typeEnabled = ATypeEnabled.newOnly, widthEM = 8)
+    @AIColumn(width = 110, name = "Level")
+    private ARoleType livello;
+
+
+    /**
      * descrizione visibile (obbligatoria)
      */
     @NotEmpty
@@ -81,6 +100,14 @@ public class Preferenza extends ACompanyEntity {
     @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "Value")
     private byte[] value;
 
+
+    /**
+     * riavvio del programma per avere effetto (obbligatorio, di default false)
+     */
+    @NotNull
+    @AIField(type = AFieldType.checkbox, required = true)
+    @AIColumn(roleTypeVisibility = ARoleType.admin, width = 80, name = "Riavvio")
+    private boolean riavvio;
 
     /**
      * @return a string representation of the object.

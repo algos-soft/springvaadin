@@ -138,6 +138,7 @@ public class VersioneService extends AlgosServiceImpl {
         return newEntity(0, gruppo, descrizione, (LocalDate) null);
     }// end of method
 
+
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
@@ -237,7 +238,7 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return true se la versione non è mai esistita (ne adesso ne dopo cancellazione)
      */
-    public boolean ordineNonAncoraUsato(int numeroVersioneDaInstallare) {
+    public boolean versioneNonAncoraUsata(int numeroVersioneDaInstallare) {
         boolean installa = false;
         int numeroVersioneEsistente = getNewOrdine()-1;
 
