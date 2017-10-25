@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
@@ -50,7 +51,7 @@ public class Log extends ACompanyEntity {
      */
     @NotEmpty(message = "Livello del log è obbligatorio")
     @Indexed()
-    @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, nullSelectionAllowed = false, widthEM = 10)
+    @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, nullSelectionAllowed = false, widthEM = 10, admin = FieldAccessibility.showOnly)
     @AIColumn(width = 100)
     private String livello;
 
@@ -60,7 +61,7 @@ public class Log extends ACompanyEntity {
      */
     @NotEmpty(message = "La tipologia del log è obbligatoria")
     @Indexed()
-    @AIField(type = AFieldType.enumeration, clazz = LogType.class, nullSelectionAllowed = false, widthEM = 10)
+    @AIField(type = AFieldType.enumeration, clazz = LogType.class, nullSelectionAllowed = false, widthEM = 10, admin = FieldAccessibility.showOnly)
     @AIColumn(width = 140)
     private String gruppo;
 
@@ -71,7 +72,7 @@ public class Log extends ACompanyEntity {
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Indexed()
     @Size(min = 2, max = 100)
-    @AIField(type = AFieldType.textarea, focus = true, firstCapital = true, numRowsTextArea = 2, widthEM = 24, help = "Messaggio del log")
+    @AIField(type = AFieldType.textarea, focus = true, firstCapital = true, numRowsTextArea = 2, widthEM = 24, help = "Messaggio del log", admin = FieldAccessibility.showOnly)
     @AIColumn(width = 350)
     private String descrizione;
 
@@ -83,7 +84,7 @@ public class Log extends ACompanyEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(name = "Data dell'evento di log", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.admin)
+    @AIField(type = AFieldType.localdatetime, name = "Data dell'evento di log", admin = FieldAccessibility.showOnly)
     @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
     public LocalDateTime evento;
 

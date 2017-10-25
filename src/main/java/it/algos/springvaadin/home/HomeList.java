@@ -7,6 +7,7 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,8 +30,8 @@ public class HomeList extends AlgosListImpl {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public HomeList(AlgosGrid grid, ListToolbar toolbar) {
-        super(grid, toolbar);
+    public HomeList( AlgosGrid grid, ListToolbar toolbar) {
+        super( null,grid, toolbar);
     }// end of Spring constructor
 
     /**

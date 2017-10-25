@@ -6,8 +6,10 @@ import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +34,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"ordine","code", "type", "value"})
+@AIList(columns = {"ordine", "code", "type", "value"}, dev = ListButton.full, admin = ListButton.show)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -52,7 +54,7 @@ public class Preferenza extends ACompanyEntity {
      * inserito automaticamente
      */
     @Indexed()
-    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.newOnly, widthEM = 3, help = "Ordine di versione. Normalmente progressivo")
+    @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Normalmente progressivo", admin = FieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 50)
     private int ordine;
 
@@ -61,7 +63,7 @@ public class Preferenza extends ACompanyEntity {
      * sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      */
     @NotEmpty
-    @AIField(type = AFieldType.text, required = true, focus = true)
+    @AIField(type = AFieldType.text, required = true, focus = true, admin = FieldAccessibility.showOnly)
     @AIColumn(width = 200, name = "Code")
     private String code;
 
@@ -70,8 +72,7 @@ public class Preferenza extends ACompanyEntity {
      * tipo di dato memorizzato (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.enumeration, required = true, typeEnabled = ATypeEnabled.newOnly, widthEM = 8)
-    @AIColumn(width = 100, name = "Type")
+    @AIField(type = AFieldType.enumeration, required = true, widthEM = 8, name = "Tipo di dato", dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     private PrefType type;
 
 
@@ -79,7 +80,7 @@ public class Preferenza extends ACompanyEntity {
      * tipo di utente che può visualizzare/modificare le preferenze (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, typeEnabled = ATypeEnabled.newOnly, widthEM = 8)
+    @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, widthEM = 8, name = "Livello di visibilità", admin = FieldAccessibility.showOnly)
     @AIColumn(width = 110, name = "Level")
     private ARoleType livello;
 
@@ -88,7 +89,7 @@ public class Preferenza extends ACompanyEntity {
      * descrizione visibile (obbligatoria)
      */
     @NotEmpty
-    @AIField(type = AFieldType.textarea, firstCapital = true, help = "Descrizione della preferenza")
+    @AIField(type = AFieldType.textarea, firstCapital = true, help = "Descrizione della preferenza", admin = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 600)
     private String descrizione;
 
@@ -97,7 +98,7 @@ public class Preferenza extends ACompanyEntity {
      * valore della preferenza (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.json, required = true)
+    @AIField(type = AFieldType.json, required = true, admin = FieldAccessibility.allways)
     @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "Value")
     private byte[] value;
 
@@ -106,8 +107,8 @@ public class Preferenza extends ACompanyEntity {
      * riavvio del programma per avere effetto (obbligatorio, di default false)
      */
     @NotNull
-    @AIField(type = AFieldType.checkbox, required = true)
-    @AIColumn(roleTypeVisibility = ARoleType.admin, width = 80, name = "Riavvio")
+    @AIField(type = AFieldType.checkbox, required = true, name = "Occorre riavviare perché abbia effetto", admin = FieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 80, name = "Riavvio")
     private boolean riavvio;
 
     /**

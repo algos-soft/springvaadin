@@ -8,6 +8,8 @@ import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.field.FieldAccessibility;
+import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -200,6 +202,26 @@ public abstract class LibAnnotation {
         return isNotEmpty(clazz, publicFieldName) || isNotNull(clazz, publicFieldName) || isRequired(clazz, publicFieldName);
     }// end of static method
 
+//    /**
+//     * Get the status enabled of the property.
+//     *
+//     * @param clazz           the entity class
+//     * @param publicFieldName the name of the property
+//     *
+//     * @return status of field
+//     */
+//    @SuppressWarnings("all")
+//    public static ATypeEnabled getTypeEnabled(final Class<? extends AEntity> clazz, final String publicFieldName) {
+//        ATypeEnabled typeEnabled = ATypeEnabled.always;
+//        AIField fieldAnnotation = getField(clazz, publicFieldName);
+//
+//        if (fieldAnnotation != null) {
+//            typeEnabled = fieldAnnotation.typeEnabled();
+//        }// end of if cycle
+//
+//        return typeEnabled;
+//    }// end of static method
+
     /**
      * Get the status enabled of the property.
      *
@@ -209,17 +231,86 @@ public abstract class LibAnnotation {
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static ATypeEnabled getTypeEnabled(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        ATypeEnabled typeEnabled = ATypeEnabled.always;
+    public static FieldAccessibility getFieldAccessibility(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.never;
+
+        if (LibSession.isDeveloper()) {
+            fieldAccessibility = getFieldAccessibilityDev(clazz, publicFieldName);
+        } else {
+            if (LibSession.isAdmin()) {
+                fieldAccessibility = getFieldAccessibilityAdmin(clazz, publicFieldName);
+            } else {
+                if (true) {
+                    fieldAccessibility = getFieldAccessibilityUser(clazz, publicFieldName);
+                }// end of if cycle
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+        return fieldAccessibility;
+    }// end of static method
+
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFieldAccessibilityDev(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
         AIField fieldAnnotation = getField(clazz, publicFieldName);
 
         if (fieldAnnotation != null) {
-            typeEnabled = fieldAnnotation.typeEnabled();
+            fieldAccessibility = fieldAnnotation.dev();
         }// end of if cycle
 
-        return typeEnabled;
+        return fieldAccessibility;
     }// end of static method
 
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFieldAccessibilityAdmin(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            fieldAccessibility = fieldAnnotation.admin();
+        }// end of if cycle
+
+        return fieldAccessibility;
+    }// end of static method
+
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFieldAccessibilityUser(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
+        AIField fieldAnnotation = getField(clazz, publicFieldName);
+
+        if (fieldAnnotation != null) {
+            fieldAccessibility = fieldAnnotation.user();
+        }// end of if cycle
+
+        return fieldAccessibility;
+    }// end of static method
 
     /**
      * Get the status focus of the property.
@@ -1178,9 +1269,10 @@ public abstract class LibAnnotation {
         return roleTypeVisibility;
     }// end of static method
 
-
     /**
      * Get the visibility of the field.
+     * Controlla il ruolo dell'utente connesso
+     * Controlla il grado di accesso consentito
      * Di default true
      *
      * @param clazz           the entity class
@@ -1189,7 +1281,28 @@ public abstract class LibAnnotation {
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isFieldVisibile(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+        boolean visibile = true;
+
+        visibile = isFieldVisibileRole(clazz, publicFieldName);
+        if (visibile) {
+            visibile = isFieldVisibileAccess(clazz, publicFieldName, nuovaEntity);
+        }// end of if cycle
+
+        return visibile;
+    }// end of static method
+
+    /**
+     * Get the visibility of the field.
+     * Controlla il ruolo dell'utente connesso
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFieldVisibileRole(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean visibile = false;
         ARoleType roleTypeVisibility = getFieldRoleType(clazz, publicFieldName);
 
@@ -1221,6 +1334,101 @@ public abstract class LibAnnotation {
         return visibile;
     }// end of static method
 
+
+    /**
+     * Get the visibility of the field.
+     * Controlla il grado di accesso consentito
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFieldVisibileAccess(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+        boolean visibile = true;
+        FieldAccessibility fieldAccessibility = getFieldAccessibility(clazz, publicFieldName);
+
+        switch (fieldAccessibility) {
+            case allways:
+                visibile = true;
+                break;
+            case newOnly:
+                visibile = true;
+                break;
+            case showOnly:
+                visibile = true;
+                break;
+            case never:
+                visibile = false;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
+    }// end of static method
+
+
+    /**
+     * Get the enabled state of the field.
+     * Controlla la visibilità del field
+     * Controlla il grado di accesso consentito
+     * Di default true
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFieldEnabled(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+        boolean enabled = true;
+        boolean visibile = isFieldVisibileRole(clazz, publicFieldName);
+
+        if (visibile) {
+            enabled = isFieldEnabledAccess(clazz, publicFieldName, nuovaEntity);
+        }// end of if cycle
+
+        return enabled;
+    }// end of static method
+
+
+    /**
+     * Get the enabled state of the field.
+     * Controlla il grado di accesso consentito
+     *
+     * @param clazz           the entity class
+     * @param publicFieldName the name of the property
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFieldEnabledAccess(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+        boolean enabled = true;
+        FieldAccessibility fieldAccessibility = getFieldAccessibility(clazz, publicFieldName);
+
+        switch (fieldAccessibility) {
+            case allways:
+                enabled = true;
+                break;
+            case newOnly:
+                enabled = nuovaEntity;
+                break;
+            case showOnly:
+                enabled = false;
+                break;
+            case never:
+                enabled = false;
+                break;
+            default:
+                enabled = true;
+                break;
+        } // end of switch statement
+
+        return enabled;
+    }// end of static method
 
     /**
      * Get the roleTypeVisibility of the property.
@@ -1347,6 +1555,90 @@ public abstract class LibAnnotation {
         } // end of switch statement
 
         return visibile;
+    }// end of static method
+
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static ListButton getListBotton(final Class<? extends AEntity> clazz) {
+        ListButton listaNomi = ListButton.standard;
+
+        if (LibSession.isDeveloper()) {
+            listaNomi = getListBottonDev(clazz);
+        } else {
+            if (LibSession.isAdmin()) {
+                listaNomi = getListBottonAdmin(clazz);
+            } else {
+                if (true) {
+                    listaNomi = getListBottonUser(clazz);
+                }// end of if cycle
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static ListButton getListBottonDev(final Class<? extends AEntity> clazz) {
+        ListButton listaNomi = null;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            listaNomi = listAnnotation.dev();
+        }// end of if cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static ListButton getListBottonAdmin(final Class<? extends AEntity> clazz) {
+        ListButton listaNomi = null;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            listaNomi = listAnnotation.admin();
+        }// end of if cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static ListButton getListBottonUser(final Class<? extends AEntity> clazz) {
+        ListButton listaNomi = null;
+        AIList listAnnotation = getAIList(clazz);
+
+        if (listAnnotation != null) {
+            listaNomi = listAnnotation.user();
+        }// end of if cycle
+
+        return listaNomi;
     }// end of static method
 
 }// end of static class

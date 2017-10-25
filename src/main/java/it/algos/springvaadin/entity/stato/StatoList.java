@@ -8,6 +8,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,8 +32,8 @@ public class StatoList extends AlgosListImpl {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public StatoList(AlgosGrid grid, ListToolbar toolbar) {
-        super(grid, toolbar);
+    public StatoList(@Qualifier(Cost.TAG_STA) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
+        super(service, grid, toolbar);
         toolbar.setUsaBottoneRicerca(false);
     }// end of Spring constructor
 

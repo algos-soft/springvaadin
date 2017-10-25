@@ -5,6 +5,7 @@ import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
@@ -57,7 +58,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.never, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo", admin = FieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 50)
     private int ordine;
 
@@ -68,7 +69,7 @@ public class Versione extends ACompanyEntity {
     @NotEmpty(message = "Il titolo del gruppo è obbligatorio")
     @Indexed()
     @Size(min = 2, max = 20)
-    @AIField(type = AFieldType.text, focus = true, help = "Tipologia della versione")
+    @AIField(type = AFieldType.text, focus = true, help = "Tipologia della versione", admin = FieldAccessibility.showOnly)
     @AIColumn(width = 140)
     private String gruppo;
 
@@ -79,7 +80,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 4, max = 200)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 32, help = "Descrizione della versione")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 32, help = "Descrizione della versione", admin = FieldAccessibility.showOnly)
     @AIColumn(width = 600)
     private String descrizione;
 
@@ -90,8 +91,8 @@ public class Versione extends ACompanyEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = AFieldType.localdate, typeEnabled = ATypeEnabled.never, help = "Data di inserimento della versione")
-    @AIColumn(name = "Data", roleTypeVisibility = ARoleType.admin)
+    @AIField(type = AFieldType.localdate, help = "Data di inserimento della versione", admin = FieldAccessibility.showOnly)
+    @AIColumn(name = "Data")
     private LocalDate evento;
 
 

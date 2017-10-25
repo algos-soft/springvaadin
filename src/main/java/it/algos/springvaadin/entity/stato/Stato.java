@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.login.ARoleType;
@@ -56,7 +57,7 @@ public class Stato extends AEntity {
      */
     @NotNull
     @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, typeEnabled = ATypeEnabled.never, help = "Ordine di nuovo. Unico e normalmente progressivo")
+    @AIField(type = AFieldType.integer, help = "Ordine di stato. Unico e normalmente progressivo", dev = FieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 70)
     private int ordine;
 

@@ -15,6 +15,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +29,9 @@ import java.util.List;
  */
 public abstract class AlgosListImpl extends VerticalLayout implements AlgosList {
 
+
+    //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
+    public AlgosService service;
 
     //--valore che può essere regolato nella classe specifica
     //--usando un metodo @PostConstruct
@@ -51,10 +55,12 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
      * Se ci sono DUE o più costruttori, va in errore
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
+     * @param service iniettata da Spring
      * @param grid    iniettata da Spring
      * @param toolbar iniettata da Spring
      */
-    public AlgosListImpl(AlgosGrid grid, @Qualifier(Cost.BAR_LIST) AToolbar toolbar) {
+    public AlgosListImpl(AlgosService service, AlgosGrid grid, @Qualifier(Cost.BAR_LIST) AToolbar toolbar) {
+        this.service = service;
         this.grid = grid;
         this.toolbar = toolbar;
     }// end of Spring constructor
@@ -74,7 +80,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         Label label;
         this.setMargin(false);
         String textLabel = "";
-
+        List<String> listaBottoni;
         this.removeAllComponents();
 
         caption = "";
@@ -104,6 +110,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         this.addComponent(grid);
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico
+        listaBottoni = service.getListBottonNames();
         inizializzaToolbar(source);
         fixToolbar();
         this.addComponent((ListToolbar) toolbar);

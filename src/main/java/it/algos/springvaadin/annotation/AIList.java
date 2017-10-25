@@ -1,5 +1,6 @@
 package it.algos.springvaadin.annotation;
 
+import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,7 +17,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE) //can use in class and interface.
-public @interface AIList{
+public @interface AIList {
 
 
     /**
@@ -38,6 +39,28 @@ public @interface AIList{
      * Defaults to all.
      */
     String[] columns() default "";
+
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for developer role
+     * Defaults to standard.
+     */
+    ListButton dev() default ListButton.standard;
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for admin role
+     * Defaults to standard.
+     */
+    ListButton admin() default ListButton.standard;
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for user role
+     * Defaults to standard.
+     */
+    ListButton user() default ListButton.standard;
 
 
 }// end of interface annotation

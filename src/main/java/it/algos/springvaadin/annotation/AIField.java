@@ -1,6 +1,7 @@
 package it.algos.springvaadin.annotation;
 
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.login.ARoleType;
 
 import java.lang.annotation.ElementType;
@@ -62,8 +63,6 @@ public @interface AIField {
     boolean required() default false;
 
 
-
-
     /**
      * (Optional) Visibilità a secondo del ruolo dell'User collegato
      * Defaults to guest.
@@ -72,20 +71,28 @@ public @interface AIField {
 
 
     /**
-     * (Optional) Status (field enabled in form) of the the field.
-     * Defaults to always.
+     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * Different for New e for Edit
+     * Specific for developer role
+     * Defaults to allways.
      */
-    ATypeEnabled typeEnabled() default ATypeEnabled.always;
-//    /**
-//     * (Optional) Status (field enabled in form) of the the field.
-//     * Defaults to true.
-//     */
-//    boolean enabled() default true;
-//    /**
-//     * (Optional) Status (field enabled in form) of the the field in editing mode
-//     * Defaults to true.
-//     */
-//    boolean updateEnabled() default true;
+    FieldAccessibility dev() default FieldAccessibility.allways;
+
+    /**
+     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * Different for New e for Edit
+     * Specific for admin role
+     * Defaults to showOnly.
+     */
+    FieldAccessibility admin() default FieldAccessibility.showOnly;
+
+    /**
+     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * Different for New e for Edit
+     * Specific for user role
+     * Defaults to never.
+     */
+    FieldAccessibility user() default FieldAccessibility.never;
 
 
     /**

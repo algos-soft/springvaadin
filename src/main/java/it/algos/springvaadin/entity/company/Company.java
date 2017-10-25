@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.persona.PersonaPresenter;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,7 @@ public class Company extends AEntity {
     @NotEmpty(message = "La sigla interna è obbligatoria")
 //    @Indexed(unique = true)
     @Size(min = 2, max = 20)
-    @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno")
+    @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno", admin = FieldAccessibility.showOnly)
     @AIColumn(width = 100)
     private String sigla;
 

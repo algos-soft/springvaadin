@@ -8,6 +8,7 @@ import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.exception.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.list.ListButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -331,6 +332,42 @@ public abstract class AlgosServiceImpl implements AlgosService {
         }// end of if cycle
 
         return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
+    }// end of method
+
+    /**
+     * Bottoni nella toolbar della Grid
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    public List<String> getListBottonNames() {
+        ListButton listaBottoni = LibAnnotation.getListBotton(entityClass);
+        String[] matrice = null;
+        String create = "create";
+        String edit = "edit";
+        String delete = "delete";
+        String find = "find";
+
+        if (listaBottoni != null) {
+            switch (listaBottoni) {
+                case standard:
+                    matrice = new String[]{create, edit, delete};
+                    break;
+                case full:
+                    matrice = new String[]{create, edit, delete, find};
+                    break;
+                case show:
+                    matrice = new String[]{edit, find};
+                    break;
+                case edit:
+                    matrice = new String[]{edit};
+                    break;
+                default:
+                    log.warn("Switch - caso non definito");
+                    break;
+            } // end of switch statement
+        }// end of if cycle
+
+        return LibArray.fromString(matrice);
     }// end of method
 
 

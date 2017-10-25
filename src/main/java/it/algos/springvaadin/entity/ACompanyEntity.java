@@ -6,6 +6,7 @@ import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.field.FieldAccessibility;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,33 +51,9 @@ public abstract class ACompanyEntity extends AEntity {
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
      */
-    @AIField(type = AFieldType.combo, clazz = Company.class, typeEnabled = ATypeEnabled.newOnly)
+    @AIField(type = AFieldType.combo, clazz = Company.class, dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     @AIColumn(name = "Company", width = 110)
     private Company company;
 
-
-//    /**
-//     * Sigla di codifica interna specifica per ogni company (obbligatoria, non unica in generale ma unica all'interno della company)
-//     * Visibile solo per admin e developer
-//     * Not null se il flag AlgosApp.USE_MULTI_COMPANY=true
-//     */
-//    @Column(length = 20)
-//    @Indexed()
-//    @AIField(type = AFieldType.text, required = true, widthEM = 9)
-//    @AIColumn(width = 120)
-//    private String code;
-//
-//
-//    /**
-//     * Sigla di codifica interna (obbligatoria, unica in generale indipendentemente dalla company)
-//     * Calcolata -> codeCompanyUnico = company.companyCode + xxx.code (20+20=40);
-//     * Visibile solo per admin e developer
-//     * Not null e unica se il flag AlgosApp.USE_MULTI_COMPANY=true
-//     */
-//    @Column(length = 40)
-//    @Indexed()
-//    @AIField(type = AFieldType.text, required = true, enabled = false, widthEM = 15)
-//    @AIColumn(width = 200)
-//    private String codeCompanyUnico;
 
 }// end of class

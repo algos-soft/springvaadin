@@ -5,6 +5,7 @@ import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,7 +54,7 @@ public abstract class AEntity implements Serializable {
      * NON va usato @NotEmpty, perchè altrimenti binder.validate().isOk() va in errore
      * Ci pensa Mongo a riempire il valore
      */
-    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer, typeEnabled = ATypeEnabled.never)
+    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String id;
 
@@ -61,7 +62,7 @@ public abstract class AEntity implements Serializable {
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.textarea, widthEM = 24)
+    @AIField(type = AFieldType.textarea, widthEM = 24, user = FieldAccessibility.allways)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String note;
 
@@ -71,7 +72,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Creazione della scheda", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.developer)
+    @AIField(type = AFieldType.localdatetime, name = "Creazione della scheda", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
 
@@ -81,7 +82,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @NotNull
-    @AIField(name = "Ultima modifica della scheda", type = AFieldType.localdatetime, typeEnabled = ATypeEnabled.never, roleTypeVisibility = ARoleType.developer)
+    @AIField(type = AFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataModifica;
 

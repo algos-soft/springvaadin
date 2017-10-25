@@ -136,6 +136,13 @@ public interface AlgosService {
 
 
     /**
+     * Bottoni nella toolbar della Grid
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    public List<String> getListBottonNames() ;
+
+    /**
      * Flag per visualizzare il field company
      * <p>
      * Deve essere true il flag useMultiCompany

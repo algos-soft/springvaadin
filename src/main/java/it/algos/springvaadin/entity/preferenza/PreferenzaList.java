@@ -13,6 +13,7 @@ import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,8 +37,8 @@ public class PreferenzaList extends AlgosListImpl {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public PreferenzaList(AlgosGrid grid, ListToolbar toolbar) {
-        super(grid, toolbar);
+    public PreferenzaList(@Qualifier(Cost.TAG_PRE) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
+        super(service, grid, toolbar);
     }// end of Spring constructor
 
     /**

@@ -60,16 +60,16 @@ public class ViewField {
     public AField create(ApplicationListener source, final Class<? extends AEntity> clazz, final String publicFieldName, AEntity entityBean) {
         AField field = null;
         Object[] items = null;
-        boolean enabled = false;
+        boolean nuovaEntity = LibText.isEmpty(entityBean.id);
         AFieldType type = LibAnnotation.getTypeField(clazz, publicFieldName);
         String caption = LibAnnotation.getNameField(clazz, publicFieldName);
         AIField fieldAnnotation = LibAnnotation.getField(clazz, publicFieldName);
         String width = LibAnnotation.getWidthEM(clazz, publicFieldName);
         int rows = LibAnnotation.getNumRows(clazz, publicFieldName);
-        ATypeEnabled typeEnabled = LibAnnotation.getTypeEnabled(clazz, publicFieldName);
         boolean required = LibAnnotation.isRequiredWild(clazz, publicFieldName);
         boolean focus = LibAnnotation.isFocus(clazz, publicFieldName);
-        boolean visible = LibAnnotation.isFieldVisibile(clazz, publicFieldName);
+        boolean visible = LibAnnotation.isFieldVisibile(clazz, publicFieldName, nuovaEntity);
+        boolean enabled = LibAnnotation.isFieldEnabled(clazz, publicFieldName, nuovaEntity);
         boolean nullSelection = LibAnnotation.isNullSelectionAllowed(clazz, publicFieldName);
         Class targetClazz = LibAnnotation.getClass(clazz, publicFieldName);
 
@@ -113,24 +113,24 @@ public class ViewField {
         }// end of if cycle
 
 
-        switch (typeEnabled) {
-            case always:
-                enabled = true;
-                break;
-            case never:
-                enabled = false;
-                break;
-            case newOnly:
-                if (entityBean.id == null) {
-                    enabled = true;
-                } else {
-                    enabled = false;
-                }// end of if/else cycle
-                break;
-            default:
-                log.warn("Switch - caso non definito");
-                break;
-        } // end of switch statement
+//        switch (typeEnabled) {
+//            case always:
+//                enabled = true;
+//                break;
+//            case never:
+//                enabled = false;
+//                break;
+//            case newOnly:
+//                if (entityBean.id == null) {
+//                    enabled = true;
+//                } else {
+//                    enabled = false;
+//                }// end of if/else cycle
+//                break;
+//            default:
+//                log.warn("Switch - caso non definito");
+//                break;
+//        } // end of switch statement
 
 
         if (field != null && fieldAnnotation != null) {

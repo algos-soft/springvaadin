@@ -206,7 +206,7 @@ public abstract class LibReflection {
         List<String> nameListTmp = getAllFieldNames(entityClazz, false, useCompany);
 
         for (String publicFieldName : nameListTmp) {
-            if (LibAnnotation.getTypeEnabled(entityClazz, publicFieldName) == ATypeEnabled.always) {
+            if (LibAnnotation.isFieldEnabled(entityClazz, publicFieldName, false)) {
                 nameList.add(publicFieldName);
             }// end of if cycle
 

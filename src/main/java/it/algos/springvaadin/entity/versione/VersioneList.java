@@ -6,6 +6,7 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -23,8 +24,8 @@ public class VersioneList extends AlgosListImpl {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public VersioneList(AlgosGrid grid, ListToolbar toolbar) {
-        super(grid, toolbar);
+    public VersioneList(@Qualifier(Cost.TAG_VERS) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
+        super(service, grid, toolbar);
     }// end of Spring constructor
 
     /**

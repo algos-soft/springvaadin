@@ -10,6 +10,7 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.list.AlgosListImpl;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbarImpl;
 import it.algos.springvaadin.toolbar.ListToolbar;
 import it.algos.springvaadin.ui.AlgosUI;
@@ -38,8 +39,8 @@ public class CompanyList extends AlgosListImpl {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public CompanyList(AlgosGrid grid, ListToolbar toolbar) {
-        super(grid, toolbar);
+    public CompanyList(@Qualifier(Cost.TAG_COMP) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
+        super(service, grid, toolbar);
     }// end of Spring constructor
 
 

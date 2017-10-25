@@ -28,9 +28,9 @@ public class ListToolbar extends AToolbarImpl {
 
 
     /**
-     * Flag per visualizzare o meno il bottone Search - di default true
+     * Flag per visualizzare o meno il bottone Search - di default false
      */
-    private boolean usaBottoneRicerca = true;
+    private boolean usaBottoneRicerca = false;
 
 
     /**
