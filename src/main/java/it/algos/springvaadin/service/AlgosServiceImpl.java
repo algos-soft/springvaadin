@@ -342,10 +342,10 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public List<String> getListBottonNames() {
         ListButton listaBottoni = LibAnnotation.getListBotton(entityClass);
         String[] matrice = null;
-        String create = "create";
-        String edit = "edit";
-        String delete = "delete";
-        String find = "find";
+        String create = "usaBottoneNew";
+        String edit = "usaBottoneEdit";
+        String delete = "usaBottoneDelete";
+        String find = "usaBottoneRicerca";
 
         if (listaBottoni != null) {
             switch (listaBottoni) {

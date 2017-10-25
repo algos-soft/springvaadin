@@ -9,6 +9,8 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
+import java.util.List;
+
 /**
  * Created by gac on 03/06/17.
  * .
@@ -39,6 +41,14 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
         this.buttonFactory = buttonFactory;
     }// end of @Autowired constructor
 
+    /**
+     * Seleziona i bottoni da mostrare nella toolbar
+     *
+     * @param listaBottoni
+     */
+    @Override
+    public void selezionaBottoni(List<String> listaBottoni) {
+    }// end of method
 
     /**
      * Metodo invocato da restart() di Form e List

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
+import java.util.List;
+
 /**
  * Created by gac on 03/06/17
  * <p>
@@ -28,6 +30,21 @@ public class ListToolbar extends AToolbarImpl {
 
 
     /**
+     * Flag per visualizzare o meno il bottone New - di default true
+     */
+    private boolean usaBottoneNew = true;
+
+    /**
+     * Flag per visualizzare o meno il bottone Edit - di default true
+     */
+    private boolean usaBottoneEdit = true;
+
+    /**
+     * Flag per visualizzare o meno il bottone Delete - di default true
+     */
+    private boolean usaBottoneDelete = true;
+
+    /**
      * Flag per visualizzare o meno il bottone Search - di default false
      */
     private boolean usaBottoneRicerca = false;
@@ -44,6 +61,26 @@ public class ListToolbar extends AToolbarImpl {
         super(buttonFactory);
     }// end of @Autowired constructor
 
+    /**
+     * Seleziona i bottoni da mostrare nella toolbar
+     *
+     * @param listaBottoni
+     */
+    @Override
+    public void selezionaBottoni(List<String> listaBottoni) {
+        if (!listaBottoni.contains("usaBottoneNew")) {
+            usaBottoneNew = false;
+        }// end of if cycle
+        if (!listaBottoni.contains("usaBottoneEdit")) {
+            usaBottoneEdit = false;
+        }// end of if cycle
+        if (!listaBottoni.contains("usaBottoneDelete")) {
+            usaBottoneDelete = false;
+        }// end of if cycle
+        if (listaBottoni.contains("usaBottoneRicerca")) {
+            usaBottoneRicerca = true;
+        }// end of if cycle
+    }// end of method
 
     /**
      * Metodo invocato da restart() di Form e List
@@ -57,13 +94,19 @@ public class ListToolbar extends AToolbarImpl {
     public void inizializza(ApplicationListener source) {
         this.removeAllComponents();
 
-        super.creaAddButton(AButtonType.create, source);
-        super.creaAddButton(AButtonType.edit, source);
-        super.creaAddButton(AButtonType.delete, source);
-
+        if (usaBottoneNew) {
+            super.creaAddButton(AButtonType.create, source);
+        }// end of if cycle
+        if (usaBottoneEdit) {
+            super.creaAddButton(AButtonType.edit, source);
+        }// end of if cycle
+        if (usaBottoneDelete) {
+            super.creaAddButton(AButtonType.delete, source);
+        }// end of if cycle
         if (usaBottoneRicerca) {
             super.creaAddButton(AButtonType.search, source);
         }// end of if cycle
+
     }// end of method
 
 

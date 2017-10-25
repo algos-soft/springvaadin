@@ -6,6 +6,8 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
+import java.util.List;
+
 /**
  * Project springvaadin
  * Created by Algos
@@ -103,6 +105,12 @@ public interface AToolbar {
      * @param status abilitare o disabilitare
      */
     public void enableButton(AButtonType type, boolean status);
+
+    /**
+     * Seleziona i bottoni da mostrare nella toolbar
+     *
+     */
+    public void selezionaBottoni(List<String> listaBottoni);
 
 
 }// end of interface

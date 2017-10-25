@@ -111,6 +111,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico
         listaBottoni = service.getListBottonNames();
+        toolbar.selezionaBottoni(listaBottoni);
         inizializzaToolbar(source);
         fixToolbar();
         this.addComponent((ListToolbar) toolbar);
