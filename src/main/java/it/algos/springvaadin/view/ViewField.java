@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextArea;
 import it.algos.springvaadin.annotation.ATypeEnabled;
+import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.entity.preferenza.PrefType;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
-import sun.rmi.runtime.Log;
 
 /**
  * Project springvaadin
@@ -89,7 +89,7 @@ public class ViewField {
 
         if (type == AFieldType.enumeration && targetClazz != null && field != null) {
             //@todo PATCH - PATCH - PATCH
-            if (publicFieldName.equals("livello") && clazz.equals(Log.class)) {
+            if (publicFieldName.equals("livello") && clazz.getName().equals(Log.class.getName())) {
                 items = LogLevel.getValues();
             }// end of if cycle
             if (publicFieldName.equals("gruppo")) {
@@ -98,7 +98,7 @@ public class ViewField {
             if (publicFieldName.equals("type")) {
                 items = PrefType.values();
             }// end of if cycle
-            if (publicFieldName.equals("livello") && clazz.equals(Preferenza.class)) {
+            if (publicFieldName.equals("livello") && clazz.getName().equals(Preferenza.class.getName())) {
                 items = ARoleType.values();
             }// end of if cycle
             //@todo PATCH - PATCH - PATCH

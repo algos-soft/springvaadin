@@ -58,7 +58,7 @@ public class PreferenzaPresenter extends AlgosPresenterImpl {
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
-        if (sourceField==fieldType) {
+        if (sourceField == fieldType) {
             if (fieldType != null) {
                 obj = fieldType.getValue();
             }// end of if cycle
