@@ -46,26 +46,28 @@ public class PreferenzaPresenter extends AlgosPresenterImpl {
 
     @Override
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
-        AJSonField fieldValue = null;
         AComboField fieldType = null;
-        String typeTxt = null;
+        AJSonField fieldValue = null;
         Object obj = null;
         PrefType type = null;
 
         try { // prova ad eseguire il codice
-            fieldValue = (AJSonField) getField("value");
             fieldType = (AComboField) getField("type");
+            fieldValue = (AJSonField) getField("value");
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
-        if (fieldType != null) {
-            obj = fieldType.getValue();
+        if (sourceField==fieldType) {
+            if (fieldType != null) {
+                obj = fieldType.getValue();
+            }// end of if cycle
+
+            if (obj != null && obj instanceof PrefType) {
+                fieldValue.refreshFromComboField((PrefType) obj);
+            }// end of if cycle
         }// end of if cycle
 
-        if (obj != null && obj instanceof PrefType) {
-            fieldValue.refreshFromComboField((PrefType) obj);
-        }// end of if cycle
     }// end of method
 
 
