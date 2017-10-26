@@ -17,12 +17,8 @@ import java.util.List;
 @Qualifier(Cost.TAG_COMP)
 public interface CompanyRepository extends MongoRepository<Company, String> {
 
-    public Company findById(ObjectId id);
-
     public Company findBySigla(String sigla);
 
-    public List<Company> findAllByOrderBySiglaAsc();
-
-    public Company save(Company entity);
+    public List<Company> findByOrderBySiglaAsc();
 
 }// end of class

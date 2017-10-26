@@ -11,6 +11,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +36,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_COMP)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.nonUsata)
-@AIList(columns = {"sigla", "descrizione", "contatto"})
+@AIList(columns = {"sigla", "descrizione", "contatto", "email"}, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -65,7 +66,7 @@ public class Company extends AEntity {
      */
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
-    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company")
+    @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company", admin = FieldAccessibility.allways)
     @AIColumn(width = 350)
     private String descrizione;
 
@@ -74,7 +75,7 @@ public class Company extends AEntity {
      * persona di riferimento (facoltativo)
      * riferimento statico SENZA @DBRef
      */
-    @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento")
+    @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento", admin = FieldAccessibility.allways)
     @AIColumn(width = 250, name = "Riferimento")
     private Persona contatto;
 
@@ -83,7 +84,7 @@ public class Company extends AEntity {
      * posta elettronica (facoltativo)
      */
     @Email
-    @AIField(type = AFieldType.email, widthEM = 24)
+    @AIField(type = AFieldType.email, widthEM = 24, admin = FieldAccessibility.allways)
     @AIColumn(width = 350, name = "Mail")
     private String email;
 
@@ -92,7 +93,7 @@ public class Company extends AEntity {
      * indirizzo (facoltativo)
      * riferimento statico SENZA @DBRef
      */
-    @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
+    @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo", admin = FieldAccessibility.allways)
     @AIColumn(width = 350, name = "Indirizzo")
     private Indirizzo indirizzo;
 

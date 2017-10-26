@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -112,30 +113,33 @@ public class LogService extends AlgosServiceImpl {
 
     /**
      * Returns all instances of the type
-     * Usa MultiCompany
+     * Usa MultiCompany, ma il developer può vedere anche tutto
      * Filtrata sulla company corrente
      * Se non c'è la company corrente, prende tutte le company
-     * Non dovrebbe arrivare qui
      *
      * @return lista di tutte le entities
      */
     @Deprecated
     public List findAll() {
-        return repository.findAllByOrderByEventoDesc();
+        if (LibSession.isDeveloper()) {
+            return repository.findByOrderByEventoDesc();
+        }// end of if cycle
+
+        return null;
     }// end of method
 
 
     /**
      * Returns all instances of the type.
-     * Usa MultiCompany
+     * Usa MultiCompany, obbligatoria -> ACompanyRequired.obbligatoria
      * Filtrata sulla company indicata
      *
-     * @param company obbligatoriaSenzaCodeUnico
+     * @param company ACompanyRequired.obbligatoria
      *
-     * @return all entities
+     * @return entities filtrate
      */
     public List findAllByCompany(Company company) {
-        return repository.findAllByCompanyOrderByEventoDesc(company);
+        return repository.findByCompanyOrderByEventoDesc(company);
     }// end of method
 
 

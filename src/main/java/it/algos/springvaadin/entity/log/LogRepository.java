@@ -17,12 +17,9 @@ import java.util.List;
 @Qualifier(Cost.TAG_LOG)
 public interface LogRepository extends MongoRepository<Log, String> {
 
-    //    public Log findBySigla(String sigla);
 
-    public List<Log> findAllByCompany(Company company);
+    public List<Log> findByOrderByEventoDesc();
 
-    public List<Log> findAllByCompanyOrderByEventoDesc(Company company);
-
-    public List<Log> findAllByOrderByEventoDesc();
+    public List<Log> findByCompanyOrderByEventoDesc(Company company);
 
 }// end of class

@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +33,7 @@ import java.time.LocalDateTime;
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoria)
-@AIList(columns = {"livello", "gruppo", "descrizione", "evento"})
+@AIList(dev = ListButton.standard, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor

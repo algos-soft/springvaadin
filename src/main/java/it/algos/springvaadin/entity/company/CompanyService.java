@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -122,16 +124,6 @@ public class CompanyService extends AlgosServiceImpl {
 
 
     /**
-     * Recupera una istanza della Entity usando la query della key ID
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public Company find(ObjectId id) {
-        return repository.findById(id);
-    }// end of method
-
-
-    /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
      * @param sigla di riferimento interna (interna, obbligatoria ed unica)
@@ -145,12 +137,26 @@ public class CompanyService extends AlgosServiceImpl {
 
     /**
      * Returns all instances of the type
-     * Non usa MultiCompany, quindi senza filtri
+     * Non usa MultiCompany, ma va comunque filtrata su se stessa
+     * Lista ordinata
      *
      * @return lista di tutte le entities
      */
     public List findAll() {
-        return repository.findAllByOrderBySiglaAsc();
+        if (LibSession.isCompanyValida()) {
+            return Arrays.asList(LibSession.getCompany());
+        } else {
+            if (LibSession.isDeveloper()) {
+                return repository.findByOrderBySiglaAsc();
+            } else {
+                return null;
+            }// end of if/else cycle
+        }// end of if/else cycle
     }// end of method
+
+    public List findAllAll() {
+        return repository.findByOrderBySiglaAsc();
+    }// end of method
+
 
 }// end of class

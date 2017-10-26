@@ -69,17 +69,24 @@ public class CompanyList extends AlgosListImpl {
 
 
     private void addChangeCompanyButton() {
-        List<String> companyList = service.findAll();
+        List companyList = service.findAllAll();
 
         if (companyList == null) {
             return;
         }// end of if cycle
-        companyList.add(0, "Tutte");
+        companyList.add(0, "tutte");
 
-        final ComboBox country = new ComboBox("", companyList);
-        ((AToolbarImpl) toolbar).addComponent(country);
+        final ComboBox companies = new ComboBox("Seleziona", companyList);
+        companies.setEmptySelectionAllowed(false);
+        if (LibSession.isCompanyValida()) {
+            Company company = LibSession.getCompany();
+            companies.setValue(company);
+        } else {
+            companies.setValue("tutte");
+        }// end of if/else cycle
+        ((AToolbarImpl) toolbar).addComponent(companies);
 
-        country.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+        companies.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
             @Override
             public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
                 Object event = valueChangeEvent.getValue();
