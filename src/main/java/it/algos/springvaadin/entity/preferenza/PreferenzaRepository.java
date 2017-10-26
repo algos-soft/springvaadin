@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.login.ARoleType;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +22,8 @@ public interface PreferenzaRepository extends MongoRepository<Preferenza, String
 
 
     public Preferenza findByCode(String code);
+
+    public List<Preferenza> findByOrderByOrdineAsc();
 
     public List<Preferenza> findByCompanyOrderByOrdineAsc(Company company);
 

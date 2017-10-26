@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PER)
 @AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
-//@AIList(columns = {"nome", "cognome"})
+@AIList()
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -90,8 +90,6 @@ public class Persona extends AEntity {
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
     @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
-
-
 
 
 

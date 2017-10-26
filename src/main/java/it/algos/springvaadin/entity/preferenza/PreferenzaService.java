@@ -44,6 +44,23 @@ public class PreferenzaService extends AlgosServiceImpl {
     /**
      * Ricerca e creazione di una entity (la crea se non la trova)
      * Properties obbligatorie
+     *
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
+     * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     riavvio del programma per avere effetto (obbligatorio, di default false)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Preferenza findOrCrea(String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
+        return findOrCrea(0, code, type, level, descrizione, value, riavvio);
+    }// end of method
+
+
+    /**
+     * Ricerca e creazione di una entity (la crea se non la trova)
      * All properties
      *
      * @param ordine      (facoltativo, modificabile con controllo automatico prima del save se è zero)
@@ -80,6 +97,26 @@ public class PreferenzaService extends AlgosServiceImpl {
     @Override
     public Preferenza newEntity() {
         return newEntity(0, "", (PrefType) null, (ARoleType) null, "", (byte[]) null, false);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Properties obbligatorie
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
+     * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     riavvio del programma per avere effetto (obbligatorio, di default false)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public Preferenza newEntity(String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
+        return newEntity(0, code, type, level, descrizione, value, riavvio);
     }// end of method
 
 
@@ -137,13 +174,32 @@ public class PreferenzaService extends AlgosServiceImpl {
 
 
     /**
+     * Returns all instances of the type
+     * Usa MultiCompany, ma il developer può vedere anche tutto
+     * Lista ordinata
+     *
+     * @return lista ordinata di tutte le entities
+     */
+    public List findAll() {
+        if (LibSession.isDeveloper()) {
+            return repository.findByOrderByOrdineAsc();
+        }// end of if cycle
+
+        return null;
+    }// end of method
+
+
+    /**
      * Returns all instances of the type.
-     * Usa MultiCompany
+     * Usa MultiCompany, ma non obbligatoria -> ACompanyRequired.facoltativa
      * Filtrata sulla company indicata
+     * Se la company è nulla, prende solo le entities che hanno la property company=null
+     * (questo perché la property company NON è obbligatoria; se lo fosse, prenderebbe tutte le entities)
+     * Lista ordinata
      *
-     * @param company facoltativaSenzaCodeUnico
+     * @param company ACompanyRequired.facoltativa
      *
-     * @return all entities
+     * @return entities filtrate
      */
     public List findAllByCompany(Company company) {
         ArrayList<Preferenza> listaAdmin;
@@ -161,6 +217,7 @@ public class PreferenzaService extends AlgosServiceImpl {
             }// end of if/else cycle
         }// end of if/else cycle
     }// end of method
+
 
     /**
      * L'ordine di presentazione (obbligatorio, unico per tutte le company), viene calcolato in automatico prima del persist

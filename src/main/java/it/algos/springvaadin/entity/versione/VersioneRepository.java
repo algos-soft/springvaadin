@@ -18,15 +18,10 @@ public interface VersioneRepository extends MongoRepository<Versione, String> {
 
     public Versione findByOrdine(int ordine);
 
-//    public Versione findByTitolo(String titolo);
-
-//    public Versione findByDescrizione(String descrizione);
-
-    public Versione findByGruppoAndDescrizione(String gruppo, String descrizione);
-
-    public List<Versione> findTop1ByOrderByOrdineDesc();
-
     public List<Versione> findByOrderByOrdineAsc();
 
     public List<Versione> findByCompanyOrderByOrdineAsc(Company company);
+
+    public List<Versione> findTop1ByOrderByOrdineDesc();
+
 }// end of class

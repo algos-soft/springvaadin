@@ -120,55 +120,55 @@ public class IndirizzoService extends AlgosServiceImpl {
     }// end of method
 
 
-//    /**
-//     * Creazione in memoria di una nuova entity che NON viene salvata
-//     * Eventuali regolazioni iniziali delle property
-//     * Usato da Migration per convertire la vecchia versione dell'applicazione WAM
-//     *
-//     * @param indirizzoOld: via, nome e numero - località - cap
-//     *
-//     * @return la nuova entity appena creata (vuota e non salvata)
-//     */
-//    public Indirizzo newEntity(String indirizzoOld) {
-//        Indirizzo indirizzo = null;
-//        String sep = "-";
-//        String spazio = " ";
-//        String secondaParte = "";
-//        String ind = "";
-//        String loc = "";
-//        String cap = "";
-//        String[] parti = indirizzoOld.split(sep);
-//        int posCap = 0;
-//        int posLoc = 0;
-//
-//        if (parti != null) {
-//            if (parti.length > 0) {
-//                ind = parti[0].trim();
-//            }// end of if cycle
-//
-//            if (parti.length > 1) {
-//                secondaParte = parti[1].trim();
-//                if (secondaParte != null) {
-//
-//                    if (LibText.isLeadingDigit(secondaParte)) {
-//                        posCap = secondaParte.indexOf(spazio);
-//                        cap = secondaParte.substring(0, posCap).trim();
-//                        posLoc = secondaParte.lastIndexOf(spazio, secondaParte.length());
-//                        if (posLoc == posCap) {
-//                            loc = secondaParte.substring(posCap).trim();
-//                        } else {
-//                            loc = secondaParte.substring(posCap, posLoc).trim();
-//                        }// end of if/else cycle
-//                    }// end of if cycle
-//                }// end of if cycle
-//
-//            }// end of if cycle
-//        }// end of if cycle
-//
-//        indirizzo = newEntity(ind, loc, cap, null);
-//
-//        return indirizzo;
-//    }// end of method
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Usato da Migration per convertire la vecchia versione dell'applicazione WAM
+     *
+     * @param indirizzoOld: via, nome e numero - località - cap
+     *
+     * @return la nuova entity appena creata (vuota e non salvata)
+     */
+    public Indirizzo newEntity(String indirizzoOld) {
+        Indirizzo indirizzo = null;
+        String sep = "-";
+        String spazio = " ";
+        String secondaParte = "";
+        String ind = "";
+        String loc = "";
+        String cap = "";
+        String[] parti = indirizzoOld.split(sep);
+        int posCap = 0;
+        int posLoc = 0;
+
+        if (parti != null) {
+            if (parti.length > 0) {
+                ind = parti[0].trim();
+            }// end of if cycle
+
+            if (parti.length > 1) {
+                secondaParte = parti[1].trim();
+                if (secondaParte != null) {
+
+                    if (LibText.isLeadingDigit(secondaParte)) {
+                        posCap = secondaParte.indexOf(spazio);
+                        cap = secondaParte.substring(0, posCap).trim();
+                        posLoc = secondaParte.lastIndexOf(spazio, secondaParte.length());
+                        if (posLoc == posCap) {
+                            loc = secondaParte.substring(posCap).trim();
+                        } else {
+                            loc = secondaParte.substring(posCap, posLoc).trim();
+                        }// end of if/else cycle
+                    }// end of if cycle
+                }// end of if cycle
+
+            }// end of if cycle
+        }// end of if cycle
+
+        indirizzo = newEntity(ind, loc, cap, null);
+
+        return indirizzo;
+    }// end of method
 
 
 }// end of class

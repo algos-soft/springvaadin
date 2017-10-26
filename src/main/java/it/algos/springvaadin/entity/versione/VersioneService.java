@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.versione;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -47,33 +48,33 @@ public class VersioneService extends AlgosServiceImpl {
         this.logger = (LogService) logger;
     }// end of Spring constructor
 
-    /**
-     * Creazione di una company demo
-     * <p>
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     */
-    @PostConstruct
-    public void test() {
-        boolean falso = this.esiste(17);
-        boolean vero = this.esiste(2);
-//        boolean zero = this.isVersioneNonEsiste(0);
-//        boolean uno = this.isVersioneNonEsiste(1);
-//        boolean due = this.isVersioneNonEsiste(2);
-//        boolean tre = this.isVersioneNonEsiste(3);
-//        boolean quattro = this.isVersioneNonEsiste(4);
-//        boolean cinque = this.isVersioneNonEsiste(5);
-//        boolean sei = this.isVersioneNonEsiste(6);
-        List listAll = this.findAll();
-        List listAlllCompany = this.findAllByCompany(null);
-        Versione vers1 = this.findByOrdine(1);
-        Versione vers2 = this.findByOrdine(2);
-        Versione vers3 = this.findByOrdine(3);
-        Versione vers4 = this.findByOrdine(4);
-        Versione vers5 = this.findByOrdine(5);
-        int ord2 = this.getNewOrdine();
-        int a = 87;
-    }// end of method
+//    /**
+//     * Creazione di una company demo
+//     * <p>
+//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
+//     * (si può usare qualsiasi firma)
+//     */
+//    @PostConstruct
+//    public void test() {
+//        boolean falso = this.esiste(17);
+//        boolean vero = this.esiste(2);
+////        boolean zero = this.isVersioneNonEsiste(0);
+////        boolean uno = this.isVersioneNonEsiste(1);
+////        boolean due = this.isVersioneNonEsiste(2);
+////        boolean tre = this.isVersioneNonEsiste(3);
+////        boolean quattro = this.isVersioneNonEsiste(4);
+////        boolean cinque = this.isVersioneNonEsiste(5);
+////        boolean sei = this.isVersioneNonEsiste(6);
+//        List listAll = this.findAll();
+//        List listAlllCompany = this.findAllByCompany(null);
+//        Versione vers1 = this.findByOrdine(1);
+//        Versione vers2 = this.findByOrdine(2);
+//        Versione vers3 = this.findByOrdine(3);
+//        Versione vers4 = this.findByOrdine(4);
+//        Versione vers5 = this.findByOrdine(5);
+//        int ord2 = this.getNewOrdine();
+//        int a = 87;
+//    }// end of method
 
 
     /**
@@ -163,47 +164,6 @@ public class VersioneService extends AlgosServiceImpl {
 
 
     /**
-     * Returns all instances of the type
-     * Usa MultiCompany
-     * Filtrata sulla company corrente
-     * Se non c'è la company corrente, prende tutte le company
-     *
-     * @return lista di tutte le entities
-     */
-    public List findAll() {
-        return repository.findByOrderByOrdineAsc();
-    }// end of method
-
-
-    /**
-     * Returns all instances of the type
-     * Usa MultiCompany, ma non obbligatoria -> ACompanyRequired.facoltativa
-     * Filtrata sulla company indicata
-     * Se la company è nulla, prende solo le entities che hanno la property company=null
-     * (questo perché la property company NON è obbligatoria; se lo fosse, prenderebbe tutte le entities)
-     *
-     * @param company ACompanyRequired.facoltativa
-     *
-     * @return entities filtrate
-     */
-    public List findAllByCompany(Company company) {
-        return repository.findByCompanyOrderByOrdineAsc(company);
-    }// end of method
-
-
-    /**
-     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
-     *
-     * @param ordine di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public Versione findByOrdine(int ordine) {
-        return repository.findByOrdine(ordine);
-    }// end of method
-
-
-    /**
      * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
      * @param ordine (obbligatorio, unico indipendentemente dalla company,
@@ -227,6 +187,52 @@ public class VersioneService extends AlgosServiceImpl {
     public boolean nonEsiste(int ordine) {
         return findByOrdine(ordine) == null;
     }// end of method
+
+
+    /**
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param ordine di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     *
+     * @return istanza della Entity, null se non trovata
+     */
+    public Versione findByOrdine(int ordine) {
+        return repository.findByOrdine(ordine);
+    }// end of method
+
+
+    /**
+     * Returns all instances of the type
+     * Usa MultiCompany, ma il developer può vedere anche tutto
+     * Lista ordinata
+     *
+     * @return lista di tutte le entities
+     */
+    public List findAll() {
+        if (LibSession.isDeveloper()) {
+            return repository.findByOrderByOrdineAsc();
+        }// end of if cycle
+
+        return null;
+    }// end of method
+
+
+    /**
+     * Returns all instances of the type
+     * Usa MultiCompany, ma non obbligatoria -> ACompanyRequired.facoltativa
+     * Filtrata sulla company indicata
+     * Se la company è nulla, prende solo le entities che hanno la property company=null
+     * (questo perché la property company NON è obbligatoria; se lo fosse, prenderebbe tutte le entities)
+     * Lista ordinata
+     *
+     * @param company ACompanyRequired.facoltativa
+     *
+     * @return entities filtrate
+     */
+    public List findAllByCompany(Company company) {
+        return repository.findByCompanyOrderByOrdineAsc(company);
+    }// end of method
+
 
 
     /**

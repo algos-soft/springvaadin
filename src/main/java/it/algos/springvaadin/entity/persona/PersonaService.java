@@ -22,6 +22,7 @@ import java.util.List;
 @Slf4j
 public class PersonaService extends AlgosServiceImpl {
 
+
     public PersonaRepository repository;
 
     /**
@@ -117,16 +118,5 @@ public class PersonaService extends AlgosServiceImpl {
         return new Persona(nome, cognome, telefono, email, indirizzo);
     }// end of method
 
-
-    /**
-     * Returns all instances of the type.
-     * Non usa MultiCompany, quindi senza filtri
-     *
-     * @return all entities
-     */
-    @Override
-    public List findAll() {
-        return repository.findAll();
-    }// end of method
 
 }// end of class
