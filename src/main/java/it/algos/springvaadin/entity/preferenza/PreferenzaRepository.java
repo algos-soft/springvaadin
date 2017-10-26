@@ -1,6 +1,8 @@
 package it.algos.springvaadin.entity.preferenza;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.login.ARoleType;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -25,5 +27,10 @@ public interface PreferenzaRepository extends MongoRepository<Preferenza, String
     public List<Preferenza> findTop1ByOrderByOrdineDesc();
 
     public Preferenza save(Preferenza entity);
+
+    public List<Preferenza> findByCompanyOrderByOrdineAsc(Company company);
+
+    public List<Preferenza> findByCompanyAndLivelloOrderByOrdineAsc(Company company, ARoleType livello);
+
 
 }// end of class

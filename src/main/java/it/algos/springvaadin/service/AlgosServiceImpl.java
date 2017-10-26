@@ -196,7 +196,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return all entities
      */
     public List<AEntity> findAll() {
-        return null;
+        return repository.findAll();
     }// end of method
 
     @Override

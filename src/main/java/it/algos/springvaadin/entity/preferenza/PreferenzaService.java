@@ -1,8 +1,11 @@
 package it.algos.springvaadin.entity.preferenza;
 
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.lib.LibAvviso;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,7 +146,20 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return all entities
      */
     public List findAllByCompany(Company company) {
-        return repository.findAll();//@todo NOT TRUE
+        ArrayList<Preferenza> listaAdmin;
+        ArrayList<Preferenza> listaUser;
+
+        if (LibSession.isDeveloper()) {
+            return repository.findByCompanyOrderByOrdineAsc(company);
+        } else {
+            if (LibSession.isAdmin()) {
+                listaAdmin = (ArrayList) repository.findByCompanyAndLivelloOrderByOrdineAsc(company, ARoleType.admin);
+                listaUser = (ArrayList) repository.findByCompanyAndLivelloOrderByOrdineAsc(company, ARoleType.user);
+                return LibArray.somma(listaAdmin, listaUser);
+            } else {
+                return repository.findByCompanyAndLivelloOrderByOrdineAsc(company, ARoleType.user);
+            }// end of if/else cycle
+        }// end of if/else cycle
     }// end of method
 
     /**
