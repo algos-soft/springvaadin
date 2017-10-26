@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.stato;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.entity.AEntity;
@@ -134,6 +135,39 @@ public class StatoService extends AlgosServiceImpl {
         return findByNome(nome) == null;
     }// end of method
 
+    /**
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
+     *
+     * @return istanza della Entity, null se non trovata
+     */
+    public Stato findByNome(String nome) {
+        return repository.findByNome(nome);
+    }// end of method
+
+
+    /**
+     * Returns all instances of the type
+     * Non usa MultiCompany, quindi senza filtri
+     * Lista ordinata
+     *
+     * @return lista ordinata di tutte le entities
+     */
+    public List findAll() {
+        return repository.findByOrderByOrdineAsc();
+    }// end of method
+
+
+    /**
+     * Find the default state.
+     *
+     * @return the entity
+     */
+    public Stato findDefault() {
+        return findOrCrea(DEFAULT_3166, DEFAULT_3166_1, DEFAULT_3166_2);
+    }// end of method
+
 
     /**
      * Saves a given entity.
@@ -179,78 +213,24 @@ public class StatoService extends AlgosServiceImpl {
     }// end of method
 
 
-    /**
-     * Recupera una istanza della Entity usando la query della key ID
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public Stato find(ObjectId id) {
-        return repository.findById(id);
-    }// end of method
+
 
 
     /**
-     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
-     *
-     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public Stato findByNome(String nome) {
-        return repository.findByNome(nome);
-    }// end of method
-
-
-    /**
-     * Returns all instances of the type
-     * Non usa MultiCompany, quindi senza filtri
-     *
-     * @return lista di tutte le entities
-     */
-    public List findAll() {
-        return repository.findAll();
-    }// end of method
-
-
-    /**
-     * Find the default state.
-     *
-     * @return the entity
-     */
-    public Stato findDefault() {
-        return findOrCrea(DEFAULT_3166, DEFAULT_3166_1, DEFAULT_3166_2);
-    }// end of method
-
-
-    /**
-     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
+     * L'ordine di presentazione (obbligatorio, unico per tutte le company), viene calcolato in automatico prima del persist
      * Recupera il valore massimo della property
      * Incrementa di uno il risultato
      */
     private int getNewOrdine() {
-        return getMax() + 1;
-    }// end of method
-
-
-    /**
-     * L'ordine di presentazione (obbligatorio, unico), viene calcolato in automatico prima del persist
-     * Recupera il valore massimo della property
-     */
-    private int getMax() {
         int ordine = 0;
-        List<Stato> lista = null;
 
-        if (repository != null) {
-            lista = repository.findTop1ByOrderByOrdineDesc();
-        }// end of if cycle
-
+        List<Stato> lista = repository.findTop1ByOrderByOrdineDesc();
         if (lista != null && lista.size() == 1) {
             ordine = lista.get(0).getOrdine();
         }// end of if cycle
 
-        return ordine;
+        return ordine + 1;
     }// end of method
-
 
     /**
      * Creazione di una collezione di stati

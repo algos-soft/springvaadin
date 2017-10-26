@@ -18,13 +18,10 @@ import java.util.List;
 @Qualifier(Cost.TAG_STA)
 public interface StatoRepository extends MongoRepository<Stato, String> {
 
-    public Stato findById(ObjectId id);
     public Stato findByNome(String nome);
-    public Stato findByAlfaTre(String nome);
-    public int countByAlfaTre(String alfaTre);
+
+    public List<Stato> findByOrderByOrdineAsc();
 
     public List<Stato> findTop1ByOrderByOrdineDesc();
-
-    public List<Stato> findAllByOrderByOrdineAsc();
 
 }// end of class

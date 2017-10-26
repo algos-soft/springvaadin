@@ -20,17 +20,14 @@ import java.util.List;
 public interface PreferenzaRepository extends MongoRepository<Preferenza, String> {
 
 
-    public Preferenza findById(ObjectId id);
-
     public Preferenza findByCode(String code);
-
-    public List<Preferenza> findTop1ByOrderByOrdineDesc();
-
-    public Preferenza save(Preferenza entity);
 
     public List<Preferenza> findByCompanyOrderByOrdineAsc(Company company);
 
     public List<Preferenza> findByCompanyAndLivelloOrderByOrdineAsc(Company company, ARoleType livello);
 
+    public List<Preferenza> findTop1ByOrderByOrdineDesc();
+
 
 }// end of class
+
