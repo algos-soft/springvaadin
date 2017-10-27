@@ -10,9 +10,11 @@ import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -40,6 +42,13 @@ import org.springframework.context.event.EventListener;
 @SpringComponent
 @Slf4j
 public class VersioneSpringVaadinBoot extends VersioneBoot {
+
+
+    @Autowired
+    private StatoData statoData;
+
+    @Autowired
+    protected CompanyData companyData;
 
 
     /**
@@ -88,6 +97,24 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
                     PrefType.bool,
                     "Flag generale di debug (ce ne possono essere di specifici, validi solo se questo è vero)",
                     false);
+        }// fine del blocco if
+        k++;
+
+        if (service.versioneNonAncoraUsata(k)) {
+            statoData.creaAll();
+            creaVersioneAndLog(k,
+                    "Stato",
+                    "Creati alcuni stati base usati nel popup degli indirizzi");
+        }// fine del blocco if
+        k++;
+
+        if (service.versioneNonAncoraUsata(k)) {
+            Company company = companyData.creaCompanyDemo();
+            creaAndLogCompany(k,
+                    company.getSigla(),
+                    "Company",
+                    "Creata una company demo",
+                    "Creazione iniziale con alcuni dati fittizi");
         }// fine del blocco if
         k++;
 

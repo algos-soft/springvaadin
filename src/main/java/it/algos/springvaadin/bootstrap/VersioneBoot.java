@@ -2,6 +2,7 @@ package it.algos.springvaadin.bootstrap;
 
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.entity.preferenza.PrefType;
@@ -105,6 +106,20 @@ public class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
+     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param siglaCompany (facoltativa)
+     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione  (obbligatoria, non unica)
+     */
+    protected void creaAndLogCompany(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
+        creaVersioneAndLog(ordine, siglaCompany, gruppo, descrizione, note);
+    }// end of method
+
+
+    /**
+     * Creazione di una entity (se non trovata)
+     * Log a video
+     *
      * @param ordine      di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
@@ -129,6 +144,15 @@ public class VersioneBoot {
         Company company;
         Versione vers = service.findOrCrea(ordine, gruppo, descrizione);
 
+        if (LibText.isValid(note)) {
+            vers.note = note;
+            try { // prova ad eseguire il codice
+                service.save(vers);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+
         if (LibText.isValid(siglaCompany)) {
             company = companyService.findBySigla(siglaCompany);
             if (company != null) {
@@ -139,18 +163,18 @@ public class VersioneBoot {
                     log.error(unErrore.toString());
                 }// fine del blocco try-catch
             }// end of if cycle
-        }// end of if cycle
-
-        if (LibText.isValid(note)) {
-            vers.note = note;
+            log.warn(gruppo, descrizione);
+            Log logg = logger.newEntity("debug", LogType.versione.toString(), descrizione, null);
+            logg.setCompany(company);
             try { // prova ad eseguire il codice
-                service.save(vers);
+                logger.save(logg);
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
-        }// end of if cycle
+        } else {
+            logger.warn(LogType.versione.toString(), descrizione);
+        }// end of if/else cycle
 
-        logger.warn(LogType.versione.toString(), descrizione);
     }// end of method
 
 

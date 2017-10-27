@@ -31,21 +31,21 @@ import javax.annotation.PostConstruct;
 public class SpringVaadinBoot extends AlgosBoot {
 
 
-    @Autowired
-    protected CompanyData companyData;
-
-    @Autowired
-    private StatoData statoData;
+//    @Autowired
+//    protected CompanyData companyData;
+//
+//    @Autowired
+//    private StatoData statoData;
 
     /**
      * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
      * (si può usare qualsiasi firma)
      * Controlla
      */
-    @PostConstruct
+//    @PostConstruct
     private void check() {
-        statoData.creaAll();
-        companyData.creaAll();
+//        statoData.creaAll();
+//        companyData.creaAll();
     }// end of method
 
      /**

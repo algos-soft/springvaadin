@@ -41,7 +41,8 @@ public class CompanyData {
      */
     public void creaAll() {
         if (nessunRecordEsistente()) {
-            creaCompany();
+            creaCompanyDemo();
+            creaCompanyTest();
         } else {
             log.info("La collezione di company è presente");
         }// end of if/else cycle
@@ -59,15 +60,20 @@ public class CompanyData {
     /**
      * Crea una collezione di company
      */
-    private void creaCompany() {
-        creaAndLog(
+    public Company creaCompanyDemo() {
+       return creaAndLog(
                 "demo",
                 "Algos s.r.l.",
-                personaService.newEntity("Mario", "Rossi"),
+                personaService.newEntity("Marco", "Beretta"),
                 "mariorossi@win.com",
-                indirizzoService.newEntity("via Soderini, 55", "Milano", "20131", (Stato) null));
+                indirizzoService.newEntity("via Procaccini, 37", "Milano", "20131", (Stato) null));
+    }// end of method
 
-        creaAndLog(
+    /**
+     * Crea una collezione di company
+     */
+    public Company creaCompanyTest() {
+        return creaAndLog(
                 "test",
                 "Associazione Volontaria di Misericordia",
                 personaService.newEntity("Marcello", "Tamburini"),
@@ -86,9 +92,11 @@ public class CompanyData {
      * @param email       delal company (facoltativo)
      * @param indirizzo   della company (facoltativo)
      */
-    private void creaAndLog(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
-        service.findOrCrea(sigla, descrizione, contact, email, indirizzo);
+    private Company creaAndLog(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
+        Company company = service.findOrCrea(sigla, descrizione, contact, email, indirizzo);
         log.warn("Company: " + sigla);
+
+        return company;
     }// end of method
 
 

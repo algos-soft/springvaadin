@@ -121,52 +121,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
             throw new NullCompanyException();
         }// end of if cycle
 
-//        if (usaCodeCompanyUnico) {
-//            codeCompanyUnico = companyEntity.getCodeCompanyUnico();
-//            if (!LibText.isValid(codeCompanyUnico)) {
-//                codeCompanyUnico = creaCodeCompanyUnico(company, companyEntity.getCode());
-//            }// end of if cycle
-//
-//            if (LibText.isValid(codeCompanyUnico)) {
-//                checkCodeCompany(companyEntity, codeCompanyUnico, companyEntity.getCode());
-//                return true;
-//            } else {
-//                throw new NullCodeCompanyException();
-//            }// end of if/else cycle
-//        }// end of if cycle
-
         return true;
     }// end of method
-
-
-//    /**
-//     * Controlla che la gestione della chiave unica sia soddisfatta
-//     */
-//    private void checkCodeCompany(ACompanyEntity companyEntity, String codeCompanyUnico, String code) throws Exception {
-//        if (LibMongo.esiste(companyEntity.getClass(), codeCompanyUnico)) {
-//            throw new DuplicateCodeCompanyException(code);
-//        } else {
-//            companyEntity.setCodeCompanyUnico(codeCompanyUnico);
-//        }// end of if/else cycle
-//    }// end of method
-
-
-//    private String creaCodeCompanyUnico(Company company, String code) {
-//        String codeCompanyUnico = "";
-//        String companyCode = "";
-//
-//        if (company != null) {
-//            companyCode = company.getSigla();
-//        } else {
-//            LibAvviso.errorDev("Manca la company");
-//        }// end of if/else cycle
-//
-//        if (LibText.isValid(companyCode)) {
-//            codeCompanyUnico = LibText.primaMaiuscola(companyCode) + LibText.primaMaiuscola(code);
-//        }// end of if cycle
-//
-//        return codeCompanyUnico;
-//    }// end of method
 
 
     /**
