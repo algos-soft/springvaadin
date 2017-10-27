@@ -163,17 +163,21 @@ public class VersioneBoot {
                     log.error(unErrore.toString());
                 }// fine del blocco try-catch
             }// end of if cycle
-            log.warn(gruppo, descrizione);
-            Log logg = logger.newEntity("debug", LogType.versione.toString(), descrizione, null);
-            logg.setCompany(company);
-            try { // prova ad eseguire il codice
-                logger.save(logg);
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-            }// fine del blocco try-catch
-        } else {
-            logger.warn(LogType.versione.toString(), descrizione);
-        }// end of if/else cycle
+
+            //--siamo in fase di boot e NON esiste ancora la session,
+            //  perciò non può prenderla in automatico durante il save standard
+            //  comunque non sono sicuro che serva questo log
+            if (false) {
+                log.warn(gruppo, descrizione);
+                Log logg = logger.newEntity("debug", LogType.versione.toString(), descrizione, null);
+                logg.setCompany(company);
+                try { // prova ad eseguire il codice
+                    logger.save(logg);
+                } catch (Exception unErrore) { // intercetta l'errore
+                    log.error(unErrore.toString());
+                }// fine del blocco try-catch
+            }// end of if/else cycle
+        }// end of if cycle
 
     }// end of method
 
