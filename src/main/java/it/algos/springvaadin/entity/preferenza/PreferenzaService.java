@@ -55,7 +55,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Preferenza findOrCrea(String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
-        return findOrCrea(0, code, type, level, descrizione, value, riavvio);
+        return findOrCrea(0, (Company) null, code, type, level, descrizione, value, riavvio);
     }// end of method
 
 
@@ -64,6 +64,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * All properties
      *
      * @param ordine      (facoltativo, modificabile con controllo automatico prima del save se è zero)
+     * @param company     (facoltativa)
      * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param type        di dato memorizzato (obbligatorio)
      * @param level       di accesso alla preferenza (obbligatorio)
@@ -73,10 +74,10 @@ public class PreferenzaService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(int ordine, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
-        if (nonEsiste(code)) {
+    public Preferenza findOrCrea(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
+        if (nonEsiste(company, code)) {
             try { // prova ad eseguire il codice
-                return (Preferenza) save(newEntity(ordine, code, type, level, descrizione, value, riavvio));
+                return (Preferenza) save(newEntity(ordine, company, code, type, level, descrizione, value, riavvio));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -137,7 +138,28 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (non salvata)
      */
     public Preferenza newEntity(int ordine, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
-        return new Preferenza(
+        return newEntity(0, (Company) null, code, type, level, descrizione, value, riavvio);
+    }// end of method
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param ordine      (facoltativo, modificabile con controllo automatico prima del save se è zero)
+     * @param company     (facoltativa)
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
+     * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     riavvio del programma per avere effetto (obbligatorio, di default false)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public Preferenza newEntity(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, boolean riavvio) {
+        Preferenza preferenza = new Preferenza(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 code,
                 type,
@@ -145,6 +167,12 @@ public class PreferenzaService extends AlgosServiceImpl {
                 descrizione,
                 value,
                 riavvio);
+
+        if (company != null) {
+            preferenza.setCompany(company);
+        }// end of if cycle
+
+        return preferenza;
     }// end of method
 
 
@@ -155,8 +183,8 @@ public class PreferenzaService extends AlgosServiceImpl {
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean nonEsiste(String code) {
-        return findByCode(code) == null;
+    public boolean nonEsiste(Company company, String code) {
+        return repository.findByCompanyAndCode(company, code) == null;
     }// end of method
 
 
@@ -234,5 +262,69 @@ public class PreferenzaService extends AlgosServiceImpl {
 
         return ordine + 1;
     }// end of method
+
+
+    /**
+     * Ricerca della preferenza col codice indicato
+     *
+     * @param code della preferenza specifica
+     *
+     * @return valore della preferenza, nella classe prevista da PrefType
+     */
+    public Boolean isBool(String code) {
+        return isBool(code, false);
+    } // end of method
+
+
+    /**
+     * Ricerca della preferenza col codice indicato
+     *
+     * @param code            della preferenza specifica
+     * @param valoreSuggerito se la preferenza non viene trovata
+     *
+     * @return valore della preferenza, nella classe prevista da PrefType, se viene trovata
+     * valoreSuggerito, se non trova la preferenza
+     */
+    public Boolean isBool(String code, boolean valoreSuggerito) {
+        return isBool(LibSession.getCompany(), code, valoreSuggerito);
+    } // end of method
+
+
+    /**
+     * Ricerca della preferenza col codice indicato
+     * 1) Cerca per la company prevista
+     * 2) Cerca per la company della sessione
+     * 3) Cerca per company col valore nullo
+     * 4) Usa il valoreSuggerito
+     *
+     * @param company         ACompanyRequired.facoltativa, se è nulla cerca nella sessione la company valida
+     * @param code            della preferenza specifica
+     * @param valoreSuggerito se la preferenza non viene trovata
+     *
+     * @return valore della preferenza, nella classe prevista da PrefType, se viene trovata
+     * valoreSuggerito, se non trova la preferenza
+     */
+    public Boolean isBool(Company company, String code, boolean valoreSuggerito) {
+        boolean status = valoreSuggerito;
+        Preferenza pref;
+        PrefType type;
+        byte[] value;
+
+        if (company == null) {
+            company = LibSession.getCompany();
+        }// end of if cycle
+
+        pref = repository.findByCompanyAndCode(company, code);
+
+        if (pref != null) {
+            type = pref.getType();
+            if (type == PrefType.bool) {
+                value = pref.getValue();
+                status = (boolean) type.bytesToObject(value);
+            }// end of if cycle
+        }// end of if cycle
+
+        return status;
+    } // end of method
 
 }// end of class

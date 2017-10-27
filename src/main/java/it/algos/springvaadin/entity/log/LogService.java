@@ -53,7 +53,7 @@ public class LogService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Log findOrCrea(String livello, String gruppo, String descrizione) {
+    public Log findOrCrea(LogLevel livello, String gruppo, String descrizione) {
         return findOrCrea(livello, gruppo, descrizione, (LocalDateTime) null);
     }// end of method
 
@@ -71,7 +71,7 @@ public class LogService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Log findOrCrea(String livello, String gruppo, String descrizione, LocalDateTime evento) {
+    public Log findOrCrea(LogLevel livello, String gruppo, String descrizione, LocalDateTime evento) {
         try { // prova ad eseguire il codice
             return (Log) save(newEntity(livello, gruppo, descrizione, evento));
         } catch (Exception unErrore) { // intercetta l'errore
@@ -89,7 +89,7 @@ public class LogService extends AlgosServiceImpl {
      */
     @Override
     public Log newEntity() {
-        return newEntity("", "", "", (LocalDateTime) null);
+        return newEntity((LogLevel) null, "", "", (LocalDateTime) null);
     }// end of method
 
 
@@ -106,8 +106,12 @@ public class LogService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Log newEntity(String livello, String gruppo, String descrizione, LocalDateTime evento) {
-        return new Log(livello, gruppo, descrizione, evento != null ? evento : LocalDateTime.now());
+    public Log newEntity(LogLevel livello, String gruppo, String descrizione, LocalDateTime evento) {
+        return new Log(
+                livello != null ? livello : LogLevel.debug,
+                gruppo,
+                descrizione,
+                evento != null ? evento : LocalDateTime.now());
     }// end of method
 
 
@@ -215,7 +219,7 @@ public class LogService extends AlgosServiceImpl {
      * @return messaggio per il log di sistema
      */
     private String logBase(LogLevel livello, String gruppo, String descrizione) {
-        findOrCrea(livello.toString(), gruppo.toString(), descrizione, (LocalDateTime) null);
+        findOrCrea(livello, gruppo.toString(), descrizione, (LocalDateTime) null);
 
         return gruppo + " - " + descrizione;
     }// fine del metodo

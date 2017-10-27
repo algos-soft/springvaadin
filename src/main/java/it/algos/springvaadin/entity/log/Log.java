@@ -54,7 +54,7 @@ public class Log extends ACompanyEntity {
     @Indexed()
     @AIField(type = AFieldType.enumeration, clazz = LogLevel.class, nullSelectionAllowed = false, widthEM = 10, admin = FieldAccessibility.showOnly)
     @AIColumn(width = 100)
-    private String livello;
+    private LogLevel livello;
 
 
     /**

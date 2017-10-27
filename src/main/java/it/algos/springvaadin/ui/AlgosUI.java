@@ -8,8 +8,10 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -50,11 +52,15 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
 
     //--A placeholder for spring views
-    @Autowired protected ViewPlaceholder viewPlaceholder;
+    @Autowired
+    protected ViewPlaceholder viewPlaceholder;
 
     //--A placeholder for a footer component
     @Autowired
     public AlgosFooter footer;
+
+    @Autowired
+    public PreferenzaService pref;
 
 
     /**
@@ -119,7 +125,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             creaSingoloPanel();
         }// end of if/else cycle
 
-        if (AlgosApp.USE_DEBUG) {
+        if (pref.isBool(Cost.KEY_USE_DEBUG, false)) {
             root.addStyleName("blueBg");
             panel.addStyleName("blueBg");
             viewPlaceholder.addStyleName("yellowBg");

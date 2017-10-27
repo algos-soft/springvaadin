@@ -96,7 +96,14 @@ public class LibVaadin {
      * Get the baseDir path
      */
     public static File getBaseDir() {
-        return VaadinService.getCurrent().getBaseDirectory();
+        File file = null;
+        VaadinService service = VaadinService.getCurrent();
+
+        if (service != null) {
+            file = service.getBaseDirectory();
+        }// end of if cycle
+
+        return file;
     }// end of static method
 
 

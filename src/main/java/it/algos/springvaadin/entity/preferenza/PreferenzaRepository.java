@@ -23,6 +23,8 @@ public interface PreferenzaRepository extends MongoRepository<Preferenza, String
 
     public Preferenza findByCode(String code);
 
+    public Preferenza findByCompanyAndCode(Company company, String code);
+
     public List<Preferenza> findByOrderByOrdineAsc();
 
     public List<Preferenza> findByCompanyOrderByOrdineAsc(Company company);

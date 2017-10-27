@@ -167,9 +167,9 @@ public class VersioneBoot {
             //--siamo in fase di boot e NON esiste ancora la session,
             //  perciò non può prenderla in automatico durante il save standard
             //  comunque non sono sicuro che serva questo log
-            if (false) {
+            if (true) {
                 log.warn(gruppo, descrizione);
-                Log logg = logger.newEntity("debug", LogType.versione.toString(), descrizione, null);
+                Log logg = logger.newEntity(null, LibText.primaMaiuscola(LogType.versione.toString()), descrizione, null);
                 logg.setCompany(company);
                 try { // prova ad eseguire il codice
                     logger.save(logg);
@@ -272,24 +272,17 @@ public class VersioneBoot {
         String descrizioneVersione = "Creazione della preferenza " + codePreferenza + " di tipo " + typePreferenza;
         String note = "Senza company specifica, perché è un valore di default \nPuò essere modificato nella singola company";
 
-//        if (LibText.isValid(siglaCompany)) {
         company = companyService.findBySigla(siglaCompany);
-//        }// end of if cycle
 
-        preferenza = preferenzaService.findOrCrea(
+        preferenzaService.findOrCrea(
                 0,
+                company,
                 codePreferenza,
                 typePreferenza,
                 levelPreferenza,
                 descrizionePreferenza,
                 typePreferenza.objectToBytes(valuePreferenza),
                 riavvioPreferenza);
-        preferenza.setCompany(company);
-        try { // prova ad eseguire il codice
-            preferenzaService.save(preferenza);
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
 
         versione = service.findOrCrea(ordineVersione, gruppo, descrizioneVersione);
         versione.setCompany(company);

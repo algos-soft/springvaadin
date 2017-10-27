@@ -50,6 +50,7 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
     @Autowired
     protected CompanyData companyData;
 
+    private final static String DEMO = "demo";
 
     /**
      * Costruttore @Autowired
@@ -118,6 +119,15 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         }// fine del blocco if
         k++;
 
+        if (service.versioneNonAncoraUsata(k)) {
+            creaPreferenzaAndVersioneAndLog(k,
+                    DEMO,
+                    Cost.KEY_USE_DEBUG,
+                    PrefType.bool,
+                    "Flag specifico per questa company\nFunziona solo se è true il flag generale " + Cost.KEY_USE_DEBUG,
+                    true);
+        }// fine del blocco if
+        k++;
 
     }// end of method
 
