@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefEffect;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
@@ -30,7 +31,7 @@ import org.springframework.context.event.EventListener;
  * Setup non-UI logic here
  * This class will be executed on container startup when the application is ready to server requests.
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat)
- * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione
  * <p>
  * In order to create a class that acts like a bootstrap for the application,
  * that class needs to implements the @EventListener annotation
@@ -193,13 +194,13 @@ public class VersioneBoot {
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      */
-    protected void creaPreferenzaAndVersioneAndLog(
+    protected Preferenza creaPreferenzaAndVersioneAndLog(
             int ordineVersione,
             String codePreferenza,
             PrefType typePreferenza,
             String descrizionePreferenza,
             Object valuePreferenza) {
-        creaPreferenzaAndVersioneAndLog(
+        return creaPreferenzaAndVersioneAndLog(
                 ordineVersione,
                 "",
                 codePreferenza,
@@ -207,7 +208,7 @@ public class VersioneBoot {
                 ARoleType.developer,
                 descrizionePreferenza,
                 valuePreferenza,
-                false);
+                PrefEffect.subito);
     }// end of method
 
 
@@ -223,14 +224,14 @@ public class VersioneBoot {
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      */
-    protected void creaPreferenzaAndVersioneAndLog(
+    protected Preferenza creaPreferenzaAndVersioneAndLog(
             int ordineVersione,
             String siglaCompany,
             String codePreferenza,
             PrefType typePreferenza,
             String descrizionePreferenza,
             Object valuePreferenza) {
-        creaPreferenzaAndVersioneAndLog(
+        return creaPreferenzaAndVersioneAndLog(
                 ordineVersione,
                 siglaCompany,
                 codePreferenza,
@@ -238,7 +239,7 @@ public class VersioneBoot {
                 ARoleType.developer,
                 descrizionePreferenza,
                 valuePreferenza,
-                false);
+                PrefEffect.subito);
     }// end of method
 
 
@@ -254,9 +255,9 @@ public class VersioneBoot {
      * @param levelPreferenza       di accesso alla preferenza (obbligatorio)
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
-     * @param riavvioPreferenza     riavvio del programma per avere effetto (obbligatorio, di default false)
+     * @param riavvioPreferenza     attivazione del programma per avere effetto (obbligatorio, di default false)
      */
-    protected void creaPreferenzaAndVersioneAndLog(
+    protected Preferenza creaPreferenzaAndVersioneAndLog(
             int ordineVersione,
             String siglaCompany,
             String codePreferenza,
@@ -264,9 +265,9 @@ public class VersioneBoot {
             ARoleType levelPreferenza,
             String descrizionePreferenza,
             Object valuePreferenza,
-            boolean riavvioPreferenza) {
-        Company company = null;
+            PrefEffect riavvioPreferenza) {
         Preferenza preferenza = null;
+        Company company = null;
         Versione versione = null;
         String gruppo = "Pref";
         String descrizioneVersione = "Creazione della preferenza " + codePreferenza + " di tipo " + typePreferenza;
@@ -274,8 +275,7 @@ public class VersioneBoot {
 
         company = companyService.findBySigla(siglaCompany);
 
-        preferenzaService.findOrCrea(
-                0,
+        preferenza = preferenzaService.findOrCrea(
                 company,
                 codePreferenza,
                 typePreferenza,
@@ -294,6 +294,8 @@ public class VersioneBoot {
         }// fine del blocco try-catch
 
         logger.warn(LogType.versione.toString(), descrizioneVersione);
+
+        return preferenza;
     }// end of method
 
 

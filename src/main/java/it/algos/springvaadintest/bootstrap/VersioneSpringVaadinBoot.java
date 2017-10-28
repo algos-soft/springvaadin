@@ -7,6 +7,8 @@ import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
@@ -30,7 +32,7 @@ import org.springframework.context.event.EventListener;
  * Setup non-UI logic here
  * This class will be executed on container startup when the application is ready to server requests.
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat)
- * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione
  * <p>
  * In order to create a class that acts like a bootstrap for the application,
  * that class needs to implements the @EventListener annotation
@@ -49,6 +51,9 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
 
     @Autowired
     protected CompanyData companyData;
+
+    @Autowired
+    private PreferenzaService preferenzaService;
 
     private final static String DEMO = "demo";
 
@@ -73,6 +78,7 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
         this.cronistoriaVersioni();
+        companyData.updatePreferenze();
     }// end of method
 
 
@@ -92,20 +98,12 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         }// fine del blocco if
         k++;
 
-        if (service.versioneNonAncoraUsata(k)) {
-            creaPreferenzaAndVersioneAndLog(k,
-                    Cost.KEY_USE_DEBUG,
-                    PrefType.bool,
-                    "Flag generale di debug (ce ne possono essere di specifici, validi solo se questo è vero)",
-                    false);
-        }// fine del blocco if
-        k++;
 
         if (service.versioneNonAncoraUsata(k)) {
             statoData.creaAll();
             creaVersioneAndLog(k,
                     "Stato",
-                    "Creati alcuni stati base usati nel popup degli indirizzi");
+                    "Creati alcuni stati base, usati nel popup degli indirizzi");
         }// fine del blocco if
         k++;
 
@@ -115,17 +113,43 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
                     company.getSigla(),
                     "Company",
                     "Creata una company demo",
-                    "Creazione iniziale con alcuni dati fittizi");
+                    "Creazione iniziale con alcuni dati fittizi\nCreate anche alcune preferenze specifiche per questa company");
+        }// fine del blocco if
+        k++;
+
+        if (service.versioneNonAncoraUsata(k)) {
+            Company company = companyData.creaCompanyTest();
+            creaAndLogCompany(k,
+                    company.getSigla(),
+                    "Company",
+                    "Creata una company test",
+                    "Creazione iniziale con alcuni dati fittizi\nCreate anche alcune preferenze specifiche per questa company");
+        }// fine del blocco if
+        k++;
+
+        if (service.versioneNonAncoraUsata(k)) {
+            Preferenza preferenza;
+            preferenza = creaPreferenzaAndVersioneAndLog(k,
+                    Cost.KEY_USE_DEBUG,
+                    PrefType.bool,
+                    "Flag di debug",
+                    false);
+
+            preferenza.note = "Flag generale di debug (ce ne possono essere di specifici, validi solo se questo è vero)";
+            try { // prova ad eseguire il codice
+                preferenzaService.save(preferenza);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
         }// fine del blocco if
         k++;
 
         if (service.versioneNonAncoraUsata(k)) {
             creaPreferenzaAndVersioneAndLog(k,
-                    DEMO,
-                    Cost.KEY_USE_DEBUG,
+                    Cost.KEY_DISPLAY_NEW_RECORD_ONLY,
                     PrefType.bool,
-                    "Flag specifico per questa company\nFunziona solo se è true il flag generale " + Cost.KEY_USE_DEBUG,
-                    true);
+                    "Display only the new record in the grid, after successful editing (persisted).",
+                    false);
         }// fine del blocco if
         k++;
 

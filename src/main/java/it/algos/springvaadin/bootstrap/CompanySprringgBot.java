@@ -23,11 +23,10 @@ import javax.annotation.PostConstruct;
  * Setup non-UI logic here
  * <p>
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat) <br>
- * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione <br>
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
-@SpringComponent
 @Slf4j
 public class CompanySprringgBot {
 

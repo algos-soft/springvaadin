@@ -154,7 +154,7 @@ public class CompanyService extends AlgosServiceImpl {
         }// end of if/else cycle
     }// end of method
 
-    public List findAllAll() {
+    public List<Company> findAllAll() {
         return repository.findByOrderBySiglaAsc();
     }// end of method
 

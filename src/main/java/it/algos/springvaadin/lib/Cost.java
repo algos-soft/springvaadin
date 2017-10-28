@@ -65,6 +65,7 @@ public abstract class Cost {
     public final static String FIELD_LINK = "fieldlink";
     public final static String FIELD_CHEK_BOX = "fieldcheckbox";
     public final static String FIELD_JSON = "fieldjson";
+    public final static String FIELD_RADIO = "fieldradio";
 
     public final static String VIEW_IMAGE = "viewimage";
 
@@ -93,6 +94,7 @@ public abstract class Cost {
     //--chiavi per usare le preferenze della applicazione
     public final static String KEY_USE_DEBUG = "useDebug";
     public final static String KEY_USE_MULTI_COMPANY = "useMultiCompany";
+    public final static String KEY_DISPLAY_NEW_RECORD_ONLY = "newRecordOnly";
     public final static String DISPLAY_FOOTER_INFO = "displayFooterInfo";
     public final static String DISPLAY_TOOLTIPS = "displayTooltips";
     public final static String DISPLAY_FIELD_ORDINE = "displayFieldOrdine";

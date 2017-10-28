@@ -138,6 +138,9 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case combo:
                     field = fieldFactory.apply(AComboField.class);
                     break;
+                case radio:
+                    field = fieldFactory.apply(ARadioField.class);
+                    break;
                 case enumeration:
                     field = fieldFactory.apply(AComboField.class);
                     break;

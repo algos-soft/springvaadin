@@ -7,6 +7,7 @@ import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.log.LogLevel;
 import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.preferenza.PrefEffect;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.field.*;
@@ -106,32 +107,21 @@ public class ViewField {
             ((AComboField) field).fixCombo(items, false);
         }// end of if cycle
 
+        if (type == AFieldType.radio && targetClazz != null && field != null) {
+            //@todo PATCH - PATCH - PATCH
+            if (publicFieldName.equals("attivazione") && clazz.getName().equals(Preferenza.class.getName())) {
+                items = PrefEffect.values();
+            }// end of if cycle
+            //@todo PATCH - PATCH - PATCH
+
+            ((ARadioField) field).fixRadio(items);
+        }// end of if cycle
+
         if (type == AFieldType.link && targetClazz != null && field != null) {
             String lowerName = LibText.primaMinuscola(targetClazz.getSimpleName());
             Object bean = context.getBean(lowerName);
             field.setTarget((ApplicationListener) bean);
         }// end of if cycle
-
-
-//        switch (typeEnabled) {
-//            case always:
-//                enabled = true;
-//                break;
-//            case never:
-//                enabled = false;
-//                break;
-//            case newOnly:
-//                if (entityBean.id == null) {
-//                    enabled = true;
-//                } else {
-//                    enabled = false;
-//                }// end of if/else cycle
-//                break;
-//            default:
-//                log.warn("Switch - caso non definito");
-//                break;
-//        } // end of switch statement
-
 
         if (field != null && fieldAnnotation != null) {
             field.setVisible(visible);

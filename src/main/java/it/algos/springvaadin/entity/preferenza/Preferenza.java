@@ -103,13 +103,14 @@ public class Preferenza extends ACompanyEntity {
     private byte[] value;
 
 
+
     /**
-     * riavvio del programma per avere effetto (obbligatorio, di default false)
+     * effetti (obbligatorio, di default 1)
      */
     @NotNull
-    @AIField(type = AFieldType.checkbox, required = true, name = "Occorre riavviare perché abbia effetto", admin = FieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 80, name = "Riavvio")
-    private boolean riavvio;
+    @AIField(type = AFieldType.radio, required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    private PrefEffect attivazione;
 
     /**
      * @return a string representation of the object.

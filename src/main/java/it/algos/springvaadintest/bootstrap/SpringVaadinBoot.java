@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
  * Setup non-UI logic here
  * This class will be executed on container startup when the application is ready to server requests.
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat)
- * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione
  * <p>
  * In order to create a class that acts like a bootstrap for the application,
  * that class needs to implements the @EventListener annotation

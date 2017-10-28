@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Setup non-UI logic here
  * <p>
  * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat) <br>
- * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione <br>
  */
 @SpringComponent
 @Slf4j
