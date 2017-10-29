@@ -26,7 +26,7 @@
     <property name="dirUI" value="ui"/>
     <property name="tagApp" value="Application"/>
     <property name="tagCost" value="AppCost"/>
-    <property name="tagBoot" value="SpringBoot"/>
+    <property name="tagBoot" value="Boot"/>
     <property name="tagUI" value="UI"/>
     <property name="tagPom" value="pom"/>
     <property name="tagRes" value="spring.datasource"/>

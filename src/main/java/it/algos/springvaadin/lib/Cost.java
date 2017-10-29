@@ -43,6 +43,7 @@ public abstract class Cost {
     public final static String BOT_CREATE = "nuovo";
     public final static String BOT_DELETE = "elimina";
     public final static String BOT_EDIT = "edit";
+    public final static String BOT_SHOW = "show";
     public final static String BOT_IMAGE = "immagine";
     public final static String BOT_IMPORT = "import";
     public final static String BOT_LINK_ACCETTA = "linkaccetta";
@@ -111,6 +112,7 @@ public abstract class Cost {
     public final static String TAG_BOT_EDIT = "usaBottoneEdit";
     public final static String TAG_BOT_DELETE = "usaBottoneDelete";
     public final static String TAG_BOT_SEARCH = "usaBottoneRicerca";
+    public final static String TAG_BOT_SHOW = "usaBottoneShow";
     public final static String TAG_BOT_ANNULLA = "usaBottoneAnnulla";
     public final static String TAG_BOT_REVERT = "usaBottoneRevert";
     public final static String TAG_BOT_SAVE = "usaBottoneRegistra";

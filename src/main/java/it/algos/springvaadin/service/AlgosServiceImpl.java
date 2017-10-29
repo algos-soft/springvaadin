@@ -308,11 +308,14 @@ public abstract class AlgosServiceImpl implements AlgosService {
                 case noSearch:
                     matrice = new String[]{Cost.TAG_BOT_NEW, Cost.TAG_BOT_EDIT, Cost.TAG_BOT_DELETE};
                     break;
-                case show:
+                case noCreate:
                     matrice = new String[]{Cost.TAG_BOT_EDIT, Cost.TAG_BOT_SEARCH};
                     break;
                 case edit:
                     matrice = new String[]{Cost.TAG_BOT_EDIT};
+                    break;
+                case show:
+                    matrice = new String[]{Cost.TAG_BOT_SHOW};
                     break;
                 default:
                     log.warn("Switch - caso non definito");

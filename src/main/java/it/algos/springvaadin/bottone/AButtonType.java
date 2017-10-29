@@ -30,6 +30,7 @@ public enum AButtonType {
     delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, Cost.STYLE_RED),
     deleteLink("", VaadinIcons.CLOSE, true, AButton.ICON_WIDTH, Cost.STYLE_RED),
     edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
+    show(Cost.BOT_SHOW, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
     editLinkDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_BLUE),
     editLinkNoDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, Cost.STYLE_BLUE),
     image("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, ""),
@@ -39,7 +40,7 @@ public enum AButtonType {
     registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, AButton.NORMAL_WIDTH, Cost.STYLE_BLUE),
     revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
     search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN),
-    show(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN);
+    showAll(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, Cost.STYLE_GREEN);
 
 
     private String caption;

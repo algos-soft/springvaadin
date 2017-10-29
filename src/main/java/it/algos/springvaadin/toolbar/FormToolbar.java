@@ -42,25 +42,6 @@ public class FormToolbar extends AToolbarImpl {
     }// end of @Autowired constructor
 
 
-//    /**
-//     * Metodo invocato da restart() di Form e List
-//     * Seleziona i bottoni da mostrare nella toolbar
-//     * Crea i bottoni (iniettandogli il publisher)
-//     * Aggiunge i bottoni al contenitore grafico
-//     * Inietta nei bottoni il parametro obbligatorio (source)
-//     *
-//     * @param source       dell'evento generato dai bottoni
-//     * @param listaBottoni da visualizzare
-//     */
-//    @Override
-//    public void inizializza(ApplicationListener source, List<String> listaBottoni) {
-//        this.removeAllComponents();
-//
-//        super.creaAddButton(AButtonType.annulla, source);
-//        super.creaAddButton(AButtonType.revert, source);
-//        super.creaAddButton(AButtonType.registra, source);
-//    }// end of method
-
 
     /**
      * Metodo invocato da restart() di Form e List

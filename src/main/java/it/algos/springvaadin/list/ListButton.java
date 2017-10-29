@@ -11,6 +11,7 @@ package it.algos.springvaadin.list;
 public enum ListButton {
     standard,   //--new, edit, delete, find
     noSearch,   //--new, edit, delete
-    show,       //--edit, delete
-    edit        //--edit
+    noCreate,   //--edit, delete
+    edit,       //--edit
+    show        //--showAll
 }// end of enum

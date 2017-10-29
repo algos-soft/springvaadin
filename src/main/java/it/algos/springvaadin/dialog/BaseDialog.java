@@ -12,7 +12,7 @@ import com.vaadin.ui.*;
  * You can also set a message to be displayed in the detail area calling <code>setMessage(String message)</code>. The
  * message string can contain simple HTML.
  * <p>
- * Once the dialog is prepared, show it by calling <code>show(UI ui)</code>
+ * Once the dialog is prepared, showAll it by calling <code>showAll(UI ui)</code>
  * <p>
  * Sizing: By default the dialog is not resizable and its size depends on the content.<br>
  * You can set it to be resizable with <code>setResizable(true)</code> but in this case a initial size is also needed.

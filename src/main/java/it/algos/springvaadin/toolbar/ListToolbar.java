@@ -29,27 +29,6 @@ import java.util.List;
 public class ListToolbar extends AToolbarImpl {
 
 
-//    /**
-//     * Flag per visualizzare o meno il bottone New - di default true
-//     */
-//    private boolean usaBottoneNew = true;
-//
-//    /**
-//     * Flag per visualizzare o meno il bottone Edit - di default true
-//     */
-//    private boolean usaBottoneEdit = true;
-//
-//    /**
-//     * Flag per visualizzare o meno il bottone Delete - di default true
-//     */
-//    private boolean usaBottoneDelete = true;
-//
-//    /**
-//     * Flag per visualizzare o meno il bottone Search - di default false
-//     */
-//    private boolean usaBottoneRicerca = false;
-
-
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
@@ -60,21 +39,6 @@ public class ListToolbar extends AToolbarImpl {
     public ListToolbar(AButtonFactory buttonFactory) {
         super(buttonFactory);
     }// end of @Autowired constructor
-
-//    public void selezionaBottoniOld(List<String> listaBottoni) {
-//        if (!listaBottoni.contains("usaBottoneNew")) {
-//            usaBottoneNew = false;
-//        }// end of if cycle
-//        if (!listaBottoni.contains("usaBottoneEdit")) {
-//            usaBottoneEdit = false;
-//        }// end of if cycle
-//        if (!listaBottoni.contains("usaBottoneDelete")) {
-//            usaBottoneDelete = false;
-//        }// end of if cycle
-//        if (listaBottoni.contains("usaBottoneRicerca")) {
-//            usaBottoneRicerca = true;
-//        }// end of if cycle
-//    }// end of method
 
     /**
      * Metodo invocato da restart() di Form e List
@@ -102,12 +66,10 @@ public class ListToolbar extends AToolbarImpl {
         if (listaBottoni.contains(Cost.TAG_BOT_SEARCH)) {
             super.creaAddButton(AButtonType.search, source);
         }// end of if cycle
+        if (listaBottoni.contains(Cost.TAG_BOT_SHOW)) {
+            super.creaAddButton(AButtonType.show, source);
+        }// end of if cycle
 
     }// end of method
-
-
-//    public void setUsaBottoneRicerca(boolean usaBottoneRicerca) {
-//        this.usaBottoneRicerca = usaBottoneRicerca;
-//    }// end of method
 
 }// end of class

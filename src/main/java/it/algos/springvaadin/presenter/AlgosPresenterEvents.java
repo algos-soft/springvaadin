@@ -3,14 +3,11 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.field.AImageField;
-import it.algos.springvaadin.lib.LibAvviso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -336,7 +333,7 @@ public abstract class AlgosPresenterEvents implements AlgosPresenter {
             case search:
                 search();
                 break;
-            case show:
+            case showAll:
                 showAll();
                 break;
             case importa:

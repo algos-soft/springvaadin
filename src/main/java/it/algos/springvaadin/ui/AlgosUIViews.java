@@ -149,7 +149,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
     /**
      * Mostra una view
      *
-     * @param viewName the view to show
+     * @param viewName the view to showAll
      */
     public void navigateTo(String viewName) {
         getNavigator().navigateTo(viewName);
