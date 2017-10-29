@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by gac on 10-ago-17
@@ -34,7 +35,7 @@ public class StatoList extends AlgosListImpl {
      */
     public StatoList(@Qualifier(Cost.TAG_STA) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
         super(service, grid, toolbar);
-        toolbar.setUsaBottoneRicerca(false);
+//        toolbar.setUsaBottoneRicerca(false);
     }// end of Spring constructor
 
 
@@ -58,17 +59,19 @@ public class StatoList extends AlgosListImpl {
     /**
      * Prepara la toolbar
      * <p>
+     * Seleziona i bottoni da mostrare nella toolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source       dell'evento generato dal bottone
+     * @param listaBottoni da visualizzare
      */
-    @Override
-    protected void inizializzaToolbar(ApplicationListener source) {
-        super.inizializzaToolbar(source);
+    protected void inizializzaToolbar(ApplicationListener source, List<String> listaBottoni) {
+        super.inizializzaToolbar(source,listaBottoni);
         buttonImport = toolbar.creaAddButton(AButtonType.importa, source);
     }// end of method
+
 
 
     public void enableImport(boolean status) {

@@ -84,19 +84,27 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         //--Controlla (se MultiUtenza) che sia stata selezionata una company valida
         //--Crea la User Interface
         if (AlgosApp.USE_MULTI_COMPANY) {
-            if (LibSession.isCompanyValida() || LibSession.isDeveloper()) {
+            if (LibSession.isCompanyValida() ) {
                 this.creaUI();
             } else {
-                if (algosStartService.getSiglaCompany(request).equals("")) {
-                    LibAvviso.warn("Manca una company di riferimento");
+                if (LibSession.isDeveloper()) {
+                    if (algosStartService.getSiglaCompany(request).equals("")) {
+                        LibAvviso.warn("Manca una company di riferimento");
+                    } else {
+                        LibAvviso.warn("La company indicata non esiste");
+                    }// end of if/else cycle
+                    this.creaUI();
                 } else {
-                    LibAvviso.warn("La company indicata non esiste");
+                    if (algosStartService.getSiglaCompany(request).equals("")) {
+                        LibAvviso.error("Manca una company di riferimento");
+                    } else {
+                        LibAvviso.error("La company indicata non esiste");
+                    }// end of if/else cycle
                 }// end of if/else cycle
             }// end of if/else cycle
         } else {
             this.creaUI();
         }// end of if/else cycle
-
     }// end of method
 
     /**

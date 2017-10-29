@@ -21,6 +21,7 @@ import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.login.ARoleType;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import lombok.extern.slf4j.Slf4j;
@@ -53,11 +54,14 @@ public class PreferenzaForm extends AlgosFormImpl {
      * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
-     * @param toolbar iniettata da Spring
+     * @param service     iniettata da Spring
+     * @param toolbar     iniettata da Spring
+     * @param toolbarLink iniettata da Spring
      */
-    public PreferenzaForm(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
-                          @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
-        super(toolbar, toolbarLink);
+    public PreferenzaForm(@Qualifier(Cost.TAG_PRE) AlgosService service,
+                       @Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                       @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
+        super(service, toolbar, toolbarLink);
     }// end of Spring constructor
 
 

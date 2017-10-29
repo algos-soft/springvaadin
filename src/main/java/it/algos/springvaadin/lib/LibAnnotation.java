@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.FieldAccessibility;
+import it.algos.springvaadin.form.FormButton;
 import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -1594,10 +1595,10 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static ListButton getListBottonDev(final Class<? extends AEntity> clazz) {
         ListButton listaNomi = null;
-        AIList listAnnotation = getAIList(clazz);
+        AIList annotation = getAIList(clazz);
 
-        if (listAnnotation != null) {
-            listaNomi = listAnnotation.dev();
+        if (annotation != null) {
+            listaNomi = annotation.dev();
         }// end of if cycle
 
         return listaNomi;
@@ -1613,10 +1614,10 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static ListButton getListBottonAdmin(final Class<? extends AEntity> clazz) {
         ListButton listaNomi = null;
-        AIList listAnnotation = getAIList(clazz);
+        AIList annotation = getAIList(clazz);
 
-        if (listAnnotation != null) {
-            listaNomi = listAnnotation.admin();
+        if (annotation != null) {
+            listaNomi = annotation.admin();
         }// end of if cycle
 
         return listaNomi;
@@ -1632,10 +1633,97 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static ListButton getListBottonUser(final Class<? extends AEntity> clazz) {
         ListButton listaNomi = null;
-        AIList listAnnotation = getAIList(clazz);
+        AIList annotation = getAIList(clazz);
 
-        if (listAnnotation != null) {
-            listaNomi = listAnnotation.user();
+        if (annotation != null) {
+            listaNomi = annotation.user();
+        }// end of if cycle
+
+        return listaNomi;
+    }// end of static method
+
+
+
+
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static FormButton getFormBotton(final Class<? extends AEntity> clazz) {
+        FormButton listaNomi = FormButton.standard;
+
+        if (LibSession.isDeveloper()) {
+            listaNomi = getFormBottonDev(clazz);
+        } else {
+            if (LibSession.isAdmin()) {
+                listaNomi = getFormBottonAdmin(clazz);
+            } else {
+                if (true) {
+                    listaNomi = getFormBottonUser(clazz);
+                }// end of if cycle
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static FormButton getFormBottonDev(final Class<? extends AEntity> clazz) {
+        FormButton listaNomi = null;
+        AIForm annotation = getAIForm(clazz);
+
+        if (annotation != null) {
+            listaNomi = annotation.dev();
+        }// end of if cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static FormButton getFormBottonAdmin(final Class<? extends AEntity> clazz) {
+        FormButton listaNomi = null;
+        AIForm annotation = getAIForm(clazz);
+
+        if (annotation != null) {
+            listaNomi = annotation.admin();
+        }// end of if cycle
+
+        return listaNomi;
+    }// end of static method
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public static FormButton getFormBottonUser(final Class<? extends AEntity> clazz) {
+        FormButton listaNomi = null;
+        AIForm annotation = getAIForm(clazz);
+
+        if (annotation != null) {
+            listaNomi = annotation.user();
         }// end of if cycle
 
         return listaNomi;

@@ -9,8 +9,8 @@ package it.algos.springvaadin.list;
  * Time: 18:44
  */
 public enum ListButton {
-    standard,   //--new, edit, delete
-    full,       //--new, edit, delete, find
+    standard,   //--new, edit, delete, find
+    noSearch,   //--new, edit, delete
     show,       //--edit, delete
     edit        //--edit
-}// end of class
+}// end of enum

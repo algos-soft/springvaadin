@@ -15,9 +15,11 @@ import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.AToolbarImpl;
 import it.algos.springvaadin.toolbar.LinkToolbar;
+import it.algos.springvaadin.toolbar.ListToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     @Autowired
     private ViewField viewField;
+
+    //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
+    protected AlgosService service;
+
 
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
     protected Window window;
@@ -76,8 +82,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param toolbarNormale iniettata da Spring
      * @param toolbarLink    iniettata da Spring
      */
-    public AlgosFormImpl(@Qualifier(Cost.BAR_FORM) AToolbar toolbarNormale,
+    public AlgosFormImpl(AlgosService service,
+                         @Qualifier(Cost.BAR_FORM) AToolbar toolbarNormale,
                          @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
+        this.service = service;
         this.toolbarNormale = toolbarNormale;
         this.toolbarLink = toolbarLink;
     }// end of Spring constructor
@@ -275,7 +283,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void setFieldEnabled(String publicFieldName, boolean enabled) {
         AField field = getField(publicFieldName);
 
-        if (entityBean != null ) {
+        if (entityBean != null) {
             try { // prova ad eseguire il codice
                 if (field != null) {
                     field.setEnabled(enabled);
@@ -421,6 +429,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     protected void usaAllScreen(ApplicationListener source, List<Field> reflectFields, AEntity entityBean) {
         String caption = "";
+        List<String> listaBottoni;
         Label label;
         this.removeAllComponents();
 
@@ -430,8 +439,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         creaAddBindFields(source, this, reflectFields, entityBean);
 
-        this.addComponent(new Label());
-        toolbar.inizializza(source);
+        //--Prepara la toolbar e la aggiunge al contenitore grafico
+//        this.addComponent(new Label());
+        listaBottoni = service.getFormBottonNames();
+        toolbar.inizializza(source, listaBottoni);
         fixToolbar();
         this.addComponent((AToolbarImpl) toolbar);
     }// end of method

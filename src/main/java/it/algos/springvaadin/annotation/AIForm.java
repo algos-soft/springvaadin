@@ -1,5 +1,7 @@
 package it.algos.springvaadin.annotation;
 
+import it.algos.springvaadin.form.FormButton;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -36,5 +38,26 @@ public @interface AIForm{
      * Defaults to all.
      */
     String[] fields() default "";
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for developer role
+     * Defaults to standard.
+     */
+    FormButton dev() default FormButton.standard;
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for admin role
+     * Defaults to standard.
+     */
+    FormButton admin() default FormButton.standard;
+
+    /**
+     * (Optional) List of buttom on bottom
+     * Specific for user role
+     * Defaults to standard.
+     */
+    FormButton user() default FormButton.show;
 
 }// end of interface annotation

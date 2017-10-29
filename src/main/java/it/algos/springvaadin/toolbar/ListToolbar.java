@@ -29,25 +29,25 @@ import java.util.List;
 public class ListToolbar extends AToolbarImpl {
 
 
-    /**
-     * Flag per visualizzare o meno il bottone New - di default true
-     */
-    private boolean usaBottoneNew = true;
-
-    /**
-     * Flag per visualizzare o meno il bottone Edit - di default true
-     */
-    private boolean usaBottoneEdit = true;
-
-    /**
-     * Flag per visualizzare o meno il bottone Delete - di default true
-     */
-    private boolean usaBottoneDelete = true;
-
-    /**
-     * Flag per visualizzare o meno il bottone Search - di default false
-     */
-    private boolean usaBottoneRicerca = false;
+//    /**
+//     * Flag per visualizzare o meno il bottone New - di default true
+//     */
+//    private boolean usaBottoneNew = true;
+//
+//    /**
+//     * Flag per visualizzare o meno il bottone Edit - di default true
+//     */
+//    private boolean usaBottoneEdit = true;
+//
+//    /**
+//     * Flag per visualizzare o meno il bottone Delete - di default true
+//     */
+//    private boolean usaBottoneDelete = true;
+//
+//    /**
+//     * Flag per visualizzare o meno il bottone Search - di default false
+//     */
+//    private boolean usaBottoneRicerca = false;
 
 
     /**
@@ -61,57 +61,53 @@ public class ListToolbar extends AToolbarImpl {
         super(buttonFactory);
     }// end of @Autowired constructor
 
-    /**
-     * Seleziona i bottoni da mostrare nella toolbar
-     *
-     * @param listaBottoni
-     */
-    @Override
-    public void selezionaBottoni(List<String> listaBottoni) {
-        if (!listaBottoni.contains("usaBottoneNew")) {
-            usaBottoneNew = false;
-        }// end of if cycle
-        if (!listaBottoni.contains("usaBottoneEdit")) {
-            usaBottoneEdit = false;
-        }// end of if cycle
-        if (!listaBottoni.contains("usaBottoneDelete")) {
-            usaBottoneDelete = false;
-        }// end of if cycle
-        if (listaBottoni.contains("usaBottoneRicerca")) {
-            usaBottoneRicerca = true;
-        }// end of if cycle
-    }// end of method
+//    public void selezionaBottoniOld(List<String> listaBottoni) {
+//        if (!listaBottoni.contains("usaBottoneNew")) {
+//            usaBottoneNew = false;
+//        }// end of if cycle
+//        if (!listaBottoni.contains("usaBottoneEdit")) {
+//            usaBottoneEdit = false;
+//        }// end of if cycle
+//        if (!listaBottoni.contains("usaBottoneDelete")) {
+//            usaBottoneDelete = false;
+//        }// end of if cycle
+//        if (listaBottoni.contains("usaBottoneRicerca")) {
+//            usaBottoneRicerca = true;
+//        }// end of if cycle
+//    }// end of method
 
     /**
      * Metodo invocato da restart() di Form e List
+     * Seleziona i bottoni da mostrare nella toolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source       dell'evento generato dai bottoni
+     * @param listaBottoni da visualizzare
      */
     @Override
-    public void inizializza(ApplicationListener source) {
+    public void inizializza(ApplicationListener source, List<String> listaBottoni) {
         this.removeAllComponents();
 
-        if (usaBottoneNew) {
+        if (listaBottoni.contains(Cost.TAG_BOT_NEW)) {
             super.creaAddButton(AButtonType.create, source);
         }// end of if cycle
-        if (usaBottoneEdit) {
+        if (listaBottoni.contains(Cost.TAG_BOT_EDIT)) {
             super.creaAddButton(AButtonType.edit, source);
         }// end of if cycle
-        if (usaBottoneDelete) {
+        if (listaBottoni.contains(Cost.TAG_BOT_DELETE)) {
             super.creaAddButton(AButtonType.delete, source);
         }// end of if cycle
-        if (usaBottoneRicerca) {
+        if (listaBottoni.contains(Cost.TAG_BOT_SEARCH)) {
             super.creaAddButton(AButtonType.search, source);
         }// end of if cycle
 
     }// end of method
 
 
-    public void setUsaBottoneRicerca(boolean usaBottoneRicerca) {
-        this.usaBottoneRicerca = usaBottoneRicerca;
-    }// end of method
+//    public void setUsaBottoneRicerca(boolean usaBottoneRicerca) {
+//        this.usaBottoneRicerca = usaBottoneRicerca;
+//    }// end of method
 
 }// end of class

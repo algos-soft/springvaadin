@@ -41,38 +41,39 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
         this.buttonFactory = buttonFactory;
     }// end of @Autowired constructor
 
+//    /**
+//     * Seleziona i bottoni da mostrare nella toolbar
+//     *
+//     * @param listaBottoni
+//     */
+//    @Override
+//    public void selezionaBottoni(List<String> listaBottoni) {
+//    }// end of method
+
     /**
+     * Metodo invocato da restart() di Form e List
      * Seleziona i bottoni da mostrare nella toolbar
-     *
-     * @param listaBottoni
-     */
-    @Override
-    public void selezionaBottoni(List<String> listaBottoni) {
-    }// end of method
-
-    /**
-     * Metodo invocato da restart() di Form e List
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source       dell'evento generato dai bottoni
+     * @param listaBottoni da visualizzare
      */
-    @Override
-    public void inizializza(ApplicationListener source) {
+    public void inizializza(ApplicationListener source, List<String> listaBottoni) {
     }// end of method
 
-    /**
-     * Metodo invocato da restart() di Form e List
-     * Crea i bottoni (iniettandogli il publisher)
-     * Aggiunge i bottoni al contenitore grafico
-     * Inietta nei bottoni il parametro obbligatorio (source)
-     *
-     * @param source dell'evento generato dal bottone
-     */
-    @Override
-    public void inizializza(ApplicationListener source, ApplicationListener target) {
-    }// end of method
+//    /**
+//     * Metodo invocato da restart() di Form e List
+//     * Crea i bottoni (iniettandogli il publisher)
+//     * Aggiunge i bottoni al contenitore grafico
+//     * Inietta nei bottoni il parametro obbligatorio (source)
+//     *
+//     * @param source dell'evento generato dal bottone
+//     */
+//    @Override
+//    public void inizializza(ApplicationListener source, ApplicationListener target) {
+//    }// end of method
 
     /**
      * Metodo invocato da restart() di Form, nella classe LinkToolbar

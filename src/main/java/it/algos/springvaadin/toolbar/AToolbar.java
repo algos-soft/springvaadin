@@ -25,24 +25,35 @@ import java.util.List;
 public interface AToolbar {
 
 
-    /**
-     * Metodo invocato da restart() di Form e List
-     * Crea i bottoni (iniettandogli il publisher)
-     * Aggiunge i bottoni al contenitore grafico
-     * Inietta nei bottoni il parametro obbligatorio (source)
-     */
-    public void inizializza(ApplicationListener source);
+//    /**
+//     * Metodo invocato da restart() di Form e List
+//     * Crea i bottoni (iniettandogli il publisher)
+//     * Aggiunge i bottoni al contenitore grafico
+//     * Inietta nei bottoni il parametro obbligatorio (source)
+//     */
+//    public void inizializza(ApplicationListener source);
+
+//    /**
+//     * Metodo invocato da restart() di Form e List
+//     * Crea i bottoni (iniettandogli il publisher)
+//     * Aggiunge i bottoni al contenitore grafico
+//     * Inietta nei bottoni il parametro obbligatorio (source)
+//     *
+//     * @param source dell'evento generato dal bottone
+//     */
+//    public void inizializza(ApplicationListener source,ApplicationListener target);
 
     /**
      * Metodo invocato da restart() di Form e List
+     * Seleziona i bottoni da mostrare nella toolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source       dell'evento generato dai bottoni
+     * @param listaBottoni da visualizzare
      */
-    public void inizializza(ApplicationListener source,ApplicationListener target);
-
+    public void inizializza(ApplicationListener source, List<String> listaBottoni);
 
     /**
      * Metodo invocato da restart() di Form, nella classe LinkToolbar
@@ -53,7 +64,7 @@ public interface AToolbar {
      * @param source      dell'evento generato dal bottone
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
-    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean,AField sourceField);
+    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField);
 
 
     /**
@@ -76,7 +87,7 @@ public interface AToolbar {
      * @param source      dell'evento generato dal bottone
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
-    public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean,AField sourceField);
+    public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField);
 
 
     /**
@@ -106,11 +117,11 @@ public interface AToolbar {
      */
     public void enableButton(AButtonType type, boolean status);
 
-    /**
-     * Seleziona i bottoni da mostrare nella toolbar
-     *
-     */
-    public void selezionaBottoni(List<String> listaBottoni);
+//    /**
+//     * Seleziona i bottoni da mostrare nella toolbar
+//     *
+//     */
+//    public void selezionaBottoni(List<String> listaBottoni);
 
 
 }// end of interface

@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.exception.*;
+import it.algos.springvaadin.form.FormButton;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.list.ListButton;
@@ -298,24 +299,47 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public List<String> getListBottonNames() {
         ListButton listaBottoni = LibAnnotation.getListBotton(entityClass);
         String[] matrice = null;
-        String create = "usaBottoneNew";
-        String edit = "usaBottoneEdit";
-        String delete = "usaBottoneDelete";
-        String find = "usaBottoneRicerca";
 
         if (listaBottoni != null) {
             switch (listaBottoni) {
                 case standard:
-                    matrice = new String[]{create, edit, delete};
+                    matrice = new String[]{Cost.TAG_BOT_NEW, Cost.TAG_BOT_EDIT, Cost.TAG_BOT_DELETE, Cost.TAG_BOT_SEARCH};
                     break;
-                case full:
-                    matrice = new String[]{create, edit, delete, find};
+                case noSearch:
+                    matrice = new String[]{Cost.TAG_BOT_NEW, Cost.TAG_BOT_EDIT, Cost.TAG_BOT_DELETE};
                     break;
                 case show:
-                    matrice = new String[]{edit, find};
+                    matrice = new String[]{Cost.TAG_BOT_EDIT, Cost.TAG_BOT_SEARCH};
                     break;
                 case edit:
-                    matrice = new String[]{edit};
+                    matrice = new String[]{Cost.TAG_BOT_EDIT};
+                    break;
+                default:
+                    log.warn("Switch - caso non definito");
+                    break;
+            } // end of switch statement
+        }// end of if cycle
+
+        return LibArray.fromString(matrice);
+    }// end of method
+
+
+    /**
+     * Bottoni nella toolbar del Form
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    public List<String> getFormBottonNames() {
+        FormButton listaBottoni = LibAnnotation.getFormBotton(entityClass);
+        String[] matrice = null;
+
+        if (listaBottoni != null) {
+            switch (listaBottoni) {
+                case standard:
+                    matrice = new String[]{Cost.TAG_BOT_ANNULLA, Cost.TAG_BOT_REVERT, Cost.TAG_BOT_SAVE};
+                    break;
+                case show:
+                    matrice = new String[]{Cost.TAG_BOT_ANNULLA};
                     break;
                 default:
                     log.warn("Switch - caso non definito");

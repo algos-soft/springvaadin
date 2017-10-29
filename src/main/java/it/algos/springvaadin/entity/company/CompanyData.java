@@ -1,4 +1,4 @@
-package it.algos.springvaadintest.bootstrap;
+package it.algos.springvaadin.entity.company;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;

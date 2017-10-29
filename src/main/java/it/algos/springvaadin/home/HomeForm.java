@@ -30,7 +30,7 @@ public class HomeForm extends AlgosFormImpl {
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      */
     public HomeForm() {
-        super(null,null );
+        super(null,null,null );
     }// end of Spring constructor
 
 

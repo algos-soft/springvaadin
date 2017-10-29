@@ -8,6 +8,7 @@ import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.FormToolbar;
 import lombok.extern.slf4j.Slf4j;
@@ -32,13 +33,15 @@ public class VersioneForm extends AlgosFormImpl {
      * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
-     * @param toolbar iniettata da Spring
+     * @param service     iniettata da Spring
+     * @param toolbar     iniettata da Spring
+     * @param toolbarLink iniettata da Spring
      */
-    public VersioneForm(@Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+    public VersioneForm(@Qualifier(Cost.TAG_VERS) AlgosService service,
+                        @Qualifier(Cost.BAR_FORM) AToolbar toolbar,
                         @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
-        super(toolbar, toolbarLink);
+        super(service, toolbar, toolbarLink);
     }// end of Spring constructor
-
 
     /**
      * Eventuali regolazioni specifiche per i fields

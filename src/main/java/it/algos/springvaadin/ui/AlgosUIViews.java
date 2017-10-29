@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
@@ -94,7 +95,9 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-		menuLayout.addView(PreferenzaNavView.class);
+        if (LibAnnotation.isEntityClassVisibile(Preferenza.class)) {
+            menuLayout.addView(PreferenzaNavView.class);
+        }// end of if cycle
         if (LibAnnotation.isEntityClassVisibile(Stato.class)) {
             menuLayout.addView(StatoNavView.class);
         }// end of if cycle

@@ -111,8 +111,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico
         listaBottoni = service.getListBottonNames();
-        toolbar.selezionaBottoni(listaBottoni);
-        inizializzaToolbar(source);
+        inizializzaToolbar(source, listaBottoni);
         fixToolbar();
         this.addComponent((ListToolbar) toolbar);
 
@@ -137,14 +136,16 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     /**
      * Prepara la toolbar
      * <p>
+     * Seleziona i bottoni da mostrare nella toolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni il parametro obbligatorio (source)
      *
-     * @param source dell'evento generato dal bottone
+     * @param source       dell'evento generato dal bottone
+     * @param listaBottoni da visualizzare
      */
-    protected void inizializzaToolbar(ApplicationListener source) {
-        toolbar.inizializza(source);
+    protected void inizializzaToolbar(ApplicationListener source, List<String> listaBottoni) {
+        toolbar.inizializza(source, listaBottoni);
     }// end of method
 
 

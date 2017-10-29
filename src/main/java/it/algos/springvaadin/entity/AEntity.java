@@ -62,9 +62,10 @@ public abstract class AEntity implements Serializable {
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.textarea, widthEM = 24, user = FieldAccessibility.allways)
+    @AIField(type = AFieldType.textarea, widthEM = 24, admin = FieldAccessibility.allways, user = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public String note;
+
 
     /**
      * Data di nuovo del record (obbligatoria, non modificabile)
@@ -75,6 +76,7 @@ public abstract class AEntity implements Serializable {
     @AIField(type = AFieldType.localdatetime, name = "Creazione della scheda", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     public LocalDateTime dataCreazione;
+
 
     /**
      * Data di edit del record (obbligatoria, modificabile solo da codice, non da UI)

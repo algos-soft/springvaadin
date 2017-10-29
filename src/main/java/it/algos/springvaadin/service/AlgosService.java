@@ -142,6 +142,14 @@ public interface AlgosService {
      */
     public List<String> getListBottonNames() ;
 
+
+    /**
+     * Bottoni nella toolbar della Grid
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    public List<String> getFormBottonNames() ;
+
     /**
      * Flag per visualizzare il field company
      * <p>

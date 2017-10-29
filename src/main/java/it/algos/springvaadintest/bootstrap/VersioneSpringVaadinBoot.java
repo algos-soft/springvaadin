@@ -3,17 +3,11 @@ package it.algos.springvaadintest.bootstrap;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bootstrap.VersioneBoot;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.company.CompanyService;
-import it.algos.springvaadin.entity.log.LogService;
-import it.algos.springvaadin.entity.log.LogType;
+import it.algos.springvaadin.entity.company.CompanyData;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
-import it.algos.springvaadin.entity.preferenza.PreferenzaService;
-import it.algos.springvaadin.entity.versione.Versione;
-import it.algos.springvaadin.entity.versione.VersioneService;
+import it.algos.springvaadin.entity.stato.StatoData;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibSession;
-import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +46,8 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
     @Autowired
     protected CompanyData companyData;
 
-    @Autowired
-    private PreferenzaService preferenzaService;
+//    @Autowired
+//    private PreferenzaService preferenzaService;
 
     private final static String DEMO = "demo";
 
