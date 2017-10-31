@@ -10,6 +10,7 @@ import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by gac on 07-ago-17
@@ -34,9 +35,10 @@ public class IndirizzoList extends AlgosListImpl {
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     @Override
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
-            caption = "";
+            caption = className + " - ";
+            caption += "Non dovrebbero esserci schede.";
             caption += "</br>Lista visibile solo al developer";
             caption += "</br>NON usa la company";
             caption += "</br>L'entity è 'embedded' nelle collezioni che la usano (no @Annotation property DbRef)";

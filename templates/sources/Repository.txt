@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.entity.company.Company;
 
 import java.util.List;
 
@@ -17,13 +18,10 @@ import java.util.List;
 @Qualifier(@TAG@)
 public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
 
+    public @ENTITY@ findByCompanyAndCode(Company company, String code);
 
-    public @ENTITY@ findById(ObjectId id);
+    public List<@ENTITY@> findByOrderByCodeAsc();
 
-    public @ENTITY@ findBySigla(String sigla);
-
-    public List<@ENTITY@> findAllByOrderBySiglaAsc();
-
-    public @ENTITY@ save(@ENTITY@ entity);
+    public List<@ENTITY@> findByCompanyOrderByCodeAsc(Company company);
 
 }// end of class

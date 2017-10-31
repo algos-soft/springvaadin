@@ -195,7 +195,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
-        List<Field> reflectFields = service.getFormFields();
+        List<Field> reflectFields = service.getFormFieldsLink();
 
         if (entityBean == null) {
             entityBean = service.newEntity();

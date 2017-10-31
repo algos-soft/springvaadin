@@ -46,14 +46,17 @@ public class PreferenzaList extends AlgosListImpl {
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     @Override
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
-            caption = "";
+            super.inizializza(className, items);
             caption += "</br>Lista visibile solo all'admin che vede SOLO le schede della sua company";
             caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è facoltativa";
             caption += "</br>Solo il developer vede queste note";
-        }// end of if cycle
+        } else {
+            super.caption = "Preferenze di funzionamento del programma";
+        }// end of if/else cycle
     }// end of method
+
 
     /**
      * Creazione della grid

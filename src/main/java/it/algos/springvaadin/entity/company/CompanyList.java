@@ -49,16 +49,17 @@ public class CompanyList extends AlgosListImpl {
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     @Override
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
-            super.caption = "";
+            super.inizializza(className, items);
             super.caption += "</br>Lista visibile solo all'admin. Filtrata su una sola company";
             super.caption += "</br>NON usa la company (ovvio)";
             super.caption += "</br>Usabile direttamente, ma anche estendendo la classe";
             super.caption += "</br>Solo il developer vede queste note";
-        }// end of if cycle
+        } else {
+            super.caption = "Company di riferimento";
+        }// end of if/else cycle
     }// end of method
-
 
 
     protected void fixToolbar() {

@@ -1,5 +1,10 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 @IMPORT_COST@
+import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.ACompanyEntity;
+import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.service.AlgosServiceImpl;
@@ -31,27 +36,49 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      */
     public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
         super(repository);
-        this.repository = (@ENTITY@Repository) repository; //casting per uso locale
+        this.repository = (@ENTITY@Repository) repository;
     }// end of Spring constructor
 
     /**
-     * Ricerca e creazione di una entity (la crea se non la trova)
-     * All properties
+     * Ricerca di una entity (la crea se non la trova)
+     * Properties obbligatorie
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code codice di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public @ENTITY@ findOrCrea(String sigla) {
-        if (nonEsiste(sigla)) {
-            try { // prova ad eseguire il codice
-                return (@ENTITY@) save(newEntity(sigla));
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-                return null;
-            }// fine del blocco try-catch
+    public @ENTITY@ findOrCrea(String code) {
+        return findOrCrea((Company) null, code, "");
+    }// end of method
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param companyTmp  (obbligatoria, se manca usa quella presente in LibSession)
+     * @param code        codice di riferimento (obbligatorio)
+     * @param descrizione (facoltativa, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public @ENTITY@  findOrCrea(Company companyTmp, String code, String descrizione) {
+        Company company = companyTmp != null ? companyTmp : LibSession.getCompany();
+
+        if (company != null) {
+            if (nonEsiste(company, code)) {
+                try { // prova ad eseguire il codice
+                    return (@ENTITY@ ) save(newEntity(company, code, descrizione));
+                } catch (Exception unErrore) { // intercetta l'errore
+                    log.error(unErrore.toString());
+                    return null;
+                }// fine del blocco try-catch
+            } else {
+                return repository.findByCompanyAndCode(company, code);
+            }// end of if/else cycle
         } else {
-            return repository.findBySigla(sigla);
+            log.error("findOrCrea senza Company");
+            return null;
         }// end of if/else cycle
     }// end of method
 
@@ -72,58 +99,140 @@ public class @ENTITY@Service extends AlgosServiceImpl {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
-     * All properties
+     * Properties obbligatorie
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code codice di riferimento (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public @ENTITY@ newEntity(String sigla) {
-        return new @ENTITY@(sigla);
+    public @ENTITY@ newEntity(String code) {
+        return newEntity((Company) null, code, "");
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param companyTmp  (obbligatoria, se manca usa quella presente in LibSession)
+     * @param code        codice di riferimento (obbligatorio)
+     * @param descrizione (facoltativa, non unica)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public @ENTITY@ newEntity(Company companyTmp, String code, String descrizione) {
+        @ENTITY@ entity = null;
+        Company company = companyTmp != null ? companyTmp : LibSession.getCompany();
+
+        if (company != null) {
+            if (nonEsiste(company, code)) {
+                entity = new @ENTITY@(
+                        code,
+                        descrizione);
+                entity.setCompany(company);
+            } else {
+                return repository.findByCompanyAndCode(company, code);
+            }// end of if/else cycle
+        } else {
+            log.error("newEntity senza Company");
+        }// end of if/else cycle
+
+        return entity;
     }// end of method
 
 
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code codice di riferimento (obbligatorio)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(String gruppo, String descrizione) {
-        return findBySigla(sigla) == null;
-    }// end of method
-
-
-    /**
-     * Recupera una istanza della Entity usando la query della key ID
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public @ENTITY@ find(ObjectId id) {
-        return repository.findById(id);
-    }// end of method
-
-
-    /**
-     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
-     *
-     * @return istanza della Entity, null se non trovata
-     */
-    public @ENTITY@ findBySigla(String sigla) {
-        return repository.findBySigla(sigla);
+    public boolean nonEsiste(Company company, String code) {
+        return repository.findByCompanyAndCode(company, code) == null;
     }// end of method
 
 
     /**
      * Returns all instances of the type
-     * Non usa MultiCompany, quindi senza filtri
+     * Usa MultiCompany, ma il developer può vedere anche tutto
+     * Lista ordinata
      *
-     * @return lista di tutte le entities
+     * @return lista ordinata di tutte le entities
      */
     public List findAll() {
-        return repository.findAllByOrderBySiglaAsc();
+        if (LibSession.isDeveloper()) {
+            return repository.findByOrderByCodeAsc();
+        }// end of if cycle
+
+        return null;
     }// end of method
+
+
+    /**
+     * Returns all instances of the current company.
+     *
+     * @return selected entities
+     */
+    public List findAllByCompany() {
+        return findAllByCompany(LibSession.getCompany());
+    }// end of method
+
+    /**
+     * Returns all instances of the type.
+     * Usa MultiCompany obbligatoria -> ACompanyRequired.obbligatoria
+     * Filtrata sulla company indicata
+     * Se la company è nulla, rimanda a findAll
+     * Lista ordinata
+     *
+     * @param company ACompanyRequired.obbligatoria
+     *
+     * @return entities filtrate
+     */
+    public List findAllByCompany(Company company) {
+
+        if (company == null) {
+            return findAll();
+        } else {
+            return repository.findByCompanyOrderByCodeAsc(company);
+        }// end of if/else cycle
+
+    }// end of method
+
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entityBean da salvare
+     *
+     * @return the saved entity
+     */
+    @Override
+    public AEntity save(AEntity entityBean) throws Exception {
+        Company company = ((ACompanyEntity) entityBean).getCompany();
+        String code = ((@ENTITY@) entityBean).getCode();
+
+        if (entityBean == null) {
+            return null;
+        }// end of if cycle
+
+        if (LibText.isValid(entityBean.id)) {
+            return super.save(entityBean);
+        } else {
+            if (nonEsiste(company, code)) {
+                return super.save(entityBean);
+            } else {
+                log.error("Ha cercato di salvare una entity già esistente per questa company");
+                return null;
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+    }// end of method
+
 
 }// end of class

@@ -58,7 +58,7 @@ public class Stato extends AEntity {
     @NotNull
     @Indexed(unique = true)
     @AIField(type = AFieldType.integer, help = "Ordine di stato. Unico e normalmente progressivo", dev = FieldAccessibility.showOnly)
-    @AIColumn(name = "#", width = 70)
+    @AIColumn(name = "#", width = 55)
     private int ordine;
 
 

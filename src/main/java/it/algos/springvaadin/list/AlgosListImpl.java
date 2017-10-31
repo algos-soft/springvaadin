@@ -8,11 +8,8 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibColumn;
-import it.algos.springvaadin.lib.LibParams;
+import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 import it.algos.springvaadin.service.AlgosService;
@@ -79,32 +76,19 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> columns) {
         Label label;
         this.setMargin(false);
-        String textLabel = "";
         List<String> listaBottoni;
         this.removeAllComponents();
 
-        caption = "";
-        this.inizializza();
-        if (items != null) {
-            if (items.size() == 1) {
-                textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " scheda. ";
+        //--gestione delle scritte in rosso sopra la Grid
+        inizializza(entityClass.getSimpleName(), items);
+        if (LibText.isValid(caption)) {
+            if (LibParams.usaAvvisiColorati()) {
+                label = new LabelRosso(caption);
             } else {
-                textLabel = entityClass.getSimpleName() + " - Elenco di " + items.size() + " schede. ";
+                label = new Label(caption);
             }// end of if/else cycle
-        } else {
-            textLabel = entityClass.getSimpleName() + " - Al momento non c'è nessuna scheda. ";
-        }// end of if/else cycle
-
-
-        if (caption != null) {
-            textLabel += caption;
+            this.addComponent(label);
         }// end of if cycle
-        if (LibParams.usaAvvisiColorati()) {
-            label = new LabelRosso(textLabel);
-        } else {
-            label = new Label(textLabel);
-        }// end of if/else cycle
-        this.addComponent(label);
 
         grid.inizia(entityClass, items, columns);
         this.addComponent(grid);
@@ -126,7 +110,23 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
      * Chiamato ogni volta che la finestra diventa attiva
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
+        caption = className + " - ";
+
+        if (items != null && items.size() > 0) {
+            if (items.size() == 1) {
+                caption += "Elenco di 1 sola scheda ";
+            } else {
+                caption += "Elenco di " + items.size() + " schede ";
+            }// end of if/else cycle
+            if (LibSession.isCompanyValida()) {
+                caption += "della company " + LibSession.getCompany().getSigla();
+            } else {
+                caption += "di tutte le company ";
+            }// end of if/else cycle
+        } else {
+            caption += "Al momento non c'è nessuna scheda. ";
+        }// end of if/else cycle
     }// end of method
 
 

@@ -12,12 +12,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on @TODAY@
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = @ENTITY@NavView.VIEW_NAME)
+@SpringView(name = @TAG@)
 public class @ENTITY@NavView extends AlgosNavView {
 
 
     //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "@PACKAGE@";
+    public static final String VIEW_NAME = @TAG@;
 
 
     //--icona del Menu

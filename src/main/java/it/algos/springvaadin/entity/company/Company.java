@@ -67,7 +67,7 @@ public class Company extends AEntity {
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company", admin = FieldAccessibility.allways)
-    @AIColumn(width = 350)
+    @AIColumn(width = 400)
     private String descrizione;
 
 
@@ -94,7 +94,7 @@ public class Company extends AEntity {
      * riferimento statico SENZA @DBRef
      */
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo", admin = FieldAccessibility.allways)
-    @AIColumn(width = 350, name = "Indirizzo")
+    @AIColumn(width = 400, name = "Indirizzo")
     private Indirizzo indirizzo;
 
 

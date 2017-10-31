@@ -44,9 +44,9 @@ public class StatoList extends AlgosListImpl {
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     @Override
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
-            caption = "";
+            caption = "Elenco di " + items.size() + " schede che valgono per tutte le company";
             caption += "</br>Lista visibile solo al developer";
             caption += "</br>NON usa la company";
             caption += "</br>La key property ID utilizza la property alfaTre";

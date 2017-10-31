@@ -1,12 +1,16 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.login.ARoleType;
+import it.algos.springvaadin.list.ListButton;
+import it.algos.@PROJECT@.application.AppCost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,14 +32,14 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = @TAG@)
-@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.nonUsata)
-@AIList(columns = {"sigla"})
-@AIForm()
+@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.obbligatoria)
+@AIList(columns = {"sigla", "descrizione"}, dev = ListButton.standard, admin = ListButton.noSearch, user = ListButton.show)
+@AIForm(fields = {"sigla", "descrizione", "note"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class @ENTITY@ extends AEntity {
+public class @ENTITY@ extends ACompanyEntity {
 
 
     /**
@@ -45,12 +49,35 @@ public class @ENTITY@ extends AEntity {
 
 
     /**
-     * sigla di riferimento interna (interna, obbligatoria ed unica)
+     * codice di riferimento (obbligatorio)
      */
-    @NotEmpty(message = "La sigla interna è obbligatoria")
-    @AIField(type = AFieldType.text, required = true, firstCapital = true, widthEM = 8)
-    @AIColumn(width = 100, name = "Sigla")
-    private String sigla;
+    @NotEmpty
+    @Size(min = 2, max = 20)
+    @Indexed()
+    @AIField(
+            type = AFieldType.text,
+            required = true,
+            name = "Codice",
+            widthEM = 9,
+            admin = FieldAccessibility.allways,
+            user = FieldAccessibility.showOnly)
+    @AIColumn(name = "Code", width = 120)
+    private String code;
+
+
+
+    /**
+     * descrizione (facoltativa)
+     */
+    @AIField(
+            type = AFieldType.text,
+            required = true,
+            name = "Descrizione completa",
+            widthEM = 26,
+            admin = FieldAccessibility.allways,
+            user = FieldAccessibility.showOnly)
+    @AIColumn(name = "Descrizione", width = 500)
+    private String descrizione;
 
 
     /**
@@ -58,7 +85,7 @@ public class @ENTITY@ extends AEntity {
      */
     @Override
     public String toString() {
-        return getSigla();
+        return getCode();
     }// end of method
 
 

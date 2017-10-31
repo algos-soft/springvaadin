@@ -291,6 +291,54 @@ public abstract class AlgosServiceImpl implements AlgosService {
         return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
     }// end of method
 
+
+    /**
+     * Fields visibili (e ordinati) nel Form
+     * Sovrascrivibile
+     * Esclude le date di creazione e modifica che NON servono se usaSeparateFormDialog
+     * Il campo key ID normalmente non viene visualizzato
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
+     *
+     * @return lista di fields visibili nel Form
+     */
+    @Override
+    public List<Field> getFormFieldsLink() {
+        List<String> listaNomi = null;
+        boolean useID = false;
+        boolean useCompany = false;
+
+        //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        listaNomi = LibAnnotation.getFormFields(entityClass);
+
+        //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+        //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
+        useID = LibAnnotation.isFormShowsID(entityClass);
+        useCompany = this.displayCompany();
+
+        //--il developer vede tutto (si potrebbe migliorare)
+        if (LibSession.isDeveloper()) {
+            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+            useID = true;
+            useCompany = true;
+        }// end of if cycle
+
+        if (listaNomi.contains("dataCreazione")) {
+            listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataCreazione")));
+        }// end of if cycle
+        if (listaNomi.contains("dataModifica")) {
+            listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataModifica")));
+        }// end of if cycle
+
+        return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
+    }// end of method
+
+
+
     /**
      * Bottoni nella toolbar della Grid
      *

@@ -136,6 +136,23 @@ public interface AlgosService {
 
 
     /**
+     * Fields visibili (e ordinati) nel Form
+     * Esclude le date di creazione e modifica che NON servono se usaSeparateFormDialog
+     * Sovrascrivibile
+     * Il campo key ID normalmente non viene visualizzato
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
+     *
+     * @return lista di fields visibili nel Form
+     */
+    public List<Field> getFormFieldsLink();
+
+
+    /**
      * Bottoni nella toolbar della Grid
      *
      * @return lista di bottoni visibili nella toolbar

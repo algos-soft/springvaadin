@@ -55,7 +55,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @Indexed()
     @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Normalmente progressivo", admin = FieldAccessibility.showOnly)
-    @AIColumn(name = "#", width = 50)
+    @AIColumn(name = "#", width = 55)
     private int ordine;
 
 

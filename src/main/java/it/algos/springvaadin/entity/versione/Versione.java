@@ -60,7 +60,7 @@ public class Versione extends ACompanyEntity {
     @NotNull
     @Indexed(unique = true)
     @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo", admin = FieldAccessibility.showOnly)
-    @AIColumn(name = "#", width = 50)
+    @AIColumn(name = "#", width = 55)
     private int ordine;
 
 

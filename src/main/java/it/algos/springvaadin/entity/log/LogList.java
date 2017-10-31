@@ -10,6 +10,7 @@ import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by gac on 30-set-17
@@ -34,13 +35,15 @@ public class LogList extends AlgosListImpl {
      * Può essere sovrascritto per un'intestazione (caption) della grid
      */
     @Override
-    protected void inizializza() {
+    protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
-            caption = "";
+            super.inizializza(className, items);
             caption += "</br>Lista visibile solo all'admin che vede SOLO le schede della sua company";
             caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è obbligatoria";
             caption += "</br>Solo il developer vede queste note";
-        }// end of if cycle
+        } else {
+            super.caption = "Operazioni effettuate";
+        }// end of if/else cycle
     }// end of method
 
 
