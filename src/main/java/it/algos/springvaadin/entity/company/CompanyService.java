@@ -51,7 +51,7 @@ public class CompanyService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Company findOrCrea(String sigla, String descrizione) {
-        return findOrCrea(sigla, descrizione, (Persona) null, "", (Indirizzo) null);
+        return findOrCrea(sigla, descrizione, (Persona) null, "", "", (Indirizzo) null);
     }// end of method
 
 
@@ -62,15 +62,16 @@ public class CompanyService extends AlgosServiceImpl {
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param contact     persona di riferimento (facoltativo)
-     * @param email       delal company (facoltativo)
+     * @param telefono    della company (facoltativo)
+     * @param email       della company (facoltativo)
      * @param indirizzo   della company (facoltativo)
      *
      * @return la entity trovata o appena creata
      */
-    public Company findOrCrea(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
+    public Company findOrCrea(String sigla, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
         if (nonEsiste(sigla)) {
             try { // prova ad eseguire il codice
-                return (Company) save(newEntity(sigla, descrizione, contact, email, indirizzo));
+                return (Company) save(newEntity(sigla, descrizione, contact, telefono, email, indirizzo));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -89,7 +90,7 @@ public class CompanyService extends AlgosServiceImpl {
      */
     @Override
     public Company newEntity() {
-        return newEntity("", "", (Persona) null, "", (Indirizzo) null);
+        return newEntity("", "", (Persona) null, "", "", (Indirizzo) null);
     }// end of method
 
     /**
@@ -101,13 +102,23 @@ public class CompanyService extends AlgosServiceImpl {
      * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param contact     persona di riferimento (facoltativo)
-     * @param email       delal company (facoltativo)
+     * @param telefono    della company (facoltativo)
+     * @param email       della company (facoltativo)
      * @param indirizzo   della company (facoltativo)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Company newEntity(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
-        return new Company(sigla, descrizione, contact, email, indirizzo);
+    public Company newEntity(String sigla, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
+        if (nonEsiste(sigla)) {
+            try { // prova ad eseguire il codice
+                return new Company(sigla, descrizione, contact, telefono, email, indirizzo);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+                return null;
+            }// fine del blocco try-catch
+        } else {
+            return repository.findBySigla(sigla);
+        }// end of if/else cycle
     }// end of method
 
 

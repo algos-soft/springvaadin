@@ -36,7 +36,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_COMP)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.nonUsata)
-@AIList(columns = {"sigla", "descrizione", "contatto", "email"}, admin = ListButton.edit)
+@AIList(columns = {"sigla", "descrizione", "contatto", "telefono", "email"}, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -67,7 +67,7 @@ public class Company extends AEntity {
     @NotEmpty(message = "La descrizione è obbligatoria")
     @Size(min = 2, max = 50)
     @AIField(type = AFieldType.text, firstCapital = true, widthEM = 24, help = "Descrizione della company", admin = FieldAccessibility.allways)
-    @AIColumn(width = 400)
+    @AIColumn(width = 370)
     private String descrizione;
 
 
@@ -76,8 +76,16 @@ public class Company extends AEntity {
      * riferimento statico SENZA @DBRef
      */
     @AIField(type = AFieldType.link, clazz = PersonaPresenter.class, help = "Riferimento", admin = FieldAccessibility.allways)
-    @AIColumn(width = 250, name = "Riferimento")
+    @AIColumn(width = 220, name = "Riferimento")
     private Persona contatto;
+
+
+    /**
+     * telefono (facoltativo)
+     */
+    @AIField(type = AFieldType.text, admin = FieldAccessibility.allways)
+    @AIColumn(width = 170)
+    private String telefono;
 
 
     /**
@@ -94,7 +102,7 @@ public class Company extends AEntity {
      * riferimento statico SENZA @DBRef
      */
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo", admin = FieldAccessibility.allways)
-    @AIColumn(width = 400, name = "Indirizzo")
+    @AIColumn(width = 400, name = "Indirizzo", roleTypeVisibility = ARoleType.nobody)
     private Indirizzo indirizzo;
 
 

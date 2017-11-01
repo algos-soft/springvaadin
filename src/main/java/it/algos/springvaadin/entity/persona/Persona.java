@@ -8,6 +8,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -92,7 +93,6 @@ public class Persona extends AEntity {
     private Indirizzo indirizzo;
 
 
-
     /**
      * @return a string representation of the object.
      */
@@ -100,6 +100,5 @@ public class Persona extends AEntity {
     public String toString() {
         return getNome() + " " + getCognome();
     }// end of method
-
 
 }// end of entity class

@@ -69,7 +69,7 @@ public class CompanyList extends AlgosListImpl {
     }// end of method
 
 
-    private void addChangeCompanyButton() {
+    protected void addChangeCompanyButton() {
         List companyList = service.findAllAll();
 
         if (companyList == null) {

@@ -104,7 +104,10 @@ public class ViewField {
             }// end of if cycle
             //@todo PATCH - PATCH - PATCH
 
-            ((AComboField) field).fixCombo(items, false);
+            if (field != null && field instanceof AComboField && items != null) {
+                ((AComboField) field).fixCombo(items, false);
+            }// end of if cycle
+
         }// end of if cycle
 
         if (type == AFieldType.radio && targetClazz != null && field != null) {
