@@ -104,7 +104,7 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         if (service.versioneNonAncoraUsata(k)) {
             Company company = companyData.creaCompanyDemo();
             creaAndLogCompany(k,
-                    company.getSigla(),
+                    company.getCode(),
                     "Company",
                     "Creata una company demo",
                     "Creazione iniziale con alcuni dati fittizi\nCreate anche alcune preferenze specifiche per questa company");
@@ -114,7 +114,7 @@ public class VersioneSpringVaadinBoot extends VersioneBoot {
         if (service.versioneNonAncoraUsata(k)) {
             Company company = companyData.creaCompanyTest();
             creaAndLogCompany(k,
-                    company.getSigla(),
+                    company.getCode(),
                     "Company",
                     "Creata una company test",
                     "Creazione iniziale con alcuni dati fittizi\nCreate anche alcune preferenze specifiche per questa company");

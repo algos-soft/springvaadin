@@ -60,7 +60,7 @@ public class SpringVaadinUI extends AlgosUI {
         super.init(request);
 
         String message = "Algos® ";
-        String companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getSigla() : "";
+        String companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getCode() : "";
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
             message += " - " + companyCode;
         }// end of if cycle

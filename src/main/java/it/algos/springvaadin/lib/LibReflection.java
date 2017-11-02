@@ -86,7 +86,7 @@ public abstract class LibReflection {
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
-        //--recupera tutti i fields della superclasse ACompanyEntity
+        //--recupera tutti i fields della (eventuale) superclasse ACompanyEntity
         if (useCompany) {
             try { // prova ad eseguire il codice
                 fieldsArrayCompany = ACompanyEntity.class.getDeclaredFields();
@@ -106,7 +106,7 @@ public abstract class LibReflection {
             }// fine del blocco try-catch
         }// end of if cycle
 
-        //--recupera tutti i fields della superclasse AEntity
+        //--recupera tutti i fields della (obbligatoria) superclasse AEntity
         //--esclusi 'id' e 'company' che decido dopo se metterli o no
         try { // prova ad eseguire il codice
             fieldsArrayEntity = AEntity.class.getDeclaredFields();

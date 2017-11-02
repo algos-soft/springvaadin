@@ -17,6 +17,7 @@ import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.login.ARoleType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class CompanyData {
 
 
     @Autowired
+    @Qualifier(Cost.TAG_COMP)
     private CompanyService service;
 
     @Autowired
@@ -74,6 +76,7 @@ public class CompanyData {
                 "demo",
                 "Algos s.r.l.",
                 personaService.newEntity("Marco", "Beretta"),
+                "",
                 "mariorossi@win.com",
                 indirizzoService.newEntity("via Procaccini, 37", "Milano", "20131", (Stato) null));
         return company;
@@ -88,6 +91,7 @@ public class CompanyData {
                 "test",
                 "Associazione Volontaria di Misericordia",
                 personaService.newEntity("Marcello", "Tamburini"),
+                "",
                 "presidente@associazioneroverasco.it",
                 indirizzoService.newEntity("piazza Libertà", "Roverasco", "35117", (Stato) null));
 
@@ -144,15 +148,16 @@ public class CompanyData {
      * Creazione di una entity
      * Log a video
      *
-     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param contact     persona di riferimento (facoltativo)
+     * @param telefono    della company (facoltativo)
      * @param email       delal company (facoltativo)
      * @param indirizzo   della company (facoltativo)
      */
-    private Company creaAndLog(String sigla, String descrizione, Persona contact, String email, Indirizzo indirizzo) {
-        Company company = service.findOrCrea(sigla, descrizione, contact, email, indirizzo);
-        log.warn("Company: " + sigla);
+    private Company creaAndLog(String code, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
+        Company company = service.findOrCrea(code, descrizione, contact, telefono, email, indirizzo);
+        log.warn("Company: " + code);
 
         return company;
     }// end of method

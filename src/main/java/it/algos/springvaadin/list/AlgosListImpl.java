@@ -120,7 +120,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
                 caption += "Elenco di " + items.size() + " schede ";
             }// end of if/else cycle
             if (LibSession.isCompanyValida()) {
-                caption += "della company " + LibSession.getCompany().getSigla();
+                caption += "della company " + LibSession.getCompany().getCode();
             } else {
                 caption += "di tutte le company ";
             }// end of if/else cycle

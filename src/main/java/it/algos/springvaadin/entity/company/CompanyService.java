@@ -10,6 +10,7 @@ import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 @Qualifier(Cost.TAG_COMP)
 @Slf4j
+@Primary
 public class CompanyService extends AlgosServiceImpl {
 
     private CompanyRepository repository;
@@ -45,13 +47,13 @@ public class CompanyService extends AlgosServiceImpl {
      * Ricerca e nuovo di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      *
      * @return la entity trovata o appena creata
      */
-    public Company findOrCrea(String sigla, String descrizione) {
-        return findOrCrea(sigla, descrizione, (Persona) null, "", "", (Indirizzo) null);
+    public Company findOrCrea(String code, String descrizione) {
+        return findOrCrea(code, descrizione, (Persona) null, "", "", (Indirizzo) null);
     }// end of method
 
 
@@ -59,7 +61,7 @@ public class CompanyService extends AlgosServiceImpl {
      * Ricerca e nuovo di una entity (la crea se non la trova)
      * All properties
      *
-     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param contact     persona di riferimento (facoltativo)
      * @param telefono    della company (facoltativo)
@@ -68,16 +70,16 @@ public class CompanyService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Company findOrCrea(String sigla, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
-        if (nonEsiste(sigla)) {
+    public Company findOrCrea(String code, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
+        if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Company) save(newEntity(sigla, descrizione, contact, telefono, email, indirizzo));
+                return (Company) save(newEntity(code, descrizione, contact, telefono, email, indirizzo));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return repository.findBySigla(sigla);
+            return repository.findByCode(code);
         }// end of if/else cycle
     }// end of method
 
@@ -99,7 +101,7 @@ public class CompanyService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param sigla       di riferimento interna (interna, obbligatoria ed unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
      * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      * @param contact     persona di riferimento (facoltativo)
      * @param telefono    della company (facoltativo)
@@ -108,16 +110,16 @@ public class CompanyService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Company newEntity(String sigla, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
-        if (nonEsiste(sigla)) {
+    public Company newEntity(String code, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
+        if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return new Company(sigla, descrizione, contact, telefono, email, indirizzo);
+                return new Company(code, descrizione, contact, telefono, email, indirizzo);
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return repository.findBySigla(sigla);
+            return repository.findByCode(code);
         }// end of if/else cycle
     }// end of method
 
@@ -125,24 +127,24 @@ public class CompanyService extends AlgosServiceImpl {
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code di riferimento interno (obbligatorio ed unico)
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean nonEsiste(String sigla) {
-        return findBySigla(sigla) == null;
+    public boolean nonEsiste(String code) {
+        return findByCode(code) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param sigla di riferimento interna (interna, obbligatoria ed unica)
+     * @param code di riferimento interno (obbligatorio ed unico)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Company findBySigla(String sigla) {
-        return repository.findBySigla(sigla);
+    public Company findByCode(String code) {
+        return repository.findByCode(code);
     }// end of method
 
 
@@ -158,7 +160,7 @@ public class CompanyService extends AlgosServiceImpl {
             return Arrays.asList(LibSession.getCompany());
         } else {
             if (LibSession.isDeveloper()) {
-                return repository.findByOrderBySiglaAsc();
+                return repository.findByOrderByCodeAsc();
             } else {
                 return null;
             }// end of if/else cycle
@@ -166,7 +168,7 @@ public class CompanyService extends AlgosServiceImpl {
     }// end of method
 
     public List<Company> findAllAll() {
-        return repository.findByOrderBySiglaAsc();
+        return repository.findByOrderByCodeAsc();
     }// end of method
 
 

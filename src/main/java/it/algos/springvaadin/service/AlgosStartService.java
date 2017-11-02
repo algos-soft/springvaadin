@@ -143,7 +143,7 @@ public class AlgosStartService {
         Company company = null;
 
         if (LibText.isValid(siglaCompany)) {
-            company = companyService.findBySigla(siglaCompany);
+            company = companyService.findByCode(siglaCompany);
         }// end of if cycle
 
         if (company != null) {
@@ -191,7 +191,7 @@ public class AlgosStartService {
         String siglaCompany = getSiglaCompany(request.getRequestURI());
 
         if (!siglaCompany.equals("")) {
-            company = companyService.findBySigla(siglaCompany);
+            company = companyService.findByCode(siglaCompany);
         }// end of if cycle
 
         return company;

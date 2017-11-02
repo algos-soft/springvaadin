@@ -36,7 +36,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_COMP)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.nonUsata)
-@AIList(columns = {"sigla", "descrizione", "contatto", "telefono", "email"}, admin = ListButton.edit)
+@AIList(columns = {"code", "descrizione", "contatto", "telefono", "email"}, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -51,14 +51,13 @@ public class Company extends AEntity {
 
 
     /**
-     * sigla di riferimento interna (interna, obbligatoria ed unica)
+     * codice di riferimento interno (obbligatorio ed unico)
      */
     @NotEmpty(message = "La sigla interna è obbligatoria")
-//    @Indexed(unique = true)
     @Size(min = 2, max = 20)
-    @AIField(type = AFieldType.text, widthEM = 8, focus = true, help = "Codice interno", admin = FieldAccessibility.showOnly)
-    @AIColumn(width = 100)
-    private String sigla;
+    @AIField(type = AFieldType.text, widthEM = 8, focus = true, name = "Sigla", help = "Codice interno unico", admin = FieldAccessibility.showOnly)
+    @AIColumn(name = "Sigla", width = 100)
+    private String code;
 
 
     /**
@@ -111,7 +110,7 @@ public class Company extends AEntity {
      */
     @Override
     public String toString() {
-        return getSigla();
+        return getCode();
     }// end of method
 
 }// end of class

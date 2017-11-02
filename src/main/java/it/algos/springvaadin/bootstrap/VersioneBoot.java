@@ -155,7 +155,7 @@ public class VersioneBoot {
         }// end of if cycle
 
         if (LibText.isValid(siglaCompany)) {
-            company = companyService.findBySigla(siglaCompany);
+            company = companyService.findByCode(siglaCompany);
             if (company != null) {
                 vers.setCompany(company);
                 try { // prova ad eseguire il codice
@@ -273,7 +273,7 @@ public class VersioneBoot {
         String descrizioneVersione = "Creazione della preferenza " + codePreferenza + " di tipo " + typePreferenza;
         String note = "Senza company specifica, perché è un valore di default \nPuò essere modificato nella singola company";
 
-        company = companyService.findBySigla(siglaCompany);
+        company = companyService.findByCode(siglaCompany);
 
         preferenza = preferenzaService.findOrCrea(
                 company,
