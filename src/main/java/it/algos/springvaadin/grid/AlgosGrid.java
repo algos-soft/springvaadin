@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,26 +48,35 @@ public class AlgosGrid extends Grid {
 
     /**
      * Metodo invocato da AlgosListImpl
+     *
+     * @param beanType modello dei dati
+     * @param columns  visibili ed ordinate della Grid
+     * @param items    da visualizzare nella Grid
      */
-    public void inizia(Class<? extends AEntity> model, List items, List<String> visibleColumns) {
-        this.inizia(model, items, visibleColumns, NUMERO_RIGHE_DEFAULT);
+    public void inizia(Class<? extends AEntity> beanType, List<Field> columns, List items) {
+        this.inizia(beanType, columns, items, NUMERO_RIGHE_DEFAULT);
     }// end of method
 
 
     /**
      * Metodo invocato da AlgosListImpl
+     *
+     * @param beanType    modello dei dati
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
+     * @param numeroRighe da visualizzare nella Grid
      */
-    public void inizia(Class<? extends AEntity> beanType, List items, List<String> visibleColumns, int numeroRighe) {
+    public void inizia(Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
         this.setBeanType(beanType);
+        this.addColumns(columns);
+
         if (items != null) {
             this.setItems(items);
         }// end of if cycle
         this.setHeightByRows(numeroRighe);
-        this.addColumns(visibleColumns);
 
         //--Aggiunge alla grid tutti i listener previsti
         addAllListeners();
-
     }// end of method
 
     /**
@@ -99,9 +109,9 @@ public class AlgosGrid extends Grid {
      * prompt() default "";
      * help() default "";
      *
-     * @param visibleColumns visibili ed ordinate della lista
+     * @param columns visibili ed ordinate della Grid
      */
-    public void addColumns(List<String> visibleColumns) {
+    public void addColumns(List<Field> columns) {
         Grid.Column colonna = null;
         Class<? extends AEntity> clazz = this.getBeanType();
         int lar = 0;
@@ -110,13 +120,13 @@ public class AlgosGrid extends Grid {
             this.removeAllColumns();
         }// end of if cycle
 
-        for (String publicFieldName : visibleColumns) {
+        for (Field field : columns) {
             try { // prova ad eseguire il codice
-                colonna = this.addColumn(publicFieldName);
+                colonna = this.addColumn(field.getName());
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
-            lar += LibColumn.fixColumn(colonna, clazz, publicFieldName);
+            lar += LibColumn.regolaAnnotationAndGetLarghezza(colonna, field);
         }// end of for cycle
 
         //--spazio per la colonna automatica di selezione

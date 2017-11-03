@@ -228,6 +228,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return lista di nomi di colonne visibili nella Grid
      */
     @Override
+    @Deprecated
     public List<String> getListVisibleColumnNames() {
         List<String> listaNomi = null;
         boolean useID = false;
@@ -253,6 +254,47 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
 
     /**
+     * Colonne visibili (e ordinate) nella Grid
+     * Sovrascrivibile
+     * La colonna ID normalmente non si visualizza
+     * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
+     * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
+     * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
+     * 4) Se trova AEntity->@AIList(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * Ad esempio: company della classe ACompanyEntity
+     *
+     * @return lista di fields visibili nella Grid
+     */
+    @Override
+    public List<Field> getListFields() {
+        List<Field> listaField = null;
+        List<String> listaNomi = null;
+        boolean useID = false;
+        boolean useCompany = false;
+
+        //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        listaNomi = LibAnnotation.getListColumns(entityClass);
+
+        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+        if (listaNomi == null) {
+            useID = LibAnnotation.isListShowsID(entityClass);
+            useCompany = this.displayCompany();
+            listaField = LibReflection.getFields(entityClass, useID, useCompany);
+        } else {
+            listaField = LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
+        }// end of if/else cycle
+
+//        //--il developer vede tutto (si potrebbe migliorare)
+//        if (LibSession.isDeveloper()) {
+//            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
+//        }// end of if cycle
+
+        return listaField;
+    }// end of method
+
+
+    /**
      * Fields visibili (e ordinati) nel Form
      * Sovrascrivibile
      * Il campo key ID normalmente non viene visualizzato
@@ -267,6 +309,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     @Override
     public List<Field> getFormFields() {
+        List<Field> listaField = null;
         List<String> listaNomi = null;
         boolean useID = false;
         boolean useCompany = false;
@@ -274,19 +317,29 @@ public abstract class AlgosServiceImpl implements AlgosService {
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getFormFields(entityClass);
 
-        //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
-        //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
-        useID = LibAnnotation.isFormShowsID(entityClass);
-        useCompany = this.displayCompany();
+//        //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
+//        //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
+//        useID = LibAnnotation.isFormShowsID(entityClass);
+//        useCompany = this.displayCompany();
 
-        //--il developer vede tutto (si potrebbe migliorare)
-        if (LibSession.isDeveloper()) {
-            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
-            useID = true;
-            useCompany = true;
-        }// end of if cycle
+        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+        if (listaNomi == null) {
+            useID = LibAnnotation.isFormShowsID(entityClass);
+            useCompany = this.displayCompany();
+            listaField = LibReflection.getFields(entityClass, useID, useCompany);
+        } else {
+            listaField = LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
+        }// end of if/else cycle
 
-        return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
+
+//        //--il developer vede tutto (si potrebbe migliorare)
+//        if (LibSession.isDeveloper()) {
+//            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
+//            useID = true;
+//            useCompany = true;
+//        }// end of if cycle
+
+        return listaField;
     }// end of method
 
 
@@ -334,7 +387,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
         return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
     }// end of method
-
 
 
     /**

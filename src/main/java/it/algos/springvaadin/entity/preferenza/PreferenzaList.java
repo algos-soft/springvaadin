@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -60,16 +61,16 @@ public class PreferenzaList extends AlgosListImpl {
 
     /**
      * Creazione della grid
-     * Ricrea tutto ogni volta che la finestra diventa attiva
+     * Ricrea tutto ogni volta che diventa attivo
      *
      * @param source      di riferimento per gli eventi
-     * @param entityClass del modello dati
-     * @param items       da visualizzare nella grid
-     * @param columns     da visualizzare nella grid
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
      */
     @Override
-    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> columns) {
-        super.restart(source, entityClass, items, columns);
+    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        super.restart(source, entityClazz, columns, items);
 
         Grid.Column colonna = grid.addColumn(
                 preferenza -> {
@@ -91,7 +92,7 @@ public class PreferenzaList extends AlgosListImpl {
                         case date:
                             try { // prova ad eseguire il codice
                                 value = type.bytesToObject(bytes);
-                                value = LibDate.getShort((LocalDateTime)value);
+                                value = LibDate.getShort((LocalDateTime) value);
                             } catch (Exception unErrore) { // intercetta l'errore
                                 log.error(unErrore.toString());
                             }// fine del blocco try-catch

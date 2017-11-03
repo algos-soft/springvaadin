@@ -127,6 +127,36 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Recupera l'Annotation specifica
+     *
+     * @param field reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return annotation
+     */
+    public static AIColumn getColumnAnnotation(Field field) {
+        if (field != null) {
+            return field.getAnnotation(AIColumn.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+    /**
+     * Recupera l'Annotation specifica
+     *
+     * @param field reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return annotation
+     */
+    public static AIField getFormAnnotation(Field field) {
+        if (field != null) {
+            return field.getAnnotation(AIField.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+    /**
      * Get the type (field) of the property.
      *
      * @param clazz           the entity class
@@ -148,6 +178,26 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the type (field) of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return the type for the specific column
+     */
+    @SuppressWarnings("all")
+    public static AFieldType getFormType(Field reflectionField) {
+        AFieldType type = null;
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+
+        if (fieldAnnotation != null) {
+            type = fieldAnnotation.type();
+        }// end of if cycle
+
+        return type;
+    }// end of static method
+
+
+    /**
      * Get the type (column) of the property.
      * Se manca, usa il type del Field
      *
@@ -156,6 +206,7 @@ public abstract class LibAnnotation {
      *
      * @return the type for the specific column
      */
+    @Deprecated
     @SuppressWarnings("all")
     public static AFieldType getTypeColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
         AFieldType type = null;
@@ -171,6 +222,31 @@ public abstract class LibAnnotation {
 
         return type;
     }// end of static method
+
+    /**
+     * Get the type (column) of the property.
+     * Se manca, usa il type del Field
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return the type for the specific column
+     */
+    @SuppressWarnings("all")
+    public static AFieldType getColumnType(Field reflectionField) {
+        AFieldType type = null;
+        AIColumn columnAnnotation = getColumnAnnotation(reflectionField);
+
+        if (columnAnnotation != null) {
+            type = columnAnnotation.type();
+        }// end of if cycle
+
+        if (type == AFieldType.ugualeAlField) {
+            type = getFormType(reflectionField);
+        }// end of if cycle
+
+        return type;
+    }// end of static method
+
 
     /**
      * Get the status required of the property.
@@ -468,6 +544,7 @@ public abstract class LibAnnotation {
      *
      * @return the name (column) of the field
      */
+    @Deprecated
     @SuppressWarnings("all")
     public static String getNameField(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String name = "";
@@ -484,6 +561,28 @@ public abstract class LibAnnotation {
         return name;
     }// end of static method
 
+
+    /**
+     * Get the name (field) of the property.
+     * Se manca, usa il nome della property
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return the name (rows) of the field
+     */
+    @SuppressWarnings("all")
+    public static String getFormFieldName(Field reflectionField) {
+        String name = reflectionField.getName();
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+
+        if (fieldAnnotation != null) {
+            name = fieldAnnotation.name();
+        }// end of if cycle
+
+        return LibText.primaMaiuscola(name);
+    }// end of static method
+
+
     /**
      * Get the name (column) of the property.
      * Se manca, usa il nome del Field
@@ -494,6 +593,7 @@ public abstract class LibAnnotation {
      *
      * @return the name (column) of the field
      */
+    @Deprecated
     @SuppressWarnings("all")
     public static String getNameColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
         String name = publicFieldName;
@@ -510,6 +610,29 @@ public abstract class LibAnnotation {
         return name;
     }// end of static method
 
+    /**
+     * Get the name (column) of the property.
+     * Se manca, usa il nome del Field
+     * Se manca, usa il nome della property
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return the name (column) of the field
+     */
+    public static String getColumnName(Field reflectionField) {
+        String name = "";
+        AIColumn columnAnnotation = getColumnAnnotation(reflectionField);
+
+        if (columnAnnotation != null) {
+            name = columnAnnotation.name();
+        }// end of if cycle
+
+        if (LibText.isEmpty(name)) {
+            name = getFormFieldName(reflectionField);
+        }// end of if cycle
+
+        return name;
+    }// end of static method
 
     /**
      * Get the widthEM of the property.
@@ -577,6 +700,27 @@ public abstract class LibAnnotation {
 
         return width;
     }// end of static method
+
+
+    /**
+     * Get the width of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return the width of the column expressed in int
+     */
+    @SuppressWarnings("all")
+    public static int getColumnWith(Field reflectionField) {
+        int width = 0;
+        AIColumn columnAnnotation = getColumnAnnotation(reflectionField);
+
+        if (columnAnnotation != null) {
+            width = columnAnnotation.width();
+        }// end of if cycle
+
+        return width;
+    }// end of static method
+
 
     /**
      * Get the specific annotation of the property.
@@ -946,6 +1090,31 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Fields visibili (e ordinati) nel Form
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di fields visibili nel Form
+     */
+    @SuppressWarnings("all")
+    public static List<String> getFormFields(final Class<? extends AEntity> clazz) {
+        List<String> lista = null;
+        String[] fields = null;
+        AIForm formAnnotation = getAIForm(clazz);
+
+        if (formAnnotation != null) {
+            fields = formAnnotation.fields();
+        }// end of if cycle
+
+        if (fields != null && fields.length > 0 && !fields[0].equals("")) {
+            lista = Arrays.asList(fields);
+        }// end of if cycle
+
+        return lista;
+    }// end of static method
+
+
+    /**
      * Get the status listShowsID of the class.
      *
      * @param clazz the entity class
@@ -996,30 +1165,6 @@ public abstract class LibAnnotation {
         return clazz.getAnnotation(AIForm.class);
     }// end of static method
 
-
-    /**
-     * Fields visibili (e ordinati) nel Form
-     *
-     * @param clazz the entity class
-     *
-     * @return lista di fields visibili nel Form
-     */
-    @SuppressWarnings("all")
-    public static List<String> getFormFields(final Class<? extends AEntity> clazz) {
-        List<String> lista = null;
-        String[] fields = null;
-        AIForm formAnnotation = getAIForm(clazz);
-
-        if (formAnnotation != null) {
-            fields = formAnnotation.fields();
-        }// end of if cycle
-
-        if (fields != null && fields.length > 0 && !fields[0].equals("")) {
-            lista = Arrays.asList(fields);
-        }// end of if cycle
-
-        return lista;
-    }// end of static method
 
 
     /**
@@ -1467,7 +1612,6 @@ public abstract class LibAnnotation {
     public static boolean isColumnVisibile(Field javaField) {
         boolean visibile = false;
         ARoleType roleTypeVisibility = ARoleType.nobody;
-//        ARoleType roleTypeVisibility = getColumnRoleType();
         AIColumn annotation = javaField.getAnnotation(AIColumn.class);
 
         if (annotation != null) {

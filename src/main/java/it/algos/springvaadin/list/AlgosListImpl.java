@@ -18,6 +18,7 @@ import it.algos.springvaadin.toolbar.ListToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -65,22 +66,22 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
     /**
      * Creazione della grid
-     * Ricrea tutto ogni volta che la finestra diventa attiva
+     * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param source      di riferimento per gli eventi
-     * @param entityClass del modello dati
-     * @param items       da visualizzare nella grid
-     * @param visibleColumns visibili ed ordinate della lista
+     * @param source   di riferimento per gli eventi
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
      */
     @Override
-    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> visibleColumns) {
+    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         Label label;
         this.setMargin(false);
         List<String> listaBottoni;
         this.removeAllComponents();
 
         //--gestione delle scritte in rosso sopra la Grid
-        inizializza(entityClass.getSimpleName(), items);
+        inizializza(entityClazz.getSimpleName(), items);
         if (LibText.isValid(caption)) {
             if (LibParams.usaAvvisiColorati()) {
                 label = new LabelRosso(caption);
@@ -90,7 +91,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
             this.addComponent(label);
         }// end of if cycle
 
-        grid.inizia(entityClass, items, visibleColumns);
+        grid.inizia(entityClazz, columns, items);
         this.addComponent(grid);
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico

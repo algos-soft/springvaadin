@@ -115,22 +115,24 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * tipo dopo un delete, dopo un nuovo record, dopo la edit di un record
      * <p>
      * Recupera dal service tutti i dati necessari (aggiornati)
+     * Recupera dal service le colonne da mostrare nella grid
+     * Recupera dal service gli items (records) della collection, da mostrare nella grid
      * Passa il controllo alla view con i dati necessari
      */
     protected void presentaLista() {
         List items = null;
-        List<String> columns = null;
+        List<Field> columns = null;
 
         if (service != null) {
+            columns = service.getListFields();
             if (LibAnnotation.useCompany(entityClass)) {
                 items = service.findAllByCompany();
             } else {
                 items = service.findAll();
             }// end of if/else cycle
-            columns = service.getListVisibleColumnNames();
         }// end of if cycle
 
-        view.setList(entityClass, items, columns);
+        view.setList(entityClass, columns, items);
     }// end of method
 
 
@@ -197,6 +199,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         if (entityBean == null) {
             entityBean = service.newEntity();
         }// end of if cycle
+
         view.setFormLink(source, this, entityBean, sourceField, reflectFields, type);
     }// end of method
 

@@ -5,6 +5,7 @@ import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -24,11 +25,11 @@ public interface AlgosList {
      * Ricrea tutto ogni volta che diventa attivo
      *
      * @param presenter   di riferimento per gli eventi
-     * @param entityClass del modello dati
-     * @param items       da visualizzare nella grid
-     * @param visibleColumns visibili ed ordinate della lista
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
      */
-    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> visibleColumns);
+    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClazz, List<Field> columns, List items);
 
 
     /**

@@ -95,14 +95,17 @@ public abstract class LibReflection {
 
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
+        //--controlla che i field siano visibili per il livello di developer/admin/user corrente
         if (fieldsTmp != null && fieldsTmp.size() > 0) {
             if (listaNomi != null && listaNomi.size() > 0) {
                 for (String nome : listaNomi) {
                     for (Field field : fieldsTmp) {
                         fieldName = field.getName();
                         if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
-                            if (fieldName.equals(nome)) {
-                                fieldsList.add(field);
+                            if (LibAnnotation.isColumnVisibile(field)) {
+                                if (fieldName.equals(nome)) {
+                                    fieldsList.add(field);
+                                }// end of if cycle
                             }// end of if cycle
                         }// end of if cycle
                     }// end of for cycle

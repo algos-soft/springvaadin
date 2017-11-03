@@ -29,11 +29,12 @@ public abstract class LibColumn {
     private final static int WIDTH_LOCAL_DATE_TIME = 160;
 
 
-    public static Annotation getAnnotation(Field field) {
-        return field.getAnnotation(AIColumn.class);
-    }// end of method
+//    public static Annotation getAnnotation(Field field) {
+//        return field.getAnnotation(AIColumn.class);
+//    }// end of method
 
 
+    @Deprecated
     public static AIColumn getColumnAnnotation(final Class<? extends AEntity> clazz, String publicFieldName) {
         Field field = LibReflection.getField(clazz, publicFieldName);
 
@@ -46,7 +47,6 @@ public abstract class LibColumn {
                 return null;
             }// end of if/else cycle
         }// end of if/else cycle
-
     }// end of method
 
 
@@ -56,13 +56,20 @@ public abstract class LibColumn {
 
 
     /**
-     * Regola una colonna, se ci sono Annotazioni
+     * Regola una colonna
+     * Caption, renderer e width
+     * Restituisce la larghezza dopo le regolazioni
+     *
+     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return la larghezza della colonna come regolata
      */
-    public static int fixColumn(Grid.Column colonna, final Class<? extends AEntity> clazz, String publicFieldName) {
-        AIColumn columnAnnotation = getColumnAnnotation(clazz, publicFieldName);
-        AFieldType type = LibAnnotation.getTypeColumn(clazz, publicFieldName);
-        String name = LibAnnotation.getNameColumn(clazz, publicFieldName);
-        int width = LibAnnotation.getColumnWith(clazz, publicFieldName);
+    public static int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
+//        AIColumn columnAnnotation = getAnnotation(field);
+        String name = LibAnnotation.getColumnName(reflectionField);
+        AFieldType type = LibAnnotation.getColumnType(reflectionField);
+        int width = LibAnnotation.getColumnWith(reflectionField);
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
@@ -93,8 +100,8 @@ public abstract class LibColumn {
             colonna.setWidth(WIDTH_BYTE);
         }// end of if cycle
 
-        if (columnAnnotation == null && publicFieldName.equals(Cost.PROPERTY_ID)) {
-            colonna.setWidth(LibAnnotation.getListWidthID(clazz));
+        if (name.equals(Cost.PROPERTY_ID)) {
+            colonna.setWidth(290);
         }// end of if cycle
 
         return ((Double) colonna.getWidth()).intValue();

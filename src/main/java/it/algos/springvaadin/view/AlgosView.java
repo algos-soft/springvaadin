@@ -36,11 +36,11 @@ public interface AlgosView extends View {
     /**
      * Costruisce una Grid
      *
-     * @param clazz          di riferimento, sottoclasse concreta di AEntity
-     * @param items          da visualizzare nella Grid
-     * @param visibleColumns visibili ed ordinate della lista
+     * @param entityClazz   di riferimento, sottoclasse concreta di AEntity
+     * @param columns visibili ed ordinate della Grid
+     * @param items   da visualizzare nella Grid
      */
-    public void setList(Class<? extends AEntity> clazz, List items, List<String> visibleColumns);
+    public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items);
 
 
     /**

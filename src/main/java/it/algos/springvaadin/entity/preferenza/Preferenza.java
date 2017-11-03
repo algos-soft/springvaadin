@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"ordine", "code", "type", "value"}, dev = ListButton.standard, admin = ListButton.edit)
+@AIList(columns = {"ordine", "code", "type", "livello"}, dev = ListButton.standard, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -55,7 +55,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @Indexed()
     @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Normalmente progressivo", admin = FieldAccessibility.showOnly)
-    @AIColumn(name = "#", width = 55)
+    @AIColumn(name = "#", width = 55, roleTypeVisibility = ARoleType.developer)
     private int ordine;
 
 
@@ -72,7 +72,8 @@ public class Preferenza extends ACompanyEntity {
      * tipo di dato memorizzato (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.enumeration, clazz = PrefType.class,required = true, widthEM = 8, name = "Tipo di dato", dev = FieldAccessibility.allways, admin = FieldAccessibility.showOnly)
+    @AIField(type = AFieldType.enumeration, clazz = PrefType.class, required = true, widthEM = 8, name = "Tipo di dato", dev = FieldAccessibility.allways, admin = FieldAccessibility.showOnly)
+    @AIColumn(width = 120, name = "Type")
     private PrefType type;
 
 
@@ -81,7 +82,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, widthEM = 8, name = "Livello di visibilità", admin = FieldAccessibility.showOnly)
-    @AIColumn(width = 110, name = "Level")
+    @AIColumn(width = 110, name = "Level", roleTypeVisibility = ARoleType.developer)
     private ARoleType livello;
 
 
@@ -99,9 +100,8 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.json, required = true, admin = FieldAccessibility.allways)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "Value")
+    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "xxx")
     private byte[] value;
-
 
 
     /**
