@@ -13,6 +13,7 @@ import it.algos.springvaadin.form.FormButton;
 import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -97,6 +98,7 @@ public abstract class LibAnnotation {
 
         return annotation;
     }// end of static method
+
 
     /**
      * Get the column annotation of the property.
@@ -1457,11 +1459,60 @@ public abstract class LibAnnotation {
      * Get the visibility of the column.
      * Di default true
      *
+     * @param javaField to check
+     *
+     * @return the visibility of the column
+     */
+    @SuppressWarnings("all")
+    public static boolean isColumnVisibile(Field javaField) {
+        boolean visibile = false;
+        ARoleType roleTypeVisibility = ARoleType.nobody;
+//        ARoleType roleTypeVisibility = getColumnRoleType();
+        AIColumn annotation = javaField.getAnnotation(AIColumn.class);
+
+        if (annotation != null) {
+            roleTypeVisibility = annotation.roleTypeVisibility();
+        }// end of if cycle
+
+        switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
+            case developer:
+                if (LibSession.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (LibSession.isAdmin()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                visibile = true;
+                break;
+            case guest:
+                visibile = true;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
+    }// end of static method
+
+
+    /**
+     * Get the visibility of the column.
+     * Di default true
+     *
      * @param clazz           the entity class
      * @param publicFieldName the name of the property
      *
      * @return the visibility of the column
      */
+    @Deprecated
     @SuppressWarnings("all")
     public static boolean isColumnVisibile(final Class<? extends AEntity> clazz, final String publicFieldName) {
         boolean visibile = false;
@@ -1641,9 +1692,6 @@ public abstract class LibAnnotation {
 
         return listaNomi;
     }// end of static method
-
-
-
 
 
     /**

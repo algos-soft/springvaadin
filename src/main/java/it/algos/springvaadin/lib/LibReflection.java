@@ -157,7 +157,7 @@ public abstract class LibReflection {
             listaColonneVisibili = new ArrayList();
             for (Field field : fieldsList) {
                 if (!listaColonneVisibili.contains(field.getName())) {
-                    if (LibAnnotation.isColumnVisibile(entityClazz, field.getName())) {
+                    if (LibAnnotation.isColumnVisibile(field)) {
                         listaColonneVisibili.add(field.getName());
                     }// end of if cycle
                 }// end of if cycle
