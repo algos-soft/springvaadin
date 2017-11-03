@@ -112,7 +112,7 @@ public class SpringVaadinUI extends AlgosUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-        getNavigator().navigateTo(Cost.TAG_PRE);
+        getNavigator().navigateTo(Cost.TAG_PER);
     }// end of method
 
 }// end of class

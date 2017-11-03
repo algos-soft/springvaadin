@@ -77,6 +77,7 @@ public abstract class LibReflection {
         //--recupera tutti i fields della entity
         try { // prova ad eseguire il codice
             fieldsArrayClazz = entityClazz.getDeclaredFields();
+            Object alfa=entityClazz.getFields();
             for (Field field : fieldsArrayClazz) {
                 if (!Cost.ESCLUSI.contains(field.getName())) {
                     fieldsTmp.add(field);
@@ -216,29 +217,6 @@ public abstract class LibReflection {
     }// end of static method
 
 
-//    /**
-//     * All fields properties di una EntityClass, compreso l'ID
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return lista di fields
-//     */
-//    public static List<Field> getAllFieldsPiuID(Class<? extends AEntity> entityClazz) {
-//        return getAllFieldsBase(entityClazz, true);
-//    }// end of static method
-
-
-//    /**
-//     * All fields properties di una EntityClass, escluso l'ID
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return lista di fields
-//     */
-//    public static List<Field> getAllFieldsNoID(Class<? extends AEntity> entityClazz) {
-//        return getAllFieldsBase(entityClazz, false);
-//    }// end of static method
-
 
     /**
      * All field names di una EntityClass
@@ -252,75 +230,7 @@ public abstract class LibReflection {
     }// end of static method
 
 
-//    /**
-//     * All field names di una EntityClass
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
-//     */
-//    public static List<String> getAllFieldName(final Class<? extends AEntity> entityClazz, boolean showsID) {
-//        List<String> nameList = null;
-//        List<Field> fieldsList = null;
-//
-//        if (showsID) {
-//            fieldsList = getAllFieldsPiuID(entityClazz);
-//        } else {
-//            fieldsList = getAllFieldsNoID(entityClazz);
-//        }// end of if/else cycle
-//
-//        if (fieldsList != null && fieldsList.size() > 0) {
-//            nameList = new ArrayList();
-//            for (Field field : fieldsList) {
-//                nameList.add(field.getName());
-//            }// end of for cycle
-//        }// end of if cycle
-//
-//        return nameList;
-//    }// end of static method
 
-
-//    /**
-//     * All field names di una Entity
-//     *
-//     * @param entityBean su cui operare la riflessione
-//     *
-//     * @return tutte i fieldNames, elencati in ordine alfabetico
-//     */
-//    public static List<String> getAllFieldNameAlfabetico(final AEntity entityBean) {
-//        return LibArray.sort((ArrayList) getAllFieldName(entityBean.getClass(), false));
-//    }// end of static method
-//
-//
-//    /**
-//     * All field names di una EntityClass
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return tutte i fieldNames, elencati in ordine alfabetico
-//     */
-//    public static List<String> getAllFieldNameAlfabetico(final Class<? extends AEntity> entityClazz) {
-//        return LibArray.sort((ArrayList) getAllFieldName(entityClazz, false));
-//    }// end of static method
-
-
-//    /**
-//     * Valore della property statica di una classe
-//     *
-//     * @param clazz           classe su cui operare la riflessione
-//     * @param publicFieldName property statica e pubblica
-//     */
-//    @Deprecated
-//    public static String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
-//        String value = "";
-//        Object obj = getPropertyValus(clazz, publicFieldName);
-//
-//        if (obj != null && obj instanceof String) {
-//            value = (String) obj;
-//        }// end of if cycle
-//
-//        return value;
-//    }// end of static method
 
     /**
      * Valore della property statica di una classe
@@ -379,35 +289,48 @@ public abstract class LibReflection {
 
     /**
      * Property statica di una classe
+     * Controlla ricorsivamente in TUTTE le superclassi della entity
      *
      * @param entityClazz     classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
     public static Field getField(final Class<?> entityClazz, final String publicFieldName) {
         Field field = null;
+        Class<?> clazz = entityClazz;
 
-        try { // prova ad eseguire il codice
-            field = entityClazz.getDeclaredField(publicFieldName);
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
+        while (clazz != Object.class ) {
+            try { // prova ad eseguire il codice
+                field = clazz.getDeclaredField(publicFieldName);
+                return field;
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.warn(unErrore.toString()+" getField()");
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
 
-        if (field == null) {
-            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
-                try { // prova ad eseguire il codice
-                    field = ACompanyEntity.class.getDeclaredField(publicFieldName);
-                } catch (Exception unErrore2) { // intercetta l'errore
-                }// fine del blocco try-catch
-            }// end of if cycle
-        }// end of if cycle
 
-        if (field == null) {
-            if (AEntity.class.isAssignableFrom(entityClazz)) {
-                try { // prova ad eseguire il codice
-                    field = AEntity.class.getDeclaredField(publicFieldName);
-                } catch (Exception unErrore2) { // intercetta l'errore
-                }// fine del blocco try-catch
-            }// end of if cycle
-        }// end of if cycle
+//        try { // prova ad eseguire il codice
+//            field = entityClazz.getDeclaredField(publicFieldName);
+//        } catch (Exception unErrore) { // intercetta l'errore
+//        }// fine del blocco try-catch
+//
+//        if (field == null) {
+//            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
+//                try { // prova ad eseguire il codice
+//                    field = ACompanyEntity.class.getDeclaredField(publicFieldName);
+//                } catch (Exception unErrore2) { // intercetta l'errore
+//                }// fine del blocco try-catch
+//            }// end of if cycle
+//        }// end of if cycle
+//
+//        if (field == null) {
+//            if (AEntity.class.isAssignableFrom(entityClazz)) {
+//                try { // prova ad eseguire il codice
+//                    field = AEntity.class.getDeclaredField(publicFieldName);
+//                } catch (Exception unErrore2) { // intercetta l'errore
+//                }// fine del blocco try-catch
+//            }// end of if cycle
+//        }// end of if cycle
 
         return field;
     }// end of method

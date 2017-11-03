@@ -227,11 +227,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             publicFieldName = reflectField.getName();
             field = viewField.create(source, entityBean.getClass(), publicFieldName, entityBean);
 
-            //--recupera anche i fields della superclasse AEntity
-            if (field == null) {
-                field = viewField.create(source, AEntity.class, publicFieldName, entityBean);
-            }// end of if cycle
-
             if (field != null) {
                 lista.add(field);
             }// end of if cycle

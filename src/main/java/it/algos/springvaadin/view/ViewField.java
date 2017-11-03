@@ -89,20 +89,9 @@ public class ViewField {
         }// end of if cycle
 
         if (type == AFieldType.enumeration && targetClazz != null && field != null) {
-            //@todo PATCH - PATCH - PATCH
-            if (publicFieldName.equals("livello") && clazz.getName().equals(Log.class.getName())) {
-                items = LogLevel.getValues();
+            if (targetClazz.isEnum()) {
+                items = targetClazz.getEnumConstants();
             }// end of if cycle
-            if (publicFieldName.equals("gruppo")) {
-                items = LogType.getValues();
-            }// end of if cycle
-            if (publicFieldName.equals("type")) {
-                items = PrefType.values();
-            }// end of if cycle
-            if (publicFieldName.equals("livello") && clazz.getName().equals(Preferenza.class.getName())) {
-                items = ARoleType.values();
-            }// end of if cycle
-            //@todo PATCH - PATCH - PATCH
 
             if (field != null && field instanceof AComboField && items != null) {
                 ((AComboField) field).fixCombo(items, false);
