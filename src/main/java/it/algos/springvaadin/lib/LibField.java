@@ -96,7 +96,7 @@ public class LibField {
 //                case area:
 //                    vaadinField = new TextArea();
 //                    ((TextArea) vaadinField).setInputPrompt(fieldAnnotation.prompt());
-//                    ((TextArea) vaadinField).setColumns(fieldAnnotation.columns());
+//                    ((TextArea) vaadinField).addColumns(fieldAnnotation.columns());
 //                    ((TextArea) vaadinField).setRows(fieldAnnotation.rows());
 //                    if (AlgosApp.DISPLAY_TOOLTIPS) {
 //                        ((TextArea) vaadinField).setDescription(fieldAnnotation.help());

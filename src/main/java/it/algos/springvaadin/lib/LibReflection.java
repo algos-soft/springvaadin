@@ -1,7 +1,6 @@
 package it.algos.springvaadin.lib;
 
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.annotation.ATypeEnabled;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.AEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +51,7 @@ public abstract class LibReflection {
     /**
      * Fields dichiarati nella Entity
      * Compresa la entity
-     * Compresa la superclasse AEntity
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
      *
      * @param entityClazz   da cui estrarre i fields
      * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
@@ -63,62 +62,36 @@ public abstract class LibReflection {
      */
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
+        Class<?> clazz = entityClazz;
         ArrayList<Field> fieldsList = new ArrayList<>();
         ArrayList<Field> fieldsTmp = new ArrayList<>();
-        Field[] fieldsArrayClazz = null;
-        Field[] fieldsArrayCompany = null;
-        Field[] fieldsArrayEntity = null;
-        Field fieldCompany = null;
+        Field[] fieldsArray = null;
         Field fieldKeyId = null;
+        Field fieldCompany = null;
         String fieldName;
         boolean useCompany = LibAnnotation.useCompanyFields(entityClazz);
         boolean useCompanyOptional = LibAnnotation.useCompanyOptionalFields(entityClazz);
 
-        //--recupera tutti i fields della entity
-        try { // prova ad eseguire il codice
-            fieldsArrayClazz = entityClazz.getDeclaredFields();
-            Object alfa=entityClazz.getFields();
-            for (Field field : fieldsArrayClazz) {
-                if (!Cost.ESCLUSI.contains(field.getName())) {
-                    fieldsTmp.add(field);
-                }// end of if cycle
-            }// end of for cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
-
-        //--recupera tutti i fields della (eventuale) superclasse ACompanyEntity
-        if (useCompany) {
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
             try { // prova ad eseguire il codice
-                fieldsArrayCompany = ACompanyEntity.class.getDeclaredFields();
-                for (Field field : fieldsArrayCompany) {
-                    if (useCompanyOptional) {
-                        if (!Cost.ESCLUSI.contains(field.getName())) {
-                            fieldsTmp.add(field);
-                        }// end of if cycle
-                    } else {
-                        if (!(Cost.ESCLUSI.contains(field.getName())) && !(Cost.COMPANY_OPTIONAL.contains(field.getName()))) {
-                            fieldsTmp.add(field);
-                        }// end of if cycle
-                    }// end of if/else cycle
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (field.getName().equals(Cost.PROPERTY_ID)) {
+                        fieldKeyId = field;
+                    }// end of if cycle
+                    if (field.getName().equals(Cost.PROPERTY_COMPANY)) {
+                        fieldCompany = field;
+                    }// end of if cycle
+                    if (!Cost.ESCLUSI.contains(field.getName())) {
+                        fieldsTmp.add(field);
+                    }// end of if cycle
                 }// end of for cycle
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
-        }// end of if cycle
-
-        //--recupera tutti i fields della (obbligatoria) superclasse AEntity
-        //--esclusi 'id' e 'company' che decido dopo se metterli o no
-        try { // prova ad eseguire il codice
-            fieldsArrayEntity = AEntity.class.getDeclaredFields();
-            for (Field field : fieldsArrayEntity) {
-                if (!Cost.ESCLUSI.contains(field.getName())) {
-                    fieldsTmp.add(field);
-                }// end of if cycle
-            }// end of for cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
 
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
@@ -146,7 +119,6 @@ public abstract class LibReflection {
 
         //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento
         if (addKeyCompany && ACompanyEntity.class.isAssignableFrom(entityClazz)) {
-            fieldCompany = getField(ACompanyEntity.class, Cost.PROPERTY_COMPANY);
             if (fieldCompany != null) {
                 fieldsList.add(0, fieldCompany);
             } else {
@@ -156,7 +128,6 @@ public abstract class LibReflection {
 
         //--se il flag booleano addKeyID è true, aggiunge (all'inizio) il field keyId
         if (addKeyID) {
-            fieldKeyId = getField(AEntity.class, Cost.PROPERTY_ID);
             if (fieldKeyId != null) {
                 fieldsList.add(0, fieldKeyId);
             } else {
@@ -177,21 +148,23 @@ public abstract class LibReflection {
      *
      * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
-    public static List<String> getAllFieldNames(final Class<? extends AEntity> entityClazz, boolean useID, boolean useCompany) {
-        List<String> nameList = null;
+    public static List<String> getListVisibleColumnNames(final Class<? extends AEntity> entityClazz, boolean useID, boolean useCompany) {
+        List<String> listaColonneVisibili = null;
         List<Field> fieldsList = null;
 
         fieldsList = getFields(entityClazz, useID, useCompany);
         if (fieldsList != null && fieldsList.size() > 0) {
-            nameList = new ArrayList();
+            listaColonneVisibili = new ArrayList();
             for (Field field : fieldsList) {
-                if (!nameList.contains(field.getName())) {
-                    nameList.add(field.getName());
+                if (!listaColonneVisibili.contains(field.getName())) {
+                    if (LibAnnotation.isColumnVisibile(entityClazz, field.getName())) {
+                        listaColonneVisibili.add(field.getName());
+                    }// end of if cycle
                 }// end of if cycle
             }// end of for cycle
         }// end of if cycle
 
-        return nameList;
+        return listaColonneVisibili;
     }// end of static method
 
     /**
@@ -204,7 +177,7 @@ public abstract class LibReflection {
      */
     public static List<String> getAllEnabledFieldNames(final Class<? extends AEntity> entityClazz, boolean useCompany) {
         List<String> nameList = new ArrayList();
-        List<String> nameListTmp = getAllFieldNames(entityClazz, false, useCompany);
+        List<String> nameListTmp = getListVisibleColumnNames(entityClazz, false, useCompany);
 
         for (String publicFieldName : nameListTmp) {
             if (LibAnnotation.isFieldEnabled(entityClazz, publicFieldName, false)) {
@@ -217,7 +190,6 @@ public abstract class LibReflection {
     }// end of static method
 
 
-
     /**
      * All field names di una EntityClass
      *
@@ -225,11 +197,9 @@ public abstract class LibReflection {
      *
      * @return tutte i fieldNames, elencati in ordine di inserimento nella AEntity
      */
-    public static List<String> getAllFieldNames(final Class<? extends AEntity> entityClazz) {
-        return getAllFieldNames(entityClazz, false, false);
+    public static List<String> getListVisibleColumnNames(final Class<? extends AEntity> entityClazz) {
+        return getListVisibleColumnNames(entityClazz, false, false);
     }// end of static method
-
-
 
 
     /**
@@ -295,44 +265,18 @@ public abstract class LibReflection {
      * @param publicFieldName property statica e pubblica
      */
     public static Field getField(final Class<?> entityClazz, final String publicFieldName) {
-        Field field = null;
         Class<?> clazz = entityClazz;
 
-        while (clazz != Object.class ) {
+        while (clazz != Object.class) {
             try { // prova ad eseguire il codice
-                field = clazz.getDeclaredField(publicFieldName);
-                return field;
+                return clazz.getDeclaredField(publicFieldName);
             } catch (Exception unErrore) { // intercetta l'errore
-                log.warn(unErrore.toString()+" getField()");
+                log.warn(unErrore.toString() + " getField()");
             }// fine del blocco try-catch
             clazz = clazz.getSuperclass();
         }// end of while cycle
 
-
-//        try { // prova ad eseguire il codice
-//            field = entityClazz.getDeclaredField(publicFieldName);
-//        } catch (Exception unErrore) { // intercetta l'errore
-//        }// fine del blocco try-catch
-//
-//        if (field == null) {
-//            if (ACompanyEntity.class.isAssignableFrom(entityClazz)) {
-//                try { // prova ad eseguire il codice
-//                    field = ACompanyEntity.class.getDeclaredField(publicFieldName);
-//                } catch (Exception unErrore2) { // intercetta l'errore
-//                }// fine del blocco try-catch
-//            }// end of if cycle
-//        }// end of if cycle
-//
-//        if (field == null) {
-//            if (AEntity.class.isAssignableFrom(entityClazz)) {
-//                try { // prova ad eseguire il codice
-//                    field = AEntity.class.getDeclaredField(publicFieldName);
-//                } catch (Exception unErrore2) { // intercetta l'errore
-//                }// fine del blocco try-catch
-//            }// end of if cycle
-//        }// end of if cycle
-
-        return field;
+        return null;
     }// end of method
 
 
@@ -475,7 +419,7 @@ public abstract class LibReflection {
      */
     public static List<Method> getMethods(Class<? extends AEntity> entityClazz) {
         List<Method> methods = null;
-        List<String> propertyNames = getAllFieldNames(entityClazz, false, false);
+        List<String> propertyNames = getListVisibleColumnNames(entityClazz, false, false);
 
         if (propertyNames != null && propertyNames.size() > 0) {
             methods = new ArrayList();

@@ -70,10 +70,10 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
      * @param source      di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
-     * @param columns     da visualizzare nella grid
+     * @param visibleColumns visibili ed ordinate della lista
      */
     @Override
-    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> columns) {
+    public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClass, List items, List<String> visibleColumns) {
         Label label;
         this.setMargin(false);
         List<String> listaBottoni;
@@ -90,7 +90,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
             this.addComponent(label);
         }// end of if cycle
 
-        grid.inizia(entityClass, items, columns);
+        grid.inizia(entityClass, items, visibleColumns);
         this.addComponent(grid);
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico

@@ -116,7 +116,7 @@ public interface AlgosService {
      *
      * @return lista di nomi di colonne visibili nella Grid
      */
-    public List<String> getListColumnNames();
+    public List<String> getListVisibleColumnNames();
 
 
     /**

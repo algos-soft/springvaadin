@@ -8,7 +8,6 @@ import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
-import it.algos.springvaadin.entity.log.LogType;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
@@ -31,12 +30,10 @@ import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 
 import javax.annotation.PostConstruct;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by gac on 14/06/17.
@@ -130,7 +127,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
             } else {
                 items = service.findAll();
             }// end of if/else cycle
-            columns = service.getListColumnNames();
+            columns = service.getListVisibleColumnNames();
         }// end of if cycle
 
         view.setList(entityClass, items, columns);

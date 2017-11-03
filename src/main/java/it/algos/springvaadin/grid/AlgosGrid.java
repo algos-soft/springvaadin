@@ -1,7 +1,6 @@
 package it.algos.springvaadin.grid;
 
 import com.vaadin.data.HasValue;
-import com.vaadin.data.provider.DataProvider;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.MultiSelect;
@@ -11,6 +10,7 @@ import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
@@ -24,6 +24,7 @@ import java.util.List;
  */
 @SpringComponent
 @Scope("prototype")
+@Slf4j
 public class AlgosGrid extends Grid {
 
     private final static int NUMERO_RIGHE_DEFAULT = 12;
@@ -47,21 +48,21 @@ public class AlgosGrid extends Grid {
     /**
      * Metodo invocato da AlgosListImpl
      */
-    public void inizia(Class<? extends AEntity> model, List items, List<String> columns) {
-        this.inizia(model, items, columns, NUMERO_RIGHE_DEFAULT);
+    public void inizia(Class<? extends AEntity> model, List items, List<String> visibleColumns) {
+        this.inizia(model, items, visibleColumns, NUMERO_RIGHE_DEFAULT);
     }// end of method
 
 
     /**
      * Metodo invocato da AlgosListImpl
      */
-    public void inizia(Class<? extends AEntity> beanType, List items, List<String> columns, int numeroRighe) {
+    public void inizia(Class<? extends AEntity> beanType, List items, List<String> visibleColumns, int numeroRighe) {
         this.setBeanType(beanType);
         if (items != null) {
             this.setItems(items);
         }// end of if cycle
         this.setHeightByRows(numeroRighe);
-        this.setColumns(columns);
+        this.addColumns(visibleColumns);
 
         //--Aggiunge alla grid tutti i listener previsti
         addAllListeners();
@@ -97,15 +98,26 @@ public class AlgosGrid extends Grid {
      * width() default 80;
      * prompt() default "";
      * help() default "";
+     *
+     * @param visibleColumns visibili ed ordinate della lista
      */
-    public void setColumns(List<String> columns) {
+    public void addColumns(List<String> visibleColumns) {
+        Grid.Column colonna = null;
+        Class<? extends AEntity> clazz = this.getBeanType();
         int lar = 0;
 
-        if (LibSession.isDeveloper()) {
-            lar = LibColumn.addColumns(this.getBeanType(), this, columns);
-        } else {
-            lar = LibColumn.addColumns(this.getBeanType(), this, columns);
-        }// end of if/else cycle
+        if (this.getColumns() != null && this.getColumns().size() > 0) {
+            this.removeAllColumns();
+        }// end of if cycle
+
+        for (String publicFieldName : visibleColumns) {
+            try { // prova ad eseguire il codice
+                colonna = this.addColumn(publicFieldName);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            lar += LibColumn.fixColumn(colonna, clazz, publicFieldName);
+        }// end of for cycle
 
         //--spazio per la colonna automatica di selezione
         if (LibParams.gridSelectionMode() == SelectionMode.MULTI) {

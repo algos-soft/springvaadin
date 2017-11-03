@@ -161,7 +161,7 @@ public class LibReflectionTest {
     public void getAllFieldNames() {
         List<String> fieldNames;
 
-        fieldNames = LibReflection.getAllFieldNames(entityClazz);
+        fieldNames = LibReflection.getListVisibleColumnNames(entityClazz);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 4);
         assertEquals(fieldNames.get(0), "ordine");
@@ -170,7 +170,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(3), "edit");
 
 
-        fieldNames = LibReflection.getAllFieldNames(entityClazz, false, false);
+        fieldNames = LibReflection.getListVisibleColumnNames(entityClazz, false, false);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 4);
         assertEquals(fieldNames.get(0), "ordine");
@@ -179,7 +179,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(3), "edit");
 
 
-        fieldNames = LibReflection.getAllFieldNames(entityClazz, true, false);
+        fieldNames = LibReflection.getListVisibleColumnNames(entityClazz, true, false);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 5);
         assertEquals(fieldNames.get(0), "id");
@@ -189,7 +189,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(4), "edit");
 
 
-        fieldNames = LibReflection.getAllFieldNames(entityClazz, false, true);
+        fieldNames = LibReflection.getListVisibleColumnNames(entityClazz, false, true);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 5);
         assertEquals(fieldNames.get(0), "company");
@@ -198,7 +198,7 @@ public class LibReflectionTest {
         assertEquals(fieldNames.get(3), "descrizione");
         assertEquals(fieldNames.get(4), "edit");
 
-        fieldNames = LibReflection.getAllFieldNames(entityClazz, true, true);
+        fieldNames = LibReflection.getListVisibleColumnNames(entityClazz, true, true);
         assertNotNull(fieldNames);
         assertEquals(fieldNames.size(), 6);
         assertEquals(fieldNames.get(0), "id");

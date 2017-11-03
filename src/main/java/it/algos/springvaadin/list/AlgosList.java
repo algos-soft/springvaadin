@@ -26,9 +26,9 @@ public interface AlgosList {
      * @param presenter   di riferimento per gli eventi
      * @param entityClass del modello dati
      * @param items       da visualizzare nella grid
-     * @param columns     da visualizzare nella grid
+     * @param visibleColumns visibili ed ordinate della lista
      */
-    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> columns);
+    public void restart(AlgosPresenterImpl presenter, Class<? extends AEntity> entityClass, List items, List<String> visibleColumns);
 
 
     /**

@@ -202,7 +202,7 @@ public class LibSql {
      */
     private static List<String> getAllFieldNameWithValidValue(final AEntity entityBean) {
         ArrayList lista = new ArrayList();
-        List<String> allEsistenti = LibReflection.getAllFieldNames(entityBean.getClass());
+        List<String> allEsistenti = LibReflection.getListVisibleColumnNames(entityBean.getClass());
         Object value;
 
         for (String name : allEsistenti) {

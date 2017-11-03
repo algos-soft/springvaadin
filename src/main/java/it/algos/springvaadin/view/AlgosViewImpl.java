@@ -62,12 +62,12 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param items       da visualizzare nella Grid
-     * @param columns     visibili ed ordinate della lista
+     * @param visibleColumns visibili ed ordinate della lista
      */
     @Override
-    public void setList(Class<? extends AEntity> entityClazz, List items, List<String> columns) {
+    public void setList(Class<? extends AEntity> entityClazz, List items, List<String> visibleColumns) {
         removeAllComponents();
-        list.restart(presenter, entityClazz, items, columns);
+        list.restart(presenter, entityClazz, items, visibleColumns);
         addComponent(list.getComponent());
     }// end of method
 

@@ -4,7 +4,6 @@ import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.exception.*;
 import it.algos.springvaadin.form.FormButton;
 import it.algos.springvaadin.lib.*;
@@ -16,7 +15,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -230,7 +228,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * @return lista di nomi di colonne visibili nella Grid
      */
     @Override
-    public List<String> getListColumnNames() {
+    public List<String> getListVisibleColumnNames() {
         List<String> listaNomi = null;
         boolean useID = false;
         boolean useCompany = false;
@@ -242,12 +240,12 @@ public abstract class AlgosServiceImpl implements AlgosService {
         if (listaNomi == null) {
             useID = LibAnnotation.isListShowsID(entityClass);
             useCompany = this.displayCompany();
-            listaNomi = LibReflection.getAllFieldNames(entityClass, useID, useCompany);
+            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, useID, useCompany);
         }// end of if cycle
 
         //--il developer vede tutto (si potrebbe migliorare)
         if (LibSession.isDeveloper()) {
-            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
         }// end of if cycle
 
         return listaNomi;
@@ -283,7 +281,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
         //--il developer vede tutto (si potrebbe migliorare)
         if (LibSession.isDeveloper()) {
-            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
             useID = true;
             useCompany = true;
         }// end of if cycle
@@ -322,7 +320,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
         //--il developer vede tutto (si potrebbe migliorare)
         if (LibSession.isDeveloper()) {
-            listaNomi = LibReflection.getAllFieldNames(entityClass, true, true);
+            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
             useID = true;
             useCompany = true;
         }// end of if cycle
