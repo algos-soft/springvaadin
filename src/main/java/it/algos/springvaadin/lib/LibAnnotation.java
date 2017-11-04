@@ -255,7 +255,6 @@ public abstract class LibAnnotation {
      *
      * @return status of field
      */
-    @Deprecated
     @SuppressWarnings("all")
     public static boolean isRequired(Field reflectionField) {
         boolean status = true;

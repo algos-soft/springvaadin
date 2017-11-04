@@ -99,7 +99,7 @@ public class Preferenza extends ACompanyEntity {
      * valore della preferenza (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.json, required = true, name = "Value",admin = FieldAccessibility.allways)
+    @AIField(type = AFieldType.json, required = true, name = "Value", admin = FieldAccessibility.allways)
     @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200)
     private byte[] value;
 
@@ -111,6 +111,15 @@ public class Preferenza extends ACompanyEntity {
     @AIField(type = AFieldType.radio, required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     private PrefEffect attivazione;
+
+
+    /**
+     * replica per ogni company (facoltativo, di default falso)
+     */
+    @AIField(type = AFieldType.checkbox, required = true, name = "Replicata per ogni company", widthEM = 4, admin = FieldAccessibility.never)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    private boolean replica = false;
+
 
     /**
      * @return a string representation of the object.

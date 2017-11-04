@@ -74,7 +74,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Preferenza findOrCrea(Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
-        return findOrCrea(0, company, code, type, level, descrizione, value, riavvio);
+        return findOrCrea(0, company, code, type, level, descrizione, value, riavvio, false);
     }// end of method
 
 
@@ -90,13 +90,14 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
+     * @param replica     per ogni company (facoltativo, di default falso)
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
+    public Preferenza findOrCrea(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
         if (nonEsiste(company, code)) {
             try { // prova ad eseguire il codice
-                return (Preferenza) save(newEntity(ordine, company, code, type, level, descrizione, value, riavvio));
+                return (Preferenza) save(newEntity(ordine, company, code, type, level, descrizione, value, riavvio, replica));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -157,7 +158,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la nuova entity appena creata (non salvata)
      */
     public Preferenza newEntity(int ordine, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
-        return newEntity(0, (Company) null, code, type, level, descrizione, value, riavvio);
+        return newEntity(0, (Company) null, code, type, level, descrizione, value, riavvio, false);
     }// end of method
 
     /**
@@ -174,10 +175,11 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
+     * @param replica     per ogni company (facoltativo, di default falso)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
+    public Preferenza newEntity(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
         Preferenza preferenza = new Preferenza(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 code,
@@ -185,7 +187,8 @@ public class PreferenzaService extends AlgosServiceImpl {
                 level,
                 descrizione,
                 value,
-                riavvio);
+                riavvio,
+                replica);
 
         if (company != null) {
             preferenza.setCompany(company);
