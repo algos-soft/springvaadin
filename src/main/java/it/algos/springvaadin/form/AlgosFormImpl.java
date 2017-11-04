@@ -144,6 +144,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(true);
         } else {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(false);
+            reflectFields.remove(0); //--rimuove il campo idKey
         }// end of if/else cycle
         usaSeparateFormDialog(source, target, entityBean, sourceField, reflectFields);
     }// end of method

@@ -7,9 +7,11 @@ import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +94,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
      * @return il field creato
      */
     @Override
+    @Deprecated
     public AField crea(final Class<? extends AEntity> clazz, AFieldType type, ApplicationListener source, String publicFieldName, AEntity entityBean) {
         AField field = null;
         AEntity entityBeanField = null;
@@ -152,7 +155,7 @@ public class AFieldFactoryImpl implements AFieldFactory {
 //                    if (LibAnnotation.isDBRef(clazz, publicFieldName)) {
 //                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field, entityBeanField));
 //                    } else {
-                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, source, field, entityBeanField));
+                    ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, source, field, entityBeanField));
 //                    }// end of if/else cycle
                     ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
                     break;
@@ -228,7 +231,15 @@ public class AFieldFactoryImpl implements AFieldFactory {
                     break;
                 case json:
                     field = fieldFactory.apply(AJSonField.class);
-                    ((AJSonField) field).setType(PrefType.string);
+
+                    //@todo PATCH vale solo per preferenza
+                    if (entityBean != null && LibText.isValid(entityBean.id) && entityBean instanceof Preferenza) {
+                        ((AJSonField) field).setType(((Preferenza) entityBean).getType());
+                    } else { //--default per i nuovi record
+                        ((AJSonField) field).setType(PrefType.string);
+                    }// end of if/else cycle
+                    //@todo PATCH vale solo per preferenza
+
                     break;
                 case combo:
                     field = fieldFactory.apply(AComboField.class);

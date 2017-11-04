@@ -72,7 +72,7 @@ public class Preferenza extends ACompanyEntity {
      * tipo di dato memorizzato (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.enumeration, clazz = PrefType.class, required = true, widthEM = 8, name = "Tipo di dato", dev = FieldAccessibility.allways, admin = FieldAccessibility.showOnly)
+    @AIField(type = AFieldType.enumeration, clazz = PrefType.class, required = true, widthEM = 8, name = "Tipo di dato", dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     @AIColumn(width = 120, name = "Type")
     private PrefType type;
 
