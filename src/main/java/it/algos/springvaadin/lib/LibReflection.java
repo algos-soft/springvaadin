@@ -42,11 +42,67 @@ public abstract class LibReflection {
      *
      * @return lista di fields da considerare per List e Form
      */
+    @Deprecated
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, boolean addKeyID, boolean addKeyCompany) {
         return getFields(entityClazz, (List) null, addKeyID, addKeyCompany);
     }// end of static method
 
+
+    /**
+     * Fields per le Columns della List (Grid) dichiarati nella Entity
+     * Compresa la entity
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     * @param addKeyID      flag per aggiungere (per primo) il field keyId
+     * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
+     *
+     * @return lista di fields da considerare per List
+     */
+    @SuppressWarnings("all")
+    public static List<Field> getListColumns(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyCompany) {
+        ArrayList<Field> fieldsList = new ArrayList<>();
+        boolean addKeyID = LibAnnotation.isListShowsID(entityClazz);
+        List<Field> fieldsTmp = getFields(entityClazz, listaNomi, addKeyID, addKeyCompany);
+
+        for (Field field : fieldsTmp) {
+            if (LibAnnotation.isColumnVisibile(field)) {
+                fieldsList.add(field);
+            }// end of if cycle
+        }// end of for cycle
+
+        return fieldsList;
+    }// end of static method
+
+
+    /**
+     * Fields per le Campi del Form dichiarati nella Entity
+     * Compresa la entity
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     * @param addKeyID      flag per aggiungere (per primo) il field keyId
+     * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
+     *
+     * @return lista di fields da considerare per Form
+     */
+    @SuppressWarnings("all")
+    public static List<Field> getFormFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyCompany) {
+        ArrayList<Field> fieldsList = new ArrayList<>();
+        boolean addKeyID = LibAnnotation.isFormShowsID(entityClazz);
+        List<Field> fieldsTmp = getFields(entityClazz, listaNomi, addKeyID, addKeyCompany);
+
+        for (Field field : fieldsTmp) {
+            if (LibAnnotation.isFormFieldVisibile(field)) {
+                fieldsList.add(field);
+            }// end of if cycle
+        }// end of for cycle
+
+        return fieldsList;
+    }// end of static method
 
     /**
      * Fields dichiarati nella Entity
@@ -62,12 +118,13 @@ public abstract class LibReflection {
      */
     @SuppressWarnings("all")
     public static List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
-        Class<?> clazz = entityClazz;
         ArrayList<Field> fieldsList = new ArrayList<>();
+        Class<?> clazz = entityClazz;
         ArrayList<Field> fieldsTmp = new ArrayList<>();
         Field[] fieldsArray = null;
         Field fieldKeyId = null;
         Field fieldCompany = null;
+        Field fieldOrdine = null;
         String fieldName;
         boolean useCompany = LibAnnotation.useCompanyFields(entityClazz);
         boolean useCompanyOptional = LibAnnotation.useCompanyOptionalFields(entityClazz);
@@ -82,6 +139,9 @@ public abstract class LibReflection {
                     }// end of if cycle
                     if (field.getName().equals(Cost.PROPERTY_COMPANY)) {
                         fieldCompany = field;
+                    }// end of if cycle
+                    if (field.getName().equals(Cost.PROPERTY_ORDINE)) {
+                        fieldOrdine = field;
                     }// end of if cycle
                     if (!Cost.ESCLUSI.contains(field.getName())) {
                         fieldsTmp.add(field);
@@ -102,10 +162,8 @@ public abstract class LibReflection {
                     for (Field field : fieldsTmp) {
                         fieldName = field.getName();
                         if (LibText.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
-                            if (LibAnnotation.isColumnVisibile(field)) {
-                                if (fieldName.equals(nome)) {
-                                    fieldsList.add(field);
-                                }// end of if cycle
+                            if (fieldName.equals(nome)) {
+                                fieldsList.add(field);
                             }// end of if cycle
                         }// end of if cycle
                     }// end of for cycle
@@ -121,16 +179,21 @@ public abstract class LibReflection {
         }// end of if cycle
 
         //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento
+        //--se esiste il field ''ordine'', company viene messo dopo ordine
         if (addKeyCompany && ACompanyEntity.class.isAssignableFrom(entityClazz)) {
             if (fieldCompany != null) {
-                fieldsList.add(0, fieldCompany);
+                if (fieldOrdine != null) {
+                    fieldsList.add(fieldsList.indexOf(fieldOrdine) + 1, fieldCompany);
+                } else {
+                    fieldsList.add(0, fieldCompany);
+                }// end of if/else cycle
             } else {
                 log.warn("Non ho trovato il field company");
             }// end of if/else cycle
         }// end of if cycle
 
         //--se il flag booleano addKeyID è true, aggiunge (all'inizio) il field keyId
-        if (addKeyID) {
+        if (addKeyID || LibSession.isDeveloper()) {
             if (fieldKeyId != null) {
                 fieldsList.add(0, fieldKeyId);
             } else {
@@ -180,14 +243,20 @@ public abstract class LibReflection {
      */
     public static List<String> getAllEnabledFieldNames(final Class<? extends AEntity> entityClazz, boolean useCompany) {
         List<String> nameList = new ArrayList();
-        List<String> nameListTmp = getListVisibleColumnNames(entityClazz, false, useCompany);
+        List<Field> fieldList = getFormFields(entityClazz, null, useCompany);
+//        List<String> nameListTmp = getListVisibleColumnNames(entityClazz, false, useCompany);
 
-        for (String publicFieldName : nameListTmp) {
-            if (LibAnnotation.isFieldEnabled(entityClazz, publicFieldName, false)) {
-                nameList.add(publicFieldName);
+        for (Field field : fieldList) {
+            if (LibAnnotation.isFieldEnabled(field, false)) {
+                nameList.add(field.getName());
             }// end of if cycle
 
         }// end of for cycle
+//        for (String publicFieldName : nameListTmp) {
+//            if (LibAnnotation.isFieldEnabled(entityClazz, publicFieldName, false)) {
+//                nameList.add(publicFieldName);
+//            }// end of if cycle
+//        }// end of for cycle
 
         return nameList;
     }// end of static method

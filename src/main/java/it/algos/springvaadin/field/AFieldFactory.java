@@ -3,6 +3,8 @@ package it.algos.springvaadin.field;
 import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
+
 /**
  * Project springvaadin
  * Created by Algos
@@ -26,10 +28,24 @@ public interface AFieldFactory {
      * @param type            del field, secondo la Enumeration AFieldType
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
+     * @param entityBean      di riferimento da esaminare
      *
-     * @return il field creato
+     * @return il field appena creato
      */
-    public AField crea(final Class<? extends AEntity> clazz,AFieldType type, ApplicationListener source, String publicFieldName,AEntity entityBean);
+    public AField crea(final Class<? extends AEntity> clazz, AFieldType type, ApplicationListener source, String publicFieldName, AEntity entityBean);
+
+
+    /**
+     * Creazione di un field
+     *
+     * @param source          del presenter che gestisce questo field
+     * @param type            del field, secondo la Enumeration AFieldType
+     * @param reflectionField di riferimento per estrarre le Annotation
+     * @param entityBean      di riferimento da esaminare
+     *
+     * @return il field appena creato
+     */
+    public AField crea(ApplicationListener source, AFieldType type, Field reflectionField, AEntity entityBean);
 
 
 }// end of interface

@@ -17,6 +17,8 @@ import org.springframework.cglib.core.internal.Function;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
+
 /**
  * Project springvaadin
  * Created by Algos
@@ -147,11 +149,11 @@ public class AFieldFactoryImpl implements AFieldFactory {
                 case link:
                     field = fieldFactory.apply(ALinkField.class);
                     entityBeanField = LibReflection.getValueLink(entityBean, publicFieldName);
-                    if (LibAnnotation.isDBRef(clazz, publicFieldName)) {
-                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field, entityBeanField));
-                    } else {
+//                    if (LibAnnotation.isDBRef(clazz, publicFieldName)) {
+//                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field, entityBeanField));
+//                    } else {
                         ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, source, field, entityBeanField));
-                    }// end of if/else cycle
+//                    }// end of if/else cycle
                     ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
                     break;
                 case textarea:
@@ -171,6 +173,99 @@ public class AFieldFactoryImpl implements AFieldFactory {
 
         return field;
     }// end of method
+
+
+    /**
+     * Creazione di un field
+     *
+     * @param source          del presenter che gestisce questo field
+     * @param type            del field, secondo la Enumeration AFieldType
+     * @param reflectionField di riferimento per estrarre le Annotation
+     * @param entityBean      di riferimento da esaminare
+     *
+     * @return il field appena creato
+     */
+    public AField crea(ApplicationListener source, AFieldType type, Field reflectionField, AEntity entityBean) {
+        AField field = null;
+        AEntity entityBeanField = null;
+
+        try { // prova ad eseguire il codice
+            switch (type) {
+                case id:
+                    field = fieldFactory.apply(AIdField.class);
+                    break;
+                case text:
+                    field = fieldFactory.apply(ATextField.class);
+                    break;
+                case email:
+                    field = fieldFactory.apply(ATextField.class);
+                    break;
+                case integer:
+                    field = fieldFactory.apply(AIntegerField.class);
+                    break;
+                case checkbox:
+                    field = fieldFactory.apply(ACheckBoxField.class);
+                    break;
+                case localdate:
+                    field = fieldFactory.apply(ADateField.class);
+                    break;
+                case localdatetime:
+                    field = fieldFactory.apply(ADateTimeField.class);
+                    break;
+                case dateNotEnabled:
+                    field = fieldFactory.apply(ADateNotEnabledField.class);
+                    break;
+                case image:
+                    field = fieldFactory.apply(AImageField.class);
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, targetImageAutowired, field));
+                    break;
+                case resource:
+                    field = fieldFactory.apply(AImageField.class);
+                    break;
+                case icon:
+                    field = fieldFactory.apply(AIconField.class);
+                    field.setButton(buttonFactory.crea(AButtonType.image, source, source, field));
+                    break;
+                case json:
+                    field = fieldFactory.apply(AJSonField.class);
+                    ((AJSonField) field).setType(PrefType.string);
+                    break;
+                case combo:
+                    field = fieldFactory.apply(AComboField.class);
+                    break;
+                case radio:
+                    field = fieldFactory.apply(ARadioField.class);
+                    break;
+                case enumeration:
+                    field = fieldFactory.apply(AComboField.class);
+                    break;
+                case link:
+                    field = fieldFactory.apply(ALinkField.class);
+                    entityBeanField = LibReflection.getValueLink(entityBean, reflectionField.getName());
+                    if (LibAnnotation.isDBRef(reflectionField)) {
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkDBRef, source, source, field, entityBeanField));
+                    } else {
+                        ((ALinkField) field).setButtonEdit(buttonFactory.crea(AButtonType.editLinkNoDBRef, source, source, field, entityBeanField));
+                    }// end of if/else cycle
+                    ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
+                    break;
+                case textarea:
+                    field = fieldFactory.apply(ATextAreaField.class);
+                    break;
+                default: // caso non definito
+                    break;
+            } // fine del blocco switch
+
+            if (field != null) {
+                field.inizializza(reflectionField.getName(), source);
+            }// end of if cycle
+
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.warn(unErrore.toString());
+        }// fine del blocco try-catch
+
+        return field;
+    }
 
 }// end of class
 

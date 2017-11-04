@@ -67,7 +67,7 @@ public abstract class LibColumn {
      */
     public static int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
 //        AIColumn columnAnnotation = getAnnotation(field);
-        String name = LibAnnotation.getColumnName(reflectionField);
+        String caption = LibAnnotation.getColumnName(reflectionField);
         AFieldType type = LibAnnotation.getColumnType(reflectionField);
         int width = LibAnnotation.getColumnWith(reflectionField);
 
@@ -77,7 +77,7 @@ public abstract class LibColumn {
         IconRenderer renderIcon = new IconRenderer();
         ByteStringRenderer renderByte = new ByteStringRenderer();
 
-        colonna.setCaption(name);
+        colonna.setCaption(caption);
         colonna.setWidth(width > 0 ? width : WIDTH_TEXT_NORMAL);
 
         if (type == AFieldType.localdate) {
@@ -100,7 +100,7 @@ public abstract class LibColumn {
             colonna.setWidth(WIDTH_BYTE);
         }// end of if cycle
 
-        if (name.equals(Cost.PROPERTY_ID)) {
+        if (caption.equals(Cost.PROPERTY_ID)) {
             colonna.setWidth(290);
         }// end of if cycle
 

@@ -8,29 +8,26 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
-import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
-import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.service.FieldService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.AToolbarImpl;
 import it.algos.springvaadin.toolbar.LinkToolbar;
-import it.algos.springvaadin.toolbar.ListToolbar;
 import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 
-import javax.xml.ws.handler.Handler;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by gac on 10/07/17
@@ -46,6 +43,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
     protected AlgosService service;
 
+    @Autowired
+    private FieldService fieldService;
 
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
     protected Window window;
@@ -196,56 +195,117 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
-     * Crea i campi, li aggiunge al layout, li aggiunge al binder
+     * Crea i campi
+     * <p>
+     * Aggiunge i campi al layout
+     * <p>
+     * Costruisce il binder per questo Form e questa Entity
+     * Aggiunge i campi al binder
+     * Aggiunge eventuali validatori
+     * Aggiunge eventuali convertitori
+     * Aggiunge eventuali validatori (successivamente ai convertitori)
+     * Legge la entity, inserendo i valori nei campi grafici
      *
      * @param source        presenter di riferimento da cui vengono generati gli eventi
      * @param layout        in cui inserire i campi (window o panel)
      * @param reflectFields del form da visualizzare
+     * @param entityBean    istanza da elaborare, null per un nuovo record
      */
     protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields, AEntity entityBean) {
-        creaFields(source, reflectFields, entityBean);
-        addFields(layout);
-        bindFields();
+        AField algosField;
+        List<AField> lista = new ArrayList<>();
+        binder = new Binder(entityBean.getClass());
+
+        //--spazzola la lista di javaField
+        for (Field reflectField : reflectFields) {
+            //--crea un AField e regola le varie properties grafiche (caption, visible, editable, width, ecc)
+            algosField = fieldService.create(source, reflectField, entityBean);
+
+            if (algosField != null) {
+                //--aggiunge il componente grafico (AField) al layout selezionato
+                layout.addComponent(algosField);
+
+                //--aggiunge AField alla lista internza, necessaria per ''recuperare'' un singolo algosField dal nome
+                lista.add(algosField);
+
+                //--aggiunge AField al binder
+                bindField(entityBean, reflectField, algosField);
+            }// end of if cycle
+        }// end of for cycle
+
+        binder.readBean(entityBean);
+
+//        creaFields(source, reflectFields, entityBean);
+//        addFields(layout);
+//        bindFields();
+
+        //--eventuali elaborazioni aggiuntive sui singoli fileds da parte della sottoclasse Form specifica
         fixFields();
     }// end of method
 
 
+//    /**
+//     * Crea il singolo field
+//     * aggiunge il componente grafico (AField) al layout selezionato
+//     *
+//     * @param source          presenter di riferimento da cui vengono generati gli eventi
+//     * @param reflectionField di riferimento per estrarre le Annotation
+//     * @param entityBean      istanza da elaborare, null per un nuovo record
+//     *
+//     * @return componente grafico (AField) appena creato
+//     */
+//    protected AField creaField(ApplicationListener source, Field reflectionField, AEntity entityBean) {
+//        AField algosField;
+//
+//        algosField = fieldService.create(source, reflectionField, entityBean);
+//
+//        if (algosField != null) {
+//            layout.addComponent(algosField);
+//        }// end of if cycle
+//    }// end of for cycle
+//
+//        return algosField;
+//}// end of method
+
+
+//    /**
+//     * Aggiunge i campi al layout
+//     *
+//     * @param layout in cui inserire i campi (window o panel)
+//     */
+//    private void addFields(Layout layout) {
+//        for (AField field : fieldList) {
+//            layout.addComponent(field);
+//        }// end of for cycle
+//    }// end of method
+
+
     /**
-     * Crea i campi
+     * Aggiunge il field al binder
+     * Aggiunge eventuali validatori
+     * Aggiunge eventuali convertitori
+     * Aggiunge eventuali validatori (successivamente ai convertitori)
      *
-     * @param source        presenter di riferimento da cui vengono generati gli eventi
-     * @param reflectFields del form da visualizzare
-     *
-     * @return lista di fields
+     * @param reflectionField di riferimento per estrarre le Annotation
+     * @param algosField      del form da visualizzare
      */
-    protected List<AField> creaFields(ApplicationListener source, List<Field> reflectFields, AEntity entityBean) {
-        List<AField> lista = new ArrayList<>();
-        AField field;
-        String publicFieldName;
+    private void bindField(AEntity entityBean, Field reflectionField, AField algosField) {
+        Binder.BindingBuilder builder = binder.forField(algosField);
 
-        for (Field reflectField : reflectFields) {
-            publicFieldName = reflectField.getName();
-            field = viewField.create(source, entityBean.getClass(), publicFieldName, entityBean);
-
-            if (field != null) {
-                lista.add(field);
-            }// end of if cycle
+        for (AbstractValidator validator : fieldService.creaValidatorsPre(entityBean, reflectionField)) {
+            builder = builder.withValidator(validator);
         }// end of for cycle
 
-        this.fieldList = lista;
-        return lista;
-    }// end of method
-
-
-    /**
-     * Aggiunge i campi al layout
-     *
-     * @param layout in cui inserire i campi (window o panel)
-     */
-    private void addFields(Layout layout) {
-        for (AField field : fieldList) {
-            layout.addComponent(field);
+        for (Converter converter : fieldService.creaConverters(entityBean, reflectionField)) {
+            builder = builder.withConverter(converter);
         }// end of for cycle
+
+        for (AbstractValidator validator : fieldService.creaValidatorsPost(entityBean, reflectionField)) {
+            builder = builder.withValidator(validator);
+        }// end of for cycle
+
+        builder.bind(algosField.getName());
+        algosField.initContent();
     }// end of method
 
 
@@ -287,39 +347,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
         }// end of if cycle
-    }// end of method
-
-    /**
-     * Costruisce il binder per questo Form e questa Entity
-     * <p>
-     * Aggiunge i campi al binder
-     * Aggiunge eventuali validatori
-     * Aggiunge eventuali convertitori
-     * Aggiunge eventuali validatori (successivamente ai convertitori)
-     * Legge la entity, inserendo i valori nei campi grafici
-     */
-    private void bindFields() {
-        binder = new Binder(entityBean.getClass());
-        String publicFieldName;
-
-        for (AField field : fieldList) {
-            publicFieldName = field.getName();
-
-            Binder.BindingBuilder builder = binder.forField(field);
-            for (AbstractValidator validator : LibField.creaValidatorsPre(entityBean, publicFieldName)) {
-                builder = builder.withValidator(validator);
-            }// end of for cycle
-            for (Converter converter : LibField.creaConverters(entityBean, publicFieldName)) {
-                builder = builder.withConverter(converter);
-            }// end of for cycle
-            for (AbstractValidator validator : LibField.creaValidatorsPost(entityBean, publicFieldName)) {
-                builder = builder.withValidator(validator);
-            }// end of for cycle
-            builder.bind(publicFieldName);
-            field.initContent();
-        }// end of for cycle
-
-        binder.readBean(entityBean);
     }// end of method
 
 

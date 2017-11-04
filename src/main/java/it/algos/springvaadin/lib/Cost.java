@@ -23,6 +23,7 @@ public abstract class Cost {
     public final static String PROPERTY_ID = "id";
     public final static String PROPERTY_COMPANY = "company";
     public final static String PROPERTY_SERIAL = "serialVersionUID";
+    public final static String PROPERTY_ORDINE = "ordine";
     public final static String COMPANY_CODE = "code";
     public final static String COMPANY_UNICO = "codeCompanyUnico";
 

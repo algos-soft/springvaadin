@@ -129,13 +129,13 @@ public abstract class LibAnnotation {
     /**
      * Recupera l'Annotation specifica
      *
-     * @param field reflectionField di riferimento per estrarre le Annotation
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return annotation
      */
-    public static AIColumn getColumnAnnotation(Field field) {
-        if (field != null) {
-            return field.getAnnotation(AIColumn.class);
+    public static AIColumn getColumnAnnotation(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(AIColumn.class);
         } else {
             return null;
         }// end of if/else cycle
@@ -144,13 +144,13 @@ public abstract class LibAnnotation {
     /**
      * Recupera l'Annotation specifica
      *
-     * @param field reflectionField di riferimento per estrarre le Annotation
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
-     * @return annotation
+     * @return the Annotation for the specific field
      */
-    public static AIField getFormAnnotation(Field field) {
-        if (field != null) {
-            return field.getAnnotation(AIField.class);
+    public static AIField getFormAnnotation(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(AIField.class);
         } else {
             return null;
         }// end of if/else cycle
@@ -251,15 +251,15 @@ public abstract class LibAnnotation {
     /**
      * Get the status required of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
+    @Deprecated
     @SuppressWarnings("all")
-    public static boolean isRequired(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isRequired(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.required();
@@ -271,14 +271,13 @@ public abstract class LibAnnotation {
     /**
      * Get the status required of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isRequiredWild(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        return isNotEmpty(clazz, publicFieldName) || isNotNull(clazz, publicFieldName) || isRequired(clazz, publicFieldName);
+    public static boolean isRequiredWild(Field reflectionField) {
+        return isNotEmpty(reflectionField) || isNotNull(reflectionField) || isRequired(reflectionField);
     }// end of static method
 
 //    /**
@@ -304,23 +303,22 @@ public abstract class LibAnnotation {
     /**
      * Get the status enabled of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static FieldAccessibility getFieldAccessibility(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static FieldAccessibility getFieldAccessibility(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.never;
 
         if (LibSession.isDeveloper()) {
-            fieldAccessibility = getFieldAccessibilityDev(clazz, publicFieldName);
+            fieldAccessibility = getFieldAccessibilityDev(reflectionField);
         } else {
             if (LibSession.isAdmin()) {
-                fieldAccessibility = getFieldAccessibilityAdmin(clazz, publicFieldName);
+                fieldAccessibility = getFieldAccessibilityAdmin(reflectionField);
             } else {
                 if (true) {
-                    fieldAccessibility = getFieldAccessibilityUser(clazz, publicFieldName);
+                    fieldAccessibility = getFieldAccessibilityUser(reflectionField);
                 }// end of if cycle
             }// end of if/else cycle
         }// end of if/else cycle
@@ -332,15 +330,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status enabled of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static FieldAccessibility getFieldAccessibilityDev(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static FieldAccessibility getFieldAccessibilityDev(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.dev();
@@ -353,15 +350,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status enabled of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static FieldAccessibility getFieldAccessibilityAdmin(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static FieldAccessibility getFieldAccessibilityAdmin(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.admin();
@@ -374,15 +370,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status enabled of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static FieldAccessibility getFieldAccessibilityUser(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static FieldAccessibility getFieldAccessibilityUser(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.user();
@@ -391,18 +386,18 @@ public abstract class LibAnnotation {
         return fieldAccessibility;
     }// end of static method
 
+
     /**
      * Get the status focus of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isFocus(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isFocus(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.focus();
@@ -414,15 +409,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status FirstCapital of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isFirstCapital(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isFirstCapital(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.firstCapital();
@@ -435,15 +429,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status allUpper of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isAllUpper(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isAllUpper(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.allUpper();
@@ -456,15 +449,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status nullSelectionAllowed of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isNullSelectionAllowed(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isNullSelectionAllowed(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.nullSelectionAllowed();
@@ -476,15 +468,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status allLower of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isAllLower(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isAllLower(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.allLower();
@@ -497,15 +488,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status onlyNumber of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isOnlyNumber(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isOnlyNumber(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.onlyNumber();
@@ -517,15 +507,14 @@ public abstract class LibAnnotation {
     /**
      * Get the status onlyLetter of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return status of field
      */
     @SuppressWarnings("all")
-    public static boolean isOnlyLetter(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isOnlyLetter(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.onlyLetter();
@@ -637,17 +626,16 @@ public abstract class LibAnnotation {
     /**
      * Get the widthEM of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param field reflectionField di riferimento per estrarre le Annotation
      *
      * @return the width of the field expressed in em
      */
     @SuppressWarnings("all")
-    public static String getWidthEM(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static String getWidthEM(Field field) {
         String width = "";
         int widthInt = 0;
         String tag = "em";
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(field);
 
         if (fieldAnnotation != null) {
             widthInt = fieldAnnotation.widthEM();
@@ -663,15 +651,14 @@ public abstract class LibAnnotation {
     /**
      * Get the number of rows of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param field reflectionField di riferimento per estrarre le Annotation
      *
      * @return the number of rows of the field expressed in int
      */
     @SuppressWarnings("all")
-    public static int getNumRows(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static int getNumRows(Field field) {
         int rows = 1;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(field);
 
         if (fieldAnnotation != null) {
             rows = fieldAnnotation.numRowsTextArea();
@@ -725,37 +712,40 @@ public abstract class LibAnnotation {
     /**
      * Get the specific annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static Size getSize(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        Size annotation = null;
-        String tag = "Size";
-        Map mappa = getMap(clazz, publicFieldName);
-
-        if (mappa != null && mappa.containsKey(tag)) {
-            annotation = (Size) mappa.get(tag);
-        }// end of if cycle
-
-        return annotation;
+    public static Size getSize(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(Size.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+//        Size annotation = null;
+//        String tag = "Size";
+//        Map mappa = getMap(clazz, publicFieldName);
+//
+//        if (mappa != null && mappa.containsKey(tag)) {
+//            annotation = (Size) mappa.get(tag);
+//        }// end of if cycle
+//
+//        return annotation;
     }// end of static method
 
 
     /**
      * Get the existence of the Size annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return true if the Size Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isSize(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isSize(Field reflectionField) {
         boolean sizeEsiste = false;
-        Size sizeAnnotation = getSize(clazz, publicFieldName);
+        Size sizeAnnotation = getSize(reflectionField);
 
         if (sizeAnnotation != null) {
             sizeEsiste = true;
@@ -768,20 +758,19 @@ public abstract class LibAnnotation {
     /**
      * Get the message of the Size annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getSizeMessage(final Class<? extends AEntity> clazz, final String publicFieldName, boolean notEmpty) {
+    public static String getSizeMessage(Field reflectionField, boolean notEmpty) {
         String message = "";
-        Size annotation = getSize(clazz, publicFieldName);
+        Size annotation = getSize(reflectionField);
         String oppure = notEmpty ? "" : "vuoto oppure ";
-        int min = LibAnnotation.getMin(clazz, publicFieldName);
-        int max = LibAnnotation.getMax(clazz, publicFieldName);
+        int min = LibAnnotation.getMin(reflectionField);
+        int max = LibAnnotation.getMax(reflectionField);
         boolean maxEccessivo = max > 10000;
-        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        String fieldName = LibText.primaMaiuscola(reflectionField.getName());
         fieldName = LibText.setRossoBold(fieldName);
 
         if (annotation != null) {
@@ -809,15 +798,14 @@ public abstract class LibAnnotation {
     /**
      * Get the min length of the string property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the min length of the string property
      */
     @SuppressWarnings("all")
-    public static int getMin(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static int getMin(Field reflectionField) {
         int length = 0;
-        Size annotation = getSize(clazz, publicFieldName);
+        Size annotation = getSize(reflectionField);
 
         if (annotation != null) {
             length = annotation.min();
@@ -830,15 +818,14 @@ public abstract class LibAnnotation {
     /**
      * Get the max length of the string property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the max length of the string property
      */
     @SuppressWarnings("all")
-    public static int getMax(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static int getMax(Field reflectionField) {
         int length = 0;
-        Size annotation = getSize(clazz, publicFieldName);
+        Size annotation = getSize(reflectionField);
 
         if (annotation != null) {
             length = annotation.max();
@@ -849,40 +836,44 @@ public abstract class LibAnnotation {
 
 
     /**
-     * Get the specific annotation of the property.
+     * Recupera l'Annotation specifica
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static NotEmpty getNotEmpty(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        NotEmpty notEmpty = null;
-        String tag = "NotEmpty";
-        Map mappa = getMap(clazz, publicFieldName);
+    public static NotEmpty getNotEmpty(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(NotEmpty.class);
+        } else {
+            return null;
+        }// end of if/else cycle
 
-        if (mappa != null && mappa.containsKey(tag)) {
-            notEmpty = (NotEmpty) mappa.get(tag);
-        }// end of if cycle
-
-        return notEmpty;
+//        NotEmpty notEmpty = null;
+//        String tag = "NotEmpty";
+//        Map mappa = getMap(clazz, publicFieldName);
+//
+//        if (mappa != null && mappa.containsKey(tag)) {
+//            notEmpty = (NotEmpty) mappa.get(tag);
+//        }// end of if cycle
+//
+//        return notEmpty;
     }// end of static method
 
 
     /**
      * Get the message of the NotEmpty annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getNotEmptyMessage(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static String getNotEmptyMessage(Field reflectionField) {
         String message = "";
-        NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
-        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        NotEmpty notEmpty = getNotEmpty(reflectionField);
+        String fieldName = LibText.primaMaiuscola(reflectionField.getName());
         fieldName = LibText.setRossoBold(fieldName);
 
         if (notEmpty != null) {
@@ -900,15 +891,14 @@ public abstract class LibAnnotation {
     /**
      * Get the existence of the notEmpty annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return true if the notEmpty Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isNotEmpty(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isNotEmpty(Field reflectionField) {
         boolean nonVuota = false;
-        NotEmpty notEmpty = getNotEmpty(clazz, publicFieldName);
+        NotEmpty notEmpty = getNotEmpty(reflectionField);
 
         if (notEmpty != null) {
             nonVuota = true;
@@ -921,38 +911,42 @@ public abstract class LibAnnotation {
     /**
      * Get the specific annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static NotNull getNotNull(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        NotNull notNull = null;
-        String tag = "NotNull";
-        Map mappa = getMap(clazz, publicFieldName);
+    public static NotNull getNotNull(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(NotNull.class);
+        } else {
+            return null;
+        }// end of if/else cycle
 
-        if (mappa != null && mappa.containsKey(tag)) {
-            notNull = (NotNull) mappa.get(tag);
-        }// end of if cycle
-
-        return notNull;
+//        NotNull notNull = null;
+//        String tag = "NotNull";
+//        Map mappa = getMap(clazz, publicFieldName);
+//
+//        if (mappa != null && mappa.containsKey(tag)) {
+//            notNull = (NotNull) mappa.get(tag);
+//        }// end of if cycle
+//
+//        return notNull;
     }// end of static method
 
 
     /**
      * Get the message of the NotNull annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the specific message
      */
     @SuppressWarnings("all")
-    public static String getNotNullMessage(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static String getNotNullMessage(Field reflectionField) {
         String message = "";
-        NotNull notNull = getNotNull(clazz, publicFieldName);
-        String fieldName = LibText.primaMaiuscola(publicFieldName);
+        NotNull notNull = getNotNull(reflectionField);
+        String fieldName = LibText.primaMaiuscola(reflectionField.getName());
         fieldName = LibText.setRossoBold(fieldName);
 
         if (notNull != null) {
@@ -970,15 +964,14 @@ public abstract class LibAnnotation {
     /**
      * Get the existence of the NotNull annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return true if the NotNull Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isNotNull(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isNotNull(Field reflectionField) {
         boolean nonVuota = false;
-        NotNull notNull = getNotNull(clazz, publicFieldName);
+        NotNull notNull = getNotNull(reflectionField);
 
         if (notNull != null) {
             nonVuota = true;
@@ -991,37 +984,40 @@ public abstract class LibAnnotation {
     /**
      * Get the specific annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static Indexed getIndexed(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        Indexed indexed = null;
-        String tag = "Indexed";
-        Map mappa = getMap(clazz, publicFieldName);
-
-        if (mappa != null && mappa.containsKey(tag)) {
-            indexed = (Indexed) mappa.get(tag);
-        }// end of if cycle
-
-        return indexed;
+    public static Indexed getIndexed(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(Indexed.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+//        Indexed indexed = null;
+//        String tag = "Indexed";
+//        Map mappa = getMap(clazz, publicFieldName);
+//
+//        if (mappa != null && mappa.containsKey(tag)) {
+//            indexed = (Indexed) mappa.get(tag);
+//        }// end of if cycle
+//
+//        return indexed;
     }// end of static method
 
 
     /**
      * Get the value of unique field of Indexed annotation
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return true if the Indexed Annotation exists and is true
      */
     @SuppressWarnings("all")
-    public static boolean isUnico(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isUnico(Field reflectionField) {
         boolean unico = false;
-        Indexed indexed = getIndexed(clazz, publicFieldName);
+        Indexed indexed = getIndexed(reflectionField);
 
         if (indexed != null) {
             unico = indexed.unique();
@@ -1034,15 +1030,14 @@ public abstract class LibAnnotation {
     /**
      * Get the class of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the class for the specific column
      */
     @SuppressWarnings("all")
-    public static Class getClass(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static Class getClass(Field reflectionField) {
         Class linkClazz = null;
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             linkClazz = fieldAnnotation.clazz();
@@ -1166,7 +1161,6 @@ public abstract class LibAnnotation {
     }// end of static method
 
 
-
     /**
      * Get the status formShowsID of the class.
      *
@@ -1213,36 +1207,39 @@ public abstract class LibAnnotation {
     /**
      * Get the specific annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the Annotation for the specific field
      */
     @SuppressWarnings("all")
-    public static DBRef getDBRef(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        DBRef dbRef = null;
-        String tag = "DBRef";
-        Map mappa = getMap(clazz, publicFieldName);
-
-        if (mappa != null && mappa.containsKey(tag)) {
-            dbRef = (DBRef) mappa.get(tag);
-        }// end of if cycle
-
-        return dbRef;
+    public static DBRef getDBRef(Field reflectionField) {
+        if (reflectionField != null) {
+            return reflectionField.getAnnotation(DBRef.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+//        DBRef dbRef = null;
+//        String tag = "DBRef";
+//        Map mappa = getMap(clazz, publicFieldName);
+//
+//        if (mappa != null && mappa.containsKey(tag)) {
+//            dbRef = (DBRef) mappa.get(tag);
+//        }// end of if cycle
+//
+//        return dbRef;
     }// end of static method
 
     /**
      * Get the existence of the DBRef annotation of the property.
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return true if the notEmpty Annotation exists
      */
     @SuppressWarnings("all")
-    public static boolean isDBRef(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isDBRef(Field reflectionField) {
         boolean usaDBRef = false;
-        DBRef dbRef = getDBRef(clazz, publicFieldName);
+        DBRef dbRef = getDBRef(reflectionField);
 
         if (dbRef != null) {
             usaDBRef = true;
@@ -1399,16 +1396,15 @@ public abstract class LibAnnotation {
      * Get the roleTypeVisibility of the property.
      * Se manca, usa il ruolo Guest
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the ARoleType of the field
      */
     @SuppressWarnings("all")
-    public static ARoleType getFieldRoleType(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static ARoleType getFieldRoleType(Field reflectionField) {
         ARoleType roleTypeVisibility = ARoleType.guest;
 
-        AIField fieldAnnotation = getField(clazz, publicFieldName);
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             roleTypeVisibility = fieldAnnotation.roleTypeVisibility();
@@ -1423,18 +1419,17 @@ public abstract class LibAnnotation {
      * Controlla il grado di accesso consentito
      * Di default true
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param field reflectionField di riferimento per estrarre le Annotation
      *
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldVisibile(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static boolean isFieldVisibile(Field reflectionField, boolean nuovaEntity) {
         boolean visibile = true;
 
-        visibile = isFieldVisibileRole(clazz, publicFieldName);
+        visibile = isFieldVisibileRole(reflectionField);
         if (visibile) {
-            visibile = isFieldVisibileAccess(clazz, publicFieldName, nuovaEntity);
+            visibile = isFieldVisibileAccess(reflectionField, nuovaEntity);
         }// end of if cycle
 
         return visibile;
@@ -1444,15 +1439,14 @@ public abstract class LibAnnotation {
      * Get the visibility of the field.
      * Controlla il ruolo dell'utente connesso
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param field reflectionField di riferimento per estrarre le Annotation
      *
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldVisibileRole(final Class<? extends AEntity> clazz, final String publicFieldName) {
+    public static boolean isFieldVisibileRole(Field reflectionField) {
         boolean visibile = false;
-        ARoleType roleTypeVisibility = getFieldRoleType(clazz, publicFieldName);
+        ARoleType roleTypeVisibility = getFieldRoleType(reflectionField);
 
         switch (roleTypeVisibility) {
             case nobody:
@@ -1487,15 +1481,14 @@ public abstract class LibAnnotation {
      * Get the visibility of the field.
      * Controlla il grado di accesso consentito
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldVisibileAccess(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static boolean isFieldVisibileAccess(Field reflectionField, boolean nuovaEntity) {
         boolean visibile = true;
-        FieldAccessibility fieldAccessibility = getFieldAccessibility(clazz, publicFieldName);
+        FieldAccessibility fieldAccessibility = getFieldAccessibility(reflectionField);
 
         switch (fieldAccessibility) {
             case allways:
@@ -1525,18 +1518,17 @@ public abstract class LibAnnotation {
      * Controlla il grado di accesso consentito
      * Di default true
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldEnabled(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static boolean isFieldEnabled(Field reflectionField, boolean nuovaEntity) {
         boolean enabled = true;
-        boolean visibile = isFieldVisibileRole(clazz, publicFieldName);
+        boolean visibile = isFieldVisibileRole(reflectionField);
 
         if (visibile) {
-            enabled = isFieldEnabledAccess(clazz, publicFieldName, nuovaEntity);
+            enabled = isFieldEnabledAccess(reflectionField, nuovaEntity);
         }// end of if cycle
 
         return enabled;
@@ -1547,15 +1539,14 @@ public abstract class LibAnnotation {
      * Get the enabled state of the field.
      * Controlla il grado di accesso consentito
      *
-     * @param clazz           the entity class
-     * @param publicFieldName the name of the property
+     * @param reflectionField di riferimento per estrarre le Annotation
      *
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public static boolean isFieldEnabledAccess(final Class<? extends AEntity> clazz, final String publicFieldName, boolean nuovaEntity) {
+    public static boolean isFieldEnabledAccess(Field reflectionField, boolean nuovaEntity) {
         boolean enabled = true;
-        FieldAccessibility fieldAccessibility = getFieldAccessibility(clazz, publicFieldName);
+        FieldAccessibility fieldAccessibility = getFieldAccessibility(reflectionField);
 
         switch (fieldAccessibility) {
             case allways:
@@ -1613,6 +1604,53 @@ public abstract class LibAnnotation {
         boolean visibile = false;
         ARoleType roleTypeVisibility = ARoleType.nobody;
         AIColumn annotation = javaField.getAnnotation(AIColumn.class);
+
+        if (annotation != null) {
+            roleTypeVisibility = annotation.roleTypeVisibility();
+        }// end of if cycle
+
+        switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
+            case developer:
+                if (LibSession.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (LibSession.isAdmin()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                visibile = true;
+                break;
+            case guest:
+                visibile = true;
+                break;
+            default:
+                visibile = true;
+                break;
+        } // end of switch statement
+
+        return visibile;
+    }// end of static method
+
+
+    /**
+     * Get the visibility of the field of the Form.
+     * Di default true
+     *
+     * @param javaField to check
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public static boolean isFormFieldVisibile(Field javaField) {
+        boolean visibile = false;
+        ARoleType roleTypeVisibility = ARoleType.nobody;
+        AIField annotation = javaField.getAnnotation(AIField.class);
 
         if (annotation != null) {
             roleTypeVisibility = annotation.roleTypeVisibility();

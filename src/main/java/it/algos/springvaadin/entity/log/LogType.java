@@ -1,11 +1,5 @@
 package it.algos.springvaadin.entity.log;
 
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.LibField;
-
-import java.util.Arrays;
-
 /**
  * Project springvaadin
  * Created by Algos

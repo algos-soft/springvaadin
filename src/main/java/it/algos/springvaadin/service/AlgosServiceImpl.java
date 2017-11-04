@@ -270,20 +270,13 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public List<Field> getListFields() {
         List<Field> listaField = null;
         List<String> listaNomi = null;
-        boolean useID = false;
         boolean useCompany = false;
 
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getListColumns(entityClass);
 
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-        if (listaNomi == null) {
-            useID = LibAnnotation.isListShowsID(entityClass);
-            useCompany = this.displayCompany();
-            listaField = LibReflection.getFields(entityClass, useID, useCompany);
-        } else {
-            listaField = LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
-        }// end of if/else cycle
+        listaField = LibReflection.getListColumns(entityClass, listaNomi, displayCompany());
 
 //        //--il developer vede tutto (si potrebbe migliorare)
 //        if (LibSession.isDeveloper()) {
@@ -311,7 +304,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public List<Field> getFormFields() {
         List<Field> listaField = null;
         List<String> listaNomi = null;
-        boolean useID = false;
         boolean useCompany = false;
 
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
@@ -322,15 +314,17 @@ public abstract class AlgosServiceImpl implements AlgosService {
 //        useID = LibAnnotation.isFormShowsID(entityClass);
 //        useCompany = this.displayCompany();
 
-        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-        if (listaNomi == null) {
-            useID = LibAnnotation.isFormShowsID(entityClass);
-            useCompany = this.displayCompany();
-            listaField = LibReflection.getFields(entityClass, useID, useCompany);
-        } else {
-            listaField = LibReflection.getFields(entityClass, listaNomi, useID, useCompany);
-        }// end of if/else cycle
+//        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
+//        if (listaNomi == null) {
+//            useID = LibAnnotation.isFormShowsID(entityClass);
+//            useCompany = this.displayCompany();
+//            listaField = LibReflection.getFields(entityClass, useID, useCompany);
+//        } else {
+//        }// end of if/else cycle
 
+        //--Se non trova nulla, usa tutti i campi
+        //--Nel Form il developer vede SEMPRE la keyId, non Enabled
+        listaField = LibReflection.getFormFields(entityClass, listaNomi, displayCompany());
 
 //        //--il developer vede tutto (si potrebbe migliorare)
 //        if (LibSession.isDeveloper()) {
