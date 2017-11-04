@@ -104,7 +104,7 @@ Spring Boot JDBC usa JdbcTemplate (basso livello, architettura più semplice, us
 Spring Boot JPA usa le Repository (alto livello, architettura automatica molto più complessa, uso banale ed elegante)
 Per il momento uso JDBC per passare poi a JPA.
 Metto nei Service solo la definizione dei dati e la logica di manipolazione
-Separo nelle Repository l'implementazione JDBC, così per passare a JPA non devo cambiare nulla dei Service
+Separo nelle Repository l'implementazione JDBC, così per tornare a JPA non devo cambiare nulla dei Service
 
 ==Scope==
  * – We have some type of scope:
