@@ -50,7 +50,11 @@ public class ARadioField extends AField {
 
 
     public void fixRadio(Object[] items) {
-        fixRadio(Arrays.asList(items));
+        try { // prova ad eseguire il codice
+            fixRadio(Arrays.asList(items));
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString() + " items");
+        }// fine del blocco try-catch
     }// end of method
 
 

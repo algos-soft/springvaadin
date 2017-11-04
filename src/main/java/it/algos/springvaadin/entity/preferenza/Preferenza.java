@@ -99,8 +99,8 @@ public class Preferenza extends ACompanyEntity {
      * valore della preferenza (obbligatorio)
      */
     @NotNull
-    @AIField(type = AFieldType.json, required = true, admin = FieldAccessibility.allways)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200, name = "xxx")
+    @AIField(type = AFieldType.json, required = true, name = "Value",admin = FieldAccessibility.allways)
+    @AIColumn(roleTypeVisibility = ARoleType.nobody, width = 200)
     private byte[] value;
 
 

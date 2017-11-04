@@ -568,6 +568,10 @@ public abstract class LibAnnotation {
             name = fieldAnnotation.name();
         }// end of if cycle
 
+        if (LibText.isEmpty(name)) {
+            name = reflectionField.getName();
+        }// end of if cycle
+
         return LibText.primaMaiuscola(name);
     }// end of static method
 

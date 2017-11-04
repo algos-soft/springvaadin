@@ -239,6 +239,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 //        addFields(layout);
 //        bindFields();
 
+        //--registra la lista come property dell'istanza
+        this.fieldList = lista;
+
         //--eventuali elaborazioni aggiuntive sui singoli fileds da parte della sottoclasse Form specifica
         fixFields();
     }// end of method
@@ -351,7 +354,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
-     * Recupera il filed dal nome
+     * Recupera il field dal nome
      */
     protected AField getField(String publicFieldName) {
 

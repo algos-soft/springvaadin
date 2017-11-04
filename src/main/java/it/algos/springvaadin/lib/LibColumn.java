@@ -66,7 +66,6 @@ public abstract class LibColumn {
      * @return la larghezza della colonna come regolata
      */
     public static int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
-//        AIColumn columnAnnotation = getAnnotation(field);
         String caption = LibAnnotation.getColumnName(reflectionField);
         AFieldType type = LibAnnotation.getColumnType(reflectionField);
         int width = LibAnnotation.getColumnWith(reflectionField);

@@ -96,14 +96,14 @@ public class FieldService {
 
         if (type == AFieldType.radio && targetClazz != null && algosField != null) {
             //@todo PATCH - PATCH - PATCH
-            //@todo RIMETTERE
-//            if (reflectionField.getName().equals("attivazione") && clazz.getName().equals(Preferenza.class.getName())) {
-            if (false) {
+            if (reflectionField.getName().equals("attivazione") && entityBean.getClass().getName().equals(Preferenza.class.getName())) {
                 items = PrefEffect.values();
             }// end of if cycle
             //@todo PATCH - PATCH - PATCH
 
-            ((ARadioField) algosField).fixRadio(items);
+            if (items != null) {
+                ((ARadioField) algosField).fixRadio(items);
+            }// end of if cycle
         }// end of if cycle
 
         if (type == AFieldType.link && targetClazz != null && algosField != null) {
@@ -267,7 +267,7 @@ public class FieldService {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public List<AbstractValidator> creaValidatorsPre(AEntity entityBean,  Field reflectionField) {
+    public List<AbstractValidator> creaValidatorsPre(AEntity entityBean, Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
         List<AValidator> listaTmp = creaValidators(entityBean, reflectionField);
 
@@ -285,7 +285,7 @@ public class FieldService {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare DOPO i converters
      */
-    public List<AbstractValidator> creaValidatorsPost(AEntity entityBean,  Field reflectionField) {
+    public List<AbstractValidator> creaValidatorsPost(AEntity entityBean, Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
         List<AValidator> listaTmp = creaValidators(entityBean, reflectionField);
 
@@ -412,7 +412,7 @@ public class FieldService {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public  List<AlgosConverter> creaConverters(AEntity entityBean, Field reflectionField) {
+    public List<AlgosConverter> creaConverters(AEntity entityBean, Field reflectionField) {
         List<AlgosConverter> lista = new ArrayList<>();
         Class<? extends AEntity> clazz = entityBean.getClass();
         AlgosConverter converter = null;
