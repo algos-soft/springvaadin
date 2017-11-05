@@ -58,8 +58,8 @@ public class FieldService {
         AField algosField = null;
         List items = null;
         boolean nuovaEntity = LibText.isEmpty(entityBean.id);
-        AFieldType type = LibAnnotation.getColumnType(reflectionField);
-        String caption = LibAnnotation.getColumnName(reflectionField);
+        AFieldType type = LibAnnotation.getFormType(reflectionField);
+        String caption = LibAnnotation.getFormFieldName(reflectionField);
         AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectionField);
         String width = LibAnnotation.getWidthEM(reflectionField);
         int rows = LibAnnotation.getNumRows(reflectionField);

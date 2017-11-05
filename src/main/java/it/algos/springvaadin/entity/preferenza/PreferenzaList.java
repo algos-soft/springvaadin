@@ -72,6 +72,7 @@ public class PreferenzaList extends AlgosListImpl {
     public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         super.restart(source, entityClazz, columns, items);
 
+        //--aggiunge una colonna calcolata
         Grid.Column colonna = grid.addColumn(
                 preferenza -> {
                     PrefType type = ((Preferenza) preferenza).getType();
