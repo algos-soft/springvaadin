@@ -5,6 +5,9 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.MenuBar;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibText;
@@ -39,7 +42,21 @@ public class MenuLayout extends CssLayout {
     }// end of method
 
     /**
-     * Adds a lazy view to the firstMenuBar
+     * Adds a view to the firstMenuBar
+     * Chechk if the logged user is enabled to views this view
+     *
+     * @param entityClazz the model class to check the visibility
+     * @param viewClazz   the view class to adds
+     */
+    public void addView(Class<? extends AEntity> entityClazz, Class<? extends View> viewClazz) {
+        if (LibAnnotation.isEntityClassVisibile(entityClazz)) {
+            addView(viewClazz);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Adds a view to the firstMenuBar
      *
      * @param viewClass the view class to adds
      */
@@ -120,6 +137,38 @@ public class MenuLayout extends CssLayout {
                 deselectItem(child);
             } // fine del ciclo for
         }// fine del blocco if
+    }// end of method
+
+
+    /**
+     * Recupera un menu
+     */
+    public MenuBar.MenuItem getMenu(String viewName) {
+        MenuBar.MenuItem itemRequested = null;
+
+        if (firstMenuBar != null) {
+            List<MenuBar.MenuItem> items = firstMenuBar.getItems();
+            for (MenuBar.MenuItem item : items) {
+                if (item.getText().equalsIgnoreCase(viewName)) {
+                    itemRequested = item;
+                }// end of if cycle
+            } // fine del ciclo for
+        }// fine del blocco if
+
+        return itemRequested;
+    }// end of method
+
+
+    /**
+     * Elimina un menu
+     */
+    public void removeView(String viewName) {
+        MenuBar.MenuItem item = getMenu(viewName);
+
+        if (firstMenuBar != null && item != null) {
+            firstMenuBar.removeItem(item);
+        }// fine del blocco if
+
     }// end of method
 
 }// end of class

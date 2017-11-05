@@ -55,7 +55,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Preferenza findOrCrea(String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
-        return findOrCrea((Company) null, code, type, level, descrizione, value, riavvio);
+        return findOrCrea((Company) null, code, type, level, descrizione, value, riavvio, false);
     }// end of method
 
 
@@ -70,11 +70,12 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
+     * @param replica     per ogni company (facoltativo, di default falso)
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
-        return findOrCrea(0, company, code, type, level, descrizione, value, riavvio, false);
+    public Preferenza findOrCrea(Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
+        return findOrCrea(0, company, code, type, level, descrizione, value, riavvio, replica);
     }// end of method
 
 

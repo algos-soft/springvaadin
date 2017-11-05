@@ -208,7 +208,8 @@ public class VersioneBoot {
                 ARoleType.developer,
                 descrizionePreferenza,
                 valuePreferenza,
-                PrefEffect.subito);
+                PrefEffect.subito,
+                false);
     }// end of method
 
 
@@ -239,7 +240,8 @@ public class VersioneBoot {
                 ARoleType.developer,
                 descrizionePreferenza,
                 valuePreferenza,
-                PrefEffect.subito);
+                PrefEffect.subito,
+                false);
     }// end of method
 
 
@@ -256,6 +258,7 @@ public class VersioneBoot {
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      * @param riavvioPreferenza     attivazione del programma per avere effetto (obbligatorio, di default false)
+     * @param replica               per ogni company (facoltativo, di default falso)
      */
     protected Preferenza creaPreferenzaAndVersioneAndLog(
             int ordineVersione,
@@ -265,7 +268,8 @@ public class VersioneBoot {
             ARoleType levelPreferenza,
             String descrizionePreferenza,
             Object valuePreferenza,
-            PrefEffect riavvioPreferenza) {
+            PrefEffect riavvioPreferenza,
+            boolean replica) {
         Preferenza preferenza = null;
         Company company = null;
         Versione versione = null;
@@ -282,7 +286,8 @@ public class VersioneBoot {
                 levelPreferenza,
                 descrizionePreferenza,
                 typePreferenza.objectToBytes(valuePreferenza),
-                riavvioPreferenza);
+                riavvioPreferenza,
+                replica);
 
         versione = service.findOrCrea(ordineVersione, gruppo, descrizioneVersione);
         versione.setCompany(company);

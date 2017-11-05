@@ -182,23 +182,67 @@ public abstract class AlgosUIParams extends UI {
     @Override
     protected void init(VaadinRequest request) {
         //--Legge eventuali parametri passati nella request
-        if (AlgosApp.USE_CHECK_PARAMS) {
-            AlgosStartService.checkParams(request);
-        }// end of if cycle
+        checkParams(request);
 
         //--Legge i cookies dalla request
-        if (AlgosApp.USE_CHECK_COOKIES) {
-            AlgosStartService.checkCookies(request);
-        }// end of if cycle
+        checkCookies(request);
 
         //--Controlla il login della security
+        checkSecurity(request);
+
+        //--Controlla la company selezionata
+        checkCompany(request);
+    }// end of method
+
+
+    /**
+     * Legge eventuali parametri passati nella request
+     * Scorporato per permettere di sovrascriverlo nelle sottoclassi
+     *
+     * @param request the Vaadin request that caused this UI to be created
+     */
+    protected void checkParams(VaadinRequest request) {
+        if (AlgosApp.USE_CHECK_PARAMS) {
+            algosStartService.checkParams(request);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Legge i cookies dalla request
+     * Scorporato per permettere di sovrascriverlo nelle sottoclassi
+     *
+     * @param request the Vaadin request that caused this UI to be created
+     */
+    protected void checkCookies(VaadinRequest request) {
+        if (AlgosApp.USE_CHECK_COOKIES) {
+            algosStartService.checkCookies(request);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Controlla il login della security
+     * Scorporato per permettere di sovrascriverlo nelle sottoclassi
+     *
+     * @param request the Vaadin request that caused this UI to be created
+     */
+    protected void checkSecurity(VaadinRequest request) {
         if (AlgosApp.USE_SECURITY) {
             algosStartService.checkSecurity(request);
         } else {
 //            LibSession.setDeveloper(true);
         }// end of if/else cycle
+    }// end of method
 
-        //--Controlla la company selezionata
+
+    /**
+     * Controlla la company selezionata
+     * Scorporato per permettere di sovrascriverlo nelle sottoclassi
+     *
+     * @param request the Vaadin request that caused this UI to be created
+     */
+    protected void checkCompany(VaadinRequest request) {
         if (AlgosApp.USE_MULTI_COMPANY) {
             algosStartService.checkCompany(request);
         }// end of if cycle

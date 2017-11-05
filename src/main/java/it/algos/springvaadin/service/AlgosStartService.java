@@ -45,7 +45,7 @@ public class AlgosStartService {
      * <p>
      */
     //@todo da sviluppare
-    public static boolean checkParams(VaadinRequest request) {
+    public boolean checkParams(VaadinRequest request) {
         boolean continua = false;
 
         Object alfa = request.getContextPath();
@@ -62,7 +62,7 @@ public class AlgosStartService {
      * <p>
      */
     //@todo da sviluppare
-    public static boolean checkCookies(VaadinRequest request) {
+    public boolean checkCookies(VaadinRequest request) {
         boolean continua = false;
 
         Object alfa = request.getContextPath();

@@ -117,7 +117,7 @@ public class CompanyData {
 
 
     /**
-     * Controlla che la company indicata abbia tutte le preferenze specifiche
+     * Controlla che la company indicata abbia tutte le preferenze specifiche col flag 'replica' attivo
      * Se non le ha, le crea
      * Se in un nuovo update del programma, si aggiungono delle preferenze, queste vengono create anche per la company
      */
@@ -128,15 +128,17 @@ public class CompanyData {
 
         if (listaPref != null && listaPref.size() > 0) {
             for (Preferenza pref : listaPref) {
-                preferenza = creaAndSavePreferenza(company, pref.getCode(), pref.getType(), pref.getLivello(), pref.getDescrizione(), pref.getValue(), pref.getAttivazione());
+                if (pref.isReplica()) {
+                    preferenza = creaAndSavePreferenza(company, pref.getCode(), pref.getType(), pref.getLivello(), pref.getDescrizione(), pref.getValue(), pref.getAttivazione(), pref.isReplica());
 
-                if (LibText.isEmpty(preferenza.note)) {
-                    preferenza.note = note;
-                    try { // prova ad eseguire il codice
-                        preferenzaService.save(preferenza);
-                    } catch (Exception unErrore) { // intercetta l'errore
-                        log.error(unErrore.toString());
-                    }// fine del blocco try-catch
+                    if (LibText.isEmpty(preferenza.note)) {
+                        preferenza.note = note;
+                        try { // prova ad eseguire il codice
+                            preferenzaService.save(preferenza);
+                        } catch (Exception unErrore) { // intercetta l'errore
+                            log.error(unErrore.toString());
+                        }// fine del blocco try-catch
+                    }// end of if cycle
                 }// end of if cycle
 
             }// end of for cycle
@@ -155,7 +157,7 @@ public class CompanyData {
      * @param email       delal company (facoltativo)
      * @param indirizzo   della company (facoltativo)
      */
-    private Company creaAndLog(String code, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
+    protected Company creaAndLog(String code, String descrizione, Persona contact, String telefono, String email, Indirizzo indirizzo) {
         Company company = service.findOrCrea(code, descrizione, contact, telefono, email, indirizzo);
         log.warn("Company: " + code);
 
@@ -163,8 +165,8 @@ public class CompanyData {
     }// end of method
 
 
-    private Preferenza creaAndSavePreferenza(Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect attivazione) {
-        return preferenzaService.findOrCrea(company, code, type, level, descrizione, type.objectToBytes(value), attivazione);
+    protected Preferenza creaAndSavePreferenza(Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect attivazione, boolean replica) {
+        return preferenzaService.findOrCrea(company, code, type, level, descrizione, type.objectToBytes(value), attivazione, replica);
     }// end of method
 
 
