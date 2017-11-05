@@ -95,28 +95,19 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-        if (LibAnnotation.isEntityClassVisibile(Preferenza.class)) {
-            menuLayout.addView(PreferenzaNavView.class);
+        menuLayout.addView(Preferenza.class, PreferenzaNavView.class);
+        menuLayout.addView(Stato.class, StatoNavView.class);
+        menuLayout.addView(Indirizzo.class, IndirizzoNavView.class);
+        menuLayout.addView(Persona.class, PersonaNavView.class);
+        if (LibParams.useVers()) {
+            menuLayout.addView(Versione.class, VersioneNavView.class);
         }// end of if cycle
-        if (LibAnnotation.isEntityClassVisibile(Stato.class)) {
-            menuLayout.addView(StatoNavView.class);
+        if (LibParams.useLog()) {
+            menuLayout.addView(Log.class, LogNavView.class);
         }// end of if cycle
-        if (LibAnnotation.isEntityClassVisibile(Indirizzo.class)) {
-            menuLayout.addView(IndirizzoNavView.class);
+        if (LibParams.useMultiCompany()) {
+            menuLayout.addView(Company.class, CompanyNavView.class);
         }// end of if cycle
-        if (LibAnnotation.isEntityClassVisibile(Persona.class)) {
-            menuLayout.addView(PersonaNavView.class);
-        }// end of if cycle
-        if (LibParams.useVers() && LibAnnotation.isEntityClassVisibile(Versione.class)) {
-            menuLayout.addView(VersioneNavView.class);
-        }// end of if cycle
-        if (LibParams.useLog() && LibAnnotation.isEntityClassVisibile(Log.class)) {
-            menuLayout.addView(LogNavView.class);
-        }// end of if cycle
-        if (LibParams.useMultiCompany() && LibAnnotation.isEntityClassVisibile(Company.class)) {
-            menuLayout.addView(CompanyNavView.class);
-        }// end of if cycle
-
     }// end of method
 
     /**

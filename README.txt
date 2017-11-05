@@ -119,3 +119,17 @@ Separo nelle Repository l'implementazione JDBC, così per tornare a JPA non devo
 
 Start the nosql db with:
 mongod --config /usr/local/etc/mongod.conf
+
+11.2.3. Associations
+
+Hibernate OGM MongoDB proposes three strategies to store navigation information for associations. The three possible strategies are:
+
+    IN_ENTITY (default)
+    ASSOCIATION_DOCUMENT, using a global collection for all associations
+    COLLECTION_PER_ASSOCIATION, using a dedicated collection for each association
+
+To switch between these strategies, use of the three approaches to options:
+
+    annotate your entity with @AssocationStorage and @AssociationDocumentStorage annotations (see Section 11.1.4, “Annotation based configuration”),
+    use the API for programmatic configuration (see Section 11.1.5, “Programmatic configuration”)
+    or specify a default strategy via the hibernate.ogm.datastore.document.association_storage and hibernate.ogm.mongodb.association_document_storage configuration properties.

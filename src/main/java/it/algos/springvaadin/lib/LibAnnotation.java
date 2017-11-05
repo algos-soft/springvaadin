@@ -464,6 +464,26 @@ public abstract class LibAnnotation {
         return status;
     }// end of static method
 
+
+    /**
+     * Get the status newItemsAllowed of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static boolean isNewItemsAllowed(Field reflectionField) {
+        boolean status = true;
+        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+
+        if (fieldAnnotation != null) {
+            status = fieldAnnotation.newItemsAllowed();
+        }// end of if cycle
+
+        return status;
+    }// end of static method
+
     /**
      * Get the status allLower of the property.
      *
@@ -1046,7 +1066,7 @@ public abstract class LibAnnotation {
             linkClazz = fieldAnnotation.clazz();
         }// end of if cycle
 
-        return linkClazz;
+        return linkClazz != Object.class ? linkClazz : null;
     }// end of static method
 
 

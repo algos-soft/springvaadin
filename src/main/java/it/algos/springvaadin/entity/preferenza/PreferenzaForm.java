@@ -73,7 +73,7 @@ public class PreferenzaForm extends AlgosFormImpl {
         super.setFieldValue("type", PrefType.bool);
         super.setFieldValue("livello", ARoleType.developer);
 
-//        super.setFieldEnabled("ordine", LibSession.isDeveloper());
+        //        super.setFieldEnabled("ordine", LibSession.isDeveloper());
     }// end of method
 
 

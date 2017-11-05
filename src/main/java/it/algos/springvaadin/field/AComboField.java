@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.lib.Cost;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
+
+import java.util.List;
 
 /**
  * Project springvaadin
@@ -30,7 +33,8 @@ import org.springframework.context.annotation.Scope;
 @Qualifier(Cost.FIELD_COMBO)
 public class AComboField extends AField {
 
-    private ComboBox combo = null;
+    protected ComboBox combo = null;
+    protected List items;
 
     /**
      * Crea (o ricrea dopo una clonazione) il componente base
@@ -40,16 +44,32 @@ public class AComboField extends AField {
     }// end of method
 
 
-    public void fixCombo(Object[] items, boolean nullSelectionAllowed) {
+    public void fixCombo(List items, boolean nullSelectionAllowed, boolean newItemsAllowed) {
         if (combo != null) {
             combo.setItems(items);
+            this.items=items;
             combo.setEmptySelectionAllowed(nullSelectionAllowed);
+
+            // Allow adding new items and add
+            // handling for new items
+            if (newItemsAllowed) {
+                creaHandler();
+            }// end of if cycle
+
             try { // prova ad eseguire il codice
-                combo.setValue(items[0]);
+                combo.setValue(items.get(0));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
         }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Crea un (eventuale) handler per l'inserimento di nuovi items
+     * Sovrascritto dalla sottoclasse
+     */
+    protected void creaHandler() {
     }// end of method
 
 

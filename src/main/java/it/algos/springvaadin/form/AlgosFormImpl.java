@@ -28,6 +28,7 @@ import org.springframework.context.ApplicationListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by gac on 10/07/17
@@ -319,13 +320,50 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected void fixFields() {
     }// end of method
 
+
     /**
-     * Valori di default per una nuova scheda
+     * Valore del binder specifico
+     *
+     * @param propertyName da cui recuperare il valore
+     *
+     * @return valore del binding selezionato
+     */
+    @Deprecated
+    protected Object getBinderValue(String propertyName) {
+        Object value = null;
+        Optional<Binder.Binding> optional = null;
+        Binder.Binding binding = null;
+        AField field = null;
+
+        if (binder == null) {
+            return value;
+        }// end of if cycle
+
+        optional = binder.getBinding(propertyName);
+
+        if (optional != null) {
+            binding = optional.get();
+        }// end of if cycle
+
+        if (binding != null) {
+            field = (AField) binding.getField();
+        }// end of if cycle
+
+        if (field != null) {
+            value = field.getValue();
+        }// end of if cycle
+
+        return value;
+    }// end of method
+
+    /**
+     * Valore di default per una nuova scheda
+     * Valore eventualmente modificato da codice nella sottoclasse per cause specifiche non di InterfacciaUtente
      */
     protected void setFieldValue(String publicFieldName, Object value) {
         AField field = getField(publicFieldName);
 
-        if (entityBean != null && entityBean.id == null) {
+        if (entityBean != null) {
             try { // prova ad eseguire il codice
                 if (field != null) {
                     field.setValue(value);
@@ -334,6 +372,27 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
                 log.error(unErrore.toString());
             }// fine del blocco try-catch
         }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Valore di un field
+     */
+    protected Object getFieldValue(String publicFieldName) {
+        Object value = null;
+        AField field = getField(publicFieldName);
+
+        if (entityBean != null) {
+            try { // prova ad eseguire il codice
+                if (field != null) {
+                    value = field.getValue();
+                }// end of if cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+
+        return value;
     }// end of method
 
     /**

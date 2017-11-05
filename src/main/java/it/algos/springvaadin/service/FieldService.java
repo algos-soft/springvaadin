@@ -28,6 +28,7 @@ import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class FieldService {
     @SuppressWarnings("all")
     public AField create(ApplicationListener source, Field reflectionField, AEntity entityBean) {
         AField algosField = null;
-        Object[] items = null;
+        List items = null;
         boolean nuovaEntity = LibText.isEmpty(entityBean.id);
         AFieldType type = LibAnnotation.getColumnType(reflectionField);
         String caption = LibAnnotation.getColumnName(reflectionField);
@@ -67,6 +68,7 @@ public class FieldService {
         boolean visible = LibAnnotation.isFieldVisibile(reflectionField, nuovaEntity);
         boolean enabled = LibAnnotation.isFieldEnabled(reflectionField, nuovaEntity);
         boolean nullSelection = LibAnnotation.isNullSelectionAllowed(reflectionField);
+        boolean newItems = LibAnnotation.isNewItemsAllowed(reflectionField);
         Class targetClazz = LibAnnotation.getClass(reflectionField);
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
@@ -79,17 +81,17 @@ public class FieldService {
         }// end of if cycle
 
         if (type == AFieldType.combo && targetClazz != null && algosField != null) {
-            items = LibMongo.findAll(targetClazz).toArray();
-            ((AComboField) algosField).fixCombo(items, nullSelection);
+            items = LibMongo.findAll(targetClazz);
+            ((AComboField) algosField).fixCombo(items, nullSelection, newItems);
         }// end of if cycle
 
         if (type == AFieldType.enumeration && targetClazz != null && algosField != null) {
             if (targetClazz.isEnum()) {
-                items = targetClazz.getEnumConstants();
+                items = new ArrayList(Arrays.asList(targetClazz.getEnumConstants()));
             }// end of if cycle
 
             if (algosField != null && algosField instanceof AComboField && items != null) {
-                ((AComboField) algosField).fixCombo(items, false);
+                ((AComboField) algosField).fixCombo(items, false, false);
             }// end of if cycle
 
         }// end of if cycle
@@ -97,7 +99,7 @@ public class FieldService {
         if (type == AFieldType.radio && targetClazz != null && algosField != null) {
             //@todo PATCH - PATCH - PATCH
             if (reflectionField.getName().equals("attivazione") && entityBean.getClass().getName().equals(Preferenza.class.getName())) {
-                items = PrefEffect.values();
+                items = new ArrayList(Arrays.asList(PrefEffect.values()));
             }// end of if cycle
             //@todo PATCH - PATCH - PATCH
 

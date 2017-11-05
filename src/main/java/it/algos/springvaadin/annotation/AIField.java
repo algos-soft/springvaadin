@@ -153,4 +153,11 @@ public @interface AIField {
     boolean nullSelectionAllowed() default false;
 
 
+    /**
+     * (Optional) Status (allowed new selection in popup) of the the field.
+     * Meaning sense only for AFieldType.combo.
+     * Defaults to false.
+     */
+    boolean newItemsAllowed() default false;
+
 }// end of interface annotation
