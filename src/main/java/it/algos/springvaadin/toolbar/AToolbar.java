@@ -1,5 +1,6 @@
 package it.algos.springvaadin.toolbar;
 
+import com.vaadin.ui.Component;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
@@ -25,24 +26,6 @@ import java.util.List;
 public interface AToolbar {
 
 
-//    /**
-//     * Metodo invocato da restart() di Form e List
-//     * Crea i bottoni (iniettandogli il publisher)
-//     * Aggiunge i bottoni al contenitore grafico
-//     * Inietta nei bottoni il parametro obbligatorio (source)
-//     */
-//    public void inizializza(ApplicationListener source);
-
-//    /**
-//     * Metodo invocato da restart() di Form e List
-//     * Crea i bottoni (iniettandogli il publisher)
-//     * Aggiunge i bottoni al contenitore grafico
-//     * Inietta nei bottoni il parametro obbligatorio (source)
-//     *
-//     * @param source dell'evento generato dal bottone
-//     */
-//    public void inizializza(ApplicationListener source,ApplicationListener target);
-
     /**
      * Metodo invocato da restart() di Form e List
      * Seleziona i bottoni da mostrare nella toolbar
@@ -54,6 +37,7 @@ public interface AToolbar {
      * @param listaBottoni da visualizzare
      */
     public void inizializza(ApplicationListener source, List<String> listaBottoni);
+
 
     /**
      * Metodo invocato da restart() di Form, nella classe LinkToolbar
@@ -70,7 +54,7 @@ public interface AToolbar {
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
-     * Aggiunge il bottone al contenitore grafico
+     * Aggiunge il bottone alla prima riga (default) del contenitore grafico
      *
      * @param type   del bottone, secondo la Enumeration AButtonType
      * @param source dell'evento generato dal bottone
@@ -81,13 +65,36 @@ public interface AToolbar {
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
-     * Aggiunge il bottone al contenitore grafico
+     * Aggiunge il bottone alla prima riga (default) del contenitore grafico
      *
      * @param type        del bottone, secondo la Enumeration AButtonType
      * @param source      dell'evento generato dal bottone
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
     public AButton creaAddButton(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField);
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone alla seconda riga (opzionale) del contenitore grafico
+     *
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param source dell'evento generato dal bottone
+     */
+    public AButton creaAddButtonSecondaRiga(AButtonType type, ApplicationListener source);
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone alla seconda riga (opzionale) del contenitore grafico
+     *
+     * @param type        del bottone, secondo la Enumeration AButtonType
+     * @param source      dell'evento generato dal bottone
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    public AButton creaAddButtonSecondaRiga(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField);
 
 
     /**
@@ -117,11 +124,21 @@ public interface AToolbar {
      */
     public void enableButton(AButtonType type, boolean status);
 
-//    /**
-//     * Seleziona i bottoni da mostrare nella toolbar
-//     *
-//     */
-//    public void selezionaBottoni(List<String> listaBottoni);
+
+    /**
+     * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
+     *
+     * @param component   da aggiungere
+     */
+    public void addComp(Component component);
+
+
+    /**
+     * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
+     *
+     * @param component   da aggiungere
+     */
+    public void addCompSecondaRiga(Component component);
 
 
 }// end of interface

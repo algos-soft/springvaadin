@@ -1,6 +1,8 @@
 package it.algos.springvaadin.toolbar;
 
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.bottone.*;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
@@ -52,7 +54,7 @@ public class ListToolbar extends AToolbarImpl {
      */
     @Override
     public void inizializza(ApplicationListener source, List<String> listaBottoni) {
-        this.removeAllComponents();
+        super.deleteAllButtons();
 
         if (listaBottoni.contains(Cost.TAG_BOT_NEW)) {
             super.creaAddButton(AButtonType.create, source);

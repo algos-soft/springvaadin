@@ -35,6 +35,5 @@ public class PersonaForm extends AlgosFormImpl {
         super(service, toolbar, toolbarLink);
     }// end of Spring constructor
 
-
 }// end of class
 

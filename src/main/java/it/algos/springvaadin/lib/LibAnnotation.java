@@ -808,7 +808,7 @@ public abstract class LibAnnotation {
             message = fieldName + " deve essere " + oppure + "uguale a " + min + " caratteri";
         } else {
             if (maxEccessivo) {
-                message = fieldName + " deve essere " + oppure + " di almeno " + min + " caratteri";
+                message = fieldName + " deve essere " + oppure + " maggiore di " + min + " caratteri";
             } else {
                 message = fieldName + " deve essere " + oppure + "compreso tra " + min + " e " + max + " caratteri";
             }// end of if/else cycle

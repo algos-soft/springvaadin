@@ -123,10 +123,6 @@ public class AButton extends Button {
         this.setEntityBean(entityBean);
         this.regolaParametri();
 
-        if (LibParams.usaBottoniColorati()) {
-            this.addStyleName(type.getStyle());
-        }// end of if cycle
-
         if (LibParams.usaBottoniPrimaMaiuscola()) {
             this.setCaption(LibText.primaMaiuscola(getCaption()));
         }// end of if cycle
@@ -142,6 +138,11 @@ public class AButton extends Button {
         super.setIcon(type.getIcon());
         super.setEnabled(type.isEnabled());
         super.setWidth(type.getWidth());
+        super.setClickShortcut(type.getKeyCode(), type.getModifier());
+
+        if (LibParams.usaBottoniColorati()) {
+            super.addStyleName(type.getStyle());
+        }// end of if cycle
     }// end of method
 
 

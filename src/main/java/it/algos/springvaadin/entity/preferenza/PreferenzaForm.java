@@ -59,8 +59,8 @@ public class PreferenzaForm extends AlgosFormImpl {
      * @param toolbarLink iniettata da Spring
      */
     public PreferenzaForm(@Qualifier(Cost.TAG_PRE) AlgosService service,
-                       @Qualifier(Cost.BAR_FORM) AToolbar toolbar,
-                       @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
+                          @Qualifier(Cost.BAR_FORM) AToolbar toolbar,
+                          @Qualifier(Cost.BAR_LINK) AToolbar toolbarLink) {
         super(service, toolbar, toolbarLink);
     }// end of Spring constructor
 
@@ -72,8 +72,6 @@ public class PreferenzaForm extends AlgosFormImpl {
     protected void fixFields() {
         super.setFieldValue("type", PrefType.bool);
         super.setFieldValue("livello", ARoleType.developer);
-
-        //        super.setFieldEnabled("ordine", LibSession.isDeveloper());
     }// end of method
 
 

@@ -43,24 +43,4 @@ public class VersioneForm extends AlgosFormImpl {
         super(service, toolbar, toolbarLink);
     }// end of Spring constructor
 
-    /**
-     * Eventuali regolazioni specifiche per i fields
-     */
-    @Override
-    protected void fixFields() {
-//        AField field = null;
-//
-//        if (entityBean != null && entityBean instanceof Versione) {
-//            try { // prova ad eseguire il codice
-//                field = getField("company");
-//                if (field != null && entityBean.id != null) {
-//                    //--disabilita il campo in modifica scheda
-//                    field.setEnabled(false);
-//                }// end of if cycle
-//            } catch (Exception unErrore) { // intercetta l'errore
-//                log.error(unErrore.toString());
-//            }// fine del blocco try-catch
-//        }// end of if cycle
-    }// end of method
-
 }// end of class

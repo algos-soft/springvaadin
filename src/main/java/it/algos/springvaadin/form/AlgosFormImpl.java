@@ -45,7 +45,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected AlgosService service;
 
     @Autowired
-    private FieldService fieldService;
+    protected FieldService fieldService;
 
     //--eventuale finestra (in alternativa alla presentazione a tutto schermo)
     protected Window window;
@@ -91,17 +91,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     }// end of Spring constructor
 
 
-//    /**
-//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-//     * (si può usare qualsiasi firma)
-//     * Regola il modello-dati specifico nel Service
-//     */
-//    @PostConstruct
-//    protected void inizia() {
-////        usaSeparateFormDialog = LibParams.usaSeparateFormDialog();
-//    }// end of method
-
-
     /**
      * Creazione del form
      * Pannello a tutto schermo, oppure finestra popup
@@ -118,11 +107,27 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
 
+        //--opportunità di aggiungere eventuali fields specifici di una sottoclasse (prima della creazione del binder)
+        reflectFields = addSpecificFields(reflectFields);
+
         if (usaSeparateFormDialog) {
             usaSeparateFormDialog(source, null, entityBean, null, reflectFields);
         } else {
             usaAllScreen(source, reflectFields, entityBean);
         }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Opportunità di aggiungere eventuali fields specifici di una sottoclasse
+     * Sovrascritto
+     *
+     * @param reflectFields campi del form da visualizzare, presi dal modello della Entity
+     *
+     * @return campi del form da visualizzare con aggiunti dei campi specifici, costruiti nel Form
+     */
+    public List<Field> addSpecificFields(List<Field> reflectFields) {
+        return reflectFields;
     }// end of method
 
 
@@ -235,54 +240,18 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             }// end of if cycle
         }// end of for cycle
 
-        binder.readBean(entityBean);
-
-//        creaFields(source, reflectFields, entityBean);
-//        addFields(layout);
-//        bindFields();
-
         //--registra la lista come property dell'istanza
         this.fieldList = lista;
 
-        //--eventuali elaborazioni aggiuntive sui singoli fileds da parte della sottoclasse Form specifica
+        //--eventuali elaborazioni aggiuntive sui singoli fields da parte della sottoclasse Form specifica
         fixFields();
+
+        binder.readBean(entityBean);
+
     }// end of method
 
-
-//    /**
-//     * Crea il singolo field
-//     * aggiunge il componente grafico (AField) al layout selezionato
-//     *
-//     * @param source          presenter di riferimento da cui vengono generati gli eventi
-//     * @param reflectionField di riferimento per estrarre le Annotation
-//     * @param entityBean      istanza da elaborare, null per un nuovo record
-//     *
-//     * @return componente grafico (AField) appena creato
-//     */
-//    protected AField creaField(ApplicationListener source, Field reflectionField, AEntity entityBean) {
-//        AField algosField;
-//
-//        algosField = fieldService.create(source, reflectionField, entityBean);
-//
-//        if (algosField != null) {
-//            layout.addComponent(algosField);
-//        }// end of if cycle
-//    }// end of for cycle
-//
-//        return algosField;
-//}// end of method
-
-
-//    /**
-//     * Aggiunge i campi al layout
-//     *
-//     * @param layout in cui inserire i campi (window o panel)
-//     */
-//    private void addFields(Layout layout) {
-//        for (AField field : fieldList) {
-//            layout.addComponent(field);
-//        }// end of for cycle
-//    }// end of method
+    private void xx(Layout layout, List<Field> reflectFields, AEntity entityBean, AField algosField) {
+    }// end of method
 
 
     /**

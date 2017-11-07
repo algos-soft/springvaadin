@@ -2,6 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
@@ -18,11 +19,14 @@ import java.util.List;
  * Nel ciclo restart() di Form e List, le toolbar costruiscono i bottoni ("prototype") usando la factory AButtonFactory
  * Viene poi iniettato il parametro obbligatorio (source)
  * Ulteriori parametri (target, entityBean), vengono iniettati direttamente solo in alcuni bottoni
- * Eventuali bottoni aggiuntivi, oltre quelli standard, possono essere aggiunti sovrascrivendo AListImpl.toolbarInizializza()
+ * Eventuali bottoni aggiuntivi, oltre quelli standard, possono essere aggiunti sovrascrivendo AListImpl.inizializzaToolbar()
  * Tutti i bottoni possono essere abilitati/disabilitati
+ * Sono previste due righe di bottoni: la prima standard, la seconda per bottoni extra specifici
  */
-public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar {
+public abstract class AToolbarImpl extends VerticalLayout implements AToolbar {
 
+    protected HorizontalLayout primaRiga = new HorizontalLayout();
+    protected HorizontalLayout secondaRiga = new HorizontalLayout();
 
     /**
      * Factory per la nuovo dei bottoni
@@ -39,16 +43,10 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
      */
     public AToolbarImpl(AButtonFactory buttonFactory) {
         this.buttonFactory = buttonFactory;
+        this.addComponent(primaRiga);
+        this.addComponent(secondaRiga);
     }// end of @Autowired constructor
 
-//    /**
-//     * Seleziona i bottoni da mostrare nella toolbar
-//     *
-//     * @param listaBottoni
-//     */
-//    @Override
-//    public void selezionaBottoni(List<String> listaBottoni) {
-//    }// end of method
 
     /**
      * Metodo invocato da restart() di Form e List
@@ -63,17 +61,6 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     public void inizializza(ApplicationListener source, List<String> listaBottoni) {
     }// end of method
 
-//    /**
-//     * Metodo invocato da restart() di Form e List
-//     * Crea i bottoni (iniettandogli il publisher)
-//     * Aggiunge i bottoni al contenitore grafico
-//     * Inietta nei bottoni il parametro obbligatorio (source)
-//     *
-//     * @param source dell'evento generato dal bottone
-//     */
-//    @Override
-//    public void inizializza(ApplicationListener source, ApplicationListener target) {
-//    }// end of method
 
     /**
      * Metodo invocato da restart() di Form, nella classe LinkToolbar
@@ -92,7 +79,10 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
-     * Aggiunge il bottone al contenitore grafico
+     * Aggiunge il bottone alla prima riga (default) del contenitore grafico
+     *
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param source dell'evento generato dal bottone
      */
     @Override
     public AButton creaAddButton(AButtonType type, ApplicationListener source) {
@@ -103,7 +93,7 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
-     * Aggiunge il bottone al contenitore grafico
+     * Aggiunge il bottone alla prima riga (default) del contenitore grafico
      *
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
@@ -112,12 +102,51 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
         AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {
-            addComponent(button);
+            primaRiga.addComponent(button);
         }// end of if cycle
 
         return button;
     }// end of method
 
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone alla seconda riga (opzionale) del contenitore grafico
+     *
+     * @param type   del bottone, secondo la Enumeration AButtonType
+     * @param source dell'evento generato dal bottone
+     */
+    @Override
+    public AButton creaAddButtonSecondaRiga(AButtonType type, ApplicationListener source) {
+        return creaAddButtonSecondaRiga(type, source, source, (AEntity) null, (AField) null);
+    }// end of method
+
+
+    /**
+     * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Aggiunge il bottone alla seconda riga (opzionale) del contenitore grafico
+     *
+     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     */
+    @Override
+    public AButton creaAddButtonSecondaRiga(AButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+        AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
+
+        if (button != null) {
+            secondaRiga.addComponent(button);
+        }// end of if cycle
+
+        return button;
+    }// end of method
+
+    /**
+     * Cancella tutti i bottoni
+     */
+    public void deleteAllButtons() {
+        primaRiga.removeAllComponents();
+        secondaRiga.removeAllComponents();
+    }// end of method
 
     /**
      * Inietta nel bottone il parametro
@@ -141,6 +170,24 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
     public void inizializzaEditLink(AEntity entityBean, ApplicationListener target) {
     }// end of method
 
+    /**
+     * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
+     *
+     * @param component da aggiungere
+     */
+    public void addComp(Component component) {
+        primaRiga.addComponent(component);
+    }// end of method
+
+
+    /**
+     * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
+     *
+     * @param component da aggiungere
+     */
+    public void addCompSecondaRiga(Component component) {
+        secondaRiga.addComponent(component);
+    }// end of method
 
     /**
      * Abilita o disabilita lo specifico bottone
@@ -168,8 +215,18 @@ public abstract class AToolbarImpl extends HorizontalLayout implements AToolbar 
         Component comp = null;
         AButton button = null;
 
-        for (int k = 0; k < this.getComponentCount(); k++) {
-            comp = this.getComponent(k);
+        for (int k = 0; k < primaRiga.getComponentCount(); k++) {
+            comp = primaRiga.getComponent(k);
+            if (comp != null && comp instanceof AButton) {
+                button = (AButton) comp;
+                if (button.getType() == type) {
+                    return button;
+                }// end of if cycle
+            }// end of if cycle
+        }// end of for cycle
+
+        for (int k = 0; k < secondaRiga.getComponentCount(); k++) {
+            comp = secondaRiga.getComponent(k);
             if (comp != null && comp instanceof AButton) {
                 button = (AButton) comp;
                 if (button.getType() == type) {

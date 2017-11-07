@@ -1,15 +1,20 @@
 package it.algos.springvaadin.entity.stato;
 
+import com.vaadin.data.Binder;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.AImageField;
 import it.algos.springvaadin.form.AlgosFormImpl;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Created by gac on 10-ago-17
@@ -47,7 +52,6 @@ public class StatoForm extends AlgosFormImpl {
             field.setEntityBean(entityBean);
             field.setSource(null);
         }// end of if cycle
-
     }// end of method
 
     /**

@@ -587,11 +587,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     }// end of method
 
     public boolean saveNotDuplicated(AEntity entityBean) {
-        boolean entityRegistrata = false;
+        AEntity entityBeanRegistrata = null;
 
         try { // prova ad eseguire il codice
-            service.save(entityBean);
-            entityRegistrata = true;
+            entityBeanRegistrata = service.save(entityBean);
         } catch (Exception unErrore) { // intercetta l'errore
             if (unErrore instanceof StringIndexOutOfBoundsException) {
                 LibAvviso.error(unErrore.getMessage());
@@ -609,7 +608,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
         }// fine del blocco try-catch
 
-        return entityRegistrata;
+        return entityBeanRegistrata != null;
     }// end of method
 
     /**
