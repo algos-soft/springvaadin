@@ -238,5 +238,13 @@ public abstract class AToolbarImpl extends VerticalLayout implements AToolbar {
         return button;
     }// end of method
 
+    /**
+     * Restituisce questa toolbar
+     *
+     * @return il componente concreto di questa interfaccia
+     */
+    public AToolbarImpl get() {
+        return this;
+    }// end of method
 
 }// end of class

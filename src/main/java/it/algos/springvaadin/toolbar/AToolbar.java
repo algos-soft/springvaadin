@@ -128,7 +128,7 @@ public interface AToolbar {
     /**
      * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
      *
-     * @param component   da aggiungere
+     * @param component da aggiungere
      */
     public void addComp(Component component);
 
@@ -136,9 +136,17 @@ public interface AToolbar {
     /**
      * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
      *
-     * @param component   da aggiungere
+     * @param component da aggiungere
      */
     public void addCompSecondaRiga(Component component);
+
+
+    /**
+     * Restituisce questa toolbar
+     *
+     * @return il componente concreto di questa interfaccia
+     */
+    public AToolbarImpl get();
 
 
 }// end of interface

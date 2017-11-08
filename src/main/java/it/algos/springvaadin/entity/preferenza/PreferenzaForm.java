@@ -7,6 +7,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import it.algos.springvaadin.entity.log.LogService;
@@ -66,14 +67,15 @@ public class PreferenzaForm extends AlgosFormImpl {
 
 
     /**
-     * Eventuali regolazioni specifiche per i fields
+     * Eventuali regolazioni specifiche per i fields di una entity, dopo il binder
+     *
+     * @param layout
      */
     @Override
-    protected void fixFields() {
+    protected void fixFieldsAllways(Layout layout) {
         super.setFieldValue("type", PrefType.bool);
         super.setFieldValue("livello", ARoleType.developer);
     }// end of method
-
 
     /**
      * Checks if the entity has no current validation errors at all

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.service;
 
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -70,6 +71,10 @@ public class FieldService {
         boolean nullSelection = LibAnnotation.isNullSelectionAllowed(reflectionField);
         boolean newItems = LibAnnotation.isNewItemsAllowed(reflectionField);
         Class targetClazz = LibAnnotation.getClass(reflectionField);
+
+        if (type == AFieldType.text.noone) {
+            return null;
+        }// end of if cycle
 
         //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
         if (fieldAnnotation == null && reflectionField.getName().equals(Cost.PROPERTY_ID)) {

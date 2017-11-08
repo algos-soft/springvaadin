@@ -288,52 +288,61 @@ public abstract class AlgosServiceImpl implements AlgosService {
 
 
     /**
-     * Fields visibili (e ordinati) nel Form
-     * Sovrascrivibile
-     * Il campo key ID normalmente non viene visualizzato
+     * Fields visibili (e ordinati) nel Form - Lista di Java Reflected Field, previsti nel modello dati della Entity
+     * La property keyId normalmente non viene visualizzata
+     * Il developer vede SEMPRE la keyId, non Enabled
+     * 1) Questo metodo può essere sovrascritto completamente
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
      * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
-     * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
+     * 5) Vengono considerati anche i campi di tutte le superclassi fino alla classe AEntity
      * Ad esempio: company della classe ACompanyEntity
      *
-     * @return lista di fields visibili nel Form
+     * @return lista di fields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      */
     @Override
     public List<Field> getFormFields() {
         List<Field> listaField = null;
         List<String> listaNomi = null;
-        boolean useCompany = false;
 
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-        listaNomi = LibAnnotation.getFormFields(entityClass);
-
-//        //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
-//        //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)
-//        useID = LibAnnotation.isFormShowsID(entityClass);
-//        useCompany = this.displayCompany();
-
-//        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-//        if (listaNomi == null) {
-//            useID = LibAnnotation.isFormShowsID(entityClass);
-//            useCompany = this.displayCompany();
-//            listaField = LibReflection.getFields(entityClass, useID, useCompany);
-//        } else {
-//        }// end of if/else cycle
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaNomi = getFormFieldsName();
 
         //--Se non trova nulla, usa tutti i campi
         //--Nel Form il developer vede SEMPRE la keyId, non Enabled
-        listaField = LibReflection.getFormFields(entityClass, listaNomi, displayCompany());
-
-//        //--il developer vede tutto (si potrebbe migliorare)
-//        if (LibSession.isDeveloper()) {
-//            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
-//            useID = true;
-//            useCompany = true;
-//        }// end of if cycle
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaField = getFormFields(listaNomi);
 
         return listaField;
+    }// end of method
+
+
+    /**
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
+     *
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     */
+    protected List<String> getFormFieldsName() {
+        return LibAnnotation.getFormFieldsName(entityClass);
+    }// end of method
+
+
+    /**
+     * Java Reflected Fields estratti dalle @Annotation della Entity
+     * Se la lista nomi è nulla, usa tutte le properties (fields)
+     * Nel Form il developer vede SEMPRE la keyId, non Enabled
+     * Sovrascrivibile
+     *
+     * @param listaNomi per estrarre i Java Reflected Fields dalle @Annotation della Entity
+     *
+     * @return fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     */
+    protected List<Field> getFormFields(List<String> listaNomi) {
+        return LibReflection.getFormFields(entityClass, listaNomi, displayCompany());
     }// end of method
 
 
@@ -358,7 +367,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
         boolean useCompany = false;
 
         //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-        listaNomi = LibAnnotation.getFormFields(entityClass);
+        listaNomi = LibAnnotation.getFormFieldsName(entityClass);
 
         //--Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
         //--Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (con o senza ID)

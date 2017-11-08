@@ -74,13 +74,15 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      * Creazione di un form
      *
      * @param entityBean            istanza da elaborare
-     * @param fields                campi del form da visualizzare
+     * @param reflectedFields       campi del form da visualizzare
+     *                              previsti nel modello dati della Entity
+     *                              più eventuali aggiunte della sottoclasse
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void setForm(ApplicationListener source, AEntity entityBean, List<Field> fields, boolean usaSeparateFormDialog) {
+    public void setForm(ApplicationListener source, AEntity entityBean, List<Field> reflectedFields, boolean usaSeparateFormDialog) {
         removeAllComponents();
-        form.restart(source, entityBean, fields, usaSeparateFormDialog);
+        form.restart(source, reflectedFields, entityBean, usaSeparateFormDialog);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
@@ -93,14 +95,16 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      *
      * @param entityBean         istanza da elaborare
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param reflectFields      campi del form da visualizzare
+     * @param reflectedFields       campi del form da visualizzare
+     *                              previsti nel modello dati della Entity
+     *                              più eventuali aggiunte della sottoclasse
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
     @Override
-    public void setFormLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields, AButtonType type) {
+    public void setFormLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectedFields, AButtonType type) {
         removeAllComponents();
-        form.restartLink(source, target, sourceField, entityBean, reflectFields, type);
+        form.restartLink(source, target, sourceField, entityBean, reflectedFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);

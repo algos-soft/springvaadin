@@ -33,6 +33,11 @@ import java.util.Optional;
 /**
  * Created by gac on 10/07/17
  * Implementazione standard dell'annotation AlgosField
+ * <p>
+ * Creazione del form - Ricrea tutto ogni volta che diventa attivo
+ * Riceve dal service tutti i dati da presentare: entityBean e lista di javaFields
+ * Presentazione scelta tra pannello a tutto schermo, oppure finestra popup
+ * Dai javaFields costruisce i componenti grafici di tipo AField (estensione di Vaadine.CustomField)
  */
 @Slf4j
 public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
@@ -93,76 +98,129 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     /**
      * Creazione del form
-     * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
+     * Sceglie tra pannello a tutto schermo, oppure finestra popup
      *
-     * @param source                presenter di riferimento da cui vengono generati gli eventi
-     * @param entityBean            istanza da elaborare
-     * @param reflectFields         campi del form da visualizzare
+     * @param source                presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param reflectedFields       previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param entityBean            nuova istanza da creare, oppure istanza esistente da modificare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
     @Override
-    public void restart(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog) {
+    public void restart(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean, boolean usaSeparateFormDialog) {
         this.source = source;
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
 
-        //--opportunità di aggiungere eventuali fields specifici di una sottoclasse (prima della creazione del binder)
-        reflectFields = addSpecificFields(reflectFields);
-
         if (usaSeparateFormDialog) {
-            usaSeparateFormDialog(source, null, entityBean, null, reflectFields);
+            usaSeparateFormDialog(source, null, entityBean, null, reflectedFields);
         } else {
-            usaAllScreen(source, reflectFields, entityBean);
+            usaAllScreen(source, reflectedFields, entityBean);
         }// end of if/else cycle
-    }// end of method
-
-
-    /**
-     * Opportunità di aggiungere eventuali fields specifici di una sottoclasse
-     * Sovrascritto
-     *
-     * @param reflectFields campi del form da visualizzare, presi dal modello della Entity
-     *
-     * @return campi del form da visualizzare con aggiunti dei campi specifici, costruiti nel Form
-     */
-    public List<Field> addSpecificFields(List<Field> reflectFields) {
-        return reflectFields;
     }// end of method
 
 
     /**
      * Creazione del form di un altro modulo/collezione
+     * Ricrea tutto ogni volta che diventa attivo
      * Solo finestra popup
      *
-     * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
-     * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param entityBean         istanza da elaborare
-     * @param reflectFields      campi del form da visualizzare
-     * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
-     *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
+     * @param source          presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param sourceField     di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param type            per selezionare il ButtonRegistra, che registra subito
+     *                        oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type) {
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectedFields, AButtonType type) {
         this.entityBean = entityBean;
-
         toolbar = toolbarLink;
+
         if (type == AButtonType.editLinkDBRef) {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(true);
         } else {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(false);
-            reflectFields.remove(0); //--rimuove il campo idKey
+            reflectedFields.remove(0); //--rimuove il campo idKey
         }// end of if/else cycle
-        usaSeparateFormDialog(source, target, entityBean, sourceField, reflectFields);
+
+        usaSeparateFormDialog(source, target, entityBean, sourceField, reflectedFields);
     }// end of method
+
+
+    /**
+     * Usa tutto lo schermo
+     * Rimuove i componenti grafici preesistenti
+     * Prepara la caption e la aggiunge al layout
+     * Crea un nuovo binder per questo Form e questa Entity
+     * Costruisce i componenti grafici AFields (di tipo CustomField), in base ai reflectedFields ricevuti dal service
+     * --e regola le varie properties grafiche (caption, visible, editable, width, ecc)
+     * Aggiunge i componenti grafici AField al binder
+     * Legge la entityBean, ed inserisce nel binder i valori nei fields grafici AFields
+     * Aggiunge i componenti grafici AField al layout
+     * Aggiunge i componenti grafici AField ad una fieldList interna,
+     * --necessaria per ''recuperare'' un singolo algosField dal nome
+     * Prepara la toolbar e la aggiunge al layout
+     *
+     * @param source          presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
+     */
+    protected void usaAllScreen(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean) {
+        //--Rimuove i componenti grafici preesistenti
+        this.removeAllComponents();
+
+        //--Prepara la caption e la aggiunge al layout
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixTop();
+
+        /**
+         * Crea un nuovo binder per questo Form e questa Entity
+         * Costruisce i componenti grafici AFields (di tipo CustomField), in base ai reflectedFields ricevuti dal service
+         * --e regola le varie properties grafiche (caption, visible, editable, width, ecc)
+         * Aggiunge i componenti grafici AField al binder
+         * Legge la entityBean, ed inserisce nel binder i valori nei fields grafici AFields
+         * Aggiunge i componenti grafici AField al layout
+         * Aggiunge i componenti grafici AField ad una fieldList interna,
+         * --necessaria per ''recuperare'' un singolo algosField dal nome
+         */
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixFields(source, this, reflectedFields, entityBean);
+
+        //--Prepara la toolbar e la aggiunge al layout
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixToolbar();
+    }// end of method
+
+    /**
+     * Prepara la caption e la aggiunge al contenitore grafico
+     * Sovrascrivibile
+     */
+    protected void fixTop() {
+        String caption = fixCaption(entityBean);
+        Label label = new LabelRosso(caption);
+        this.addComponent(label);
+    }// end of method
+
+    /**
+     * Prepara la toolbar e la aggiunge al contenitore grafico
+     * Sovrascrivibile
+     */
+    protected void fixToolbar() {
+        List<String> listaBottoni = service.getFormBottonNames();
+        toolbar.inizializza(source, listaBottoni);
+        this.addComponent(toolbar.get());
+    }// end of method
+
 
     /**
      * Crea una finestra a se, che verrà chiusa alla dismissione del Form
      *
-     * @param source        presenter di riferimento da cui vengono generati gli eventi
-     * @param sourceField   di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param reflectFields del form da visualizzare
+     * @param source          presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
+     * @param sourceField     di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      */
-    protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectFields) {
+    protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectedFields) {
         String caption = "";
         Label label;
         this.removeAllComponents();
@@ -187,7 +245,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             label.addStyleName("greenBg");
         }// fine del blocco if
 
-        creaAddBindFields(target, layout, reflectFields, entityBean);
+        fixFields(target, layout, reflectedFields, entityBean);
 
         layout.addComponent(new Label());
         toolbar.inizializza(source, target, entityBean, sourceField);
@@ -202,55 +260,71 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
-     * Crea i campi
+     * Prepara i fields
+     * Ricostruisce una fieldList interna
+     * Crea un nuovo binder per questo Form e questa Entity
+     * Costruisce i componenti grafici AFields (di tipo CustomField), in base ai reflectedFields ricevuti dal service
+     * --e regola le varie properties grafiche (caption, visible, editable, width, ecc)
+     * Aggiunge i componenti grafici AField al binder
+     * Legge la entityBean, ed inserisce nel binder i valori nei fields grafici AFields
+     * Aggiunge i componenti grafici AField ad una fieldList interna,
+     * --necessaria per ''recuperare'' un singolo algosField dal nome
+     * Aggiunge i componenti grafici AField al layout
+     * Eventuali regolazioni specifiche per i fields, dopo la trascrizione della entityBean nel binder
      * <p>
-     * Aggiunge i campi al layout
-     * <p>
-     * Costruisce il binder per questo Form e questa Entity
-     * Aggiunge i campi al binder
-     * Aggiunge eventuali validatori
-     * Aggiunge eventuali convertitori
-     * Aggiunge eventuali validatori (successivamente ai convertitori)
-     * Legge la entity, inserendo i valori nei campi grafici
+     * //     * Aggiunge eventuali validatori
+     * //     * Aggiunge eventuali convertitori
+     * //     * Aggiunge eventuali validatori (successivamente ai convertitori)
      *
-     * @param source        presenter di riferimento da cui vengono generati gli eventi
-     * @param layout        in cui inserire i campi (window o panel)
-     * @param reflectFields del form da visualizzare
-     * @param entityBean    istanza da elaborare, null per un nuovo record
+     * @param source          presenter di riferimento da cui vengono generati gli eventi
+     * @param layout          in cui inserire i campi (window o panel)
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
      */
-    protected void creaAddBindFields(ApplicationListener source, Layout layout, List<Field> reflectFields, AEntity entityBean) {
+    protected void fixFields(ApplicationListener source, Layout layout, List<Field> reflectedFields, AEntity entityBean) {
         AField algosField;
-        List<AField> lista = new ArrayList<>();
-        binder = new Binder(entityBean.getClass());
+
+        //--Ricostruisce una fieldList interna
+        this.fieldList = new ArrayList<>();
+
+        //--Crea un nuovo binder per questo Form e questa Entity
+        this.binder = new Binder(entityBean.getClass());
 
         //--spazzola la lista di javaField
-        for (Field reflectField : reflectFields) {
+        for (Field reflectedField : reflectedFields) {
             //--crea un AField e regola le varie properties grafiche (caption, visible, editable, width, ecc)
-            algosField = fieldService.create(source, reflectField, entityBean);
+            algosField = fieldService.create(source, reflectedField, entityBean);
 
+            //--aggiunge AField al binder
+            addFieldBinder(entityBean, reflectedField, algosField);
+
+            //--aggiunge AField alla lista interna, necessaria per ''recuperare'' un singolo algosField dal nome
             if (algosField != null) {
-                //--aggiunge il componente grafico (AField) al layout selezionato
-                layout.addComponent(algosField);
-
-                //--aggiunge AField alla lista internza, necessaria per ''recuperare'' un singolo algosField dal nome
-                lista.add(algosField);
-
-                //--aggiunge AField al binder
-                bindField(entityBean, reflectField, algosField);
+                fieldList.add(algosField);
             }// end of if cycle
         }// end of for cycle
 
-        //--registra la lista come property dell'istanza
-        this.fieldList = lista;
+        //--Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        addSpecificAlgosFields();
 
-        //--eventuali elaborazioni aggiuntive sui singoli fields da parte della sottoclasse Form specifica
-        fixFields();
-
+        //--Legge la entityBean, ed inserisce i valori nel binder (e quindi nei fields grafici AFields)
         binder.readBean(entityBean);
 
-    }// end of method
+        //--Aggiunge i componenti grafici AField al layout
+        addAllFieldLayout(layout);
 
-    private void xx(Layout layout, List<Field> reflectFields, AEntity entityBean, AField algosField) {
+        //--Eventuali regolazioni specifiche per i fields, dopo la trascrizione della entityBean nel binder
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixFieldsAllways(layout);
+        if (entityBean != null && entityBean.getId() != null) {
+            //--rimanda ad un metodo separato per poterlo sovrascrivere
+            fixFieldsEditOnly(layout);
+        } else {
+            //--rimanda ad un metodo separato per poterlo sovrascrivere
+            fixFieldsNewOnly(layout);
+        }// end of if/else cycle
+
     }// end of method
 
 
@@ -259,34 +333,87 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Aggiunge eventuali validatori
      * Aggiunge eventuali convertitori
      * Aggiunge eventuali validatori (successivamente ai convertitori)
+     * Inizializza il field
      *
-     * @param reflectionField di riferimento per estrarre le Annotation
-     * @param algosField      del form da visualizzare
+     * @param entityBean     nuova istanza da creare, oppure istanza esistente da modificare
+     * @param reflectedField previsto nel modello dati della Entity
+     * @param algosField     del form da visualizzare
      */
-    private void bindField(AEntity entityBean, Field reflectionField, AField algosField) {
+    private void addFieldBinder(AEntity entityBean, Field reflectedField, AField algosField) {
+        if (algosField == null) {
+            return;
+        }// end of if cycle
         Binder.BindingBuilder builder = binder.forField(algosField);
 
-        for (AbstractValidator validator : fieldService.creaValidatorsPre(entityBean, reflectionField)) {
+        for (AbstractValidator validator : fieldService.creaValidatorsPre(entityBean, reflectedField)) {
             builder = builder.withValidator(validator);
         }// end of for cycle
 
-        for (Converter converter : fieldService.creaConverters(entityBean, reflectionField)) {
+        for (Converter converter : fieldService.creaConverters(entityBean, reflectedField)) {
             builder = builder.withConverter(converter);
         }// end of for cycle
 
-        for (AbstractValidator validator : fieldService.creaValidatorsPost(entityBean, reflectionField)) {
+        for (AbstractValidator validator : fieldService.creaValidatorsPost(entityBean, reflectedField)) {
             builder = builder.withValidator(validator);
         }// end of for cycle
 
         builder.bind(algosField.getName());
+
+        //--Inizializza il field
         algosField.initContent();
     }// end of method
 
 
     /**
-     * Eventuali regolazioni specifiche per i fields
+     * Aggiunge i componenti grafici AField al layout
+     * Inserimento automatico nel layout ''verticale''
+     * La sottoclasse può sovrascrivere integralmente questo metodo per realizzare un layout personalizzato
+     * La sottoclasse può sovrascrivere questo metodo; richiamarlo e poi aggiungere altri AField al layout verticale
+     *
+     * @param layout in cui inserire i campi (window o panel)
      */
-    protected void fixFields() {
+    protected void addAllFieldLayout(Layout layout) {
+        if (fieldList != null && fieldList.size() > 0) {
+            for (AField algosField : fieldList) {
+                //--aggiunge il componente grafico (AField) al layout selezionato
+                layout.addComponent(algosField);
+            }// end of for cycle
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
+     * Sovrascritto
+     */
+    protected void addSpecificAlgosFields() {
+    }// end of method
+
+
+    /**
+     * Regolazioni specifiche per i fields di una entity, dopo aver trascritto la entityBean nel binder
+     *
+     * @param layout in cui inserire i campi (window o panel)
+     */
+    protected void fixFieldsAllways(Layout layout) {
+    }// end of method
+
+
+    /**
+     * Regolazioni specifiche per i fields di una nuova entity, dopo aver trascritto la entityBean nel binder
+     *
+     * @param layout in cui inserire i campi (window o panel)
+     */
+    protected void fixFieldsNewOnly(Layout layout) {
+    }// end of method
+
+
+    /**
+     * Regolazioni specifiche per i fields di una entity in modifica, dopo aver trascritto la entityBean nel binder
+     *
+     * @param layout in cui inserire i campi (window o panel)
+     */
+    protected void fixFieldsEditOnly(Layout layout) {
     }// end of method
 
 
@@ -472,37 +599,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         closeWindow();
 
         return entityBean;
-    }// end of method
-
-
-    /**
-     * Usa tutto lo schermo
-     *
-     * @param source        presenter di riferimento da cui vengono generati gli eventi
-     * @param reflectFields del form da visualizzare
-     */
-    protected void usaAllScreen(ApplicationListener source, List<Field> reflectFields, AEntity entityBean) {
-        String caption = "";
-        List<String> listaBottoni;
-        Label label;
-        this.removeAllComponents();
-
-        caption = fixCaption(entityBean);
-        label = new LabelRosso(caption);
-        this.addComponent(label);
-
-        creaAddBindFields(source, this, reflectFields, entityBean);
-
-        //--Prepara la toolbar e la aggiunge al contenitore grafico
-//        this.addComponent(new Label());
-        listaBottoni = service.getFormBottonNames();
-        toolbar.inizializza(source, listaBottoni);
-        fixToolbar();
-        this.addComponent((AToolbarImpl) toolbar);
-    }// end of method
-
-
-    protected void fixToolbar() {
     }// end of method
 
 

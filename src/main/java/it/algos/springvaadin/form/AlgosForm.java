@@ -21,28 +21,29 @@ public interface AlgosForm {
 
     /**
      * Creazione del form
-     * Pannello a tutto schermo, oppure finestra popup
      * Ricrea tutto ogni volta che diventa attivo
+     * Sceglie tra pannello a tutto schermo, oppure finestra popup
      *
-     * @param source                presenter di riferimento da cui vengono generati gli eventi
-     * @param entityBean            istanza da elaborare
-     * @param reflectFields         campi del form da visualizzare
+     * @param source                presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param reflectedFields       previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param entityBean            nuova istanza da creare, oppure istanza esistente da modificare
      * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
      */
-    public void restart(ApplicationListener source, AEntity entityBean, List<Field> reflectFields, boolean usaSeparateFormDialog);
+    public void restart(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean, boolean usaSeparateFormDialog);
 
     /**
      * Creazione del form di un altro modulo/collezione
+     * Ricrea tutto ogni volta che diventa attivo
      * Solo finestra popup
      *
-     * @param source             presenter di riferimento per i componenti da cui vengono generati gli eventi
-     * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param entityBean         istanza da elaborare
-     * @param reflectFields      campi del form da visualizzare
-     * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
-     *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
+     * @param source          presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param sourceField     di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param type            per selezionare il ButtonRegistra, che registra subito
+     *                        oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
-    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectFields, AButtonType type);
+    public void restartLink(ApplicationListener source, ApplicationListener target, AField sourceField, AEntity entityBean, List<Field> reflectedFields, AButtonType type);
 
     /**
      * Esegue il 'rollback' del Form

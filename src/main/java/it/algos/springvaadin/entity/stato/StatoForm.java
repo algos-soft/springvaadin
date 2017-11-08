@@ -42,19 +42,6 @@ public class StatoForm extends AlgosFormImpl {
 
 
     /**
-     * Eventuali regolazioni specifiche per i fields
-     */
-    @Override
-    protected void fixFields() {
-        AField field = getField("bandiera");
-
-        if (field != null && field instanceof AImageField) {
-            field.setEntityBean(entityBean);
-            field.setSource(null);
-        }// end of if cycle
-    }// end of method
-
-    /**
      * Trasferisce i valori dai campi dell'annotation alla entityBean
      * Esegue la (eventuale) validazione dei dati
      * Esegue la (eventuale) trasformazione dei dati

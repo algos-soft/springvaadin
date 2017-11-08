@@ -120,14 +120,16 @@ public class AlgosGrid extends Grid {
             this.removeAllColumns();
         }// end of if cycle
 
-        for (Field field : columns) {
-            try { // prova ad eseguire il codice
-                colonna = this.addColumn(field.getName());
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-            }// fine del blocco try-catch
-            lar += LibColumn.regolaAnnotationAndGetLarghezza(colonna, field);
-        }// end of for cycle
+        if (columns != null && columns.size() > 0) {
+            for (Field field : columns) {
+                try { // prova ad eseguire il codice
+                    colonna = this.addColumn(field.getName());
+                } catch (Exception unErrore) { // intercetta l'errore
+                    log.error(unErrore.toString());
+                }// fine del blocco try-catch
+                lar += LibColumn.regolaAnnotationAndGetLarghezza(colonna, field);
+            }// end of for cycle
+        }// end of if cycle
 
         //--spazio per la colonna automatica di selezione
         if (LibParams.gridSelectionMode() == SelectionMode.MULTI) {

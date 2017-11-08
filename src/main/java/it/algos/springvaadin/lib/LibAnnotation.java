@@ -1115,7 +1115,7 @@ public abstract class LibAnnotation {
      * @return lista di fields visibili nel Form
      */
     @SuppressWarnings("all")
-    public static List<String> getFormFields(final Class<? extends AEntity> clazz) {
+    public static List<String> getFormFieldsName(final Class<? extends AEntity> clazz) {
         List<String> lista = null;
         String[] fields = null;
         AIForm formAnnotation = getAIForm(clazz);

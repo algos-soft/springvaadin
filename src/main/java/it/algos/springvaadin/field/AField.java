@@ -123,7 +123,7 @@ public abstract class AField<T> extends CustomField<Object> {
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
      */
-    protected void inizializza(String publicFieldName, ApplicationListener source) {
+    public void inizializza(String publicFieldName, ApplicationListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -267,6 +267,10 @@ public abstract class AField<T> extends CustomField<Object> {
     public void setButton(AButton button) {
         this.button = button;
     }// end of method
+
+    public AButton getButton() {
+        return button;
+    }
 
     public void setIconButton(Resource res) {
         if (button != null) {
