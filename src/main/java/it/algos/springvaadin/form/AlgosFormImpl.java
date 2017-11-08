@@ -365,6 +365,14 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
+     * Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
+     * Sovrascritto
+     */
+    protected void addSpecificAlgosFields() {
+    }// end of method
+
+
+    /**
      * Aggiunge i componenti grafici AField al layout
      * Inserimento automatico nel layout ''verticale''
      * La sottoclasse può sovrascrivere integralmente questo metodo per realizzare un layout personalizzato
@@ -383,37 +391,23 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
-     * Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
-     * Sovrascritto
-     */
-    protected void addSpecificAlgosFields() {
-    }// end of method
-
-
-    /**
      * Regolazioni specifiche per i fields di una entity, dopo aver trascritto la entityBean nel binder
-     *
-     * @param layout in cui inserire i campi (window o panel)
      */
-    protected void fixFieldsAllways(Layout layout) {
+    protected void fixFieldsAllways() {
     }// end of method
 
 
     /**
      * Regolazioni specifiche per i fields di una nuova entity, dopo aver trascritto la entityBean nel binder
-     *
-     * @param layout in cui inserire i campi (window o panel)
      */
-    protected void fixFieldsNewOnly(Layout layout) {
+    protected void fixFieldsNewOnly() {
     }// end of method
 
 
     /**
      * Regolazioni specifiche per i fields di una entity in modifica, dopo aver trascritto la entityBean nel binder
-     *
-     * @param layout in cui inserire i campi (window o panel)
      */
-    protected void fixFieldsEditOnly(Layout layout) {
+    protected void fixFieldsEditOnly() {
     }// end of method
 
 
