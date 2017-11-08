@@ -274,9 +274,9 @@ public class FieldService {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare PRIMA dei converters
      */
-    public List<AbstractValidator> creaValidatorsPre(AEntity entityBean, Field reflectionField) {
+    public List<AbstractValidator> creaValidatorsPre( Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
-        List<AValidator> listaTmp = creaValidators(entityBean, reflectionField);
+        List<AValidator> listaTmp = creaValidators( reflectionField);
 
         for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.prima) {
@@ -292,9 +292,9 @@ public class FieldService {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista dei validators da utilizzare DOPO i converters
      */
-    public List<AbstractValidator> creaValidatorsPost(AEntity entityBean, Field reflectionField) {
+    public List<AbstractValidator> creaValidatorsPost( Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
-        List<AValidator> listaTmp = creaValidators(entityBean, reflectionField);
+        List<AValidator> listaTmp = creaValidators( reflectionField);
 
         for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.dopo) {
@@ -310,71 +310,70 @@ public class FieldService {
      * Crea una (eventuale) lista di validator, basato sulle @Annotation della Entity
      * Lista base, indifferenziata
      */
-    private List<AValidator> creaValidators(AEntity entityBean, Field reflectionField) {
+    private List<AValidator> creaValidators(Field reflectedField) {
         List<AValidator> lista = new ArrayList<>();
-        Class<? extends AEntity> clazz = entityBean.getClass();
         AbstractValidator validator = null;
-        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectedField);
         AFieldType type = null;
-        String fieldName = LibText.primaMaiuscola(reflectionField.getName());
+        String fieldName = LibText.primaMaiuscola(reflectedField.getName());
         fieldName = LibText.setRossoBold(fieldName);
         String message = "";
         int min = 0;
         int max = 0;
-        boolean notNull = LibAnnotation.isNotNull(reflectionField);
-        boolean notEmpty = LibAnnotation.isNotEmpty(reflectionField);
-        boolean checkSize = LibAnnotation.isSize(reflectionField);
-        boolean checkUnico = LibAnnotation.isUnico(reflectionField);
-        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(reflectionField);
-        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(reflectionField);
+        boolean notNull = LibAnnotation.isNotNull(reflectedField);
+        boolean notEmpty = LibAnnotation.isNotEmpty(reflectedField);
+        boolean checkSize = LibAnnotation.isSize(reflectedField);
+        boolean checkUnico = LibAnnotation.isUnico(reflectedField);
+        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(reflectedField);
+        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(reflectedField);
         Object oldValue;
 
         if (fieldAnnotation != null) {
             type = fieldAnnotation.type();
             Object a = type;
-            min = LibAnnotation.getMin(reflectionField);
-            max = LibAnnotation.getMax(reflectionField);
+            min = LibAnnotation.getMin(reflectedField);
+            max = LibAnnotation.getMax(reflectedField);
 
             switch (type) {
                 case text:
                     if (checkUnico) {
-                        oldValue = LibReflection.getValue(entityBean, reflectionField.getName());
-                        validator = new AlgosUniqueValidator(clazz, reflectionField.getName(), oldValue);
-                        lista.add(new AValidator(validator, Posizione.prima));
+//                        oldValue = LibReflection.getValue(entityBean, reflectedField.getName());
+//                        validator = new AlgosUniqueValidator(clazz, reflectedField.getName(), oldValue);
+//                        lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectionField);
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
                         lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     if (checkSize) {
-                        String messageSize = LibAnnotation.getSizeMessage(reflectionField, notEmpty);
+                        String messageSize = LibAnnotation.getSizeMessage(reflectedField, notEmpty);
                         validator = new AlgosStringLengthValidator(messageSize, min, max);
                         lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     if (checkOnlyNumber) {
-                        validator = new AlgosNumberOnlyValidator(reflectionField.getName());
+                        validator = new AlgosNumberOnlyValidator(reflectedField.getName());
                         lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     if (checkOnlyLetter) {
-                        validator = new AlgosLetterOnlyValidator(reflectionField.getName());
+                        validator = new AlgosLetterOnlyValidator(reflectedField.getName());
                         lista.add(new AValidator(validator, Posizione.dopo));
                     }// end of if cycle
                     break;
                 case integer:
-                    addAnte(lista, new AlgosNumberNotNullValidator(reflectionField.getName()));
+                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
                     break;
                 case integernotzero:
-                    addAnte(lista, new AlgosNumberNotNullValidator(reflectionField.getName()));
-                    addAnte(lista, new AlgosNumberNotZeroValidator(reflectionField.getName()));
+                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
+                    addAnte(lista, new AlgosNumberNotZeroValidator(reflectedField.getName()));
                     break;
                 case email:
                     if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectionField);
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
                         lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
-                    addAnte(lista, new AlgosEmailValidator(reflectionField.getName()));
+                    addAnte(lista, new AlgosEmailValidator(reflectedField.getName()));
                     break;
                 case checkbox:
                     break;
@@ -388,14 +387,14 @@ public class FieldService {
                     break;
                 case textarea:
                     if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectionField);
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
                         lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
                     break;
                 case enumeration:
                     if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectionField);
+                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
                         validator = new StringLengthValidator(messageEmpty, 1, 10000);
                         lista.add(new AValidator(validator, Posizione.prima));
                     }// end of if cycle
@@ -419,14 +418,13 @@ public class FieldService {
     /**
      * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
      */
-    public List<AlgosConverter> creaConverters(AEntity entityBean, Field reflectionField) {
+    public List<AlgosConverter> creaConverters(  Field reflectedField) {
         List<AlgosConverter> lista = new ArrayList<>();
-        Class<? extends AEntity> clazz = entityBean.getClass();
         AlgosConverter converter = null;
-        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectionField);
-        boolean checkFirstCapital = LibAnnotation.isFirstCapital(reflectionField);
-        boolean checkUpper = LibAnnotation.isAllUpper(reflectionField);
-        boolean checkLower = LibAnnotation.isAllLower(reflectionField);
+        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectedField);
+        boolean checkFirstCapital = LibAnnotation.isFirstCapital(reflectedField);
+        boolean checkUpper = LibAnnotation.isAllUpper(reflectedField);
+        boolean checkLower = LibAnnotation.isAllLower(reflectedField);
 
         if (fieldAnnotation != null) {
             switch (fieldAnnotation.type()) {

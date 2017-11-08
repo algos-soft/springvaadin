@@ -266,15 +266,13 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Costruisce i componenti grafici AFields (di tipo CustomField), in base ai reflectedFields ricevuti dal service
      * --e regola le varie properties grafiche (caption, visible, editable, width, ecc)
      * Aggiunge i componenti grafici AField al binder
-     * Legge la entityBean, ed inserisce nel binder i valori nei fields grafici AFields
      * Aggiunge i componenti grafici AField ad una fieldList interna,
      * --necessaria per ''recuperare'' un singolo algosField dal nome
+     * Inizializza i componenti grafici AField
+     * Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel bind
+     * Legge la entityBean, ed inserisce nel binder i valori nei fields grafici AFields
      * Aggiunge i componenti grafici AField al layout
      * Eventuali regolazioni specifiche per i fields, dopo la trascrizione della entityBean nel binder
-     * <p>
-     * //     * Aggiunge eventuali validatori
-     * //     * Aggiunge eventuali convertitori
-     * //     * Aggiunge eventuali validatori (successivamente ai convertitori)
      *
      * @param source          presenter di riferimento da cui vengono generati gli eventi
      * @param layout          in cui inserire i campi (window o panel)
@@ -295,13 +293,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             //--crea un AField e regola le varie properties grafiche (caption, visible, editable, width, ecc)
             algosField = fieldService.create(source, reflectedField, entityBean);
 
-            //--aggiunge AField al binder
-            addFieldBinder(entityBean, reflectedField, algosField);
-
-            //--aggiunge AField alla lista interna, necessaria per ''recuperare'' un singolo algosField dal nome
-            if (algosField != null) {
-                fieldList.add(algosField);
-            }// end of if cycle
+            //--Aggiunge AField al binder
+            //--Aggiunge AField ad una fieldList interna
+            //--Inizializza AField
+            addFieldBinder(reflectedField, algosField);
         }// end of for cycle
 
         //--Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
@@ -324,7 +319,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             //--rimanda ad un metodo separato per poterlo sovrascrivere
             fixFieldsNewOnly();
         }// end of if/else cycle
-
     }// end of method
 
 
@@ -333,31 +327,35 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Aggiunge eventuali validatori
      * Aggiunge eventuali convertitori
      * Aggiunge eventuali validatori (successivamente ai convertitori)
+     * Aggiunge i componenti grafici AField ad una fieldList interna,
+     * --necessaria per ''recuperare'' un singolo algosField dal nome
      * Inizializza il field
      *
-     * @param entityBean     nuova istanza da creare, oppure istanza esistente da modificare
      * @param reflectedField previsto nel modello dati della Entity
      * @param algosField     del form da visualizzare
      */
-    private void addFieldBinder(AEntity entityBean, Field reflectedField, AField algosField) {
+    private void addFieldBinder(Field reflectedField, AField algosField) {
         if (algosField == null) {
             return;
         }// end of if cycle
         Binder.BindingBuilder builder = binder.forField(algosField);
 
-        for (AbstractValidator validator : fieldService.creaValidatorsPre(entityBean, reflectedField)) {
+        for (AbstractValidator validator : fieldService.creaValidatorsPre(reflectedField)) {
             builder = builder.withValidator(validator);
         }// end of for cycle
 
-        for (Converter converter : fieldService.creaConverters(entityBean, reflectedField)) {
+        for (Converter converter : fieldService.creaConverters(reflectedField)) {
             builder = builder.withConverter(converter);
         }// end of for cycle
 
-        for (AbstractValidator validator : fieldService.creaValidatorsPost(entityBean, reflectedField)) {
+        for (AbstractValidator validator : fieldService.creaValidatorsPost(reflectedField)) {
             builder = builder.withValidator(validator);
         }// end of for cycle
 
         builder.bind(algosField.getName());
+
+        //--aggiunge AField alla lista interna, necessaria per ''recuperare'' un singolo algosField dal nome
+        fieldList.add(algosField);
 
         //--Inizializza il field
         algosField.initContent();
