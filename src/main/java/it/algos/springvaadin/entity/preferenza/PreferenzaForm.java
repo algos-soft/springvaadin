@@ -68,11 +68,9 @@ public class PreferenzaForm extends AlgosFormImpl {
 
     /**
      * Eventuali regolazioni specifiche per i fields di una entity, dopo il binder
-     *
-     * @param layout
      */
     @Override
-    protected void fixFieldsAllways(Layout layout) {
+    protected void fixFieldsAllways() {
         super.setFieldValue("type", PrefType.bool);
         super.setFieldValue("livello", ARoleType.developer);
     }// end of method

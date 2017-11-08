@@ -316,13 +316,13 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         //--Eventuali regolazioni specifiche per i fields, dopo la trascrizione della entityBean nel binder
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        fixFieldsAllways(layout);
+        fixFieldsAllways();
         if (entityBean != null && entityBean.getId() != null) {
             //--rimanda ad un metodo separato per poterlo sovrascrivere
-            fixFieldsEditOnly(layout);
+            fixFieldsEditOnly();
         } else {
             //--rimanda ad un metodo separato per poterlo sovrascrivere
-            fixFieldsNewOnly(layout);
+            fixFieldsNewOnly();
         }// end of if/else cycle
 
     }// end of method
