@@ -6,6 +6,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.renderer.AlgosBooleanRenderer;
 import it.algos.springvaadin.renderer.IconRenderer;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 
@@ -21,12 +22,14 @@ import java.util.Locale;
 public abstract class LibColumn {
 
 
-    private final static int WIDTH_TEXT_SMALL = 80;
-    private final static int WIDTH_TEXT_NORMAL = 100;
-    private final static int WIDTH_TEXT_LARGE = 120;
+    public final static int WIDTH_CHECK_BOX = 65;
+    public final static int WIDTH_ICON = 90;
+    public final static int WIDTH_TEXT_SMALL = 80;
+    public final static int WIDTH_TEXT_NORMAL = 100;
+    public final static int WIDTH_TEXT_LARGE = 120;
     public final static int WIDTH_BYTE = 160;
-    private final static int WIDTH_LOCAL_DATE = 130;
-    private final static int WIDTH_LOCAL_DATE_TIME = 160;
+    public final static int WIDTH_LOCAL_DATE = 130;
+    public final static int WIDTH_LOCAL_DATE_TIME = 160;
 
 
 //    public static Annotation getAnnotation(Field field) {

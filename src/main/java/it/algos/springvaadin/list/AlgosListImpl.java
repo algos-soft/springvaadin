@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -220,6 +221,66 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
     public void setPresenter(AlgosPresenterImpl presenter) {
 //        toolbar.regolaBottoni(presenter);
+    }// end of method
+
+
+    /**
+     * Regola alcuni aspetti della colonna e la larghezza della grid
+     */
+    protected void fixColumn(Grid.Column colonna, String id, String caption, int width) {
+        colonna.setId(id);
+        colonna.setCaption(caption);
+        colonna.setWidth(width);
+        float lar = grid.getWidth();
+        grid.setWidth(lar + width, Unit.PIXELS);
+    }// end of method
+
+
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID      della colonna da spostare
+     * @param columnIdPrima della colonna prima della quale devo inserire la colonna da spostare
+     */
+    protected void spostaColonnaPrima(String columnID, String columnIdPrima) {
+        spostaColonna(columnID, columnIdPrima, false);
+    }// end of method
+
+
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID     della colonna da spostare
+     * @param columnIdDopo della colonna dopo la quale devo inserire la colonna da spostare
+     */
+    protected void spostaColonnaDopo(String columnID, String columnIdDopo) {
+        spostaColonna(columnID, columnIdDopo, true);
+    }// end of method
+
+
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID    della colonna da spostare
+     * @param columnCheck della colonna prima/dopo la quale devo inserire la colonna da spostare
+     */
+    private void spostaColonna(String columnID, String columnCheck, boolean dopo) {
+        String[] matrice = null;
+        List<Grid.Column> listaColonne = grid.getColumns();
+        ArrayList lista = new ArrayList();
+        for (Grid.Column col : listaColonne) {
+            lista.add(col.getId());
+        }// end of for cycle
+        lista.remove(columnID);
+        int pos = lista.indexOf(columnCheck);
+        if (pos != -1) {
+            if (dopo) {
+                pos++;
+            }// end of if cycle
+            lista.add(pos, columnID);
+            matrice = (String[]) lista.toArray(new String[lista.size()]);
+            grid.setColumnOrder(matrice);
+        }// end of if cycle
     }// end of method
 
 }// end of class

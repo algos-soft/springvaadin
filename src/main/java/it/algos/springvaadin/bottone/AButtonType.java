@@ -25,7 +25,7 @@ public enum AButtonType {
 
 
     accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
-    annulla(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.BACKSPACE, 0),
+    annulla(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.BACKSPACE, ShortcutAction.ModifierKey.ALT),
     back(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
     chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
     create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.N, ShortcutAction.ModifierKey.ALT),

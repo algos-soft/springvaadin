@@ -1,8 +1,10 @@
 package it.algos.springvaadin.grid;
 
 import com.vaadin.data.HasValue;
+import com.vaadin.data.ValueProvider;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.MultiSelect;
 import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.event.TypeAction;

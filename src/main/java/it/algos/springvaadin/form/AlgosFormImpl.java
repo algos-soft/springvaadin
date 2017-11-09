@@ -22,7 +22,6 @@ import it.algos.springvaadin.view.ViewField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 
 import java.lang.reflect.Field;
@@ -307,7 +306,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         binder.readBean(entityBean);
 
         //--Aggiunge i componenti grafici AField al layout
-        addAllFieldLayout(layout);
+        layoutFields(layout);
 
         //--Eventuali regolazioni specifiche per i fields, dopo la trascrizione della entityBean nel binder
         //--rimanda ad un metodo separato per poterlo sovrascrivere
@@ -334,7 +333,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param reflectedField previsto nel modello dati della Entity
      * @param algosField     del form da visualizzare
      */
-    private void addFieldBinder(Field reflectedField, AField algosField) {
+    protected void addFieldBinder(Field reflectedField, AField algosField) {
         if (algosField == null) {
             return;
         }// end of if cycle
@@ -365,6 +364,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     /**
      * Aggiunge al binder eventuali fields specifici, prima di trascrivere la entityBean nel binder
      * Sovrascritto
+     * Dopo aver creato un AField specifico, usare il metodo super.addFieldBinder() per:
+     * Aggiungere AField al binder
+     * Aggiungere AField ad una fieldList interna
+     * Inizializzare AField
      */
     protected void addSpecificAlgosFields() {
     }// end of method
@@ -375,10 +378,11 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Inserimento automatico nel layout ''verticale''
      * La sottoclasse può sovrascrivere integralmente questo metodo per realizzare un layout personalizzato
      * La sottoclasse può sovrascrivere questo metodo; richiamarlo e poi aggiungere altri AField al layout verticale
+     * Nel layout sono già presenti una Label (sopra) ed una Toolbar (sotto)
      *
      * @param layout in cui inserire i campi (window o panel)
      */
-    protected void addAllFieldLayout(Layout layout) {
+    protected void layoutFields(Layout layout) {
         if (fieldList != null && fieldList.size() > 0) {
             for (AField algosField : fieldList) {
                 //--aggiunge il componente grafico (AField) al layout selezionato
