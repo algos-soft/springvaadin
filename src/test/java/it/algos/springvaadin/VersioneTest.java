@@ -40,8 +40,8 @@ public class VersioneTest {
     public void primo() {
         service.repository = repository;
 
-        Versione vers1 = new Versione(3, "alfa", "testino", LocalDate.now());
-        Versione  vers2 = service.newEntity( 4,"titoli", "prova",LocalDate.now());
+        Versione vers1 = new Versione("",3, "alfa", "testino", LocalDate.now());
+        Versione  vers2 = service.newEntity( "",4,"titoli", "prova",LocalDate.now());
 
         // Execute the method being tested
         try { // prova ad eseguire il codice

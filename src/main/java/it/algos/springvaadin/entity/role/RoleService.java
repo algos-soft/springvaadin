@@ -44,14 +44,15 @@ public class RoleService extends AlgosServiceImpl {
      * Ricerca di una entity (la crea se non la trova)
      * All properties
      *
+     * @param ordine di rilevanza (obbligatorio)
      * @param codice di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public Role findOrCrea(String codice) {
+    public Role findOrCrea(int ordine, String codice) {
         if (nonEsiste(codice)) {
             try { // prova ad eseguire il codice
-                return (Role) save(newEntity(codice));
+                return (Role) save(newEntity(ordine, codice));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -71,7 +72,7 @@ public class RoleService extends AlgosServiceImpl {
      */
     @Override
     public Role newEntity() {
-        return newEntity("");
+        return newEntity(0, "");
     }// end of method
 
 
@@ -81,15 +82,16 @@ public class RoleService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
+     * @param ordine di rilevanza (obbligatorio)
      * @param codice di riferimento (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Role newEntity(String codice) {
+    public Role newEntity(int ordine, String codice) {
         Role entity = null;
 
         if (nonEsiste(codice)) {
-            entity = new Role(codice);
+            entity = new Role(ordine, codice);
         } else {
             return repository.findByCode(codice);
         }// end of if/else cycle
@@ -119,7 +121,7 @@ public class RoleService extends AlgosServiceImpl {
      */
     public List findAll() {
         if (LibSession.isDeveloper()) {
-            return repository.findByOrderByCodeAsc();
+            return repository.findByOrderByOrdineAsc();
         }// end of if cycle
 
         return null;

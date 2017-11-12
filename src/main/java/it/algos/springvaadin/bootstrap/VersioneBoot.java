@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.preferenza.PrefEffect;
 import it.algos.springvaadin.entity.preferenza.PrefType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
+import it.algos.springvaadin.entity.stato.StatoData;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneService;
 import it.algos.springvaadin.lib.Cost;
@@ -16,6 +17,7 @@ import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -39,9 +41,12 @@ import org.springframework.context.event.EventListener;
  * and its onApplicationEvent method will be called
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
+ * <p>
+ * Per essere sicuri che questa classe venga eseguita sempre PRIMA della sottoclasse,
+ * viene invocata direttamente dalla sottoclasse stessa e NON usa l'Annotation @SpringComponent
  */
 @Slf4j
-public class VersioneBoot {
+public abstract class VersioneBoot {
 
 
     //--il service (contenente la repository) viene iniettato nel costruttore
@@ -76,16 +81,17 @@ public class VersioneBoot {
     }// end of Spring constructor
 
 
+
     /**
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param ordine      di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto    (obbligatorio, non unica)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      */
-    protected void creaVersioneAndLog(int ordine, String gruppo, String descrizione) {
-        creaVersioneAndLog(ordine, "", gruppo, descrizione, "");
+    protected void creaVersione(String progetto, String gruppo, String descrizione) {
+        creaVersione(progetto, "", gruppo, descrizione, "");
     }// end of method
 
 
@@ -93,13 +99,13 @@ public class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto     (obbligatorio, non unica)
      * @param siglaCompany (facoltativa)
      * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione  (obbligatoria, non unica)
      */
-    protected void creaAndLogCompany(int ordine, String siglaCompany, String gruppo, String descrizione) {
-        creaVersioneAndLog(ordine, siglaCompany, gruppo, descrizione, "");
+    protected void creaCompany(String progetto, String siglaCompany, String gruppo, String descrizione) {
+        creaVersione(progetto, siglaCompany, gruppo, descrizione, "");
     }// end of method
 
 
@@ -107,13 +113,13 @@ public class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto     (obbligatorio, non unica)
      * @param siglaCompany (facoltativa)
      * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione  (obbligatoria, non unica)
      */
-    protected void creaAndLogCompany(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
-        creaVersioneAndLog(ordine, siglaCompany, gruppo, descrizione, note);
+    protected void creaCompany(String progetto, String siglaCompany, String gruppo, String descrizione, String note) {
+        creaVersione(progetto, siglaCompany, gruppo, descrizione, note);
     }// end of method
 
 
@@ -121,13 +127,13 @@ public class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param ordine      di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto    (obbligatorio, non unica)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      * @param note        descrittive (facoltative)
      */
-    protected void creaVersioneAndLog(int ordine, String gruppo, String descrizione, String note) {
-        creaVersioneAndLog(ordine, "", gruppo, descrizione, note);
+    protected void creaVersione(String progetto, String gruppo, String descrizione, String note) {
+        creaVersione(progetto, "", gruppo, descrizione, note);
     }// end of method
 
 
@@ -135,15 +141,15 @@ public class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param ordine       di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto     (obbligatorio, non unica)
      * @param siglaCompany (facoltativa)
      * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione  (obbligatoria, non unica)
      * @param note         descrittive (facoltative)
      */
-    private void creaVersioneAndLog(int ordine, String siglaCompany, String gruppo, String descrizione, String note) {
+    protected void creaVersione(String progetto, String siglaCompany, String gruppo, String descrizione, String note) {
         Company company;
-        Versione vers = service.findOrCrea(ordine, gruppo, descrizione);
+        Versione vers = service.crea(progetto, gruppo, descrizione);
 
         if (LibText.isValid(note)) {
             vers.note = note;
@@ -188,20 +194,20 @@ public class VersioneBoot {
      * Creazione di una preferenza (se non trovata)
      * Log a video
      *
-     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto              (obbligatorio, non unica)
      * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param typePreferenza        di dato memorizzato (obbligatorio)
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      */
-    protected Preferenza creaPreferenzaAndVersioneAndLog(
-            int ordineVersione,
+    protected Preferenza creaPreferenzaAndVersione(
+            String progetto,
             String codePreferenza,
             PrefType typePreferenza,
             String descrizionePreferenza,
             Object valuePreferenza) {
-        return creaPreferenzaAndVersioneAndLog(
-                ordineVersione,
+        return creaPreferenzaAndVersione(
+                progetto,
                 "",
                 codePreferenza,
                 typePreferenza,
@@ -209,7 +215,8 @@ public class VersioneBoot {
                 descrizionePreferenza,
                 valuePreferenza,
                 PrefEffect.subito,
-                false);
+                true,
+                "");
     }// end of method
 
 
@@ -218,30 +225,31 @@ public class VersioneBoot {
      * Creazione di una preferenza (se non trovata)
      * Log a video
      *
-     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
-     * @param siglaCompany          (facoltativa)
+     * @param progetto              (obbligatorio, non unica)
      * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param typePreferenza        di dato memorizzato (obbligatorio)
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
+     * @param notePreferenza        (facoltativo, di default vuote)
      */
-    protected Preferenza creaPreferenzaAndVersioneAndLog(
-            int ordineVersione,
-            String siglaCompany,
+    protected Preferenza creaPreferenzaAndVersione(
+            String progetto,
             String codePreferenza,
             PrefType typePreferenza,
             String descrizionePreferenza,
-            Object valuePreferenza) {
-        return creaPreferenzaAndVersioneAndLog(
-                ordineVersione,
-                siglaCompany,
+            Object valuePreferenza,
+            String notePreferenza) {
+        return creaPreferenzaAndVersione(
+                progetto,
+                "",
                 codePreferenza,
                 typePreferenza,
                 ARoleType.developer,
                 descrizionePreferenza,
                 valuePreferenza,
                 PrefEffect.subito,
-                false);
+                true,
+                notePreferenza);
     }// end of method
 
 
@@ -250,7 +258,7 @@ public class VersioneBoot {
      * Creazione di una preferenza (se non trovata)
      * Log a video
      *
-     * @param ordineVersione        di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto              (obbligatorio, non unica)
      * @param siglaCompany          (facoltativa)
      * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param typePreferenza        di dato memorizzato (obbligatorio)
@@ -259,9 +267,10 @@ public class VersioneBoot {
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      * @param riavvioPreferenza     attivazione del programma per avere effetto (obbligatorio, di default false)
      * @param replica               per ogni company (facoltativo, di default falso)
+     * @param notePreferenza        (facoltativo, di default vuote)
      */
-    protected Preferenza creaPreferenzaAndVersioneAndLog(
-            int ordineVersione,
+    protected Preferenza creaPreferenzaAndVersione(
+            String progetto,
             String siglaCompany,
             String codePreferenza,
             PrefType typePreferenza,
@@ -269,7 +278,8 @@ public class VersioneBoot {
             String descrizionePreferenza,
             Object valuePreferenza,
             PrefEffect riavvioPreferenza,
-            boolean replica) {
+            boolean replica,
+            String notePreferenza) {
         Preferenza preferenza = null;
         Company company = null;
         Versione versione = null;
@@ -288,11 +298,17 @@ public class VersioneBoot {
                 typePreferenza.objectToBytes(valuePreferenza),
                 riavvioPreferenza,
                 replica);
-
-        versione = service.findOrCrea(ordineVersione, gruppo, descrizioneVersione);
-        versione.setCompany(company);
-        versione.note = note;
         try { // prova ad eseguire il codice
+            preferenza.note = notePreferenza;
+            preferenzaService.save(preferenza);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        versione = service.crea(progetto, gruppo, descrizioneVersione);
+        try { // prova ad eseguire il codice
+            versione.setCompany(company);
+            versione.note = note;
             service.save(versione);
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());

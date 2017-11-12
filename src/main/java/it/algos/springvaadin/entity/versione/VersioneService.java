@@ -1,9 +1,11 @@
 package it.algos.springvaadin.entity.versione;
 
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.service.AlgosServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -48,66 +50,26 @@ public class VersioneService extends AlgosServiceImpl {
         this.logger = (LogService) logger;
     }// end of Spring constructor
 
-//    /**
-//     * Creazione di una company demo
-//     * <p>
-//     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-//     * (si può usare qualsiasi firma)
-//     */
-//    @PostConstruct
-//    public void test() {
-//        boolean falso = this.esiste(17);
-//        boolean vero = this.esiste(2);
-////        boolean zero = this.isVersioneNonEsiste(0);
-////        boolean uno = this.isVersioneNonEsiste(1);
-////        boolean due = this.isVersioneNonEsiste(2);
-////        boolean tre = this.isVersioneNonEsiste(3);
-////        boolean quattro = this.isVersioneNonEsiste(4);
-////        boolean cinque = this.isVersioneNonEsiste(5);
-////        boolean sei = this.isVersioneNonEsiste(6);
-//        List listAll = this.findAll();
-//        List listAlllCompany = this.findAllByCompany(null);
-//        Versione vers1 = this.findByOrdine(1);
-//        Versione vers2 = this.findByOrdine(2);
-//        Versione vers3 = this.findByOrdine(3);
-//        Versione vers4 = this.findByOrdine(4);
-//        Versione vers5 = this.findByOrdine(5);
-//        int ord2 = this.getNewOrdine();
-//        int a = 87;
-//    }// end of method
-
 
     /**
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
+     * L'esistenza di una entity di questa collezione è già stata controllata, quindi NON viene ricontrollata
+     * L'ordine viene inserito automaticamente da newEntity()
      *
-     * @param ordine      (obbligatorio, unico indipendentemente dalla company,
-     *                    con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto    (obbligatorio, non unica)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      *
      * @return la entity trovata o appena creata
      */
-    public Versione findOrCrea(int ordine, String gruppo, String descrizione) {
-        if (ordine == 0) {
-            try { // prova ad eseguire il codice
-                return (Versione) save(newEntity(gruppo, descrizione));
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-                return null;
-            }// fine del blocco try-catch
-        } else {
-            if (nonEsiste(ordine)) {
-                try { // prova ad eseguire il codice
-                    return (Versione) save(newEntity(gruppo, descrizione));
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                    return null;
-                }// fine del blocco try-catch
-            } else {
-                return repository.findByOrdine(ordine);
-            }// end of if/else cycle
-        }// end of if/else cycle
+    public Versione crea(String progetto, String gruppo, String descrizione) {
+        try { // prova ad eseguire il codice
+            return (Versione) save(newEntity(progetto, gruppo, descrizione));
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+            return null;
+        }// fine del blocco try-catch
     }// end of method
 
 
@@ -120,7 +82,7 @@ public class VersioneService extends AlgosServiceImpl {
      */
     @Override
     public Versione newEntity() {
-        return newEntity(0, "", "", (LocalDate) null);
+        return newEntity("", 0, "", "", (LocalDate) null);
     }// end of method
 
 
@@ -130,13 +92,14 @@ public class VersioneService extends AlgosServiceImpl {
      * Properties obbligatorie
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
+     * @param progetto    (obbligatorio, non unica)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(String gruppo, String descrizione) {
-        return newEntity(0, gruppo, descrizione, (LocalDate) null);
+    public Versione newEntity(String progetto, String gruppo, String descrizione) {
+        return newEntity(progetto, 0, gruppo, descrizione, (LocalDate) null);
     }// end of method
 
 
@@ -146,6 +109,7 @@ public class VersioneService extends AlgosServiceImpl {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
+     * @param progetto    (obbligatorio, non unica)
      * @param ordine      (obbligatorio, unico indipendentemente dalla company,
      *                    con controllo automatico prima del save se è zero, non modificabile)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
@@ -154,9 +118,10 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(int ordine, String gruppo, String descrizione, LocalDate evento) {
+    public Versione newEntity(String progetto, int ordine, String gruppo, String descrizione, LocalDate evento) {
         return new Versione(
-                ordine == 0 ? this.getNewOrdine() : ordine,
+                progetto,
+                ordine == 0 ? this.getNewOrdine(progetto) : ordine,
                 gruppo,
                 descrizione,
                 evento != null ? evento : LocalDate.now());
@@ -166,38 +131,41 @@ public class VersioneService extends AlgosServiceImpl {
     /**
      * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param ordine (obbligatorio, unico indipendentemente dalla company,
-     *               con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto (obbligatorio, non unica)
+     * @param ordine   (obbligatorio, unico indipendentemente dalla company,
+     *                 con controllo automatico prima del save se è zero, non modificabile)
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean esiste(int ordine) {
-        return findByOrdine(ordine) != null;
+    public boolean esiste(String progetto, int ordine) {
+        return findByProgettoAndOrdine(progetto, ordine) != null;
     }// end of method
 
 
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param ordine (obbligatorio, unico indipendentemente dalla company,
-     *               con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto (obbligatorio, non unica)
+     * @param ordine   (obbligatorio, unico indipendentemente dalla company,
+     *                 con controllo automatico prima del save se è zero, non modificabile)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(int ordine) {
-        return findByOrdine(ordine) == null;
+    public boolean nonEsiste(String progetto, int ordine) {
+        return findByProgettoAndOrdine(progetto, ordine) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param ordine di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * @param progetto (obbligatorio, non unica)
+     * @param ordine   di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Versione findByOrdine(int ordine) {
-        return repository.findByOrdine(ordine);
+    public Versione findByProgettoAndOrdine(String progetto, int ordine) {
+        return repository.findByProgettoAndOrdine(progetto, ordine);
     }// end of method
 
 
@@ -210,7 +178,7 @@ public class VersioneService extends AlgosServiceImpl {
      */
     public List findAll() {
         if (LibSession.isDeveloper()) {
-            return repository.findByOrderByOrdineAsc();
+            return repository.findByOrderByProgetto();
         }// end of if cycle
 
         return null;
@@ -229,10 +197,10 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return entities filtrate
      */
+    @Override
     public List findAllByCompany(Company company) {
         return repository.findByCompanyOrderByOrdineAsc(company);
     }// end of method
-
 
 
     /**
@@ -240,13 +208,14 @@ public class VersioneService extends AlgosServiceImpl {
      * I numeri delle versione eventualmente cancellate NON vengono sostituiti
      * Non cerca quindi numeroVersioneDaInstallare ma lo confronta col massimo esistente
      *
+     * @param progetto                   (obbligatorio, non unica)
      * @param numeroVersioneDaInstallare per vedere che sia superiore al massimo attuale
      *
      * @return true se la versione non è mai esistita (ne adesso ne dopo cancellazione)
      */
-    public boolean versioneNonAncoraUsata(int numeroVersioneDaInstallare) {
+    public boolean versioneNonAncoraUsata(String progetto, int numeroVersioneDaInstallare) {
         boolean installa = false;
-        int numeroVersioneEsistente = getNewOrdine()-1;
+        int numeroVersioneEsistente = getNewOrdine(progetto) - 1;
 
         if (numeroVersioneDaInstallare > numeroVersioneEsistente) {
             installa = true;
@@ -260,16 +229,19 @@ public class VersioneService extends AlgosServiceImpl {
      * L'ordine di presentazione (obbligatorio, unico per tutte le company), viene calcolato in automatico prima del persist
      * Recupera il valore massimo della property
      * Incrementa di uno il risultato
+     *
+     * @param progetto (obbligatorio, non unica)
      */
-    private int getNewOrdine() {
+    private int getNewOrdine(String progetto) {
         int ordine = 0;
 
-        List<Versione> lista = repository.findTop1ByOrderByOrdineDesc();
+        List<Versione> lista = repository.findTop1ByProgettoOrderByOrdineDesc(progetto);
         if (lista != null && lista.size() == 1) {
             ordine = lista.get(0).getOrdine();
         }// end of if cycle
 
         return ordine + 1;
     }// end of method
+
 
 }// end of class

@@ -56,10 +56,15 @@ public abstract class AlgosServiceImpl implements AlgosService {
      */
     public AEntity save(AEntity entityBean) throws Exception {
         entityBean = checkDate(entityBean);
-        ACompanyRequired companyRequired = LibAnnotation.companyType(entityBean.getClass());
+        ACompanyRequired tableCompanyRequired = LibAnnotation.companyType(entityBean.getClass());
+
+        //--opportunità di usare una idKey specifica
+        if (LibText.isEmpty(entityBean.id)) {
+            creaIdKeySpecifica(entityBean);
+        }// end of if cycle
 
         if (LibParams.useMultiCompany()) {
-            switch (companyRequired) {
+            switch (tableCompanyRequired) {
                 case nonUsata:
                     return (AEntity) repository.save(entityBean);
                 case facoltativa:
@@ -78,6 +83,16 @@ public abstract class AlgosServiceImpl implements AlgosService {
         } else {
             return (AEntity) repository.save(entityBean);
         }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Opportunità di usare una idKey specifica.
+     * Invocato appena prima del save(), solo per una nuova entity
+     *
+     * @param entityBean da salvare
+     */
+    protected void creaIdKeySpecifica(AEntity entityBean) {
     }// end of method
 
 

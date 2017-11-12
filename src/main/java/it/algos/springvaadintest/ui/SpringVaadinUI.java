@@ -64,8 +64,8 @@ public class SpringVaadinUI extends AlgosUI {
         if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
             message += " - " + companyCode;
         }// end of if cycle
-        footer.setAppMessage("SpringVaadin 1.0");
-        log.info("Versione dell'applicazione: SpringVaadin 1.0");
+        footer.setAppMessage("SpringVaadintest 1.0");
+        log.info("Versione dell'applicazione: SpringVaadintest 1.0");
 
         super.printBefore(InterfacciaUtente.specifica);
         this.specificFixAndPrint();

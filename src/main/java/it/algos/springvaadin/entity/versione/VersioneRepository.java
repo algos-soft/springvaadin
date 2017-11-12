@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.versione;
 
+import com.vaadin.data.provider.Sort;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.company.Company;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,12 +17,12 @@ import java.util.List;
 @Qualifier(Cost.TAG_VERS)
 public interface VersioneRepository extends MongoRepository<Versione, String> {
 
-    public Versione findByOrdine(int ordine);
+    public Versione findByProgettoAndOrdine(String progetto, int ordine);
 
-    public List<Versione> findByOrderByOrdineAsc();
+    public List<Versione> findByOrderByProgetto();
 
     public List<Versione> findByCompanyOrderByOrdineAsc(Company company);
 
-    public List<Versione> findTop1ByOrderByOrdineDesc();
+    public List<Versione> findTop1ByProgettoOrderByOrdineDesc(String progetto);
 
 }// end of class

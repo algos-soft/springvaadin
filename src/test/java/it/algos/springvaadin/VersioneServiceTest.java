@@ -73,24 +73,24 @@ public class VersioneServiceTest {
 //        int a = 87;
 //    }// end of method
 
-    @Test
-    public void primo() {
-        service.repository = repository;
-        Object a= service;
-        vers1 = new Versione( 3,"alfa", "testino", LocalDate.now());
-        vers2 = new Versione( 4,"titoli", "prova",LocalDate.now());
-        Mockito.when(service.findAll()).thenReturn(Arrays.asList(vers1));
-        Mockito.when(service.findByOrdine(3)).thenReturn(vers1);
-//        versione = service.findOrCrea(24, "alfa", "testino");
-        int aaa=87;
-        List<Versione> allVersioni = service.findAll();
-        int aawwwa=87;
-
-//        String titolo = TITOLO;
-//        Versione found = service.findByTitolo(titolo);
+//    @Test
+//    public void primo() {
+//        service.repository = repository;
+//        Object a= service;
+//        vers1 = new Versione("", 3,"alfa", "testino", LocalDate.now());
+//        vers2 = new Versione("", 4,"titoli", "prova",LocalDate.now());
+//        Mockito.when(service.findAll()).thenReturn(Arrays.asList(vers1));
+//        Mockito.when(service.findByOrdine(3)).thenReturn(vers1);
+////        versione = service.findOrCrea(24, "alfa", "testino");
+//        int aaa=87;
+//        List<Versione> allVersioni = service.findAll();
+//        int aawwwa=87;
 //
-//        assertEquals(found.getTitolo(), TITOLO);
-    }// end of method
+////        String titolo = TITOLO;
+////        Versione found = service.findByTitolo(titolo);
+////
+////        assertEquals(found.getTitolo(), TITOLO);
+//    }// end of method
 
 
 }// end of test class

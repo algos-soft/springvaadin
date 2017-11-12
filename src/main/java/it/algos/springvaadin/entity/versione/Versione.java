@@ -37,7 +37,7 @@ import java.time.LocalDateTime;
 @SpringComponent
 @Document(collection = Cost.TAG_VERS)
 @AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
-@AIList(columns = {"ordine", "gruppo", "descrizione", "evento"}, admin = ListButton.edit)
+@AIList(columns = {"progetto", "ordine", "gruppo", "descrizione", "evento"}, admin = ListButton.edit)
 @AIForm()
 @Data
 @NoArgsConstructor
@@ -52,14 +52,24 @@ public class Versione extends ACompanyEntity {
 
 
     /**
-     * ordine di versione (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * progetto (obbligatorio, non unica)
+     */
+    @NotEmpty()
+    @Indexed()
+    @AIField(type = AFieldType.text, dev = FieldAccessibility.newOnly, admin = FieldAccessibility.never)
+    @AIColumn(width = 160)
+    private String progetto;
+
+
+    /**
+     * ordine di versione (obbligatorio, unico per progetto, con controllo automatico prima del save se è zero, non modificabile)
      * inserito automaticamente
      * se si cancella una entity, rimane il 'buco' del numero
      * unico indipendentemente dalla company
      */
     @NotNull
-    @Indexed(unique = true)
-    @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo", admin = FieldAccessibility.showOnly)
+    @Indexed()
+    @AIField(type = AFieldType.integer, widthEM = 3, help = "Ordine di versione. Unico e normalmente progressivo", dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 55)
     private int ordine;
 
@@ -92,7 +102,7 @@ public class Versione extends ACompanyEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = AFieldType.localdate, help = "Data di inserimento della versione", admin = FieldAccessibility.showOnly)
+    @AIField(type = AFieldType.localdate, help = "Data di inserimento della versione", dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     @AIColumn(name = "Data")
     private LocalDate evento;
 

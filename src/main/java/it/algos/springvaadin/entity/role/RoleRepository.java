@@ -20,6 +20,6 @@ public interface RoleRepository extends MongoRepository<Role, String> {
 
     public Role findByCode( String code);
 
-    public List<Role> findByOrderByCodeAsc();
+    public List<Role> findByOrderByOrdineAsc();
 
 }// end of class

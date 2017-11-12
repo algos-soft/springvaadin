@@ -32,13 +32,13 @@ import javax.validation.constraints.Size;
 @SpringComponent
 @Document(collection = Cost.TAG_ROL)
 @AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
-@AIList(columns = {"name"}, dev = ListButton.standard)
-@AIForm(fields = {"name"})
+@AIList(columns = {"ordine", "code"}, dev = ListButton.standard)
+@AIForm(fields = {"ordine", "code"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Role extends ACompanyEntity {
+public class Role extends AEntity {
 
 
     /**
@@ -48,15 +48,24 @@ public class Role extends ACompanyEntity {
 
 
     /**
-     * codice di riferimento (obbligatorio)
+     * ordine di rilevanza (obbligatorio, unico)
+     * il più importante per primo
+     */
+    @NotNull
+    @Indexed()
+    @AIField(type = AFieldType.integer, widthEM = 3, dev = FieldAccessibility.showOnly)
+    @AIColumn(name = "#", width = 55)
+    private int ordine;
+
+    /**
+     * codice di riferimento (obbligatorio, unico)
      */
     @NotEmpty
     @Size()
     @Indexed()
-    @AIField(type = AFieldType.text, required = true, widthEM = 9)
-    @AIColumn( width = 100)
+    @AIField(type = AFieldType.text, required = true, widthEM = 12, dev = FieldAccessibility.showOnly)
+    @AIColumn(width = 200)
     private String code;
-
 
 
     /**

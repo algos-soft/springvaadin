@@ -118,7 +118,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @AIField(type = AFieldType.checkbox, required = true, name = "Replicata per ogni company", widthEM = 4, admin = FieldAccessibility.never)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
-    private boolean replica = false;
+    private boolean replica = true;
 
 
     /**
