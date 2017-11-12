@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.role.RoleNavView;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.entity.company.Company;
@@ -95,6 +96,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
+		menuLayout.addView(RoleNavView.class);
         menuLayout.addView(Preferenza.class, PreferenzaNavView.class);
         menuLayout.addView(Stato.class, StatoNavView.class);
         menuLayout.addView(Indirizzo.class, IndirizzoNavView.class);

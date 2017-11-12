@@ -39,6 +39,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
         this.repository = (@ENTITY@Repository) repository;
     }// end of Spring constructor
 
+
     /**
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie

@@ -572,6 +572,13 @@ public abstract class LibText {
     }// end of inner enumeration
 
     /**
+     * Carattere blu e bold
+     */
+    public static String setBluBold(String testoIn) {
+        return "<strong style=\"color: blue;\">" + testoIn + "</strong>";
+    }// end of inner enumeration
+
+    /**
      * Carattere  bold
      */
     public static String setBold(String testoIn) {

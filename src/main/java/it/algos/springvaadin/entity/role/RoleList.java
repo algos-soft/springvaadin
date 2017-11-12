@@ -1,5 +1,5 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
+package it.algos.springvaadin.entity.role;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
@@ -13,19 +13,19 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 11-nov-17
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
-@Qualifier(@TAG@)
-public class @ENTITY@List extends AlgosListImpl {
+@Qualifier(Cost.TAG_ROL)
+public class RoleList extends AlgosListImpl {
 
 
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-    public @ENTITY@List(@Qualifier(@TAG@) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
+    public RoleList(@Qualifier(Cost.TAG_ROL) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
         super(service, grid, toolbar);
     }// end of Spring constructor
 
@@ -38,12 +38,9 @@ public class @ENTITY@List extends AlgosListImpl {
     protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
             super.inizializza(className, items);
-            caption += "</br>Lista visibile a tutti";
-            caption += "</br>Usa la company che è ACompanyRequired.obbligatoria";
-            caption += "</br>Solo il developer vede queste note";
-        } else {
-            super.caption = "@ENTITY@ previste.";
-        }// end of if/else cycle
+            caption += "</br>Lista visibile solo al developer";
+            caption += "</br>NON usa la company";
+        }// end of if cycle
     }// end of method
 
 }// end of class

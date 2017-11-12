@@ -494,8 +494,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
     public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
         if (sourceField instanceof ALinkField) {
             ((ALinkField) sourceField).refreshFromDialogLinkato(entityBean);
-            this.view.enableButtonForm(AButtonType.registra, true);
         }// end of if cycle
+        this.view.enableButtonForm(AButtonType.registra, true);
     }// end of method
 
     /**

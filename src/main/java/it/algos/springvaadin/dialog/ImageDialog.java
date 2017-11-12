@@ -210,7 +210,6 @@ public class ImageDialog extends Window implements ApplicationListener {
                     case linkAccetta:
                         ((AImageField) sourceField).setImgByte(imgBytes);
                         sourceField.doSetValue(image);
-                        ((Stato) entityBean).setBandiera(imgBytes);
                         this.close();
                         fireBack();
                         LibAvviso.info("Occorre registrare la scheda per rendere definitive le modifiche effettuate");

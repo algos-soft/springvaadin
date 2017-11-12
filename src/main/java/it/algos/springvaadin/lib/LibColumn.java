@@ -6,7 +6,6 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.renderer.AlgosBooleanRenderer;
 import it.algos.springvaadin.renderer.IconRenderer;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 
