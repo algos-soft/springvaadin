@@ -97,8 +97,8 @@ public abstract class Cost {
     public final static String KEY_USE_DEBUG = "useDebug";
     public final static String KEY_USE_MULTI_COMPANY = "useMultiCompany";
     public final static String KEY_DISPLAY_NEW_RECORD_ONLY = "newRecordOnly";
-    public final static String DISPLAY_FOOTER_INFO = "displayFooterInfo";
-    public final static String DISPLAY_TOOLTIPS = "displayTooltips";
+    public final static String KEY_DISPLAY_FOOTER_INFO = "displayFooterInfo";
+    public final static String KEY_DISPLAY_TOOLTIPS = "displayTooltips";
     public final static String DISPLAY_FIELD_ORDINE = "displayFieldOrdine";
     public final static String DISPLAY_LISTE_COLLEGATE = "displayListeCollegate";
     public final static String USA_FORM_LAYOUT = "usaFormLayout";
@@ -118,4 +118,7 @@ public abstract class Cost {
     public final static String TAG_BOT_REVERT = "usaBottoneRevert";
     public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
 	public final static String TAG_ROL = "role";
+
+
+
 }// end of static class;

@@ -82,7 +82,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotNull
     @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, widthEM = 8, name = "Livello di visibilità", admin = FieldAccessibility.showOnly)
-    @AIColumn(width = 110, name = "Level", roleTypeVisibility = ARoleType.developer)
+    @AIColumn(width = 130, name = "Level", roleTypeVisibility = ARoleType.developer)
     private ARoleType livello;
 
 

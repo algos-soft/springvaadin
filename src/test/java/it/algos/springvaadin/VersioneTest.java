@@ -35,24 +35,24 @@ public class VersioneTest {
     @Autowired
      VersioneRepository repository;
 
-    @Test
+//    @Test
 //    @Transactional
-    public void primo() {
-        service.repository = repository;
-
-        Versione vers1 = new Versione("",3, "alfa", "testino", LocalDate.now());
-        Versione  vers2 = service.newEntity( "",4,"titoli", "prova",LocalDate.now());
-
-        // Execute the method being tested
-        try { // prova ad eseguire il codice
-            service.save(vers1);
-        } catch (Exception unErrore) { // intercetta l'errore
-            int a = 87;
-        }// fine del blocco try-catch
-
-        // Validation
-        assertNotNull(vers1.getId());
-    }// end of method
+//    public void primo() {
+//        service.repository = repository;
+//
+//        Versione vers1 = new Versione("",3, "alfa", "testino", LocalDate.now());
+//        Versione  vers2 = service.newEntity( "",4,"titoli", "prova",LocalDate.now());
+//
+//        // Execute the method being tested
+//        try { // prova ad eseguire il codice
+//            service.save(vers1);
+//        } catch (Exception unErrore) { // intercetta l'errore
+//            int a = 87;
+//        }// fine del blocco try-catch
+//
+//        // Validation
+//        assertNotNull(vers1.getId());
+//    }// end of method
 
 
 }// end of test class

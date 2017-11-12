@@ -81,7 +81,6 @@ public abstract class VersioneBoot {
     }// end of Spring constructor
 
 
-
     /**
      * Creazione di una entity (se non trovata)
      * Log a video
@@ -91,35 +90,7 @@ public abstract class VersioneBoot {
      * @param descrizione (obbligatoria, non unica)
      */
     protected void creaVersione(String progetto, String gruppo, String descrizione) {
-        creaVersione(progetto, "", gruppo, descrizione, "");
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param progetto     (obbligatorio, non unica)
-     * @param siglaCompany (facoltativa)
-     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione  (obbligatoria, non unica)
-     */
-    protected void creaCompany(String progetto, String siglaCompany, String gruppo, String descrizione) {
-        creaVersione(progetto, siglaCompany, gruppo, descrizione, "");
-    }// end of method
-
-
-    /**
-     * Creazione di una entity (se non trovata)
-     * Log a video
-     *
-     * @param progetto     (obbligatorio, non unica)
-     * @param siglaCompany (facoltativa)
-     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione  (obbligatoria, non unica)
-     */
-    protected void creaCompany(String progetto, String siglaCompany, String gruppo, String descrizione, String note) {
-        creaVersione(progetto, siglaCompany, gruppo, descrizione, note);
+        creaVersione(progetto, (Company) null, gruppo, descrizione, "");
     }// end of method
 
 
@@ -133,7 +104,7 @@ public abstract class VersioneBoot {
      * @param note        descrittive (facoltative)
      */
     protected void creaVersione(String progetto, String gruppo, String descrizione, String note) {
-        creaVersione(progetto, "", gruppo, descrizione, note);
+        creaVersione(progetto, (Company) null, gruppo, descrizione, note);
     }// end of method
 
 
@@ -141,15 +112,14 @@ public abstract class VersioneBoot {
      * Creazione di una entity (se non trovata)
      * Log a video
      *
-     * @param progetto     (obbligatorio, non unica)
-     * @param siglaCompany (facoltativa)
-     * @param gruppo       codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
-     * @param descrizione  (obbligatoria, non unica)
-     * @param note         descrittive (facoltative)
+     * @param progetto    (obbligatorio, non unica)
+     * @param company     (facoltativa)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
+     * @param note        descrittive (facoltative)
      */
-    protected void creaVersione(String progetto, String siglaCompany, String gruppo, String descrizione, String note) {
-        Company company;
-        Versione vers = service.crea(progetto, gruppo, descrizione);
+    protected void creaVersione(String progetto, Company company, String gruppo, String descrizione, String note) {
+        Versione vers = service.crea(progetto, company, gruppo, descrizione);
 
         if (LibText.isValid(note)) {
             vers.note = note;
@@ -160,31 +130,20 @@ public abstract class VersioneBoot {
             }// fine del blocco try-catch
         }// end of if cycle
 
-        if (LibText.isValid(siglaCompany)) {
-            company = companyService.findByCode(siglaCompany);
-            if (company != null) {
-                vers.setCompany(company);
-                try { // prova ad eseguire il codice
-                    service.save(vers);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                }// fine del blocco try-catch
-            }// end of if cycle
 
-            //--siamo in fase di boot e NON esiste ancora la session,
-            //  perciò non può prenderla in automatico durante il save standard
-            //  comunque non sono sicuro che serva questo log
-            if (true) {
-                log.warn(gruppo, descrizione);
-                Log logg = logger.newEntity(null, LibText.primaMaiuscola(LogType.versione.toString()), descrizione, null);
-                logg.setCompany(company);
-                try { // prova ad eseguire il codice
-                    logger.save(logg);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                }// fine del blocco try-catch
-            }// end of if/else cycle
-        }// end of if cycle
+        //--siamo in fase di boot e NON esiste ancora la session,
+        //  perciò non può prenderla in automatico durante il save standard
+        //  comunque non sono sicuro che serva questo log
+        if (true) {
+            log.warn(gruppo, descrizione);
+            Log logg = logger.newEntity(null, LibText.primaMaiuscola(LogType.versione.toString()), descrizione, null);
+            logg.setCompany(company);
+            try { // prova ad eseguire il codice
+                logger.save(logg);
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if/else cycle
 
     }// end of method
 
@@ -208,7 +167,7 @@ public abstract class VersioneBoot {
             Object valuePreferenza) {
         return creaPreferenzaAndVersione(
                 progetto,
-                "",
+                (Company) null,
                 codePreferenza,
                 typePreferenza,
                 ARoleType.developer,
@@ -241,7 +200,7 @@ public abstract class VersioneBoot {
             String notePreferenza) {
         return creaPreferenzaAndVersione(
                 progetto,
-                "",
+                (Company) null,
                 codePreferenza,
                 typePreferenza,
                 ARoleType.developer,
@@ -259,7 +218,7 @@ public abstract class VersioneBoot {
      * Log a video
      *
      * @param progetto              (obbligatorio, non unica)
-     * @param siglaCompany          (facoltativa)
+     * @param company               (facoltativa)
      * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param typePreferenza        di dato memorizzato (obbligatorio)
      * @param levelPreferenza       di accesso alla preferenza (obbligatorio)
@@ -271,7 +230,7 @@ public abstract class VersioneBoot {
      */
     protected Preferenza creaPreferenzaAndVersione(
             String progetto,
-            String siglaCompany,
+            Company company,
             String codePreferenza,
             PrefType typePreferenza,
             ARoleType levelPreferenza,
@@ -281,13 +240,10 @@ public abstract class VersioneBoot {
             boolean replica,
             String notePreferenza) {
         Preferenza preferenza = null;
-        Company company = null;
         Versione versione = null;
         String gruppo = "Pref";
         String descrizioneVersione = "Creazione della preferenza " + codePreferenza + " di tipo " + typePreferenza;
         String note = "Senza company specifica, perché è un valore di default \nPuò essere modificato nella singola company";
-
-        company = companyService.findByCode(siglaCompany);
 
         preferenza = preferenzaService.findOrCrea(
                 company,

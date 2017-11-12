@@ -76,9 +76,10 @@ public class VersioneSpringvaadintestBoot extends VersioneSpringvaadinBoot {
         int k = 0;
 
         if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
-            String code = companyData.creaCompanyDemo().getCode();
-            creaVersione(PROGETTO,
-                    code,
+            Company company = companyData.creaCompanyDemo();
+            creaVersione(
+                    PROGETTO,
+                    company,
                     "Demo",
                     "Creata una company demo",
                     "");

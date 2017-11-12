@@ -64,8 +64,26 @@ public class VersioneService extends AlgosServiceImpl {
      * @return la entity trovata o appena creata
      */
     public Versione crea(String progetto, String gruppo, String descrizione) {
+        return crea(progetto, (Company) null, gruppo, descrizione);
+    }// end of method
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * Properties obbligatorie
+     * L'esistenza di una entity di questa collezione è già stata controllata, quindi NON viene ricontrollata
+     * L'ordine viene inserito automaticamente da newEntity()
+     *
+     * @param progetto    (obbligatorio, non unica)
+     * @param company     (facoltativa)
+     * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
+     * @param descrizione (obbligatoria, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Versione crea(String progetto, Company company, String gruppo, String descrizione) {
         try { // prova ad eseguire il codice
-            return (Versione) save(newEntity(progetto, gruppo, descrizione));
+            return (Versione) save(newEntity(progetto, company, gruppo, descrizione));
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
             return null;
@@ -82,7 +100,7 @@ public class VersioneService extends AlgosServiceImpl {
      */
     @Override
     public Versione newEntity() {
-        return newEntity("", 0, "", "", (LocalDate) null);
+        return newEntity("", (Company) null, 0, "", "", (LocalDate) null);
     }// end of method
 
 
@@ -93,13 +111,14 @@ public class VersioneService extends AlgosServiceImpl {
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param progetto    (obbligatorio, non unica)
+     * @param company     (facoltativa)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
      * @param descrizione (obbligatoria, non unica)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(String progetto, String gruppo, String descrizione) {
-        return newEntity(progetto, 0, gruppo, descrizione, (LocalDate) null);
+    public Versione newEntity(String progetto, Company company, String gruppo, String descrizione) {
+        return newEntity(progetto, company, 0, gruppo, descrizione, (LocalDate) null);
     }// end of method
 
 
@@ -110,6 +129,7 @@ public class VersioneService extends AlgosServiceImpl {
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param progetto    (obbligatorio, non unica)
+     * @param company     (facoltativa)
      * @param ordine      (obbligatorio, unico indipendentemente dalla company,
      *                    con controllo automatico prima del save se è zero, non modificabile)
      * @param gruppo      codifica di gruppo per identificare la tipologia della versione (obbligatoria, non unica)
@@ -118,13 +138,23 @@ public class VersioneService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Versione newEntity(String progetto, int ordine, String gruppo, String descrizione, LocalDate evento) {
-        return new Versione(
+    public Versione newEntity(String progetto, Company company, int ordine, String gruppo, String descrizione, LocalDate evento) {
+        Versione versione = new Versione(
                 progetto,
                 ordine == 0 ? this.getNewOrdine(progetto) : ordine,
                 gruppo,
                 descrizione,
                 evento != null ? evento : LocalDate.now());
+
+        if (company != null) {
+            versione.setCompany(company);
+        } else {
+            if (LibSession.isCompanyValida()) {
+                versione.setCompany(LibSession.getCompany());
+            }// end of if cycle
+        }// end of if/else cycle
+
+        return versione;
     }// end of method
 
 

@@ -106,14 +106,22 @@ public class CompanyData {
      * queste vengono create anche per tutte le company (se hanno il flag 'replica' attivo)
      */
     public void updatePreferenze() {
-        List<Company> listaComp = service.findAllAll();
+        updatePreferenze(service.findAllAll());
+    }// end of method
 
+
+    /**
+     * Controlla che le company abbiano tutte le preferenze specifiche
+     * Se non le hanno, le crea
+     * Se in un nuovo update del programma, si aggiungono delle preferenze,
+     * queste vengono create anche per tutte le company (se hanno il flag 'replica' attivo)
+     */
+    public void updatePreferenze(List<? extends Company> listaComp) {
         if (listaComp != null && listaComp.size() > 0) {
             for (Company company : listaComp) {
                 updatePreferenze(company);
             }// end of for cycle
         }// end of if cycle
-
     }// end of method
 
 

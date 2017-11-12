@@ -111,6 +111,7 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
         }// fine del blocco if
 
 
+        //--crea una nuova preferenza, globale per tutte le company
         if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
             creaPreferenzaAndVersione(
                     PROGETTO,
@@ -122,6 +123,7 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
         }// fine del blocco if
 
 
+        //--crea una nuova preferenza, globale per tutte le company
         if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
             creaPreferenzaAndVersione(
                     PROGETTO,
@@ -130,8 +132,30 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
                     "Display only the new record in the grid, after successful editing (persisted).",
                     false);
         }// fine del blocco if
-    }// end of method
 
+        //--crea una nuova preferenza, globale per tutte le company
+        if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
+            creaPreferenzaAndVersione(
+                    PROGETTO,
+                    Cost.KEY_DISPLAY_FOOTER_INFO,
+                    PrefType.bool,
+                    "Visualizza nel footer copyright ed informazioni sul programma.",
+                    true);
+        }// fine del blocco if
+
+
+        //--crea una nuova preferenza, globale per tutte le company
+        if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
+            creaPreferenzaAndVersione(
+                    PROGETTO,
+                    Cost.KEY_DISPLAY_TOOLTIPS,
+                    PrefType.bool,
+                    "Visualizza i toolTips di aiuto nel rollover sui campi del Form (occorre riavviare).",
+                    false);
+        }// fine del blocco if
+
+
+    }// end of method
 
     /**
      * Cronistoria delle versioni istallate nel progetto specifico

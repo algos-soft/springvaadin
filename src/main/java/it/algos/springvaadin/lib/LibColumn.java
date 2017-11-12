@@ -27,8 +27,8 @@ public abstract class LibColumn {
     public final static int WIDTH_TEXT_NORMAL = 100;
     public final static int WIDTH_TEXT_LARGE = 120;
     public final static int WIDTH_BYTE = 160;
-    public final static int WIDTH_LOCAL_DATE = 130;
-    public final static int WIDTH_LOCAL_DATE_TIME = 160;
+    public final static int WIDTH_LOCAL_DATE = 160;
+    public final static int WIDTH_LOCAL_DATE_TIME = 200;
 
 
 //    public static Annotation getAnnotation(Field field) {

@@ -172,7 +172,11 @@ public class PreferenzaService extends AlgosServiceImpl {
 
         if (company != null) {
             preferenza.setCompany(company);
-        }// end of if cycle
+        } else {
+            if (LibSession.isCompanyValida()) {
+                preferenza.setCompany(LibSession.getCompany());
+            }// end of if cycle
+        }// end of if/else cycle
 
         return preferenza;
     }// end of method

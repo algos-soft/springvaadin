@@ -104,7 +104,7 @@ public class Stato extends AEntity {
     @Indexed(unique = false)
     @Size(min = 3, max = 3)
     @AIField(type = AFieldType.text, widthEM = 6, onlyNumber = true, help = "Codifica ISO 3166-1 numerico")
-    @AIColumn(width = 100)
+    @AIColumn(width = 100,name = "Code")
     private String numerico;
 
 
