@@ -6,6 +6,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
@@ -15,6 +16,7 @@ import it.algos.springvaadin.renderer.ByteStringRenderer;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
@@ -28,6 +30,8 @@ import java.util.List;
  */
 public abstract class AlgosListImpl extends VerticalLayout implements AlgosList {
 
+    @Autowired
+    private PreferenzaService pref;
 
     //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
     public AlgosService service;
@@ -101,7 +105,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         fixToolbar();
         this.addComponent((ListToolbar) toolbar);
 
-        if (AlgosApp.USE_DEBUG) {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG)) {
             this.addStyleName("rosso");
             grid.addStyleName("verde");
         }// fine del blocco if

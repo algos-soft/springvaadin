@@ -1,5 +1,6 @@
 package it.algos.springvaadin.bootstrap;
 
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyData;
 import it.algos.springvaadin.entity.company.CompanyService;
@@ -70,7 +71,10 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
     protected void inizializza() {
         this.cronistoriaVersioniSpringvaadin();
         this.cronistoriaVersioniProgetto();
-        companyData.updatePreferenze();
+
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            companyData.updatePreferenze();
+        }// end of if cycle
     }// end of method
 
 

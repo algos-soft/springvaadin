@@ -1,5 +1,7 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.data.HasValue;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -48,6 +50,27 @@ public class ACheckBoxField extends AField<Boolean> {
         if (value instanceof Boolean) {
             checkBox.setValue((Boolean) value);
         }// end of if cycle
+    }// end of method
+
+    /**
+     * Aggiunge il listener al field
+     */
+    @Override
+    protected void addListener() {
+
+        if (checkBox != null) {
+            checkBox.addValueChangeListener(new HasValue.ValueChangeListener() {
+                @Override
+                public void valueChange(ValueChangeEvent valueChangeEvent) {
+                    publish();
+                }// end of inner method
+            });// end of anonymous inner class
+        }// end of if cycle
+
+    }// end of method
+
+    public CheckBox getCheckBox() {
+        return checkBox;
     }// end of method
 
 }// end of class

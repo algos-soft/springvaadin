@@ -290,8 +290,8 @@ public class PreferenzaService extends AlgosServiceImpl {
      *
      * @return valore della preferenza, nella classe prevista da PrefType
      */
-    public Boolean isBool(String code) {
-        return isBool(code, false);
+    public Boolean isTrue(String code) {
+        return isTrue(code, false);
     } // end of method
 
 
@@ -304,8 +304,8 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return valore della preferenza, nella classe prevista da PrefType, se viene trovata
      * valoreSuggerito, se non trova la preferenza
      */
-    public Boolean isBool(String code, boolean valoreSuggerito) {
-        return isBool(LibSession.getCompany(), code, valoreSuggerito);
+    public Boolean isTrue(String code, boolean valoreSuggerito) {
+        return isTrue(LibSession.getCompany(), code, valoreSuggerito);
     } // end of method
 
 
@@ -323,7 +323,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @return valore della preferenza, nella classe prevista da PrefType, se viene trovata
      * valoreSuggerito, se non trova la preferenza
      */
-    public Boolean isBool(Company company, String code, boolean valoreSuggerito) {
+    public Boolean isTrue(Company company, String code, boolean valoreSuggerito) {
         boolean status = valoreSuggerito;
         Preferenza pref;
         PrefType type;

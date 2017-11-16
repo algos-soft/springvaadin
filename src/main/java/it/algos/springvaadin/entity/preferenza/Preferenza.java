@@ -108,7 +108,7 @@ public class Preferenza extends ACompanyEntity {
      * effetti (obbligatorio, di default 1)
      */
     @NotNull
-    @AIField(type = AFieldType.radio, required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
+    @AIField(type = AFieldType.radio, clazz = PrefEffect.class,required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     private PrefEffect attivazione;
 

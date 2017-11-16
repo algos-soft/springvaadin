@@ -14,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -76,6 +74,12 @@ public class AlgosController {
         return "Hello, " + name + "!";
     }
 
+//    @GetMapping("/admin/")
+//    public String admin(ModelMap model) {
+//        model.addAttribute("message", "Create Spring Security Hello World Example with Annotations");
+//        model.addAttribute("author", "Admin of Dinesh on Java");
+//        return "admin";
+//    }
 
 //    @RequestMapping(value = "*", method = RequestMethod.GET)
 //    public ModelAndView getdata() {

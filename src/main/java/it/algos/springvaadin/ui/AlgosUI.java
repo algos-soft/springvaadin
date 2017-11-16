@@ -133,7 +133,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             creaSingoloPanel();
         }// end of if/else cycle
 
-        if (pref.isBool(Cost.KEY_USE_DEBUG, false)) {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             root.addStyleName("blueBg");
             panel.addStyleName("blueBg");
             viewPlaceholder.addStyleName("yellowBg");

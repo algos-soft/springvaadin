@@ -11,6 +11,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationListener;
 
 import java.lang.reflect.Field;
@@ -24,13 +25,13 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
     //--la lista specifica viene iniettata dal costruttore della sottoclasse concreta
     private AlgosList list;
-
+SecurityProperties.User pippo;
 
     //--il form specifico viene iniettato dal costruttore della sottoclasse concreta
     private AlgosForm form;
 
 
-    private AlgosPresenterImpl presenter;
+    protected AlgosPresenterImpl presenter;
 
     /**
      * Costruttore @Autowired (nella superclasse)

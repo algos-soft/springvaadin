@@ -1,6 +1,8 @@
 package it.algos.springvaadin.field;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -94,6 +96,7 @@ public class AJSonField extends AField {
 
         placeholder.removeAllComponents();
         placeholder.addComponent(jSonField);
+        this.addListener();
     }// end of method
 
 
@@ -147,6 +150,32 @@ public class AJSonField extends AField {
         }// end of if cycle
     }// end of method
 
+
+    /**
+     * Aggiunge il listener al field
+     */
+    protected void addListener() {
+        if (jSonField != null) {
+            jSonField.addValueChangeListener(new HasValue.ValueChangeListener<String>() {
+                @Override
+                public void valueChange(HasValue.ValueChangeEvent<String> valueChangeEvent) {
+                    publish();
+                }// end of inner method
+            });// end of anonymous inner class
+
+            if (jSonField instanceof ACheckBoxField) {
+                ACheckBoxField checkBoxField=(ACheckBoxField)jSonField;
+                CheckBox checkBox=checkBoxField.getCheckBox();
+                checkBox.addValueChangeListener(new HasValue.ValueChangeListener() {
+                    @Override
+                    public void valueChange(ValueChangeEvent valueChangeEvent) {
+                        publish();
+                    }// end of inner method
+                });// end of anonymous inner class
+            }// end of if cycle
+
+        }// end of if cycle
+    }// end of method
 
     public void refreshFromComboField(PrefType type) {
         setType(type);
