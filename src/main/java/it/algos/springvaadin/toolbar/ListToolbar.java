@@ -42,6 +42,7 @@ public class ListToolbar extends AToolbarImpl {
         super(buttonFactory);
     }// end of @Autowired constructor
 
+
     /**
      * Metodo invocato da restart() di Form e List
      * Seleziona i bottoni da mostrare nella toolbar

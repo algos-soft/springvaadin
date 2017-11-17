@@ -4,6 +4,8 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.dialog.ConfirmDialog;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -14,7 +16,11 @@ import it.algos.springvaadin.view.AlgosView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Created by gac on 11-ott-17
@@ -37,5 +43,14 @@ public class PersonaPresenter extends AlgosPresenterImpl {
         super.entityClass = Persona.class;
      }// end of Spring constructor
 
+
+    @Override
+    protected List<Field> getFormFieldsLink() {
+        List<Field> reflectedFields = service.getFormFieldsLink();
+        reflectedFields.remove(0); //--rimuove il campo idKey
+        reflectedFields.remove(0); //--rimuove il campo company
+
+        return reflectedFields;
+    }// end of method
 
 }// end of class

@@ -1,6 +1,7 @@
 package it.algos.springvaadin.entity.persona;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
@@ -33,14 +34,14 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_PER)
-@AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
+@AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.facoltativa)
 @AIList()
 @AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Persona extends AEntity {
+public class Persona extends ACompanyEntity {
 
 
     /**

@@ -139,7 +139,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(true);
         } else {
             ((LinkToolbar) toolbar).setUsaBottoneRegistra(false);
-            reflectedFields.remove(0); //--rimuove il campo idKey
         }// end of if/else cycle
 
         usaSeparateFormDialog(source, target, entityBean, sourceField, reflectedFields);
@@ -170,7 +169,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         //--Prepara la caption e la aggiunge al layout
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        fixTop();
+        fixTop(this);
 
         /**
          * Crea un nuovo binder per questo Form e questa Entity
@@ -187,27 +186,37 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         //--Prepara la toolbar e la aggiunge al layout
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        fixToolbar();
+        fixToolbar(this);
     }// end of method
 
     /**
      * Prepara la caption e la aggiunge al contenitore grafico
      * Sovrascrivibile
      */
-    protected void fixTop() {
+    protected void fixTop(Layout layout) {
         String caption = fixCaption(entityBean);
         Label label = new LabelRosso(caption);
-        this.addComponent(label);
+        layout.addComponent(label);
     }// end of method
 
     /**
      * Prepara la toolbar e la aggiunge al contenitore grafico
      * Sovrascrivibile
      */
-    protected void fixToolbar() {
+    protected void fixToolbar(Layout layout) {
         List<String> listaBottoni = service.getFormBottonNames();
         toolbar.inizializza(source, listaBottoni);
-        this.addComponent(toolbar.get());
+        layout.addComponent(toolbar.get());
+    }// end of method
+
+
+    /**
+     * Prepara la toolbar e la aggiunge al contenitore grafico
+     * Sovrascrivibile
+     */
+    protected void fixToolbar(Layout layout, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+        toolbar.inizializza(source, target, entityBean, sourceField);
+        layout.addComponent(toolbar.get());
     }// end of method
 
 
@@ -220,8 +229,6 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      */
     protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectedFields) {
-        String caption = "";
-        Label label;
         this.removeAllComponents();
 
         if (window != null) {
@@ -237,19 +244,15 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
         VerticalLayout layout = new VerticalLayout();
 
-        caption = fixCaption(entityBean);
-        label = new LabelRosso(caption);
-        layout.addComponent(label);
-        if (AlgosApp.USE_DEBUG) {
-            label.addStyleName("greenBg");
-        }// fine del blocco if
+        //--Prepara la caption e la aggiunge al layout
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixTop(layout);
 
         fixFields(target, layout, reflectedFields, entityBean);
 
-        layout.addComponent(new Label());
-        toolbar.inizializza(source, target, entityBean, sourceField);
-        fixToolbar();
-        layout.addComponent((AToolbarImpl) toolbar);
+        //--Prepara la toolbar e la aggiunge al layout
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        fixToolbar(layout, source, target, entityBean, sourceField);
 
         window.setContent(layout);
         window.center();

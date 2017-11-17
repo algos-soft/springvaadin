@@ -9,6 +9,9 @@ import it.algos.springvaadin.view.AlgosView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 /**
  * Created by gac on 07-ago-17
  * Annotated with @SpringComponent (obbligatorio)
@@ -30,5 +33,13 @@ public class IndirizzoPresenter extends AlgosPresenterImpl {
         super.entityClass = Indirizzo.class;
     }// end of Spring constructor
 
+
+    @Override
+    protected List<Field> getFormFieldsLink() {
+        List<Field> reflectedFields = service.getFormFieldsLink();
+        reflectedFields.remove(0); //--rimuove il campo idKey
+
+        return reflectedFields;
+    }// end of method
 
 }// end of class

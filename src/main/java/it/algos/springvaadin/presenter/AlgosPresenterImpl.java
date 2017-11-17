@@ -194,7 +194,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      */
     @Override
     public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
-        List<Field> reflectFields = service.getFormFieldsLink();
+        List<Field> reflectFields = getFormFieldsLink();
 
         if (entityBean == null) {
             entityBean = service.newEntity();
@@ -203,6 +203,10 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         view.setFormLink(source, this, entityBean, sourceField, reflectFields, type);
     }// end of method
 
+
+    protected List<Field> getFormFieldsLink() {
+        return service.getFormFieldsLink();
+    }// end of method
 
     /**
      * Evento

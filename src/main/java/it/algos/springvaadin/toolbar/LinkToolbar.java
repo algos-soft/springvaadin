@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 
+import java.util.List;
+
 /**
  * Created by gac on 23/06/17
  * <p>
@@ -57,7 +59,7 @@ public class LinkToolbar extends AToolbarImpl {
      */
     @Override
     public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
-        this.removeAllComponents();
+        super.deleteAllButtons();
 
         super.creaAddButton(AButtonType.back, source, target, entityBean, sourceField);
         super.creaAddButton(AButtonType.revert, target, target, entityBean, sourceField);
@@ -68,6 +70,8 @@ public class LinkToolbar extends AToolbarImpl {
             super.creaAddButton(AButtonType.linkAccetta, source, target, entityBean, sourceField);
         }// end of if/else cycle
     }// end of method
+
+
 
 
     public void setUsaBottoneRegistra(boolean usaBottoneRegistra) {

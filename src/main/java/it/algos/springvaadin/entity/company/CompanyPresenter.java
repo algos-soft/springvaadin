@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 /**
  * Created by gac on 01/06/17
  * Annotated with @SpringComponent (obbligatorio)
@@ -36,6 +39,7 @@ public class CompanyPresenter extends AlgosPresenterImpl {
         super(view, service, search);
         super.entityClass = Company.class;
     }// end of Spring constructor
+
 
 
     @Override
