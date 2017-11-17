@@ -267,11 +267,11 @@ public class AlgosStartService {
      * Recupera la sigla dell'Utente come parametro in ingresso.
      * Il nickname del User, contenuto nell'URI, è recuperato se presente nella forma:
      * 1) /user=gac
-     * 2) /utente=gac
+     * 2) /user=gac
      * 3) /admin=gac
      * 4) /developer=gac
      * 5) /?user=gac
-     * 6) /?utente=gac
+     * 6) /?user=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
      * 9) /company=demo&user=gac
@@ -285,7 +285,7 @@ public class AlgosStartService {
     public String getSiglaUtente(String url) {
         String siglaUtente = "";
         Map<String, String> mappaParams = getParams(url);
-        String[] tagUtenti = {"user", "ute", "utente", "admin", "dev", "developer"};
+        String[] tagUtenti = {"user", "ute", "user", "admin", "dev", "developer"};
         String tagVuoto = "";
         String tagIniPatch = "v-";
 
@@ -301,14 +301,14 @@ public class AlgosStartService {
     }// end of method
 
     /**
-     * Recupera il ruolo dell'utente come parametro in ingresso.
-     * Il ruolo dell'utente, contenuto nell'URI, è recuperato se presente nella forma:
+     * Recupera il ruolo dell'user come parametro in ingresso.
+     * Il ruolo dell'user, contenuto nell'URI, è recuperato se presente nella forma:
      * 1) /user=gac
-     * 2) /utente=gac
+     * 2) /user=gac
      * 3) /admin=gac
      * 4) /developer=gac
      * 5) /?user=gac
-     * 6) /?utente=gac
+     * 6) /?user=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
      * 9) /company=demo&user=gac
@@ -334,14 +334,14 @@ public class AlgosStartService {
     }// end of  method
 
     /**
-     * Recupera il ruolo dell'utente come parametro in ingresso.
-     * Il ruolo dell'utente, contenuto nell'URI, è recuperato se presente nella forma:
+     * Recupera il ruolo dell'user come parametro in ingresso.
+     * Il ruolo dell'user, contenuto nell'URI, è recuperato se presente nella forma:
      * 1) /user=gac
-     * 2) /utente=gac
+     * 2) /user=gac
      * 3) /admin=gac
      * 4) /developer=gac
      * 5) /?user=gac
-     * 6) /?utente=gac
+     * 6) /?user=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
      * 9) /company=demo&user=gac
@@ -354,7 +354,7 @@ public class AlgosStartService {
      */
     public ARoleType getRoleUtente(String url) {
         ARoleType ruoloUtente = null;
-        String[] tagUtente = {"user", "ute", "utente"};
+        String[] tagUtente = {"user", "ute", "user"};
         String[] tagAdmin = {"admin"};
         String[] tagDeveloper = {"dev", "developer"};
         Map<String, String> mappaParams = getParams(url);

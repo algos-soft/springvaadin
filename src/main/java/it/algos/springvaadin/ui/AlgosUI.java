@@ -108,7 +108,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     }// end of method
 
     /**
-     * Crea l'annotation utente (User Interface) iniziale dell'applicazione
+     * Crea l'annotation user (User Interface) iniziale dell'applicazione
      * Crea i menu specifici
      * Layout standard composto da:
      * Top      - una barra composita di menu e login
@@ -124,7 +124,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         root.setSizeFull();
         this.setContent(root);
 
-        //--Crea l'annotation utente (User Interface)
+        //--Crea l'annotation user (User Interface)
         //--si può usare una UI divisa in 3 sezioni (menu, body, footer)
         //--oppure a schermo pieno (panel),
         if (usaViewTreComponenti) {
@@ -148,7 +148,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     }// end of method
 
     /**
-     * Crea l'annotation utente (User Interface) iniziale dell'applicazione
+     * Crea l'annotation user (User Interface) iniziale dell'applicazione
      * Top  - una barra composita di menu e login
      * Body - un placeholder per il portale della tavola/modulo
      * Footer - un striscia per eventuali informazioni (Algo, copyright, ecc)
@@ -180,7 +180,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
 
     /**
-     * Crea l'annotation utente (User Interface) iniziale dell'applicazione
+     * Crea l'annotation user (User Interface) iniziale dell'applicazione
      * Panel - un placeholder per il portale della tavola/modulo
      * Le applicazioni specifiche, possono sovrascrivere questo metodo nella sottoclasse
      * Il panel viene inserito a livello di root

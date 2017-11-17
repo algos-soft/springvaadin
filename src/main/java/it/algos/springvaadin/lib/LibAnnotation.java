@@ -1361,7 +1361,7 @@ public abstract class LibAnnotation {
      * Get the status of visibility for the field of ACompanyEntity.
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
      * Controlla se la collection (table) usa la company
-     * Controlla se l'utente collegato è un developer
+     * Controlla se l'user collegato è un developer
      *
      * @param clazz the entity class
      *
@@ -1438,7 +1438,7 @@ public abstract class LibAnnotation {
 
     /**
      * Get the visibility of the field.
-     * Controlla il ruolo dell'utente connesso
+     * Controlla il ruolo dell'user connesso
      * Controlla il grado di accesso consentito
      * Di default true
      *
@@ -1460,7 +1460,7 @@ public abstract class LibAnnotation {
 
     /**
      * Get the visibility of the field.
-     * Controlla il ruolo dell'utente connesso
+     * Controlla il ruolo dell'user connesso
      *
      * @param field reflectionField di riferimento per estrarre le Annotation
      *

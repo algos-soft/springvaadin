@@ -98,7 +98,7 @@ public class SpringVaadinBoot extends AlgosBoot {
         AlgosApp.USE_SECURITY = true;
         log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
 
-        AlgosApp.USE_MULTI_COMPANY = false;
+        AlgosApp.USE_MULTI_COMPANY = true;
         log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_VERS = true;

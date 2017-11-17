@@ -37,6 +37,8 @@ public abstract class Cost {
     public final static String TAG_LOG = "log";
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
+    public final static String TAG_ROL = "role";
+    public final static String TAG_USE = "user";
 
     public final static String BOT_ACCETTA = "accetta";
     public final static String BOT_ANNULLA = "annulla";
@@ -117,8 +119,4 @@ public abstract class Cost {
     public final static String TAG_BOT_ANNULLA = "usaBottoneAnnulla";
     public final static String TAG_BOT_REVERT = "usaBottoneRevert";
     public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
-	public final static String TAG_ROL = "role";
-
-
-
 }// end of static class;

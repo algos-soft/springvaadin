@@ -78,7 +78,7 @@ public class Preferenza extends ACompanyEntity {
 
 
     /**
-     * tipo di utente che può visualizzare/modificare le preferenze (obbligatorio)
+     * tipo di user che può visualizzare/modificare le preferenze (obbligatorio)
      */
     @NotNull
     @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, widthEM = 8, name = "Livello di visibilità", admin = FieldAccessibility.showOnly)

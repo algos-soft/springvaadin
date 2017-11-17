@@ -2,11 +2,11 @@
 <project name="newPackage" default="creaPackageSpringvaadin">
 
     <!--Valori sicuramente da regolare in un nuovo modulo-->
-    <property name="newEntity" value="Role"/>
+    <property name="newEntity" value="Utente"/>
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="currentProject" value="Role"/>
+    <property name="currentProject" value="Utente"/>
     <property name="nomeBaseFramework" value="springvaadin"/>
     <!--Fine dei valori facoltativi-->
 

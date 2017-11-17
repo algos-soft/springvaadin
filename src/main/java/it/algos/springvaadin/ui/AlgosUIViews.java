@@ -1,5 +1,6 @@
 package it.algos.springvaadin.ui;
 
+import it.algos.springvaadin.entity.user.UserNavView;
 import it.algos.springvaadin.entity.role.RoleNavView;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
@@ -9,7 +10,6 @@ import it.algos.springvaadin.entity.log.Log;
 import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.persona.PersonaNavView;
 import it.algos.springvaadin.entity.log.LogNavView;
-import com.vaadin.server.VaadinSession;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.stato.StatoNavView;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoNavView;
@@ -18,13 +18,8 @@ import com.vaadin.server.VaadinRequest;
 import it.algos.springvaadin.entity.company.CompanyNavView;
 import it.algos.springvaadin.entity.versione.Versione;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
-import it.algos.springvaadin.entity.versione.VersioneView;
 import it.algos.springvaadin.help.HelpNavView;
-import it.algos.springvaadin.help.HelpView;
 import it.algos.springvaadin.home.HomeNavView;
-import it.algos.springvaadin.home.HomeView;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibParams;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -96,6 +91,7 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
+		menuLayout.addView(UserNavView.class);
         if (LibSession.isDeveloper()) {
             menuLayout.addView(RoleNavView.class);
         }// end of if cycle

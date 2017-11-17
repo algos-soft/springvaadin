@@ -189,7 +189,7 @@ public interface AlgosService {
      * <p>
      * Deve essere true il flag useMultiCompany
      * La Entity deve estendere ACompanyEntity
-     * L'utente collegato deve essere developer
+     * L'user collegato deve essere developer
      */
     public boolean displayCompany();
 
