@@ -45,6 +45,7 @@ public abstract class LibArray {
      * Vengono eliminati gli spazi vuoti iniziali e finali
      *
      * @param testo da suddividere
+     *
      * @return una lista contenente le parti di stringa separate
      */
     public static ArrayList<String> fromStringaVirgola(String testo) {
@@ -59,6 +60,7 @@ public abstract class LibArray {
      *
      * @param testo da suddividere
      * @param sep   separatore
+     *
      * @return una lista contenente le parti di stringa separate
      */
     public static ArrayList<String> fromStringa(String testo, String sep) {
@@ -87,6 +89,7 @@ public abstract class LibArray {
      * Convert a stringArray to ArrayList
      *
      * @param stringArray to convert
+     *
      * @return the corresponding casted ArrayList
      */
     public static ArrayList<String> fromString(String[] stringArray) {
@@ -97,6 +100,7 @@ public abstract class LibArray {
      * Convert a intArray to ArrayList
      *
      * @param intArray to convert
+     *
      * @return the corresponding casted ArrayList
      */
     public static ArrayList<Integer> fromInt(int[] intArray) {
@@ -113,6 +117,7 @@ public abstract class LibArray {
      * Convert a longArray to ArrayList
      *
      * @param longArray to convert
+     *
      * @return the corresponding casted ArrayList
      */
     public static ArrayList<Long> fromLong(long[] longArray) {
@@ -130,6 +135,7 @@ public abstract class LibArray {
      * Convert a objArray to ArrayList
      *
      * @param objArray to convert
+     *
      * @return the corresponding casted ArrayList
      */
     public static ArrayList<Object> fromObj(Object[] objArray) {
@@ -147,6 +153,7 @@ public abstract class LibArray {
      * Estrae i valori unici da un lista con (eventuali) valori doppi
      *
      * @param listaValoriDoppi in ingresso
+     *
      * @return valoriUnici NON ordinati, null se listaValoriDoppi è null
      */
     public static ArrayList valoriUniciDisordinati(ArrayList listaValoriDoppi) {
@@ -158,6 +165,7 @@ public abstract class LibArray {
      * Estrae i valori unici da un matrice (objArray) con (eventuali) valori doppi
      *
      * @param objArray in ingresso
+     *
      * @return valoriUnici NON ordinati, null se objArray è null
      */
     public static ArrayList valoriUniciDisordinati(Object[] objArray) {
@@ -173,6 +181,7 @@ public abstract class LibArray {
      * L'ordinamento funziona SOLO se la lista è omogenea (oggetti della stessa classe)
      *
      * @param listaValoriDoppi in ingresso
+     *
      * @return valoriUnici ORDINATI, null se listaValoriDoppi è null
      */
     public static ArrayList valoriUnici(ArrayList listaValoriDoppi) {
@@ -188,6 +197,7 @@ public abstract class LibArray {
      * L'ordinamento funziona SOLO se la lista è omogenea (oggetti della stessa classe)
      *
      * @param objArray in ingresso
+     *
      * @return valoriUnici ORDINATI, null se listaValoriDoppi è null
      */
     public static ArrayList valoriUnici(Object[] objArray) {
@@ -202,6 +212,7 @@ public abstract class LibArray {
      * L'ordinamento funziona SOLO se la lista è omogenea (oggetti della stessa classe)
      *
      * @param intArray in ingresso
+     *
      * @return valoriUnici ORDINATI, null se listaValoriDoppi è null
      */
     public static ArrayList valoriUnici(int[] intArray) {
@@ -216,6 +227,7 @@ public abstract class LibArray {
      * L'ordinamento funziona SOLO se la lista è omogenea (oggetti della stessa classe)
      *
      * @param longArray in ingresso
+     *
      * @return valoriUnici ORDINATI, null se listaValoriDoppi è null
      */
     public static ArrayList valoriUnici(long[] longArray) {
@@ -231,6 +243,7 @@ public abstract class LibArray {
      *
      * @param listaValoriDoppi in ingresso
      * @param ordina           tag per forzare l'ordinamento
+     *
      * @return valoriUnici disordinati oppure ordinati, null se listaValoriDoppi è null
      */
     @SuppressWarnings("all")
@@ -256,6 +269,7 @@ public abstract class LibArray {
      * L'ordinamento funziona SOLO se la lista è omogenea (oggetti della stessa classe)
      *
      * @param listaDisordinata in ingresso
+     *
      * @return lista ordinata, null se listaDisordinata è null
      */
     public static ArrayList sort(ArrayList listaDisordinata) {
@@ -276,6 +290,7 @@ public abstract class LibArray {
      * Ordina la lista, tenendo conto degli accenti
      *
      * @param listaDisordinata in ingresso
+     *
      * @return lista ordinata, null se listaDisordinata è null
      */
     public static ArrayList<String> sortAccentiSensibile(ArrayList<String> listaDisordinata) {
@@ -293,6 +308,7 @@ public abstract class LibArray {
      *
      * @param lista    che viene modificata
      * @param elemento da inserire, se manca
+     *
      * @return vero se l'elemento è stato aggiunto
      */
     @SuppressWarnings("all")
@@ -319,6 +335,7 @@ public abstract class LibArray {
      *
      * @param arrayPrimo   - prima lista
      * @param arraySecondo - seconda lista
+     *
      * @return arraySomma disordinata
      */
     public static ArrayList sommaDisordinata(ArrayList arrayPrimo, ArrayList arraySecondo) {
@@ -362,6 +379,7 @@ public abstract class LibArray {
      *
      * @param arrayPrimo   - prima lista
      * @param arraySecondo - seconda lista
+     *
      * @return arraySomma ordinata
      */
     public static ArrayList somma(ArrayList arrayPrimo, ArrayList arraySecondo) {
@@ -388,6 +406,7 @@ public abstract class LibArray {
      *
      * @param arrayPrimo   - prima lista
      * @param arraySecondo - seconda lista
+     *
      * @return arrayDifferenza disordinato
      */
     @SuppressWarnings("all")
@@ -429,6 +448,7 @@ public abstract class LibArray {
      *
      * @param arrayPrimo   - prima lista
      * @param arraySecondo - seconda lista
+     *
      * @return arrayDifferenza disordinato
      */
     @SuppressWarnings("all")
@@ -447,6 +467,7 @@ public abstract class LibArray {
      * <p>
      *
      * @param array lista di valori
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String toStringaPipe(ArrayList array) {
@@ -458,6 +479,7 @@ public abstract class LibArray {
      * <p>
      *
      * @param array lista di valori
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String toStringaVirgola(ArrayList array) {
@@ -470,6 +492,7 @@ public abstract class LibArray {
      *
      * @param array lista di valori
      * @param sep   carattere separatore
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String toStringa(List array, String sep) {
@@ -491,6 +514,7 @@ public abstract class LibArray {
      * <p>
      *
      * @param stringArray to convert
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String fromStringToStringaPipe(String[] stringArray) {
@@ -502,6 +526,7 @@ public abstract class LibArray {
      * <p>
      *
      * @param stringArray to convert
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String fromStringToStringaVirgola(String[] stringArray) {
@@ -514,6 +539,7 @@ public abstract class LibArray {
      *
      * @param stringArray to convert
      * @param sep         carattere separatore
+     *
      * @return stringa con i singoli valori divisi da un separatore
      */
     public static String fromStringToStringa(String[] stringArray, String sep) {
@@ -525,6 +551,7 @@ public abstract class LibArray {
      * Recupera una lista delle chiavi di una mappa
      *
      * @param mappa in ingresso
+     *
      * @return lista delle chiavi
      */
     public static ArrayList getKeyFromMap(HashMap mappa) {
@@ -544,6 +571,7 @@ public abstract class LibArray {
      * Recupera una lista dei valori di una mappa
      *
      * @param mappa in ingresso
+     *
      * @return lista delle chiavi
      */
     public static ArrayList getValueFromMap(HashMap mappa) {
@@ -566,6 +594,7 @@ public abstract class LibArray {
      *
      * @param expected previsto
      * @param actual   effettivo
+     *
      * @return vero, se gli array sono lunghi uguali ed hanno gli stessi valori (disordinati)
      */
     public static boolean isArrayEquals(ArrayList expected, ArrayList actual) {
@@ -595,6 +624,7 @@ public abstract class LibArray {
      *
      * @param expected previsto
      * @param actual   effettivo
+     *
      * @return vero, se gli array sono lunghi uguali ed hanno gli stessi valori (ordinati)
      */
     public static boolean isArrayEqualsOrdinati(ArrayList expected, ArrayList actual) {
@@ -622,6 +652,7 @@ public abstract class LibArray {
      *
      * @param expected prevista
      * @param actual   effettiva
+     *
      * @return vero, se le mappe sono lunghe uguali, hanno le stesse chiavi e gli stessi valori
      */
     public static boolean isMapEquals(HashMap expected, HashMap actual) {
@@ -660,6 +691,7 @@ public abstract class LibArray {
      *
      * @param totale da dividere
      * @param blocco divisore
+     *
      * @return numero di cicli
      */
     public static int numCicli(int totale, int blocco) {
@@ -693,6 +725,7 @@ public abstract class LibArray {
      * @param listatTotale  da suddividere
      * @param dimBlocco     di suddivisione
      * @param cicloCorrente attuale
+     *
      * @return sublista corrente del ciclo
      */
     public static ArrayList<String> estraeSublistaStr(ArrayList<String> listatTotale, int dimBlocco, int cicloCorrente) {
@@ -717,6 +750,7 @@ public abstract class LibArray {
      * @param listatTotale  da suddividere
      * @param dimBlocco     di suddivisione
      * @param cicloCorrente attuale
+     *
      * @return sublista corrente del ciclo
      */
     public static ArrayList<Integer> estraeSublistaInt(ArrayList<Integer> listatTotale, int dimBlocco, int cicloCorrente) {
@@ -740,6 +774,7 @@ public abstract class LibArray {
      * @param listatTotale  da suddividere
      * @param dimBlocco     di suddivisione
      * @param cicloCorrente attuale
+     *
      * @return sublista corrente del ciclo
      */
     public static ArrayList<Long> estraeSublistaLong(ArrayList<Long> listatTotale, int dimBlocco, int cicloCorrente) {
@@ -765,6 +800,7 @@ public abstract class LibArray {
      * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
+     *
      * @return mappa ordinata
      */
     public static LinkedHashMap ordinaMappa(Map mappaIn) {
@@ -799,6 +835,7 @@ public abstract class LibArray {
      * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
+     *
      * @return mappa ordinata
      */
     public static LinkedHashMap<String, Object> ordinaMappaAccentiSensibile(Map mappaIn) {
@@ -836,6 +873,7 @@ public abstract class LibArray {
      * Viceversa una LinkedHashMap ha un -proprio ordine interno- fissato alla nuovo
      *
      * @param mappaIn ingresso da ordinare
+     *
      * @return mappa ordinata
      */
     private static LinkedHashMap ordinaMappaBase(Map mappaIn, Collator usCollator) {
@@ -891,5 +929,41 @@ public abstract class LibArray {
     public static boolean isNotValido(List lista) {
         return !isValido(lista);
     }// end of static method
+
+
+    /**
+     * Modifica l'ordine della lista di stringhe
+     *
+     * @param lista               di stringhe da modificare
+     * @param valoreDaInserire    stringa da spostare
+     * @param valoreDiRiferimento stringa di riferimento
+     */
+    public static List<String> inseriscePrima(List<String> lista, String valoreDaInserire, String valoreDiRiferimento) {
+        int pos = 0;
+
+        lista.remove(valoreDaInserire);
+        pos = lista.indexOf(valoreDiRiferimento);
+        lista.add(pos, valoreDaInserire);
+
+        return lista;
+    }// end of method
+
+
+    /**
+     * Modifica l'ordine della lista di stringhe
+     *
+     * @param lista               di stringhe da modificare
+     * @param valoreDaInserire    stringa da spostare
+     * @param valoreDiRiferimento stringa di riferimento
+     */
+    public static List<String> inserisceDopo(List<String> lista, String valoreDaInserire, String valoreDiRiferimento) {
+        int pos = 0;
+
+        lista.remove(valoreDaInserire);
+        pos = lista.indexOf(valoreDiRiferimento)+1;
+        lista.add(pos, valoreDaInserire);
+
+        return lista;
+    }// end of method
 
 }// end of abstract static class

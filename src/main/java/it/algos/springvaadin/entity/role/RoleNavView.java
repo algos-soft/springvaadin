@@ -3,7 +3,9 @@ package it.algos.springvaadin.entity.role;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.annotation.AIEntity;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Annotated with @SpringView (obbligatorio)
  */
 @SpringView(name = Cost.TAG_ROL)
+@AIEntity(roleTypeVisibility = ARoleType.developer)
 public class RoleNavView extends AlgosNavView {
 
 

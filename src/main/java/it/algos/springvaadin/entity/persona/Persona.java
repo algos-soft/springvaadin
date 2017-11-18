@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_PER)
-@AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.facoltativa)
+@AIEntity(company = ACompanyRequired.facoltativa)
 @AIList()
 @AIForm()
 @Data
@@ -88,6 +88,7 @@ public class Persona extends ACompanyEntity {
 
     /**
      * indirizzo (facoltativo, non unica)
+     * riferimento statico SENZA @DBRef (embedded)
      */
     @AIField(type = AFieldType.link, clazz = IndirizzoPresenter.class, help = "Indirizzo")
     @AIColumn(width = 400, name = "Indirizzo")

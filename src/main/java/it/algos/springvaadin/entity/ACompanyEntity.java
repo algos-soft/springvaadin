@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.Column;
 
@@ -50,7 +51,9 @@ public abstract class ACompanyEntity extends AEntity {
      * Riferimento alla company (per le sottoclassi che usano questa classe)
      * - Nullo se il flag AlgosApp.USE_MULTI_COMPANY=false
      * - Facoltativo od obbligatorio a seconda della sottoclasse, se il flag AlgosApp.USE_MULTI_COMPANY=true
+     * riferimento dinamico CON @DBRef
      */
+    @DBRef
     @AIField(type = AFieldType.combo, clazz = Company.class, dev = FieldAccessibility.newOnly, admin = FieldAccessibility.showOnly)
     @AIColumn(name = "Company", width = 115)
     private Company company;

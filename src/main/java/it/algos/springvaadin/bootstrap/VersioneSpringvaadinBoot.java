@@ -158,6 +158,15 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
                     false);
         }// fine del blocco if
 
+        //--crea una nuova preferenza, globale per tutte le company
+        if (service.versioneNonAncoraUsata(PROGETTO, ++k)) {
+            creaPreferenzaAndVersione(
+                    PROGETTO,
+                    Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID,
+                    PrefType.bool,
+                    "Selezione multipla nella grid.",
+                    true);
+        }// fine del blocco if
 
     }// end of method
 

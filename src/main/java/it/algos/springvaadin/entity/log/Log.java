@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_LOG)
-@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.obbligatoria)
+@AIEntity(company = ACompanyRequired.obbligatoria)
 @AIList(dev = ListButton.standard, admin = ListButton.edit)
 @AIForm()
 @Data

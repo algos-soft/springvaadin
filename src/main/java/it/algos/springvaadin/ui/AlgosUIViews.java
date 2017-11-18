@@ -91,10 +91,8 @@ public abstract class AlgosUIViews extends AlgosUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-		menuLayout.addView(UserNavView.class);
-        if (LibSession.isDeveloper()) {
-            menuLayout.addView(RoleNavView.class);
-        }// end of if cycle
+        menuLayout.addView(RoleNavView.class);
+        menuLayout.addView(UserNavView.class);
         menuLayout.addView(Preferenza.class, PreferenzaNavView.class);
         menuLayout.addView(Stato.class, StatoNavView.class);
         menuLayout.addView(Indirizzo.class, IndirizzoNavView.class);

@@ -10,7 +10,9 @@ import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.lib.LibAnnotation;
 import it.algos.springvaadin.lib.LibReflection;
+import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.login.ARoleType;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
@@ -65,6 +67,18 @@ public class MenuLayout extends CssLayout {
         Object obj = LibReflection.getMethodButton(viewClass, "getButtoneMenu");
         String viewName = LibAnnotation.getNameView(viewClass);
         Resource viewIcon = LibReflection.getPropertyRes(viewClass, "VIEW_ICON");
+        ARoleType roleTypeVisibility = LibAnnotation.getViewRoleType(viewClass);
+
+        if (roleTypeVisibility == ARoleType.admin) {
+            if (!LibSession.isAdmin()) {
+                return;
+            }// end of if cycle
+        }// end of if cycle
+        if (roleTypeVisibility == ARoleType.developer) {
+            if (!LibSession.isDeveloper()) {
+                return;
+            }// end of if cycle
+        }// end of if cycle
 
         if (obj instanceof MenuBar.Command) {
             viewCommand = (MenuBar.Command) obj;

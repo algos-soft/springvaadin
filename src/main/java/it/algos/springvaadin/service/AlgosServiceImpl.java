@@ -396,11 +396,13 @@ public abstract class AlgosServiceImpl implements AlgosService {
             useCompany = true;
         }// end of if cycle
 
-        if (listaNomi.contains("dataCreazione")) {
-            listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataCreazione")));
-        }// end of if cycle
-        if (listaNomi.contains("dataModifica")) {
-            listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataModifica")));
+        if (listaNomi != null && listaNomi.size() > 0) {
+            if (listaNomi.contains("dataCreazione")) {
+                listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataCreazione")));
+            }// end of if cycle
+            if (listaNomi.contains("dataModifica")) {
+                listaNomi.remove(listaNomi.remove(listaNomi.indexOf("dataModifica")));
+            }// end of if cycle
         }// end of if cycle
 
         return LibReflection.getFields(entityClass, listaNomi, useID, useCompany);

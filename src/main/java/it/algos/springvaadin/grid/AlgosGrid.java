@@ -7,12 +7,14 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MultiSelect;
 import com.vaadin.ui.SingleSelect;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
@@ -31,7 +33,11 @@ import java.util.List;
 public class AlgosGrid extends Grid {
 
     private final static int NUMERO_RIGHE_DEFAULT = 12;
+    private final static double ALTEZZA_RIGHE_DEFAULT = 50;
     private final GridToolSet gridToolSet;
+
+    @Autowired
+    private PreferenzaService pref;
 
     /**
      * Property iniettata nel costruttore
@@ -70,6 +76,7 @@ public class AlgosGrid extends Grid {
      */
     public void inizia(Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
         this.setBeanType(beanType);
+        this.setRowHeight(ALTEZZA_RIGHE_DEFAULT);
         this.addColumns(columns);
 
         if (items != null) {
@@ -86,20 +93,21 @@ public class AlgosGrid extends Grid {
      * Le azioni verranno intercettate e gestite dal presenter (recuperato nel 'fire' dell'azione)
      */
     public void addAllListeners() {
-        Grid.SelectionMode modelloSelezione = LibParams.gridSelectionMode();
-        this.setSelectionMode(modelloSelezione);
-        gridToolSet.addAllListeners(this);
-
         //--recupera il presenter
         AlgosPresenterImpl presenter = LibSpring.getPresenter();
 
+        //--modello di selezione righe
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
-        if (modelloSelezione == SelectionMode.SINGLE) {
-            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
-        } else {
+        Grid.SelectionMode modelloSelezione = null;
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            this.setSelectionMode(SelectionMode.MULTI);
             applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.multiSelectionChanged, presenter));
+        } else {
+            this.setSelectionMode(Grid.SelectionMode.SINGLE);
+            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
         }// end of if/else cycle
 
+        gridToolSet.addAllListeners(this);
     }// end of method
 
 
@@ -134,7 +142,7 @@ public class AlgosGrid extends Grid {
         }// end of if cycle
 
         //--spazio per la colonna automatica di selezione
-        if (LibParams.gridSelectionMode() == SelectionMode.MULTI) {
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
             lar += 50;
         }// end of if cycle
 
@@ -145,20 +153,13 @@ public class AlgosGrid extends Grid {
     public int numRigheSelezionate() {
         int numRighe = 0;
 
-        switch (LibParams.gridSelectionMode()) {
-            case SINGLE:
-                if (!this.asSingleSelect().isEmpty()) {
-                    numRighe = 1;
-                }// end of if cycle
-                break;
-            case MULTI:
-                numRighe = this.asMultiSelect().getSelectedItems().size();
-                break;
-            case NONE:
-                break;
-            default: // caso non definito
-                break;
-        } // fine del blocco switch
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            numRighe = this.asMultiSelect().getSelectedItems().size();
+        } else {
+            if (!this.asSingleSelect().isEmpty()) {
+                numRighe = 1;
+            }// end of if cycle
+        }// end of if/else cycle
 
         return numRighe;
     }// end of method
@@ -168,30 +169,23 @@ public class AlgosGrid extends Grid {
         boolean selezionata = false;
         HasValue selezione;
 
-        switch (LibParams.gridSelectionMode()) {
-            case SINGLE:
-                try { // prova ad eseguire il codice
-                    selezione = this.asSingleSelect();
-                    if (selezione instanceof SingleSelect) {
-                        selezionata = !selezione.isEmpty();
-                    }// end of if cycle
-                } catch (Exception unErrore) { // intercetta l'errore
-                }// fine del blocco try-catch
-                break;
-            case MULTI:
-                try { // prova ad eseguire il codice
-                    selezione = this.asMultiSelect();
-                    if (selezione instanceof MultiSelect) {
-                        selezionata = ((MultiSelect) selezione).getSelectedItems().size() == 1;
-                    }// end of if cycle
-                } catch (Exception unErrore) { // intercetta l'errore
-                }// fine del blocco try-catch
-                break;
-            case NONE:
-                break;
-            default: // caso non definito
-                break;
-        } // fine del blocco switch
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            try { // prova ad eseguire il codice
+                selezione = this.asMultiSelect();
+                if (selezione instanceof MultiSelect) {
+                    selezionata = ((MultiSelect) selezione).getSelectedItems().size() == 1;
+                }// end of if cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+            }// fine del blocco try-catch
+        } else {
+            try { // prova ad eseguire il codice
+                selezione = this.asSingleSelect();
+                if (selezione instanceof SingleSelect) {
+                    selezionata = !selezione.isEmpty();
+                }// end of if cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+            }// fine del blocco try-catch
+        }// end of if/else cycle
 
         return selezionata;
     }// end of method
@@ -202,30 +196,25 @@ public class AlgosGrid extends Grid {
         AEntity entityBean;
         Object[] matrice;
 
-        switch (LibParams.gridSelectionMode()) {
-            case SINGLE:
-                try { // prova ad eseguire il codice
-                    entityBean = (AEntity) this.asSingleSelect().getValue();
-                    beanList = new ArrayList();
-                    beanList.add(entityBean);
-                } catch (Exception unErrore) { // intercetta l'errore
-                }// fine del blocco try-catch
-                return beanList;
-            case MULTI:
-                try { // prova ad eseguire il codice
-                    matrice = this.asMultiSelect().getSelectedItems().toArray();
-                    beanList = new ArrayList();
-                    for (Object obj : matrice) {
-                        beanList.add((AEntity) obj);
-                    }// end of for cycle
-                } catch (Exception unErrore) { // intercetta l'errore
-                }// fine del blocco try-catch
-                return beanList;
-            case NONE:
-                return null;
-            default: // caso non definito
-                return null;
-        } // fine del blocco switch
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            try { // prova ad eseguire il codice
+                matrice = this.asMultiSelect().getSelectedItems().toArray();
+                beanList = new ArrayList();
+                for (Object obj : matrice) {
+                    beanList.add((AEntity) obj);
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+            }// fine del blocco try-catch
+            return beanList;
+        } else {
+            try { // prova ad eseguire il codice
+                entityBean = (AEntity) this.asSingleSelect().getValue();
+                beanList = new ArrayList();
+                beanList.add(entityBean);
+            } catch (Exception unErrore) { // intercetta l'errore
+            }// fine del blocco try-catch
+            return beanList;
+        }// end of if/else cycle
 
     }// end of method
 
@@ -234,21 +223,14 @@ public class AlgosGrid extends Grid {
         AEntity entityBean = null;
         Object[] matrice;
 
-        switch (LibParams.gridSelectionMode()) {
-            case SINGLE:
-                entityBean = (AEntity) this.asSingleSelect().getValue();
-                break;
-            case MULTI:
-                matrice = this.asMultiSelect().getSelectedItems().toArray();
-                if (matrice.length == 1) {
-                    entityBean = (AEntity) matrice[0];
-                }// end of if cycle
-                break;
-            case NONE:
-                break;
-            default: // caso non definito
-                break;
-        } // fine del blocco switch
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            matrice = this.asMultiSelect().getSelectedItems().toArray();
+            if (matrice.length == 1) {
+                entityBean = (AEntity) matrice[0];
+            }// end of if cycle
+        } else {
+            entityBean = (AEntity) this.asSingleSelect().getValue();
+        }// end of if/else cycle
 
         return entityBean;
     }// end of method

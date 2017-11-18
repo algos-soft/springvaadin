@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -386,12 +387,49 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param layout in cui inserire i campi (window o panel)
      */
     protected void layoutFields(Layout layout) {
+        fieldList = sortLista(fieldList);
+
         if (fieldList != null && fieldList.size() > 0) {
             for (AField algosField : fieldList) {
                 //--aggiunge il componente grafico (AField) al layout selezionato
                 layout.addComponent(algosField);
             }// end of for cycle
         }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Modifica l'ordine in cui vengono presentati i componenti grafici nel layout
+     *
+     * @param listaOld di fields
+     */
+    private List<AField> sortLista(List<AField> listaOld) {
+        List<AField> listaNew = new ArrayList<>();
+        LinkedHashMap<String, AField> mappa = new LinkedHashMap();
+        List<String> listaKeys;
+
+        for (AField field : listaOld) {
+            mappa.put(field.getName(), field);
+        }// end of for cycle
+
+        listaKeys = new ArrayList<>(mappa.keySet());
+        listaKeys = sortNameList(listaKeys);
+
+        for (String nome : listaKeys) {
+            listaNew.add(mappa.get(nome));
+        }// end of for cycle
+
+        return listaNew;
+    }// end of method
+
+
+    /**
+     * Modifica l'ordine in cui vengono presentati i componenti grafici nel layout
+     *
+     * @param nameList di nomi di fields
+     */
+    protected List<String> sortNameList(List<String> nameList) {
+        return nameList;
     }// end of method
 
 

@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_VERS)
-@AIEntity(roleTypeVisibility = ARoleType.admin, company = ACompanyRequired.facoltativa)
+@AIEntity(company = ACompanyRequired.facoltativa)
 @AIList(columns = {"progetto", "ordine", "gruppo", "descrizione", "evento"}, admin = ListButton.edit)
 @AIForm()
 @Data

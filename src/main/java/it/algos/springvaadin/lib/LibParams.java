@@ -202,17 +202,17 @@ public abstract class LibParams {
     }// end of static method
 
 
-    /**
-     * Flag.
-     * Multi selection modo in Grid.<br>
-     * Not final<br>
-     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
-     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
-     */
-    @SuppressWarnings("all")
-    public static Grid.SelectionMode gridSelectionMode() {
-        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode : Grid.SelectionMode.SINGLE;
-    }// end of static method
+//    /**
+//     * Flag.
+//     * Multi selection modo in Grid.<br>
+//     * Not final<br>
+//     * Regolato nella classe AlgosUIParams con @PostConstruct inizia()->genericFixAndPrint()
+//     * Modificato nella sottoclasse concreta xxxVaadinUI con @PostConstruct inizia()->specificFixAndPrint()
+//     */
+//    @SuppressWarnings("all")
+//    public static Grid.SelectionMode gridSelectionMode() {
+//        return LibVaadin.getUI() != null ? ((AlgosUIParams) LibVaadin.getUI()).gridSelectionMode : Grid.SelectionMode.SINGLE;
+//    }// end of static method
 
 
     /**

@@ -101,6 +101,7 @@ public abstract class Cost {
     public final static String KEY_DISPLAY_NEW_RECORD_ONLY = "newRecordOnly";
     public final static String KEY_DISPLAY_FOOTER_INFO = "displayFooterInfo";
     public final static String KEY_DISPLAY_TOOLTIPS = "displayTooltips";
+    public final static String KEY_USE_SELEZIONE_MULTIPLA_GRID = "useSelezioneMultiplaGrid";
     public final static String DISPLAY_FIELD_ORDINE = "displayFieldOrdine";
     public final static String DISPLAY_LISTE_COLLEGATE = "displayListeCollegate";
     public final static String USA_FORM_LAYOUT = "usaFormLayout";

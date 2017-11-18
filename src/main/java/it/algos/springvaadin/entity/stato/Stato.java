@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = Cost.TAG_STA)
-@AIEntity(roleTypeVisibility = ARoleType.developer, company = ACompanyRequired.nonUsata)
+@AIEntity(company = ACompanyRequired.nonUsata)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "prova", "alfaDue", "alfaTre", "numerico"})
 @AIForm(showsID = true, widthIDEM = 4)
 @AISearch(fields = {"nome", "alfaDue"})
@@ -104,7 +104,7 @@ public class Stato extends AEntity {
     @Indexed(unique = false)
     @Size(min = 3, max = 3)
     @AIField(type = AFieldType.text, widthEM = 6, onlyNumber = true, help = "Codifica ISO 3166-1 numerico")
-    @AIColumn(width = 100,name = "Code")
+    @AIColumn(width = 100, name = "Code")
     private String numerico;
 
 

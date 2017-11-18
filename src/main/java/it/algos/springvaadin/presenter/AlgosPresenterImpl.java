@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.entity.preferenza.PrefType;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.TypeField;
 import it.algos.springvaadin.exception.CompanyException;
@@ -67,6 +68,9 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Autowired
     private LogService logger;
+
+    @Autowired
+    private PreferenzaService pref;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -634,25 +638,16 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         view.enableButtonList(AButtonType.edit, unaSolaRigaSelezionata);
 
         //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
-        switch (LibParams.gridSelectionMode()) {
-            //--nella selezione singola, il bottone Delete viene abilitato se c'è UNA SOLA riga selezionata
-            case SINGLE:
-                view.enableButtonList(AButtonType.delete, unaSolaRigaSelezionata);
-                break;
-            //--nella selezione multipla, il bottone Delete viene abilitato se c'è UNA O PIU righe selezionate
-            case MULTI:
-                numRigheSelezionate = view.numRigheSelezionate();
-                if (numRigheSelezionate >= 1) {
-                    view.enableButtonList(AButtonType.delete, true);
-                } else {
-                    view.enableButtonList(AButtonType.delete, false);
-                }// end of if/else cycle
-                break;
-            case NONE:
-                break;
-            default: // caso non definito
-                break;
-        } // fine del blocco switch
+        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+            numRigheSelezionate = view.numRigheSelezionate();
+            if (numRigheSelezionate >= 1) {
+                view.enableButtonList(AButtonType.delete, true);
+            } else {
+                view.enableButtonList(AButtonType.delete, false);
+            }// end of if/else cycle
+        } else {
+            view.enableButtonList(AButtonType.delete, unaSolaRigaSelezionata);
+        }// end of if/else cycle
 
     }// end of method
 

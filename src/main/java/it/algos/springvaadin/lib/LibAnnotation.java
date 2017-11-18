@@ -1774,6 +1774,27 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Get the roleTypeVisibility of the collection (modulo-table).
+     * Se manca, usa il ruolo Guest
+     *
+     * @param clazz the entity class
+     *
+     * @return the ARoleType of the collection
+     */
+    @SuppressWarnings("all")
+    public static ARoleType getViewRoleType(final Class<? extends View> clazz) {
+        ARoleType roleTypeVisibility = ARoleType.guest;
+        AIEntity entityAnnotation = clazz.getAnnotation(AIEntity.class);
+
+        if (entityAnnotation != null) {
+            roleTypeVisibility = entityAnnotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility;
+    }// end of static method
+
+
+    /**
      * Get the visibility of the collection (modulo-table).
      * Di default true
      *
