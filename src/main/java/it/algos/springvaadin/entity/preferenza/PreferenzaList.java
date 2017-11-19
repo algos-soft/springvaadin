@@ -1,11 +1,17 @@
 package it.algos.springvaadin.entity.preferenza;
 
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.grid.AlgosGrid;
+import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.label.LabelVerde;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibColumn;
 import it.algos.springvaadin.lib.LibDate;
@@ -73,19 +79,46 @@ public class PreferenzaList extends AlgosListImpl {
         super.restart(source, entityClazz, columns, items);
 
         //--aggiunge una colonna calcolata
-        Grid.Column colonna = grid.addColumn(
+        Grid.Column colonna = grid.addComponentColumn(
                 preferenza -> {
                     PrefType type = ((Preferenza) preferenza).getType();
                     byte[] bytes = (byte[]) ((Preferenza) preferenza).getValue();
                     Object value = null;
+                    Component comp = null;
 
                     switch (type) {
                         case string:
-                        case bool:
                         case integer:
                         case email:
                             try { // prova ad eseguire il codice
                                 value = type.bytesToObject(bytes);
+                                comp = new Label((String) value);
+                            } catch (Exception unErrore) { // intercetta l'errore
+                                log.error(unErrore.toString());
+                            }// fine del blocco try-catch
+                            break;
+                        case bool:
+                            try { // prova ad eseguire il codice
+                                value = type.bytesToObject(bytes);
+                                if (value instanceof Boolean) {
+                                    if ((Boolean) value) {
+                                        comp = new LabelVerde(VaadinIcons.CHECK);
+                                    } else {
+                                        comp = new LabelRosso(VaadinIcons.CLOSE);
+                                    }// end of if/else cycle
+                                }// end of if cycle
+                            } catch (Exception unErrore) { // intercetta l'errore
+                                log.error(unErrore.toString());
+                            }// fine del blocco try-catch
+                            break;
+                        case bool2:
+                            try { // prova ad eseguire il codice
+                                value = type.bytesToObject(bytes);
+                                if (value instanceof Boolean) {
+                                    comp = new CheckBox();
+                                    ((CheckBox) comp).setEnabled(false);
+                                    ((CheckBox) comp).setValue((Boolean) value);
+                                }// end of if cycle
                             } catch (Exception unErrore) { // intercetta l'errore
                                 log.error(unErrore.toString());
                             }// fine del blocco try-catch
@@ -94,6 +127,7 @@ public class PreferenzaList extends AlgosListImpl {
                             try { // prova ad eseguire il codice
                                 value = type.bytesToObject(bytes);
                                 value = LibDate.getShort((LocalDateTime) value);
+                                comp = new Label((String) value);
                             } catch (Exception unErrore) { // intercetta l'errore
                                 log.error(unErrore.toString());
                             }// fine del blocco try-catch
@@ -102,7 +136,7 @@ public class PreferenzaList extends AlgosListImpl {
                             log.warn("Switch - caso non definito");
                             break;
                     } // end of switch statement
-                    return value;
+                    return comp;
                 });//end of lambda expressions
         colonna.setCaption("Value");
         float lar = grid.getWidth();

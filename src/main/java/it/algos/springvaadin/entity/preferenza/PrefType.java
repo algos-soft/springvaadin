@@ -66,6 +66,31 @@ public enum PrefType {
         }// end of method
     },// end of single enumeration
 
+    bool2("booleano", AFieldType.checkbox) {
+        @Override
+        public byte[] objectToBytes(Object obj) {
+            byte[] bytes = new byte[0];
+            if (obj instanceof Boolean) {
+                boolean bool = (boolean) obj;
+                bytes = new byte[]{(byte) (bool ? 1 : 0)};
+            }// end of if cycle
+            return bytes;
+        }// end of method
+
+        @Override
+        @SuppressWarnings("all")
+        public Object bytesToObject(byte[] bytes) {
+            Object obj = null;
+            if (bytes.length > 0) {
+                byte b = bytes[0];
+                obj = new Boolean(b == (byte) 0b00000001);
+            } else {
+                obj = new Boolean(false);
+            }// end of if/else cycle
+            return obj;
+        }// end of method
+    },// end of single enumeration
+
     integer("intero", AFieldType.integer) {
         @Override
         public byte[] objectToBytes(Object obj) {

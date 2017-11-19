@@ -1,11 +1,16 @@
 package it.algos.springvaadin.lib;
 
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.*;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.label.LabelVerde;
 import it.algos.springvaadin.renderer.IconRenderer;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 
@@ -56,6 +61,40 @@ public abstract class LibColumn {
         return LibReflection.getField(clazz, publicFieldName).getAnnotation(AIField.class);
     }// end of method
 
+
+    /**
+     * Aggiunge una colonna
+     *
+     * @param grid           a cui aggiungere la colonna
+     * @param reflectedField di riferimento per estrarre le Annotation
+     *
+     * @return la colonna appena creata
+     */
+    public static Grid.Column add(Grid grid, Field reflectedField) {
+        Grid.Column colonna = null;
+        AFieldType type = LibAnnotation.getColumnType(reflectedField);
+
+        switch (type) {
+            case checkbox:
+//                 colonna = grid.addComponentColumn(servizio -> {
+//                     Component comp = null;
+//                     boolean orario = ((Servizio) servizio).isOrario();
+//                     if (orario) {
+//                         comp = new LabelVerde(VaadinIcons.CHECK);
+//                     } else {
+//                         comp = new LabelRosso(VaadinIcons.CLOSE);
+//                     }// end of if/else cycle
+//                     return comp;
+//                 });//end of lambda expressions
+                colonna = grid.addColumn(reflectedField.getName());
+                break;
+            default:
+                colonna = grid.addColumn(reflectedField.getName());
+                break;
+        } // end of switch statement
+
+        return colonna;
+    }// end of method
 
     /**
      * Regola una colonna

@@ -73,7 +73,7 @@ public class Persona extends ACompanyEntity {
      * telefono (facoltativo)
      */
     @AIField(type = AFieldType.text)
-    @AIColumn()
+    @AIColumn(width = 160)
     private String telefono;
 
 

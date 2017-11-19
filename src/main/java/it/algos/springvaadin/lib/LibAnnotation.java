@@ -605,22 +605,12 @@ public abstract class LibAnnotation {
      *
      * @return the name (column) of the field
      */
-    @Deprecated
     @SuppressWarnings("all")
-    public static String getNameColumn(final Class<? extends AEntity> clazz, final String publicFieldName) {
-        String name = publicFieldName;
-        AIColumn columnAnnotation = getColumn(clazz, publicFieldName);
-
-        if (columnAnnotation != null) {
-            name = columnAnnotation.name();
-        }// end of if cycle
-
-        if (name.equals("")) {
-            name = getNameField(clazz, publicFieldName);
-        }// end of if cycle
-
-        return name;
+    public static String getColumnName(final Class<? extends AEntity> clazz, final String publicFieldName) {
+        Field reflectionField = LibReflection.getField(clazz, publicFieldName);
+        return getColumnName(reflectionField);
     }// end of static method
+
 
     /**
      * Get the name (column) of the property.
@@ -645,6 +635,7 @@ public abstract class LibAnnotation {
 
         return name;
     }// end of static method
+
 
     /**
      * Get the widthEM of the property.

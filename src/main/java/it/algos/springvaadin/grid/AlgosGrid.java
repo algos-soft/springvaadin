@@ -133,7 +133,7 @@ public class AlgosGrid extends Grid {
         if (columns != null && columns.size() > 0) {
             for (Field field : columns) {
                 try { // prova ad eseguire il codice
-                    colonna = this.addColumn(field.getName());
+                    colonna = LibColumn.add(this, field);
                 } catch (Exception unErrore) { // intercetta l'errore
                     log.error(unErrore.toString());
                 }// fine del blocco try-catch
