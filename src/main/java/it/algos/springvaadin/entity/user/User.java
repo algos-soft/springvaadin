@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.user;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.ACompanyEntity;
@@ -7,10 +7,7 @@ import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.login.ARoleType;
-import it.algos.springvaadin.list.ListButton;
-import it.algos.@PROJECT@.application.AppCost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,11 +16,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 16-nov-17
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
@@ -31,15 +27,15 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = @TAG@)
-@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.obbligatoria)
-@AIList(columns = {"code", "descrizione"}, dev = ListButton.standard, admin = ListButton.noSearch, user = ListButton.show)
-@AIForm(fields = {"code", "descrizione", "note"})
+@Document(collection = Cost.TAG_USE)
+@AIEntity( company = ACompanyRequired.obbligatoria)
+@AIList()
+@AIForm()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class @ENTITY@ extends ACompanyEntity {
+public class User extends ACompanyEntity {
 
 
     /**
@@ -49,36 +45,42 @@ public class @ENTITY@ extends ACompanyEntity {
 
 
     /**
-     * codice di riferimento (obbligatorio)
+     * nickname di riferimento (obbligatorio, unico per company)
      */
     @NotEmpty
-    @Size(min = 2, max = 20)
+    @Size(min = 3, max = 20)
     @Indexed()
     @AIField(
             type = AFieldType.text,
             required = true,
             focus = true,
-            name = "Codice",
-            widthEM = 9,
-            admin = FieldAccessibility.allways,
-            user = FieldAccessibility.showOnly)
-    @AIColumn(name = "Code", width = 120)
-    private String code;
-
+            name = "NickName",
+            widthEM = 12)
+    @AIColumn(name = "Nick", width = 300)
+    private String nickname;
 
 
     /**
-     * descrizione (facoltativa)
+     * password (obbligatoria o facoltativa, non unica)
      */
+    @Size(min = 3, max = 20)
     @AIField(
             type = AFieldType.text,
             required = true,
-            name = "Descrizione completa",
-            widthEM = 26,
+            name = "Password",
+            widthEM = 12,
             admin = FieldAccessibility.allways,
             user = FieldAccessibility.showOnly)
-    @AIColumn(name = "Descrizione", width = 500)
-    private String descrizione;
+    @AIColumn(name = "Password", width = 200)
+    private String password;
+
+
+    /**
+     * user abilitato (facoltativo, di default true)
+     */
+    @AIField(type = AFieldType.checkbox, required = true, widthEM = 4, admin = FieldAccessibility.allways)
+    @AIColumn(name = "OK")
+    private boolean enabled = true;
 
 
     /**
@@ -86,7 +88,7 @@ public class @ENTITY@ extends ACompanyEntity {
      */
     @Override
     public String toString() {
-        return getCode();
+        return getNickname();
     }// end of method
 
 
