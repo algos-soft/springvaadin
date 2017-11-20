@@ -66,10 +66,20 @@
     </target>
 
 
-    <target name="init" description="Converte la directory">
-        <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
+    <target name="service" description="Regola il nome del sorgente Service">
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
+        <property name="srcService" value="${pathSourcesFramework}/${tagService}${tagTxt}"/>
+    </target>
+
+    <target name="serviceCompany" description="Regola il nome del sorgente Servic per una Company ">
+        <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
+        <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
+        <property name="srcService" value="${pathSourcesFramework}/${tagService}Company${tagTxt}"/>
+    </target>
+
+    <target name="init" description="Converte la directory">
+        <property name="pathResourcesProject" value="${pathBaseProject}/${tagMain}/resources"/>
         <lower string="${newEntity}" to="newEntityMinuscolo"/>
         <primitrecaratteri string="${newEntity}" to="originalTag"/>
         <upper string="${originalTag}" to="tagTmp"/>
@@ -110,7 +120,6 @@
         <property name="srcForm" value="${pathSourcesFramework}/${tagForm}${tagTxt}"/>
         <property name="destForm" value="${pathEntity}${tagForm}${tagJava}"/>
 
-        <property name="srcService" value="${pathSourcesFramework}/${tagService}${tagTxt}"/>
         <property name="destService" value="${pathEntity}${tagService}${tagJava}"/>
 
         <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
@@ -296,9 +305,15 @@
     </target>
 
 
-    <target name="creaPackage" depends="newproject,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+    <target name="creaPackage" depends="newproject,service,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
             description="Crea un nuovo package (modulo) per un nuovo progetto">
     </target>
+
+
+    <target name="creaPackageCompany" depends="newproject,serviceCompany,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"
+            description="Crea un nuovo package (modulo) per un nuovo progetto con company">
+    </target>
+
 
     <target name="creaPackageSpringvaadin"
             depends="springvaadin,init,creaFiles,checkCostante,checkImportMenu,checkAddMenu"

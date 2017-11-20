@@ -64,7 +64,7 @@ public class Preferenza extends ACompanyEntity {
      */
     @NotEmpty
     @AIField(type = AFieldType.text, required = true, focus = true, admin = FieldAccessibility.showOnly)
-    @AIColumn(width = 200, name = "Code")
+    @AIColumn(width = 260, name = "Code")
     private String code;
 
 
