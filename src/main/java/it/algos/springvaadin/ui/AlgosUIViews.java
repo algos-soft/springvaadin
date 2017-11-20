@@ -63,6 +63,9 @@ public abstract class AlgosUIViews extends AlgosUIParams {
 
         //--Crea i menu per la gestione delle SpringView (standard e specifiche)
         this.addAllViste();
+
+        //--avvia la menubar, dopo aver aggiunto tutte le viste
+        menuLayout.start();
     }// end of method
 
     /**

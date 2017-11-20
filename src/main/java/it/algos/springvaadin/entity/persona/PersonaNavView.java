@@ -15,13 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 11-ott-17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = PersonaNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_PER)
 @AIEntity(roleTypeVisibility = ARoleType.developer)
 public class PersonaNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "persona";
 
 
     //--icona del Menu

@@ -32,13 +32,17 @@ public abstract class Cost {
     private final static String[] companyMatrice = {Cost.COMPANY_CODE, Cost.COMPANY_UNICO};
     public final static List<String> COMPANY_OPTIONAL = Arrays.asList(companyMatrice);
 
-    public final static String TAG_VERS = "versione";
-    public final static String TAG_COMP = "company";
+    public final static String TAG_VERS = "vers";
+    public final static String TAG_COMP = "comp";
     public final static String TAG_LOG = "log";
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
     public final static String TAG_ROL = "role";
     public final static String TAG_USE = "user";
+    public final static String TAG_IND = "ind";
+    public final static String TAG_STA = "stato";
+    public final static String TAG_PER = "per";
+    public final static String TAG_PRE = "pref";
 
     public final static String BOT_ACCETTA = "accetta";
     public final static String BOT_ANNULLA = "annulla";
@@ -88,12 +92,6 @@ public abstract class Cost {
     public final static String TAG_AZ_MULTI_SELECTION = "multiSelectionChanged";
     public final static String TAG_AZ_VALUE_CHANGED = "valueChange";
     public final static String TAG_AZ_LISTENER = "listener";
-    public final static String TAG_IND = "indirizzo";
-    public final static String TAG_STA = "stato";
-    public final static String TAG_PER = "persona";
-    public final static String TAG_PRO = "prova";
-    public final static String TAG_FAT = "fattura";
-    public final static String TAG_PRE = "preferenza";
 
     //--chiavi per usare le preferenze della applicazione
     public final static String KEY_USE_DEBUG = "useDebug";

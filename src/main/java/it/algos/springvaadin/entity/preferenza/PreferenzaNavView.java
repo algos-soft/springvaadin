@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 16-ott-17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = PreferenzaNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_PRE)
 @AIEntity(roleTypeVisibility = ARoleType.admin)
 public class PreferenzaNavView extends AlgosNavView {
 

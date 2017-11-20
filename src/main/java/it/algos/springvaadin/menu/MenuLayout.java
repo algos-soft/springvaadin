@@ -5,6 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
@@ -13,6 +14,7 @@ import it.algos.springvaadin.lib.LibReflection;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.lib.LibText;
 import it.algos.springvaadin.login.ARoleType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
@@ -23,14 +25,17 @@ import java.util.List;
  * Created by gac on 01/06/17.
  * .
  */
+@Slf4j
 @SpringComponent
 @Scope("prototype")
-public class MenuLayout extends CssLayout {
+public class MenuLayout extends VerticalLayout {
 
     public static String MENU_ABILITATO = "highlight";
     public static String MENU_DISABILITATO = "disabilitato";
 
     private MenuBar firstMenuBar;
+    private MenuBar secondMenuBar;
+    private MenuBar thirdMenuBar;
 
     public MenuLayout() {
         super();
@@ -38,9 +43,37 @@ public class MenuLayout extends CssLayout {
 
     @PostConstruct
     void init() {
+        this.setMargin(false);
+
         firstMenuBar = new MenuBar();
+        firstMenuBar.addStyleName("blue");
         firstMenuBar.setAutoOpen(true);
-        this.addComponent(firstMenuBar);
+
+        secondMenuBar = new MenuBar();
+        secondMenuBar.addStyleName("verde");
+        secondMenuBar.setAutoOpen(true);
+
+        thirdMenuBar = new MenuBar();
+        thirdMenuBar.addStyleName("rosso");
+        thirdMenuBar.setAutoOpen(true);
+    }// end of method
+
+
+    /**
+     * avvia la menubar, dopo aver aggiunto tutte le viste
+     */
+    public void start() {
+        if (firstMenuBar.getItems().size() > 0) {
+            this.addComponent(firstMenuBar);
+        }// end of if cycle
+
+        if (secondMenuBar.getItems().size() > 0) {
+            this.addComponent(secondMenuBar);
+        }// end of if cycle
+
+        if (thirdMenuBar.getItems().size() > 0) {
+            this.addComponent(thirdMenuBar);
+        }// end of if cycle
     }// end of method
 
     /**
@@ -69,18 +102,7 @@ public class MenuLayout extends CssLayout {
         Resource viewIcon = LibReflection.getPropertyRes(viewClass, "VIEW_ICON");
         ARoleType roleTypeVisibility = LibAnnotation.getViewRoleType(viewClass);
 
-        if (roleTypeVisibility == ARoleType.admin) {
-            if (!LibSession.isAdmin()) {
-                return;
-            }// end of if cycle
-        }// end of if cycle
-        if (roleTypeVisibility == ARoleType.developer) {
-            if (!LibSession.isDeveloper()) {
-                return;
-            }// end of if cycle
-        }// end of if cycle
-
-        if (obj instanceof MenuBar.Command) {
+        if (obj != null && obj instanceof MenuBar.Command) {
             viewCommand = (MenuBar.Command) obj;
         } else {
             viewCommand = new MenuBar.Command() {
@@ -92,7 +114,32 @@ public class MenuLayout extends CssLayout {
             };// end of anonymous inner class
         }// end of if/else cycle
 
-        firstMenuBar.addItem(LibText.primaMaiuscola(viewName), viewIcon, viewCommand);
+        if (roleTypeVisibility == ARoleType.admin) {
+            if (!LibSession.isAdmin()) {
+                return;
+            }// end of if cycle
+        }// end of if cycle
+        if (roleTypeVisibility == ARoleType.developer) {
+            if (!LibSession.isDeveloper()) {
+                return;
+            }// end of if cycle
+        }// end of if cycle
+
+        switch (roleTypeVisibility) {
+            case user:
+                firstMenuBar.addItem(LibText.primaMaiuscola(viewName), viewIcon, viewCommand);
+                break;
+            case admin:
+                secondMenuBar.addItem(LibText.primaMaiuscola(viewName), viewIcon, viewCommand);
+                break;
+            case developer:
+                thirdMenuBar.addItem(LibText.primaMaiuscola(viewName), viewIcon, viewCommand);
+                break;
+            default:
+                log.warn("Switch - caso non definito");
+                break;
+        } // end of switch statement
+
     }// end of method
 
     /**

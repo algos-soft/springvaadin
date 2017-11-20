@@ -14,13 +14,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 07-ago-17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = IndirizzoNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_IND)
 @AIEntity(roleTypeVisibility = ARoleType.developer)
 public class IndirizzoNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "indirizzo";
 
 
     //--icona del Menu

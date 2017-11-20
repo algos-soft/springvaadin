@@ -7,7 +7,9 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.annotation.AIEntity;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.view.AlgosView;
@@ -26,12 +28,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Il metodo getLinkedView() fornisce, tramite xxxPresenter,
  * la view effettiva da visualizzare richiesta da AlgosUI.showView()
  */
-@SpringView(name = HomeNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_HOME)
+@AIEntity(roleTypeVisibility = ARoleType.user)
 public class HomeNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = Cost.TAG_HOME;
 
 
     //--icona del Menu

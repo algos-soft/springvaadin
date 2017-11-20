@@ -3,7 +3,9 @@ package it.algos.springvaadin.entity.company;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.annotation.AIEntity;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.login.ARoleType;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,12 +14,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 07/07/17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = CompanyNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_COMP)
+@AIEntity(roleTypeVisibility = ARoleType.developer)
 public class CompanyNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "company";
 
 
     //--icona del Menu

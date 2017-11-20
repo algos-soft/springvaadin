@@ -15,13 +15,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 30-set-17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = LogNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_LOG)
 @AIEntity(roleTypeVisibility = ARoleType.admin)
 public class LogNavView extends AlgosNavView {
 
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "log";
 
 
     //--icona del Menu

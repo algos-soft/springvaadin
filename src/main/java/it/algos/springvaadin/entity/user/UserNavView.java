@@ -20,10 +20,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class UserNavView extends AlgosNavView {
 
 
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = Cost.TAG_USE;
-
-
     //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.ASTERISK;
 

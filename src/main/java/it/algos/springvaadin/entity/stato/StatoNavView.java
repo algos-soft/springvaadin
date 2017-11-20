@@ -14,13 +14,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 10-ago-17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = StatoNavView.VIEW_NAME)
+@SpringView(name = Cost.TAG_STA)
 @AIEntity(roleTypeVisibility = ARoleType.developer)
 public class StatoNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "stato";
 
 
     //--icona del Menu

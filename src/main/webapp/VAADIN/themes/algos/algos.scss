@@ -240,4 +240,95 @@
     background: #f44336;
   } /* Red */
 
+
+  .verde {
+    color: green;
+
+    .v-label {
+      color: green;
+    }
+    .v-icon {
+      color: green;
+    }
+    .v-menubar-menuitem {
+      color: green;
+      background: #E5E4E2;
+    }
+    .v-menubar-menuitem-highlight {
+      color: white;
+      background: #6282A3;
+    }
+    .v-grid-row {
+      color: green;
+      background: #6282A3;
+    }
+  }
+
+  .salmone {
+    color: #FA8072;
+
+    .v-label {
+      color: #FA8072;
+    }
+    .v-icon {
+      color: #FA8072;
+    }
+    .v-menubar-menuitem {
+      color: #FA8072;
+      background: #E5E4E2;
+    }
+    .v-menubar-menuitem-highlight {
+      color: white;
+      background: #6282A3;
+    }
+    .v-grid-row {
+      color: #FA8072;
+    }
+  }
+
+  .rosso {
+    color: #D21F1B;
+
+    .v-label {
+      color: #D21F1B;
+    }
+    .v-icon {
+      color: #D21F1B;
+    }
+    .v-menubar-menuitem {
+      color: #D21F1B;
+      background: #E5E4E2;
+    }
+    .v-menubar-menuitem-highlight {
+      color: white;
+      background: #6282A3;
+    }
+    .v-grid-row {
+      color: #D21F1B;
+    }
+  }
+
+
+  .blue {
+    color: #1030d2;
+
+    .v-label {
+      color: #1030d2;
+    }
+    .v-icon {
+      color: #1030d2;
+    }
+    .v-menubar-menuitem {
+      color: #1030d2;
+      background: #E5E4E2;
+    }
+    .v-menubar-menuitem-highlight {
+      color: white;
+      background: #6282A3;
+    }
+    .v-grid-row {
+      color: #1030d2;
+    }
+  }
+
 }

@@ -15,13 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Created by gac on 07/07/17
  * Annotated with @SpringView (obbligatorio)
  */
-@SpringView(name = VersioneNavView.VIEW_NAME)
-@AIEntity(roleTypeVisibility = ARoleType.admin)
+@SpringView(name = Cost.TAG_VERS)
+@AIEntity(roleTypeVisibility = ARoleType.developer)
 public class VersioneNavView extends AlgosNavView {
-
-
-    //--nome usato da SpringNavigator e dal Menu per selezionare questa vista
-    public static final String VIEW_NAME = "versione";
 
 
     //--icona del Menu
