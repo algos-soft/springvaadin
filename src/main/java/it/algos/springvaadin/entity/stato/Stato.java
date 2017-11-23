@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  * @https://it.wikipedia.org/wiki/ISO_3166
  */
 @SpringComponent
-@Document(collection = Cost.TAG_STA)
+@Document()
 @AIEntity(company = ACompanyRequired.nonUsata)
 @AIList(showsID = true, widthID = 80, columns = {"ordine", "nome", "prova", "alfaDue", "alfaTre", "numerico"})
 @AIForm(showsID = true, widthIDEM = 4)

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Annotated with @SpringView (obbligatorio)
  */
 @SpringView(name = Cost.TAG_PER)
-@AIEntity(roleTypeVisibility = ARoleType.developer)
+@AIEntity(roleTypeVisibility = ARoleType.admin)
 public class PersonaNavView extends AlgosNavView {
 
 

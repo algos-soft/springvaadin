@@ -182,7 +182,7 @@ public class AlgosStartService {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      * Deve poi essere una company valida prevista nella collezione 'company'
      */
@@ -204,7 +204,7 @@ public class AlgosStartService {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      */
     public String getSiglaCompany(String url) {
@@ -242,7 +242,7 @@ public class AlgosStartService {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      */
     public Map getParams(String url) {
@@ -266,26 +266,26 @@ public class AlgosStartService {
     /**
      * Recupera la sigla dell'Utente come parametro in ingresso.
      * Il nickname del User, contenuto nell'URI, è recuperato se presente nella forma:
-     * 1) /user=gac
-     * 2) /user=gac
+     * 1) /buttonUser=gac
+     * 2) /buttonUser=gac
      * 3) /admin=gac
      * 4) /developer=gac
-     * 5) /?user=gac
-     * 6) /?user=gac
+     * 5) /?buttonUser=gac
+     * 6) /?buttonUser=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
-     * 9) /company=demo&user=gac
-     * 10) /?company=demo&user=gac
+     * 9) /company=demo&buttonUser=gac
+     * 10) /?company=demo&buttonUser=gac
      * 11) http://localhost:8090?demo&user=gac
-     * 12) /demo&user=gac
-     * 13) /?demo&user=gac
-     * 14) /user=gac&demo
-     * 15) /?user=gac&demo
+     * 12) /demo&buttonUser=gac
+     * 13) /?demo&buttonUser=gac
+     * 14) /buttonUser=gac&demo
+     * 15) /?buttonUser=gac&demo
      */
     public String getSiglaUtente(String url) {
         String siglaUtente = "";
         Map<String, String> mappaParams = getParams(url);
-        String[] tagUtenti = {"user", "ute", "user", "admin", "dev", "developer"};
+        String[] tagUtenti = {"buttonUser", "ute", "buttonUser", "admin", "dev", "developer"};
         String tagVuoto = "";
         String tagIniPatch = "v-";
 
@@ -301,23 +301,23 @@ public class AlgosStartService {
     }// end of method
 
     /**
-     * Recupera il ruolo dell'user come parametro in ingresso.
-     * Il ruolo dell'user, contenuto nell'URI, è recuperato se presente nella forma:
-     * 1) /user=gac
-     * 2) /user=gac
+     * Recupera il ruolo dell'buttonUser come parametro in ingresso.
+     * Il ruolo dell'buttonUser, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /buttonUser=gac
+     * 2) /buttonUser=gac
      * 3) /admin=gac
      * 4) /developer=gac
-     * 5) /?user=gac
-     * 6) /?user=gac
+     * 5) /?buttonUser=gac
+     * 6) /?buttonUser=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
-     * 9) /company=demo&user=gac
-     * 10) /?company=demo&user=gac
+     * 9) /company=demo&buttonUser=gac
+     * 10) /?company=demo&buttonUser=gac
      * 11) http://localhost:8090?demo&user=gac
-     * 12) /demo&user=gac
-     * 13) /?demo&user=gac
-     * 14) /user=gac&demo
-     * 15) /?user=gac&demo
+     * 12) /demo&buttonUser=gac
+     * 13) /?demo&buttonUser=gac
+     * 14) /buttonUser=gac&demo
+     * 15) /?buttonUser=gac&demo
      */
     public ARoleType getRoleUtente(VaadinRequest request) {
         ARoleType ruoloUtente = null;
@@ -334,27 +334,27 @@ public class AlgosStartService {
     }// end of  method
 
     /**
-     * Recupera il ruolo dell'user come parametro in ingresso.
-     * Il ruolo dell'user, contenuto nell'URI, è recuperato se presente nella forma:
-     * 1) /user=gac
-     * 2) /user=gac
+     * Recupera il ruolo dell'buttonUser come parametro in ingresso.
+     * Il ruolo dell'buttonUser, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /buttonUser=gac
+     * 2) /buttonUser=gac
      * 3) /admin=gac
      * 4) /developer=gac
-     * 5) /?user=gac
-     * 6) /?user=gac
+     * 5) /?buttonUser=gac
+     * 6) /?buttonUser=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
-     * 9) /company=demo&user=gac
-     * 10) /?company=demo&user=gac
+     * 9) /company=demo&buttonUser=gac
+     * 10) /?company=demo&buttonUser=gac
      * 11) http://localhost:8090?demo&user=gac
-     * 12) /demo&user=gac
-     * 13) /?demo&user=gac
-     * 14) /user=gac&demo
-     * 15) /?user=gac&demo
+     * 12) /demo&buttonUser=gac
+     * 13) /?demo&buttonUser=gac
+     * 14) /buttonUser=gac&demo
+     * 15) /?buttonUser=gac&demo
      */
     public ARoleType getRoleUtente(String url) {
         ARoleType ruoloUtente = null;
-        String[] tagUtente = {"user", "ute", "user"};
+        String[] tagUtente = {"buttonUser", "ute", "buttonUser"};
         String[] tagAdmin = {"admin"};
         String[] tagDeveloper = {"dev", "developer"};
         Map<String, String> mappaParams = getParams(url);

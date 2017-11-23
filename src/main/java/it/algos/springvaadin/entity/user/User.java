@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = Cost.TAG_USE)
+@Document()
 @AIEntity( company = ACompanyRequired.obbligatoria)
 @AIList()
 @AIForm()
@@ -76,7 +76,7 @@ public class User extends ACompanyEntity {
 
 
     /**
-     * user abilitato (facoltativo, di default true)
+     * buttonUser abilitato (facoltativo, di default true)
      */
     @AIField(type = AFieldType.checkbox, required = true, widthEM = 4, admin = FieldAccessibility.allways)
     @AIColumn(name = "OK")

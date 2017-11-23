@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
  * Non prevede la differenziazione per Company
  */
 @SpringComponent
-@Document(collection = Cost.TAG_VERS)
+@Document()
 @AIEntity(company = ACompanyRequired.facoltativa)
 @AIList(columns = {"progetto", "ordine", "gruppo", "descrizione", "evento"}, admin = ListButton.edit)
 @AIForm()

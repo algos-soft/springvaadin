@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = Cost.TAG_LOG)
+@Document()
 @AIEntity(company = ACompanyRequired.obbligatoria)
 @AIList(dev = ListButton.standard, admin = ListButton.edit)
 @AIForm()
@@ -81,7 +81,7 @@ public class Log extends ACompanyEntity {
     /**
      * Data dell'evento (obbligatoria, non modificabile)
      * Gestita in automatico
-     * Field visibile solo al admin
+     * Field visibile solo al buttonAdmin
      */
     @NotNull
     @Indexed()

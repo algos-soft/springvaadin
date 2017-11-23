@@ -74,11 +74,11 @@ public class AlgosController {
         return "Hello, " + name + "!";
     }
 
-//    @GetMapping("/admin/")
-//    public String admin(ModelMap model) {
+//    @GetMapping("/buttonAdmin/")
+//    public String buttonAdmin(ModelMap model) {
 //        model.addAttribute("message", "Create Spring Security Hello World Example with Annotations");
 //        model.addAttribute("author", "Admin of Dinesh on Java");
-//        return "admin";
+//        return "buttonAdmin";
 //    }
 
 //    @RequestMapping(value = "*", method = RequestMethod.GET)

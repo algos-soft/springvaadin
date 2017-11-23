@@ -50,6 +50,8 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     //--A placeholder component which a SpringNavigator can populate with different views
     protected Panel panel = new Panel();
 
+    //--A placeholder component which a SpringNavigator can populate with different views
+    public VerticalLayout menuPlaceholder = new VerticalLayout();
 
     //--A placeholder for spring views
     @Autowired
@@ -108,7 +110,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     }// end of method
 
     /**
-     * Crea l'annotation user (User Interface) iniziale dell'applicazione
+     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
      * Crea i menu specifici
      * Layout standard composto da:
      * Top      - una barra composita di menu e login
@@ -124,7 +126,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         root.setSizeFull();
         this.setContent(root);
 
-        //--Crea l'annotation user (User Interface)
+        //--Crea l'annotation buttonUser (User Interface)
         //--si può usare una UI divisa in 3 sezioni (menu, body, footer)
         //--oppure a schermo pieno (panel),
         if (usaViewTreComponenti) {
@@ -141,6 +143,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         } else {
             root.addStyleName("colorebase");
             panel.addStyleName("colorebase");
+            menuPlaceholder.addStyleName("colorebase");
             viewPlaceholder.addStyleName("colorebase");
             footer.addStyleName("colorebase");
         }// end of if/else cycle
@@ -148,7 +151,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     }// end of method
 
     /**
-     * Crea l'annotation user (User Interface) iniziale dell'applicazione
+     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
      * Top  - una barra composita di menu e login
      * Body - un placeholder per il portale della tavola/modulo
      * Footer - un striscia per eventuali informazioni (Algo, copyright, ecc)
@@ -165,8 +168,9 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         }// fine del blocco try-catch
 
         try { // prova ad eseguire il codice
-            if (menuLayout != null) {
-                root.addComponent(menuLayout);
+            if (menuPlaceholder != null) {
+                menuPlaceholder.setMargin(false);
+                root.addComponent(menuPlaceholder);
             }// end of if cycle
 
             root.addComponentsAndExpand(viewPlaceholder);
@@ -180,7 +184,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
 
     /**
-     * Crea l'annotation user (User Interface) iniziale dell'applicazione
+     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
      * Panel - un placeholder per il portale della tavola/modulo
      * Le applicazioni specifiche, possono sovrascrivere questo metodo nella sottoclasse
      * Il panel viene inserito a livello di root

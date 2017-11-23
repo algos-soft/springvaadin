@@ -61,7 +61,7 @@ public class UserService extends AlgosServiceImpl {
      * @param company  (obbligatoria, se manca usa quella presente in LibSession)
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password password (obbligatoria o facoltativa, non unica)
-     * @param enabled  user abilitato (facoltativo, di default true)
+     * @param enabled  buttonUser abilitato (facoltativo, di default true)
      *
      * @return la entity trovata o appena creata
      */
@@ -127,7 +127,7 @@ public class UserService extends AlgosServiceImpl {
      * @param company  (obbligatoria, se manca usa quella presente in LibSession)
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password password (obbligatoria o facoltativa, non unica)
-     * @param enabled  user abilitato (facoltativo, di default true)
+     * @param enabled  buttonUser abilitato (facoltativo, di default true)
      *
      * @return la nuova entity appena creata (non salvata)
      */

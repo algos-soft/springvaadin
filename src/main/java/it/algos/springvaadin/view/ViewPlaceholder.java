@@ -3,6 +3,8 @@ package it.algos.springvaadin.view;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.lib.LibSession;
 import org.springframework.context.annotation.Lazy;
@@ -29,6 +31,7 @@ public class ViewPlaceholder extends Panel {
     @PostConstruct
     protected void inizia() {
         this.setWidth("100%");
+        this.addStyleName(ValoTheme.PANEL_BORDERLESS);
 
         if (AlgosApp.USE_DEBUG) {
             this.addStyleName("yellowBg");

@@ -61,6 +61,9 @@ public abstract class AlgosUIViews extends AlgosUIParams {
     protected void init(VaadinRequest request) {
         super.init(request);
 
+        //--pulisce la menubar
+        menuLayout.reset();
+
         //--Crea i menu per la gestione delle SpringView (standard e specifiche)
         this.addAllViste();
 
@@ -96,13 +99,13 @@ public abstract class AlgosUIViews extends AlgosUIParams {
     protected void addVisteStandard() {
         menuLayout.addView(RoleNavView.class);
         menuLayout.addView(UserNavView.class);
+        if (LibParams.useVers()) {
+            menuLayout.addView(Versione.class, VersioneNavView.class);
+        }// end of if cycle
         menuLayout.addView(Preferenza.class, PreferenzaNavView.class);
         menuLayout.addView(Stato.class, StatoNavView.class);
         menuLayout.addView(Indirizzo.class, IndirizzoNavView.class);
         menuLayout.addView(Persona.class, PersonaNavView.class);
-        if (LibParams.useVers()) {
-            menuLayout.addView(Versione.class, VersioneNavView.class);
-        }// end of if cycle
         if (LibParams.useLog()) {
             menuLayout.addView(Log.class, LogNavView.class);
         }// end of if cycle

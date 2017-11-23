@@ -44,7 +44,7 @@ public class AlgosStarterServiceTest {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      */
     @Test
@@ -114,7 +114,7 @@ public class AlgosStarterServiceTest {
         assertTrue(queryParamsOttenuti.containsValue("demo"));
         assertEquals(queryParamsOttenuti.get("company"), "demo");
 
-        uriSorgente = "/?company=demo&user=gac";
+        uriSorgente = "/?company=demo&buttonUser=gac";
         queryParamsOttenuti = service.getParams(uriSorgente);
         assertNotNull(queryParamsOttenuti);
         assertEquals(queryParamsOttenuti.size(), 2);
@@ -122,7 +122,7 @@ public class AlgosStarterServiceTest {
         assertTrue(queryParamsOttenuti.containsValue("demo"));
         assertEquals(queryParamsOttenuti.get("company"), "demo");
 
-        uriSorgente = "/?user=gac&company=demo";
+        uriSorgente = "/?buttonUser=gac&company=demo";
         queryParamsOttenuti = service.getParams(uriSorgente);
         assertNotNull(queryParamsOttenuti);
         assertEquals(queryParamsOttenuti.size(), 2);
@@ -144,7 +144,7 @@ public class AlgosStarterServiceTest {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      */
     @Test
@@ -204,11 +204,11 @@ public class AlgosStarterServiceTest {
         siglaOttenuta = service.getSiglaCompany(uriSorgente);
         assertEquals(siglaOttenuta, "demo");
 
-        uriSorgente = "/?company=demo&user=gac";
+        uriSorgente = "/?company=demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaCompany(uriSorgente);
         assertEquals(siglaOttenuta, "demo");
 
-        uriSorgente = "?company=demo&user=gac";
+        uriSorgente = "?company=demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaCompany(uriSorgente);
         assertEquals(siglaOttenuta, "demo");
 
@@ -235,7 +235,7 @@ public class AlgosStarterServiceTest {
      * 2) /demo=
      * 3) /company=demo
      * 4) /?company=demo
-     * 5) /?company=demo&user=gac
+     * 5) /?company=demo&buttonUser=gac
      * 6) http://localhost:8090?demo
      */
     @Test
@@ -273,37 +273,37 @@ public class AlgosStarterServiceTest {
         assertEquals(queryParamsOttenuti.get("param2"), "");
         assertEquals(queryParamsOttenuti.get("param3"), "value3");
 
-        uriSorgente = "/demo&user=gac";
+        uriSorgente = "/demo&buttonUser=gac";
         queryParamsOttenuti = service.getParams(uriSorgente);
         assertNotNull(queryParamsOttenuti);
         assertEquals(queryParamsOttenuti.size(), 2);
         assertTrue(queryParamsOttenuti.containsKey("demo"));
-        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsKey("buttonUser"));
         assertTrue(queryParamsOttenuti.containsValue("gac"));
         assertEquals(queryParamsOttenuti.get("company"), null);
-        assertEquals(queryParamsOttenuti.get("user"), "gac");
+        assertEquals(queryParamsOttenuti.get("buttonUser"), "gac");
 
-        uriSorgente = "/company=demo&user=gac";
+        uriSorgente = "/company=demo&buttonUser=gac";
         queryParamsOttenuti = service.getParams(uriSorgente);
         assertNotNull(queryParamsOttenuti);
         assertEquals(queryParamsOttenuti.size(), 2);
         assertTrue(queryParamsOttenuti.containsKey("company"));
-        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsKey("buttonUser"));
         assertTrue(queryParamsOttenuti.containsValue("demo"));
         assertTrue(queryParamsOttenuti.containsValue("gac"));
         assertEquals(queryParamsOttenuti.get("company"), "demo");
-        assertEquals(queryParamsOttenuti.get("user"), "gac");
+        assertEquals(queryParamsOttenuti.get("buttonUser"), "gac");
 
-        uriSorgente = "/?company=demo&user=gac";
+        uriSorgente = "/?company=demo&buttonUser=gac";
         queryParamsOttenuti = service.getParams(uriSorgente);
         assertNotNull(queryParamsOttenuti);
         assertEquals(queryParamsOttenuti.size(), 2);
         assertTrue(queryParamsOttenuti.containsKey("company"));
-        assertTrue(queryParamsOttenuti.containsKey("user"));
+        assertTrue(queryParamsOttenuti.containsKey("buttonUser"));
         assertTrue(queryParamsOttenuti.containsValue("demo"));
         assertTrue(queryParamsOttenuti.containsValue("gac"));
         assertEquals(queryParamsOttenuti.get("company"), "demo");
-        assertEquals(queryParamsOttenuti.get("user"), "gac");
+        assertEquals(queryParamsOttenuti.get("buttonUser"), "gac");
 
         uriSorgente = "pippoz&v-1506692572130";
         queryParamsOttenuti = service.getParams(uriSorgente);
@@ -315,21 +315,21 @@ public class AlgosStarterServiceTest {
     /**
      * Recupera la sigla dell'Utente come parametro in ingresso.
      * Il nickname del User, contenuto nell'URI, è recuperato se presente nella forma:
-     * 1) /user=gac
-     * 2) /user=gac
+     * 1) /buttonUser=gac
+     * 2) /buttonUser=gac
      * 3) /admin=gac
      * 4) /developer=gac
-     * 5) /?user=gac
-     * 6) /?user=gac
+     * 5) /?buttonUser=gac
+     * 6) /?buttonUser=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
-     * 9) /company=demo&user=gac
-     * 10) /?company=demo&user=gac
+     * 9) /company=demo&buttonUser=gac
+     * 10) /?company=demo&buttonUser=gac
      * 11) http://localhost:8090?demo&user=gac
-     * 12) /demo&user=gac
-     * 13) /?demo&user=gac
-     * 14) /user=gac&demo
-     * 15) /?user=gac&demo
+     * 12) /demo&buttonUser=gac
+     * 13) /?demo&buttonUser=gac
+     * 14) /buttonUser=gac&demo
+     * 15) /?buttonUser=gac&demo
      */
     @Test
     public void getSiglaUtente() {
@@ -340,11 +340,11 @@ public class AlgosStarterServiceTest {
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "");
 
-        uriSorgente = "user=gac";
+        uriSorgente = "buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "user=gac";
+        uriSorgente = "buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
@@ -356,11 +356,11 @@ public class AlgosStarterServiceTest {
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "?user=gac";
+        uriSorgente = "?buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "?user=gac";
+        uriSorgente = "?buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
@@ -372,46 +372,46 @@ public class AlgosStarterServiceTest {
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "company=demo&user=gac";
+        uriSorgente = "company=demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "?company=demo&user=gac";
+        uriSorgente = "?company=demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "http://localhost:8090?demo&user=gac";
+        uriSorgente = "http://localhost:8090?demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "demo&user=gac";
+        uriSorgente = "demo&buttonUser=gac";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
 
-        uriSorgente = "user=gac&demo";
+        uriSorgente = "buttonUser=gac&demo";
         siglaOttenuta = service.getSiglaUtente(uriSorgente);
         assertEquals(siglaOttenuta, "gac");
     }// end of single test
 
 
     /**
-     * Recupera il ruolo dell'user come parametro in ingresso.
-     * Il ruolo dell'user, contenuto nell'URI, è recuperato se presente nella forma:
-     * 1) /user=gac
-     * 2) /user=gac
+     * Recupera il ruolo dell'buttonUser come parametro in ingresso.
+     * Il ruolo dell'buttonUser, contenuto nell'URI, è recuperato se presente nella forma:
+     * 1) /buttonUser=gac
+     * 2) /buttonUser=gac
      * 3) /admin=gac
      * 4) /developer=gac
-     * 5) /?user=gac
-     * 6) /?user=gac
+     * 5) /?buttonUser=gac
+     * 6) /?buttonUser=gac
      * 7) /?admin=gac
      * 8) /?developer=gac
-     * 9) /company=demo&user=gac
-     * 10) /?company=demo&user=gac
+     * 9) /company=demo&buttonUser=gac
+     * 10) /?company=demo&buttonUser=gac
      * 11) http://localhost:8090?demo&user=gac
-     * 12) /demo&user=gac
-     * 13) /?demo&user=gac
-     * 14) /user=gac&demo
-     * 15) /?user=gac&demo
+     * 12) /demo&buttonUser=gac
+     * 13) /?demo&buttonUser=gac
+     * 14) /buttonUser=gac&demo
+     * 15) /?buttonUser=gac&demo
      */
     @Test
     public void getRoleUtente() {
@@ -424,12 +424,12 @@ public class AlgosStarterServiceTest {
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "user=gac";
+        uriSorgente = "buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "user=gac";
+        uriSorgente = "buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
@@ -444,12 +444,12 @@ public class AlgosStarterServiceTest {
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "?user=gac";
+        uriSorgente = "?buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "?user=gac";
+        uriSorgente = "?buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
@@ -464,27 +464,27 @@ public class AlgosStarterServiceTest {
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "company=demo&user=gac";
+        uriSorgente = "company=demo&buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "?company=demo&user=gac";
+        uriSorgente = "?company=demo&buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "http://localhost:8090?demo&user=gac";
+        uriSorgente = "http://localhost:8090?demo&buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "demo&user=gac";
+        uriSorgente = "demo&buttonUser=gac";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);
 
-        uriSorgente = "user=gac&demo";
+        uriSorgente = "buttonUser=gac&demo";
         ruoloPrevisto = ARoleType.user;
         ruoloOttenuto = service.getRoleUtente(uriSorgente);
         assertEquals(ruoloOttenuto, ruoloPrevisto);

@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  * Questa Entity viene usata 'embedded'- Si può 'switchare' a @DBRef, implementando Service e Repository
  */
 @SpringComponent
-@Document(collection = Cost.TAG_IND)
+@Document()
 @AIEntity(company = ACompanyRequired.nonUsata)
 @AIList()
 @AIForm()

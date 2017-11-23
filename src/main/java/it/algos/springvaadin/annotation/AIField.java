@@ -71,28 +71,28 @@ public @interface AIField {
 
 
     /**
-     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * (Optional) Status (field visible and/or enabled in form) of the field.
      * Different for New e for Edit
      * Specific for developer role
-     * Defaults to allways.
+     * Defaults to Form value.
      */
-    FieldAccessibility dev() default FieldAccessibility.allways;
+    FieldAccessibility dev() default FieldAccessibility.asForm;
 
     /**
-     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * (Optional) Status (field visible and/or enabled in form) of the field.
      * Different for New e for Edit
-     * Specific for admin role
-     * Defaults to showOnly.
+     * Specific for buttonAdmin role
+     * Defaults to Form value.
      */
-    FieldAccessibility admin() default FieldAccessibility.showOnly;
+    FieldAccessibility admin() default FieldAccessibility.asForm;
 
     /**
-     * (Optional) Status (field visible and/or enabled in form) of the the field.
+     * (Optional) Status (field visible and/or enabled in form) of the field.
      * Different for New e for Edit
-     * Specific for user role
-     * Defaults to never.
+     * Specific for buttonUser role
+     * Defaults to Form value.
      */
-    FieldAccessibility user() default FieldAccessibility.never;
+    FieldAccessibility user() default FieldAccessibility.asForm;
 
 
     /**

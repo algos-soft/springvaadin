@@ -155,7 +155,7 @@ public abstract class LibReflection {
 
         //--controlla che i fields siano quelli richiesti
         //--se la lista dei nomi dei fields è nulla, li prende tutti
-        //--controlla che i field siano visibili per il livello di developer/admin/user corrente
+        //--controlla che i field siano visibili per il livello di developer/buttonAdmin/buttonUser corrente
         if (fieldsTmp != null && fieldsTmp.size() > 0) {
             if (listaNomi != null && listaNomi.size() > 0) {
                 for (String nome : listaNomi) {

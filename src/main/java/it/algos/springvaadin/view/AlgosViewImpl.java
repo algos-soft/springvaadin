@@ -2,14 +2,17 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.data.ValidationResult;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.presenter.AlgosPresenter;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.ui.AlgosUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationListener;
@@ -25,13 +28,16 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
 
     //--la lista specifica viene iniettata dal costruttore della sottoclasse concreta
     private AlgosList list;
-SecurityProperties.User pippo;
+    SecurityProperties.User pippo;
 
     //--il form specifico viene iniettato dal costruttore della sottoclasse concreta
     private AlgosForm form;
 
 
     protected AlgosPresenterImpl presenter;
+
+    @Autowired
+    protected MenuLayout menuLayout;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -65,9 +71,25 @@ SecurityProperties.User pippo;
      */
     @Override
     public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        fixMenu();
         removeAllComponents();
         list.restart(presenter, entityClazz, columns, items);
         addComponent(list.getComponent());
+    }// end of method
+
+
+    /**
+     * Opzione per personalizzare il menu
+     * Sovrascritto
+     */
+    protected void fixMenu() {
+        AlgosUI algosUI = getUI();
+        menuLayout.start();
+        if (algosUI != null) {
+            algosUI.menuPlaceholder.removeAllComponents();
+            algosUI.menuPlaceholder.addComponent(menuLayout);
+        }// end of if cycle
+
     }// end of method
 
 
@@ -96,9 +118,9 @@ SecurityProperties.User pippo;
      *
      * @param entityBean         istanza da elaborare
      * @param sourceField        di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     * @param reflectedFields       campi del form da visualizzare
-     *                              previsti nel modello dati della Entity
-     *                              più eventuali aggiunte della sottoclasse
+     * @param reflectedFields    campi del form da visualizzare
+     *                           previsti nel modello dati della Entity
+     *                           più eventuali aggiunte della sottoclasse
      * @param usaBottoneRegistra utilizzo del ButtonRegistra, che registra subito
      *                           oppure ButtonAccetta, che demanda la registrazione alla scheda chiamante
      */
@@ -222,6 +244,21 @@ SecurityProperties.User pippo;
     }// end of method
 
     /**
+     * L'interfaccia grafica principlae
+     */
+    public AlgosUI getUI() {
+        AlgosUI algosUI = null;
+        UI vaadinUI = super.getUI();
+
+        if (vaadinUI instanceof AlgosUI) {
+            algosUI = (AlgosUI) vaadinUI;
+        }// end of if cycle
+
+        return algosUI;
+    }// end of method
+
+
+    /**
      * La entity del Form
      *
      * @return la entity del Form
@@ -284,4 +321,5 @@ SecurityProperties.User pippo;
     public AlgosForm getForm() {
         return form;
     }// end of method
+
 }// end of class

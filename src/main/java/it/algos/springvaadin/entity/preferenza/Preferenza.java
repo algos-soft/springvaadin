@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = Cost.TAG_PRE)
+@Document()
 @AIEntity(company = ACompanyRequired.facoltativa)
 @AIList(columns = {"ordine", "code", "type", "livello"}, dev = ListButton.standard, admin = ListButton.edit)
 @AIForm()
@@ -78,7 +78,7 @@ public class Preferenza extends ACompanyEntity {
 
 
     /**
-     * tipo di user che può visualizzare/modificare le preferenze (obbligatorio)
+     * tipo di buttonUser che può visualizzare/modificare le preferenze (obbligatorio)
      */
     @NotNull
     @AIField(type = AFieldType.enumeration, clazz = ARoleType.class, required = true, widthEM = 8, name = "Livello di visibilità", admin = FieldAccessibility.showOnly)
@@ -108,7 +108,7 @@ public class Preferenza extends ACompanyEntity {
      * effetti (obbligatorio, di default 1)
      */
     @NotNull
-    @AIField(type = AFieldType.radio, clazz = PrefEffect.class,required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
+    @AIField(type = AFieldType.radio, clazz = PrefEffect.class, required = true, name = "Attivazione della preferenza", widthEM = 24, admin = FieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = ARoleType.nobody)
     private PrefEffect attivazione;
 
@@ -127,6 +127,10 @@ public class Preferenza extends ACompanyEntity {
     @Override
     public String toString() {
         return getCode();
+    }// end of method
+
+    public Object getValore() {
+        return type.bytesToObject(getValue());
     }// end of method
 
 

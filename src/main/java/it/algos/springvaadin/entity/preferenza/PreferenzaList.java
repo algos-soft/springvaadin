@@ -56,7 +56,7 @@ public class PreferenzaList extends AlgosListImpl {
     protected void inizializza(String className, List items) {
         if (LibSession.isDeveloper()) {
             super.inizializza(className, items);
-            caption += "</br>Lista visibile solo all'admin che vede SOLO le schede della sua company";
+            caption += "</br>Lista visibile solo all'buttonAdmin che vede SOLO le schede della sua company";
             caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è facoltativa";
             caption += "</br>Solo il developer vede queste note";
         } else {

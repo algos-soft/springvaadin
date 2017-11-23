@@ -93,6 +93,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.service = service;
         this.toolbarNormale = toolbarNormale;
         this.toolbarLink = toolbarLink;
+        this.setMargin(false);
     }// end of Spring constructor
 
 

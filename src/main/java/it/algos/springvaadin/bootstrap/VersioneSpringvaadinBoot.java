@@ -164,8 +164,10 @@ public class VersioneSpringvaadinBoot extends VersioneBoot {
                     PROGETTO,
                     Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID,
                     PrefType.bool,
+                    ARoleType.admin,
                     "Selezione multipla nella grid.",
-                    true);
+                    true,
+                    PrefEffect.subito);
         }// fine del blocco if
 
     }// end of method

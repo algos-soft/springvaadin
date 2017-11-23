@@ -134,11 +134,25 @@ public class CompanyData {
         List<Preferenza> listaPref = preferenzaService.findAllSenzaCompany();
         String note = "Preferenza valida solo per questa company\nAltre company possono avere valori diversi";
         Preferenza preferenza;
+        String code = "";
+        PrefType type;
+        ARoleType livello;
+        String descrizione;
+        Object value;
+        PrefEffect attivazione;
+        boolean replica;
 
         if (listaPref != null && listaPref.size() > 0) {
             for (Preferenza pref : listaPref) {
-                if (pref.isReplica()) {
-                    preferenza = creaAndSavePreferenza(company, pref.getCode(), pref.getType(), pref.getLivello(), pref.getDescrizione(), pref.getValue(), pref.getAttivazione(), pref.isReplica());
+                replica = pref.isReplica();
+                if (replica) {
+                    code = pref.getCode();
+                    type = pref.getType();
+                    livello = pref.getLivello();
+                    descrizione = pref.getDescrizione();
+                    value = pref.getValore();
+                    attivazione = pref.getAttivazione();
+                    preferenza = creaAndSavePreferenza(company, code, type, livello, descrizione, value, attivazione, true);
 
                     if (LibText.isEmpty(preferenza.note)) {
                         preferenza.note = note;
@@ -175,7 +189,7 @@ public class CompanyData {
 
 
     protected Preferenza creaAndSavePreferenza(Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect attivazione, boolean replica) {
-        return preferenzaService.findOrCrea(company, code, type, level, descrizione, type.objectToBytes(value), attivazione, replica);
+        return preferenzaService.findOrCrea(company, code, type, level, descrizione, value, attivazione, replica);
     }// end of method
 
 

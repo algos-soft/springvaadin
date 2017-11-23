@@ -476,7 +476,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
      * Flag.
      * Deve essere true il flag useMultiCompany
      * La Entity deve estendere ACompanyEntity
-     * L'user collegato deve essere developer
+     * L'buttonUser collegato deve essere developer
      */
     @Override
     public boolean displayCompany() {
@@ -491,7 +491,7 @@ public abstract class AlgosServiceImpl implements AlgosService {
             return false;
         }// end of if cycle
 
-        //--L'user collegato deve essere developer
+        //--L'buttonUser collegato deve essere developer
         if (!LibSession.isDeveloper()) {
             return false;
         }// end of if cycle

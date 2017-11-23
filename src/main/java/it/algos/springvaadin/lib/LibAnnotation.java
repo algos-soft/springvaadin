@@ -4,7 +4,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.ACompanyEntity;
 import it.algos.springvaadin.entity.ACompanyRequired;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.entity.AEntity;
@@ -13,7 +12,6 @@ import it.algos.springvaadin.form.FormButton;
 import it.algos.springvaadin.list.ListButton;
 import it.algos.springvaadin.login.ARoleType;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -148,7 +146,7 @@ public abstract class LibAnnotation {
      *
      * @return the Annotation for the specific field
      */
-    public static AIField getFormAnnotation(Field reflectionField) {
+    public static AIField getFieldAnnotation(Field reflectionField) {
         if (reflectionField != null) {
             return reflectionField.getAnnotation(AIField.class);
         } else {
@@ -187,7 +185,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static AFieldType getFormType(Field reflectionField) {
         AFieldType type = null;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             type = fieldAnnotation.type();
@@ -258,7 +256,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isRequired(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.required();
@@ -336,10 +334,14 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static FieldAccessibility getFieldAccessibilityDev(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.dev();
+        }// end of if cycle
+
+        if (fieldAccessibility == FieldAccessibility.asForm) {
+            fieldAccessibility = getFormAccessibilityDev(reflectionField.getClass());
         }// end of if cycle
 
         return fieldAccessibility;
@@ -356,10 +358,14 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static FieldAccessibility getFieldAccessibilityAdmin(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.admin();
+        }// end of if cycle
+
+        if (fieldAccessibility == FieldAccessibility.asForm) {
+            fieldAccessibility = getFormAccessibilityAdmin(reflectionField.getClass());
         }// end of if cycle
 
         return fieldAccessibility;
@@ -376,10 +382,73 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static FieldAccessibility getFieldAccessibilityUser(Field reflectionField) {
         FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             fieldAccessibility = fieldAnnotation.user();
+        }// end of if cycle
+
+        if (fieldAccessibility == FieldAccessibility.asForm) {
+            fieldAccessibility = getFormAccessibilityUser(reflectionField.getClass());
+        }// end of if cycle
+
+        return fieldAccessibility;
+    }// end of static method
+
+
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFormAccessibilityDev(Class clazz) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
+        AIForm fieldAnnotation = getFormAnnotation(clazz);
+
+        if (fieldAnnotation != null) {
+            fieldAccessibility = fieldAnnotation.fieldsDev();
+        }// end of if cycle
+
+        return fieldAccessibility;
+    }// end of static method
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFormAccessibilityAdmin(Class clazz) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
+        AIForm fieldAnnotation = getFormAnnotation(clazz);
+
+        if (fieldAnnotation != null) {
+            fieldAccessibility = fieldAnnotation.fieldsAdmin();
+        }// end of if cycle
+
+        return fieldAccessibility;
+    }// end of static method
+
+    /**
+     * Get the status enabled of the property.
+     *
+     * @param reflectionField di riferimento per estrarre le Annotation
+     *
+     * @return status of field
+     */
+    @SuppressWarnings("all")
+    public static FieldAccessibility getFormAccessibilityUser(Class clazz) {
+        FieldAccessibility fieldAccessibility = FieldAccessibility.allways;
+        AIForm fieldAnnotation = getFormAnnotation(clazz);
+
+        if (fieldAnnotation != null) {
+            fieldAccessibility = fieldAnnotation.fieldsUser();
         }// end of if cycle
 
         return fieldAccessibility;
@@ -396,7 +465,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isFocus(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.focus();
@@ -415,7 +484,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isFirstCapital(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.firstCapital();
@@ -435,7 +504,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isAllUpper(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.allUpper();
@@ -455,7 +524,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isNullSelectionAllowed(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.nullSelectionAllowed();
@@ -475,7 +544,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isNewItemsAllowed(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.newItemsAllowed();
@@ -494,7 +563,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isAllLower(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.allLower();
@@ -514,7 +583,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isOnlyNumber(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.onlyNumber();
@@ -533,7 +602,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isOnlyLetter(Field reflectionField) {
         boolean status = true;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             status = fieldAnnotation.onlyLetter();
@@ -581,7 +650,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static String getFormFieldName(Field reflectionField) {
         String name = reflectionField.getName();
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             name = fieldAnnotation.name();
@@ -649,7 +718,7 @@ public abstract class LibAnnotation {
         String width = "";
         int widthInt = 0;
         String tag = "em";
-        AIField fieldAnnotation = getFormAnnotation(field);
+        AIField fieldAnnotation = getFieldAnnotation(field);
 
         if (fieldAnnotation != null) {
             widthInt = fieldAnnotation.widthEM();
@@ -672,7 +741,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static int getNumRows(Field field) {
         int rows = 1;
-        AIField fieldAnnotation = getFormAnnotation(field);
+        AIField fieldAnnotation = getFieldAnnotation(field);
 
         if (fieldAnnotation != null) {
             rows = fieldAnnotation.numRowsTextArea();
@@ -1051,7 +1120,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static Class getClass(Field reflectionField) {
         Class linkClazz = null;
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             linkClazz = fieldAnnotation.clazz();
@@ -1109,7 +1178,7 @@ public abstract class LibAnnotation {
     public static List<String> getFormFieldsName(final Class<? extends AEntity> clazz) {
         List<String> lista = null;
         String[] fields = null;
-        AIForm formAnnotation = getAIForm(clazz);
+        AIForm formAnnotation = getFormAnnotation(clazz);
 
         if (formAnnotation != null) {
             fields = formAnnotation.fields();
@@ -1170,7 +1239,7 @@ public abstract class LibAnnotation {
      *
      * @return the Annotation for the specific class
      */
-    public static AIForm getAIForm(final Class<? extends AEntity> clazz) {
+    public static AIForm getFormAnnotation(final Class<? extends AEntity> clazz) {
         return clazz.getAnnotation(AIForm.class);
     }// end of static method
 
@@ -1185,7 +1254,7 @@ public abstract class LibAnnotation {
     @SuppressWarnings("all")
     public static boolean isFormShowsID(final Class<? extends AEntity> clazz) {
         boolean status = false;
-        AIForm formAnnotation = getAIForm(clazz);
+        AIForm formAnnotation = getFormAnnotation(clazz);
 
         if (formAnnotation != null) {
             status = formAnnotation.showsID();
@@ -1207,7 +1276,7 @@ public abstract class LibAnnotation {
         String width = "";
         int widthInt = 0;
         String tag = "em";
-        AIForm formAnnotation = getAIForm(clazz);
+        AIForm formAnnotation = getFormAnnotation(clazz);
 
         if (formAnnotation != null) {
             widthInt = formAnnotation.widthIDEM();
@@ -1352,7 +1421,7 @@ public abstract class LibAnnotation {
      * Get the status of visibility for the field of ACompanyEntity.
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
      * Controlla se la collection (table) usa la company
-     * Controlla se l'user collegato è un developer
+     * Controlla se l'buttonUser collegato è un developer
      *
      * @param clazz the entity class
      *
@@ -1418,7 +1487,7 @@ public abstract class LibAnnotation {
     public static ARoleType getFieldRoleType(Field reflectionField) {
         ARoleType roleTypeVisibility = ARoleType.guest;
 
-        AIField fieldAnnotation = getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = getFieldAnnotation(reflectionField);
 
         if (fieldAnnotation != null) {
             roleTypeVisibility = fieldAnnotation.roleTypeVisibility();
@@ -1429,7 +1498,7 @@ public abstract class LibAnnotation {
 
     /**
      * Get the visibility of the field.
-     * Controlla il ruolo dell'user connesso
+     * Controlla il ruolo dell'buttonUser connesso
      * Controlla il grado di accesso consentito
      * Di default true
      *
@@ -1451,7 +1520,7 @@ public abstract class LibAnnotation {
 
     /**
      * Get the visibility of the field.
-     * Controlla il ruolo dell'user connesso
+     * Controlla il ruolo dell'buttonUser connesso
      *
      * @param field reflectionField di riferimento per estrarre le Annotation
      *
@@ -1946,14 +2015,14 @@ public abstract class LibAnnotation {
      */
     @SuppressWarnings("all")
     public static FormButton getFormBottonDev(final Class<? extends AEntity> clazz) {
-        FormButton listaNomi = null;
-        AIForm annotation = getAIForm(clazz);
+        FormButton listaNomiBottoni = null;
+        AIForm annotation = getFormAnnotation(clazz);
 
         if (annotation != null) {
-            listaNomi = annotation.dev();
+            listaNomiBottoni = annotation.buttonsDev();
         }// end of if cycle
 
-        return listaNomi;
+        return listaNomiBottoni;
     }// end of static method
 
     /**
@@ -1965,14 +2034,14 @@ public abstract class LibAnnotation {
      */
     @SuppressWarnings("all")
     public static FormButton getFormBottonAdmin(final Class<? extends AEntity> clazz) {
-        FormButton listaNomi = null;
-        AIForm annotation = getAIForm(clazz);
+        FormButton listaNomiBottoni = null;
+        AIForm annotation = getFormAnnotation(clazz);
 
         if (annotation != null) {
-            listaNomi = annotation.admin();
+            listaNomiBottoni = annotation.buttonsAdmin();
         }// end of if cycle
 
-        return listaNomi;
+        return listaNomiBottoni;
     }// end of static method
 
     /**
@@ -1984,14 +2053,14 @@ public abstract class LibAnnotation {
      */
     @SuppressWarnings("all")
     public static FormButton getFormBottonUser(final Class<? extends AEntity> clazz) {
-        FormButton listaNomi = null;
-        AIForm annotation = getAIForm(clazz);
+        FormButton listaNomiBottoni = null;
+        AIForm annotation = getFormAnnotation(clazz);
 
         if (annotation != null) {
-            listaNomi = annotation.user();
+            listaNomiBottoni = annotation.buttonsUser();
         }// end of if cycle
 
-        return listaNomi;
+        return listaNomiBottoni;
     }// end of static method
 
 }// end of static class

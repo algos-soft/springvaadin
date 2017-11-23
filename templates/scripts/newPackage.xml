@@ -70,12 +70,18 @@
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <property name="srcService" value="${pathSourcesFramework}/${tagService}${tagTxt}"/>
+        <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
+        <property name="entitySuperclass" value="AEntity"/>
+        <property name="companyRequired" value=""/>
     </target>
 
     <target name="serviceCompany" description="Regola il nome del sorgente Servic per una Company ">
         <property name="pathBaseFramework" value="${projectsIdea}/${nomeBaseFramework}"/>
         <property name="pathSourcesFramework" value="${pathBaseFramework}/${tagSources}"/>
         <property name="srcService" value="${pathSourcesFramework}/${tagService}Company${tagTxt}"/>
+        <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}Company${tagTxt}"/>
+        <property name="entitySuperclass" value="ACompanyEntity"/>
+        <property name="companyRequired" value=", company = ACompanyRequired.obbligatoria"/>
     </target>
 
     <target name="init" description="Converte la directory">
@@ -122,7 +128,6 @@
 
         <property name="destService" value="${pathEntity}${tagService}${tagJava}"/>
 
-        <property name="srcRepository" value="${pathSourcesFramework}/${tagRepository}${tagTxt}"/>
         <property name="destRepository" value="${pathEntity}${tagRepository}${tagJava}"/>
 
         <property name="destCost" value="${pathCostProject}${tagJava}"/>
@@ -194,9 +199,12 @@
                 <filter token="PROJECT" value="${thisProject}"/>
                 <filter token="PACKAGE" value="${newEntityMinuscolo}"/>
                 <filter token="ENTITY" value="${newEntity}"/>
+                <filter token="ENTITYSUPERCLASS" value="${entitySuperclass}"/>
+                <filter token="COMPANYREQUIRED" value="${companyRequired}"/>
                 <filter token="TAG" value="${tag}"/>
                 <filter token="TODAY" value="${TIMESTAMP}"/>
                 <filter token="IMPORT_COST" value="${importCost}"/>
+
             </filterset>
         </copy>
         <echo message="Copiato ${sourceFile} in ${destFile}"/>
@@ -225,12 +233,12 @@
             <param name="destFile" value="${destPresenter}"/>
         </antcall>
         <antcall target="creaSingoloFile">
-            <param name="sourceFile" value="${srcRepository}"/>
-            <param name="destFile" value="${destRepository}"/>
-        </antcall>
-        <antcall target="creaSingoloFile">
             <param name="sourceFile" value="${srcService}"/>
             <param name="destFile" value="${destService}"/>
+        </antcall>
+        <antcall target="creaSingoloFile">
+            <param name="sourceFile" value="${srcRepository}"/>
+            <param name="destFile" value="${destRepository}"/>
         </antcall>
         <antcall target="creaSingoloFile">
             <param name="sourceFile" value="${srcView}"/>

@@ -218,16 +218,51 @@ public abstract class VersioneBoot {
      * Log a video
      *
      * @param progetto              (obbligatorio, non unica)
-     * @param company               (facoltativa)
      * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      * @param typePreferenza        di dato memorizzato (obbligatorio)
      * @param levelPreferenza       di accesso alla preferenza (obbligatorio)
      * @param descrizionePreferenza visibile (obbligatoria)
      * @param valuePreferenza       valore della preferenza (obbligatorio)
      * @param riavvioPreferenza     attivazione del programma per avere effetto (obbligatorio, di default false)
-     * @param replica               per ogni company (facoltativo, di default falso)
-     * @param notePreferenza        (facoltativo, di default vuote)
      */
+    protected Preferenza creaPreferenzaAndVersione(
+            String progetto,
+            String codePreferenza,
+            PrefType typePreferenza,
+            ARoleType levelPreferenza,
+            String descrizionePreferenza,
+            Object valuePreferenza,
+            PrefEffect riavvioPreferenza) {
+        return creaPreferenzaAndVersione(
+                progetto,
+                (Company) null,
+                codePreferenza,
+                typePreferenza,
+                levelPreferenza,
+                descrizionePreferenza,
+                valuePreferenza,
+                riavvioPreferenza,
+                true,
+                "");
+    }// end of method
+
+
+        /**
+          * Creazione di una versione (se non trovata)
+          * Creazione di una preferenza (se non trovata)
+          * Log a video
+          *
+          * @param progetto              (obbligatorio, non unica)
+          * @param company               (facoltativa)
+          * @param codePreferenza        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+          * @param typePreferenza        di dato memorizzato (obbligatorio)
+          * @param levelPreferenza       di accesso alla preferenza (obbligatorio)
+          * @param descrizionePreferenza visibile (obbligatoria)
+          * @param valuePreferenza       valore della preferenza (obbligatorio)
+          * @param riavvioPreferenza     attivazione del programma per avere effetto (obbligatorio, di default false)
+          * @param replica               per ogni company (facoltativo, di default falso)
+          * @param notePreferenza        (facoltativo, di default vuote)
+          */
     protected Preferenza creaPreferenzaAndVersione(
             String progetto,
             Company company,
@@ -251,7 +286,7 @@ public abstract class VersioneBoot {
                 typePreferenza,
                 levelPreferenza,
                 descrizionePreferenza,
-                typePreferenza.objectToBytes(valuePreferenza),
+                valuePreferenza,
                 riavvioPreferenza,
                 replica);
         try { // prova ad eseguire il codice

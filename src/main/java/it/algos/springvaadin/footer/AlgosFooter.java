@@ -70,7 +70,7 @@ public class AlgosFooter extends HorizontalLayout {
             if (LibSession.isAdmin()) {
                 message += " (admin)";
             } else {
-                message += " (user)";
+                message += " (buttonUser)";
             }// end of if/else cycle
         }// end of if/else cycle
 

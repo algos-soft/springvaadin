@@ -8,13 +8,13 @@ package it.algos.springvaadin.login;
 public interface UserIF {
 
     /**
-     * @return the user name
+     * @return the buttonUser name
      */
     String getNickname();
 
 
     /**
-     * @return true if this user is admin
+     * @return true if this buttonUser is admin
      */
     boolean isAdmin();
 
@@ -39,7 +39,7 @@ public interface UserIF {
 
 
     /**
-     * Validate a password for this current user.
+     * Validate a password for this current buttonUser.
      *
      * @param password the password
      * @return true if valid

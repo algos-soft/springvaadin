@@ -18,8 +18,10 @@ import java.util.List;
 @Qualifier(@TAG@)
 public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
 
-    public @ENTITY@ findByCode(String code);
+    public @ENTITY@ findByCompanyAndCode(Company company, String code);
 
     public List<@ENTITY@> findByOrderByCodeAsc();
+
+    public List<@ENTITY@> findByCompanyOrderByCodeAsc(Company company);
 
 }// end of class

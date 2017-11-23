@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.persona;
 
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.Cost;
@@ -118,5 +119,21 @@ public class PersonaService extends AlgosServiceImpl {
         return new Persona(nome, cognome, telefono, email, indirizzo);
     }// end of method
 
+    /**
+     * Returns all instances of the type
+     * Usa MultiCompany, ma non obbligatoria -> ACompanyRequired.facoltativa
+     * Filtrata sulla company indicata
+     * Se la company è nulla, prende solo le entities che hanno la property company=null
+     * (questo perché la property company NON è obbligatoria; se lo fosse, prenderebbe tutte le entities)
+     * Lista ordinata
+     *
+     * @param company ACompanyRequired.facoltativa
+     *
+     * @return entities filtrate
+     */
+    @Override
+    public List findAllByCompany(Company company) {
+        return repository.findByCompanyOrderByCognomeAsc(company);
+    }// end of method
 
 }// end of class

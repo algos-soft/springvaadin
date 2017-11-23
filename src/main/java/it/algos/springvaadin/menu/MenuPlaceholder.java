@@ -35,7 +35,7 @@ public class MenuPlaceholder extends CssLayout {
     private MenuBar firstMenuBar;
 
     /**
-     * Lista di altri menu. Opzionali. Possono essere uno o due o tre. Per admin e developper o altro.
+     * Lista di altri menu. Opzionali. Possono essere uno o due o tre. Per buttonAdmin e developper o altro.
      * Tipicamente hanno un colore diverso per evidenziarli.
      */
     private List<MenuBar> altriMenuBar;

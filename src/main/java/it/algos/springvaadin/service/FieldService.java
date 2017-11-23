@@ -1,14 +1,9 @@
 package it.algos.springvaadin.service;
 
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.TextField;
 import it.algos.springvaadin.converter.AlgosConverter;
 import it.algos.springvaadin.converter.FirstCapitalConverter;
 import it.algos.springvaadin.converter.LowerConverter;
@@ -24,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -61,7 +55,7 @@ public class FieldService {
         boolean nuovaEntity = LibText.isEmpty(entityBean.id);
         AFieldType type = LibAnnotation.getFormType(reflectionField);
         String caption = LibAnnotation.getFormFieldName(reflectionField);
-        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectionField);
+        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectionField);
         String width = LibAnnotation.getWidthEM(reflectionField);
         int rows = LibAnnotation.getNumRows(reflectionField);
         boolean required = LibAnnotation.isRequired(reflectionField);
@@ -313,7 +307,7 @@ public class FieldService {
     private List<AValidator> creaValidators(Field reflectedField) {
         List<AValidator> lista = new ArrayList<>();
         AbstractValidator validator = null;
-        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectedField);
+        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
         AFieldType type = null;
         String fieldName = LibText.primaMaiuscola(reflectedField.getName());
         fieldName = LibText.setRossoBold(fieldName);
@@ -421,7 +415,7 @@ public class FieldService {
     public List<AlgosConverter> creaConverters(  Field reflectedField) {
         List<AlgosConverter> lista = new ArrayList<>();
         AlgosConverter converter = null;
-        AIField fieldAnnotation = LibAnnotation.getFormAnnotation(reflectedField);
+        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
         boolean checkFirstCapital = LibAnnotation.isFirstCapital(reflectedField);
         boolean checkUpper = LibAnnotation.isAllUpper(reflectedField);
         boolean checkLower = LibAnnotation.isAllLower(reflectedField);

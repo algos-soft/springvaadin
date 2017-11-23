@@ -32,14 +32,14 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document(collection = @TAG@)
-@AIEntity(roleTypeVisibility = ARoleType.user, company = ACompanyRequired.obbligatoria)
+@AIEntity(roleTypeVisibility = ARoleType.user@COMPANYREQUIRED@)
 @AIList(columns = {"code", "descrizione"}, dev = ListButton.standard, admin = ListButton.noSearch, user = ListButton.show)
 @AIForm(fields = {"code", "descrizione", "note"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class @ENTITY@ extends ACompanyEntity {
+public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
 
 
     /**

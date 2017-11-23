@@ -9,7 +9,7 @@ import it.algos.springvaadin.ui.AlgosUIParams;
  * Created by gac on 19/06/17
  * Restituisce i valori di tutti i parametri dell'applicazione
  * sia quelli gestiti da AlgosApp (business logic)
- * sia quelli gestiti da AlgosUIParams (annotation user)
+ * sia quelli gestiti da AlgosUIParams (annotation buttonUser)
  * I relativi valori sono stati regolati in AlgosApp, AlgosSpringBoot, SpringVaadinSpringBoot, AlgosFixParams, SpringVaadinUI
  */
 public abstract class LibParams {

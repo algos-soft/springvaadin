@@ -54,7 +54,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
+    public Preferenza findOrCrea(String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio) {
         return findOrCrea((Company) null, code, type, level, descrizione, value, riavvio, true);
     }// end of method
 
@@ -70,11 +70,11 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
-     * @param replica     per ogni company (facoltativo, di default falso)
+     * @param replica     per ogni company (facoltativo, di default true)
      *
      * @return la entity trovata o appena creata
      */
-    public Preferenza findOrCrea(Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
+    public Preferenza findOrCrea(Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio, boolean replica) {
         if (nonEsiste(company, code)) {
             try { // prova ad eseguire il codice
                 return (Preferenza) save(newEntity(0, company, code, type, level, descrizione, value, riavvio, replica));
@@ -97,7 +97,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      */
     @Override
     public Preferenza newEntity() {
-        return newEntity(0, (Company) null, "", (PrefType) null, (ARoleType) null, "", (byte[]) null, PrefEffect.subito, true);
+        return newEntity(0, (Company) null, "", (PrefType) null, (ARoleType) null, "", (Object) null, PrefEffect.subito, true);
     }// end of method
 
 
@@ -116,7 +116,7 @@ public class PreferenzaService extends AlgosServiceImpl {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio) {
+    public Preferenza newEntity(String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio) {
         return newEntity(code, type, level, descrizione, value, riavvio, true);
     }// end of method
 
@@ -133,12 +133,33 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
-     * @param replica     per ogni company (facoltativo, di default falso)
+     * @param replica     per ogni company (facoltativo, di default true)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
+    public Preferenza newEntity(String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio, boolean replica) {
         return newEntity(0, (Company) null, code, type, level, descrizione, value, riavvio, replica);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param company     (facoltativa)
+     * @param code        sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param type        di dato memorizzato (obbligatorio)
+     * @param level       di accesso alla preferenza (obbligatorio)
+     * @param descrizione visibile (obbligatoria)
+     * @param value       valore della preferenza (obbligatorio)
+     * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public Preferenza newEntity(Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio) {
+        return newEntity(0, (Company) null, code, type, level, descrizione, value, riavvio, true);
     }// end of method
 
     /**
@@ -155,18 +176,18 @@ public class PreferenzaService extends AlgosServiceImpl {
      * @param descrizione visibile (obbligatoria)
      * @param value       valore della preferenza (obbligatorio)
      * @param riavvio     attivazione del programma per avere effetto (obbligatorio, di default false)
-     * @param replica     per ogni company (facoltativo, di default falso)
+     * @param replica     per ogni company (facoltativo, di default true)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Preferenza newEntity(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, byte[] value, PrefEffect riavvio, boolean replica) {
+    public Preferenza newEntity(int ordine, Company company, String code, PrefType type, ARoleType level, String descrizione, Object value, PrefEffect riavvio, boolean replica) {
         Preferenza preferenza = new Preferenza(
                 ordine == 0 ? this.getNewOrdine() : ordine,
                 code,
                 type,
                 level,
                 descrizione,
-                value,
+                type.objectToBytes(value),
                 riavvio,
                 replica);
 

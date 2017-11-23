@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = Cost.TAG_ROL)
+@Document()
 @AIEntity( company = ACompanyRequired.nonUsata)
 @AIList()
 @AIForm()

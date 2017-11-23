@@ -50,14 +50,14 @@ public @interface AIList {
 
     /**
      * (Optional) List of buttom on bottom
-     * Specific for admin role
+     * Specific for buttonAdmin role
      * Defaults to standard.
      */
     ListButton admin() default ListButton.noSearch;
 
     /**
      * (Optional) List of buttom on bottom
-     * Specific for user role
+     * Specific for buttonUser role
      * Defaults to standard.
      */
     ListButton user() default ListButton.edit;

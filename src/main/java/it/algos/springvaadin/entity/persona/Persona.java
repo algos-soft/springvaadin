@@ -7,6 +7,7 @@ import it.algos.springvaadin.entity.indirizzo.Indirizzo;
 import it.algos.springvaadin.entity.indirizzo.IndirizzoPresenter;
 import it.algos.springvaadin.field.AFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.LibText;
@@ -33,7 +34,7 @@ import javax.validation.constraints.Size;
  * Questa Entity viene usata 'embedded'- Si può 'switchare' a @DBRef, implementando Service e Repository
  */
 @SpringComponent
-@Document(collection = Cost.TAG_PER)
+@Document()
 @AIEntity(company = ACompanyRequired.facoltativa)
 @AIList()
 @AIForm()

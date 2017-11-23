@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("prototype")
+@Scope("singleton")
 public class MenuLayout extends VerticalLayout {
 
     public static String MENU_ABILITATO = "highlight";
@@ -60,6 +60,26 @@ public class MenuLayout extends VerticalLayout {
 
 
     /**
+     * pulisce la menubar
+     */
+    public void reset() {
+        this.removeAllComponents();
+
+        if (firstMenuBar != null) {
+            firstMenuBar.removeItems();
+        }// end of if cycle
+
+        if (secondMenuBar != null) {
+            secondMenuBar.removeItems();
+        }// end of if cycle
+
+        if (thirdMenuBar != null) {
+            thirdMenuBar.removeItems();
+        }// end of if cycle
+    }// end of method
+
+
+    /**
      * avvia la menubar, dopo aver aggiunto tutte le viste
      */
     public void start() {
@@ -78,7 +98,7 @@ public class MenuLayout extends VerticalLayout {
 
     /**
      * Adds a view to the firstMenuBar
-     * Chechk if the logged user is enabled to views this view
+     * Chechk if the logged buttonUser is enabled to views this view
      *
      * @param entityClazz the model class to check the visibility
      * @param viewClazz   the view class to adds
@@ -146,7 +166,16 @@ public class MenuLayout extends VerticalLayout {
      * Regola l'aspetto di tutti i menu <br>
      */
     public void deselezionaAllItemButOne(MenuBar.MenuItem selectedItem) {
-        List<MenuBar.MenuItem> lista = firstMenuBar.getItems();
+        deselezionaAllItemButOneBase(firstMenuBar, selectedItem);
+        deselezionaAllItemButOneBase(secondMenuBar, selectedItem);
+        deselezionaAllItemButOneBase(thirdMenuBar, selectedItem);
+    }// end of method
+
+    /**
+     * Regola l'aspetto di tutti i menu <br>
+     */
+    private void deselezionaAllItemButOneBase(MenuBar menuBar, MenuBar.MenuItem selectedItem) {
+        List<MenuBar.MenuItem> lista = menuBar.getItems();
 
         for (MenuBar.MenuItem menuItem : lista) {
             if (menuItem != selectedItem) {
@@ -216,6 +245,24 @@ public class MenuLayout extends VerticalLayout {
             } // fine del ciclo for
         }// fine del blocco if
 
+        if (secondMenuBar != null) {
+            List<MenuBar.MenuItem> items = secondMenuBar.getItems();
+            for (MenuBar.MenuItem item : items) {
+                if (item.getText().equalsIgnoreCase(viewName)) {
+                    itemRequested = item;
+                }// end of if cycle
+            } // fine del ciclo for
+        }// fine del blocco if
+
+        if (thirdMenuBar != null) {
+            List<MenuBar.MenuItem> items = thirdMenuBar.getItems();
+            for (MenuBar.MenuItem item : items) {
+                if (item.getText().equalsIgnoreCase(viewName)) {
+                    itemRequested = item;
+                }// end of if cycle
+            } // fine del ciclo for
+        }// fine del blocco if
+
         return itemRequested;
     }// end of method
 
@@ -228,6 +275,14 @@ public class MenuLayout extends VerticalLayout {
 
         if (firstMenuBar != null && item != null) {
             firstMenuBar.removeItem(item);
+        }// fine del blocco if
+
+        if (secondMenuBar != null && item != null) {
+            secondMenuBar.removeItem(item);
+        }// fine del blocco if
+
+        if (thirdMenuBar != null && item != null) {
+            thirdMenuBar.removeItem(item);
         }// fine del blocco if
 
     }// end of method
