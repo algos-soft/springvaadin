@@ -6,6 +6,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibSession;
 import org.springframework.context.annotation.Lazy;
 

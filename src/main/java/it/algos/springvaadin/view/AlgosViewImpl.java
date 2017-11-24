@@ -5,8 +5,10 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AlgosForm;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AlgosList;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationListener;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -39,6 +42,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
     @Autowired
     protected MenuLayout menuLayout;
 
+    @Autowired
+    public PreferenzaService pref;
+
     /**
      * Costruttore @Autowired (nella superclasse)
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
@@ -49,6 +55,14 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         this.list = list;
         this.form = form;
     }// end of Spring constructor
+
+
+    /**
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void inizia() {
+    }// end of method
 
     /**
      * Metodo inserito per compatibilità con l'annotation View, ma non utilizzato
@@ -71,6 +85,9 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            this.addStyleName("greenBg");
+        }// end of if cycle
         fixMenu();
         removeAllComponents();
         list.restart(presenter, entityClazz, columns, items);

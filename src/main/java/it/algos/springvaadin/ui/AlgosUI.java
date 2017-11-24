@@ -136,9 +136,9 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         }// end of if/else cycle
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-            root.addStyleName("blueBg");
-            panel.addStyleName("blueBg");
-            viewPlaceholder.addStyleName("yellowBg");
+            root.addStyleName("pinkBg");
+            panel.addStyleName("redBg");
+            viewPlaceholder.addStyleName("blueBg");
             footer.addStyleName("yellowBg");
         } else {
             root.addStyleName("colorebase");

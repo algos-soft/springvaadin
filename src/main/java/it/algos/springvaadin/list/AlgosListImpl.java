@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,13 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
 
 
     /**
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void inizia() {
+    }// end of method
+
+    /**
      * Creazione della grid
      * Ricrea tutto ogni volta che diventa attivo
      *
@@ -80,6 +88,9 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
      */
     @Override
     public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            this.addStyleName("yellowBg");
+        }// end of if cycle
         Label label;
         this.setMargin(false);
         List<String> listaBottoni;

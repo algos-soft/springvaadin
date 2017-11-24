@@ -9,6 +9,7 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -80,6 +82,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     protected AToolbar toolbarNormale;
     private AToolbar toolbarLink;
 
+    @Autowired
+    public PreferenzaService pref;
+
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
@@ -98,6 +103,14 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
 
     /**
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void inizia() {
+    }// end of method
+
+
+    /**
      * Creazione del form
      * Ricrea tutto ogni volta che diventa attivo
      * Sceglie tra pannello a tutto schermo, oppure finestra popup
@@ -109,6 +122,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      */
     @Override
     public void restart(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean, boolean usaSeparateFormDialog) {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            this.addStyleName("blueBg");
+        }// end of if cycle
         this.source = source;
         this.entityBean = entityBean;
         toolbar = toolbarNormale;

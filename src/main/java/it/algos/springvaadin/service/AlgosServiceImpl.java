@@ -63,6 +63,8 @@ public abstract class AlgosServiceImpl implements AlgosService {
             creaIdKeySpecifica(entityBean);
         }// end of if cycle
 
+        entityBean.dataCreazione=null;
+        entityBean.dataModifica=null;
         if (LibParams.useMultiCompany()) {
             switch (tableCompanyRequired) {
                 case nonUsata:
