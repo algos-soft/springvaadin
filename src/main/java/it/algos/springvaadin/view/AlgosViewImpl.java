@@ -26,12 +26,15 @@ import java.util.List;
 /**
  * Created by gac on 07/07/17
  * Implementazione standard dell'annotation AlgosView
+ * La vista sia List che Form, 'normalmente' si compone di:
+ * Top - eventuali scritte esplicative, collezione usata, records trovati, tipo di modifica, ecc
+ * Body - Grid o fields del Form. Scorrevole
+ * Footer - barra dei bottoni
  */
 public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView {
 
     //--la lista specifica viene iniettata dal costruttore della sottoclasse concreta
     private AlgosList list;
-    SecurityProperties.User pippo;
 
     //--il form specifico viene iniettato dal costruttore della sottoclasse concreta
     private AlgosForm form;

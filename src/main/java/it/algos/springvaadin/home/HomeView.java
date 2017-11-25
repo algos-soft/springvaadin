@@ -1,6 +1,7 @@
 package it.algos.springvaadin.home;
 
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.entity.AEntity;
@@ -50,44 +51,42 @@ public class HomeView extends AlgosViewImpl {
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid
      */
-    @Override
     public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
 //        this.setSizeUndefined();
         this.setMargin(false);
-        this.setWidth(100, Sizeable.UNITS_PERCENTAGE);
-        this.setHeight(100, Sizeable.UNITS_PERCENTAGE);
+        this.setWidth("100%");
+        this.setHeight("100%");
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             this.addStyleName("blueBg");
-            this.setWidth(90, Sizeable.UNITS_PERCENTAGE);
-            this.setHeight(90, Sizeable.UNITS_PERCENTAGE);
+//            this.setWidth(90, Sizeable.UNITS_PERCENTAGE);
+//            this.setHeight(90, Sizeable.UNITS_PERCENTAGE);
         }// end of if cycle
         removeAllComponents();
 
+        VerticalLayout sopra = new VerticalLayout();
+//        VerticalLayout sopra = new VerticalLayout(new LabelRosso("Pippoz"));
+        sopra.setMargin(false);
+        sopra.setHeightUndefined();
+        this.addComponent(sopra);
+
         Panel panel = new Panel();
-//        panel.setSizeUndefined();
         panel.addStyleName("yellowBg");
-//        panel.setHeight("30em");
         panel.setHeight(100, Sizeable.UNITS_PERCENTAGE);
         Layout layout = new VerticalLayout();
         layout.addStyleName("greenBg");
         layout.setWidth(90, Sizeable.UNITS_PERCENTAGE);
-//        layout.setHeight(90, Sizeable.UNITS_PERCENTAGE);
-
-//        layout.setSizeUndefined();
-//        layout.setHeight(100, Sizeable.UNITS_PERCENTAGE);
         for (int k = 0; k < 18; k++) {
             layout.addComponent(new Button("Pippoz"));
         }// end of for cycle
         panel.setContent(layout);
-        VerticalLayout sopra = new VerticalLayout(new LabelRosso("Pippoz"));
-        sopra.setMargin(false);
-        sopra.setHeight(100, Sizeable.UNITS_PERCENTAGE);
-        this.addComponent(sopra);
         this.addComponent(panel);
-        VerticalLayout sotto = new VerticalLayout(new Button("Chiudi"));
+        this.setExpandRatio(panel, 1);
+
+        VerticalLayout sotto = new VerticalLayout();
+//        VerticalLayout sotto = new VerticalLayout(new Button("Chiudi"));
         sotto.setMargin(false);
-        sotto.setHeight(100, Sizeable.UNITS_PERCENTAGE);
+        sotto.setHeightUndefined();
         this.addComponent(sotto);
     }// end of method
 
