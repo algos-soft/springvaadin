@@ -214,7 +214,8 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         if (navView != null) {
             if (usaViewTreComponenti) {
                 creaViewTreComponenti();
-                viewPlaceholder.setContent((Component) navView);
+                viewPlaceholder.removeAllComponents();
+                viewPlaceholder.addComponent((Component) navView);
             } else {
                 panel.setContent((Component) view);
             }// end of if/else cycle

@@ -1,9 +1,6 @@
 package it.algos.springvaadin.list;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
@@ -108,7 +105,15 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         }// end of if cycle
 
         grid.inizia(entityClazz, columns, items);
-        this.addComponent(grid);
+        Panel panel = new Panel();
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            panel.addStyleName("redBg");
+        }// end of if cycle
+        panel.setHeightUndefined();
+        panel.setWidthUndefined();
+        panel.setContent(grid);
+        this.addComponent(panel);
+//        this.addComponent(grid);
 
         //--Prepara la toolbar e la aggiunge al contenitore grafico
         listaBottoni = service.getListBottonNames();

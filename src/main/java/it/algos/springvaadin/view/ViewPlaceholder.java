@@ -2,6 +2,7 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -18,7 +19,7 @@ import javax.annotation.PostConstruct;
  */
 @Lazy
 @SpringComponent
-public class ViewPlaceholder extends Panel {
+public class ViewPlaceholder extends HorizontalLayout {
 
     /**
      * Metodo invocato subito DOPO il costruttore
@@ -31,7 +32,7 @@ public class ViewPlaceholder extends Panel {
      */
     @PostConstruct
     protected void inizia() {
-        this.setWidth("100%");
+        this.setSizeUndefined();
         this.addStyleName(ValoTheme.PANEL_BORDERLESS);
 
         if (AlgosApp.USE_DEBUG) {

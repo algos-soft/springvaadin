@@ -200,7 +200,13 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
          * --necessaria per ''recuperare'' un singolo algosField dal nome
          */
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        fixFields(source, this, reflectedFields, entityBean);
+        VerticalLayout layout = new VerticalLayout();
+        fixFields(source, layout, reflectedFields, entityBean);
+        Panel panel = new Panel();
+        panel.setHeightUndefined();
+        panel.setWidthUndefined();
+        panel.setContent(layout);
+        this.addComponent(panel);
 
         //--Prepara la toolbar e la aggiunge al layout
         //--rimanda ad un metodo separato per poterlo sovrascrivere
