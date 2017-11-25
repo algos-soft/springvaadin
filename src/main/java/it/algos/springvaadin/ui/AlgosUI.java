@@ -5,17 +5,20 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.entity.versione.VersioneNavView;
 import it.algos.springvaadin.footer.AlgosFooter;
+import it.algos.springvaadin.home.HomeView;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibAvviso;
 import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.nav.AlgosNavView;
+import it.algos.springvaadin.view.AlgosView;
 import it.algos.springvaadin.view.ViewPlaceholder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +89,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         //--Controlla (se MultiUtenza) che sia stata selezionata una company valida
         //--Crea la User Interface
         if (AlgosApp.USE_MULTI_COMPANY) {
-            if (LibSession.isCompanyValida() ) {
+            if (LibSession.isCompanyValida()) {
                 this.creaUI();
             } else {
                 if (LibSession.isDeveloper()) {
@@ -124,6 +127,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         //--crea la UI di base, un VerticalLayout
         root = new VerticalLayout();
         root.setSizeFull();
+        root.setMargin(new MarginInfo(true, false, false, true));
         this.setContent(root);
 
         //--Crea l'annotation buttonUser (User Interface)
@@ -137,12 +141,11 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             root.addStyleName("pinkBg");
-            panel.addStyleName("redBg");
-            viewPlaceholder.addStyleName("blueBg");
+            menuPlaceholder.addStyleName("yellowBg");
+            viewPlaceholder.addStyleName("yellowBg");
             footer.addStyleName("yellowBg");
         } else {
             root.addStyleName("colorebase");
-            panel.addStyleName("colorebase");
             menuPlaceholder.addStyleName("colorebase");
             viewPlaceholder.addStyleName("colorebase");
             footer.addStyleName("colorebase");
@@ -161,13 +164,11 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
      */
     protected void creaViewTreComponenti() {
 
-        try { // prova ad eseguire il codice
+        if (root != null) {
             root.removeAllComponents();
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.warn("Error", unErrore.toString());
-        }// fine del blocco try-catch
+        }// end of if cycle
 
-        try { // prova ad eseguire il codice
+        try { // prova ad eseguire il codicere
             if (menuPlaceholder != null) {
                 menuPlaceholder.setMargin(false);
                 root.addComponent(menuPlaceholder);
@@ -212,6 +213,13 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         }// end of if cycle
 
         if (navView != null) {
+            if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+                if (navView instanceof HomeView) {
+                    ((HomeView) navView).setSizeUndefined();
+                    ((HomeView) navView).addStyleName("greenBg");
+                }// end of if cycle
+            }// end of if cycle
+
             if (usaViewTreComponenti) {
                 creaViewTreComponenti();
                 viewPlaceholder.removeAllComponents();

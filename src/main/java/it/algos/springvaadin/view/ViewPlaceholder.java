@@ -1,5 +1,6 @@
 package it.algos.springvaadin.view;
 
+import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.HorizontalLayout;
@@ -15,11 +16,11 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 12/06/17
- * .
+ * VerticalLayout has 100% width and undefined height by default.
  */
 @Lazy
 @SpringComponent
-public class ViewPlaceholder extends HorizontalLayout {
+public class ViewPlaceholder extends VerticalLayout {
 
     /**
      * Metodo invocato subito DOPO il costruttore
@@ -32,12 +33,16 @@ public class ViewPlaceholder extends HorizontalLayout {
      */
     @PostConstruct
     protected void inizia() {
-        this.setSizeUndefined();
+        this.setMargin(false);
+
+////        this.setSizeUndefined();
+//        this.setWidth(50, Sizeable.UNITS_PERCENTAGE);
+//        this.setHeight(90, Sizeable.UNITS_PERCENTAGE);
         this.addStyleName(ValoTheme.PANEL_BORDERLESS);
 
-        if (AlgosApp.USE_DEBUG) {
-            this.addStyleName("yellowBg");
-        }// fine del blocco if
+//        if (AlgosApp.USE_DEBUG) {
+//            this.addStyleName("yellowBg");
+//        }// fine del blocco if
 
     }// end of method
 
