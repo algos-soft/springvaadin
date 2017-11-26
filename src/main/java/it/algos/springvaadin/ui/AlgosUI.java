@@ -19,6 +19,7 @@ import it.algos.springvaadin.lib.LibSession;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.view.AlgosViewImpl;
 import it.algos.springvaadin.view.ViewPlaceholder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +48,13 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     //--versione della classe per la serializzazione
     private static final long serialVersionUID = 1L;
 
-    //--crea la UI di base, un VerticalLayou
+    //--crea la UI di base, un VerticalLayout
     protected VerticalLayout root;
 
-    //--A placeholder component which a SpringNavigator can populate with different views
-    protected Panel panel = new Panel();
+    //--A placeholder component which a single module can put is own menubar
+    public VerticalLayout menuPlaceholder;
 
     //--A placeholder component which a SpringNavigator can populate with different views
-    public VerticalLayout menuPlaceholder = new VerticalLayout();
-
-    //--A placeholder for spring views
     @Autowired
     protected ViewPlaceholder viewPlaceholder;
 
@@ -90,7 +88,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
         //--Crea la User Interface
         if (AlgosApp.USE_MULTI_COMPANY) {
             if (LibSession.isCompanyValida()) {
-                this.creaUI();
+                this.creazioneInizialeUI();
             } else {
                 if (LibSession.isDeveloper()) {
                     if (algosStartService.getSiglaCompany(request).equals("")) {
@@ -98,7 +96,7 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
                     } else {
                         LibAvviso.warn("La company indicata non esiste");
                     }// end of if/else cycle
-                    this.creaUI();
+                    this.creazioneInizialeUI();
                 } else {
                     if (algosStartService.getSiglaCompany(request).equals("")) {
                         LibAvviso.error("Manca una company di riferimento");
@@ -108,45 +106,60 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
                 }// end of if/else cycle
             }// end of if/else cycle
         } else {
-            this.creaUI();
+            this.creazioneInizialeUI();
         }// end of if/else cycle
     }// end of method
 
     /**
-     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
-     * Crea i menu specifici
+     * Crea la UI di base (User Interface) iniziale dell'applicazione, un VerticalLayout
      * Layout standard composto da:
      * Top      - una barra composita di menu e login
      * Body     - un placeholder per il portale della tavola/modulo
      * Footer   - un striscia per eventuali informazioni (Algo, copyright, ecc)
+     * Tutti i 3 componenti vengono inseriti a livello di root nel layout verticale
      * <p>
      * Può essere sovrascritto per gestire la UI in maniera completamente diversa
      */
-    protected void creaUI() {
-
-        //--crea la UI di base, un VerticalLayout
+    protected void creazioneInizialeUI() {
         root = new VerticalLayout();
         root.setSizeFull();
         root.setMargin(new MarginInfo(true, false, false, true));
-        this.setContent(root);
-
-        //--Crea l'annotation buttonUser (User Interface)
-        //--si può usare una UI divisa in 3 sezioni (menu, body, footer)
-        //--oppure a schermo pieno (panel),
-        if (usaViewTreComponenti) {
-            creaViewTreComponenti();
-        } else {
-            creaSingoloPanel();
-        }// end of if/else cycle
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             root.addStyleName("pinkBg");
-            menuPlaceholder.addStyleName("yellowBg");
+        } else {
+            root.addStyleName("colorebase");
+        }// end of if/else cycle
+
+        this.setContent(root);
+        startVistaIniziale();
+    }// end of method
+
+
+    /**
+     * Costruisce il placeholder e visualizza i menu
+     * Visualizza il placeholder (già esistente) che contiene la view
+     * Visualizza il footer (già esistente)
+     */
+    protected void restart() {
+        root.removeAllComponents();
+
+        //--Costruisce il placeholder e visualizza i menu
+        menuPlaceholder = creaTop();
+        root.addComponent(menuPlaceholder);
+
+        //--Visualizza il placeholder (già esistente) che contiene la view
+        root.addComponentsAndExpand(viewPlaceholder);
+
+        //--Visualizza il footer (già esistente)
+        root.addComponent(footer);
+
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            menuLayout.addStyleName("yellowBg");
             viewPlaceholder.addStyleName("yellowBg");
             footer.addStyleName("yellowBg");
         } else {
-            root.addStyleName("colorebase");
-            menuPlaceholder.addStyleName("colorebase");
+            menuLayout.addStyleName("colorebase");
             viewPlaceholder.addStyleName("colorebase");
             footer.addStyleName("colorebase");
         }// end of if/else cycle
@@ -154,50 +167,18 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
     }// end of method
 
     /**
-     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
      * Top  - una barra composita di menu e login
-     * Body - un placeholder per il portale della tavola/modulo
-     * Footer - un striscia per eventuali informazioni (Algo, copyright, ecc)
-     * Tutti i 3 componenti vengono inseriti a livello di root nel layout verticale
      *
-     * @return layout - normalmente un Panel
+     * @return layout - normalmente un VerticalLayout
      */
-    protected void creaViewTreComponenti() {
+    protected VerticalLayout creaTop() {
+        VerticalLayout menuPlaceholder = new VerticalLayout();
 
-        if (root != null) {
-            root.removeAllComponents();
-        }// end of if cycle
+        menuPlaceholder.setMargin(false);
+        menuPlaceholder.addComponent(menuLayout);
+        menuLayout.start();
 
-        try { // prova ad eseguire il codicere
-            if (menuPlaceholder != null) {
-                menuPlaceholder.setMargin(false);
-                root.addComponent(menuPlaceholder);
-            }// end of if cycle
-
-            root.addComponentsAndExpand(viewPlaceholder);
-            root.addComponent(footer);
-
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-
-    }// end of method
-
-
-    /**
-     * Crea l'annotation buttonUser (User Interface) iniziale dell'applicazione
-     * Panel - un placeholder per il portale della tavola/modulo
-     * Le applicazioni specifiche, possono sovrascrivere questo metodo nella sottoclasse
-     * Il panel viene inserito a livello di root
-     *
-     * @return layout - normalmente un Panel
-     */
-    protected Panel creaSingoloPanel() {
-        panel.setSizeUndefined();
-        root.addComponent(panel);
-        root.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
-
-        return panel;
+        return menuPlaceholder;
     }// end of method
 
 
@@ -214,19 +195,19 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
         if (navView != null) {
             if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-                if (navView instanceof HomeView) {
-                    ((HomeView) navView).setSizeUndefined();
-                    ((HomeView) navView).addStyleName("greenBg");
+                if (navView instanceof AlgosViewImpl) {
+                    ((AlgosViewImpl) navView).setMargin(false);
+//                    ((AlgosViewImpl) navView).setWidth("100%");
+//                    ((AlgosViewImpl) navView).setHeight("100%");
+
+                    ((AlgosViewImpl) navView).addStyleName("greenBg");
                 }// end of if cycle
             }// end of if cycle
 
-            if (usaViewTreComponenti) {
-                creaViewTreComponenti();
-                viewPlaceholder.removeAllComponents();
-                viewPlaceholder.addComponent((Component) navView);
-            } else {
-                panel.setContent((Component) view);
-            }// end of if/else cycle
+            restart();
+
+            viewPlaceholder.removeAllComponents();
+            viewPlaceholder.addComponent((Component) navView);
         }// end of if cycle
     }// end of method
 

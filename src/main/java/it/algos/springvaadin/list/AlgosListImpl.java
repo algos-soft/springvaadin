@@ -1,7 +1,8 @@
 package it.algos.springvaadin.list;
 
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import it.algos.springvaadin.app.AlgosApp;
+import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.grid.AlgosGrid;
@@ -9,7 +10,6 @@ import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.renderer.ByteStringRenderer;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.ListToolbar;
@@ -25,11 +25,15 @@ import java.util.List;
 /**
  * Created by gac on 20/06/17
  * Implementazione standard dell'annotation AlgosList
+ * Questa vista 'normalmente' si compone di:
+ * Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
+ * Body - Grid. Scorrevole
+ * Bottom - Barra dei bottoni
  */
 public abstract class AlgosListImpl extends VerticalLayout implements AlgosList {
 
     @Autowired
-    private PreferenzaService pref;
+    protected PreferenzaService pref;
 
     //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
     public AlgosService service;
@@ -48,6 +52,16 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
     protected AToolbar toolbar;
 
+    //--Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
+    protected VerticalLayout topLayout;
+
+
+    //--Body - Grid. Scorrevole
+    protected Panel bodyLayout ;
+
+
+    //--Bottom - Barra dei bottoni
+    protected VerticalLayout bottomLayout;
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -74,11 +88,12 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     private void inizia() {
     }// end of method
 
+
     /**
      * Creazione della grid
      * Ricrea tutto ogni volta che diventa attivo
      *
-     * @param source   di riferimento per gli eventi
+     * @param source      di riferimento per gli eventi
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid
@@ -86,53 +101,97 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     @Override
     public void restart(AlgosPresenterImpl source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-            this.addStyleName("yellowBg");
+            this.addStyleName("blueBg");
         }// end of if cycle
-        Label label;
+
         this.setMargin(false);
-        List<String> listaBottoni;
+        this.setWidth("100%");
+        this.setHeight("100%");
         this.removeAllComponents();
 
+        topLayout = creaTop(entityClazz, items);
+        this.addComponent(topLayout);
+
+        bodyLayout = creaBody(entityClazz, columns, items);
+        this.addComponent(bodyLayout);
+
+        bottomLayout = creaBottom(source);
+        this.addComponent(bottomLayout);
+        this.setExpandRatio(bodyLayout, 1);
+    }// end of method
+
+
+    /**
+     * Crea la scritta esplicativa
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected VerticalLayout creaTop(Class<? extends AEntity> entityClazz, List items) {
+        VerticalLayout topLayout = new VerticalLayout();
+        topLayout.setMargin(false);
+        topLayout.setHeightUndefined();
+
         //--gestione delle scritte in rosso sopra la Grid
-        inizializza(entityClazz.getSimpleName(), items);
+        this.fixCaption(entityClazz.getSimpleName(), items);
         if (LibText.isValid(caption)) {
             if (LibParams.usaAvvisiColorati()) {
-                label = new LabelRosso(caption);
+                topLayout.addComponent(new LabelRosso(caption));
             } else {
-                label = new Label(caption);
+                topLayout.addComponent(new Label(caption));
             }// end of if/else cycle
-            this.addComponent(label);
+        }// end of if cycle
+
+        return topLayout;
+    }// end of method
+
+
+    /**
+     * Crea la Grid
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected Panel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        Panel bodyLayout = new Panel();
+        bodyLayout.addStyleName(ValoTheme.PANEL_BORDERLESS );
+        bodyLayout.setWidth("100%");
+        bodyLayout.setHeight("100%");
+
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            bodyLayout.addStyleName("redBg");
         }// end of if cycle
 
         grid.inizia(entityClazz, columns, items);
-        Panel panel = new Panel();
-        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-            panel.addStyleName("redBg");
-        }// end of if cycle
-        panel.setHeightUndefined();
-        panel.setWidthUndefined();
-        panel.setContent(grid);
-        this.addComponent(panel);
-//        this.addComponent(grid);
+        bodyLayout.setContent(grid);
 
-        //--Prepara la toolbar e la aggiunge al contenitore grafico
-        listaBottoni = service.getListBottonNames();
+        return bodyLayout;
+    }// end of method
+
+
+    /**
+     * Prepara la barra dei bottoni di comando
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected VerticalLayout creaBottom(AlgosPresenterImpl source) {
+        VerticalLayout bottomLayout = new VerticalLayout();
+        bottomLayout.setMargin(false);
+        bottomLayout.setHeightUndefined();
+        List<String> listaBottoni = service.getListBottonNames();
         inizializzaToolbar(source, listaBottoni);
         fixToolbar();
-        this.addComponent((ListToolbar) toolbar);
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG)) {
             this.addStyleName("rosso");
             grid.addStyleName("verde");
         }// fine del blocco if
+
+        bottomLayout.addComponent((ListToolbar) toolbar);
+        return bottomLayout;
     }// end of method
 
-
     /**
+     * Crea la scritta esplicativa
      * Chiamato ogni volta che la finestra diventa attiva
-     * Può essere sovrascritto per un'intestazione (caption) della grid
+     * Può essere sovrascritto per un'intestazione specifica (caption) della grid
      */
-    protected void inizializza(String className, List items) {
+    protected void fixCaption(String className, List items) {
         caption = className + " - ";
 
         if (items != null && items.size() > 0) {

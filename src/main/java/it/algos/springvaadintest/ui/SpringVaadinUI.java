@@ -99,19 +99,12 @@ public class SpringVaadinUI extends AlgosUI {
 
 
     /**
-     * Creazione delle viste (moduli) specifiche dell'applicazione.
-     * La superclasse AlgosUIParams crea (flag true/false) le viste (moduli) usate da tutte le applicazioni
-     * I flag si regolano in @PostConstruct:init()
-     * <p>
-     * Aggiunge al menu generale, le viste (moduli) disponibili alla partenza dell'applicazione
-     * Ogni modulo può eventualmente modificare il proprio menu
-     * <p>
+     * Lancio della vista iniziale
+     * Chiamato DOPO aver finito di costruire il MenuLayout e la AlgosUI
      * Deve (DEVE) essere sovrascritto dalla sottoclasse
-     * Chiama il metodo  addView(...) della superclasse per ogni vista (modulo)
-     * La vista viene aggiunta alla barra di menu principale (di partenza)
-     * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
-    protected void addVisteSpecifiche() {
+    @Override
+    protected void startVistaIniziale() {
         getNavigator().navigateTo(Cost.TAG_PRE);
     }// end of method
 

@@ -64,11 +64,12 @@ public class HomeView extends AlgosViewImpl {
         }// end of if cycle
         removeAllComponents();
 
-        VerticalLayout sopra = new VerticalLayout();
-//        VerticalLayout sopra = new VerticalLayout(new LabelRosso("Pippoz"));
+        VerticalLayout sopra = new VerticalLayout(new LabelRosso("Pippoz"));
         sopra.setMargin(false);
         sopra.setHeightUndefined();
         this.addComponent(sopra);
+
+
 
         Panel panel = new Panel();
         panel.addStyleName("yellowBg");
@@ -83,8 +84,9 @@ public class HomeView extends AlgosViewImpl {
         this.addComponent(panel);
         this.setExpandRatio(panel, 1);
 
-        VerticalLayout sotto = new VerticalLayout();
-//        VerticalLayout sotto = new VerticalLayout(new Button("Chiudi"));
+
+
+        VerticalLayout sotto = new VerticalLayout(new Button("Chiudi"));
         sotto.setMargin(false);
         sotto.setHeightUndefined();
         this.addComponent(sotto);

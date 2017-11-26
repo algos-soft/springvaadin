@@ -91,8 +91,12 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             this.addStyleName("greenBg");
         }// end of if cycle
-        fixMenu();
         removeAllComponents();
+        this.setMargin(false);
+        this.setWidth("100%");
+        this.setHeight("100%");
+
+        fixMenu();
         list.restart(presenter, entityClazz, columns, items);
         addComponent(list.getComponent());
     }// end of method
@@ -109,7 +113,6 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
             algosUI.menuPlaceholder.removeAllComponents();
             algosUI.menuPlaceholder.addComponent(menuLayout);
         }// end of if cycle
-
     }// end of method
 
 
