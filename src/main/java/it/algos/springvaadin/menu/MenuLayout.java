@@ -6,13 +6,16 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaNavView;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.login.ARoleType;
+import it.algos.springvaadin.panel.AlgosPanel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -86,16 +89,17 @@ public class MenuLayout extends VerticalLayout {
      * avvia la menubar, dopo aver aggiunto tutte le viste
      */
     public void start() {
+        this.removeAllComponents();
         if (firstMenuBar.getItems().size() > 0) {
-            this.addComponent(firstMenuBar);
+            this.addComponent(new AlgosPanel(firstMenuBar));
         }// end of if cycle
 
         if (secondMenuBar.getItems().size() > 0) {
-            this.addComponent(secondMenuBar);
+            this.addComponent(new AlgosPanel(secondMenuBar));
         }// end of if cycle
 
         if (thirdMenuBar.getItems().size() > 0) {
-            this.addComponent(thirdMenuBar);
+            this.addComponent(new AlgosPanel(thirdMenuBar));
         }// end of if cycle
     }// end of method
 

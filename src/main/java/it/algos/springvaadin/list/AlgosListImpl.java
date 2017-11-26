@@ -1,14 +1,13 @@
 package it.algos.springvaadin.list;
 
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.panel.AlgosPanel;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.toolbar.AToolbar;
@@ -46,7 +45,8 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     protected String caption;
 
     //--Body - Grid. Scorrevole
-    protected Panel bodyLayout ;
+    @Autowired
+    protected AlgosPanel bodyPanel;
 
     //--AlgosGrid, iniettata dal costruttore
     //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
@@ -109,12 +109,12 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
         topLayout = creaTop(entityClazz, items);
         this.addComponent(topLayout);
 
-        bodyLayout = creaBody(entityClazz, columns, items);
-        this.addComponent(bodyLayout);
+        bodyPanel = creaBody(entityClazz, columns, items);
+        this.addComponent(bodyPanel);
 
         bottomLayout = creaBottom(source);
         this.addComponent(bottomLayout);
-        this.setExpandRatio(bodyLayout, 1);
+        this.setExpandRatio(bodyPanel, 1);
     }// end of method
 
 
@@ -144,21 +144,17 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     /**
      * Crea la Grid
      * Chiamato ogni volta che la finestra diventa attiva
+     * Inserisce la Grid in un pannello scorrevole
      */
-    protected Panel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        Panel bodyLayout = new Panel();
-        bodyLayout.addStyleName(ValoTheme.PANEL_BORDERLESS );
-        bodyLayout.setWidth("100%");
-        bodyLayout.setHeight("100%");
-
+    protected AlgosPanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-            bodyLayout.addStyleName("redBg");
+            bodyPanel.addStyleName("redBg");
         }// end of if cycle
 
         grid.inizia(entityClazz, columns, items);
-        bodyLayout.setContent(grid);
+        bodyPanel.setContent(grid);
 
-        return bodyLayout;
+        return bodyPanel;
     }// end of method
 
 

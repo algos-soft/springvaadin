@@ -17,6 +17,7 @@ import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.panel.AlgosPanel;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.service.FieldService;
 import it.algos.springvaadin.toolbar.AToolbar;
@@ -87,7 +88,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 //    protected String caption;
 //
 //    //--Body - Grid. Scorrevole
-//    protected Panel bodyLayout ;
+//    protected Panel bodyPanel ;
 //
 //    //--AlgosGrid, iniettata dal costruttore
 //    //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
@@ -95,6 +96,9 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 //
 //    //--Bottom - Barra dei bottoni
 //    protected VerticalLayout bottomLayout;
+
+    @Autowired
+    protected AlgosPanel bodyPanel;
 
 
     //--toolbar coi bottoni, iniettato dal costruttore
@@ -231,19 +235,15 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         fixFields(source, bodyLayout, reflectedFields, entityBean);
 
-        Panel panel = new Panel();
-        panel.addStyleName(ValoTheme.PANEL_BORDERLESS);
-        panel.setWidth("100%");
-        panel.setHeight("100%");
-
-        panel.setContent(bodyLayout);
-        this.addComponent(panel);
+        //--inserisce il layout con i fields in un pannello scorrevole
+        bodyPanel.setContent(bodyLayout);
+        this.addComponent(bodyPanel);
 
         //--Prepara la toolbar e la aggiunge al layout
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         fixToolbar(this);
 
-        this.setExpandRatio(panel, 1);
+        this.setExpandRatio(bodyPanel, 1);
     }// end of method
 
     /**
