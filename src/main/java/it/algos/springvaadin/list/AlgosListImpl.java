@@ -38,30 +38,27 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
     //--il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
     public AlgosService service;
 
+    //--Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
+    protected VerticalLayout topLayout;
+
     //--valore che può essere regolato nella classe specifica
     //--usando un metodo @PostConstruct
     protected String caption;
 
+    //--Body - Grid. Scorrevole
+    protected Panel bodyLayout ;
 
     //--AlgosGrid, iniettata dal costruttore
     //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
     protected AlgosGrid grid;
 
+    //--Bottom - Barra dei bottoni
+    protected VerticalLayout bottomLayout;
 
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
     protected AToolbar toolbar;
 
-    //--Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
-    protected VerticalLayout topLayout;
-
-
-    //--Body - Grid. Scorrevole
-    protected Panel bodyLayout ;
-
-
-    //--Bottom - Barra dei bottoni
-    protected VerticalLayout bottomLayout;
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)

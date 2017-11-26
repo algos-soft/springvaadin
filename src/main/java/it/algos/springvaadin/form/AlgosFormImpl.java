@@ -5,12 +5,15 @@ import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.Converter;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.preferenza.Preferenza;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
@@ -76,6 +79,24 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
     private final static String CAPTION_EDIT = "Modifica scheda";
 
 
+//    //--Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
+//    protected VerticalLayout topLayout;
+//
+//    //--valore che può essere regolato nella classe specifica
+//    //--usando un metodo @PostConstruct
+//    protected String caption;
+//
+//    //--Body - Grid. Scorrevole
+//    protected Panel bodyLayout ;
+//
+//    //--AlgosGrid, iniettata dal costruttore
+//    //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
+//    protected AlgosGrid grid;
+//
+//    //--Bottom - Barra dei bottoni
+//    protected VerticalLayout bottomLayout;
+
+
     //--toolbar coi bottoni, iniettato dal costruttore
     //--un eventuale Toolbar specifica verrebbe iniettata dal costruttore della sottoclasse concreta
     protected AToolbar toolbar;
@@ -125,6 +146,10 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             this.addStyleName("blueBg");
         }// end of if cycle
+        this.setMargin(false);
+        this.setWidth("100%");
+        this.setHeight("100%");
+
         this.source = source;
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
@@ -199,18 +224,26 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
          * Aggiunge i componenti grafici AField ad una fieldList interna,
          * --necessaria per ''recuperare'' un singolo algosField dal nome
          */
+        VerticalLayout bodyLayout = new VerticalLayout();
+        bodyLayout.setMargin(false);
+        bodyLayout.setHeightUndefined();
+
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        VerticalLayout layout = new VerticalLayout();
-        fixFields(source, layout, reflectedFields, entityBean);
+        fixFields(source, bodyLayout, reflectedFields, entityBean);
+
         Panel panel = new Panel();
-        panel.setHeightUndefined();
-        panel.setWidthUndefined();
-        panel.setContent(layout);
+        panel.addStyleName(ValoTheme.PANEL_BORDERLESS);
+        panel.setWidth("100%");
+        panel.setHeight("100%");
+
+        panel.setContent(bodyLayout);
         this.addComponent(panel);
 
         //--Prepara la toolbar e la aggiunge al layout
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         fixToolbar(this);
+
+        this.setExpandRatio(panel, 1);
     }// end of method
 
     /**

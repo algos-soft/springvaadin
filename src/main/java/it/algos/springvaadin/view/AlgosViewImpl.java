@@ -88,14 +88,15 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-            this.addStyleName("greenBg");
-        }// end of if cycle
-        removeAllComponents();
-        this.setMargin(false);
-        this.setWidth("100%");
-        this.setHeight("100%");
+//        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+//            this.addStyleName("greenBg");
+//        }// end of if cycle
+//        removeAllComponents();
+//        this.setMargin(false);
+//        this.setWidth("100%");
+//        this.setHeight("100%");
 
+        fixGUI();
         fixMenu();
         list.restart(presenter, entityClazz, columns, items);
         addComponent(list.getComponent());
@@ -149,11 +150,26 @@ public abstract class AlgosViewImpl extends VerticalLayout implements AlgosView 
      */
     @Override
     public void setFormLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectedFields, AButtonType type) {
-        removeAllComponents();
+        fixGUI();
         form.restartLink(source, target, sourceField, entityBean, reflectedFields, type);
         addComponent(form.getComponent());
         enableButtonForm(AButtonType.revert, false);
         enableButtonForm(AButtonType.registra, false);
+    }// end of method
+
+
+    /**
+     * Regola l'aspetto grafico di questo contenitore
+     *
+     */
+    public void fixGUI() {
+        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
+            this.addStyleName("greenBg");
+        }// end of if cycle
+        removeAllComponents();
+        this.setMargin(false);
+        this.setWidth("100%");
+        this.setHeight("100%");
     }// end of method
 
 

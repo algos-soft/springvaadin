@@ -52,10 +52,10 @@ public class HomeView extends AlgosViewImpl {
      * @param items       da visualizzare nella Grid
      */
     public void setList(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-//        this.setSizeUndefined();
         this.setMargin(false);
-        this.setWidth("100%");
+        this.setWidth("80%");
         this.setHeight("100%");
+        this.addStyleName("blueBg");
 
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             this.addStyleName("blueBg");
@@ -73,10 +73,12 @@ public class HomeView extends AlgosViewImpl {
 
         Panel panel = new Panel();
         panel.addStyleName("yellowBg");
-        panel.setHeight(100, Sizeable.UNITS_PERCENTAGE);
+        panel.setWidth("80%");
+        panel.setHeight("100%");
         Layout layout = new VerticalLayout();
         layout.addStyleName("greenBg");
-        layout.setWidth(90, Sizeable.UNITS_PERCENTAGE);
+        layout.setWidth("80%");
+        layout.setHeightUndefined();
         for (int k = 0; k < 18; k++) {
             layout.addComponent(new Button("Pippoz"));
         }// end of for cycle
