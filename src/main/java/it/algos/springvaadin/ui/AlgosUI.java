@@ -197,9 +197,6 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
                 if (navView instanceof AlgosViewImpl) {
                     ((AlgosViewImpl) navView).setMargin(false);
-//                    ((AlgosViewImpl) navView).setWidth("100%");
-//                    ((AlgosViewImpl) navView).setHeight("100%");
-
                     ((AlgosViewImpl) navView).addStyleName("greenBg");
                 }// end of if cycle
             }// end of if cycle
@@ -208,7 +205,13 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
             viewPlaceholder.removeAllComponents();
             viewPlaceholder.addComponent((Component) navView);
-        }// end of if cycle
+        } else {
+            root.removeAllComponents();
+            if (view instanceof AlgosNavView) {
+                root.addComponent((AlgosNavView) view);
+            }// end of if cycle
+        }// end of if/else cycle
+
     }// end of method
 
 

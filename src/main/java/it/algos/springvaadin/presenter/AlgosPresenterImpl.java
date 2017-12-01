@@ -231,7 +231,8 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
-        modifica(entityBean, false, false, true);
+        boolean usaSeparateFormDialog = pref.isFalse(Cost.KEY_USE_FORM_ALL_SCREEN);
+        modifica(entityBean, usaSeparateFormDialog, false, true);
     }// end of method
 
     /**

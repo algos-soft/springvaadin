@@ -3,6 +3,8 @@ package it.algos.springvaadin;
 import it.algos.springvaadin.lib.LibDate;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -14,10 +16,19 @@ import static org.junit.Assert.assertFalse;
 public class LibDateTest {
 
     // alcune date di riferimento
-    private static Date DATA_UNO = new Date(1413868320000L); // 21 ottobre 2014, 7 e 12
-    private static Date DATA_DUE = new Date(1398057120000L); // 21 aprile 2014, 7 e 12
-    private static Date DATA_TRE = new Date(1412485920000L); // 5 ottobre 2014, 7 e 12
-    private static Date DATA_QUATTRO = new Date(1394259124000L); // 8 marzo 2014, 7 e 12 e 4
+    private final static Date DATE_UNO = new Date(1413868320000L); // 21 ottobre 2014, 7 e 12
+    private final static Date DATE_DUE = new Date(1398057120000L); // 21 aprile 2014, 7 e 12
+    private final static Date DATE_TRE = new Date(1412485920000L); // 5 ottobre 2014, 7 e 12
+    private final static Date DATE_QUATTRO = new Date(1394259124000L); // 8 marzo 2014, 7 e 12 e 4
+
+    private final static LocalDate LOCAL_DATE_UNO = LocalDate.of(2014, 10, 21);
+    private final static LocalDate LOCAL_DATE_DUE = LocalDate.of(2014, 4, 21);
+    private final static LocalDate LOCAL_DATE_TRE = LocalDate.of(2014, 10, 5);
+    private final static LocalDate LOCAL_DATE_QUATTRO = LocalDate.of(2014, 3, 8);
+
+    private final static LocalDateTime LOCAL_DATE_TIME_UNO = LocalDateTime.of(2014, 10, 21, 7, 15);
+    private final static LocalDateTime LOCAL_DATE_TIME_DUE = LocalDateTime.of(2014, 4, 21, 0, 0);
+
     private static int GIORNO = 12;
     private static int MESE = 7;
     private static int ANNO = 2004;
@@ -33,60 +44,172 @@ public class LibDateTest {
     private boolean boolOttenuto;
 
 
-    /**
-     * Restituisce una stringa nel formato d-M-yy
-     * <p>
-     * Returns a string representation of the date <br>
-     * Not using leading zeroes in day <br>
-     * Two numbers for year <b>
-     *
-     * @param date da rappresentare
-     *
-     * @return la data sotto forma di stringa
-     */
     @Test
-    public void getShort() {
+    public void dateToLocalDate() {
+        previsto = "lunedì, 21-aprile-2014";
+        LocalDate dataPrevista = LOCAL_DATE_DUE;
+        LocalDate dataCovertita = LibDate.dateToLocalDate(DATE_DUE);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("dateToLocalDate: OK - " + ottenuto);
+    }// end of single test
+
+    @Test
+    public void dateToLocalDateTime() {
+        previsto = "lunedì, 21-aprile-2014 07:12";
+        LocalDateTime dataPrevista = LOCAL_DATE_TIME_DUE;
+        LocalDateTime dataCovertita = LibDate.dateToLocalDateTime(DATE_DUE);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("dateToLocalDateTime: OK - " + ottenuto);
+    }// end of single test
+
+    @Test
+    public void localDateToDate() {
+        previsto = "lunedì, 21-aprile-2014";
+        Date dataPrevista = DATE_DUE;
+        Date dataCovertita = LibDate.localDateToDate(LOCAL_DATE_DUE);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("localDateToDate: (deprecated) - " + ottenuto);
+    }// end of single test
+
+    @Test
+    public void localDateToLocalDateTime() {
+        previsto = "lunedì, 21-aprile-2014 00:00";
+        LocalDateTime dataPrevista = LOCAL_DATE_TIME_DUE;
+        LocalDateTime dataCovertita = LibDate.localDateToLocalDateTime(LOCAL_DATE_DUE);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("localDateToLocalDateTime: OK a mezzanotte- " + ottenuto);
+    }// end of single test
+
+    @Test
+    public void localDateTimeToLocalDate() {
+        previsto = "martedì, 21-ottobre-2014";
+        LocalDate dataPrevista = LOCAL_DATE_UNO;
+        LocalDate dataCovertita = LibDate.localDateTimeToLocalDate(LOCAL_DATE_TIME_UNO);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("localDateTimeToLocalDate: minuti persi- " + ottenuto);
+    }// end of single test
+
+    @Test
+    public void localDateTimeToDate() {
+        previsto = "martedì, 21-ottobre-2014";
+        Date dataPrevista = DATE_UNO;
+        Date dataCovertita = LibDate.localDateTimeToDate(LOCAL_DATE_TIME_UNO);
+        ottenuto = LibDate.getLong(dataCovertita);
+        assertEquals(ottenuto, previsto);
+        System.out.println("localDateTimeToDate: (deprecated) minuti persi- " + ottenuto);
+    }// end of single test
+
+
+    @Test
+    public void getLocalDate() {
         previsto = "5-10-14";
-        ottenuto = LibDate.getShort(DATA_TRE);
+        ottenuto = LibDate.getShort(LOCAL_DATE_TRE);
         assertEquals(ottenuto, previsto);
-    }// end of static method
+        System.out.println("(LocalDate) getShort: " + ottenuto);
 
-
-    /**
-     * Restituisce una stringa nel formato d-MMM-yyyy
-     * <p>
-     * Returns a string representation of the date <br>
-     * Not using leading zeroes in day <br>
-     * Two numbers for year <b>
-     *
-     * @param date da rappresentare
-     *
-     * @return la data sotto forma di stringa
-     */
-    @Test
-    public void getNormal() {
         previsto = "5-ott-2014";
-        ottenuto = LibDate.getNormal(DATA_TRE);
+        ottenuto = LibDate.getNormal(LOCAL_DATE_TRE);
         assertEquals(ottenuto, previsto);
-    }// end of static method
+        System.out.println("(LocalDate) getNormal: " + ottenuto);
 
-    /**
-     * Restituisce una stringa nel formato EEEE, d-MMMM-yyyy
-     * <p>
-     * Returns a string representation of the date <br>
-     * Not using leading zeroes in day <br>
-     * Four numbers for year <b>
-     *
-     * @param date da rappresentare
-     *
-     * @return la data sotto forma di stringa
-     */
-    @Test
-    public void getLong() {
         previsto = "domenica, 5-ottobre-2014";
-        ottenuto = LibDate.getLong(DATA_TRE);
+        ottenuto = LibDate.getLong(LOCAL_DATE_TRE);
         assertEquals(ottenuto, previsto);
-    }// end of static method
+        System.out.println("(LocalDate) getLong: " + ottenuto);
+
+        previsto = "dom 5";
+        ottenuto = LibDate.getWeekShort(LOCAL_DATE_TRE);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(LocalDate) getWeekShort: " + ottenuto);
+
+        previsto = "domenica 5";
+        ottenuto = LibDate.getWeekLong(LOCAL_DATE_TRE);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(LocalDate) getWeekLong: " + ottenuto);
+    }// end of single test
+
+
+    @Test
+    public void getLocalDateTime() {
+        previsto = "21-10-14 07:15";
+        ottenuto = LibDate.getShort(LOCAL_DATE_TIME_UNO);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(LocalDateTime) getShort: " + ottenuto);
+
+        previsto = "21-ott-2014 07:15";
+        ottenuto = LibDate.getNormal(LOCAL_DATE_TIME_UNO);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(LocalDateTime) getNormal: " + ottenuto);
+
+        previsto = "martedì, 21-ottobre-2014 07:15";
+        ottenuto = LibDate.getLong(LOCAL_DATE_TIME_UNO);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(LocalDateTime) getLong: " + ottenuto);
+    }// end of single test
+
+
+    @Test
+    @Deprecated // use LocalDate instead
+    public void getDate() {
+        previsto = "5-10-14";
+        ottenuto = LibDate.getShort(DATE_TRE);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(Date - @Deprecated, use LocalDate instead) getShort: " + ottenuto);
+
+        previsto = "5-ott-2014";
+        ottenuto = LibDate.getNormal(DATE_TRE);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(Date - @Deprecated, use LocalDate instead) getNormal: " + ottenuto);
+
+        previsto = "domenica, 5-ottobre-2014";
+        ottenuto = LibDate.getLong(DATE_TRE);
+        assertEquals(ottenuto, previsto);
+        System.out.println("(Date - @Deprecated, use LocalDate instead) getLong: " + ottenuto);
+    }// end of single test
+
+
+    @Test
+    public void add() {
+        LocalDate successivoLD;
+        LocalDateTime successivoLDT;
+        Date successivoD;
+
+        previsto = "lunedì, 6-ottobre-2014";
+        successivoLD = LibDate.add(LOCAL_DATE_TRE, 1);
+        ottenuto = LibDate.getLong(successivoLD);
+        assertEquals(ottenuto, previsto);
+        System.out.println("add (LocalDate): " + ottenuto);
+
+        previsto = "sabato, 25-ottobre-2014 07:15";
+        successivoLDT = LibDate.add(LOCAL_DATE_TIME_UNO, 4);
+        ottenuto = LibDate.getLong(successivoLDT);
+        assertEquals(ottenuto, previsto);
+        System.out.println("add (LocalDateTime): " + ottenuto);
+
+        previsto = "venerdì, 18-aprile-2014";
+        successivoD = LibDate.add(DATE_DUE, -3);
+        ottenuto = LibDate.getLong(successivoD);
+        assertEquals(ottenuto, previsto);
+        System.out.println("add (Date - @Deprecated, use LocalDate instead)): " + ottenuto);
+    }// end of single test
+
+
+    @Test
+    public void addTime() {
+        LocalDateTime dateTimeOttenuta;
+
+        previsto = "21-ott-2014 07:15";
+        dateTimeOttenuta = LibDate.addTime(LOCAL_DATE_UNO, 7, 15);
+        ottenuto = LibDate.getNormal(dateTimeOttenuta);
+        assertEquals(ottenuto, previsto);
+        System.out.println("addTime (7:15): " + ottenuto);
+    }// end of single test
+
 
     @Test
     /**
@@ -102,19 +225,19 @@ public class LibDateTest {
      */
     public void toStringDDMMMMYYYY() {
         previsto = "21-ottobre-2014";
-        ottenuto = LibDate.toStringDDMMMMYYYY(DATA_UNO);
+        ottenuto = LibDate.toStringDDMMMMYYYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-aprile-2014";
-        ottenuto = LibDate.toStringDDMMMMYYYY(DATA_DUE);
+        ottenuto = LibDate.toStringDDMMMMYYYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "05-ottobre-2014";
-        ottenuto = LibDate.toStringDDMMMMYYYY(DATA_TRE);
+        ottenuto = LibDate.toStringDDMMMMYYYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "08-marzo-2014";
-        ottenuto = LibDate.toStringDDMMMMYYYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDDMMMMYYYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -132,19 +255,19 @@ public class LibDateTest {
      */
     public void toStringDDMMMYYYY() {
         previsto = "21-ott-2014";
-        ottenuto = LibDate.toStringDDMMMYYYY(DATA_UNO);
+        ottenuto = LibDate.toStringDDMMMYYYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-apr-2014";
-        ottenuto = LibDate.toStringDDMMMYYYY(DATA_DUE);
+        ottenuto = LibDate.toStringDDMMMYYYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "05-ott-2014";
-        ottenuto = LibDate.toStringDDMMMYYYY(DATA_TRE);
+        ottenuto = LibDate.toStringDDMMMYYYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "08-mar-2014";
-        ottenuto = LibDate.toStringDDMMMYYYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDDMMMYYYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -162,19 +285,19 @@ public class LibDateTest {
      */
     public void toStringDMMMYY() {
         previsto = "21-ott-14";
-        ottenuto = LibDate.toStringDMMMYY(DATA_UNO);
+        ottenuto = LibDate.toStringDMMMYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-apr-14";
-        ottenuto = LibDate.toStringDMMMYY(DATA_DUE);
+        ottenuto = LibDate.toStringDMMMYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "5-ott-14";
-        ottenuto = LibDate.toStringDMMMYY(DATA_TRE);
+        ottenuto = LibDate.toStringDMMMYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "8-mar-14";
-        ottenuto = LibDate.toStringDMMMYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDMMMYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -193,19 +316,19 @@ public class LibDateTest {
      */
     public void toStringDMYY() {
         previsto = "21-10-14";
-        ottenuto = LibDate.toStringDMYY(DATA_UNO);
+        ottenuto = LibDate.toStringDMYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-4-14";
-        ottenuto = LibDate.toStringDMYY(DATA_DUE);
+        ottenuto = LibDate.toStringDMYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "5-10-14";
-        ottenuto = LibDate.toStringDMYY(DATA_TRE);
+        ottenuto = LibDate.toStringDMYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "8-3-14";
-        ottenuto = LibDate.toStringDMYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDMYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -224,19 +347,19 @@ public class LibDateTest {
      */
     public void toStringDMYYYY() {
         previsto = "21-10-2014";
-        ottenuto = LibDate.toStringDMYYYY(DATA_UNO);
+        ottenuto = LibDate.toStringDMYYYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-4-2014";
-        ottenuto = LibDate.toStringDMYYYY(DATA_DUE);
+        ottenuto = LibDate.toStringDMYYYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "5-10-2014";
-        ottenuto = LibDate.toStringDMYYYY(DATA_TRE);
+        ottenuto = LibDate.toStringDMYYYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "8-3-2014";
-        ottenuto = LibDate.toStringDMYYYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDMYYYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -257,19 +380,19 @@ public class LibDateTest {
      */
     public void toStringDDMMYYYY() {
         previsto = "21-10-2014";
-        ottenuto = LibDate.toStringDDMMYYYY(DATA_UNO);
+        ottenuto = LibDate.toStringDDMMYYYY(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-04-2014";
-        ottenuto = LibDate.toStringDDMMYYYY(DATA_DUE);
+        ottenuto = LibDate.toStringDDMMYYYY(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "05-10-2014";
-        ottenuto = LibDate.toStringDDMMYYYY(DATA_TRE);
+        ottenuto = LibDate.toStringDDMMYYYY(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "08-03-2014";
-        ottenuto = LibDate.toStringDDMMYYYY(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDDMMYYYY(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -289,19 +412,19 @@ public class LibDateTest {
      */
     public void toStringDDMMYYYYHHMM() {
         previsto = "21-10-2014 07:12";
-        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATA_UNO);
+        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-04-2014 07:12";
-        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATA_DUE);
+        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "05-10-2014 07:12";
-        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATA_TRE);
+        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "08-03-2014 07:12";
-        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDDMMYYYYHHMM(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -321,19 +444,19 @@ public class LibDateTest {
      */
     public void toStringDMMMYYHHMM() {
         previsto = "21-ott-14 07:12";
-        ottenuto = LibDate.toStringDMMMYYHHMM(DATA_UNO);
+        ottenuto = LibDate.toStringDMMMYYHHMM(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-apr-14 07:12";
-        ottenuto = LibDate.toStringDMMMYYHHMM(DATA_DUE);
+        ottenuto = LibDate.toStringDMMMYYHHMM(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "5-ott-14 07:12";
-        ottenuto = LibDate.toStringDMMMYYHHMM(DATA_TRE);
+        ottenuto = LibDate.toStringDMMMYYHHMM(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "8-mar-14 07:12";
-        ottenuto = LibDate.toStringDMMMYYHHMM(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDMMMYYHHMM(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -353,19 +476,19 @@ public class LibDateTest {
      */
     public void toStringDMYYHHMM() {
         previsto = "21-10-14 07:12";
-        ottenuto = LibDate.toStringDMYYHHMM(DATA_UNO);
+        ottenuto = LibDate.toStringDMYYHHMM(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "21-4-14 07:12";
-        ottenuto = LibDate.toStringDMYYHHMM(DATA_DUE);
+        ottenuto = LibDate.toStringDMYYHHMM(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "5-10-14 07:12";
-        ottenuto = LibDate.toStringDMYYHHMM(DATA_TRE);
+        ottenuto = LibDate.toStringDMYYHHMM(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "8-3-14 07:12";
-        ottenuto = LibDate.toStringDMYYHHMM(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDMYYHHMM(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -383,19 +506,19 @@ public class LibDateTest {
      */
     public void toStringHHMM() {
         previsto = "07:12";
-        ottenuto = LibDate.toStringHHMM(DATA_UNO);
+        ottenuto = LibDate.toStringHHMM(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "07:12";
-        ottenuto = LibDate.toStringHHMM(DATA_DUE);
+        ottenuto = LibDate.toStringHHMM(DATE_DUE);
         assertEquals(ottenuto, previsto);
 
         previsto = "07:12";
-        ottenuto = LibDate.toStringHHMM(DATA_TRE);
+        ottenuto = LibDate.toStringHHMM(DATE_TRE);
         assertEquals(ottenuto, previsto);
 
         previsto = "07:12";
-        ottenuto = LibDate.toStringHHMM(DATA_QUATTRO);
+        ottenuto = LibDate.toStringHHMM(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -413,11 +536,11 @@ public class LibDateTest {
      */
     public void toStringHHMMSS() {
         previsto = "07:12:00";
-        ottenuto = LibDate.toStringHHMMSS(DATA_UNO);
+        ottenuto = LibDate.toStringHHMMSS(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "07:12:04";
-        ottenuto = LibDate.toStringHHMMSS(DATA_QUATTRO);
+        ottenuto = LibDate.toStringHHMMSS(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
     }// end of single test
 
@@ -444,11 +567,11 @@ public class LibDateTest {
         int secondo = 0;
 
         previsto = "21-10-14 07:12:00";
-        ottenuto = LibDate.toStringDDMMYYHHMMSS(DATA_UNO);
+        ottenuto = LibDate.toStringDDMMYYHHMMSS(DATE_UNO);
         assertEquals(ottenuto, previsto);
 
         previsto = "08-03-14 07:12:04";
-        ottenuto = LibDate.toStringDDMMYYHHMMSS(DATA_QUATTRO);
+        ottenuto = LibDate.toStringDDMMYYHHMMSS(DATE_QUATTRO);
         assertEquals(ottenuto, previsto);
 
         ora = 21;
@@ -636,9 +759,9 @@ public class LibDateTest {
         Date dataOriginale;
         int mesiDifferenza = 0;
 
-        dataOriginale = DATA_DUE;
+        dataOriginale = DATE_DUE;
         mesiDifferenza = 6;
-        dataPrevista = DATA_UNO;
+        dataPrevista = DATE_UNO;
         dataOttenuta = LibDate.addMonths(dataOriginale, mesiDifferenza);
         assertEquals(dataOttenuta, dataPrevista);
     }// end of single test
@@ -658,21 +781,21 @@ public class LibDateTest {
         Date dataOriginale;
         int giorniDifferenza = 0;
 
-        dataOriginale = DATA_TRE;
+        dataOriginale = DATE_TRE;
         giorniDifferenza = 16;
-        dataPrevista = DATA_UNO;
+        dataPrevista = DATE_UNO;
         dataOttenuta = LibDate.add(dataOriginale, giorniDifferenza);
         assertEquals(dataOttenuta, dataPrevista);
 
-        dataOriginale = DATA_UNO;
+        dataOriginale = DATE_UNO;
         giorniDifferenza = -16;
-        dataPrevista = DATA_TRE;
+        dataPrevista = DATE_TRE;
         dataOttenuta = LibDate.add(dataOriginale, giorniDifferenza);
         assertEquals(dataOttenuta, dataPrevista);
 
-        dataOriginale = DATA_DUE;
+        dataOriginale = DATE_DUE;
         giorniDifferenza = 183;
-        dataPrevista = DATA_UNO;
+        dataPrevista = DATE_UNO;
         dataOttenuta = LibDate.add(dataOriginale, giorniDifferenza);
         assertEquals(dataOttenuta, dataPrevista);
     }// end of single test
@@ -717,19 +840,19 @@ public class LibDateTest {
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 43;
-        numOttenuto = LibDate.getWeekYear(DATA_UNO);
+        numOttenuto = LibDate.getWeekYear(DATE_UNO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 17;
-        numOttenuto = LibDate.getWeekYear(DATA_DUE);
+        numOttenuto = LibDate.getWeekYear(DATE_DUE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 40;
-        numOttenuto = LibDate.getWeekYear(DATA_TRE);
+        numOttenuto = LibDate.getWeekYear(DATE_TRE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 10;
-        numOttenuto = LibDate.getWeekYear(DATA_QUATTRO);
+        numOttenuto = LibDate.getWeekYear(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 2;
@@ -759,19 +882,19 @@ public class LibDateTest {
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 4;
-        numOttenuto = LibDate.getWeekMonth(DATA_UNO);
+        numOttenuto = LibDate.getWeekMonth(DATE_UNO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 4;
-        numOttenuto = LibDate.getWeekMonth(DATA_DUE);
+        numOttenuto = LibDate.getWeekMonth(DATE_DUE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 1;
-        numOttenuto = LibDate.getWeekMonth(DATA_TRE);
+        numOttenuto = LibDate.getWeekMonth(DATE_TRE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 1;
-        numOttenuto = LibDate.getWeekMonth(DATA_QUATTRO);
+        numOttenuto = LibDate.getWeekMonth(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 2;
@@ -796,7 +919,7 @@ public class LibDateTest {
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 67;
-        numOttenuto = LibDate.getDayYear(DATA_QUATTRO);
+        numOttenuto = LibDate.getDayYear(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 14;
@@ -825,19 +948,19 @@ public class LibDateTest {
      */
     public void getDayMonth() {
         numPrevisto = 21;
-        numOttenuto = LibDate.getDayMonth(DATA_UNO);
+        numOttenuto = LibDate.getDayMonth(DATE_UNO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 21;
-        numOttenuto = LibDate.getDayMonth(DATA_DUE);
+        numOttenuto = LibDate.getDayMonth(DATE_DUE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 5;
-        numOttenuto = LibDate.getDayMonth(DATA_TRE);
+        numOttenuto = LibDate.getDayMonth(DATE_TRE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 8;
-        numOttenuto = LibDate.getDayMonth(DATA_QUATTRO);
+        numOttenuto = LibDate.getDayMonth(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
     }// end of single test
 
@@ -851,19 +974,19 @@ public class LibDateTest {
      */
     public void getDayWeek() {
         numPrevisto = 3;
-        numOttenuto = LibDate.getDayWeek(DATA_UNO);
+        numOttenuto = LibDate.getDayWeek(DATE_UNO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 2;
-        numOttenuto = LibDate.getDayWeek(DATA_DUE);
+        numOttenuto = LibDate.getDayWeek(DATE_DUE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 1;
-        numOttenuto = LibDate.getDayWeek(DATA_TRE);
+        numOttenuto = LibDate.getDayWeek(DATE_TRE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 7;
-        numOttenuto = LibDate.getDayWeek(DATA_QUATTRO);
+        numOttenuto = LibDate.getDayWeek(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
     }// end of single test
 
@@ -878,7 +1001,7 @@ public class LibDateTest {
      */
     public void getOre() {
         numPrevisto = 7;
-        numOttenuto = LibDate.getOre(DATA_UNO);
+        numOttenuto = LibDate.getOre(DATE_UNO);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 0;
@@ -903,7 +1026,7 @@ public class LibDateTest {
      */
     public void getMinuti() {
         numPrevisto = 12;
-        numOttenuto = LibDate.getMinuti(DATA_TRE);
+        numOttenuto = LibDate.getMinuti(DATE_TRE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 0;
@@ -927,7 +1050,7 @@ public class LibDateTest {
      */
     public void getSecondi() {
         numPrevisto = 0;
-        numOttenuto = LibDate.getSecondi(DATA_DUE);
+        numOttenuto = LibDate.getSecondi(DATE_DUE);
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 0;
@@ -941,7 +1064,7 @@ public class LibDateTest {
         assertEquals(numOttenuto, numPrevisto);
 
         numPrevisto = 4;
-        numOttenuto = LibDate.getSecondi(DATA_QUATTRO);
+        numOttenuto = LibDate.getSecondi(DATE_QUATTRO);
         assertEquals(numOttenuto, numPrevisto);
     }// end of single test
 
@@ -1012,7 +1135,7 @@ public class LibDateTest {
      */
     public void dropTime() {
         previsto = "21-04-2014 00:00";
-        dataOttenuta = LibDate.dropTime(DATA_DUE);
+        dataOttenuta = LibDate.dropTime(DATE_DUE);
         ottenuto = LibDate.toStringDDMMYYYYHHMM(dataOttenuta);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -1027,7 +1150,7 @@ public class LibDateTest {
      */
     public void lastTime() {
         previsto = "21-04-2014 23:59";
-        dataOttenuta = LibDate.lastTime(DATA_DUE);
+        dataOttenuta = LibDate.lastTime(DATE_DUE);
         ottenuto = LibDate.toStringDDMMYYYYHHMM(dataOttenuta);
         assertEquals(ottenuto, previsto);
     }// end of single test
@@ -1257,15 +1380,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isPrecedente(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isPrecedente(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isPrecedente(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isPrecedente(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isPrecedente(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isPrecedente(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1298,15 +1421,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isPrecedenteEsclusi(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isPrecedenteEsclusi(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isPrecedenteEsclusi(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isPrecedenteEsclusi(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isPrecedenteEsclusi(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isPrecedenteEsclusi(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1339,15 +1462,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isPrecedenteUguale(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isPrecedenteUguale(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isPrecedenteUguale(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isPrecedenteUguale(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isPrecedenteUguale(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isPrecedenteUguale(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1381,15 +1504,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isSuccessiva(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isSuccessiva(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isSuccessiva(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isSuccessiva(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isSuccessiva(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isSuccessiva(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1422,15 +1545,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isSuccessivaEsclusi(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isSuccessivaEsclusi(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isSuccessivaEsclusi(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isSuccessivaEsclusi(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isSuccessivaEsclusi(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isSuccessivaEsclusi(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1463,15 +1586,15 @@ public class LibDateTest {
         Date dataDue = null;
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isSuccessivaUguale(DATA_QUATTRO, DATA_DUE);
+        boolOttenuto = LibDate.isSuccessivaUguale(DATE_QUATTRO, DATE_DUE);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isSuccessivaUguale(DATA_DUE, DATA_QUATTRO);
+        boolOttenuto = LibDate.isSuccessivaUguale(DATE_DUE, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isSuccessivaUguale(DATA_UNO, DATA_UNO);
+        boolOttenuto = LibDate.isSuccessivaUguale(DATE_UNO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
@@ -1507,15 +1630,15 @@ public class LibDateTest {
         Date dataTre = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isCompresa(DATA_DUE, DATA_QUATTRO, DATA_UNO);
+        boolOttenuto = LibDate.isCompresa(DATE_DUE, DATE_QUATTRO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isCompresa(DATA_DUE, DATA_UNO, DATA_QUATTRO);
+        boolOttenuto = LibDate.isCompresa(DATE_DUE, DATE_UNO, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isCompresa(DATA_DUE, DATA_DUE, DATA_UNO);
+        boolOttenuto = LibDate.isCompresa(DATE_DUE, DATE_DUE, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         dataUno = LibDate.creaData(17, 5, ANNO);
@@ -1552,15 +1675,15 @@ public class LibDateTest {
         Date dataTre = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isCompresaEsclusi(DATA_DUE, DATA_QUATTRO, DATA_UNO);
+        boolOttenuto = LibDate.isCompresaEsclusi(DATE_DUE, DATE_QUATTRO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isCompresaEsclusi(DATA_DUE, DATA_UNO, DATA_QUATTRO);
+        boolOttenuto = LibDate.isCompresaEsclusi(DATE_DUE, DATE_UNO, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isCompresaEsclusi(DATA_DUE, DATA_DUE, DATA_UNO);
+        boolOttenuto = LibDate.isCompresaEsclusi(DATE_DUE, DATE_DUE, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         dataUno = LibDate.creaData(17, 5, ANNO);
@@ -1598,15 +1721,15 @@ public class LibDateTest {
         Date dataTre = null;
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isCompresaUguale(DATA_DUE, DATA_QUATTRO, DATA_UNO);
+        boolOttenuto = LibDate.isCompresaUguale(DATE_DUE, DATE_QUATTRO, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = false;
-        boolOttenuto = LibDate.isCompresaUguale(DATA_DUE, DATA_UNO, DATA_QUATTRO);
+        boolOttenuto = LibDate.isCompresaUguale(DATE_DUE, DATE_UNO, DATE_QUATTRO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         boolPrevisto = true;
-        boolOttenuto = LibDate.isCompresaUguale(DATA_DUE, DATA_DUE, DATA_UNO);
+        boolOttenuto = LibDate.isCompresaUguale(DATE_DUE, DATE_DUE, DATE_UNO);
         assertEquals(boolOttenuto, boolPrevisto);
 
         dataUno = LibDate.creaData(17, 5, ANNO);

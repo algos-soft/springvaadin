@@ -296,7 +296,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
     public List<Field> getListFields() {
         List<Field> listaField = null;
         List<String> listaNomi = null;
-        boolean useCompany = false;
 
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
         listaNomi = LibAnnotation.getListColumns(entityClass);
@@ -470,6 +469,9 @@ public abstract class AlgosServiceImpl implements AlgosService {
                 case show:
                     matrice = new String[]{Cost.TAG_BOT_SHOW};
                     break;
+                case noButtons:
+                    matrice = new String[]{};
+                    break;
                 default:
                     log.warn("Switch - caso non definito");
                     break;
@@ -496,6 +498,9 @@ public abstract class AlgosServiceImpl implements AlgosService {
                     break;
                 case show:
                     matrice = new String[]{Cost.TAG_BOT_ANNULLA};
+                    break;
+                case conferma:
+                    matrice = new String[]{Cost.TAG_BOT_BACK, Cost.TAG_BOT_CONFERMA};
                     break;
                 default:
                     log.warn("Switch - caso non definito");

@@ -3,6 +3,7 @@ package it.algos.springvaadin.lib;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.format.datetime.DateFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,18 +38,6 @@ public abstract class LibDate {
 
     private static SimpleDateFormat FORMATO = new SimpleDateFormat();
 
-    /**
-     * Convert java.util.Date to java.time.LocalDateTime
-     *
-     * @param data da convertire
-     *
-     * @return data e ora locale
-     */
-    public static LocalDateTime dateToLocalDateTime(Date data) {
-        Instant instant = Instant.ofEpochMilli(data.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    }// end of static method
-
 
     /**
      * Convert java.util.Date to java.time.LocalDate
@@ -64,28 +53,15 @@ public abstract class LibDate {
 
 
     /**
-     * Convert java.util.Date to java.time.LocalTime
+     * Convert java.util.Date to java.time.LocalDateTime
      *
      * @param data da convertire
      *
-     * @return ora locale
+     * @return data e ora locale
      */
-    public static LocalTime dateToLocalTime(Date data) {
+    public static LocalDateTime dateToLocalDateTime(Date data) {
         Instant instant = Instant.ofEpochMilli(data.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalTime();
-    }// end of static method
-
-
-    /**
-     * Convert java.time.LocalDateTime to java.util.Date
-     *
-     * @param localDateTime da convertire
-     *
-     * @return data
-     */
-    public static Date localDateTimeToDate(LocalDateTime localDateTime) {
-        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
-        return Date.from(instant);
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }// end of static method
 
 
@@ -94,10 +70,49 @@ public abstract class LibDate {
      *
      * @param localDate da convertire
      *
-     * @return data
+     * @return data (deprecated)
      */
     public static Date localDateToDate(LocalDate localDate) {
         Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
+    }// end of static method
+
+
+    /**
+     * Convert java.time.LocalDate to java.time.LocalDateTime
+     *
+     * @param localDate da convertire
+     *
+     * @return data con ore e minuti alla mezzanotte
+     */
+    public static LocalDateTime localDateToLocalDateTime(LocalDate localDate) {
+        Date date = localDateToDate(localDate);
+        Instant istante = date.toInstant();
+        return istante.atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }// end of static method
+
+
+    /**
+     * Convert java.time.LocalDateTime to java.time.LocalDate
+     *
+     * @param localDateTime da convertire
+     *
+     * @return data con ore e minuti alla mezzanotte
+     */
+    public static LocalDate localDateTimeToLocalDate(LocalDateTime localDateTime) {
+        return localDateTime.toLocalDate();
+    }// end of static method
+
+
+    /**
+     * Convert java.time.LocalDateTime to java.util.Date
+     *
+     * @param localDateTime da convertire
+     *
+     * @return data (deprecated)
+     */
+    public static Date localDateTimeToDate(LocalDateTime localDateTime) {
+        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(instant);
     }// end of static method
 
@@ -109,47 +124,81 @@ public abstract class LibDate {
      * Not using leading zeroes in day <br>
      * Two numbers for year <b>
      *
-     * @param date da rappresentare
+     * @param localDate da rappresentare
      *
      * @return la data sotto forma di stringa
      */
-    public static String getShort(Date date) {
+    public static String getShort(LocalDate localDate) {
         FORMATO.applyPattern("d-M-yy");
-        return FORMATO.format(date);
+        return FORMATO.format(localDateToDate(localDate));
     }// end of static method
 
 
     /**
-     * Restituisce una stringa nel formato d-MMM-yyyy
+     * Restituisce una stringa nel formato EEE d
      * <p>
      * Returns a string representation of the date <br>
      * Not using leading zeroes in day <br>
-     * Four numbers for year <b>
+     * Two numbers for year <b>
      *
-     * @param date da rappresentare
+     * @param localDate da rappresentare
      *
      * @return la data sotto forma di stringa
      */
-    public static String getNormal(Date date) {
-        FORMATO.applyPattern("d-MMM-yyyy");
-        return FORMATO.format(date);
+    public static String getWeekShort(LocalDate localDate) {
+        FORMATO.applyPattern("EEE d");
+        return FORMATO.format(localDateToDate(localDate));
     }// end of static method
 
 
     /**
-     * Restituisce una stringa nel formato EEEE, d-MMMM-yyyy
+     * Restituisce una stringa nel formato EEE d
      * <p>
      * Returns a string representation of the date <br>
      * Not using leading zeroes in day <br>
-     * Four numbers for year <b>
+     * Two numbers for year <b>
      *
-     * @param date da rappresentare
+     * @param localDateTime da rappresentare
      *
      * @return la data sotto forma di stringa
      */
-    public static String getLong(Date date) {
-        FORMATO.applyPattern("EEEE, d-MMMM-yyyy");
-        return FORMATO.format(date);
+    public static String getWeekShort(LocalDateTime localDateTime) {
+        FORMATO.applyPattern("EEE d");
+        return FORMATO.format(localDateTimeToDate(localDateTime));
+    }// end of static method
+
+
+    /**
+     * Restituisce una stringa nel formato d-M-yy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Two numbers for year <b>
+     *
+     * @param localDate da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    public static String getWeekLong(LocalDate localDate) {
+        FORMATO.applyPattern("EEEE d");
+        return FORMATO.format(localDateToDate(localDate));
+    }// end of static method
+
+
+    /**
+     * Restituisce una stringa nel formato d-M-yy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Two numbers for year <b>
+     *
+     * @param localDateTime da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    public static String getWeekLong(LocalDateTime localDateTime) {
+        FORMATO.applyPattern("EEEE d");
+        return FORMATO.format(localDateTimeToDate(localDateTime));
     }// end of static method
 
 
@@ -165,9 +214,40 @@ public abstract class LibDate {
      * @return la data sotto forma di stringa
      */
     public static String getShort(LocalDateTime localDateTime) {
-        return getShort(localDateTimeToDate(localDateTime));
+        String giorno;
+        String ora;
+        String sep = " ";
+
+        FORMATO.applyPattern("d-M-yy");
+        giorno = FORMATO.format(localDateTimeToDate(localDateTime));
+        FORMATO.applyPattern("HH:mm");
+        ora = FORMATO.format(localDateTimeToDate(localDateTime));
+
+        return giorno + sep + ora;
     }// end of static method
 
+
+    @Deprecated // use LocalDate instead
+    public static String getShort(Date date) {
+        return getShort(dateToLocalDate(date));
+    }// end of static method
+
+
+    /**
+     * Restituisce una stringa nel formato d-MMM-yyyy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Four numbers for year <b>
+     *
+     * @param localDate da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    public static String getNormal(LocalDate localDate) {
+        FORMATO.applyPattern("d-MMM-yyyy");
+        return FORMATO.format(localDateToDate(localDate));
+    }// end of static method
 
     /**
      * Restituisce una stringa nel formato d-MMM-yyyy
@@ -181,7 +261,50 @@ public abstract class LibDate {
      * @return la data sotto forma di stringa
      */
     public static String getNormal(LocalDateTime localDateTime) {
-        return getNormal(localDateTimeToDate(localDateTime));
+        String giorno;
+        String ora;
+        String sep = " ";
+
+        FORMATO.applyPattern("d-MMM-yyyy");
+        giorno = FORMATO.format(localDateTimeToDate(localDateTime));
+        FORMATO.applyPattern("HH:mm");
+        ora = FORMATO.format(localDateTimeToDate(localDateTime));
+
+        return giorno + sep + ora;
+    }// end of static method
+
+
+    /**
+     * Restituisce una stringa nel formato d-MMM-yyyy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Four numbers for year <b>
+     *
+     * @param date da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    @Deprecated // use LocalDate instead
+    public static String getNormal(Date date) {
+        return getNormal(dateToLocalDate(date));
+    }// end of static method
+
+
+    /**
+     * Restituisce una stringa nel formato EEEE, d-MMMM-yyyy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Four numbers for year <b>
+     *
+     * @param localDate da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    public static String getLong(LocalDate localDate) {
+        FORMATO.applyPattern("EEEE, d-MMMM-yyyy");
+        return FORMATO.format(localDateToDate(localDate));
     }// end of static method
 
 
@@ -197,9 +320,48 @@ public abstract class LibDate {
      * @return la data sotto forma di stringa
      */
     public static String getLong(LocalDateTime localDateTime) {
-        return getLong(localDateTimeToDate(localDateTime));
+        String giorno;
+        String ora;
+        String sep = " ";
+
+        FORMATO.applyPattern("EEEE, d-MMMM-yyyy");
+        giorno = FORMATO.format(localDateTimeToDate(localDateTime));
+        FORMATO.applyPattern("HH:mm");
+        ora = FORMATO.format(localDateTimeToDate(localDateTime));
+
+        return giorno + sep + ora;
     }// end of static method
 
+
+    /**
+     * Restituisce una stringa nel formato EEEE, d-MMMM-yyyy
+     * <p>
+     * Returns a string representation of the date <br>
+     * Not using leading zeroes in day <br>
+     * Four numbers for year <b>
+     *
+     * @param date da rappresentare
+     *
+     * @return la data sotto forma di stringa
+     */
+    @Deprecated // use LocalDate instead
+    public static String getLong(Date date) {
+        return getLong(dateToLocalDate(date));
+    }// end of static method
+
+    /**
+     * Costruisce una LocalDateTime partendo da una LocalDate a cui aggiunge ora e minuti
+     *
+     * @param localDate di partenza
+     * @param ora       da aggiungere
+     * @param minuti    da aggiungere
+     *
+     * @return la data con ora e minuti
+     */
+    public static LocalDateTime addTime(LocalDate localDate, int ora, int minuti) {
+        LocalTime tempo = LocalTime.of(ora, minuti);
+        return LocalDateTime.of(localDate, tempo);
+    }// end of static method
 
     /**
      * Converte una data in stringa nel formato dd-MMMM-YYYY
@@ -606,11 +768,43 @@ public abstract class LibDate {
      * Se i giorni sono negativi, li sottrae <br>
      * Esegue solo se la data è valida (non nulla e non vuota) <br>
      *
+     * @param localDate di riferimento
+     * @param giorni    da aggiungere
+     *
+     * @return la data risultante
+     */
+    public static LocalDate add(LocalDate localDate, int giorni) {
+        return localDate.plusDays(giorni);
+    }// end of static method
+
+
+    /**
+     * Aggiunge (o sottrae) ad un una data i giorni indicati.
+     * <p>
+     * Se i giorni sono negativi, li sottrae <br>
+     * Esegue solo se la data è valida (non nulla e non vuota) <br>
+     *
+     * @param localDateTime di riferimento
+     * @param giorni        da aggiungere
+     *
+     * @return la data risultante
+     */
+    public static LocalDateTime add(LocalDateTime localDateTime, int giorni) {
+        return localDateTime.plusDays(giorni);
+    }// end of static method
+
+    /**
+     * Aggiunge (o sottrae) ad un una data i giorni indicati.
+     * <p>
+     * Se i giorni sono negativi, li sottrae <br>
+     * Esegue solo se la data è valida (non nulla e non vuota) <br>
+     *
      * @param data   di riferimento
      * @param giorni da aggiungere
      *
      * @return la data risultante
      */
+    @Deprecated // use LocalDate instead
     public static Date add(Date data, int giorni) {
         return addDays(data, giorni);
     }// end of static method
