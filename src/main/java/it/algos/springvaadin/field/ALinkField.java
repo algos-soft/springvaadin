@@ -191,6 +191,7 @@ public class ALinkField extends AField {
 
     public void refreshFromDialogLinkato(AEntity entityBean) {
         doSetValue(entityBean);
+        buttonEdit.setEntityBean(entityBean);
     }// end of method
 
 
