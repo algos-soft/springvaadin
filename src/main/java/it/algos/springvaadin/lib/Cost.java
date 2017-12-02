@@ -115,14 +115,14 @@ public abstract class Cost {
     public final static String INFO_APP = "Algos® WAM-2.0 del 14.5.17";
 
     //--chiavi per i bottoni di List e Form
-    public final static String TAG_BOT_NEW = "usaBottoneNew";
-    public final static String TAG_BOT_EDIT = "usaBottoneEdit";
-    public final static String TAG_BOT_DELETE = "usaBottoneDelete";
-    public final static String TAG_BOT_SEARCH = "usaBottoneRicerca";
-    public final static String TAG_BOT_SHOW = "usaBottoneShow";
-    public final static String TAG_BOT_ANNULLA = "usaBottoneAnnulla";
-    public final static String TAG_BOT_BACK = "usaBottoneBack";
-    public final static String TAG_BOT_REVERT = "usaBottoneRevert";
-    public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
-    public final static String TAG_BOT_CONFERMA = "usaBottoneConferma";
+//    public final static String TAG_BOT_NEW = "usaBottoneNew";
+//    public final static String TAG_BOT_EDIT = "usaBottoneEdit";
+//    public final static String TAG_BOT_DELETE = "usaBottoneDelete";
+//    public final static String TAG_BOT_SEARCH = "usaBottoneRicerca";
+//    public final static String TAG_BOT_SHOW = "usaBottoneShow";
+//    public final static String TAG_BOT_ANNULLA = "usaBottoneAnnulla";
+//    public final static String TAG_BOT_BACK = "usaBottoneBack";
+//    public final static String TAG_BOT_REVERT = "usaBottoneRevert";
+//    public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
+//    public final static String TAG_BOT_CONFERMA = "usaBottoneConferma";
 }// end of static class;

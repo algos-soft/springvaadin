@@ -261,8 +261,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Sovrascrivibile
      */
     protected void fixToolbar(Layout layout) {
-        List<String> listaBottoni = service.getFormBottonNames();
-        toolbar.inizializza(source, listaBottoni);
+        List<AButtonType> typeButtons = service.getFormTypeButtons();
+        toolbar.inizializza(source, typeButtons);
         layout.addComponent(toolbar.get());
     }// end of method
 
