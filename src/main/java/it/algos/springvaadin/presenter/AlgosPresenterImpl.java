@@ -2,6 +2,7 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.ui.*;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.app.AppProperties;
 import it.algos.springvaadin.dialog.ImageDialog;
 import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.ACompanyEntity;
@@ -18,6 +19,7 @@ import it.algos.springvaadin.field.ALinkField;
 import it.algos.springvaadin.form.AlgosForm;
 import it.algos.springvaadin.lib.*;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.mail.SpringEmailService;
 import it.algos.springvaadin.search.AlgosSearch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,12 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
 
     @Autowired
     private PreferenzaService pref;
+
+    @Autowired
+    private AppProperties properties;
+
+    @Autowired
+    private SpringEmailService email;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -232,16 +240,6 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
      * Modifica singolo record (entityBean)
      */
     public void modifica(AEntity entityBean) {
-        boolean usaSeparateFormDialog = pref.isFalse(Cost.KEY_USE_FORM_ALL_SCREEN);
-        modifica(entityBean, usaSeparateFormDialog, false, true);
-    }// end of method
-
-    /**
-     * Modifica singolo record (entityBean)
-     *
-     * @param usaToolbarLink barra alternativa di bottoni per gestire il ritorno ad altro modulo
-     */
-    public void modifica(AEntity entityBean, boolean usaSeparateFormDialog, boolean usaToolbarLink, boolean usaBottoneRegistra) {
         List<Field> reflectFields = service.getFormFields();
         Company company;
 
@@ -254,7 +252,7 @@ public abstract class AlgosPresenterImpl extends AlgosPresenterEvents {
         }// end of if cycle
 
         if (entityBean != null) {
-            view.setForm(this, entityBean, reflectFields, usaSeparateFormDialog);
+            view.setForm(this, entityBean, reflectFields);
         }// end of if cycle
 
     }// end of method

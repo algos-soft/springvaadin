@@ -140,13 +140,12 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * Ricrea tutto ogni volta che diventa attivo
      * Sceglie tra pannello a tutto schermo, oppure finestra popup
      *
-     * @param source                presenter di riferimento per i componenti da cui vengono generati gli eventi
-     * @param reflectedFields       previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
-     * @param entityBean            nuova istanza da creare, oppure istanza esistente da modificare
-     * @param usaSeparateFormDialog barra alternativa di bottoni per gestire il ritorno ad altro modulo
+     * @param source          presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param entityBean      nuova istanza da creare, oppure istanza esistente da modificare
      */
     @Override
-    public void restart(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean, boolean usaSeparateFormDialog) {
+    public void restart(ApplicationListener source, List<Field> reflectedFields, AEntity entityBean) {
         if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
             this.addStyleName("blueBg");
         }// end of if cycle
@@ -158,11 +157,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
         this.entityBean = entityBean;
         toolbar = toolbarNormale;
 
-        if (usaSeparateFormDialog) {
-            usaSeparateFormDialog(source, null, entityBean, null, reflectedFields);
-        } else {
-            usaAllScreen(source, reflectedFields, entityBean);
-        }// end of if/else cycle
+        usaAllScreen(source, reflectedFields, entityBean);
     }// end of method
 
 
