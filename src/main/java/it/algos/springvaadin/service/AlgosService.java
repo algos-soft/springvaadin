@@ -170,14 +170,6 @@ public interface AlgosService {
     public List<Field> getFormFieldsLink();
 
 
-//    /**
-//     * Bottoni nella toolbar della Grid
-//     *
-//     * @return lista di bottoni visibili nella toolbar
-//     */
-//    @Deprecated
-//    public List<String> getListBottonNames();
-
 
     /**
      * Bottoni nella toolbar della Grid
@@ -186,14 +178,6 @@ public interface AlgosService {
      */
     public List<AButtonType> getListTypeButtons();
 
-
-//    /**
-//     * Bottoni nella toolbar della Grid
-//     *
-//     * @return lista di bottoni visibili nella toolbar
-//     */
-//    @Deprecated
-//    public List<String> getFormBottonNames();
 
     /**
      * Bottoni nella toolbar del Form

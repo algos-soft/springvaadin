@@ -286,7 +286,7 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
      * @param reflectedFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      */
     protected void usaSeparateFormDialog(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, List<Field> reflectedFields) {
-        this.removeAllComponents();
+//        this.removeAllComponents();
 
         if (window != null) {
             window.close();

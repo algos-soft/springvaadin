@@ -445,45 +445,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
     }// end of method
 
 
-//    /**
-//     * Bottoni nella toolbar della Grid
-//     *
-//     * @return lista di bottoni visibili nella toolbar
-//     */
-//    @Deprecated
-//    public List<String> getListBottonNames() {
-//        ListButton listaBottoni = LibAnnotation.getListBotton(entityClass);
-//        String[] matrice = null;
-//
-//        if (listaBottoni != null) {
-//            switch (listaBottoni) {
-//                case standard:
-//                    matrice = new String[]{Cost.TAG_BOT_NEW, Cost.TAG_BOT_EDIT, Cost.TAG_BOT_DELETE, Cost.TAG_BOT_SEARCH};
-//                    break;
-//                case noSearch:
-//                    matrice = new String[]{Cost.TAG_BOT_NEW, Cost.TAG_BOT_EDIT, Cost.TAG_BOT_DELETE};
-//                    break;
-//                case noCreate:
-//                    matrice = new String[]{Cost.TAG_BOT_EDIT, Cost.TAG_BOT_SEARCH};
-//                    break;
-//                case edit:
-//                    matrice = new String[]{Cost.TAG_BOT_EDIT};
-//                    break;
-//                case show:
-//                    matrice = new String[]{Cost.TAG_BOT_SHOW};
-//                    break;
-//                case noButtons:
-//                    matrice = new String[]{};
-//                    break;
-//                default:
-//                    log.warn("Switch - caso non definito");
-//                    break;
-//            } // end of switch statement
-//        }// end of if cycle
-//
-//        return LibArray.fromString(matrice);
-//    }// end of method
-
 
     /**
      * Bottoni nella toolbar della Grid
@@ -523,35 +484,6 @@ public abstract class AlgosServiceImpl implements AlgosService {
         return Arrays.asList(matrice);
     }// end of method
 
-
-//    /**
-//     * Bottoni nella toolbar del Form
-//     *
-//     * @return lista di bottoni visibili nella toolbar
-//     */
-//    public List<String> getFormBottonNames() {
-//        FormButton listaBottoni = LibAnnotation.getFormBotton(entityClass);
-//        String[] matrice = null;
-//
-//        if (listaBottoni != null) {
-//            switch (listaBottoni) {
-//                case standard:
-//                    matrice = new String[]{Cost.TAG_BOT_ANNULLA, Cost.TAG_BOT_REVERT, Cost.TAG_BOT_SAVE};
-//                    break;
-//                case show:
-//                    matrice = new String[]{Cost.TAG_BOT_ANNULLA};
-//                    break;
-//                case conferma:
-//                    matrice = new String[]{Cost.TAG_BOT_BACK, Cost.TAG_BOT_CONFERMA};
-//                    break;
-//                default:
-//                    log.warn("Switch - caso non definito");
-//                    break;
-//            } // end of switch statement
-//        }// end of if cycle
-//
-//        return LibArray.fromString(matrice);
-//    }// end of method
 
 
     /**
