@@ -76,8 +76,8 @@ public class AlgosFormImpl extends VerticalLayout implements AlgosForm {
 
     //--intestazioni informative per Form
     //--valori standard
-    private final static String CAPTION_CREATE = "Nuova scheda";
-    private final static String CAPTION_EDIT = "Modifica scheda";
+    protected final static String CAPTION_CREATE = "Nuova scheda";
+    protected final static String CAPTION_EDIT = "Modifica scheda";
 
 
 //    //--Top - Eventuali scritte esplicative come collezione usata, records trovati, ecc
