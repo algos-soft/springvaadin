@@ -20,6 +20,7 @@ import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.nav.AlgosNavView;
 import it.algos.springvaadin.view.AlgosView;
 import it.algos.springvaadin.view.AlgosViewImpl;
+import it.algos.springvaadin.view.AlgosViewNew;
 import it.algos.springvaadin.view.ViewPlaceholder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,8 +204,16 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
 
             restart();
 
-            viewPlaceholder.removeAllComponents();
-            viewPlaceholder.addComponent((Component) navView);
+            try { // prova ad eseguire il codice
+                viewPlaceholder.removeAllComponents();
+                viewPlaceholder.addComponent((Component) navView);
+            } catch (Exception unErrore) { // intercetta l'errore
+
+                if (navView instanceof AlgosViewNew) {
+                    viewPlaceholder.removeAllComponents();
+                    viewPlaceholder.addComponent(((AlgosViewNew)navView).getComponent());
+                }// end of if cycle
+            }// fine del blocco try-catch
         } else {
             root.removeAllComponents();
             if (view instanceof AlgosNavView) {

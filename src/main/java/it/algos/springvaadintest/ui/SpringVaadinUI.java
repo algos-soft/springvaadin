@@ -105,7 +105,8 @@ public class SpringVaadinUI extends AlgosUI {
      */
     @Override
     protected void startVistaIniziale() {
-        getNavigator().navigateTo(Cost.TAG_PRE);
+//        getNavigator().navigateTo(Cost.TAG_PRE);
+        getNavigator().navigateTo("ruolotest");
     }// end of method
 
 }// end of class
