@@ -151,7 +151,7 @@ public abstract class AlgosListImpl extends VerticalLayout implements AlgosList 
             bodyPanel.addStyleName("redBg");
         }// end of if cycle
 
-        grid.inizia(entityClazz, columns, items);
+        grid.inizia(null,entityClazz, columns, items);
         bodyPanel.setContent(grid);
 
         return bodyPanel;

@@ -1,8 +1,11 @@
 package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.service.AlgosService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
@@ -19,7 +22,8 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 //@Scope("vaadin-view")
 @Scope("session")
-public class RolePresenterNew {
+@Qualifier(Cost.TAG_ROL)
+public class RolePresenterNew extends AlgosPresenter{
 
     //    @Autowired
 //    @Lazy
@@ -28,48 +32,15 @@ public class RolePresenterNew {
 
     public int numero;
 
-    public RolePresenterNew(@Lazy RoleListNew list,@Lazy RoleFormNew form) {
+    public RolePresenterNew(@Qualifier(Cost.TAG_ROL) AlgosService service, @Lazy RoleListNew list, @Lazy RoleFormNew form) {
+        super(service,list);
         this.list = list;
         this.form = form;
+        super.entityClass = Role.class;
     }
 
-    @PostConstruct
-    public void fix() {
-        numero = 364;
-    }// end of method
-
-//    @Autowired
-//    public void setList(RoleListNew list) {
-//        this.list = list;
-//    }
-//
-//    public RoleListNew getList() {
-//        return list;
-//    }
-//
-//    @Autowired
-//    public void setForm(RoleFormNew form) {
-//        this.form = form;
-//    }
-//
-//    public RoleFormNew getForm() {
-//        return form;
-//    }
 
 
-    /**
-     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
-     */
-//    @PostConstruct
-    public void inizia() {
-        RoleListNew lista = list;
-        RolePresenterNew p = lista.presenter;
-        int alfa = list.num;
-        list.num = 88;
-        list.inizia();
-        form.numweoverde=172737474;
-        form.inizia();
-        int a = 87;
-    }// end of method
+
 
 }// end of class

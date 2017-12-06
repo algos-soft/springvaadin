@@ -396,7 +396,6 @@ public abstract class LibAnnotation {
     }// end of static method
 
 
-
     /**
      * Get the status enabled of the property.
      *
@@ -1193,6 +1192,17 @@ public abstract class LibAnnotation {
 
 
     /**
+     * Check if the class as the AIList Annotation
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    public static boolean isList(final Class<?> clazz) {
+        return clazz.getAnnotation(AIList.class) != null;
+    }// end of static method
+
+    /**
      * Get the status listShowsID of the class.
      *
      * @param clazz the entity class
@@ -1241,6 +1251,18 @@ public abstract class LibAnnotation {
      */
     public static AIForm getFormAnnotation(final Class<? extends AEntity> clazz) {
         return clazz.getAnnotation(AIForm.class);
+    }// end of static method
+
+
+    /**
+     * Check if the class as the AIForm Annotation
+     *
+     * @param clazz the entity class
+     *
+     * @return status of class - default false
+     */
+    public static boolean isForm(final Class<?> clazz) {
+        return clazz.getAnnotation(AIList.class) != null;
     }// end of static method
 
 

@@ -9,6 +9,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.MultiSelect;
 import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.entity.preferenza.PreferenzaService;
+import it.algos.springvaadin.entity.role.IAlgosPresenter;
 import it.algos.springvaadin.event.TypeAction;
 import it.algos.springvaadin.event.*;
 import it.algos.springvaadin.lib.*;
@@ -40,10 +41,18 @@ public class AlgosGrid extends Grid {
     @Autowired
     private PreferenzaService pref;
 
+
     /**
      * Property iniettata nel costruttore
      */
     private ApplicationEventPublisher applicationEventPublisher;
+
+
+    /**
+     * Gestore principale del modulo, regolato nel metodo Inizia
+     */
+    protected IAlgosPresenter presenter;
+
 
     /**
      * Costruttore @Autowired
@@ -62,8 +71,8 @@ public class AlgosGrid extends Grid {
      * @param columns  visibili ed ordinate della Grid
      * @param items    da visualizzare nella Grid
      */
-    public void inizia(Class<? extends AEntity> beanType, List<Field> columns, List items) {
-        this.inizia(beanType, columns, items, NUMERO_RIGHE_DEFAULT);
+    public void inizia(IAlgosPresenter presenter,Class<? extends AEntity> beanType, List<Field> columns, List items) {
+        this.inizia(presenter,beanType, columns, items, NUMERO_RIGHE_DEFAULT);
     }// end of method
 
 
@@ -75,7 +84,8 @@ public class AlgosGrid extends Grid {
      * @param items       da visualizzare nella Grid
      * @param numeroRighe da visualizzare nella Grid
      */
-    public void inizia(Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
+    public void inizia(IAlgosPresenter presenter,Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
+        this.presenter=presenter;
         this.setBeanType(beanType);
         this.setRowHeight(ALTEZZA_RIGHE_DEFAULT);
         this.addColumns(columns);
@@ -96,16 +106,16 @@ public class AlgosGrid extends Grid {
      */
     public void addAllListeners() {
         //--recupera il presenter
-        AlgosPresenterImpl presenter = LibSpring.getPresenter();
+//        AlgosPresenterImpl presenter = LibSpring.getPresenter();
 
         //--modello di selezione righe
         //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
         if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
             this.setSelectionMode(SelectionMode.MULTI);
-            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.multiSelectionChanged, presenter));
+//            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.multiSelectionChanged, presenter));@todo rimettere
         } else {
             this.setSelectionMode(Grid.SelectionMode.SINGLE);
-            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
+//            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));@todo rimettere
         }// end of if/else cycle
 
         gridToolSet.addAllListeners(this);
