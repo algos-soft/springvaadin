@@ -24,7 +24,7 @@ import org.springframework.context.event.EventListener;
  */
 @SpringComponent
 @Slf4j
-public class ABoot extends ABoot {
+public class SpringvaadintestBoot extends ABoot {
 
 
 //    @Autowired
