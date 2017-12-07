@@ -6,6 +6,7 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.bottone.AButton;
 import it.algos.springvaadin.bottone.AButtonFactory;
 import it.algos.springvaadin.bottone.AButtonType;
+import it.algos.springvaadin.entity.role.IAlgosPresenter;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.entity.AEntity;
 import org.springframework.context.ApplicationListener;

@@ -8,6 +8,7 @@ import it.algos.springvaadin.search.AlgosSearch;
 import it.algos.springvaadin.service.AlgosService;
 import it.algos.springvaadin.view.AlgosView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Lazy;
 
 import java.lang.reflect.Field;
@@ -86,5 +87,13 @@ public class AlgosPresenter implements IAlgosPresenter {
         list.start(this, entityClass, columns, items);
     }// end of method
 
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
 
+    }
 }// end of class

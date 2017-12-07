@@ -14,7 +14,7 @@ import java.util.List;
  * Date: mer, 06-dic-2017
  * Time: 18:09
  */
-public interface IAlgosPresenter {
+public interface IAlgosPresenter extends ApplicationListener {
 
     /**
      * Creazione di una Lista visualizzata con una Grid

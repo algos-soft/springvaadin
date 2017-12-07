@@ -26,7 +26,8 @@ import java.util.List;
  * Tutti i bottoni possono essere abilitati/disabilitati
  */
 @SpringComponent
-@Scope("prototype")
+//@Scope("prototype")
+@Scope("session")
 @Qualifier(Cost.BAR_LIST)
 public class ListToolbar extends AToolbarImpl {
 

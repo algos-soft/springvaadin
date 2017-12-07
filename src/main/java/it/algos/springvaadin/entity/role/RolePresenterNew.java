@@ -32,7 +32,7 @@ public class RolePresenterNew extends AlgosPresenter{
 
     public int numero;
 
-    public RolePresenterNew(@Qualifier(Cost.TAG_ROL) AlgosService service, @Lazy RoleListNew list, @Lazy RoleFormNew form) {
+    public RolePresenterNew(@Lazy @Qualifier(Cost.TAG_ROL) AlgosService service, @Lazy RoleListNew list, @Lazy RoleFormNew form) {
         super(service,list);
         this.list = list;
         this.form = form;

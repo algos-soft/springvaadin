@@ -49,8 +49,12 @@ public class RoleListNew extends AlgosListNew {
      * That is: instead of fully initializing the bean, it will create a proxy to inject it into the other bean.
      * The injected bean will only be fully created when it’s first needed.
      */
-    public RoleListNew(@Lazy @Qualifier(Cost.TAG_ROL) IAlgosPresenter presenter,AlgosGrid grid) {
-        super(presenter,grid);
+    public RoleListNew(
+            @Lazy @Qualifier(Cost.TAG_ROL) IAlgosPresenter presenter,
+            @Qualifier(Cost.TAG_ROL) AlgosService service,
+            ListToolbar toolbar,
+            AlgosGrid grid) {
+        super(presenter, service, toolbar, grid);
     }// end of Spring constructor
 
 

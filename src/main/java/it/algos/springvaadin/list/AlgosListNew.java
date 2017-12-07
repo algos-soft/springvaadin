@@ -2,6 +2,8 @@ package it.algos.springvaadin.list;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.bottone.AButtonType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.AlgosPresenter;
 import it.algos.springvaadin.entity.role.IAlgosPresenter;
@@ -9,6 +11,9 @@ import it.algos.springvaadin.entity.role.RolePresenterNew;
 import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.service.AlgosService;
+import it.algos.springvaadin.toolbar.AToolbar;
+import it.algos.springvaadin.toolbar.ListToolbar;
 import it.algos.springvaadin.view.AlgosViewNew;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +37,7 @@ import java.util.List;
  * Bottom - Barra dei bottoni
  */
 @Slf4j
-public class AlgosListNew extends AlgosViewNew implements IAlgosListNew {
+public abstract class AlgosListNew extends AlgosViewNew implements IAlgosListNew {
 
     //--AlgosGrid, iniettata dal costruttore
     //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
@@ -48,9 +53,9 @@ public class AlgosListNew extends AlgosViewNew implements IAlgosListNew {
      *
      * @param presenter iniettato da Spring
      */
-    public AlgosListNew(IAlgosPresenter presenter,AlgosGrid grid) {
-        super(presenter);
-        this.grid=grid;
+    public AlgosListNew(IAlgosPresenter presenter, AlgosService service, @Qualifier(Cost.BAR_LIST) AToolbar toolbar, AlgosGrid grid) {
+        super(presenter, service, toolbar);
+        this.grid = grid;
     }// end of Spring constructor
 
 
@@ -65,29 +70,56 @@ public class AlgosListNew extends AlgosViewNew implements IAlgosListNew {
      */
     @Override
     public void start(IAlgosPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-//        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-//            this.addStyleName("blueBg");
-//        }// end of if cycle
-//        fixGUI();
-//        fixMenu();
-//        this.setMargin(false);
-//        this.setWidth("100%");
-//        this.setHeight("100%");
-//        this.removeAllComponents();
-//
-//        topLayout = creaTop(entityClazz, items);
-//        this.addComponent(topLayout);
-//
-//        bodyPanel = creaBody(entityClazz, columns, items);
-//        this.addComponent(bodyPanel);
-//
-//        bottomLayout = creaBottom(source);
+        super.fixGUI();
+        super.fixMenu();
+
+        grid.setCaption("Adesso ci provo");
+        grid.inizia(source, entityClazz, columns, items);
+        this.addComponent(grid);
+
+//        VerticalLayout bottomLayout = creaBottom(source);
 //        this.addComponent(bottomLayout);
-//        this.setExpandRatio(bodyPanel, 1);
-//        addComponent(list.getComponent());
-        grid.inizia(source,entityClazz, columns, items);
-this.addComponent(grid);
-        this.addComponent(new Label("alfa beta gamma"));
+    }// end of method
+
+//    /**
+//     * Prepara la barra dei bottoni di comando
+//     * Chiamato ogni volta che la finestra diventa attiva
+//     */
+//    protected VerticalLayout creaBottom(IAlgosPresenter source) {
+//        VerticalLayout bottomLayout = new VerticalLayout();
+//        bottomLayout.setMargin(false);
+//        bottomLayout.setHeightUndefined();
+//        List<AButtonType> typeButtons = service.getListTypeButtons();
+//        inizializzaToolbar(source, typeButtons);
+//        fixToolbar();
+//
+////        if (pref.isTrue(Cost.KEY_USE_DEBUG)) {
+////            this.addStyleName("rosso");
+////            grid.addStyleName("verde");
+////        }// fine del blocco if
+//
+//        bottomLayout.addComponent((ListToolbar) toolbar);
+//        return bottomLayout;
+//    }// end of method
+
+
+    /**
+     * Prepara la toolbar
+     * <p>
+     * Seleziona i bottoni da mostrare nella toolbar
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source      dell'evento generato dal bottone
+     * @param typeButtons da visualizzare
+     */
+    protected void inizializzaToolbar(ApplicationListener source, List<AButtonType> typeButtons) {
+        toolbar.inizializza(source, typeButtons);
+    }// end of method
+
+
+    protected void fixToolbar() {
     }// end of method
 
     /**
@@ -102,8 +134,7 @@ this.addComponent(grid);
      */
     @Override
     public void setList(ApplicationListener source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-
-    }
+    }// end of method
 
     /**
      * Restituisce il componente concreto

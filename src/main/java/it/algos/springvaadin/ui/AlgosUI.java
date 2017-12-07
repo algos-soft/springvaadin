@@ -207,11 +207,16 @@ public abstract class AlgosUI extends AlgosUIViews implements ViewDisplay {
             try { // prova ad eseguire il codice
                 viewPlaceholder.removeAllComponents();
                 viewPlaceholder.addComponent((Component) navView);
+
+                root.removeAllComponents();
+                root.addComponentsAndExpand(viewPlaceholder);
+                root.addComponent(footer);
             } catch (Exception unErrore) { // intercetta l'errore
 
                 if (navView instanceof AlgosViewNew) {
                     viewPlaceholder.removeAllComponents();
                     viewPlaceholder.addComponent(((AlgosViewNew)navView).getComponent());
+                    root.addComponent(footer);
                 }// end of if cycle
             }// fine del blocco try-catch
         } else {
