@@ -3,7 +3,6 @@ package it.algos.springvaadin.app;
 import com.vaadin.spring.annotation.SpringComponent;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Project springvaadin
@@ -12,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
  * Date: sab, 02-dic-2017
  * Time: 09:13
  */
-@SpringComponent
-@ConfigurationProperties()
-@Data
+//@SpringComponent
+//@ConfigurationProperties()
+//@Data
 public class AppProperties {
 
     private Spring spring;
@@ -60,28 +59,28 @@ public class AppProperties {
     }// end of static class
 
 
-    public String getHost() {
-        return getMail().getSmtp().getHost();
-    }// end of method
-
-    public int getPort() {
-        return getMail().getSmtp().getPort();
-    }// end of method
-
-    public String getUsername() {
-        return getMail().getSmtp().getUsername();
-    }// end of method
-
-    public String getPassword() {
-        return getMail().getSmtp().getPassword();
-    }// end of method
-
-    public String getSender() {
-        return getMail().getSmtp().getSender();
-    }// end of method
-
-    public String getDatabase() {
-        return getSpring().getData().getMongodb().getDatabase();
-    }// end of method
+//    public String getHost() {
+//        return getMail().getSmtp().getHost();
+//    }// end of method
+//
+//    public int getPort() {
+//        return getMail().getSmtp().getPort();
+//    }// end of method
+//
+//    public String getUsername() {
+//        return getMail().getSmtp().getUsername();
+//    }// end of method
+//
+//    public String getPassword() {
+//        return getMail().getSmtp().getPassword();
+//    }// end of method
+//
+//    public String getSender() {
+//        return getMail().getSmtp().getSender();
+//    }// end of method
+//
+//    public String getDatabase() {
+//        return getSpring().getData().getMongodb().getDatabase();
+//    }// end of method
 
 }// end of class

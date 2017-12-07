@@ -2,19 +2,11 @@ package it.algos.springvaadin.entity;
 
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.annotation.ATypeEnabled;
-import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.field.AFieldType;
-import it.algos.springvaadin.field.FieldAccessibility;
-import it.algos.springvaadin.login.ARoleType;
+import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EAFieldAccessibility;
+import it.algos.springvaadin.enumeration.EARoleType;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.index.Indexed;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -54,16 +46,16 @@ public abstract class AEntity implements Serializable {
      * NON va usato @NotEmpty, perchè altrimenti binder.validate().isOk() va in errore
      * Ci pensa Mongo a riempire il valore
      */
-    @AIField(name = "Key", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    @AIField(name = "Key", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public String id;
 
 
     /**
      * Eventuali note (facoltativo)
      */
-    @AIField(type = AFieldType.textarea, widthEM = 24, admin = FieldAccessibility.allways, user = FieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    @AIField(type = EAFieldType.textarea, widthEM = 24, admin = EAFieldAccessibility.allways, user = EAFieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public String note;
 
 
@@ -74,8 +66,8 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = AFieldType.localdatetime, name = "Creazione della scheda", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    @AIField(type = EAFieldType.localdatetime, name = "Creazione della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime creazione;
 
 
@@ -85,8 +77,8 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = AFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = ARoleType.developer, dev = FieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = ARoleType.nobody)
+    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime modifica;
 
 }// end of entity abstract class

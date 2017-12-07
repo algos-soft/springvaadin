@@ -2,7 +2,6 @@ package it.algos.springvaadin;
 
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.lib.LibText;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

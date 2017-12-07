@@ -1,6 +1,6 @@
 package it.algos.springvaadin.app;
 
-import it.algos.springvaadin.bottone.AButton;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.field.AField;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.context.annotation.Bean;

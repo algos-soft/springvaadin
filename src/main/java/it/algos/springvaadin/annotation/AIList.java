@@ -1,8 +1,6 @@
 package it.algos.springvaadin.annotation;
 
-import it.algos.springvaadin.list.ListButton;
-import it.algos.springvaadin.login.ARoleType;
-import org.springframework.data.mongodb.core.mapping.Document;
+import it.algos.springvaadin.enumeration.EAListButton;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -46,21 +44,21 @@ public @interface AIList {
      * Specific for developer role
      * Defaults to standard.
      */
-    ListButton dev() default ListButton.standard;
+    EAListButton dev() default EAListButton.standard;
 
     /**
      * (Optional) List of buttom on bottom
      * Specific for buttonAdmin role
      * Defaults to standard.
      */
-    ListButton admin() default ListButton.noSearch;
+    EAListButton admin() default EAListButton.noSearch;
 
     /**
      * (Optional) List of buttom on bottom
      * Specific for buttonUser role
      * Defaults to standard.
      */
-    ListButton user() default ListButton.edit;
+    EAListButton user() default EAListButton.edit;
 
 
 }// end of interface annotation

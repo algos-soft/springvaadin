@@ -35,8 +35,6 @@ public abstract class Cost {
     public final static List<String> COMPANY_OPTIONAL = Arrays.asList(companyMatrice);
 
     public final static String TAG_VERS = "vers";
-    public final static String VIEW_VERS_LIST = "verslist";
-    public final static String VIEW_VERS_FORM = "versform";
     public final static String TAG_COMP = "comp";
     public final static String TAG_LOG = "log";
     public final static String TAG_HELP = "help";

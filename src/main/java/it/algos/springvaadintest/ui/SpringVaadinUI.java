@@ -7,13 +7,6 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.persona.PersonaNavView;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibSession;
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.ui.AlgosUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +23,7 @@ import javax.annotation.PostConstruct;
 @SpringUI()
 @SpringViewDisplay()
 @Slf4j
-public class SpringVaadinUI extends AlgosUI {
+public class SpringVaadinUI  {
 
 //    /**
 //     * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
@@ -41,72 +34,72 @@ public class SpringVaadinUI extends AlgosUI {
 //    @Override
 //    protected void inizia() {
 
-    /**
-     * Initializes this UI.
-     * This method is intended to build the view and configure non-component functionality.
-     * Performing the initialization in a constructor is not suggested as the state of the UI
-     * is not properly set up when the constructor is invoked.
-     * <p>
-     * The {@link VaadinRequest} can be used to get information about the request that caused this UI to be created.
-     * </p>
-     * Se viene sovrascritto dalla sottoclasse, deve (DEVE) richiamare anche il metodo della superclasse
-     * di norma DOPO aver effettuato alcune regolazioni <br>
-     * Nella sottoclasse specifica viene eventualmente regolato il nome del modulo di partenza <br>
-     *
-     * @param request the Vaadin request that caused this UI to be created
-     */
-    @Override
-    protected void init(VaadinRequest request) {
-        super.init(request);
-
-        String message = "Algos® ";
-        String companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getCode() : "";
-        if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
-            message += " - " + companyCode;
-        }// end of if cycle
-        footer.setAppMessage("SpringVaadintest 1.0");
-        log.info("Versione dell'applicazione: SpringVaadintest 1.0");
-
-        super.printBefore(InterfacciaUtente.specifica);
-        this.specificFixAndPrint();
-        super.printAfter(InterfacciaUtente.specifica);
-    }// end of method
-
-
-    /**
-     * Regola alcuni flag specifici dell'applicazione che riguardano l'annotation video
-     * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
-     * Stampa a video (productionMode) i valori per controllo
-     */
-    protected void specificFixAndPrint() {
-
-        super.gridSelectionMode = Grid.SelectionMode.MULTI;
-        log.info("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
-
-        super.displayToolTips = true;
-        log.info("AlgosUIParams.displayToolTips: " + super.displayToolTips);
-
-        super.usaSeparateFormDialog = false;
-        log.info("AlgosUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
-
-        super.usaDialoghiVerbosi = true;
-        log.info("AlgosUIParams.usaDialoghiVerbosi: " + super.usaDialoghiVerbosi);
-
-        super.usaBottoniColorati = true;
-        log.info("AlgosUIParams.usaBottoniColorati: " + super.usaBottoniColorati);
-
-    }// end of method
-
-
-    /**
-     * Lancio della vista iniziale
-     * Chiamato DOPO aver finito di costruire il MenuLayout e la AlgosUI
-     * Deve (DEVE) essere sovrascritto dalla sottoclasse
-     */
-    @Override
-    protected void startVistaIniziale() {
-//        getNavigator().navigateTo(Cost.TAG_PRE);
-        getNavigator().navigateTo("ruolotest");
-    }// end of method
+//    /**
+//     * Initializes this UI.
+//     * This method is intended to build the view and configure non-component functionality.
+//     * Performing the initialization in a constructor is not suggested as the state of the UI
+//     * is not properly set up when the constructor is invoked.
+//     * <p>
+//     * The {@link VaadinRequest} can be used to get information about the request that caused this UI to be created.
+//     * </p>
+//     * Se viene sovrascritto dalla sottoclasse, deve (DEVE) richiamare anche il metodo della superclasse
+//     * di norma DOPO aver effettuato alcune regolazioni <br>
+//     * Nella sottoclasse specifica viene eventualmente regolato il nome del modulo di partenza <br>
+//     *
+//     * @param request the Vaadin request that caused this UI to be created
+//     */
+//    @Override
+//    protected void init(VaadinRequest request) {
+//        super.init(request);
+//
+//        String message = "Algos® ";
+//        String companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getCode() : "";
+//        if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
+//            message += " - " + companyCode;
+//        }// end of if cycle
+//        footer.setAppMessage("SpringVaadintest 1.0");
+//        log.info("Versione dell'applicazione: SpringVaadintest 1.0");
+//
+//        super.printBefore(InterfacciaUtente.specifica);
+//        this.specificFixAndPrint();
+//        super.printAfter(InterfacciaUtente.specifica);
+//    }// end of method
+//
+//
+//    /**
+//     * Regola alcuni flag specifici dell'applicazione che riguardano l'annotation video
+//     * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
+//     * Stampa a video (productionMode) i valori per controllo
+//     */
+//    protected void specificFixAndPrint() {
+//
+//        super.gridSelectionMode = Grid.SelectionMode.MULTI;
+//        log.info("AlgosUIParams.gridSelectionMode: " + super.gridSelectionMode);
+//
+//        super.displayToolTips = true;
+//        log.info("AlgosUIParams.displayToolTips: " + super.displayToolTips);
+//
+//        super.usaSeparateFormDialog = false;
+//        log.info("AlgosUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
+//
+//        super.usaDialoghiVerbosi = true;
+//        log.info("AlgosUIParams.usaDialoghiVerbosi: " + super.usaDialoghiVerbosi);
+//
+//        super.usaBottoniColorati = true;
+//        log.info("AlgosUIParams.usaBottoniColorati: " + super.usaBottoniColorati);
+//
+//    }// end of method
+//
+//
+//    /**
+//     * Lancio della vista iniziale
+//     * Chiamato DOPO aver finito di costruire il MenuLayout e la AlgosUI
+//     * Deve (DEVE) essere sovrascritto dalla sottoclasse
+//     */
+//    @Override
+//    protected void startVistaIniziale() {
+////        getNavigator().navigateTo(Cost.TAG_PRE);
+//        getNavigator().navigateTo("ruolotest");
+//    }// end of method
 
 }// end of class

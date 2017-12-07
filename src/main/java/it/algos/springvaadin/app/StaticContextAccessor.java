@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by gac on 01/07/17
- * .
  */
 @Component
 public class StaticContextAccessor {

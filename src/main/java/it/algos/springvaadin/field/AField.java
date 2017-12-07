@@ -1,19 +1,16 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.data.HasValue;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import it.algos.springvaadin.bottone.AButton;
-import it.algos.springvaadin.event.AFieldEvent;
-import it.algos.springvaadin.event.TypeField;
-import it.algos.springvaadin.lib.LibText;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
+import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.enumeration.EATypeField;
+import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -42,6 +39,9 @@ import javax.annotation.PostConstruct;
 @SpringComponent
 public abstract class AField<T> extends CustomField<Object> {
 
+
+    @Autowired
+    public ATextService text;
 
     //--Obbligatorio publicFieldName
     protected String name;
@@ -166,7 +166,7 @@ public abstract class AField<T> extends CustomField<Object> {
      */
     @Override
     public void doSetValue(Object value) {
-        if (textField != null && LibText.isValid((String) value)) {
+        if (textField != null && text.isValid((String) value)) {
             textField.setValue((String) value);
         }// end of if cycle
     }// end of method
@@ -193,10 +193,10 @@ public abstract class AField<T> extends CustomField<Object> {
         this.name = name;
     }// end of method
 
-
-    public AlgosPresenterImpl getFormPresenter() {
-        return null;
-    }// end of method
+    //@todo RIMETTERE
+//    public AlgosPresenterImpl getFormPresenter() {
+//        return null;
+//    }// end of method
 
 
     public void setWidth(String width) {
@@ -287,7 +287,7 @@ public abstract class AField<T> extends CustomField<Object> {
      */
     public void publish() {
         if (source != null) {
-            publisher.publishEvent(new AFieldEvent(TypeField.valueChanged, source, target, entityBean,this));
+            publisher.publishEvent(new AFieldEvent(EATypeField.valueChanged, source, target, entityBean,this));
         }// end of if cycle
     }// end of method
 
