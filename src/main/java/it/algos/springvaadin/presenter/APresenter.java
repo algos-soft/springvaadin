@@ -88,7 +88,7 @@ public class APresenter implements IAPresenter {
         List items = null;
         List<Field> columns = null;
 
-//        columns = service.getListFields();
+        columns = service.getListFields();
 //        items = service.findAll();
 
         list.start(this, entityClass, columns, items);

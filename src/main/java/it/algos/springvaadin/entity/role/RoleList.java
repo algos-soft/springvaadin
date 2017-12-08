@@ -33,25 +33,22 @@ public class RoleList extends AList {
     /**
      * Costruttore @Autowired (nella superclasse)
      */
-//    public RoleList(@Qualifier(Cost.TAG_ROL) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
-//        super(service, grid, toolbar);
-//    }// end of Spring constructor
-    public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, IAGrid grid) {
-        super(presenter, grid);
+    public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter) {
+        super(presenter);
     }// end of Spring constructor
 
 
-    /**
-     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
-     * Elimina il riferimento al menuLayout nella view 'uscente' (oldView) perché il menuLayout è un 'singleton'
-     * Elimina tutti i componenti della view 'entrante' (this)
-     * Aggiunge il riferimento al menuLayout nella view 'entrante' (this)
-     * Aggiunge i riferimenti agli oggetti specifici di questa view (this)
-     */
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        super.enter(event);
-        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Grid (provvisorio)"), ContentMode.HTML));
-    }// end of method
+//    /**
+//     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+//     * Elimina il riferimento al menuLayout nella view 'uscente' (oldView) perché il menuLayout è un 'singleton'
+//     * Elimina tutti i componenti della view 'entrante' (this)
+//     * Aggiunge il riferimento al menuLayout nella view 'entrante' (this)
+//     * Aggiunge i riferimenti agli oggetti specifici di questa view (this)
+//     */
+//    @Override
+//    public void enter(ViewChangeListener.ViewChangeEvent event) {
+//        super.enter(event);
+//        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Grid (provvisorio)"), ContentMode.HTML));
+//    }// end of method
 
 }// end of class

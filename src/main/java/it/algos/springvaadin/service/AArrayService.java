@@ -1,6 +1,11 @@
 package it.algos.springvaadin.service;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+
+import java.util.List;
 
 /**
  * Project springvaadin
@@ -9,6 +14,65 @@ import lombok.extern.slf4j.Slf4j;
  * Date: gio, 07-dic-2017
  * Time: 13:46
  */
-@Slf4j
+@SpringComponent
+@Scope("singleton")
 public class AArrayService {
+
+
+    @Autowired
+    public ATextService text;
+
+    /**
+     * Controlla la validità dell'array
+     * Deve essitere (not null)
+     * Deve avere degli elementi (size > 0)
+     * Il primo elemento deve essere valido
+     *
+     * @param array (List) in ingresso da controllare
+     *
+     * @return vero se l'array soddisfa le condizioni previste
+     */
+    public boolean isValid(final List array) {
+        boolean status = false;
+
+        if (array != null && array.size() > 0 ) {
+            if (array.get(0)!=null) {
+                if (array.get(0) instanceof String) {
+                    status = text.isValid(array.get(0));
+                } else {
+                    status = true;
+                }// end of if/else cycle
+            }// end of if cycle
+        }// end of if cycle
+
+        return status;
+    }// end of method
+
+    /**
+     * Controlla la validità dell'array
+     * Deve essitere (not null)
+     * Deve avere degli elementi (length > 0)
+     * Il primo elemento deve essere una stringa valida
+     *
+     * @param array (String[]) in ingresso da controllare
+     *
+     * @return vero se l'array soddisfa le condizioni previste
+     */
+    public boolean isValid(final String[] array) {
+        boolean status = false;
+
+        if (array != null && array.length > 0 ) {
+            if (array[0]!=null) {
+                if (array[0] instanceof String) {
+                    status = text.isValid(array[0]);
+                } else {
+                    status = true;
+                }// end of if/else cycle
+            }// end of if cycle
+        }// end of if cycle
+
+        return status;
+    }// end of method
+
+
 }// end of class

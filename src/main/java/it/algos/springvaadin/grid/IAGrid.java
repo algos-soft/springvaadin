@@ -16,8 +16,6 @@ import java.util.List;
  */
 public interface IAGrid {
 
-
-
     /**
      * Metodo invocato da AList
      *

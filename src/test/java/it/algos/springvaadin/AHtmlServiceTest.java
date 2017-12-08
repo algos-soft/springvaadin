@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration()
 public class AHtmlServiceTest {
 
+
     private String sorgente = "";
     private String previsto = "";
     private String ottenuto = "";
@@ -36,16 +37,20 @@ public class AHtmlServiceTest {
     @InjectMocks
     private AHtmlService service;
 
+
     @InjectMocks
-    private ATextService textService;
+    private ATextService text;
+
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         MockitoAnnotations.initMocks(service);
-        service.text = textService;
+        service.text = text;
     }// end of method
 
+
+    @SuppressWarnings("javadoc")
     /**
      * Carattere rosso e bold
      *
@@ -71,13 +76,14 @@ public class AHtmlServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
-     * Carattere verde e bold
-     *
-     * @param testoIn ingresso da 'incapsulare' nei tags
-     *
-     * @return testo composto; null se testoIn è vuoto/null
-     */
+      * Carattere verde e bold
+      *
+      * @param testoIn ingresso da 'incapsulare' nei tags
+      *
+      * @return testo composto; null se testoIn è vuoto/null
+      */
     @Test
     public void setVerdeBold() {
         sorgente = "Modifica scheda";
@@ -96,6 +102,7 @@ public class AHtmlServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Carattere blu e bold
      *
@@ -121,6 +128,7 @@ public class AHtmlServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Carattere  bold
      *
@@ -146,6 +154,7 @@ public class AHtmlServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Elimina la parte di testo successiva al tag indicato (se esiste).
      * <p>
@@ -186,6 +195,8 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
      * Elimina la parte di testo successiva al tag <ref> (se esiste).
      * <p>
@@ -218,18 +229,20 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
-     * Elimina la parte di testo successiva al tag <!-- (se esiste).
-     * <p>
-     * Elimina a partire dall'inizio del tag
-     * Esegue solo se il testo è valido
-     * Se manca il tag, restituisce il testo
-     * Elimina spazi vuoti iniziali e finali
-     *
-     * @param testoIn ingresso
-     *
-     * @return testo troncato
-     */
+      * Elimina la parte di testo successiva al tag <!-- (se esiste).
+      * <p>
+      * Elimina a partire dall'inizio del tag
+      * Esegue solo se il testo è valido
+      * Se manca il tag, restituisce il testo
+      * Elimina spazi vuoti iniziali e finali
+      *
+      * @param testoIn ingresso
+      *
+      * @return testo troncato
+      */
     @Test
     public void levaDopoNote() {
         tag = service.note;
@@ -250,18 +263,20 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
-     * Elimina la parte di testo successiva al tag {{ (se esiste).
-     * <p>
-     * Elimina a partire dall'inizio del tag
-     * Esegue solo se il testo è valido
-     * Se manca il tag, restituisce il testo
-     * Elimina spazi vuoti iniziali e finali
-     *
-     * @param testoIn ingresso
-     *
-     * @return testo troncato
-     */
+      * Elimina la parte di testo successiva al tag {{ (se esiste).
+      * <p>
+      * Elimina a partire dall'inizio del tag
+      * Esegue solo se il testo è valido
+      * Se manca il tag, restituisce il testo
+      * Elimina spazi vuoti iniziali e finali
+      *
+      * @param testoIn ingresso
+      *
+      * @return testo troncato
+      */
     @Test
     public void levaDopoGraffe() {
         tag = service.graffe;
@@ -282,6 +297,8 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
      * Elimina la parte di testo successiva al tag -virgola- (se esiste).
      * <p>
@@ -314,18 +331,20 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
-     * Elimina la parte di testo successiva al tag -aperta parentesi- (se esiste).
-     * <p>
-     * Elimina a partire dall'inizio del tag
-     * Esegue solo se il testo è valido
-     * Se manca il tag, restituisce il testo
-     * Elimina spazi vuoti iniziali e finali
-     *
-     * @param testoIn ingresso
-     *
-     * @return testo troncato
-     */
+      * Elimina la parte di testo successiva al tag -aperta parentesi- (se esiste).
+      * <p>
+      * Elimina a partire dall'inizio del tag
+      * Esegue solo se il testo è valido
+      * Se manca il tag, restituisce il testo
+      * Elimina spazi vuoti iniziali e finali
+      *
+      * @param testoIn ingresso
+      *
+      * @return testo troncato
+      */
     @Test
     public void levaDopoParentesi() {
         tag = service.parentesi;
@@ -346,6 +365,8 @@ public class AHtmlServiceTest {
         assertEquals(previsto, ottenuto);
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
     /**
      * Elimina la parte di testo successiva al tag -punto interrogativo- (se esiste).
      * <p>
@@ -379,17 +400,18 @@ public class AHtmlServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
-     * Elimina dal testo la stringa indicata.
-     * <p>
-     * Esegue solo se il testo è valido
-     * Se la stringa non è valida, restituisce il testo
-     *
-     * @param testoIn    in ingresso
-     * @param subStringa da eliminare
-     *
-     * @return testo ridotto
-     */
+      * Elimina dal testo la stringa indicata.
+      * <p>
+      * Esegue solo se il testo è valido
+      * Se la stringa non è valida, restituisce il testo
+      *
+      * @param testoIn    in ingresso
+      * @param subStringa da eliminare
+      *
+      * @return testo ridotto
+      */
     @Test
     public void levaTesto() {
         tag = "pippoz";
@@ -398,7 +420,7 @@ public class AHtmlServiceTest {
         previsto = "Elimina tutte volte che lo trova";
         ottenuto = service.levaTesto(sorgente, tag);
         assertEquals(previsto, ottenuto);
-
     }// end of single test
+
 
 }// end of test class

@@ -93,7 +93,7 @@ public abstract class AView extends VerticalLayout implements IAView {
         }// end of if cycle
 
         if (oldView instanceof IAView) {
-            ((IAView) oldView).removeLayout();
+            ((IAView) oldView).removeComponents();
         }// end of if cycle
 
         this.removeAllComponents();
@@ -104,17 +104,18 @@ public abstract class AView extends VerticalLayout implements IAView {
 //            presenter.setList();
 //        }// end of if cycle
 
-        if (presenter!=null) {
+        if (presenter != null) {
             presenter.setList();
         }// end of if cycle
 
     }// end of method
 
+
     /**
      * Elimina il menuLayout dalla vista 'uscente'
      */
     @Override
-    public void removeLayout() {
+    public void removeComponents() {
         this.removeComponent(menuLayout);
     }// end of method
 

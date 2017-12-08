@@ -1,5 +1,6 @@
 package it.algos.springvaadin;
 
+import com.vaadin.ui.Label;
 import it.algos.springvaadin.enumeration.EAFirstChar;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration()
 public class ATextServiceTest {
 
+
     private String sorgente = "";
     private String previsto = "";
     private String ottenuto = "";
@@ -46,6 +48,7 @@ public class ATextServiceTest {
     }// end of method
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Null-safe, short-circuit evaluation.
      *
@@ -71,6 +74,7 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Null-safe, short-circuit evaluation.
      *
@@ -96,17 +100,45 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
-     * Forza il primo carattere della stringa al carattere maiuscolo
-     * <p>
-     * Se la stringa è nulla, ritorna un nullo
-     * Se la stringa è vuota, ritorna una stringa vuota
-     * Elimina spazi vuoti iniziali e finali
-     *
-     * @param testo in ingresso
-     *
-     * @return test formattato in uscita
-     */
+      * Controlla che sia una stringa e che sia valida.
+      *
+      * @param obj in ingresso da controllare
+      *
+      * @return vero se la stringa esiste è non è vuota
+      */
+    @Test
+    public void isValidObj() {
+        Object obj = new Label();
+        previstoBooleano = false;
+        ottenutoBooleano = service.isValid(obj);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        Object objString = "";
+        previstoBooleano = false;
+        ottenutoBooleano = service.isValid(objString);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        Object objStringFull = "a";
+        previstoBooleano = true;
+        ottenutoBooleano = service.isValid(objStringFull);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+      * Forza il primo carattere della stringa al carattere maiuscolo
+      * <p>
+      * Se la stringa è nulla, ritorna un nullo
+      * Se la stringa è vuota, ritorna una stringa vuota
+      * Elimina spazi vuoti iniziali e finali
+      *
+      * @param testo in ingresso
+      *
+      * @return test formattato in uscita
+      */
     @Test
     public void primaMaiuscola() {
         sorgente = "TUTTO MAIUSCOLO ";
@@ -126,6 +158,7 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Forza il primo carattere della stringa al carattere minuscolo
      * <p>
@@ -156,6 +189,7 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Elimina dal testo il tagIniziale, se esiste
      * <p>
@@ -190,6 +224,7 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Elimina dal testo il tagFinale, se esiste
      * <p>
@@ -224,6 +259,7 @@ public class ATextServiceTest {
     }// end of single test
 
 
+    @SuppressWarnings("javadoc")
     /**
      * Sostituisce nel testo tutte le occorrenze di oldTag con newTag.
      * Esegue solo se il testo è valido
@@ -260,5 +296,6 @@ public class ATextServiceTest {
         ottenuto = service.sostituisce(sorgente, oldTag, newTag);
         assertEquals(previsto, ottenuto);
     }// end of single test
+
 
 }// end of class

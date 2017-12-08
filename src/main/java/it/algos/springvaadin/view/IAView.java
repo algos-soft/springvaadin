@@ -18,6 +18,6 @@ public interface IAView extends View{
     /**
      * Elimina il menuLayout dalla vista 'uscente'
      */
-    public void removeLayout() ;
+    public void removeComponents() ;
 
 }// end of interface

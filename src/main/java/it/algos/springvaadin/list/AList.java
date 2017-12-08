@@ -7,6 +7,7 @@ import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,6 +24,8 @@ public abstract class AList extends AView implements IAList {
 
     //--AlgosGrid, iniettata dal costruttore
     //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
+
+    @Autowired
     protected IAGrid grid;
 
 
@@ -34,11 +37,9 @@ public abstract class AList extends AView implements IAList {
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
      * @param presenter iniettato da Spring
-     * @param grid iniettato da Spring
      */
-    public AList(IAPresenter presenter, IAGrid grid) {
+    public AList(IAPresenter presenter) {
         super(presenter);
-        this.grid = grid;
     }// end of Spring constructor
 
 
@@ -55,7 +56,15 @@ public abstract class AList extends AView implements IAList {
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         grid.inizia(source, entityClazz, columns, items, 50);
         this.addComponent((Component) grid);
-        this.addComponent(new Label("alfa beta gamma"));
     }// end of method
+
+//    /**
+//     * Elimina il menuLayout dalla vista 'uscente'
+//     * Elimina la Grid dalla vista 'uscente', se è una IAList
+//     */
+//    @Override
+//    public void removeComponents() {
+//        super.removeComponents();
+//    }// end of method
 
 }// end of class

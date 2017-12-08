@@ -6,11 +6,13 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.lib.Cost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -30,6 +32,7 @@ import javax.validation.constraints.Size;
 @AIEntity( company = EACompanyRequired.nonUsata)
 @AIList()
 @AIForm()
+@Qualifier(Cost.TAG_ROL)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -44,6 +44,22 @@ public class ATextService {
 
 
     /**
+     * Controlla che sia una stringa e che sia valida.
+     *
+     * @param obj in ingresso da controllare
+     *
+     * @return vero se la stringa esiste è non è vuota
+     */
+    public boolean isValid(final Object obj) {
+        if (obj instanceof String) {
+            return !isEmpty((String) obj);
+        } else {
+            return false;
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
      * Forza il primo carattere della stringa secondo il flag
      * <p>
      * Se la stringa è nulla, ritorna un nullo
