@@ -31,14 +31,21 @@ import javax.annotation.PostConstruct;
 @SpringView(name = "test")
 public class VaadintestView extends AView {
 
+    /**
+     * Costruttore @Autowired (nella superclasse)
+     */
+    public VaadintestView() {
+        super(null);
+    }// end of Spring constructor
+
 
     /**
      * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-       this.addComponent(new Label(htlm.setRossoBold("Test"), ContentMode.HTML));
+        super.enter(event);
+        this.addComponent(new Label(htlm.setRossoBold("Test"), ContentMode.HTML));
     }// end of method
-
 
 }// end of class

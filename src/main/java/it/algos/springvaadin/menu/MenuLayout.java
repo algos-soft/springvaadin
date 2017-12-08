@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("singleton")
+@Scope("session")
 public class MenuLayout extends VerticalLayout {
 
 //    @Autowired
