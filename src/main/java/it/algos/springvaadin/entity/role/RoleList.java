@@ -1,7 +1,9 @@
 package it.algos.springvaadin.entity.role;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
@@ -21,7 +23,10 @@ import java.util.List;
 /**
  * Created by gac on 11-nov-17
  * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @@Scope (obbligatorio e di tipo 'session')
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @SpringView (obbligatorio per avere la view inserita nello SpringNavigator)
+ * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
 @Scope("session")
@@ -31,24 +36,33 @@ public class RoleList extends AList {
 
 
     /**
+     * Label del menu (facoltativa)
+     * SpringNavigator usa il 'name' della Annotation @SpringView per identificare (internamente) e recuperare la view
+     * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
+     * Se manca il MENU_NAME, di default usa il 'name' della view
+     */
+    public static final String MENU_NAME = Cost.TAG_ROL;
+
+
+    /**
+     * Icona visibile nel menu (facoltativa)
+     * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
+     * Se manca il MENU_NAME, di default usa il 'name' della view
+     */
+    public static final Resource VIEW_ICON = VaadinIcons.ASTERISK;
+
+
+    /**
      * Costruttore @Autowired (nella superclasse)
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     *
+     * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter) {
         super(presenter);
     }// end of Spring constructor
 
-
-//    /**
-//     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
-//     * Elimina il riferimento al menuLayout nella view 'uscente' (oldView) perché il menuLayout è un 'singleton'
-//     * Elimina tutti i componenti della view 'entrante' (this)
-//     * Aggiunge il riferimento al menuLayout nella view 'entrante' (this)
-//     * Aggiunge i riferimenti agli oggetti specifici di questa view (this)
-//     */
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent event) {
-//        super.enter(event);
-//        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Grid (provvisorio)"), ContentMode.HTML));
-//    }// end of method
 
 }// end of class

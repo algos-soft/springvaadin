@@ -58,13 +58,5 @@ public abstract class AList extends AView implements IAList {
         this.addComponent((Component) grid);
     }// end of method
 
-//    /**
-//     * Elimina il menuLayout dalla vista 'uscente'
-//     * Elimina la Grid dalla vista 'uscente', se è una IAList
-//     */
-//    @Override
-//    public void removeComponents() {
-//        super.removeComponents();
-//    }// end of method
 
 }// end of class

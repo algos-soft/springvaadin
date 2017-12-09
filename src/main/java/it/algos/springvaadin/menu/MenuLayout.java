@@ -130,21 +130,32 @@ public class MenuLayout extends VerticalLayout {
 
     /**
      * Adds a view to the firstMenuBar
+     * Regola il nome che appare nel menu:
+     * 1) usa la specifica property statica 'MENU_NAME' eventualmente indicata nella classe di tipo view
+     * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
+     * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
      *
      * @param viewClass the view class to adds
      */
     public void addView(Class<? extends IAView> viewClass) {
-        String viewName=   annotation.getViewName(viewClass);
+        String navigatorInternalName = annotation.getViewName(viewClass);
+        String viewName = reflection.getPropertyStr(viewClass, "MENU_NAME");
         Resource viewIcon = reflection.getPropertyRes(viewClass, "VIEW_ICON");
+
+        if (text.isEmpty(viewName)) {
+            viewName = navigatorInternalName;
+        }// end of if cycle
+        viewName = text.primaMaiuscola(viewName);
 
         MenuBar.Command viewCommand = new MenuBar.Command() {
             @Override
             public void menuSelected(MenuBar.MenuItem menuItem) {
                 deselezionaAllItemButOne(menuItem);
-                getUI().getNavigator().navigateTo(viewName);
+                getUI().getNavigator().navigateTo(navigatorInternalName);
             }// end of inner method
         };// end of anonymous inner class
-        firstMenuBar.addItem(text.primaMaiuscola(viewName), viewIcon, viewCommand);
+
+        firstMenuBar.addItem(viewName, viewIcon, viewCommand);
 
 
         //@todo CONTROLLARE SE SERVE

@@ -71,6 +71,24 @@ public class AReflectionService {
 
 
     /**
+     * Valore della property statica di una classe
+     *
+     * @param clazz           classe su cui operare la riflessione
+     * @param publicFieldName property statica e pubblica
+     */
+    public String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
+        String value = "";
+        Object obj = getPropertyValue(clazz, publicFieldName);
+
+        if (obj != null && obj instanceof String) {
+            value = (String) obj;
+        }// end of if cycle
+
+        return value;
+    }// end of method
+
+
+    /**
      * Field dichiarato di una Entity
      *
      * @param entityClazz     classe su cui operare la riflessione

@@ -110,8 +110,6 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-        menuLayout.addView(VaadintestView.class);
-        menuLayout.addView(RoleForm.class);
         menuLayout.addView(RoleList.class);
     }// end of method
 
@@ -122,12 +120,7 @@ public class SpringvaadintestUI extends AUI {
      */
     @Override
     protected void startVistaIniziale() {
-//        getNavigator().navigateTo(Cost.TAG_PRE);
-        try { // prova ad eseguire il codice
-            getNavigator().navigateTo("test");
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
+        getNavigator().navigateTo(Cost.VIEW_ROL_LIST);
     }// end of method
 
 }// end of class
