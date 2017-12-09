@@ -30,6 +30,7 @@ public class RolePresenter extends APresenter {
             @Lazy @Qualifier(Cost.TAG_ROL) IAList list,
             @Lazy @Qualifier(Cost.TAG_ROL) IAForm form) {
         super(service, list, form);
+        super.entityClass = Role.class;
     }// end of method
 
 

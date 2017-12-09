@@ -5,8 +5,12 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.AColumnService;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
@@ -24,6 +28,10 @@ import java.util.List;
 @SpringComponent
 @Scope("prototype")
 public class AGrid extends Grid implements IAGrid {
+
+
+    @Autowired
+    public AColumnService columnService;
 
     /**
      * Property iniettata nel costruttore
@@ -70,11 +78,10 @@ public class AGrid extends Grid implements IAGrid {
      * @param numeroRighe da visualizzare nella Grid
      */
     public void inizia(IAPresenter presenter, Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
-        this.presenter=presenter;
-        this.setBeanType(beanType!=null?beanType: Role.class);
+        this.presenter = presenter;
+        this.setBeanType(beanType != null ? beanType : Role.class);
         this.setRowHeight(50);
-        this.removeAllColumns();
-        this.addColumn("code");
+        this.addColumns(columns);
 
         if (items != null && items.size() > 0) {
             this.setItems(items);
@@ -85,4 +92,45 @@ public class AGrid extends Grid implements IAGrid {
         //--Aggiunge alla grid tutti i listener previsti
 //        addAllListeners();
     }// end of method
+
+
+    /**
+     * Utilizza l'Annotation @AIColumn del Model per regolare le caratteristiche delle colonne
+     * type() default AFieldType.text;
+     * header() default "";
+     * width() default 80;
+     * prompt() default "";
+     * help() default "";
+     *
+     * @param columns visibili ed ordinate della Grid
+     */
+    public void addColumns(List<Field> columns) {
+        Grid.Column colonna = null;
+        Class<? extends AEntity> clazz = this.getBeanType();
+        int lar = 0;
+
+        if (this.getColumns() != null && this.getColumns().size() > 0) {
+            this.removeAllColumns();
+        }// end of if cycle
+
+        if (columns != null && columns.size() > 0) {
+            for (Field field : columns) {
+                try { // prova ad eseguire il codice
+                    colonna = columnService.add(this, field);
+                } catch (Exception unErrore) { // intercetta l'errore
+                    log.error(unErrore.toString());
+                }// fine del blocco try-catch
+                lar += columnService.regolaAnnotationAndGetLarghezza(colonna, field);
+            }// end of for cycle
+        }// end of if cycle
+
+        //--spazio per la colonna automatica di selezione
+        //@todo RIMETTERE
+//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+//            lar += 50;
+//        }// end of if cycle
+
+        this.setWidth(lar + "px");
+    }// end of method
+
 }// end of class

@@ -4,8 +4,10 @@ import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,10 @@ import java.util.List;
 @SpringComponent
 @Scope("singleton")
 public class AAnnotationService {
+
+
+    @Autowired
+    public ATextService text;
 
 
     @Autowired
@@ -71,6 +77,22 @@ public class AAnnotationService {
     public AIColumn getAIColumn(final Field reflectionJavaField) {
         if (reflectionJavaField != null) {
             return reflectionJavaField.getAnnotation(AIColumn.class);
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Get the specific annotation of the field.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the Annotation for the specific field
+     */
+    public AIField getAIField(final Field reflectionJavaField) {
+        if (reflectionJavaField != null) {
+            return reflectionJavaField.getAnnotation(AIField.class);
         } else {
             return null;
         }// end of if/else cycle
@@ -140,6 +162,55 @@ public class AAnnotationService {
 
 
     /**
+     * Get the name (column) of the property.
+     * Se manca, usa il nome del Field
+     * Se manca, usa il nome della property
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the name (column) of the field
+     */
+    public String getColumnName(final Field reflectionJavaField) {
+        String name = "";
+        AIColumn annotation = this.getAIColumn(reflectionJavaField);
+
+        if (annotation != null) {
+            name = annotation.name();
+        }// end of if cycle
+
+        if (text.isEmpty(name)) {
+            name = this.getFormFieldName(reflectionJavaField);
+        }// end of if cycle
+
+        return name;
+    }// end of method
+
+
+    /**
+     * Get the type (column) of the property.
+     * Se manca, usa il type del Field
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the type for the specific column
+     */
+    public EAFieldType getColumnType(final Field reflectionJavaField) {
+        EAFieldType type = null;
+        AIColumn annotation = this.getAIColumn(reflectionJavaField);
+
+        if (annotation != null) {
+            type = annotation.type();
+        }// end of if cycle
+
+        if (type == EAFieldType.ugualeAlField) {
+            type = this.getFormType(reflectionJavaField);
+        }// end of if cycle
+
+        return type;
+    }// end of method
+
+
+    /**
      * Get the visibility of the column.
      * Di default true
      *
@@ -147,7 +218,7 @@ public class AAnnotationService {
      *
      * @return the visibility of the column
      */
-    public  boolean isColumnVisibile(final Field reflectionJavaField) {
+    public boolean isColumnVisibile(final Field reflectionJavaField) {
         boolean visibile = false;
         EARoleType roleTypeVisibility = EARoleType.nobody;
         AIColumn annotation = this.getAIColumn(reflectionJavaField);
@@ -164,14 +235,14 @@ public class AAnnotationService {
                 //@todo RIMETTERE
 
 //                if (LibSession.isDeveloper()) {
-                    visibile = true;
+                visibile = true;
 //                }// end of if cycle
                 break;
             case admin:
                 //@todo RIMETTERE
 
                 //                if (LibSession.isAdmin()) {
-                    visibile = true;
+                visibile = true;
 //                }// end of if cycle
                 break;
             case user:
@@ -190,8 +261,71 @@ public class AAnnotationService {
 
 
     /**
-     * Get the status of visibility for the field of ACompanyEntity.
+     * Get the width of the property.
      *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the width of the column expressed in int
+     */
+    @SuppressWarnings("all")
+    public int getColumnWith(final Field reflectionJavaField) {
+        int width = 0;
+        AIColumn annotation = this.getAIColumn(reflectionJavaField);
+
+        if (annotation != null) {
+            width = annotation.width();
+        }// end of if cycle
+
+        return width;
+    }// end of method
+
+
+    /**
+     * Get the type (field) of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the type for the specific column
+     */
+    public EAFieldType getFormType(final Field reflectionJavaField) {
+        EAFieldType type = null;
+        AIField annotation = this.getAIField(reflectionJavaField);
+
+        if (annotation != null) {
+            type = annotation.type();
+        }// end of if cycle
+
+        return type;
+    }// end of method
+
+
+    /**
+     * Get the name (field) of the property.
+     * Se manca, usa il nome della property
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the name (rows) of the field
+     */
+    public String getFormFieldName(final Field reflectionJavaField) {
+        String name = null;
+        AIField annotation = this.getAIField(reflectionJavaField);
+
+        if (annotation != null) {
+            name = annotation.name();
+        }// end of if cycle
+
+        if (text.isEmpty(name)) {
+            name = reflectionJavaField.getName();
+        }// end of if cycle
+
+        return text.primaMaiuscola(name);
+    }// end of method
+
+
+    /**
+     * Get the status of visibility for the field of ACompanyEntity.
+     * <p>
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
      * Controlla se la collection (table) usa la company
      * Controlla se l'buttonUser collegato è un developer
@@ -200,7 +334,7 @@ public class AAnnotationService {
      *
      * @return status - default true
      */
-    public  boolean isCompanyFieldVisible(final Class<? extends AEntity> clazz) {
+    public boolean isCompanyFieldVisible(final Class<? extends AEntity> clazz) {
         boolean status = true;
 
         //@todo RIMETTERE

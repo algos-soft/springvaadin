@@ -60,7 +60,7 @@ public abstract class AService implements IAService {
      */
     @Override
     public List<AEntity> findAll() {
-        return null;
+        return repository.findAll();
     }// end of method
 
 
