@@ -26,7 +26,7 @@ import java.util.List;
 @SpringComponent
 @Scope("session")
 @Qualifier(Cost.TAG_ROL)
-@SpringView(name = "ruololist")
+@SpringView(name = Cost.VIEW_ROL_LIST)
 public class RoleList extends AList {
 
 

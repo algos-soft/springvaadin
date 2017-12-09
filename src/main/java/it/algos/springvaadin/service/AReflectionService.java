@@ -71,6 +71,25 @@ public class AReflectionService {
 
 
     /**
+     * Field dichiarato di una Entity
+     *
+     * @param entityClazz     classe su cui operare la riflessione
+     * @param publicFieldName property statica e pubblica
+     */
+    public Field getField(final Class<? extends AEntity> entityClazz, final String publicFieldName) {
+        Field field = null;
+
+        try { // prova ad eseguire il codice
+            field = entityClazz.getDeclaredField(publicFieldName);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.warn(unErrore.toString() + " getField()");
+        }// fine del blocco try-catch
+
+        return field;
+    }// end of method
+
+
+    /**
      * Fields dichiarati nella Entity
      * Compresa la entity
      * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)

@@ -46,6 +46,10 @@ public abstract class Cost {
     public final static String TAG_PER = "per";
     public final static String TAG_PRE = "pref";
 
+    public final static String VIEW_ROL_LIST = "rolelist";
+    public final static String VIEW_ROL_FORM = "roleform";
+
+
     public final static String BOT_ACCETTA = "accetta";
     public final static String BOT_CONFERMA = "conferma";
     public final static String BOT_ANNULLA = "annulla";

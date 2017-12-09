@@ -45,6 +45,7 @@ public class AAnnotationService {
 
     /**
      * Get the specific annotation of the class.
+     * View classes
      *
      * @param clazz the entity class
      *
@@ -57,7 +58,7 @@ public class AAnnotationService {
 
     /**
      * Get the specific annotation of the class.
-     *
+     * Entity classes
      * @param clazz the entity class
      *
      * @return the Annotation for the specific class

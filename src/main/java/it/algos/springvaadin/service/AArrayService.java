@@ -64,7 +64,7 @@ public class AArrayService {
         if (array != null && array.length > 0 ) {
             if (array[0]!=null) {
                 if (array[0] instanceof String) {
-                    status = text.isValid(array[0]);
+                    status = text.isValid((String)array[0]);
                 } else {
                     status = true;
                 }// end of if/else cycle

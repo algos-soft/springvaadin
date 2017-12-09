@@ -29,8 +29,8 @@ import javax.validation.constraints.Size;
  */
 @SpringComponent
 @Document()
-@AIEntity( company = EACompanyRequired.nonUsata)
-@AIList()
+@AIEntity(company = EACompanyRequired.nonUsata)
+@AIList(columns = {"ordine", "code"})
 @AIForm()
 @Qualifier(Cost.TAG_ROL)
 @Data
@@ -55,6 +55,7 @@ public class Role extends AEntity {
     @AIField(type = EAFieldType.integer, widthEM = 3, dev = EAFieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 55)
     private int ordine;
+
 
     /**
      * codice di riferimento (obbligatorio, unico)

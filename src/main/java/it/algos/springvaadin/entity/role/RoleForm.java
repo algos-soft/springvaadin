@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("session")
 @Qualifier(Cost.TAG_ROL)
-@SpringView(name = "ruoloform")
+@SpringView(name = Cost.VIEW_ROL_FORM)
 public class RoleForm extends AForm {
 
 
