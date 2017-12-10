@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -104,6 +105,42 @@ public class AReflectionService {
         }// fine del blocco try-catch
 
         return field;
+    }// end of method
+
+
+    /**
+     * Fields dichiarati nella Entity
+     * Solo la entityClazz indicata
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields da considerare per List e Form
+     */
+    public List<Field> getFieldsEntityOnly(Class<? extends AEntity> entityClazz) {
+        ArrayList<Field> fieldsList = new ArrayList<>();
+        Field[] fieldsArray = entityClazz.getDeclaredFields();
+
+        for (Field field : fieldsArray) {
+            if (!field.getName().equals(Cost.PROPERTY_SERIAL)) {
+                fieldsList.add(field);
+            }// end of if cycle
+        }// end of for cycle
+
+        return fieldsList;
+    }// end of method
+
+
+    /**
+     * Fields dichiarati nella Entity
+     * Compresa la entityClazz
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields da considerare per List e Form
+     */
+    public List<Field> getFieldsAllSuperclasses(Class<? extends AEntity> entityClazz) {
+        return getFields(entityClazz, null, true, false);
     }// end of method
 
 

@@ -50,7 +50,8 @@ public class AButtonFactory implements IAButtonFactory {
      * @param publisher     degli eventi a livello Application
      */
     public AButtonFactory(
-            Function<Class<? extends AButton>, AButton> buttonFactory,
+            Function<Class<? extends AButton>,
+                    AButton> buttonFactory,
             ApplicationEventPublisher publisher) {
         this.buttonFactory = buttonFactory;
         this.publisher = publisher;

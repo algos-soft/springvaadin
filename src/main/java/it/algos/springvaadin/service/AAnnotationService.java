@@ -48,12 +48,12 @@ public class AAnnotationService {
      * Get the specific annotation of the class.
      * View classes
      *
-     * @param clazz the entity class
+     * @param viewClazz the view class
      *
      * @return the Annotation for the specific class
      */
-    public SpringView getSpringView(final Class<? extends IAView> clazz) {
-        return clazz.getAnnotation(SpringView.class);
+    public SpringView getSpringView(final Class<? extends IAView> viewClazz) {
+        return viewClazz.getAnnotation(SpringView.class);
     }// end of method
 
 
@@ -61,12 +61,12 @@ public class AAnnotationService {
      * Get the specific annotation of the class.
      * Entity classes
      *
-     * @param clazz the entity class
+     * @param entityClazz the entity class
      *
      * @return the Annotation for the specific class
      */
-    public AIList getAIList(final Class<? extends AEntity> clazz) {
-        return clazz.getAnnotation(AIList.class);
+    public AIList getAIList(final Class<? extends AEntity> entityClazz) {
+        return entityClazz.getAnnotation(AIList.class);
     }// end of method
 
 

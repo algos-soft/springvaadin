@@ -78,6 +78,9 @@ public class AAnnotationServiceTest {
     private final static String HEADER_CODE = "Code";
     private static Field FIELD_ORDINE;
     private static Field FIELD_CODE;
+    private static Class<? extends IAView> ROLE_VIEW_CLASS_LIST = RoleList.class;
+    private static Class<? extends IAView> ROLE_VIEW_CLASS_FORM = RoleForm.class;
+    private static Class<? extends AEntity> ROLE_ENTITY_CLASS = Role.class;
 
     @Before
     public void setUp() {
@@ -99,13 +102,13 @@ public class AAnnotationServiceTest {
      * Get the specific annotation of the class.
      * View classes
      *
-     * @param clazz the entity class
+     * @param viewClazz the view class
      *
      * @return the Annotation for the specific class
      */
     @Test
     public void getSpringView() {
-        SpringView ottenuto = service.getSpringView(RoleList.class);
+        SpringView ottenuto = service.getSpringView(ROLE_VIEW_CLASS_LIST);
         assertNotNull(ottenuto);
     }// end of single test
 
@@ -115,13 +118,13 @@ public class AAnnotationServiceTest {
      * Get the specific annotation of the class.
      * Entity classes
      *
-     * @param clazz the entity class
+     * @param entityClazz the entity class
      *
      * @return the Annotation for the specific class
      */
     @Test
     public void getAIList() {
-        AIList ottenuto = service.getAIList(Role.class);
+        AIList ottenuto = service.getAIList(ROLE_ENTITY_CLASS);
         assertNotNull(ottenuto);
     }// end of single test
 
@@ -167,11 +170,11 @@ public class AAnnotationServiceTest {
     @Test
     public void getViewName() {
         previsto = Cost.VIEW_ROL_LIST;
-        ottenuto = service.getViewName(RoleList.class);
+        ottenuto = service.getViewName(ROLE_VIEW_CLASS_LIST);
         assertEquals(previsto, ottenuto);
 
         previsto = Cost.VIEW_ROL_FORM;
-        ottenuto = service.getViewName(RoleForm.class);
+        ottenuto = service.getViewName(ROLE_VIEW_CLASS_FORM);
         assertEquals(previsto, ottenuto);
     }// end of single test
 
@@ -187,7 +190,7 @@ public class AAnnotationServiceTest {
     @Test
     public void isListShowsID() {
         previstoBooleano = false;
-        ottenutoBooleano = service.isListShowsID(Role.class);
+        ottenutoBooleano = service.isListShowsID(ROLE_ENTITY_CLASS);
         assertEquals(previstoBooleano, ottenutoBooleano);
     }// end of single test
 
@@ -205,7 +208,7 @@ public class AAnnotationServiceTest {
         String[] stringArray = {"ordine", "code"};
         List<String> previstoList = LibArray.fromString(stringArray);
 
-        ottenutoList = service.getListColumns(Role.class);
+        ottenutoList = service.getListColumns(ROLE_ENTITY_CLASS);
         assertEquals(previstoList, ottenutoList);
     }// end of single test
 
@@ -360,7 +363,7 @@ public class AAnnotationServiceTest {
         EAListButton ottenutoListButton;
         EAListButton previstoListButton = EAListButton.standard;
 
-        ottenutoListButton = service.getListBotton(Role.class);
+        ottenutoListButton = service.getListBotton(ROLE_ENTITY_CLASS);
         assertEquals(previstoListButton, ottenutoListButton);
         //@todo RIMETTERE
     }// end of single test

@@ -1,12 +1,15 @@
 package it.algos.springvaadin.button;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Button;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -23,7 +26,15 @@ import javax.annotation.PostConstruct;
  * I bottoni sono ''prototype'', cioè ne viene generato uno per ogni xxxPresenter -> xxxView
  */
 @Slf4j
+@SpringComponent
 public class AButton extends Button {
+
+
+    /**
+     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
+     */
+    @Autowired
+    protected ATextService text;
 
 
     public final static String NORMAL_WIDTH = "8em";
@@ -125,7 +136,7 @@ public class AButton extends Button {
 
         //@todo RIMETTERE
 //        if (LibParams.usaBottoniPrimaMaiuscola()) {
-//            this.setCaption(LibText.primaMaiuscola(getCaption()));
+            this.setCaption(text.primaMaiuscola(getCaption()));
 //        }// end of if cycle
     }// end of method
 

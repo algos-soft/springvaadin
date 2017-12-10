@@ -9,12 +9,14 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Panel;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AList;
+import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
@@ -36,7 +38,7 @@ import java.util.List;
 @Slf4j
 @Scope("session")
 @SpringView(name = Cost.TAG_HOME)
-public class AHomeView extends AList {
+public class AHomeView extends AView {
 
     //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.HOME;
@@ -67,28 +69,23 @@ public class AHomeView extends AList {
         //--Regolazioni comuni a tutte le views
         super.enter(event);
 
+        //--menu specifico di questa view. Verrà rimosso in uscita della view
         menuLayout.addViewBefore(viewForThisModuleOnly, RoleList.class);
-        this.addComponent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
+
+        //--Non essendoci il Presenter, passa il controllo direttamente alla superclasse di questa view
+        super.start(null, null, null, null, null);
     }// end of method
 
-//    /**
-//     * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
-//     * Ricrea tutto ogni volta che la view diventa attiva
-//     * La view comprende:
-//     * 1) Top: il menuLayout - aggiunto e regolato nel metodo AView.enter() della superclasse
-//     * 2) Caption: eventuali scritte esplicative come collezione usata, records trovati, ecc
-//     * 3) Body: scorrevole contenente la Grid
-//     * 4) Footer - Barra dei bottoni di comando per lanciare eventi
-//     *
-//     * @param source      di riferimento per gli eventi
-//     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
-//     * @param columns     visibili ed ordinate della Grid
-//     * @param items       da visualizzare nella Grid
-//     */
-//    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-//        menuLayout.addView(RoleForm.class);
-//        this.addComponent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
-//    }// end of method
+    /**
+     * Crea il corpo centrale della view
+     * Componente grafico obbligatorio
+     * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
+     */
+    protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        APanel panel = new APanel();
+        panel.setContent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
+        return panel;
+    }// end of method
 
 
     /**

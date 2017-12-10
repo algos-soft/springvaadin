@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
@@ -11,6 +12,7 @@ import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.IAService;
 import it.algos.springvaadin.toolbar.ListToolbar;
@@ -53,6 +55,9 @@ public abstract class AList extends AView implements IAList {
     @Autowired
     public RoleService service;
 
+    @Autowired
+    private APanel panel;
+
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
@@ -90,44 +95,32 @@ public abstract class AList extends AView implements IAList {
 
 
     /**
-     * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
-     * Ricrea tutto ogni volta che la view diventa attiva
-     * La view comprende:
-     * 1) Top: il menuLayout - aggiunto e regolato nel metodo AView.enter() della superclasse
-     * 2) Caption: eventuali scritte esplicative come collezione usata, records trovati, ecc
-     * 3) Body: scorrevole contenente la Grid
-     * 4) Footer - Barra dei bottoni di comando per lanciare eventi
-     *
-     * @param source      di riferimento per gli eventi
-     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
-     * @param columns     visibili ed ordinate della Grid
-     * @param items       da visualizzare nella Grid
+     * Crea il corpo centrale della view
+     * Componente grafico obbligatorio
+     * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
      */
-    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        grid.inizia(source, entityClazz, columns, items, 50);
-        this.addComponent(new Label("Caption"));
-        this.addComponent((Component) grid);
-        this.creaBottom(source);
+    protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        grid.inizia(null, entityClazz, columns, items, 50);
+        panel.setContent((Component) grid);
+        return panel;
     }// end of method
 
 
     /**
-     * Prepara la barra dei bottoni di comando
+     * Crea la barra inferiore dei bottoni di comando
      * Chiamato ogni volta che la finestra diventa attiva
+     * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
      */
-    protected void creaBottom(IAPresenter source) {
+    protected VerticalLayout creaBottom(IAPresenter source, List<EAButtonType> typeButtons) {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);
         bottomLayout.setHeightUndefined();
-        List<EAButtonType> typeButtons = service.getListTypeButtons();
         toolbar.inizializza(source, typeButtons);
+
 //        fixToolbar();
 
-//        if (pref.isTrue(Cost.KEY_USE_DEBUG)) {
-        this.addStyleName("rosso");
-//            grid.addStyleName("verde");
-
         this.addComponent((ListToolbar) toolbar);
+        return bottomLayout;
     }// end of method
 
 }// end of class

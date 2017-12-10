@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.lib.Cost;
@@ -82,17 +83,20 @@ public abstract class APresenter implements IAPresenter {
      * Recupera dal service tutti i dati necessari (aggiornati)
      * Recupera dal service le colonne da mostrare nella grid
      * Recupera dal service gli items (records) della collection, da mostrare nella grid
+     * Recupera dal service i bottoni comando da mostrare nella toolbar del footer (sotto la Grid)
      * Passa il controllo alla view con i dati necessari
      */
     @Override
     public void setList() {
         List items = null;
         List<Field> columns = null;
+        List<EAButtonType> typeButtons = null;
 
         columns = service.getListFields();
         items = service.findAll();
+        typeButtons = service.getListTypeButtons();
 
-        list.start(this, entityClass, columns, items);
+        list.start(this, entityClass, columns, items, typeButtons);
     }// end of method
 
 

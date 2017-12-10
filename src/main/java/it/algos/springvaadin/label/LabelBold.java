@@ -15,11 +15,15 @@ import org.springframework.context.annotation.Scope;
  * Time: 08:31
  */
 @SpringComponent
-@Scope("singleton")
+@Scope("prototype")
 public class LabelBold extends Label {
 
+    /**
+     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
+     */
     @Autowired
-    protected AHtmlService htlmx;
+    protected AHtmlService htlm;
+
 
     public LabelBold() {
         this("");
@@ -34,8 +38,8 @@ public class LabelBold extends Label {
 
     @Override
     public void setValue(String value) {
-        if (htlmx != null) {
-            super.setValue(htlmx.setBold(value));
+        if (htlm != null) {
+            super.setValue(htlm.setBold(value));
         }// end of if cycle
     }// end of method
 
