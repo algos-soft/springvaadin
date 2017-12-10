@@ -180,7 +180,6 @@ public abstract class AView extends VerticalLayout implements IAView {
         this.removeAllComponents();
         this.addComponent(menuLayout);
 
-
         //--componente grafico obbligatorio
         menuLayout = creaMenu();
         this.addComponent(menuLayout);

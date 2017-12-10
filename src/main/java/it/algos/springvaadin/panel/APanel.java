@@ -48,6 +48,7 @@ public class APanel extends Panel {
         this.addStyleName(ValoTheme.PANEL_BORDERLESS);
         this.setWidth("100%");
         this.setHeight("100%");
+        this.addStyleName("yellowBg");
     }// end of method
 
 }// end of class
