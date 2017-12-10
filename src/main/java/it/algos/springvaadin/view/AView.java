@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -21,26 +22,42 @@ import javax.annotation.PostConstruct;
  * User: gac
  * Date: gio, 07-dic-2017
  * Time: 21:23
+ * Implementazione standard dell'interfaccia IAView
+ * Questa vista 'normalmente' può essere di due tipi:
+ * AList - Grid per presentare la lista sintetica di tutte le entoties
+ * AForm - Per presentare una serie di fields coi valori della singola entity
  */
 @Slf4j
 public abstract class AView extends VerticalLayout implements IAView {
 
+
     /**
      * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * Un eventuale menuBar specifica può essere iniettata dalla sottoclasse concreta
      */
     @Autowired
     protected MenuLayout menuLayout;
 
+
+    /**
+     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
+     */
     @Autowired
     protected ATextService text;
 
+
+    /**
+     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
+     */
     @Autowired
     protected AHtmlService htlm;
 
+
     /**
-     * Gestore principale del modulo, iniettato dal costruttore
+     * Gestore principale per la 'business logic' modulo, iniettato da Spring nel costruttore
      */
     protected IAPresenter presenter;
+
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -56,6 +73,7 @@ public abstract class AView extends VerticalLayout implements IAView {
         this.presenter = presenter;
     }// end of Spring constructor
 
+
     /**
      * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
      */
@@ -69,28 +87,20 @@ public abstract class AView extends VerticalLayout implements IAView {
         this.setMargin(false);
         this.setWidth("100%");
         this.setHeight("100%");
-
-        menuLayout.start();
-        this.addComponent(menuLayout);
-    }// end of method
+        }// end of method
 
 
     /**
-     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+     * Metodo invocato (dalla SpringNavigator di SpringBoot) ogni volta che la view diventa attiva
      * Elimina il riferimento al menuLayout nella view 'uscente' (oldView) perché il menuLayout è un 'singleton'
      * Elimina tutti i componenti della view 'entrante' (this)
      * Aggiunge il riferimento al menuLayout nella view 'entrante' (this)
-     * Aggiunge i riferimenti agli oggetti specifici di questa view (this)
+//     * Aggiunge i riferimenti agli oggetti specifici di questa view (this)
+     * Passa il controllo al Presenter
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         View oldView = event.getOldView();
-        View view = event.getNewView();
-        IAView algosView;
-
-        if (view instanceof IAView) {
-            algosView = (IAView) view;
-        }// end of if cycle
 
         if (oldView instanceof IAView) {
             ((IAView) oldView).removeComponents();
@@ -103,11 +113,6 @@ public abstract class AView extends VerticalLayout implements IAView {
 //        if (LibAnnotation.isList(view.getClass())) {
 //            presenter.setList();
 //        }// end of if cycle
-
-        if (presenter != null) {
-            presenter.setList();
-        }// end of if cycle
-
     }// end of method
 
 

@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Created by gac on 11-nov-17
+ * Annotated with Lombok @Slf4j (facoltativo)
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @@Scope (obbligatorio e di tipo 'session')
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
@@ -57,6 +58,10 @@ public class RoleList extends AList {
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Use @Lazy to avoid the Circular Dependency
+     * A simple way to break the cycle is saying Spring to initialize one of the beans lazily.
+     * That is: instead of fully initializing the bean, it will create a proxy to inject it into the other bean.
+     * The injected bean will only be fully created when it’s first needed.
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */

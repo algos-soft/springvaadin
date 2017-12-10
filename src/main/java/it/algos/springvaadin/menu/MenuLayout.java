@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,9 +43,12 @@ public class MenuLayout extends VerticalLayout {
     public static String MENU_ABILITATO = "highlight";
     public static String MENU_DISABILITATO = "disabilitato";
 
+    private final static String MENU_NAME = "MENU_NAME";
     private MenuBar firstMenuBar;
     private MenuBar secondMenuBar;
     private MenuBar thirdMenuBar;
+
+    private List<Class<? extends IAView>> listaViews;
 
     public MenuLayout() {
         super();
@@ -66,6 +70,8 @@ public class MenuLayout extends VerticalLayout {
         thirdMenuBar = new MenuBar();
         thirdMenuBar.addStyleName("rosso");
         thirdMenuBar.setAutoOpen(true);
+
+        listaViews = new ArrayList<>();
     }// end of method
 
 
@@ -135,17 +141,18 @@ public class MenuLayout extends VerticalLayout {
      * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
      * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
      *
-     * @param viewClass the view class to adds
+     * @param viewClass       the view class to adds
+     * @param itemToAddBefore quello che si vuole inserire
      */
-    public void addView(Class<? extends IAView> viewClass) {
+    public void addViewBefore(Class<? extends IAView> viewClass, MenuBar.MenuItem itemToAddBefore) {
         String navigatorInternalName = annotation.getViewName(viewClass);
-        String viewName = reflection.getPropertyStr(viewClass, "MENU_NAME");
+        String captionMenuName = reflection.getPropertyStr(viewClass, MENU_NAME);
         Resource viewIcon = reflection.getPropertyRes(viewClass, "VIEW_ICON");
 
-        if (text.isEmpty(viewName)) {
-            viewName = navigatorInternalName;
+        if (text.isEmpty(captionMenuName)) {
+            captionMenuName = navigatorInternalName;
         }// end of if cycle
-        viewName = text.primaMaiuscola(viewName);
+        captionMenuName = text.primaMaiuscola(captionMenuName);
 
         MenuBar.Command viewCommand = new MenuBar.Command() {
             @Override
@@ -155,7 +162,11 @@ public class MenuLayout extends VerticalLayout {
             }// end of inner method
         };// end of anonymous inner class
 
-        firstMenuBar.addItem(viewName, viewIcon, viewCommand);
+        if (itemToAddBefore == null) {
+            firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+        } else {
+            firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+        }// end of if/else cycle
 
 
         //@todo CONTROLLARE SE SERVE
@@ -194,7 +205,53 @@ public class MenuLayout extends VerticalLayout {
 //                break;
 //        } // end of switch statement
 
+        listaViews.add(viewClass);
     }// end of method
+
+
+    /**
+     * Adds a view to the firstMenuBar
+     * Regola il nome che appare nel menu:
+     * 1) usa la specifica property statica 'MENU_NAME' eventualmente indicata nella classe di tipo view
+     * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
+     * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
+     *
+     * @param viewClass       the view class to adds
+     * @param viewClassBefore before quella che si vuole inserire
+     */
+    public void addViewBefore(Class<? extends IAView> viewClass, Class<? extends IAView> viewClassBefore) {
+        this.addViewBefore(viewClass, reflection.getPropertyStr(viewClassBefore, MENU_NAME));
+    }// end of method
+
+
+    /**
+     * Adds a view to the firstMenuBar
+     * Regola il nome che appare nel menu:
+     * 1) usa la specifica property statica 'MENU_NAME' eventualmente indicata nella classe di tipo view
+     * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
+     * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
+     *
+     * @param viewClass             the view class to adds
+     * @param captionMenuName visibile nella barra di menu
+     */
+    public void addViewBefore(Class<? extends IAView> viewClass, String captionMenuName) {
+        this.addViewBefore(viewClass, getMenu(captionMenuName));
+    }// end of method
+
+
+    /**
+     * Adds a view to the firstMenuBar
+     * Regola il nome che appare nel menu:
+     * 1) usa la specifica property statica 'MENU_NAME' eventualmente indicata nella classe di tipo view
+     * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
+     * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
+     *
+     * @param viewClass the view class to adds
+     */
+    public void addView(Class<? extends IAView> viewClass) {
+        this.addViewBefore(viewClass, (MenuBar.MenuItem) null);
+    }// end of method
+
 
     /**
      * Regola l'aspetto di tutti i menu <br>
@@ -266,14 +323,16 @@ public class MenuLayout extends VerticalLayout {
 
     /**
      * Recupera un menu
+     *
+     * @param captionMenuName visibile nella barra di menu
      */
-    public MenuBar.MenuItem getMenu(String viewName) {
+    public MenuBar.MenuItem getMenu(String captionMenuName) {
         MenuBar.MenuItem itemRequested = null;
 
         if (firstMenuBar != null) {
             List<MenuBar.MenuItem> items = firstMenuBar.getItems();
             for (MenuBar.MenuItem item : items) {
-                if (item.getText().equalsIgnoreCase(viewName)) {
+                if (item.getText().equalsIgnoreCase(captionMenuName)) {
                     itemRequested = item;
                 }// end of if cycle
             } // fine del ciclo for
@@ -282,7 +341,7 @@ public class MenuLayout extends VerticalLayout {
         if (secondMenuBar != null) {
             List<MenuBar.MenuItem> items = secondMenuBar.getItems();
             for (MenuBar.MenuItem item : items) {
-                if (item.getText().equalsIgnoreCase(viewName)) {
+                if (item.getText().equalsIgnoreCase(captionMenuName)) {
                     itemRequested = item;
                 }// end of if cycle
             } // fine del ciclo for
@@ -291,7 +350,7 @@ public class MenuLayout extends VerticalLayout {
         if (thirdMenuBar != null) {
             List<MenuBar.MenuItem> items = thirdMenuBar.getItems();
             for (MenuBar.MenuItem item : items) {
-                if (item.getText().equalsIgnoreCase(viewName)) {
+                if (item.getText().equalsIgnoreCase(captionMenuName)) {
                     itemRequested = item;
                 }// end of if cycle
             } // fine del ciclo for
@@ -303,9 +362,21 @@ public class MenuLayout extends VerticalLayout {
 
     /**
      * Elimina un menu
+     *
+     * @param viewClass the view class to remove
      */
-    public void removeView(String viewName) {
-        MenuBar.MenuItem item = getMenu(viewName);
+    public void removeView(Class<? extends IAView> viewClass) {
+        removeView(annotation.getViewName(viewClass));
+    }// end of method
+
+
+    /**
+     * Elimina un menu
+     *
+     * @param captionMenuName visibile nella barra di menu
+     */
+    public void removeView(String captionMenuName) {
+        MenuBar.MenuItem item = getMenu(captionMenuName);
 
         if (firstMenuBar != null && item != null) {
             firstMenuBar.removeItem(item);

@@ -1,11 +1,15 @@
 package it.algos.springvaadin.list;
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;
+import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,13 +22,22 @@ import java.util.List;
  * User: gac
  * Date: gio, 07-dic-2017
  * Time: 23:07
+ * Implementazione standard dell'interfaccia IAList
+ * Questa vista 'normalmente' si compone di:
+ * Top - MenuBar di navigazione tra le views gestita da SpringNavigator
+ * Caption - Eventuali scritte esplicative come collezione usata, records trovati, ecc
+ * Body - Grid. Scorrevole
+ * Footer - Barra dei bottoni di comando per lanciare eventi
+ * Annotated with Lombok @Slf4j (facoltativo)
  */
 @Slf4j
 public abstract class AList extends AView implements IAList {
 
-    //--AlgosGrid, iniettata dal costruttore
-    //--un eventuale Grid specifico verrebbe iniettato dal costruttore della sottoclasse concreta
 
+    /**
+     * Contenitore grafico (Grid) per visualizzare i dati
+     * Un eventuale Grid specifico può essere iniettato dalla sottoclasse concreta
+     */
     @Autowired
     protected IAGrid grid;
 
@@ -44,9 +57,35 @@ public abstract class AList extends AView implements IAList {
 
 
     /**
-     * Creazione della grid
+     * Metodo invocato (dalla SpringNavigator di SpringBoot) ogni volta che la view diventa attiva
+     * Elimina il riferimento al menuLayout nella view 'uscente' (oldView) perché il menuLayout è un 'singleton'
+     * Elimina tutti i componenti della view 'entrante' (this)
+     * Aggiunge il riferimento al menuLayout nella view 'entrante' (this)
+     * Passa il controllo al Presenter
+     */
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        //--Regolazioni comuni a tutte le views
+        super.enter(event);
+
+        //--Passa il controllo al Presenter
+        //--Il punto di ingresso invocato da SpringNavigator è unico e gestito dalla supeclasse AView
+        //--Questa classe diversifica la chiamata al Presenter a seconda del tipo di view (List, Form, ... altro)
+        //--Il Presenter prepara/elabora i dati e poi ripassa il controllo al metodo AList.start() di questa view
+        if (presenter != null) {
+            presenter.setList();
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
      * Ricrea tutto ogni volta che la view diventa attiva
-     * La view comprende anche il menuLayout, una caption della Grid ed un footer di bottoni-comando
+     * La view comprende:
+     * 1) Top: il menuLayout - aggiunto e regolato nel metodo AView.enter() della superclasse
+     * 2) Caption: eventuali scritte esplicative come collezione usata, records trovati, ecc
+     * 3) Body: scorrevole contenente la Grid
+     * 4) Footer - Barra dei bottoni di comando per lanciare eventi
      *
      * @param source      di riferimento per gli eventi
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity

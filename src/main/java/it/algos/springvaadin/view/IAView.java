@@ -20,4 +20,5 @@ public interface IAView extends View{
      */
     public void removeComponents() ;
 
+
 }// end of interface
