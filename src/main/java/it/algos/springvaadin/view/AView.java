@@ -3,10 +3,7 @@ package it.algos.springvaadin.view;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.IAGrid;
@@ -181,6 +178,11 @@ public abstract class AView extends VerticalLayout implements IAView {
      */
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons) {
         this.removeAllComponents();
+        this.addComponent(menuLayout);
+
+
+        //--componente grafico obbligatorio
+        menuLayout = creaMenu();
         this.addComponent(menuLayout);
 
         //--componente grafico obbligatorio

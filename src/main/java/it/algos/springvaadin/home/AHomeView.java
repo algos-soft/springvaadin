@@ -6,10 +6,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
@@ -82,9 +79,8 @@ public class AHomeView extends AView {
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
      */
     protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        APanel panel = new APanel();
-        panel.setContent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
-        return panel;
+        bodyLayout.setContent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
+        return bodyLayout;
     }// end of method
 
 

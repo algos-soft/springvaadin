@@ -55,8 +55,8 @@ public abstract class AList extends AView implements IAList {
     @Autowired
     public RoleService service;
 
-    @Autowired
-    private APanel panel;
+//    @Autowired
+//    private APanel panel;
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -101,8 +101,10 @@ public abstract class AList extends AView implements IAList {
      */
     protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         grid.inizia(null, entityClazz, columns, items, 50);
-        panel.setContent((Component) grid);
-        return panel;
+        bodyLayout.setContent((Component) grid);
+//        VerticalLayout layout = new VerticalLayout();
+//        layout.addComponent((Component)grid);
+        return bodyLayout;
     }// end of method
 
 
@@ -119,7 +121,7 @@ public abstract class AList extends AView implements IAList {
 
 //        fixToolbar();
 
-        this.addComponent((ListToolbar) toolbar);
+        bottomLayout.addComponent((ListToolbar) toolbar);
         return bottomLayout;
     }// end of method
 
