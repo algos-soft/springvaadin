@@ -1,6 +1,7 @@
 package it.algos.springvaadin.service;
 
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
@@ -61,5 +62,12 @@ public interface IAService {
      */
     public List<Field> getFormFields();
 
+
+    /**
+     * Bottoni nella toolbar (footer) della view AList
+     *
+     * @return lista di (tipi di) bottoni visibili nella toolbar della view AList
+     */
+    public List<EAButtonType> getListTypeButtons();
 
 }// end of interface

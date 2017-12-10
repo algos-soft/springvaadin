@@ -11,6 +11,7 @@ import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.service.AAnnotationService;
@@ -267,7 +268,7 @@ public class AAnnotationServiceTest {
     }// end of single test
 
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("javadoc")
     /**
      * Get the width of the property.
      *
@@ -287,7 +288,7 @@ public class AAnnotationServiceTest {
     }// end of single test
 
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("javadoc")
     /**
      * Get the type (field) of the property.
      *
@@ -295,6 +296,7 @@ public class AAnnotationServiceTest {
      *
      * @return the type for the specific column
      */
+    @Test
     public void getFormType() {
         previstoType = EAFieldType.integer;
         ottenutoType = service.getFormType(FIELD_ORDINE);
@@ -306,7 +308,7 @@ public class AAnnotationServiceTest {
     }// end of single test
 
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("javadoc")
     /**
      * Get the name (field) of the property.
      * Se manca, usa il nome della property
@@ -315,6 +317,7 @@ public class AAnnotationServiceTest {
      *
      * @return the name (rows) of the field
      */
+    @Test
     public void getFormFieldName() {
         previsto = text.primaMaiuscola(NAME_ORDINE);
         ottenuto = service.getFormFieldName(FIELD_ORDINE);
@@ -326,20 +329,40 @@ public class AAnnotationServiceTest {
     }// end of single test
 
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("javadoc")
     /**
-      * Get the status of visibility for the field of ACompanyEntity.
-      * <p>
-      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
-      * Controlla se la collection (table) usa la company
-      * Controlla se l'buttonUser collegato è un developer
-      *
-      * @param clazz the entity class
-      *
-      * @return status - default true
-      */
-        public void isCompanyFieldVisible() {
-            //@todo RIMETTERE
-    }// end of method
+     * Get the status of visibility for the field of ACompanyEntity.
+     * <p>
+     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+     * Controlla se la collection (table) usa la company
+     * Controlla se l'buttonUser collegato è un developer
+     *
+     * @param clazz the entity class
+     *
+     * @return status - default true
+     */
+    @Test
+    public void isCompanyFieldVisible() {
+        //@todo RIMETTERE
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @Test
+    public void getListBotton() {
+        EAListButton ottenutoListButton;
+        EAListButton previstoListButton = EAListButton.standard;
+
+        ottenutoListButton = service.getListBotton(Role.class);
+        assertEquals(previstoListButton, ottenutoListButton);
+        //@todo RIMETTERE
+    }// end of single test
 
 }// end of class

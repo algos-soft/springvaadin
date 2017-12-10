@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.IAList;
@@ -24,7 +25,7 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Scope("session")
-public class APresenter implements IAPresenter {
+public abstract class APresenter implements IAPresenter {
 
 
     /**
@@ -92,6 +93,16 @@ public class APresenter implements IAPresenter {
         items = service.findAll();
 
         list.start(this, entityClass, columns, items);
+    }// end of method
+
+
+    /**
+     * Handle an application event.
+     *
+     * @param event the event to respond to
+     */
+    @Override
+    public void onApplicationEvent(AEvent event) {
     }// end of method
 
 

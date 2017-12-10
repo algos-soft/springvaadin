@@ -31,7 +31,7 @@ public class AReflectionService {
 
 
     @Autowired
-    private ATextService text;
+    public ATextService text;
 
 
     /**

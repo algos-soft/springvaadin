@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.enumeration.EATypeField;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 

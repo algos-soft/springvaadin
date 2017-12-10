@@ -4,6 +4,7 @@ package it.algos.springvaadin.event;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.context.ApplicationListener;
 
 /**

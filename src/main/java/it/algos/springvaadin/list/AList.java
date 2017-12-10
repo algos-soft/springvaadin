@@ -4,10 +4,16 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
+import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.IAGrid;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.IAService;
+import it.algos.springvaadin.toolbar.ListToolbar;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +47,11 @@ public abstract class AList extends AView implements IAList {
     @Autowired
     protected IAGrid grid;
 
+    @Autowired
+    protected ListToolbar toolbar;
+
+    @Autowired
+    public RoleService service;
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -94,8 +105,29 @@ public abstract class AList extends AView implements IAList {
      */
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         grid.inizia(source, entityClazz, columns, items, 50);
+        this.addComponent(new Label("Caption"));
         this.addComponent((Component) grid);
+        this.creaBottom(source);
     }// end of method
 
+
+    /**
+     * Prepara la barra dei bottoni di comando
+     * Chiamato ogni volta che la finestra diventa attiva
+     */
+    protected void creaBottom(IAPresenter source) {
+        VerticalLayout bottomLayout = new VerticalLayout();
+        bottomLayout.setMargin(false);
+        bottomLayout.setHeightUndefined();
+        List<EAButtonType> typeButtons = service.getListTypeButtons();
+        toolbar.inizializza(source, typeButtons);
+//        fixToolbar();
+
+//        if (pref.isTrue(Cost.KEY_USE_DEBUG)) {
+        this.addStyleName("rosso");
+//            grid.addStyleName("verde");
+
+        this.addComponent((ListToolbar) toolbar);
+    }// end of method
 
 }// end of class

@@ -2,11 +2,14 @@ package it.algos.springvaadin.service;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EAListButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,7 +37,7 @@ public abstract class AService implements IAService {
 
 
     //--il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
-    protected Class<? extends AEntity> entityClass;
+    public Class<? extends AEntity> entityClass;
 
     /**
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
@@ -141,5 +144,44 @@ public abstract class AService implements IAService {
 
         return false;
     }// end of static method
+
+
+    /**
+     * Bottoni nella toolbar (footer) della view AList
+     *
+     * @return lista di (tipi di) bottoni visibili nella toolbar della view AList
+     */
+    public List<EAButtonType> getListTypeButtons() {
+        EAListButton listaBottoni = annotation.getListBotton(entityClass);
+        EAButtonType[] matrice = null;
+
+        if (listaBottoni != null) {
+            switch (listaBottoni) {
+                case standard:
+                    matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete, EAButtonType.search};
+                    break;
+                case noSearch:
+                    matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete};
+                    break;
+                case noCreate:
+                    matrice = new EAButtonType[]{ EAButtonType.edit, EAButtonType.delete};
+                    break;
+                case edit:
+                    matrice = new EAButtonType[]{ EAButtonType.edit};
+                    break;
+                case show:
+                    matrice = new EAButtonType[]{ EAButtonType.show};
+                    break;
+                case noButtons:
+                    matrice = new EAButtonType[]{};
+                    break;
+                default:
+                    log.warn("Switch - caso non definito");
+                    break;
+            } // end of switch statement
+        }// end of if cycle
+
+        return Arrays.asList(matrice);
+    }// end of method
 
 }// end of class

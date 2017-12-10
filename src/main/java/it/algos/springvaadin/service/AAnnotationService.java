@@ -8,6 +8,7 @@ import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,7 @@ public class AAnnotationService {
     /**
      * Get the specific annotation of the class.
      * Entity classes
+     *
      * @param clazz the entity class
      *
      * @return the Annotation for the specific class
@@ -353,6 +355,35 @@ public class AAnnotationService {
 //        }// end of if cycle
 
         return status;
+    }// end of method
+
+
+    /**
+     * Bottoni visibili nella toolbar
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di bottoni visibili nella toolbar
+     */
+    @SuppressWarnings("all")
+    public EAListButton getListBotton(final Class<? extends AEntity> clazz) {
+        EAListButton listaNomi = EAListButton.standard;
+
+        //@todo RIMETTERE
+
+//        if (LibSession.isDeveloper()) {
+//            listaNomi = getListBottonDev(clazz);
+//        } else {
+//            if (LibSession.isAdmin()) {
+//                listaNomi = getListBottonAdmin(clazz);
+//            } else {
+//                if (true) {
+//                    listaNomi = getListBottonUser(clazz);
+//                }// end of if cycle
+//            }// end of if/else cycle
+//        }// end of if/else cycle
+
+        return listaNomi;
     }// end of method
 
 

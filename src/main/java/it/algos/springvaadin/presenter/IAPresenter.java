@@ -1,6 +1,8 @@
 package it.algos.springvaadin.presenter;
 
+import it.algos.springvaadin.event.AEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationListener;
 
 /**
  * Project springvaadin
@@ -9,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * Date: ven, 08-dic-2017
  * Time: 07:28
  */
-public interface IAPresenter {
+public interface IAPresenter extends ApplicationListener<AEvent> {
 
     /**
      * Gestione di una Lista visualizzata con una Grid
