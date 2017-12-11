@@ -64,10 +64,20 @@ public interface IAService {
 
 
     /**
-     * Bottoni nella toolbar (footer) della view AList
+     * Lista di bottoni presenti nella toolbar (footer) della view AList
+     * Legge la enumeration indicata nella @Annotation della AEntity
      *
-     * @return lista di (tipi di) bottoni visibili nella toolbar della view AList
+     * @return lista (type) di bottoni visibili nella toolbar della view AList
      */
     public List<EAButtonType> getListTypeButtons();
+
+
+    /**
+     * Lista di bottoni presenti nella toolbar (footer) della view AForm
+     * Legge la enumeration indicata nella @Annotation della AEntity
+     *
+     * @return lista (type) di bottoni visibili nella toolbar della view AForm
+     */
+    public List<EAButtonType> getFormTypeButtons();
 
 }// end of interface

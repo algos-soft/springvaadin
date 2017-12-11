@@ -12,6 +12,7 @@ import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
@@ -387,11 +388,9 @@ public class AAnnotationServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
-     * Bottoni visibili nella toolbar
+     * Tipo di lista (EAListButton) indicata nella AEntity class per la view AList
      *
-     * @param clazz the entity class
-     *
-     * @return lista di bottoni visibili nella toolbar
+     * @return valore della enumeration
      */
     @Test
     public void getListBotton() {
@@ -400,6 +399,23 @@ public class AAnnotationServiceTest {
 
         ottenutoListButton = service.getListBotton(ROLE_ENTITY_CLASS);
         assertEquals(previstoListButton, ottenutoListButton);
+        //@todo RIMETTERE
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Tipo di lista (EAFormButton) indicata nella AEntity class per la view AForm
+     *
+     * @return valore della enumeration
+     */
+    @Test
+    public void getFormBotton() {
+        EAFormButton ottenutoFormButton;
+        EAFormButton previstoFormButton = EAFormButton.standard;
+
+        ottenutoFormButton = service.getFormBotton(ROLE_ENTITY_CLASS);
+        assertEquals(previstoFormButton, ottenutoFormButton);
         //@todo RIMETTERE
     }// end of single test
 

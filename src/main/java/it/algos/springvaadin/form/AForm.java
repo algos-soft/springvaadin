@@ -1,21 +1,20 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
-import com.vaadin.data.Converter;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AFieldService;
+import it.algos.springvaadin.toolbar.AFormToolbar;
+import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -35,6 +34,10 @@ public abstract class AForm extends AView implements IAForm {
 
     @Autowired
     protected AFieldService fieldService;
+
+    @Autowired
+    protected AFormToolbar toolbar;
+
 
     /**
      * Caption informativa posizionata prima del body con lo scorrevole dei fileds
@@ -327,6 +330,25 @@ public abstract class AForm extends AView implements IAForm {
      * Regolazioni specifiche per i fields di una entity in modifica, dopo aver trascritto la entityBean nel binder
      */
     protected void fixFieldsEditOnly() {
+    }// end of method
+
+
+    /**
+     * Crea la barra inferiore dei bottoni di comando
+     * Chiamato ogni volta che la finestra diventa attiva
+     * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
+     */
+    @Override
+    protected VerticalLayout creaBottom(IAPresenter source, List<EAButtonType> typeButtons) {
+        VerticalLayout bottomLayout = new VerticalLayout();
+        bottomLayout.setMargin(false);
+        bottomLayout.setHeightUndefined();
+        toolbar.inizializza(source, typeButtons);
+
+//        fixToolbar();
+
+        bottomLayout.addComponent((AFormToolbar) toolbar);
+        return bottomLayout;
     }// end of method
 
 }// end of class

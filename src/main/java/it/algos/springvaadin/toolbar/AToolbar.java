@@ -83,6 +83,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
     public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
     }// end of method
 
+
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
      * Inietta nei bottoni il parametro obbligatorio (source)
@@ -181,6 +182,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
     public void inizializzaEditLink(AEntity entityBean, ApplicationListener target) {
     }// end of method
 
+
     /**
      * Aggiunge un componente (di solito un Button) alla prima riga (default) del contenitore grafico
      *
@@ -199,6 +201,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
     public void addCompSecondaRiga(Component component) {
         secondaRiga.addComponent(component);
     }// end of method
+
 
     /**
      * Abilita o disabilita lo specifico bottone
@@ -248,6 +251,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
 
         return button;
     }// end of method
+
 
     /**
      * Restituisce questa toolbar

@@ -2,21 +2,16 @@ package it.algos.springvaadin.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.label.LabelBold;
 import it.algos.springvaadin.label.LabelRosso;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
-import it.algos.springvaadin.toolbar.ListToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

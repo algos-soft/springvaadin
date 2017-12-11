@@ -1,23 +1,15 @@
 package it.algos.springvaadin.list;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
-import it.algos.springvaadin.service.IAService;
-import it.algos.springvaadin.toolbar.ListToolbar;
+import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.view.AView;
-import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,7 +42,7 @@ public abstract class AList extends AView implements IAList {
     protected IAGrid grid;
 
     @Autowired
-    protected ListToolbar toolbar;
+    protected AListToolbar toolbar;
 
     @Autowired
     public RoleService service;
@@ -155,7 +147,7 @@ public abstract class AList extends AView implements IAList {
 
 //        fixToolbar();
 
-        bottomLayout.addComponent((ListToolbar) toolbar);
+        bottomLayout.addComponent((AListToolbar) toolbar);
         return bottomLayout;
     }// end of method
 

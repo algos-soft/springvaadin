@@ -9,6 +9,7 @@ import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.view.IAView;
@@ -398,15 +399,40 @@ public class AAnnotationService {
 
 
     /**
-     * Bottoni visibili nella toolbar
+     * Tipo di lista (EAListButton) indicata nella AEntity class per la view AList
      *
-     * @param clazz the entity class
-     *
-     * @return lista di bottoni visibili nella toolbar
+     * @return valore della enumeration
      */
     @SuppressWarnings("all")
     public EAListButton getListBotton(final Class<? extends AEntity> clazz) {
         EAListButton listaNomi = EAListButton.standard;
+
+        //@todo RIMETTERE
+
+//        if (LibSession.isDeveloper()) {
+//            listaNomi = getListBottonDev(clazz);
+//        } else {
+//            if (LibSession.isAdmin()) {
+//                listaNomi = getListBottonAdmin(clazz);
+//            } else {
+//                if (true) {
+//                    listaNomi = getListBottonUser(clazz);
+//                }// end of if cycle
+//            }// end of if/else cycle
+//        }// end of if/else cycle
+
+        return listaNomi;
+    }// end of method
+
+
+    /**
+     * Tipo di lista (EAFormButton) indicata nella AEntity class per la view AForm
+     *
+     * @return valore della enumeration
+     */
+    @SuppressWarnings("all")
+    public EAFormButton getFormBotton(final Class<? extends AEntity> clazz) {
+        EAFormButton listaNomi = EAFormButton.standard;
 
         //@todo RIMETTERE
 

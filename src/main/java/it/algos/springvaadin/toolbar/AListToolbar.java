@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("prototype")
 @Qualifier(Cost.BAR_LIST)
-public class ListToolbar extends AToolbar {
+public class AListToolbar extends AToolbar {
 
 
     /**
@@ -31,7 +31,7 @@ public class ListToolbar extends AToolbar {
      * Se ci sono DUE o più costruttori, va in errore
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      */
-    public ListToolbar(AButtonFactory buttonFactory) {
+    public AListToolbar(AButtonFactory buttonFactory) {
         super(buttonFactory);
     }// end of @Autowired constructor
 

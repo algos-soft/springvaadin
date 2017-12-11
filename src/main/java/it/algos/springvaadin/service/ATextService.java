@@ -217,4 +217,28 @@ public class ATextService {
         return testoOut.trim();
     }// end of  method
 
+
+    public  boolean isNumber(String value) {
+        boolean status = true;
+        char[] caratteri = value.toCharArray();
+
+        for (char car : caratteri) {
+            if (isNotNumber(car)) {
+                status = false;
+            }// end of if cycle
+        }// end of for cycle
+
+        return status;
+    }// end of method
+
+
+    private boolean isNotNumber(char ch) {
+        return !isNumber(ch);
+    }// end of method
+
+
+    private static boolean isNumber(char ch) {
+        return ch >= '0' && ch <= '9';
+    }// end of method
+
 }// end of class

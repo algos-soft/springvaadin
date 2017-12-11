@@ -3,6 +3,7 @@ package it.algos.springvaadin.service;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
@@ -139,7 +140,7 @@ public abstract class AService implements IAService {
         //--Se non trova nulla, usa tutti i campi
         //--Nel Form il developer vede SEMPRE la keyId, non Enabled
         //--rimanda ad un metodo separato per poterlo sovrascrivere
-        listaField = getFormFields(listaNomi);
+        listaField = this.getFormFields(listaNomi);
 
         return listaField;
     }// end of method
@@ -153,8 +154,7 @@ public abstract class AService implements IAService {
      * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
      */
     protected List<String> getFormFieldsName() {
-        return null;
-//        return annotation.getFormFieldsName(entityClass);
+        return annotation.getFormFieldsName(entityClass);
     }// end of method
 
 
@@ -169,7 +169,7 @@ public abstract class AService implements IAService {
      * @return fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
      */
     protected List<Field> getFormFields(List<String> listaNomi) {
-//        List<Field> listaProperties = reflection.getFormFields(entityClass, listaNomi, displayCompany());
+        List<Field> listaFields = reflection.getFormFields(entityClass, listaNomi);
 
         //@todo RIMETTERE
 //        //--controllo per l'uso delle properties creazione e modifica
@@ -194,7 +194,7 @@ public abstract class AService implements IAService {
 //            }// end of if cycle
 //        }// end of if cycle
 
-        return null;
+        return listaFields;
     }// end of method
 
 
@@ -226,9 +226,10 @@ public abstract class AService implements IAService {
 
 
     /**
-     * Bottoni nella toolbar (footer) della view AList
+     * Lista di bottoni presenti nella toolbar (footer) della view AList
+     * Legge la enumeration indicata nella @Annotation della AEntity
      *
-     * @return lista di (tipi di) bottoni visibili nella toolbar della view AList
+     * @return lista (type) di bottoni visibili nella toolbar della view AList
      */
     public List<EAButtonType> getListTypeButtons() {
         EAListButton listaBottoni = annotation.getListBotton(entityClass);
@@ -253,6 +254,37 @@ public abstract class AService implements IAService {
                     break;
                 case noButtons:
                     matrice = new EAButtonType[]{};
+                    break;
+                default:
+                    log.warn("Switch - caso non definito");
+                    break;
+            } // end of switch statement
+        }// end of if cycle
+
+        return Arrays.asList(matrice);
+    }// end of method
+
+
+    /**
+     * Lista di bottoni presenti nella toolbar (footer) della view AForm
+     * Legge la enumeration indicata nella @Annotation della AEntity
+     *
+     * @return lista (type) di bottoni visibili nella toolbar della view AForm
+     */
+    public List<EAButtonType> getFormTypeButtons() {
+        EAFormButton listaBottoni = annotation.getFormBotton(entityClass);
+        EAButtonType[] matrice = null;
+
+        if (listaBottoni != null) {
+            switch (listaBottoni) {
+                case standard:
+                    matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.registra};
+                    break;
+                case show:
+                    matrice = new EAButtonType[]{EAButtonType.annulla};
+                    break;
+                case conferma:
+                    matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.conferma};
                     break;
                 default:
                     log.warn("Switch - caso non definito");

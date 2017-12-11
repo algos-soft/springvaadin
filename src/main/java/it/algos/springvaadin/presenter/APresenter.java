@@ -138,7 +138,7 @@ public abstract class APresenter extends APresenterEvents {
         }// fine del blocco try-catch
 
         fields = service.getFormFields();
-        typeButtons = service.getListTypeButtons();
+        typeButtons = service.getFormTypeButtons();
 
         form.start(this, entityClass, entityBean, fields, typeButtons);
     }// end of method

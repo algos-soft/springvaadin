@@ -102,9 +102,9 @@ public class AFieldFactory implements IAFieldFactory {
                 case email:
                     field = fieldFactory.apply(ATextField.class);
                     break;
-//                case integer:
-//                    field = fieldFactory.apply(AIntegerField.class);
-//                    break;
+                case integer:
+                    field = fieldFactory.apply(AIntegerField.class);
+                    break;
 //                case checkbox:
 //                    field = fieldFactory.apply(ACheckBoxField.class);
 //                    break;
@@ -196,9 +196,9 @@ public class AFieldFactory implements IAFieldFactory {
                 case email:
                     field = fieldFactory.apply(ATextField.class);
                     break;
-//                case integer:
-//                    field = fieldFactory.apply(AIntegerField.class);
-//                    break;
+                case integer:
+                    field = fieldFactory.apply(AIntegerField.class);
+                    break;
 //                case checkbox:
 //                    field = fieldFactory.apply(ACheckBoxField.class);
 //                    break;

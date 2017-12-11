@@ -3,7 +3,9 @@ package it.algos.springvaadin;
 import com.vaadin.server.Resource;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.service.AAnnotationService;
+import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -43,6 +46,10 @@ public class AReflectionServiceTest {
     public ATextService text;
 
 
+    @InjectMocks
+    public AArrayService array;
+
+
     private Field reflectionJavaField;
     private String previsto = "";
     private String ottenuto = "";
@@ -64,6 +71,9 @@ public class AReflectionServiceTest {
         MockitoAnnotations.initMocks(this);
         MockitoAnnotations.initMocks(annotation);
         MockitoAnnotations.initMocks(text);
+        MockitoAnnotations.initMocks(array);
+        array.text = text;
+        annotation.array = array;
         service.annotation = annotation;
         service.text = text;
     }// end of method
@@ -78,7 +88,7 @@ public class AReflectionServiceTest {
      */
     @Test
     public void getPropertyValue() {
-        Object value = service.getPropertyValue(Role.class, "ordine");
+        Object value = service.getPropertyValue(ROLE_ENTITY_CLASS, FIELD_NAME_ORDINE);
         int a = 87;
         //@todo NON FUNZIONA
     }// end of single test
@@ -120,14 +130,14 @@ public class AReflectionServiceTest {
     @Test
     public void getField() {
         previsto = FIELD_NAME_ORDINE;
-        reflectionJavaField = service.getField(Role.class, FIELD_NAME_ORDINE);
+        reflectionJavaField = service.getField(ROLE_ENTITY_CLASS, FIELD_NAME_ORDINE);
         assertNotNull(reflectionJavaField);
         assertEquals(int.class, reflectionJavaField.getType());
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
         previsto = FIELD_NAME_CODE;
-        reflectionJavaField = service.getField(Role.class, FIELD_NAME_CODE);
+        reflectionJavaField = service.getField(ROLE_ENTITY_CLASS, FIELD_NAME_CODE);
         assertNotNull(reflectionJavaField);
         assertEquals(String.class, reflectionJavaField.getType());
         ottenuto = reflectionJavaField.getName();
@@ -213,5 +223,40 @@ public class AReflectionServiceTest {
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
     }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Fields per le Campi del Form dichiarati nella Entity
+     * Compresa la entity
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     * @param addKeyID      flag per aggiungere (per primo) il field keyId
+     * @param addKeyCompany flag per aggiungere (per secondo) il field keyCompany
+     *
+     * @return lista di fields da considerare per Form
+     */
+    @Test
+    public void getFormFields() {
+        List<String> listaNomi = annotation.getFormFieldsName(ROLE_ENTITY_CLASS);
+
+        previstoIntero = 2;
+        ottenutoList = service.getFormFields(ROLE_ENTITY_CLASS, listaNomi);
+        assertNotNull(ottenutoList);
+        ottenutoIntero = ottenutoList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_ORDINE;
+        reflectionJavaField = ottenutoList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CODE;
+        reflectionJavaField = ottenutoList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+    }// end of static method
 
 }// end of class

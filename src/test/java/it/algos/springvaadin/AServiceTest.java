@@ -5,6 +5,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -67,6 +70,7 @@ public class AServiceTest {
     private final static String HEADER_CODE = "Code";
     private static Field FIELD_ORDINE;
     private static Field FIELD_CODE;
+    private static Class<? extends AEntity> ROLE_ENTITY_CLASS = Role.class;
 
     @Before
     public void setUp() {
@@ -83,7 +87,7 @@ public class AServiceTest {
         array.text = text;
         service.annotation = annotation;
         service.reflection = reflection;
-        service.entityClass = Role.class;
+        service.entityClass = ROLE_ENTITY_CLASS;
     }// end of method
 
 
@@ -122,9 +126,43 @@ public class AServiceTest {
      */
     @Test
     public void getListFields() {
-        previstoList=null;
+        previstoList = null;
         ottenutoList = service.getListFields();
-        int a=87;
+        int a = 87;
+    }// end of method
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Lista di bottoni presenti nella toolbar (footer) della view AList
+     * Legge la enumeration indicata nella @Annotation della AEntity
+     *
+     * @return lista (type) di bottoni visibili nella toolbar della view AList
+     */
+    @Test
+    public void getListTypeButtons() {
+        List<EAButtonType> ottenutoLista;
+        EAButtonType[] matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete, EAButtonType.search};
+        List<EAButtonType> previstoLista = Arrays.asList(matrice);
+        ottenutoLista= service.getListTypeButtons();
+        assertEquals(previstoLista, ottenutoLista);
+    }// end of method
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Lista di bottoni presenti nella toolbar (footer) della view AForm
+     * Legge la enumeration indicata nella @Annotation della AEntity
+     *
+     * @return lista (type) di bottoni visibili nella toolbar della view AForm
+     */
+    @Test
+    public void getFormTypeButtons() {
+        List<EAButtonType> ottenutoLista;
+        EAButtonType[] matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.registra};
+        List<EAButtonType> previstoLista = Arrays.asList(matrice);
+        ottenutoLista= service.getFormTypeButtons();
+        assertEquals(previstoLista, ottenutoLista);
     }// end of method
 
 }// end of class

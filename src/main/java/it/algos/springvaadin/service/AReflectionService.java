@@ -145,6 +145,30 @@ public class AReflectionService {
 
 
     /**
+     * Fields per le Campi del Form dichiarati nella Entity
+     * Considera solo quelli della listaNomi indicata Tutti, se listaNomi=null
+     *
+     * @param entityClazz   da cui estrarre i fields
+     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     *
+     * @return lista di fields da considerare per Form
+     */
+    @SuppressWarnings("all")
+    public  List<Field> getFormFields(Class<? extends AEntity> entityClazz, List<String> listaNomi) {
+        List<Field> fieldsList = new ArrayList<>();
+        List<Field> fieldsTmp = this.getFieldsAllSuperclasses(entityClazz);
+
+        for (Field field : fieldsTmp) {
+            if (listaNomi.contains(field.getName())) {
+                fieldsList.add(field);
+            }// end of if cycle
+        }// end of for cycle
+
+        return fieldsList;
+    }// end of method
+
+
+    /**
      * Fields dichiarati nella Entity
      * Compresa la entity
      * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
