@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -70,7 +71,7 @@ public abstract class AService implements IAService {
     /**
      * Colonne visibili (e ordinate) nella Grid
      * Sovrascrivibile
-     * La colonna ID normalmente non si visualizza
+     * La colonna key ID normalmente non si visualizza
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
@@ -86,7 +87,8 @@ public abstract class AService implements IAService {
         List<String> listaNomi = null;
 
         //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
-        listaNomi = annotation.getListColumns(entityClass);
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaNomi = this.getListFieldsName();
 
         //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
         listaField = reflection.getListColumns(entityClass, listaNomi, displayCompany());
@@ -97,6 +99,18 @@ public abstract class AService implements IAService {
 //        }// end of if cycle
 
         return listaField;
+    }// end of method
+
+
+    /**
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
+     *
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     */
+    protected List<String> getListFieldsName() {
+        return annotation.getListColumns(entityClass);
     }// end of method
 
 
@@ -115,6 +129,71 @@ public abstract class AService implements IAService {
      */
     @Override
     public List<Field> getFormFields() {
+        List<Field> listaField = null;
+        List<String> listaNomi = null;
+
+        //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaNomi = this.getFormFieldsName();
+
+        //--Se non trova nulla, usa tutti i campi
+        //--Nel Form il developer vede SEMPRE la keyId, non Enabled
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaField = getFormFields(listaNomi);
+
+        return listaField;
+    }// end of method
+
+
+    /**
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
+     *
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     */
+    protected List<String> getFormFieldsName() {
+        return null;
+//        return annotation.getFormFieldsName(entityClass);
+    }// end of method
+
+
+    /**
+     * Java Reflected Fields estratti dalle @Annotation della Entity
+     * Se la lista nomi è nulla, usa tutte le properties (fields)
+     * Nel Form il developer vede SEMPRE la keyId, non Enabled
+     * Sovrascrivibile
+     *
+     * @param listaNomi per estrarre i Java Reflected Fields dalle @Annotation della Entity
+     *
+     * @return fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     */
+    protected List<Field> getFormFields(List<String> listaNomi) {
+//        List<Field> listaProperties = reflection.getFormFields(entityClass, listaNomi, displayCompany());
+
+        //@todo RIMETTERE
+//        //--controllo per l'uso delle properties creazione e modifica
+//        if (pref.isFalse(Cost.KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA)) {
+//            Field fieldCreazione = null;
+//            Field fieldModifica = null;
+//
+//            for (Field field : listaProperties) {
+//                if (field.getName().equals(Cost.PROPERTY_CREAZIONE)) {
+//                    fieldCreazione = field;
+//                }// end of if cycle
+//                if (field.getName().equals(Cost.PROPERTY_MODIFICA)) {
+//                    fieldModifica = field;
+//                }// end of if cycle
+//            }// end of for cycle
+//
+//            if (fieldCreazione != null) {
+//                listaProperties.remove(fieldCreazione);
+//            }// end of if cycle
+//            if (fieldModifica != null) {
+//                listaProperties.remove(fieldModifica);
+//            }// end of if cycle
+//        }// end of if cycle
+
         return null;
     }// end of method
 

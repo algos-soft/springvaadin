@@ -78,9 +78,8 @@ public class AHomeView extends AView {
      * Componente grafico obbligatorio
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
      */
-    protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         bodyLayout.setContent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
-        return bodyLayout;
     }// end of method
 
 

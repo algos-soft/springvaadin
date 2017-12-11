@@ -222,9 +222,10 @@ public abstract class AForm extends AView implements IAForm {
             builder = builder.withValidator(validator);
         }// end of for cycle
 
-        for (Converter converter : fieldService.creaConverters(reflectedField)) {
-            builder = builder.withConverter(converter);
-        }// end of for cycle
+        //@todo RIMETTERE
+//        for (Converter converter : fieldService.creaConverters(reflectedField)) {
+//            builder = builder.withConverter(converter);
+//        }// end of for cycle
 
         for (AbstractValidator validator : fieldService.creaValidatorsPost(reflectedField)) {
             builder = builder.withValidator(validator);

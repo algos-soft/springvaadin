@@ -5,16 +5,11 @@ import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.converter.AlgosConverter;
-import it.algos.springvaadin.converter.FirstCapitalConverter;
-import it.algos.springvaadin.converter.LowerConverter;
-import it.algos.springvaadin.converter.UpperConverter;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.entity.preferenza.PrefEffect;
-import it.algos.springvaadin.entity.preferenza.Preferenza;
+import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.IAFieldFactory;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.validator.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -35,107 +30,119 @@ import java.util.List;
 public class AFieldService {
 
     @Autowired
-    private AFieldFactory fieldFactory;
+    private IAFieldFactory fieldFactory;
 
     @Autowired
     private ApplicationContext context;
 
     @Autowired
-    private MongoService mongoService;
+    public ATextService text;
+
+    @Autowired
+    public AAnnotationService annotation;
+
+
+//    @Autowired
+//    private MongoService mongoService;
 
     /**
      * Create a single field.
      * The field type is chosen according to the annotation @AIField.
      *
      * @param source          presenter di riferimento da cui vengono generati gli eventi
-     * @param reflectionField di riferimento per estrarre le Annotation
+     * @param reflectionJavaField di riferimento per estrarre le Annotation
      */
     @SuppressWarnings("all")
-    public AField create(ApplicationListener source, Field reflectionField, AEntity entityBean) {
+    public AField create(ApplicationListener source, Field reflectionJavaField, AEntity entityBean) {
         AField algosField = null;
         List items = null;
-        boolean nuovaEntity = LibText.isEmpty(entityBean.id);
-        AFieldType type = LibAnnotation.getFormType(reflectionField);
-        String caption = LibAnnotation.getFormFieldName(reflectionField);
-        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectionField);
-        String width = LibAnnotation.getWidthEM(reflectionField);
-        int rows = LibAnnotation.getNumRows(reflectionField);
-        boolean required = LibAnnotation.isRequired(reflectionField);
-        boolean focus = LibAnnotation.isFocus(reflectionField);
-        boolean visible = LibAnnotation.isFieldVisibile(reflectionField, nuovaEntity);
-        boolean enabled = LibAnnotation.isFieldEnabled(reflectionField, nuovaEntity);
-        boolean nullSelection = LibAnnotation.isNullSelectionAllowed(reflectionField);
-        boolean newItems = LibAnnotation.isNewItemsAllowed(reflectionField);
-        Class targetClazz = LibAnnotation.getClass(reflectionField);
+        boolean nuovaEntity = text.isEmpty(entityBean.id);
+        EAFieldType type = annotation.getFormType(reflectionJavaField);
+        String caption = annotation.getFormFieldName(reflectionJavaField);
 
-        if (type == AFieldType.text.noone) {
+        //@todo RIMETTERE
+//        AIField fieldAnnotation = annotation.getFieldAnnotation(reflectionJavaField);
+//        String width = annotation.getWidthEM(reflectionJavaField);
+//        int rows = annotation.getNumRows(reflectionJavaField);
+//        boolean required = annotation.isRequired(reflectionJavaField);
+//        boolean focus = annotation.isFocus(reflectionJavaField);
+//        boolean visible = annotation.isFieldVisibile(reflectionJavaField, nuovaEntity);
+//        boolean enabled = annotation.isFieldEnabled(reflectionJavaField, nuovaEntity);
+//        boolean nullSelection = annotation.isNullSelectionAllowed(reflectionJavaField);
+//        boolean newItems = annotation.isNewItemsAllowed(reflectionJavaField);
+//        Class targetClazz = annotation.getClass(reflectionJavaField);
+
+        if (type == EAFieldType.text.noone) {
             return null;
         }// end of if cycle
 
-        //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
-        if (fieldAnnotation == null && reflectionField.getName().equals(Cost.PROPERTY_ID)) {
-            type = AFieldType.id;
-        }// end of if cycle
+        //@todo RIMETTERE
+//        //--non riesco (per ora) a leggere le Annotation da una classe diversa (AEntity)
+//        if (fieldAnnotation == null && reflectionJavaField.getName().equals(Cost.PROPERTY_ID)) {
+//            type = EAFieldType.id;
+//        }// end of if cycle
 
         if (type != null) {
-            algosField = fieldFactory.crea(source, type, reflectionField, entityBean);
+            algosField = fieldFactory.crea(source, type, reflectionJavaField, entityBean);
         }// end of if cycle
 
-        if (type == AFieldType.combo && targetClazz != null && algosField != null) {
-            items = mongoService.findAll(targetClazz);
-            ((AComboField) algosField).fixCombo(items, nullSelection, newItems);
-        }// end of if cycle
+        //@todo RIMETTERE
+//        if (type == EAFieldType.combo && targetClazz != null && algosField != null) {
+//            items = mongoService.findAll(targetClazz);
+//            ((AComboField) algosField).fixCombo(items, nullSelection, newItems);
+//        }// end of if cycle
+//
+//        if (type == EAFieldType.enumeration && targetClazz != null && algosField != null) {
+//            if (targetClazz.isEnum()) {
+//                items = new ArrayList(Arrays.asList(targetClazz.getEnumConstants()));
+//            }// end of if cycle
+//
+//            if (algosField != null && algosField instanceof AComboField && items != null) {
+//                ((AComboField) algosField).fixCombo(items, false, false);
+//            }// end of if cycle
+//        }// end of if cycle
 
-        if (type == AFieldType.enumeration && targetClazz != null && algosField != null) {
-            if (targetClazz.isEnum()) {
-                items = new ArrayList(Arrays.asList(targetClazz.getEnumConstants()));
-            }// end of if cycle
+        //@todo RIMETTERE
+//        if (type == EAFieldType.radio && targetClazz != null && algosField != null) {
+//            //@todo PATCH - PATCH - PATCH
+//            if (reflectionJavaField.getName().equals("attivazione") && entityBean.getClass().getName().equals(Preferenza.class.getName())) {
+//                items = new ArrayList(Arrays.asList(PrefEffect.values()));
+//            }// end of if cycle
+//            //@todo PATCH - PATCH - PATCH
+//
+//            if (items != null) {
+//                ((ARadioField) algosField).fixRadio(items);
+//            }// end of if cycle
+//        }// end of if cycle
 
-            if (algosField != null && algosField instanceof AComboField && items != null) {
-                ((AComboField) algosField).fixCombo(items, false, false);
-            }// end of if cycle
-
-        }// end of if cycle
-
-        if (type == AFieldType.radio && targetClazz != null && algosField != null) {
-            //@todo PATCH - PATCH - PATCH
-            if (reflectionField.getName().equals("attivazione") && entityBean.getClass().getName().equals(Preferenza.class.getName())) {
-                items = new ArrayList(Arrays.asList(PrefEffect.values()));
-            }// end of if cycle
-            //@todo PATCH - PATCH - PATCH
-
-            if (items != null) {
-                ((ARadioField) algosField).fixRadio(items);
-            }// end of if cycle
-        }// end of if cycle
-
-        if (type == AFieldType.link && targetClazz != null && algosField != null) {
-            String lowerName = LibText.primaMinuscola(targetClazz.getSimpleName());
-            Object bean = context.getBean(lowerName);
-            algosField.setTarget((ApplicationListener) bean);
-        }// end of if cycle
-
-        if (algosField != null && fieldAnnotation != null) {
-            algosField.setVisible(visible);
-            algosField.setEnabled(enabled);
-            algosField.setRequiredIndicatorVisible(required);
-            algosField.setCaption(caption);
-            if (LibText.isValid(width)) {
-                algosField.setWidth(width);
-            }// end of if cycle
-            if (rows > 0) {
-                algosField.setRows(rows);
-            }// end of if cycle
-            algosField.setFocus(focus);
-
-            if (LibParams.displayToolTips()) {
-                algosField.setDescription(fieldAnnotation.help());
-            }// end of if cycle
-
-            if (type == AFieldType.dateNotEnabled) {
-                algosField.setEnabled(false);
-            }// end of if cycle
-        }// end of if cycle
+        //@todo RIMETTERE
+//        if (type == EAFieldType.link && targetClazz != null && algosField != null) {
+//            String lowerName = text.primaMinuscola(targetClazz.getSimpleName());
+//            Object bean = context.getBean(lowerName);
+//            algosField.setTarget((ApplicationListener) bean);
+//        }// end of if cycle
+//
+//        if (algosField != null && fieldAnnotation != null) {
+//            algosField.setVisible(visible);
+//            algosField.setEnabled(enabled);
+//            algosField.setRequiredIndicatorVisible(required);
+//            algosField.setCaption(caption);
+//            if (text.isValid(width)) {
+//                algosField.setWidth(width);
+//            }// end of if cycle
+//            if (rows > 0) {
+//                algosField.setRows(rows);
+//            }// end of if cycle
+//            algosField.setFocus(focus);
+//
+//            if (LibParams.displayToolTips()) {
+//                algosField.setDescription(fieldAnnotation.help());
+//            }// end of if cycle
+//
+//            if (type == EAFieldType.dateNotEnabled) {
+//                algosField.setEnabled(false);
+//            }// end of if cycle
+//        }// end of if cycle
 
         return algosField;
     }// end of method
@@ -183,98 +190,98 @@ public class AFieldService {
      */
     private List<AValidator> creaValidators(Field reflectedField) {
         List<AValidator> lista = new ArrayList<>();
-        AbstractValidator validator = null;
-        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
-        AFieldType type = null;
-        String fieldName = LibText.primaMaiuscola(reflectedField.getName());
-        fieldName = LibText.setRossoBold(fieldName);
-        String message = "";
-        int min = 0;
-        int max = 0;
-        boolean notNull = LibAnnotation.isNotNull(reflectedField);
-        boolean notEmpty = LibAnnotation.isNotEmpty(reflectedField);
-        boolean checkSize = LibAnnotation.isSize(reflectedField);
-        boolean checkUnico = LibAnnotation.isUnico(reflectedField);
-        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(reflectedField);
-        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(reflectedField);
-        Object oldValue;
-
-        if (fieldAnnotation != null) {
-            type = fieldAnnotation.type();
-            Object a = type;
-            min = LibAnnotation.getMin(reflectedField);
-            max = LibAnnotation.getMax(reflectedField);
-
-            switch (type) {
-                case text:
-                    if (checkUnico) {
-//                        oldValue = LibReflection.getValue(entityBean, reflectedField.getName());
-//                        validator = new AlgosUniqueValidator(clazz, reflectedField.getName(), oldValue);
+//        AbstractValidator validator = null;
+//        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
+//        AFieldType type = null;
+//        String fieldName = LibText.primaMaiuscola(reflectedField.getName());
+//        fieldName = LibText.setRossoBold(fieldName);
+//        String message = "";
+//        int min = 0;
+//        int max = 0;
+//        boolean notNull = LibAnnotation.isNotNull(reflectedField);
+//        boolean notEmpty = LibAnnotation.isNotEmpty(reflectedField);
+//        boolean checkSize = LibAnnotation.isSize(reflectedField);
+//        boolean checkUnico = LibAnnotation.isUnico(reflectedField);
+//        boolean checkOnlyNumber = LibAnnotation.isOnlyNumber(reflectedField);
+//        boolean checkOnlyLetter = LibAnnotation.isOnlyLetter(reflectedField);
+//        Object oldValue;
+//
+//        if (fieldAnnotation != null) {
+//            type = fieldAnnotation.type();
+//            Object a = type;
+//            min = LibAnnotation.getMin(reflectedField);
+//            max = LibAnnotation.getMax(reflectedField);
+//
+//            switch (type) {
+//                case text:
+//                    if (checkUnico) {
+////                        oldValue = LibReflection.getValue(entityBean, reflectedField.getName());
+////                        validator = new AlgosUniqueValidator(clazz, reflectedField.getName(), oldValue);
+////                        lista.add(new AValidator(validator, Posizione.prima));
+//                    }// end of if cycle
+//                    if (notEmpty) {
+//                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
+//                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
 //                        lista.add(new AValidator(validator, Posizione.prima));
-                    }// end of if cycle
-                    if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
-                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new AValidator(validator, Posizione.prima));
-                    }// end of if cycle
-                    if (checkSize) {
-                        String messageSize = LibAnnotation.getSizeMessage(reflectedField, notEmpty);
-                        validator = new AlgosStringLengthValidator(messageSize, min, max);
-                        lista.add(new AValidator(validator, Posizione.dopo));
-                    }// end of if cycle
-                    if (checkOnlyNumber) {
-                        validator = new AlgosNumberOnlyValidator(reflectedField.getName());
-                        lista.add(new AValidator(validator, Posizione.dopo));
-                    }// end of if cycle
-                    if (checkOnlyLetter) {
-                        validator = new AlgosLetterOnlyValidator(reflectedField.getName());
-                        lista.add(new AValidator(validator, Posizione.dopo));
-                    }// end of if cycle
-                    break;
-                case integer:
-                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
-                    break;
-                case integernotzero:
-                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
-                    addAnte(lista, new AlgosNumberNotZeroValidator(reflectedField.getName()));
-                    break;
-                case email:
-                    if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
-                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new AValidator(validator, Posizione.prima));
-                    }// end of if cycle
-                    addAnte(lista, new AlgosEmailValidator(reflectedField.getName()));
-                    break;
-                case checkbox:
-                    break;
-                case date:
-                    break;
-                case time:
-                    break;
-                case password:
-                    break;
-                case combo:
-                    break;
-                case textarea:
-                    if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
-                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new AValidator(validator, Posizione.prima));
-                    }// end of if cycle
-                    break;
-                case enumeration:
-                    if (notEmpty) {
-                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
-                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
-                        lista.add(new AValidator(validator, Posizione.prima));
-                    }// end of if cycle
-
-                    break;
-                default: // caso non definito
-            } // fine del blocco switch
-        }// end of if cycle
-
+//                    }// end of if cycle
+//                    if (checkSize) {
+//                        String messageSize = LibAnnotation.getSizeMessage(reflectedField, notEmpty);
+//                        validator = new AlgosStringLengthValidator(messageSize, min, max);
+//                        lista.add(new AValidator(validator, Posizione.dopo));
+//                    }// end of if cycle
+//                    if (checkOnlyNumber) {
+//                        validator = new AlgosNumberOnlyValidator(reflectedField.getName());
+//                        lista.add(new AValidator(validator, Posizione.dopo));
+//                    }// end of if cycle
+//                    if (checkOnlyLetter) {
+//                        validator = new AlgosLetterOnlyValidator(reflectedField.getName());
+//                        lista.add(new AValidator(validator, Posizione.dopo));
+//                    }// end of if cycle
+//                    break;
+//                case integer:
+//                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
+//                    break;
+//                case integernotzero:
+//                    addAnte(lista, new AlgosNumberNotNullValidator(reflectedField.getName()));
+//                    addAnte(lista, new AlgosNumberNotZeroValidator(reflectedField.getName()));
+//                    break;
+//                case email:
+//                    if (notEmpty) {
+//                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
+//                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+//                        lista.add(new AValidator(validator, Posizione.prima));
+//                    }// end of if cycle
+//                    addAnte(lista, new AlgosEmailValidator(reflectedField.getName()));
+//                    break;
+//                case checkbox:
+//                    break;
+//                case date:
+//                    break;
+//                case time:
+//                    break;
+//                case password:
+//                    break;
+//                case combo:
+//                    break;
+//                case textarea:
+//                    if (notEmpty) {
+//                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
+//                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+//                        lista.add(new AValidator(validator, Posizione.prima));
+//                    }// end of if cycle
+//                    break;
+//                case enumeration:
+//                    if (notEmpty) {
+//                        String messageEmpty = LibAnnotation.getNotEmptyMessage(reflectedField);
+//                        validator = new StringLengthValidator(messageEmpty, 1, 10000);
+//                        lista.add(new AValidator(validator, Posizione.prima));
+//                    }// end of if cycle
+//
+//                    break;
+//                default: // caso non definito
+//            } // fine del blocco switch
+//        }// end of if cycle
+//
         return lista;
     }// end of method
 
@@ -287,55 +294,55 @@ public class AFieldService {
     }// end of method
 
 
-    /**
-     * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
-     */
-    public List<AlgosConverter> creaConverters(  Field reflectedField) {
-        List<AlgosConverter> lista = new ArrayList<>();
-        AlgosConverter converter = null;
-        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
-        boolean checkFirstCapital = LibAnnotation.isFirstCapital(reflectedField);
-        boolean checkUpper = LibAnnotation.isAllUpper(reflectedField);
-        boolean checkLower = LibAnnotation.isAllLower(reflectedField);
-
-        if (fieldAnnotation != null) {
-            switch (fieldAnnotation.type()) {
-                case text:
-                    if (checkFirstCapital) {
-                        converter = new FirstCapitalConverter();
-                        lista.add(converter);
-                    }// end of if cycle
-                    if (checkUpper) {
-                        converter = new UpperConverter();
-                        lista.add(converter);
-                    }// end of if cycle
-                    if (checkLower) {
-                        converter = new LowerConverter();
-                        lista.add(converter);
-                    }// end of if cycle
-                    break;
-                case integer:
-                    break;
-                case email:
-                    break;
-                case checkbox:
-                    break;
-                case date:
-                    break;
-                case time:
-                    break;
-                case password:
-                    break;
-                case combo:
-                    break;
-                case enumeration:
-                    break;
-                default: // caso non definito
-            } // fine del blocco switch
-        }// end of if cycle
-
-        return lista;
-    }// end of method
+//    /**
+//     * Crea una (eventuale) lista di converter, basato sulle @Annotation della Entity
+//     */
+//    public List<AlgosConverter> creaConverters(  Field reflectedField) {
+//        List<AlgosConverter> lista = new ArrayList<>();
+//        AlgosConverter converter = null;
+//        AIField fieldAnnotation = LibAnnotation.getFieldAnnotation(reflectedField);
+//        boolean checkFirstCapital = LibAnnotation.isFirstCapital(reflectedField);
+//        boolean checkUpper = LibAnnotation.isAllUpper(reflectedField);
+//        boolean checkLower = LibAnnotation.isAllLower(reflectedField);
+//
+//        if (fieldAnnotation != null) {
+//            switch (fieldAnnotation.type()) {
+//                case text:
+//                    if (checkFirstCapital) {
+//                        converter = new FirstCapitalConverter();
+//                        lista.add(converter);
+//                    }// end of if cycle
+//                    if (checkUpper) {
+//                        converter = new UpperConverter();
+//                        lista.add(converter);
+//                    }// end of if cycle
+//                    if (checkLower) {
+//                        converter = new LowerConverter();
+//                        lista.add(converter);
+//                    }// end of if cycle
+//                    break;
+//                case integer:
+//                    break;
+//                case email:
+//                    break;
+//                case checkbox:
+//                    break;
+//                case date:
+//                    break;
+//                case time:
+//                    break;
+//                case password:
+//                    break;
+//                case combo:
+//                    break;
+//                case enumeration:
+//                    break;
+//                default: // caso non definito
+//            } // fine del blocco switch
+//        }// end of if cycle
+//
+//        return lista;
+//    }// end of method
 
 
     /**

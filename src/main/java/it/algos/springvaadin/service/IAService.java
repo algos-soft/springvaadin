@@ -34,7 +34,7 @@ public interface IAService {
     /**
      * Colonne visibili (e ordinate) nella Grid
      * Sovrascrivibile
-     * La colonna ID normalmente non si visualizza
+     * La colonna key ID normalmente non si visualizza
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)

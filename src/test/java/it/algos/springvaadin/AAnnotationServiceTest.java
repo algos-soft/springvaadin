@@ -5,6 +5,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
@@ -131,6 +132,22 @@ public class AAnnotationServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
+     * Get the specific annotation of the class.
+     * Entity classes
+     *
+     * @param entityClazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    @Test
+    public void getAIForm() {
+        AIForm ottenuto = service.getAIForm(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenuto);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
      * Get the specific annotation of the field.
      *
      * @param reflectionJavaField di riferimento per estrarre la Annotation
@@ -209,6 +226,24 @@ public class AAnnotationServiceTest {
         List<String> previstoList = LibArray.fromString(stringArray);
 
         ottenutoList = service.getListColumns(ROLE_ENTITY_CLASS);
+        assertEquals(previstoList, ottenutoList);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Fields visibili (e ordinati) nel Form
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di fields visibili nel Form
+     */
+    @Test
+    public void getFormFieldsName() {
+        String[] stringArray = {"ordine", "code"};
+        List<String> previstoList = LibArray.fromString(stringArray);
+
+        ottenutoList = service.getFormFieldsName(ROLE_ENTITY_CLASS);
         assertEquals(previstoList, ottenutoList);
     }// end of single test
 

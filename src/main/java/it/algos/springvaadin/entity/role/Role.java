@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
 @Document()
 @AIEntity(company = EACompanyRequired.nonUsata)
 @AIList(columns = {"ordine", "code"})
-@AIForm()
+@AIForm(fields = {"ordine", "code"})
 @Qualifier(Cost.TAG_ROL)
 @Data
 @NoArgsConstructor

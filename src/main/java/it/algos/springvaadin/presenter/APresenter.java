@@ -131,10 +131,16 @@ public abstract class APresenter extends APresenterEvents {
         List<Field> fields = null;
         List<EAButtonType> typeButtons = null;
 
+        try { // prova ad eseguire il codice
+            entityBean = entityClass.newInstance();
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
         fields = service.getFormFields();
         typeButtons = service.getListTypeButtons();
 
-        form.start(this, entityClass,entityBean, fields, typeButtons);
+        form.start(this, entityClass, entityBean, fields, typeButtons);
     }// end of method
 
 

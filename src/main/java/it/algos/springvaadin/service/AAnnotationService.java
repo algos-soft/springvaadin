@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
+import it.algos.springvaadin.annotation.AIForm;
 import it.algos.springvaadin.annotation.AIList;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
@@ -67,6 +68,19 @@ public class AAnnotationService {
      */
     public AIList getAIList(final Class<? extends AEntity> entityClazz) {
         return entityClazz.getAnnotation(AIList.class);
+    }// end of method
+
+
+    /**
+     * Get the specific annotation of the class.
+     * Entity classes
+     *
+     * @param entityClazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public AIForm getAIForm(final Class<? extends AEntity> entityClazz) {
+        return entityClazz.getAnnotation(AIForm.class);
     }// end of method
 
 
@@ -158,6 +172,31 @@ public class AAnnotationService {
 
         if (array.isValid(columns)) {
             lista = Arrays.asList(columns);
+        }// end of if cycle
+
+        return lista;
+    }// end of method
+
+
+    /**
+     * Fields visibili (e ordinati) nel Form
+     *
+     * @param clazz the entity class
+     *
+     * @return lista di fields visibili nel Form
+     */
+    @SuppressWarnings("all")
+    public  List<String> getFormFieldsName(final Class<? extends AEntity> clazz) {
+        List<String> lista = null;
+        String[] fields = null;
+        AIForm annotation = this.getAIForm(clazz);
+
+        if (annotation != null) {
+            fields = annotation.fields();
+        }// end of if cycle
+
+        if (array.isValid(fields)) {
+            lista = Arrays.asList(fields);
         }// end of if cycle
 
         return lista;
