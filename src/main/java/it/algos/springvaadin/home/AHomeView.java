@@ -70,7 +70,7 @@ public class AHomeView extends AView {
         menuLayout.addViewBefore(viewForThisModuleOnly, RoleList.class);
 
         //--Non essendoci il Presenter, passa il controllo direttamente alla superclasse di questa view
-        super.start(null, null, null, null, null);
+//        super.start(null, null, null, null,null,null);
     }// end of method
 
     /**

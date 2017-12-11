@@ -162,6 +162,7 @@ public abstract class AView extends VerticalLayout implements IAView {
 
 
     /**
+     * Creazione di una view (AList) contenente una Grid
      * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
      * Ricrea tutto ogni volta che la view diventa attiva
      * La view comprende:
@@ -170,7 +171,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      * 3) Body: Corpo centrale della view. Utilizzando un Panel, si ottine l'effetto scorrevole
      * 4) Bottom - Barra dei bottoni inferiore
      *
-     * @param source      di riferimento per gli eventi
+     * @param source      presenter di riferimento per i componenti da cui vengono generati gli eventi
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid
@@ -178,11 +179,6 @@ public abstract class AView extends VerticalLayout implements IAView {
      */
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons) {
         this.removeAllComponents();
-        this.addComponent(menuLayout);
-
-        //--componente grafico obbligatorio
-        menuLayout = creaMenu();
-        this.addComponent(menuLayout);
 
         //--componente grafico obbligatorio
         menuLayout = creaMenu();
@@ -195,7 +191,50 @@ public abstract class AView extends VerticalLayout implements IAView {
         }// end of if cycle
 
         //--componente grafico obbligatorio
-        bodyLayout = creaBody(entityClazz, columns, items);
+        this.creaBody(entityClazz, columns, items);
+        this.addComponent(bodyLayout);
+
+        //--componente grafico facoltativo
+        bottomLayout = creaBottom(source, typeButtons);
+        if (topLayout != null) {
+            this.addComponent(bottomLayout);
+        }// end of if cycle
+
+        this.setExpandRatio(bodyLayout, 1);
+    }// end of method
+
+
+    /**
+     * Creazione di una view (AForm) contenente i fields
+     * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
+     * Ricrea tutto ogni volta che la view diventa attiva
+     * La view comprende:
+     * 1) Menu: Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * 2) Top: Contenitore grafico per la caption
+     * 3) Body: Corpo centrale della view. Utilizzando un Panel, si ottine l'effetto scorrevole
+     * 4) Bottom - Barra dei bottoni inferiore
+     *
+     * @param source              presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param entityClazz         di riferimento, sottoclasse concreta di AEntity
+     * @param entityBean          di riferimento
+     * @param reflectedJavaFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param typeButtons         lista di (tipi di) bottoni visibili nella toolbar della view AList
+     */
+    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, AEntity entityBean, List<Field> reflectedJavaFields, List<EAButtonType> typeButtons) {
+        this.removeAllComponents();
+
+        //--componente grafico obbligatorio
+        menuLayout = creaMenu();
+        this.addComponent(menuLayout);
+
+        //--componente grafico facoltativo
+        topLayout = creaTop(entityClazz, null);
+        if (topLayout != null) {
+            this.addComponent(topLayout);
+        }// end of if cycle
+
+        //--componente grafico obbligatorio
+        this.creaBody(source, entityBean, reflectedJavaFields);
         this.addComponent(bodyLayout);
 
         //--componente grafico facoltativo
@@ -226,16 +265,16 @@ public abstract class AView extends VerticalLayout implements IAView {
      * Caption sovrastante il body della view
      * Valore che può essere regolato nella classe specifica
      * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
+     *
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param items       da visualizzare nella Grid
      */
     protected VerticalLayout creaTop(Class<? extends AEntity> entityClazz, List items) {
         VerticalLayout topLayout = null;
 
-        //@todo RIMETTERE
         //--gestione delle scritte in rosso sopra il body
         this.fixCaption(entityClazz, items);
         if (text.isValid(caption)) {
-//            Label label=new Label(caption);
-//            label.setStyleName("rosso");
             labelRosso.setValue(caption);
             topLayout = new VerticalLayout();
             topLayout.setMargin(false);
@@ -258,9 +297,25 @@ public abstract class AView extends VerticalLayout implements IAView {
      * Crea il corpo centrale della view
      * Componente grafico obbligatorio
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
+     *
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
      */
-    protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        return null;
+    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+    }// end of method
+
+
+    /**
+     * Crea il corpo centrale della view
+     * Componente grafico obbligatorio
+     * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
+     *
+     * @param source              presenter di riferimento per i componenti da cui vengono generati gli eventi
+     * @param entityBean          di riferimento
+     * @param reflectedJavaFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     */
+    protected void creaBody(IAPresenter source, AEntity entityBean, List<Field> reflectedJavaFields) {
     }// end of method
 
 
@@ -292,26 +347,6 @@ public abstract class AView extends VerticalLayout implements IAView {
      * Può essere sovrascritto per un'intestazione specifica (caption) della grid
      */
     protected void fixCaption(Class<? extends AEntity> entityClazz, List items) {
-        String className = entityClazz != null ? entityClazz.getSimpleName() : null;
-
-        caption = className != null ? className + " - " : "";
-
-        if (array.isValid(items)) {
-            if (items.size() == 1) {
-                caption += "Elenco di 1 sola scheda ";
-            } else {
-                caption += "Elenco di " + items.size() + " schede ";
-            }// end of if/else cycle
-
-            //@todo RIMETTERE
-//            if (LibSession.isCompanyValida()) {
-//                caption += "della company " + LibSession.getCompany().getCode();
-//            } else {
-//                caption += "di tutte le company ";
-//            }// end of if/else cycle
-        } else {
-            caption += "Al momento non c'è nessuna scheda. ";
-        }// end of if/else cycle
     }// end of method
 
 

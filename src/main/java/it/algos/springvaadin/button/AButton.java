@@ -5,6 +5,7 @@ import com.vaadin.ui.Button;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AButtonEvent;
+import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.ATextService;
@@ -38,7 +39,7 @@ public class AButton extends Button {
 
 
     public final static String NORMAL_WIDTH = "8em";
-    public  final static String ICON_WIDTH = "3em";
+    public final static String ICON_WIDTH = "3em";
 
 
     /**
@@ -136,7 +137,7 @@ public class AButton extends Button {
 
         //@todo RIMETTERE
 //        if (LibParams.usaBottoniPrimaMaiuscola()) {
-            this.setCaption(text.primaMaiuscola(getCaption()));
+        this.setCaption(text.primaMaiuscola(getCaption()));
 //        }// end of if cycle
     }// end of method
 
@@ -145,7 +146,6 @@ public class AButton extends Button {
      * Regola i parametri del bottone specifico (usando la Enumeration dei bottoni)
      */
     private void regolaParametri() {
-        super.setCaption(type.getCaption());
         super.setCaption(type.getCaption());
         super.setIcon(type.getIcon());
         super.setEnabled(type.isEnabled());
@@ -185,7 +185,9 @@ public class AButton extends Button {
             return;
         }// end of if cycle
 
-        publisher.publishEvent(new AButtonEvent(type, source, target, entityBean, sourceField));
+
+        AButtonEvent evento = new AButtonEvent(type, source, target, entityBean, sourceField);
+        publisher.publishEvent(evento);
     }// end of method
 
 

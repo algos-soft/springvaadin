@@ -95,16 +95,49 @@ public abstract class AList extends AView implements IAList {
 
 
     /**
+     * Crea la scritta esplicativa
+     * Può essere sovrascritto per un'intestazione specifica (caption) della grid
+     */
+    @Override
+    protected void fixCaption(Class<? extends AEntity> entityClazz, List items) {
+        String className = entityClazz != null ? entityClazz.getSimpleName() : null;
+
+        caption = className != null ? className + " - " : "";
+
+        if (array.isValid(items)) {
+            if (items.size() == 1) {
+                caption += "Elenco di 1 sola scheda ";
+            } else {
+                caption += "Elenco di " + items.size() + " schede ";
+            }// end of if/else cycle
+
+            //@todo RIMETTERE
+//            if (LibSession.isCompanyValida()) {
+//                caption += "della company " + LibSession.getCompany().getCode();
+//            } else {
+//                caption += "di tutte le company ";
+//            }// end of if/else cycle
+        } else {
+            caption += "Al momento non c'è nessuna scheda. ";
+        }// end of if/else cycle
+    }// end of method
+
+
+    /**
      * Crea il corpo centrale della view
      * Componente grafico obbligatorio
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
+     *
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
      */
-    protected APanel creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+    @Override
+    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
         grid.inizia(null, entityClazz, columns, items, 50);
         bodyLayout.setContent((Component) grid);
 //        VerticalLayout layout = new VerticalLayout();
 //        layout.addComponent((Component)grid);
-        return bodyLayout;
     }// end of method
 
 
@@ -113,6 +146,7 @@ public abstract class AList extends AView implements IAList {
      * Chiamato ogni volta che la finestra diventa attiva
      * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
      */
+    @Override
     protected VerticalLayout creaBottom(IAPresenter source, List<EAButtonType> typeButtons) {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);

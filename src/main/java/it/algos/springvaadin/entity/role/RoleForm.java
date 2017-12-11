@@ -35,13 +35,13 @@ public class RoleForm extends AForm {
     }
 
 
-    /**
-     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
-     */
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-        super.enter(event);
-        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Form (provvisorio)"), ContentMode.HTML));
-    }// end of method
+//    /**
+//     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
+//     */
+//    @Override
+//    public void enter(ViewChangeListener.ViewChangeEvent event) {
+//        super.enter(event);
+//        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Form (provvisorio)"), ContentMode.HTML));
+//    }// end of method
 
 }// end of class

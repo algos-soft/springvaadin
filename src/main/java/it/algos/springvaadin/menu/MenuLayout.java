@@ -231,7 +231,7 @@ public class MenuLayout extends VerticalLayout {
      * 2) se non la trova, usa il 'name' usato internamente da SpringNavigator e indicato dalla Annotation @SpringView della classe
      * 3) se non trova nulla (errore) usa il 'simpleName' della classe java
      *
-     * @param viewClass             the view class to adds
+     * @param viewClass       the view class to adds
      * @param captionMenuName visibile nella barra di menu
      */
     public void addViewBefore(Class<? extends IAView> viewClass, String captionMenuName) {

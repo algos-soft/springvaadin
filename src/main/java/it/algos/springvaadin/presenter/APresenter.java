@@ -3,13 +3,17 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.IAList;
+import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.IAService;
+import it.algos.springvaadin.ui.AUIParams;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -26,8 +30,14 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Scope("session")
-public abstract class APresenter implements IAPresenter {
+public abstract class APresenter extends APresenterEvents {
 
+
+    @Autowired
+    AUIParams params;
+
+    @Autowired
+    AAnnotationService annotation;
 
     /**
      * Il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
@@ -86,7 +96,6 @@ public abstract class APresenter implements IAPresenter {
      * Recupera dal service i bottoni comando da mostrare nella toolbar del footer (sotto la Grid)
      * Passa il controllo alla view con i dati necessari
      */
-    @Override
     public void setList() {
         List items = null;
         List<Field> columns = null;
@@ -100,13 +109,32 @@ public abstract class APresenter implements IAPresenter {
     }// end of method
 
 
+    public void fireForm() {
+        String navigatorInternalName = annotation.getViewName(RoleForm.class);
+        params.getNavigator().navigateTo(navigatorInternalName);
+    }// end of method
+
     /**
-     * Handle an application event.
-     *
-     * @param event the event to respond to
+     * Gestione di un Form per presentare i fields
+     * Metodo invocato da:
+     * 1) una view quando diventa attiva
+     * 2) un Evento (azione) che necessita di aggiornare e ripresentare il Form;
+     * <p>
+     * Recupera dal service tutti i dati necessari (aggiornati)
+     * Recupera l'entityBean da mostrare/modificare. Nullo per una nuova scheda
+     * Recupera dal service i fields (property) della collection, da mostrare nella view
+     * Recupera dal service i bottoni comando da mostrare nella toolbar del footer (sotto i fields)
+     * Passa il controllo alla view con i dati necessari
      */
-    @Override
-    public void onApplicationEvent(AEvent event) {
+    public void setForm() {
+        AEntity entityBean = null;
+        List<Field> fields = null;
+        List<EAButtonType> typeButtons = null;
+
+        fields = service.getFormFields();
+        typeButtons = service.getListTypeButtons();
+
+        form.start(this, entityClass,entityBean, fields, typeButtons);
     }// end of method
 
 
