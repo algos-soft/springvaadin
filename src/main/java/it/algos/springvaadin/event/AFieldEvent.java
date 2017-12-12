@@ -24,7 +24,7 @@ public class AFieldEvent extends AEvent {
     /**
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
-    public AFieldEvent(ApplicationListener source) {
+    public AFieldEvent(IAListener source) {
         this(EATypeField.valueChanged, source);
     }// end of constructor
 
@@ -33,8 +33,8 @@ public class AFieldEvent extends AEvent {
      * @param type   Obbligatorio specifica del tipo di evento
      * @param source Obbligatorio (presenter, form, field, window, dialog,... ) che che ha generato l'evento
      */
-    public AFieldEvent(EATypeField type, ApplicationListener source) {
-        this(type, source, (ApplicationListener) null, (AEntity) null);
+    public AFieldEvent(EATypeField type, IAListener source) {
+        this(type, source, (IAListener) null, (AEntity) null);
     }// end of constructor
 
 
@@ -44,7 +44,7 @@ public class AFieldEvent extends AEvent {
      * @param target     Opzionale (window, dialog, presenter) a cui indirizzare l'evento
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      */
-    public AFieldEvent(EATypeField type, ApplicationListener source, ApplicationListener target, AEntity entityBean) {
+    public AFieldEvent(EATypeField type, IAListener source, IAListener target, AEntity entityBean) {
         this(type, source, target, entityBean, (AField) null);
     }// end of constructor
 
@@ -56,7 +56,7 @@ public class AFieldEvent extends AEvent {
      * @param entityBean  Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      * @param sourceField Opzionale (field) in elaborazione. Ha senso solo per alcuni eventi
      */
-    public AFieldEvent(EATypeField type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+    public AFieldEvent(EATypeField type, IAListener source, IAListener target, AEntity entityBean, AField sourceField) {
         super(type, source, target, entityBean, sourceField);
     }// end of constructor
 

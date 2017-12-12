@@ -5,6 +5,7 @@ import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.AFieldEvent;
+import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.field.AField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -19,7 +20,7 @@ import java.util.List;
  * Date: ven, 08-dic-2017
  * Time: 07:28
  */
-public interface IAPresenter extends ApplicationListener<AEvent> {
+public interface IAPresenter extends IAListener {
 
     /**
      * Gestione di una Lista visualizzata con una Grid
@@ -50,15 +51,9 @@ public interface IAPresenter extends ApplicationListener<AEvent> {
      */
     public void setForm();
 
+    public void fireList();
     public void fireForm();
 
 
-    /**
-     * Handle an application event.
-     *
-     * @param event to respond to
-     */
-    @Override
-    public void onApplicationEvent(AEvent event) ;
 
 }// end of interface

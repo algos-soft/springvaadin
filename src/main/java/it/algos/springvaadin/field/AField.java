@@ -10,6 +10,7 @@ import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.enumeration.EATypeField;
+import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -48,11 +49,11 @@ public abstract class AField<T> extends CustomField<Object> {
 
 
     //--Obbligatorio presenter che gestisce l'evento
-    protected ApplicationListener source;
+    protected IAListener source;
 
 
     //--Opzionale (window, dialog, presenter) a cui indirizzare l'evento
-    protected ApplicationListener target;
+    protected IAListener target;
 
 
     //--Opzionale (entityBean) in elaborazione
@@ -123,7 +124,7 @@ public abstract class AField<T> extends CustomField<Object> {
      * @param publicFieldName nome visibile del field
      * @param source          del presenter che gestisce questo field
      */
-    public void inizializza(String publicFieldName, ApplicationListener source) {
+    public void inizializza(String publicFieldName, IAListener source) {
         this.creaContent();
         this.setName(publicFieldName);
         this.setSource(source);
@@ -217,7 +218,7 @@ public abstract class AField<T> extends CustomField<Object> {
     }// end of method
 
 
-    public void setSource(ApplicationListener source) {
+    public void setSource(IAListener source) {
         this.source = source;
         if (button != null) {
             if (source != null) {
@@ -230,7 +231,7 @@ public abstract class AField<T> extends CustomField<Object> {
         }// end of if cycle
     }// end of method
 
-    public void setTarget(ApplicationListener target) {
+    public void setTarget(IAListener target) {
         this.target = target;
         if (button != null) {
             if (target != null) {

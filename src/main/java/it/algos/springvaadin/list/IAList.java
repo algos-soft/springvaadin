@@ -36,4 +36,5 @@ public interface IAList extends IAView {
      */
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons) ;
 
+
 }// end of interface

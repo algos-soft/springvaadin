@@ -1,5 +1,6 @@
 package it.algos.springvaadin.grid;
 
+import com.vaadin.shared.Registration;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.presenter.IAPresenter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +26,8 @@ public interface IAGrid {
      * @param numeroRighe da visualizzare nella Grid
      */
     public void inizia(IAPresenter presenter, Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) ;
+
+
+    public AGrid getGrid() ;
 
 }// end of interface

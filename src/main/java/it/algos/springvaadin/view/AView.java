@@ -56,7 +56,7 @@ public abstract class AView extends VerticalLayout implements IAView {
 
 
     /**
-     * Gestore principale per la 'business logic' modulo, iniettato da Spring nel costruttore
+     * Gestore principale per la 'business logic' del modulo, iniettato da Spring nel costruttore
      */
     protected IAPresenter presenter;
 

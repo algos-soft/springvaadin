@@ -342,9 +342,9 @@ public abstract class APresenterEvents implements IAPresenter {
 //            case importa:
 //                importa();
 //                break;
-//            case annulla:
-//                annulla();
-//                break;
+            case annulla:
+                this.fireList();
+                break;
 //            case back:
 //                back();
 //                break;

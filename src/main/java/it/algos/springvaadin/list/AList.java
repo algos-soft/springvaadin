@@ -126,7 +126,7 @@ public abstract class AList extends AView implements IAList {
      */
     @Override
     protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        grid.inizia(null, entityClazz, columns, items, 50);
+        grid.inizia(presenter, entityClazz, columns, items, 50);
         bodyLayout.setContent((Component) grid);
 //        VerticalLayout layout = new VerticalLayout();
 //        layout.addComponent((Component)grid);

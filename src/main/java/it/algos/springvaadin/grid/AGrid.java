@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AColumnService;
@@ -40,10 +41,20 @@ public class AGrid extends Grid implements IAGrid {
 
 
     /**
-     * Gestore principale del modulo, regolato nel metodo Inizia
+     * Presenter di riferimento per i componenti da cui vengono generati gli eventi
      */
     protected IAPresenter presenter;
 
+    private AGridToolSet gridToolSet;
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     */
+    public AGrid(AGridToolSet gridToolSet, ApplicationEventPublisher applicationEventPublisher) {
+        this.gridToolSet = gridToolSet;
+        this.applicationEventPublisher = applicationEventPublisher;
+    }// end of @Autowired constructor
 
 //    /**
 //     * Metodo invocato da AList
@@ -90,7 +101,35 @@ public class AGrid extends Grid implements IAGrid {
         }// end of if cycle
 
         //--Aggiunge alla grid tutti i listener previsti
-//        addAllListeners();
+        addAllListeners();
+
+        //--Aggiunge a tutte le azioni i IAListener  che generano ed ascoltano gli eventi
+        gridToolSet.addAllSourcesTargets(presenter, presenter);
+    }// end of method
+
+
+    /**
+     * Aggiunge alla grid tutti i listener previsti
+     * Le azioni verranno intercettate e gestite dal presenter (recuperato nel 'fire' dell'azione)
+     */
+    public void addAllListeners() {
+        //--recupera il presenter
+//        AlgosPresenterImpl presenter = LibSpring.getPresenter();
+
+        //@todo RIMETTERE
+//        //--modello di selezione righe
+//        //--lancia (fire) un evento per la condizione iniziale di default della selezione nella Grid
+//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+//            this.setSelectionMode(SelectionMode.MULTI);
+//            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.multiSelectionChanged, presenter));
+//        } else {
+//            this.setSelectionMode(Grid.SelectionMode.SINGLE);
+//            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
+//        }// end of if/else cycle
+
+        this.setSelectionMode(SelectionMode.MULTI);
+
+        gridToolSet.addAllListeners(this);
     }// end of method
 
 
@@ -131,6 +170,11 @@ public class AGrid extends Grid implements IAGrid {
 //        }// end of if cycle
 
         this.setWidth(lar + "px");
+    }// end of method
+
+    @Override
+    public AGrid getGrid() {
+        return this;
     }// end of method
 
 }// end of class

@@ -2,8 +2,10 @@ package it.algos.springvaadin.presenter;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Component;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
+import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
@@ -12,6 +14,7 @@ import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.IAService;
 import it.algos.springvaadin.ui.AUIParams;
+import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -109,10 +112,17 @@ public abstract class APresenter extends APresenterEvents {
     }// end of method
 
 
-    public void fireForm() {
-        String navigatorInternalName = annotation.getViewName(RoleForm.class);
-        params.getNavigator().navigateTo(navigatorInternalName);
+    public void fireList() {
+        Class clazz = list.getViewComponent().getClass();
+        params.getNavigator().navigateTo(annotation.getViewName(clazz));
     }// end of method
+
+
+    public void fireForm() {
+        Class clazz = form.getViewComponent().getClass();
+        params.getNavigator().navigateTo(annotation.getViewName(clazz));
+    }// end of method
+
 
     /**
      * Gestione di un Form per presentare i fields

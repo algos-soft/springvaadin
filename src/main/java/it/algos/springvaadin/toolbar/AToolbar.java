@@ -7,6 +7,7 @@ import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.button.AButtonFactory;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.context.ApplicationListener;
@@ -106,7 +107,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
 //    @Override
-    public AButton creaAddButton(EAButtonType type, IAPresenter source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+    public AButton creaAddButton(EAButtonType type, IAPresenter source, IAListener target, AEntity entityBean, AField sourceField) {
         AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {
@@ -125,7 +126,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param source dell'evento generato dal bottone
      */
 //    @Override
-    public AButton creaAddButtonSecondaRiga(EAButtonType type, ApplicationListener source) {
+    public AButton creaAddButtonSecondaRiga(EAButtonType type, IAListener source) {
         if (this.getComponentCount() == 1) {
             this.addComponent(secondaRiga);
         }// end of if cycle
@@ -142,7 +143,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
 //    @Override
-    public AButton creaAddButtonSecondaRiga(EAButtonType type, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+    public AButton creaAddButtonSecondaRiga(EAButtonType type, IAListener source, IAListener target, AEntity entityBean, AField sourceField) {
         AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {

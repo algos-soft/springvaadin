@@ -7,6 +7,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.IAFieldFactory;
 import it.algos.springvaadin.lib.Cost;
@@ -50,19 +51,19 @@ public class AFieldService {
      * The field type is chosen according to the annotation @AIField.
      *
      * @param source          presenter di riferimento da cui vengono generati gli eventi
-     * @param reflectionJavaField di riferimento per estrarre le Annotation
+     * @param reflectedJavaField di riferimento per estrarre le Annotation
      */
     @SuppressWarnings("all")
-    public AField create(ApplicationListener source, Field reflectionJavaField, AEntity entityBean) {
+    public AField create(IAListener source, Field reflectedJavaField, AEntity entityBean) {
         AField algosField = null;
         List items = null;
         boolean nuovaEntity = text.isEmpty(entityBean.id);
-        EAFieldType type = annotation.getFormType(reflectionJavaField);
-        String caption = annotation.getFormFieldName(reflectionJavaField);
+        EAFieldType type = annotation.getFormType(reflectedJavaField);
+        String caption = annotation.getFormFieldName(reflectedJavaField);
 
         //@todo RIMETTERE
-//        AIField fieldAnnotation = annotation.getFieldAnnotation(reflectionJavaField);
-//        String width = annotation.getWidthEM(reflectionJavaField);
+        AIField fieldAnnotation = annotation.getAIField(reflectedJavaField);
+//        String width = annotation.getWidthEM(reflectedJavaField);
 //        int rows = annotation.getNumRows(reflectionJavaField);
 //        boolean required = annotation.isRequired(reflectionJavaField);
 //        boolean focus = annotation.isFocus(reflectionJavaField);
@@ -83,7 +84,7 @@ public class AFieldService {
 //        }// end of if cycle
 
         if (type != null) {
-            algosField = fieldFactory.crea(source, type, reflectionJavaField, entityBean);
+            algosField = fieldFactory.crea(source, type, reflectedJavaField, entityBean);
         }// end of if cycle
 
         //@todo RIMETTERE
@@ -122,11 +123,11 @@ public class AFieldService {
 //            algosField.setTarget((ApplicationListener) bean);
 //        }// end of if cycle
 //
-//        if (algosField != null && fieldAnnotation != null) {
+        if (algosField != null && fieldAnnotation != null) {
 //            algosField.setVisible(visible);
 //            algosField.setEnabled(enabled);
 //            algosField.setRequiredIndicatorVisible(required);
-//            algosField.setCaption(caption);
+            algosField.setCaption(caption);
 //            if (text.isValid(width)) {
 //                algosField.setWidth(width);
 //            }// end of if cycle
@@ -142,7 +143,7 @@ public class AFieldService {
 //            if (type == EAFieldType.dateNotEnabled) {
 //                algosField.setEnabled(false);
 //            }// end of if cycle
-//        }// end of if cycle
+        }// end of if cycle
 
         return algosField;
     }// end of method
