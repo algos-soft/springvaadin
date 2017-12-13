@@ -9,6 +9,7 @@ import it.algos.springvaadin.form.AForm;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.toolbar.AToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -30,8 +31,8 @@ public class RoleForm extends AForm {
 
 
 
-    public RoleForm(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter) {
-        super(presenter);
+    public RoleForm(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, @Qualifier(Cost.BAR_FORM) AToolbar toolbar) {
+        super(presenter,toolbar);
     }
 
 

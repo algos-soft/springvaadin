@@ -8,13 +8,16 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AFieldService;
 import it.algos.springvaadin.toolbar.AFormToolbar;
 import it.algos.springvaadin.toolbar.AListToolbar;
+import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -35,8 +38,9 @@ public abstract class AForm extends AView implements IAForm {
     @Autowired
     protected AFieldService fieldService;
 
-    @Autowired
-    protected AFormToolbar toolbar;
+    //    @Autowired
+//    protected AFormToolbar toolbar;
+    public AEntity entityBean;
 
 
     /**
@@ -54,14 +58,16 @@ public abstract class AForm extends AView implements IAForm {
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
      * Se ci sono DUE o più costruttori, va in errore
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
      * @param presenter iniettato da Spring
      */
-    public AForm(IAPresenter presenter) {
-        super(presenter);
+    public AForm(IAPresenter presenter, @Qualifier(Cost.BAR_FORM) AToolbar toolbar) {
+        super(presenter, toolbar);
     }// end of Spring constructor
 
 
@@ -349,6 +355,38 @@ public abstract class AForm extends AView implements IAForm {
 
         bottomLayout.addComponent((AFormToolbar) toolbar);
         return bottomLayout;
+    }// end of method
+
+
+    /**
+     * Trasferisce i valori dai fields del Form alla entityBean
+     * Esegue la (eventuale) validazione dei dati
+     * Esegue la (eventuale) trasformazione dei dati
+     *
+     * @return la entityBean del Form
+     */
+    @Override
+    public AEntity commit() {
+        try { // prova ad eseguire il codice
+            binder.writeBean(entityBean);
+
+            //--@todo PATCH perché il binder non prende (ancora) i fields della superclasse
+//            AField field = getField("note");
+//            entityBean.note = (String) field.getValue();
+        } catch (Exception unErrore) { // intercetta l'errore
+            int errore = 87;
+        }// fine del blocco try-catch
+
+        return entityBean;
+    }// end of method
+
+
+        /**
+         * Componente concreto di questa interfaccia
+         */
+    @Override
+    public AForm getForm() {
+        return this;
     }// end of method
 
 }// end of class

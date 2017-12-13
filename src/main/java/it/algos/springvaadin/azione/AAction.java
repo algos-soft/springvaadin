@@ -82,6 +82,19 @@ public abstract class AAction implements IAAction {
     /**
      * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
      *
+     * @param type       enumeration utilizzata per 'marcare' una azione, in fase di generazione
+     * @param entityBean in elaborazione
+     */
+    protected void fire(EATypeAction type, AEntity entityBean) {
+        if (source != null && target != null) {
+            applicationEventPublisher.publishEvent(new AActionEvent(type, source, target, entityBean));
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Costruisce e lancia l'evento che viene pubblicato dal singleton ApplicationEventPublisher
+     *
      * @param entityBean in elaborazione
      */
     protected void fire(AEntity entityBean) {

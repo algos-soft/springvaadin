@@ -295,4 +295,34 @@ public abstract class AService implements IAService {
         return Arrays.asList(matrice);
     }// end of method
 
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public AEntity newEntity() {
+        return null;
+    }// end of method
+
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     * <p>
+     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+     * Controlla se la collection (table) usa la company
+     *
+     * @param entityBean da salvare
+     *
+     * @return the saved entity
+     */
+    public AEntity save(AEntity entityBean) throws Exception {
+        return (AEntity) repository.save(entityBean);
+    }// end of method
+
+
 }// end of class

@@ -210,7 +210,6 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param type   del bottone, secondo la Enumeration AButtonType
      * @param status abilitare o disabilitare
      */
-//    @Override
     public void enableButton(EAButtonType type, boolean status) {
         AButton button = this.getButton(type);
 
@@ -226,7 +225,8 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      *
      * @param type del bottone, secondo la Enumeration AButtonType
      */
-    private AButton getButton(EAButtonType type) {
+    @Override
+    public AButton getButton(EAButtonType type) {
         Component comp = null;
         AButton button = null;
 

@@ -1,8 +1,11 @@
 package it.algos.springvaadin.toolbar;
 
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.context.ApplicationListener;
 
 import java.util.List;
@@ -24,19 +27,19 @@ import java.util.List;
 public interface IAToolbar {
 
 
-//    /**
-//     * Metodo invocato da restart() di Form e List
-//     * Seleziona i bottoni da mostrare nella toolbar
-//     * Crea i bottoni (iniettandogli il publisher)
-//     * Aggiunge i bottoni al contenitore grafico
-//     * Inietta nei bottoni il parametro obbligatorio (source)
-//     *
-//     * @param source       dell'evento generato dai bottoni
-//     * @param typeButtons da visualizzare
-//     */
-//    public void inizializza(ApplicationListener source, List<AButtonType> typeButtons);
-//
-//
+    /**
+     * Metodo invocato da restart() di Form e List
+     * Seleziona i bottoni da mostrare nella toolbar
+     * Crea i bottoni (iniettandogli il publisher)
+     * Aggiunge i bottoni al contenitore grafico
+     * Inietta nei bottoni il parametro obbligatorio (source)
+     *
+     * @param source      dell'evento generato dai bottoni
+     * @param typeButtons da visualizzare
+     */
+    public void inizializza(IAPresenter source, List<EAButtonType> typeButtons);
+
+
 //    /**
 //     * Metodo invocato da restart() di Form, nella classe LinkToolbar
 //     * Crea i bottoni (iniettandogli il publisher)
@@ -146,5 +149,12 @@ public interface IAToolbar {
 //     */
 //    public AToolbarImpl get();
 
+    /**
+     * Recupera il bottone del tipo specifico
+     * Ce ne può essere uno solo per questa toolbar
+     *
+     * @param type del bottone, secondo la Enumeration AButtonType
+     */
+    public AButton getButton(EAButtonType type);
 
 }// end of interface

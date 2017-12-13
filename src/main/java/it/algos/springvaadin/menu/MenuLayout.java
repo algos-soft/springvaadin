@@ -6,6 +6,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.service.ATextService;
@@ -57,7 +58,10 @@ public class MenuLayout extends VerticalLayout {
     @PostConstruct
     void init() {
         this.setMargin(false);
-        this.addStyleName("yellowBg");
+        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+            this.addStyleName("yellowBg");
+        }// end of if cycle
+
 
         firstMenuBar = new MenuBar();
         firstMenuBar.addStyleName("blue");

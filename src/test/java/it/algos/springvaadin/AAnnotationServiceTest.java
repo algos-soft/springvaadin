@@ -419,4 +419,24 @@ public class AAnnotationServiceTest {
         //@todo RIMETTERE
     }// end of single test
 
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the status focus of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return status of field
+     */
+    @Test
+    public void isFocus() {
+        previstoBooleano = false;
+        ottenutoBooleano = service.isFocus(FIELD_ORDINE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        previstoBooleano = true;
+        ottenutoBooleano = service.isFocus(FIELD_CODE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
 }// end of class

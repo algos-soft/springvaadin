@@ -20,7 +20,8 @@ public class AGridToolSet {
 
 
     private final IAAction azioneAttach;
-    private final IAAction azioneClick;
+//    private final IAAction azioneClick;
+    private final IAAction azioneSingleClick;
     private final IAAction azioneDoppioClick;
     private final IAAction azioneSingleSelection;
     private final IAAction azioneMultiSelection;
@@ -28,12 +29,14 @@ public class AGridToolSet {
 
     public AGridToolSet(
             @Qualifier(Cost.TAG_AZ_ATTACH) IAAction azioneAttach,
-            @Qualifier(Cost.TAG_AZ_CLICK) IAAction azioneClick,
+//            @Qualifier(Cost.TAG_AZ_CLICK) IAAction azioneClick,
+            @Qualifier(Cost.TAG_AZ_SINGLE_CLICK) IAAction azioneSingleClick,
             @Qualifier(Cost.TAG_AZ_DOPPIO_CLICK) IAAction azioneDoppioClick,
             @Qualifier(Cost.TAG_AZ_SINGLE_SELECTION) IAAction azioneSingleSelection,
             @Qualifier(Cost.TAG_AZ_MULTI_SELECTION) IAAction azioneMultiSelection) {
         this.azioneAttach = azioneAttach;
-        this.azioneClick = azioneClick;
+//        this.azioneClick = azioneClick;
+        this.azioneSingleClick = azioneSingleClick;
         this.azioneDoppioClick = azioneDoppioClick;
         this.azioneSingleSelection = azioneSingleSelection;
         this.azioneMultiSelection = azioneMultiSelection;
@@ -47,7 +50,8 @@ public class AGridToolSet {
      */
     public void addAllListeners(IAGrid algosGrid) {
         azioneAttach.addListener(algosGrid);
-        azioneClick.addListener(algosGrid);
+//        azioneClick.addListener(algosGrid);
+        azioneSingleClick.addListener(algosGrid);
         azioneDoppioClick.addListener(algosGrid);
         azioneSingleSelection.addListener(algosGrid);
         azioneMultiSelection.addListener(algosGrid);
@@ -62,7 +66,8 @@ public class AGridToolSet {
      */
     public void addAllSourcesTargets(IAListener source, IAListener target) {
         azioneAttach.setSourceTarget(source, target);
-        azioneClick.setSourceTarget(source, target);
+//        azioneClick.setSourceTarget(source, target);
+        azioneSingleClick.setSourceTarget(source, target);
         azioneDoppioClick.setSourceTarget(source, target);
         azioneSingleSelection.setSourceTarget(source, target);
         azioneMultiSelection.setSourceTarget(source, target);

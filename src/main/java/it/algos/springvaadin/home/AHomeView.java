@@ -50,7 +50,7 @@ public class AHomeView extends AView {
      * Costruttore @Autowired (nella superclasse)
      */
     public AHomeView() {
-        super(null);
+        super(null,null);
     }// end of Spring constructor
 
 

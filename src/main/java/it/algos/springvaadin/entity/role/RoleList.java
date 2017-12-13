@@ -12,6 +12,7 @@ import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,8 +66,8 @@ public class RoleList extends AList {
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter) {
-        super(presenter);
+    public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+        super(presenter, toolbar);
     }// end of Spring constructor
 
 

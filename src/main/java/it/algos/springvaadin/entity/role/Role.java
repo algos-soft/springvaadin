@@ -63,7 +63,7 @@ public class Role extends AEntity {
     @NotEmpty
     @Size()
     @Indexed()
-    @AIField(type = EAFieldType.text, required = true, widthEM = 12, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.text, required = true, focus = true, widthEM = 12, dev = EAFieldAccessibility.showOnly)
     @AIColumn(width = 210)
     private String code;
 

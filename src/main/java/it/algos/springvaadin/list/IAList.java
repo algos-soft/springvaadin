@@ -1,7 +1,10 @@
 package it.algos.springvaadin.list;
 
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.form.AForm;
+import it.algos.springvaadin.grid.AGrid;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +37,26 @@ public interface IAList extends IAView {
      * @param items       da visualizzare nella Grid
      * @param typeButtons lista di (tipi di) bottoni visibili nella toolbar della view AList
      */
-    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons) ;
+    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons);
 
+
+    /**
+     * Una sola riga selezionata nella grid
+     *
+     * @return true se è selezionata una ed una sola riga nella Grid
+     */
+    public boolean isUnaSolaRigaSelezionata();
+
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
+    public AList getList();
+
+
+    /**
+     * Componente Grid della List
+     */
+    public AGrid getGrid();
 
 }// end of interface

@@ -4,11 +4,15 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.enumeration.EATypeAction;
+import it.algos.springvaadin.enumeration.EATypeField;
+import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.field.AField;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,220 +22,11 @@ import org.springframework.context.ApplicationListener;
  * Created by gac on 18/06/17.
  * Riceve gli eventi, lanciati da Bottoni ed Azioni, e li gestisce in questa classe
  */
+@Slf4j
 public abstract class APresenterEvents implements IAPresenter {
 
     @Autowired
     protected ApplicationEventPublisher publisher;
-
-
-    /**
-     * Evento
-     * Create button pressed in grid
-     * Create a new item and edit it in a form
-     */
-//    @Override
-//    public void create() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Nuovo", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-
-//    /**
-//     * Evento
-//     * Apre un dialodo standard di selezioni di files
-//     * Create a file chooser
-//     */
-//    @Override
-//    public void chooser(AEntity entityBean, Window parentDialog) {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Chooser", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void edit(AEntity entityBean) {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Modifica", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void editLink(ApplicationListener source, AEntity entityBean, AField sourceField, AButtonType type) {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Modifica Linkata", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void editImage(AEntity entityBean, AField sourceField) {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Modifica Immagine", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void delete() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Cancella", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void deleteLink(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField, AButtonType type) {
-//    }// end of method
-//
-//    @Override
-//    public void search() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Cerca", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void showAll() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Tutto (annulla la selezione)", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void importa() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Import di dati", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void attach() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Azione", "Aggiunta  una riga nella Grid", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void click() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Azione", "Click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void doppioClick(AEntity entityBean) {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Azione", "Doppio click nella Grid", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void selectionChanged() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Azione", "Modificata la selezione della Grid", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void listener() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Azione", "AzioneOld generica della Grid", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void annulla() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Annulla", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void back() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Back", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    @Override
-//    public void revert() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Revert", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    /**
-//     * Evento 'save' (registra) button pressed in form
-//     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
-//     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
-//     * Registra le modifiche nel DB, tramite il service
-//     * Ritorna alla lista
-//     */
-//    @Override
-//    public void registra() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Registra", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//
-//    protected void registraLink(ApplicationListener source, ApplicationListener target, AField sourceField) {
-//    }// end of method
-//
-//    protected void registraLinkBack(ApplicationListener target, AEntity entityBean, AField sourceField) {
-//    }// end of method
-//
-//    /**
-//     * Evento 'accetta' (conferma) button pressed in form
-//     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
-//     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
-//     * NON registra le modifiche nel DB
-//     * Ritorna alla lista
-//     */
-//    @Override
-//    public void accetta() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("TipoBottone", "Premuto Accetta", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void valoreCambiato() {
-//        if (AlgosApp.USE_DEBUG) {
-//            Notification.show("Field", "Modificato valore del campo", Notification.Type.HUMANIZED_MESSAGE);
-//        }// end of if cycle
-//    }// end of method
-//
-//    @Override
-//    public void fieldModificato(ApplicationListener source, AEntity entityBean, AField sourceField) {
-//    }// end of method
-//
-//    /**
-//     * Metodo invocato dalla view ogni volta che questa diventa attiva
-//     */
-//    @Override
-//    public void enter() {
-//    }// end of method
-//
-//    /**
-//     * Metodo invocato da un daemon per spedire mail
-//     */
-//    @Override
-//    public void daemonMail() {
-//    }// end of method
-//
-//    /**
-//     * Usato da AzioneOld
-//     * Usato da TipoBottone
-//     */
-//    public ApplicationEventPublisher getApplicationEventPublisher() {
-//        return publisher;
-//    }// end of method
 
 
     /**
@@ -257,10 +52,9 @@ public abstract class APresenterEvents implements IAPresenter {
             onListEvent((AButtonEvent) event);
         }// end of if cycle
 
-        //@todo RIMETTERE
-//        if (event instanceof AActionEvent && sourceClazz == thisClazz) {
-//            onGridAction(event.getActionType(), entityBean);
-//        }// end of if cycle
+        if (event instanceof AActionEvent && targetClazz == thisClazz) {
+            onGridAction(event.getActionType(), entityBean);
+        }// end of if cycle
 
     }// end of method
 
@@ -271,19 +65,18 @@ public abstract class APresenterEvents implements IAPresenter {
      * @param event the event to respond to
      */
     private void onFieldEvent(AFieldEvent event, ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
-        //@todo RIMETTERE
-//        TypeField type = event.getFieldType();
-//
-//        switch (type) {
-//            case valueChanged:
-//                valoreCambiato();
-//                break;
-//            case fieldModificato:
+        EATypeField type = event.getFieldType();
+
+        switch (type) {
+            case valueChanged:
+                valueChanged();
+                break;
+            case fieldModificato:
 //                fieldModificato(source, entityBean, sourceField);
-//                break;
-//            default: // caso non definito
-//                break;
-//        } // fine del blocco switch
+                break;
+            default: // caso non definito
+                break;
+        } // fine del blocco switch
     }// end of method
 
 
@@ -304,14 +97,15 @@ public abstract class APresenterEvents implements IAPresenter {
 
         switch (type) {
             case create:
-                this.fireForm();
+                this.fireForm(null);
                 break;
 //            case chooser:
 ////                chooser(entityBean, parentDialog);
 //                break;
-//            case edit:
-//                edit(entityBean);
-//                break;
+            case edit:
+                this.fireForm(entityBean);
+//                this.editBean(entityBean);
+                break;
 //            case editLinkDBRef:
 //                editLink(source, entityBean, sourceField, type);
 //                break;
@@ -351,13 +145,14 @@ public abstract class APresenterEvents implements IAPresenter {
 //            case revert:
 //                revert();
 //                break;
-//            case registra:
-//                registra();
-//                break;
+            case registra:
+                registra();
+                break;
 //            case accetta:
 //                accetta();
 //                break;
             default: // caso non definito
+                log.warn("Switch - caso '" + type.name() + "' non definito in APresenterEvents.onListEvent()");
                 break;
         } // fine del blocco switch
     }// end of method
@@ -365,36 +160,37 @@ public abstract class APresenterEvents implements IAPresenter {
 
     /**
      * Handle an action event
-     * Vedi enum TypeAction
+     * Vedi enum EATypeAction
      *
      * @param type       Obbligatorio specifica del tipo di evento
      * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
      */
     protected void onGridAction(EATypeAction type, AEntity entityBean) {
         //@todo RIMETTERE
-//        switch (type) {
+        switch (type) {
 //            case attach:
 //                click();
 //                break;
 //            case click:
 //                click();
 //                break;
-//            case doppioClick:
-//                doppioClick(entityBean);
-//                break;
-//            case singleSelectionChanged:
-//            case multiSelectionChanged:
-//                selectionChanged();
-//                break;
+            case doppioClick:
+                this.fireForm(entityBean);
+                break;
+            case singleSelectionChanged:
+            case multiSelectionChanged:
+                selectionChanged();
+                break;
 //            case listener:
 //                listener();
 //                break;
 //            case daemonMail:
 //                daemonMail();
 //                break;
-//            default: // caso non definito
-//                break;
-//        } // fine del blocco switch
+            default: // caso non definito
+                log.warn("Switch - caso '" + type.name() + "' non definito in APresenterEvents.onGridAction()");
+                break;
+        } // fine del blocco switch
     }// end of method
 
 }// end of class

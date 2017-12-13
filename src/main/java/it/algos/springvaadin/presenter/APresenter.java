@@ -3,6 +3,7 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
@@ -112,13 +113,22 @@ public abstract class APresenter extends APresenterEvents {
     }// end of method
 
 
+    /**
+     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     */
     public void fireList() {
         Class clazz = list.getViewComponent().getClass();
         params.getNavigator().navigateTo(annotation.getViewName(clazz));
     }// end of method
 
 
-    public void fireForm() {
+    /**
+     * Usa lo SpringNavigator per cambiare view ed andare ad AForm
+     *
+     * @param entityBean istanza da creare/elaborare
+     */
+    public void fireForm(AEntity entityBean) {
+        form.getForm().entityBean = entityBean != null ? entityBean : service.newEntity();
         Class clazz = form.getViewComponent().getClass();
         params.getNavigator().navigateTo(annotation.getViewName(clazz));
     }// end of method
@@ -137,15 +147,9 @@ public abstract class APresenter extends APresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     public void setForm() {
-        AEntity entityBean = null;
+        AEntity entityBean = form.getForm().entityBean;
         List<Field> fields = null;
         List<EAButtonType> typeButtons = null;
-
-        try { // prova ad eseguire il codice
-            entityBean = entityClass.newInstance();
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
 
         fields = service.getFormFields();
         typeButtons = service.getFormTypeButtons();
@@ -153,5 +157,102 @@ public abstract class APresenter extends APresenterEvents {
         form.start(this, entityClass, entityBean, fields, typeButtons);
     }// end of method
 
+
+    /**
+     * Modificata la selezione della Grid
+     * Controlla nella Grid quanti sono i records selezionati
+     * Abilita e disabilita i bottoni Modifica ed Elimina della List
+     * Se abilitato, inietta nel bottone Edit l'entityBean selezionato
+     */
+    @Override
+    public void selectionChanged() {
+        boolean unaSolaRigaSelezionata = false;
+        int numRigheSelezionate = 0;
+        AButton buttonEdit = null;
+        AEntity entityBean = null;
+
+        if (list == null) {
+            return;
+        }// end of if cycle
+
+        //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
+        buttonEdit = list.getButton(EAButtonType.edit);
+        unaSolaRigaSelezionata = list.isUnaSolaRigaSelezionata();
+        buttonEdit.setEnabled(unaSolaRigaSelezionata);
+        entityBean = list.getGrid().getEntityBean();
+
+        if (unaSolaRigaSelezionata) {
+            buttonEdit.setEntityBean(entityBean);
+        } else {
+            buttonEdit.setEntityBean(null);
+        }// end of if/else cycle
+
+        //@todo RIMETTERE
+//        //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
+//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+//            numRigheSelezionate = view.numRigheSelezionate();
+//            if (numRigheSelezionate >= 1) {
+//                view.enableButtonList(AButtonType.delete, true);
+//            } else {
+//                view.enableButtonList(AButtonType.delete, false);
+//            }// end of if/else cycle
+//        } else {
+//            view.enableButtonList(AButtonType.delete, unaSolaRigaSelezionata);
+//        }// end of if/else cycle
+
+    }// end of method
+
+
+    /**
+     * Creazione o modifica di un singolo record (entityBean)
+     * If entityBean=null, create a new item and edit it in a form
+     * Recupera dal service tutti i dati necessari (aggiornati)
+     * Passa il controllo alla view con i dati necessari
+     *
+     * @param entityBean istanza da elaborare
+     */
+    public void editBean(AEntity entityBean) {
+        int numRigheSelezionate = 0;
+    }// end of method
+
+
+    /**
+     * Modificato il contenuto di un Field
+     * Abilita e disabilita i bottoni Revert e Registra/Accetta del Form
+     */
+    @Override
+    public void valueChanged() {
+        if (form.getButton(EAButtonType.revert) != null) {
+            form.getButton(EAButtonType.revert).setEnabled(true);
+        }// end of if cycle
+
+        if (form.getButton(EAButtonType.registra) != null) {
+            form.getButton(EAButtonType.registra).setEnabled(true);
+        }// end of if cycle
+
+        if (form.getButton(EAButtonType.accetta) != null) {
+            form.getButton(EAButtonType.accetta).setEnabled(true);
+        }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Evento 'save' (registra) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * Registra le modifiche nel DB, tramite il service
+     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     */
+    public void registra() {
+        AEntity newModifiedBean = form.commit();
+
+        try { // prova ad eseguire il codice
+            service.save(newModifiedBean);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        fireList() ;
+    }// end of method
 
 }// end of class

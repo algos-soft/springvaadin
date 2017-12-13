@@ -3,15 +3,21 @@ package it.algos.springvaadin.list;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.grid.AGrid;
 import it.algos.springvaadin.grid.IAGrid;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.AListToolbar;
+import it.algos.springvaadin.toolbar.AToolbar;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -41,8 +47,6 @@ public abstract class AList extends AView implements IAList {
     @Autowired
     protected IAGrid grid;
 
-    @Autowired
-    protected AListToolbar toolbar;
 
     @Autowired
     public RoleService service;
@@ -53,14 +57,17 @@ public abstract class AList extends AView implements IAList {
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
      * Se ci sono DUE o più costruttori, va in errore
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
      * @param presenter iniettato da Spring
+     * @param toolbar   iniettato da Spring
      */
-    public AList(IAPresenter presenter) {
-        super(presenter);
+    public AList(IAPresenter presenter, @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+        super(presenter, toolbar);
     }// end of Spring constructor
 
 
@@ -125,8 +132,8 @@ public abstract class AList extends AView implements IAList {
      * @param items       da visualizzare nella Grid
      */
     @Override
-    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        grid.inizia(presenter, entityClazz, columns, items, 50);
+    protected void creaBody(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        grid.inizia(source, entityClazz, columns, items, 50);
         bodyLayout.setContent((Component) grid);
 //        VerticalLayout layout = new VerticalLayout();
 //        layout.addComponent((Component)grid);
@@ -149,6 +156,47 @@ public abstract class AList extends AView implements IAList {
 
         bottomLayout.addComponent((AListToolbar) toolbar);
         return bottomLayout;
+    }// end of method
+
+
+    /**
+     * Una sola riga selezionata nella grid
+     *
+     * @return true se è selezionata una ed una sola riga nella Grid
+     */
+    @Override
+    public boolean isUnaSolaRigaSelezionata() {
+        return grid.isUnaSolaRigaSelezionata();
+    }// end of method
+
+
+//    /**
+//     * Abilita o disabilita lo specifico bottone della Toolbar
+//     *
+//     * @param type   del bottone, secondo la Enumeration EAButtonType
+//     * @param status abilitare o disabilitare
+//     */
+//    @Override
+//    public void enableButton(EAButtonType type, boolean status){
+//        toolbar.enableButton(type, status);
+//    }// end of method
+
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
+    @Override
+    public AList getList() {
+        return this;
+    }// end of method
+
+
+    /**
+     * Componente Grid della List
+     */
+    @Override
+    public AGrid getGrid() {
+        return this.grid.getGrid();
     }// end of method
 
 }// end of class

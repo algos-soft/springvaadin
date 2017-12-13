@@ -367,6 +367,24 @@ public class AAnnotationService {
 
 
     /**
+     * Get the status focus of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return status of field
+     */
+    public  boolean isFocus(Field reflectionJavaField) {
+        boolean status = true;
+        AIField annotation = this.getAIField(reflectionJavaField);
+
+        if (annotation != null) {
+            status = annotation.focus();
+        }// end of if cycle
+
+        return status;
+    }// end of method
+
+    /**
      * Get the status of visibility for the field of ACompanyEntity.
      * <p>
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true

@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
+import it.algos.springvaadin.lib.Cost;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -48,7 +49,11 @@ public class APanel extends Panel {
         this.addStyleName(ValoTheme.PANEL_BORDERLESS);
         this.setWidth("100%");
         this.setHeight("100%");
-        this.addStyleName("yellowBg");
+
+        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+            this.addStyleName("yellowBg");
+        }// end of if cycle
+
     }// end of method
 
 }// end of class

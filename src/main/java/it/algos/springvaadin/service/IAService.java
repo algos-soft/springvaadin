@@ -80,4 +80,26 @@ public interface IAService {
      */
     public List<EAButtonType> getFormTypeButtons();
 
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public AEntity newEntity();
+
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entityBean to be saved
+     *
+     * @return the saved entity
+     */
+    public AEntity save(AEntity entityBean) throws Exception;
+
 }// end of interface

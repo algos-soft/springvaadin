@@ -51,9 +51,56 @@ public interface IAPresenter extends IAListener {
      */
     public void setForm();
 
-    public void fireList();
-    public void fireForm();
 
+    /**
+     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     */
+    public void fireList();
+
+
+    /**
+     * Usa lo SpringNavigator per cambiare view ed andare ad AForm
+     *
+     * @param entityBean istanza da creare/elaborare
+     */
+    public void fireForm(AEntity entityBean);
+
+
+    /**
+     * Modificata la selezione della Grid
+     * Controlla nella Grid quanti sono i records selezionati
+     * Abilita e disabilita i bottoni Modifica ed Elimina della List
+     */
+    public void selectionChanged();
+
+
+    /**
+     * Creazione o modifica di un singolo record (entityBean)
+     * If entityBean=null, create a new item and edit it in a form
+     * Recupera dal service tutti i dati necessari (aggiornati)
+     * Passa il controllo alla view con i dati necessari
+     *
+     * @param entityBean istanza da elaborare
+     */
+    public void editBean(AEntity entityBean);
+
+
+    /**
+     * Modificato il contenuto di un Field
+     * Abilita e disabilita i bottoni Revert e Registra/Accetta del Form
+     */
+    public void valueChanged() ;
+
+
+
+    /**
+     * Evento 'save' (registra) button pressed in form
+     * Esegue il 'commit' nel Form, trasferendo i valori dai campi alla entityBean
+     * Esegue, nel Form, eventuale validazione e trasformazione dei dati
+     * Registra le modifiche nel DB, tramite il service
+     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     */
+    public void registra() ;
 
 
 }// end of interface

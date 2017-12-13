@@ -18,6 +18,7 @@ import java.util.List;
  */
 public interface IAForm extends IAView {
 
+
     /**
      * Creazione di una view (AForm) contenente i fields
      * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
@@ -36,5 +37,20 @@ public interface IAForm extends IAView {
      */
     public void start(IAPresenter source, Class<? extends AEntity> entityClazz, AEntity entityBean, List<Field> reflectedJavaFields, List<EAButtonType> typeButtons);
 
+
+    /**
+     * Trasferisce i valori dai fields del Form alla entityBean
+     * Esegue la (eventuale) validazione dei dati
+     * Esegue la (eventuale) trasformazione dei dati
+     *
+     * @return la entityBean del Form
+     */
+    public AEntity commit();
+
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
+    public AForm getForm();
 
 }// end of interface

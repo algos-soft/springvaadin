@@ -40,7 +40,7 @@ public class VaadintestView extends AView {
      * Costruttore @Autowired (nella superclasse)
      */
     public VaadintestView() {
-        super(null);
+        super(null,null);
     }// end of Spring constructor
 
 

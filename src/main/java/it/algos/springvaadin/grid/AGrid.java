@@ -1,8 +1,11 @@
 package it.algos.springvaadin.grid;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.MultiSelect;
+import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.event.AActionEvent;
@@ -16,6 +19,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -127,7 +131,7 @@ public class AGrid extends Grid implements IAGrid {
 //            applicationEventPublisher.publishEvent(new AActionEvent(TypeAction.singleSelectionChanged, presenter));
 //        }// end of if/else cycle
 
-        this.setSelectionMode(SelectionMode.MULTI);
+        this.setSelectionMode(SelectionMode.SINGLE);
 
         gridToolSet.addAllListeners(this);
     }// end of method
@@ -172,6 +176,79 @@ public class AGrid extends Grid implements IAGrid {
         this.setWidth(lar + "px");
     }// end of method
 
+
+    /**
+     * Una sola riga selezionata nella grid
+     *
+     * @return true se è selezionata una ed una sola riga nella Grid
+     */
+    public boolean isUnaSolaRigaSelezionata() {
+        boolean selezionata = false;
+        HasValue selezione;
+
+
+        selezione = this.asSingleSelect();
+        if (selezione instanceof SingleSelect) {
+            selezionata = !selezione.isEmpty();
+        }// end of if cycle
+
+        //@todo RIMETTERE
+//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+//            try { // prova ad eseguire il codice
+//                selezione = this.asMultiSelect();
+//                if (selezione instanceof MultiSelect) {
+//                    selezionata = ((MultiSelect) selezione).getSelectedItems().size() == 1;
+//                }// end of if cycle
+//            } catch (Exception unErrore) { // intercetta l'errore
+//            }// fine del blocco try-catch
+//        } else {
+//            try { // prova ad eseguire il codice
+//                selezione = this.asSingleSelect();
+//                if (selezione instanceof SingleSelect) {
+//                    selezionata = !selezione.isEmpty();
+//                }// end of if cycle
+//            } catch (Exception unErrore) { // intercetta l'errore
+//            }// fine del blocco try-catch
+//        }// end of if/else cycle
+
+        return selezionata;
+    }// end of method
+
+
+    public AEntity getEntityBean() {
+        List<AEntity> beanList = null;
+        AEntity entityBean;
+        Object[] matrice;
+
+        entityBean = (AEntity) this.asSingleSelect().getValue();
+
+        //@todo RIMETTERE
+//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+//            try { // prova ad eseguire il codice
+//                matrice = this.asMultiSelect().getSelectedItems().toArray();
+//                beanList = new ArrayList();
+//                for (Object obj : matrice) {
+//                    beanList.add((AEntity) obj);
+//                }// end of for cycle
+//            } catch (Exception unErrore) { // intercetta l'errore
+//            }// fine del blocco try-catch
+//            return beanList;
+//        } else {
+//            try { // prova ad eseguire il codice
+//                entityBean = (AEntity) this.asSingleSelect().getValue();
+//                beanList = new ArrayList();
+//                beanList.add(entityBean);
+//            } catch (Exception unErrore) { // intercetta l'errore
+//            }// fine del blocco try-catch
+//            return beanList;
+//        }// end of if/else cycle
+
+        return entityBean;
+    }// end of method
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
     @Override
     public AGrid getGrid() {
         return this;

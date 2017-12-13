@@ -116,7 +116,10 @@ public abstract class AUI extends AUIViews implements ViewDisplay {
 //        } else {
 //            root.addStyleName("colorebase");
 //        }// end of if/else cycle
-        root.addStyleName("pinkBg");
+
+        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+            root.addStyleName("pinkBg");
+        }// end of if cycle
 
         this.setContent(root);
         startVistaIniziale();

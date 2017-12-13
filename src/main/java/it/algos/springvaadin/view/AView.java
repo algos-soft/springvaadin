@@ -3,15 +3,19 @@ package it.algos.springvaadin.view;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
+import it.algos.springvaadin.toolbar.AListToolbar;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -106,6 +110,8 @@ public abstract class AView extends VerticalLayout implements IAView {
     protected VerticalLayout bottomLayout;
 
 
+    protected IAToolbar toolbar;
+
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
@@ -115,9 +121,10 @@ public abstract class AView extends VerticalLayout implements IAView {
      *
      * @param presenter iniettato da Spring
      */
-    public AView(IAPresenter presenter) {
+    public AView(IAPresenter presenter, IAToolbar toolbar) {
         super();
         this.presenter = presenter;
+        this.toolbar = toolbar;
     }// end of Spring constructor
 
 
@@ -128,8 +135,11 @@ public abstract class AView extends VerticalLayout implements IAView {
     private void inizia() {
         //@todo RIMETTERE
 //        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
-        this.addStyleName("blueBg");
 //        }// end of if cycle
+
+        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+            this.addStyleName("blueBg");
+        }// end of if cycle
 
         this.setMargin(false);
         this.setWidth("100%");
@@ -186,7 +196,7 @@ public abstract class AView extends VerticalLayout implements IAView {
         }// end of if cycle
 
         //--componente grafico obbligatorio
-        this.creaBody(entityClazz, columns, items);
+        this.creaBody(source, entityClazz, columns, items);
         this.addComponent(bodyLayout);
 
         //--componente grafico facoltativo
@@ -297,7 +307,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid
      */
-    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+    protected void creaBody(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
     }// end of method
 
 
@@ -351,6 +361,17 @@ public abstract class AView extends VerticalLayout implements IAView {
     @Override
     public void removeComponents() {
         this.removeComponent(menuLayout);
+    }// end of method
+
+
+    /**
+     * Recupera il bottone del tipo specifico
+     * Ce ne può essere uno solo nella toolbar
+     *
+     * @param type del bottone, secondo la Enumeration AButtonType
+     */
+    public AButton getButton(EAButtonType type) {
+        return toolbar.getButton(type);
     }// end of method
 
 }// end of class

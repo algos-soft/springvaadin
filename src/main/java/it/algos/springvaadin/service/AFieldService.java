@@ -66,7 +66,7 @@ public class AFieldService {
 //        String width = annotation.getWidthEM(reflectedJavaField);
 //        int rows = annotation.getNumRows(reflectionJavaField);
 //        boolean required = annotation.isRequired(reflectionJavaField);
-//        boolean focus = annotation.isFocus(reflectionJavaField);
+        boolean focus = annotation.isFocus(reflectedJavaField);
 //        boolean visible = annotation.isFieldVisibile(reflectionJavaField, nuovaEntity);
 //        boolean enabled = annotation.isFieldEnabled(reflectionJavaField, nuovaEntity);
 //        boolean nullSelection = annotation.isNullSelectionAllowed(reflectionJavaField);
@@ -134,7 +134,7 @@ public class AFieldService {
 //            if (rows > 0) {
 //                algosField.setRows(rows);
 //            }// end of if cycle
-//            algosField.setFocus(focus);
+            algosField.setFocus(focus);
 //
 //            if (LibParams.displayToolTips()) {
 //                algosField.setDescription(fieldAnnotation.help());

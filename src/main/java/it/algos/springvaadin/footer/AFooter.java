@@ -3,6 +3,7 @@ package it.algos.springvaadin.footer;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.lib.Cost;
 
 import javax.annotation.PostConstruct;
 
@@ -39,7 +40,11 @@ public class AFooter extends VerticalLayout {
     protected void inizia() {
         this.setMargin(false);
         this.setSpacing(true);
-        this.addStyleName("greenBg");
+
+        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+            this.addStyleName("greenBg");
+        }// end of if cycle
+
         this.fixMessage();
     }// end of method
 

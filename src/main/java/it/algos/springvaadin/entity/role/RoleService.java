@@ -34,4 +34,16 @@ public class RoleService extends AService {
     }// end of Spring constructor
 
 
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Senza properties per compatibilità con la superclasse
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    @Override
+    public Role newEntity() {
+        return new Role(0,"");
+    }// end of method
+
 }// end of class

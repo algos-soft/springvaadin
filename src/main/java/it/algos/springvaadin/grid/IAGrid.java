@@ -25,9 +25,17 @@ public interface IAGrid {
      * @param items       da visualizzare nella Grid
      * @param numeroRighe da visualizzare nella Grid
      */
-    public void inizia(IAPresenter presenter, Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) ;
+    public void inizia(IAPresenter presenter, Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe);
 
 
-    public AGrid getGrid() ;
+    /**
+     * Una sola riga selezionata nella grid
+     *
+     * @return true se è selezionata una ed una sola riga nella Grid
+     */
+    public boolean isUnaSolaRigaSelezionata();
+
+
+    public AGrid getGrid();
 
 }// end of interface
