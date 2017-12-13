@@ -76,9 +76,9 @@ public abstract class APresenter extends APresenterEvents {
      * La sottoclasse usa un @Qualifier(), per avere la sottoclasse specifica
      * La sottoclasse usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      *
-     * @param service iniettato da Spring
-     * @param list    iniettato da Spring
-     * @param form    iniettato da Spring
+     * @param service iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param list    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param form    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public APresenter(IAService service, IAList list, IAForm form) {
         this.service = service;

@@ -10,6 +10,7 @@ import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.AToolbar;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -30,19 +31,21 @@ import org.springframework.context.annotation.Scope;
 public class RoleForm extends AForm {
 
 
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Use @Lazy to avoid the Circular Dependency
+     * A simple way to break the cycle is saying Spring to initialize one of the beans lazily.
+     * That is: instead of fully initializing the bean, it will create a proxy to inject it into the other bean.
+     * The injected bean will only be fully created when it’s first needed.
+     *
+     * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     */
+    public RoleForm(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, @Qualifier(Cost.BAR_FORM) IAToolbar toolbar) {
+        super(presenter, toolbar);
+    }// end of Spring constructor
 
-    public RoleForm(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, @Qualifier(Cost.BAR_FORM) AToolbar toolbar) {
-        super(presenter,toolbar);
-    }
-
-
-//    /**
-//     * Metodo invocato (da SpringBoot) ogni volta che si richiama la view dallo SpringNavigator
-//     */
-//    @Override
-//    public void enter(ViewChangeListener.ViewChangeEvent event) {
-//        super.enter(event);
-//        this.addComponent(new Label(htlm.setRossoBold("Ruolo - Form (provvisorio)"), ContentMode.HTML));
-//    }// end of method
 
 }// end of class

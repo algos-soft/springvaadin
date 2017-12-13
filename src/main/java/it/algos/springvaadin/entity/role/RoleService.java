@@ -23,10 +23,14 @@ import org.springframework.stereotype.Service;
 @Qualifier(Cost.TAG_ROL)
 public class RoleService extends AService {
 
+
     /**
+     * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     *
+     * @param repository iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public RoleService(@Qualifier(Cost.TAG_ROL) MongoRepository repository) {
         super(repository);
@@ -43,7 +47,7 @@ public class RoleService extends AService {
      */
     @Override
     public Role newEntity() {
-        return new Role(0,"");
+        return new Role(0, "");
     }// end of method
 
 }// end of class

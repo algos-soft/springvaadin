@@ -14,6 +14,7 @@ import it.algos.springvaadin.service.AFieldService;
 import it.algos.springvaadin.toolbar.AFormToolbar;
 import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.toolbar.AToolbar;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public abstract class AForm extends AView implements IAForm {
      *
      * @param presenter iniettato da Spring
      */
-    public AForm(IAPresenter presenter, @Qualifier(Cost.BAR_FORM) AToolbar toolbar) {
+    public AForm(IAPresenter presenter, @Qualifier(Cost.BAR_FORM) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 
