@@ -65,8 +65,11 @@ public class RoleList extends AList {
      * The injected bean will only be fully created when it’s first needed.
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public RoleList(@Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter, @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+    public RoleList(
+            @Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter,
+            @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 

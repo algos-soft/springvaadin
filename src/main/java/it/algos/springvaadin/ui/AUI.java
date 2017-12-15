@@ -11,6 +11,7 @@ import it.algos.springvaadin.footer.AFooter;
 import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on 30/05/17.
@@ -202,9 +203,12 @@ public abstract class AUI extends AUIViews implements ViewDisplay {
 //            }// end of if cycle
 //        }// end of if/else cycle
 
-        root.removeAllComponents();
-        root.addComponentsAndExpand((Component) view);
-        root.addComponent(footer);
+        if (root!=null) {
+            root.removeAllComponents();
+            root.addComponentsAndExpand((Component) view);
+            root.addComponent(footer);
+        }// end of if cycle
+
     }// end of method
 
 

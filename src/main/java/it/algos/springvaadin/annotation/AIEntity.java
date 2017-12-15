@@ -26,4 +26,5 @@ public @interface AIEntity {
     EARoleType roleTypeVisibility() default EARoleType.guest;
 
     EACompanyRequired company() default EACompanyRequired.nonUsata;
+
 }// end of interface annotation

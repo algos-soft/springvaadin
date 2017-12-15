@@ -21,11 +21,15 @@ import javax.validation.constraints.Size;
 
 /**
  * Created by gac on 11-nov-17
+ * Estende la Entity astratta AEntity che contiene la key property ObjectId
  * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Document (facoltativo) per avere un nome della collection (DB Mongo) diverso dal nome della Entity
+ * Annotated with @AIEntity (facoltativo) per alcuni parametri generali del modulo
+ * Annotated with @AIList (facoltativo) per i fields del Form e loro visibilità/accessibilità relativa all'utente
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
 @Document()
@@ -55,7 +59,6 @@ public class Role extends AEntity {
     @AIField(type = EAFieldType.integer, widthEM = 3, dev = EAFieldAccessibility.showOnly)
     @AIColumn(name = "#", width = 55)
     private int ordine;
-
 
     /**
      * codice di riferimento (obbligatorio, unico)

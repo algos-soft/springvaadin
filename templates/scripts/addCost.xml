@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="addCost">
+
+    <!--<target name="checkCostante2" description="Controlla che la costante non esista già (per evitare duplicazioni)">-->
+
+        <!--<loadfile property="fileCost" srcfile="${destCost}"/>-->
+        <!--&lt;!&ndash;<condition property="esisteGiaCostante">&ndash;&gt;-->
+        <!--&lt;!&ndash;<matches pattern="${tagAddCost}" string="${fileCost}"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</condition>&ndash;&gt;-->
+    <!--</target>-->
+
+
+    <!--<target name="addLibCost" depends="checkCostante" unless="${esisteGiaCostante}">-->
+        <!--<replace file="${destCost}"-->
+                 <!--token="${tagAddCost}"-->
+                 <!--value="${tagAddCost}&quot;${newPackage}&quot;;${tagFindEndFile}">-->
+        <!--</replace>-->
+        <!--<echo message="Aggiunta la costante TAG_${tag} nel file lib.Cost"/>-->
+    <!--</target>-->
+
+
+    <target name="checkCostante">
+        <loadfile property="newFile" srcFile="${file}"/>
+        <condition property="esisteGiaCostante">
+            <matches pattern="${value}" string="${newFile}"/>
+        </condition>
+        <echo message="hasWorld = ${esisteGiaCostante}"/>
+    </target>
+
+
+    <target name="addTag" depends="checkCostante" unless="${esisteGiaCostante}">
+        <replace file="${file}"
+                 token="${token}"
+                 value="${value}">
+        </replace>
+        <!--<echo message="file = ${file}"/>-->
+        <!--<echo message="token = ${token}"/>-->
+        <!--<echo message="value = ${value}"/>-->
+        <!--<echo message="Aggiunta la costante TAG_${tag} nel file lib.Cost"/>-->
+    </target>
+
+
+</project>

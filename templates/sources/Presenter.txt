@@ -1,19 +1,19 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
+import it.algos.springvaadin.lib.Cost;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.bottone.AButtonType;
-import it.algos.springvaadin.dialog.ConfirmDialog;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibParams;
-import it.algos.springvaadin.lib.LibVaadin;
-import it.algos.springvaadin.presenter.AlgosPresenterImpl;
-import it.algos.springvaadin.search.AlgosSearch;
-import it.algos.springvaadin.service.AlgosService;
-import it.algos.springvaadin.view.AlgosView;
+import it.algos.springvaadin.presenter.APresenter;
+import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.IAService;
+import it.algos.springvaadin.list.IAList;
+import it.algos.springvaadin.form.IAForm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on @TODAY@
@@ -22,8 +22,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 @SpringComponent
 @Qualifier(@TAG@)
+@Scope("session")
 @Slf4j
-public class @ENTITY@Presenter extends AlgosPresenterImpl {
+public class @ENTITY@Presenter extends APresenter {
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -31,8 +32,11 @@ public class @ENTITY@Presenter extends AlgosPresenterImpl {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public @ENTITY@Presenter(@Qualifier(@TAG@) AlgosView view, @Qualifier(@TAG@) AlgosService service, AlgosSearch search) {
-        super(view, service, search);
+    public @ENTITY@Presenter(
+                @Lazy @Qualifier(@TAG@) IAService service,
+                @Lazy @Qualifier(@TAG@) IAList list,
+                @Lazy @Qualifier(@TAG@) IAForm form) {
+        super(service, list, form);
         super.entityClass = @ENTITY@.class;
      }// end of Spring constructor
 

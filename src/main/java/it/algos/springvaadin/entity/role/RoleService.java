@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
  * Date: ven, 08-dic-2017
  * Time: 08:41
  */
-@Slf4j
 @Service
 @Scope("session")
 @Qualifier(Cost.TAG_ROL)
+@Slf4j
 public class RoleService extends AService {
 
 
@@ -49,5 +49,6 @@ public class RoleService extends AService {
     public Role newEntity() {
         return new Role(0, "");
     }// end of method
+
 
 }// end of class

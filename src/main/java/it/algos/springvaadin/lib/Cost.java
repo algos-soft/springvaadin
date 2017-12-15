@@ -49,6 +49,8 @@ public abstract class Cost {
 
     public final static String VIEW_ROL_LIST = "rolelist";
     public final static String VIEW_ROL_FORM = "roleform";
+    public final static String VIEW_BOL_LIST = "bollalist";
+    public final static String VIEW_BOL_FORM = "bollaform";
 
 
     public final static String BOT_ACCETTA = "accetta";
@@ -109,8 +111,7 @@ public abstract class Cost {
     public final static String KEY_DISPLAY_FOOTER_INFO = "displayFooterInfo";
     public final static String KEY_DISPLAY_TOOLTIPS = "displayTooltips";
     public final static String KEY_USE_SELEZIONE_MULTIPLA_GRID = "useSelezioneMultiplaGrid";
-    public final static String KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA = "usePropertyCreazi" +
-            "oneAndModifica";
+    public final static String KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA = "usePropertyCreazioneAndModifica";
     public final static String KEY_USE_FORM_ALL_SCREEN = "useFormAllScreen";
     public final static String DISPLAY_FIELD_ORDINE = "displayFieldOrdine";
     public final static String DISPLAY_LISTE_COLLEGATE = "displayListeCollegate";
@@ -132,4 +133,6 @@ public abstract class Cost {
 //    public final static String TAG_BOT_REVERT = "usaBottoneRevert";
 //    public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
 //    public final static String TAG_BOT_CONFERMA = "usaBottoneConferma";
-}// end of static class;
+
+	public final static String TAG_PRO = "prova";
+}// end of static class

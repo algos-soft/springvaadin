@@ -9,7 +9,6 @@ import it.algos.springvaadin.form.AForm;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
-import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

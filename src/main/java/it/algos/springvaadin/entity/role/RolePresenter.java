@@ -1,12 +1,12 @@
 package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.presenter.APresenter;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.IAService;
+import it.algos.springvaadin.list.IAList;
+import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

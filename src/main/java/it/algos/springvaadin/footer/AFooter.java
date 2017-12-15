@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.lib.Cost;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
@@ -21,6 +22,7 @@ import javax.annotation.PostConstruct;
  * Company selezionata (nel caso di applicazione multiCompany)
  */
 @SpringComponent
+@Scope("session")
 public class AFooter extends VerticalLayout {
 
     private final static String DEVELOPER_NAME = "Algos® ";

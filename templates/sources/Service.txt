@@ -1,18 +1,16 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
-import it.algos.springvaadin.lib.LibText;
-import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.entity.ACompanyEntity;
-import it.algos.springvaadin.lib.LibSession;
-import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.service.AlgosServiceImpl;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.service.AService;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import java.util.List;
 
@@ -22,11 +20,14 @@ import java.util.List;
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @Service
+@Scope("session")
 @Qualifier(@TAG@)
 @Slf4j
-public class @ENTITY@Service extends AlgosServiceImpl {
+public class @ENTITY@Service extends AService {
 
-    private @ENTITY@Repository repository;
+    @Autowired
+    public ATextService text;
+
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -34,9 +35,9 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public @ENTITY@Service(@Qualifier(AppCost.TAG_ISC) MongoRepository repository) {
+    public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
         super(repository);
-        this.repository = (@ENTITY@Repository ) repository;
+        super.entityClass = @ENTITY@.class;
     }// end of Spring constructor
 
 
@@ -173,9 +174,9 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * @return lista ordinata di tutte le entities
      */
     public List findAll() {
-        if (LibSession.isDeveloper()) {
-            return repository.findByOrderByCodeAsc();
-        }// end of if cycle
+        //if (LibSession.isDeveloper()) {
+            //return repository.findByOrderByCodeAsc();
+        //}// end of if cycle
 
         return null;
     }// end of method
@@ -198,7 +199,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
             return null;
         }// end of if cycle
 
-        if (LibText.isValid(entityBean.id)) {
+        if (text.isValid(entityBean.id)) {
             return super.save(entityBean);
         } else {
             if (nonEsiste(code)) {

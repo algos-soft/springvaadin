@@ -1,49 +1,72 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
-import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.grid.AlgosGrid;
 import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.list.AlgosListImpl;
-import it.algos.springvaadin.lib.LibSession;
-import it.algos.springvaadin.service.AlgosService;
-import it.algos.springvaadin.toolbar.ListToolbar;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Resource;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.list.AList;
+import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * Created by gac on @TODAY@
+ * Annotated with Lombok @Slf4j (facoltativo)
  * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @@Scope (obbligatorio e di tipo 'session')
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @SpringView (obbligatorio per avere la view inserita nello SpringNavigator)
+ * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
+@Scope("session")
 @Qualifier(@TAG@)
-public class @ENTITY@List extends AlgosListImpl {
+@SpringView(name = Cost.VIEW_ROL_LIST)
+public class @ENTITY@List extends AList {
 
 
     /**
-     * Costruttore @Autowired (nella superclasse)
+     * Label del menu (facoltativa)
+     * SpringNavigator usa il 'name' della Annotation @SpringView per identificare (internamente) e recuperare la view
+     * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
+     * Se manca il MENU_NAME, di default usa il 'name' della view
      */
-    public @ENTITY@List(@Qualifier(@TAG@) AlgosService service, AlgosGrid grid, ListToolbar toolbar) {
-        super(service, grid, toolbar);
+    public static final String MENU_NAME = @TAG@;
+
+
+    /**
+     * Icona visibile nel menu (facoltativa)
+     * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
+     * Se manca il MENU_NAME, di default usa il 'name' della view
+     */
+    public static final Resource VIEW_ICON = VaadinIcons.ASTERISK;
+
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Use @Lazy to avoid the Circular Dependency
+     * A simple way to break the cycle is saying Spring to initialize one of the beans lazily.
+     * That is: instead of fully initializing the bean, it will create a proxy to inject it into the other bean.
+     * The injected bean will only be fully created when it’s first needed.
+     *
+     * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     */
+    public @ENTITY@List(
+            @Lazy @Qualifier(@TAG@) IAPresenter presenter,
+            @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+        super(presenter, toolbar);
     }// end of Spring constructor
 
 
-    /**
-     * Chiamato ogni volta che la finestra diventa attiva
-     * Può essere sovrascritto per un'intestazione (caption) della grid
-     */
-    @Override
-    protected void inizializza(String className, List items) {
-        if (LibSession.isDeveloper()) {
-            super.inizializza(className, items);
-            caption += "</br>Lista visibile a tutti";
-            caption += "</br>Usa la company che è ACompanyRequired.obbligatoria";
-            caption += "</br>Solo il developer vede queste note";
-        } else {
-            super.caption = "@ENTITY@ previste.";
-        }// end of if/else cycle
-    }// end of method
 
 }// end of class

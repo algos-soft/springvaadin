@@ -1,21 +1,20 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.ACompanyEntity;
-import it.algos.springvaadin.entity.ACompanyRequired;
-import it.algos.springvaadin.field.AFieldType;
+import it.algos.springvaadin.enumeration.EARoleType;
+import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.enumeration.EACompanyRequired;
+import it.algos.springvaadin.enumeration.EAFieldAccessibility;
+import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.annotation.*;
-import it.algos.springvaadin.field.FieldAccessibility;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.login.ARoleType;
-import it.algos.springvaadin.list.ListButton;
-import it.algos.@PROJECT@.application.AppCost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,18 +22,23 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on 11-nov-17
+ * Estende la Entity astratta AEntity che contiene la key property ObjectId
  * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Document (facoltativo) per avere un nome della collection (DB Mongo) diverso dal nome della Entity
+ * Annotated with @AIEntity (facoltativo) per alcuni parametri generali del modulo
+ * Annotated with @AIList (facoltativo) per i fields del Form e loro visibilità/accessibilità relativa all'utente
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @Data (Lombok) for automatic use of Getter and Setter
  * Annotated with @NoArgsConstructor (Lombok) for JavaBean specifications
  * Annotated with @AllArgsConstructor (Lombok) per usare il costruttore completo nel Service
- * Estende la Entity astratta AEntity che contiene la key property ObjectId
  */
 @SpringComponent
-@Document(collection = @TAG@)
-@AIEntity(roleTypeVisibility = ARoleType.user@COMPANYREQUIRED@)
-@AIList(columns = {"code", "descrizione"}, dev = ListButton.standard, admin = ListButton.noSearch, user = ListButton.show)
-@AIForm(fields = {"code", "descrizione", "note"})
+@Document(collection = "@PACKAGE@")
+@AIEntity()
+@AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIForm(fields = {"code", "descrizione"})
+@Qualifier(@TAG@)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,13 +59,13 @@ public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
     @Size(min = 2, max = 20)
     @Indexed()
     @AIField(
-            type = AFieldType.text,
+            type = EAFieldType.text,
             required = true,
             focus = true,
             name = "Codice",
             widthEM = 9,
-            admin = FieldAccessibility.allways,
-            user = FieldAccessibility.showOnly)
+            admin = EAFieldAccessibility.allways,
+            user = EAFieldAccessibility.showOnly)
     @AIColumn(name = "Code", width = 120)
     private String code;
 
@@ -71,12 +75,12 @@ public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
      * descrizione (facoltativa)
      */
     @AIField(
-            type = AFieldType.text,
+            type = EAFieldType.text,
             required = true,
             name = "Descrizione completa",
             widthEM = 26,
-            admin = FieldAccessibility.allways,
-            user = FieldAccessibility.showOnly)
+            admin = EAFieldAccessibility.allways,
+            user = EAFieldAccessibility.showOnly)
     @AIColumn(name = "Descrizione", width = 500)
     private String descrizione;
 

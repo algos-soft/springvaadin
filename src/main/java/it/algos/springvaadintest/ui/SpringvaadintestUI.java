@@ -7,6 +7,7 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
+import it.algos.springvaadin.entity.bolla.BollaList;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.home.AHomeView;
@@ -14,6 +15,7 @@ import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.ui.AUI;
 import it.algos.springvaadintest.view.VaadintestView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
@@ -29,6 +31,7 @@ import javax.annotation.PostConstruct;
 @SpringUI()
 @SpringViewDisplay()
 @Slf4j
+@Scope("session")
 public class SpringvaadintestUI extends AUI {
 
 //    /**
@@ -111,6 +114,7 @@ public class SpringvaadintestUI extends AUI {
      */
     protected void addVisteSpecifiche() {
         menuLayout.addView(RoleList.class);
+        menuLayout.addView(BollaList.class);
     }// end of method
 
     /**
