@@ -7,7 +7,6 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
-import it.algos.springvaadin.entity.bolla.BollaList;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.home.AHomeView;
@@ -114,7 +113,6 @@ public class SpringvaadintestUI extends AUI {
      */
     protected void addVisteSpecifiche() {
         menuLayout.addView(RoleList.class);
-        menuLayout.addView(BollaList.class);
     }// end of method
 
     /**

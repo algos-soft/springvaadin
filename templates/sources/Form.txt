@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Qualifier(@TAG@)
-@SpringView(name = Cost.VIEW_ROL_FORM)
+@SpringView(name = Cost.VIEW_@VIEW@_FORM)
 public class @ENTITY@Form extends AForm {
 
 

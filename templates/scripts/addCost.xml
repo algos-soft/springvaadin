@@ -24,19 +24,45 @@
         <condition property="esisteGiaCostante">
             <matches pattern="${value}" string="${newFile}"/>
         </condition>
-        <echo message="hasWorld = ${esisteGiaCostante}"/>
+        <echo message="value esistente= ${value}"/>
+    </target>
+
+    <target name="checkCostanteList">
+        <loadfile property="newFile" srcFile="${file}"/>
+        <condition property="esisteGiaCostanteList">
+            <matches pattern="${valuelist}" string="${newFile}"/>
+        </condition>
+        <echo message="value esistente= ${value}"/>
+    </target>
+
+    <target name="checkCostanteForm">
+        <loadfile property="newFile" srcFile="${file}"/>
+        <condition property="esisteGiaCostanteForm">
+            <matches pattern="${valueform}" string="${newFile}"/>
+        </condition>
+        <echo message="value esistente= ${value}"/>
     </target>
 
 
     <target name="addTag" depends="checkCostante" unless="${esisteGiaCostante}">
         <replace file="${file}"
                  token="${token}"
-                 value="${value}">
+                 value="&#10;&#009;${value}${tagFindEndFile}">
         </replace>
-        <!--<echo message="file = ${file}"/>-->
-        <!--<echo message="token = ${token}"/>-->
-        <!--<echo message="value = ${value}"/>-->
-        <!--<echo message="Aggiunta la costante TAG_${tag} nel file lib.Cost"/>-->
+    </target>
+
+    <target name="addTagList" depends="checkCostanteList" unless="${esisteGiaCostanteList}">
+        <replace file="${file}"
+                 token="${token}"
+                 value="&#10;&#009;${valuelist}${tagFindEndFile}">
+        </replace>
+    </target>
+
+    <target name="addTagForm" depends="checkCostanteForm" unless="${esisteGiaCostanteForm}">
+        <replace file="${file}"
+                 token="${token}"
+                 value="&#10;&#009;${valueform}${tagFindEndFile}">
+        </replace>
     </target>
 
 

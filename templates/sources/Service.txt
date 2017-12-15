@@ -28,6 +28,7 @@ public class @ENTITY@Service extends AService {
     @Autowired
     public ATextService text;
 
+    private @ENTITY@Repository repository;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -38,7 +39,8 @@ public class @ENTITY@Service extends AService {
     public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
         super(repository);
         super.entityClass = @ENTITY@.class;
-    }// end of Spring constructor
+         this.repository = (@ENTITY@Repository) repository;
+   }// end of Spring constructor
 
 
     /**

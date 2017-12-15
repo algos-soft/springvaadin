@@ -133,6 +133,7 @@ public abstract class Cost {
 //    public final static String TAG_BOT_REVERT = "usaBottoneRevert";
 //    public final static String TAG_BOT_SAVE = "usaBottoneRegistra";
 //    public final static String TAG_BOT_CONFERMA = "usaBottoneConferma";
-
 	public final static String TAG_PRO = "prova";
+	public final static String VIEW_PRO_LIST = "provalist";
+	public final static String VIEW_PRO_FORM = "provaform";
 }// end of static class

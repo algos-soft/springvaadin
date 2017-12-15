@@ -27,7 +27,7 @@ import java.util.List;
 @SpringComponent
 @Scope("session")
 @Qualifier(@TAG@)
-@SpringView(name = Cost.VIEW_ROL_LIST)
+@SpringView(name = Cost.VIEW_@VIEW@_LIST)
 public class @ENTITY@List extends AList {
 
 
