@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="addTagMenu">
+
+
+    <target name="checkMenu">
+        <loadfile property="newFile" srcFile="${file}"/>
+        <condition property="esisteGiaMenu">
+            <matches pattern="${newEntity}List" string="${newFile}"/>
+        </condition>
+        <echo>${newFile}</echo>
+        <echo message="esisteGiaMenu= ${esisteGiaMenu}"/>
+    </target>
+
+
+    <target name="addMenu" depends="checkMenu" unless="${esisteGiaMenu}">
+        <replace file="${file}"
+                 token="${token}"
+                 value="${token}&#10;&#009;&#009;${value}">
+        </replace>
+        <replace file="${file}"
+                 token="${tokenimport}"
+                 value="${tokenimport}&#10;&#009;&#009;${valueimport}">
+        </replace>
+    </target>
+
+
+</project>

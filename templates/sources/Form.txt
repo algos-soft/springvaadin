@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Qualifier(@TAG@)
+@Scope("session")
 @SpringView(name = Cost.VIEW_@VIEW@_FORM)
 public class @ENTITY@Form extends AForm {
 

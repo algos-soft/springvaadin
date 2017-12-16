@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.springvaadin.entity.prova.ProvaList;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
@@ -112,6 +113,8 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+
+		menuLayout.addView(ProvaList.class);
         menuLayout.addView(RoleList.class);
     }// end of method
 
