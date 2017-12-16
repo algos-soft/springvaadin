@@ -6,9 +6,7 @@
     </import>
     <import file="makeDir.xml">
     </import>
-    <import file="addTagCost.xml">
-    </import>
-    <import file="addTagMenu.xml">
+    <import file="addTag.xml">
     </import>
     <import file="copyFile.xml">
     </import>
@@ -65,7 +63,9 @@
         <property name="pathBaseTest" value="${pathAlgos}/${nomeBaseTest}"/>
         <property name="pathTestUI" value="${pathBaseTest}/ui"/>
         <property name="destUI" value="${pathTestUI}/${newTestUpper}UI${tagJava}"/>
-        <property name="tagImportMenu" value="import it.algos.${nomeBaseFrameworkLower}.${dirEntity}.${newPackage}.${newEntity}List;&#10;"/>
+        <property name="regexImportMenu" value="import it\.algos\.${nomeBaseFrameworkLower}\.${dirEntity}\.${newPackage}\.${newEntity}List;"/>
+        <property name="tagImportMenu" value="import it.algos.${nomeBaseFrameworkLower}.${dirEntity}.${newPackage}.${newEntity}List;"/>
+        <property name="tagPackageUI" value="package it.algos.${newTest}.ui;&#10;"/>
     </target>
 
 
@@ -77,44 +77,52 @@
 
 
     <target name="cost" depends="init,fixVaadin">
-        <property name="sigla" value="TAG_${newTag}"/>
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
+            <param name="findRegex" value="${tagAddCost}TAG_${newTag}"/>
             <param name="token" value="${tagFindEndFile}"/>
-            <param name="value" value="${tagAddCost}${sigla} = &quot;${newPackage}&quot;;"/>
+            <param name="value"
+                   value="&#10;&#009;${tagAddCost}TAG_${newTag} = &quot;${newPackage}&quot;;${tagFindEndFile}"/>
         </antcall>
 
-        <property name="siglalist" value="VIEW_${tagView}_LIST"/>
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
+            <param name="findRegex" value="${tagAddCost}VIEW_${tagView}_LIST"/>
             <param name="token" value="${tagFindEndFile}"/>
-            <param name="value" value="${tagAddCost}${siglalist} = &quot;${newPackage}&quot;;"/>
+            <param name="value"
+                   value="&#10;&#009;${tagAddCost}VIEW_${tagView}_LIST = &quot;${newPackage}list&quot;;${tagFindEndFile}"/>
         </antcall>
 
-        <property name="siglaform" value="VIEW_${tagView}_FORM"/>
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
+            <param name="findRegex" value="${tagAddCost}VIEW_${tagView}_FORM"/>
             <param name="token" value="${tagFindEndFile}"/>
-            <param name="value" value="${tagAddCost}${siglaform} = &quot;${newPackage}&quot;;"/>
+            <param name="value"
+                   value="&#10;&#009;${tagAddCost}VIEW_${tagView}_FORM = &quot;${newPackage}form&quot;;${tagFindEndFile}"/>
         </antcall>
     </target>
 
 
     <target name="menu" depends="init,fixVaadin">
-        <!--<echo message="checkMenu - sigla = TAG_${newTag}"/>-->
         <echo message="checkMenu - file = ${destUI}"/>
-        <echo message="checkMenu - token = ${tagFindMenu}"/>
-        <echo message="checkMenu - value = ${tagAddMenu}${newEntity}List.class);"/>
+        <echo message="checkMenu - findRegex = ${regexMenu}${newEntity}List\.class\);"/>
+        <echo message="checkMenu - token = ${tokenMenu}"/>
+        <echo message="checkMenu - value = ${tokenMenu}&#10;&#009;&#009;${replaceMenu}${newEntity}List.class);"/>
 
-        <antcall target="addMenu">
+        <antcall target="addCost">
             <param name="file" value="${destUI}"/>
-            <param name="token" value="${tagFindMenu}"/>
-            <param name="value" value="${tagAddMenu}${newEntity}List.class);"/>
-            <param name="tokenimport" value="${tagFindMenu}"/>
-            <param name="valueimport" value="${tagImportMenu}"/>
+            <param name="findRegex" value="${regexImportMenu}"/>
+            <param name="token" value="${tagPackageUI}"/>
+            <param name="value" value="${tagPackageUI}&#10;${tagImportMenu}"/>
+        </antcall>
+
+        <antcall target="addCost">
+            <param name="file" value="${destUI}"/>
+            <param name="findRegex" value="${regexMenu}${newEntity}List\.class\);"/>
+            <param name="token" value="${tokenMenu}"/>
+            <param name="value" value="${tokenMenu}&#10;&#009;&#009;${replaceMenu}${newEntity}List.class);"/>
         </antcall>
     </target>
-
 
     <target name="entity" depends="init">
         <property name="srcFile" value="${pathSrc}/${tagEntity}${tagTxt}"/>

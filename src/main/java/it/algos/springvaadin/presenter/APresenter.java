@@ -147,7 +147,7 @@ public abstract class APresenter extends APresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     public void setForm() {
-        AEntity entityBean = form.getForm().entityBean;
+        AEntity entityBean = form.getForm().entityBean != null ? form.getForm().entityBean : service.newEntity();
         List<Field> fields = null;
         List<EAButtonType> typeButtons = null;
 
@@ -252,7 +252,7 @@ public abstract class APresenter extends APresenterEvents {
             log.error(unErrore.toString());
         }// fine del blocco try-catch
 
-        fireList() ;
+        fireList();
     }// end of method
 
 }// end of class

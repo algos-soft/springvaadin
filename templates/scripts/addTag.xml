@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<project name="addTagCost">
+<project name="addTag">
 
 
     <target name="checkCostante">
         <loadfile property="newFile" srcFile="${file}"/>
         <condition property="esisteGiaCostante">
-            <matches pattern="${value}" string="${newFile}"/>
+            <matches pattern="${findRegex}" string="${newFile}"/>
         </condition>
         <echo message="value esistente= ${value}"/>
     </target>
@@ -15,7 +15,7 @@
         <!--<property name="value" value="${value}"/>-->
         <replace file="${file}"
                  token="${token}"
-                 value="&#10;&#009;${value}${tagFindEndFile}">
+                 value="${value}">
         </replace>
     </target>
 

@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.springvaadin.entity.pippo.PippoList;
 import it.algos.springvaadin.entity.prova.ProvaList;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
@@ -8,7 +9,6 @@ import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
-import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.lib.Cost;
@@ -113,8 +113,8 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-
-		menuLayout.addView(ProvaList.class);
+		menuLayout.addView(PippoList.class);
+        menuLayout.addView(ProvaList.class);
         menuLayout.addView(RoleList.class);
     }// end of method
 

@@ -21,8 +21,9 @@
     <property name="tagPathJava" value="${tagIdea}/${tagAlgos}"/>
     <property name="tagFindEndFile" value="&#10;}// end of static class"/>
     <property name="tagAddCost" value="public final static String "/>
-    <property name="tagFindMenu" value="addVisteSpecifiche() {"/>
-    <property name="tagAddMenu" value="menuLayout.addView("/>
+    <property name="tokenMenu" value="addVisteSpecifiche() {"/>
+    <property name="regexMenu" value="menuLayout\.addView\("/>
+    <property name="replaceMenu" value="menuLayout.addView("/>
 
     <!--Fine dei tags-->
 
