@@ -49,6 +49,14 @@ public interface IAForm extends IAView {
 
 
     /**
+     * Esegue il 'rollback' del Form
+     * Revert (ripristina) button pressed in form
+     * Usa la entityBean già presente nel form, ripristinando i valori iniziali
+     */
+    public void revert() ;
+
+
+    /**
      * Componente concreto di questa interfaccia
      */
     public AForm getForm();

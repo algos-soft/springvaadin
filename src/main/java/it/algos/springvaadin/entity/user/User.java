@@ -1,21 +1,22 @@
-package it.algos.springvaadin.entity.role;
-
-import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.annotation.*;
-import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EACompanyRequired;
-import it.algos.springvaadin.enumeration.EAFieldAccessibility;
-import it.algos.springvaadin.enumeration.EAFieldType;
-import it.algos.springvaadin.lib.Cost;
-import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+package it.algos.springvaadin.entity.user;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.context.annotation.Scope;
+import lombok.*;
+import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.enumeration.EARoleType;
+import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.enumeration.EACompanyRequired;
+import it.algos.springvaadin.enumeration.EAFieldAccessibility;
+import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.entity.AEntity;
 
 /**
  * Created by gac on 11-nov-17
@@ -37,19 +38,18 @@ import javax.validation.constraints.Size;
  * Le singole property sono annotate con @AIField (obbligatorio per il tipo di Field) e @AIColumn (facoltativo)
  */
 @SpringComponent
-@Document(collection = "role")
+@Document(collection = "user")
 @Scope("session")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Qualifier(Cost.TAG_ROL)
-@AIEntity(company = EACompanyRequired.nonUsata)
-@AIList(columns = {"ordine", "code"})
-@AIForm(fields = {"ordine", "code"})
-public class Role extends AEntity {
-
+@Qualifier(Cost.TAG_USE)
+@AIEntity()
+@AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIForm(fields = {"code", "descrizione"})
+public class User extends AEntity {
 
     /**
      * versione della classe per la serializzazione
@@ -58,24 +58,36 @@ public class Role extends AEntity {
 
 
     /**
-     * ordine di rilevanza (obbligatorio, unico)
-     * il più importante per primo
-     */
-    @NotNull
-    @Indexed()
-    @AIField(type = EAFieldType.integer, widthEM = 3, dev = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "#", width = 55)
-    private int ordine;
-
-    /**
-     * codice di riferimento (obbligatorio, unico)
+     * codice di riferimento (obbligatorio)
      */
     @NotEmpty
-    @Size()
+    @Size(min = 2, max = 20)
     @Indexed()
-    @AIField(type = EAFieldType.text, required = true, focus = true, widthEM = 12, dev = EAFieldAccessibility.showOnly)
-    @AIColumn(width = 210)
+    @AIField(
+            type = EAFieldType.text,
+            required = true,
+            focus = true,
+            name = "Codice",
+            widthEM = 9,
+            admin = EAFieldAccessibility.allways,
+            user = EAFieldAccessibility.showOnly)
+    @AIColumn(name = "Code", width = 120)
     private String code;
+
+
+
+    /**
+     * descrizione (facoltativa)
+     */
+    @AIField(
+            type = EAFieldType.text,
+            required = true,
+            name = "Descrizione completa",
+            widthEM = 26,
+            admin = EAFieldAccessibility.allways,
+            user = EAFieldAccessibility.showOnly)
+    @AIColumn(name = "Descrizione", width = 500)
+    private String descrizione;
 
 
     /**

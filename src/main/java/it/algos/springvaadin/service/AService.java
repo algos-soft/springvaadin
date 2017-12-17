@@ -64,10 +64,9 @@ public abstract class AService implements IAService {
      * @return all entities
      */
     @Override
-    public List<AEntity> findAll() {
+    public List<? extends AEntity> findAll() {
         return repository.findAll();
     }// end of method
-
 
     /**
      * Colonne visibili (e ordinate) nella Grid
@@ -324,5 +323,22 @@ public abstract class AService implements IAService {
         return (AEntity) repository.save(entityBean);
     }// end of method
 
+
+    /**
+     * Deletes a given entity.
+     *
+     * @param entityBean must not be null
+     *
+     * @return true, se la entity è stata effettivamente cancellata
+     *
+     * @throws IllegalArgumentException in case the given entity is {@literal null}.
+     */
+    @Override
+    public boolean delete(AEntity entityBean) {
+        repository.delete(entityBean.getId());
+
+        //@todo aggiungere controllo se il record è stato cancellato
+        return true;
+    }// end of method
 
 }// end of class

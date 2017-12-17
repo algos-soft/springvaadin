@@ -14,12 +14,16 @@ import org.springframework.context.annotation.Scope;
 
 /**
  * Created by gac on @TODAY@
+ * Estende la Entity astratta AForm di tipo AView per visualizzare i fields
  * Annotated with @SpringComponent (obbligatorio)
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @Scope (obbligatorio = 'session')
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @SpringView (obbligatorio) per gestire la visualizzazione di questa view con SprinNavigator
+ * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
-@Qualifier(@TAG@)
 @Scope("session")
+@Qualifier(@TAG@)
 @SpringView(name = Cost.VIEW_@VIEW@_FORM)
 public class @ENTITY@Form extends AForm {
 

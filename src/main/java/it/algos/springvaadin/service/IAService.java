@@ -28,8 +28,7 @@ public interface IAService {
      *
      * @return all entities
      */
-    public List<AEntity> findAll();
-
+    public List<? extends AEntity> findAll();
 
     /**
      * Colonne visibili (e ordinate) nella Grid
@@ -101,5 +100,17 @@ public interface IAService {
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception;
+
+
+    /**
+     * Deletes a given entity.
+     *
+     * @param entityBean must not be null
+     *
+     * @return true, se la entity è stata effettivamente cancellata
+     *
+     * @throws IllegalArgumentException in case the given entity is {@literal null}.
+     */
+    public boolean delete(AEntity entityBean);
 
 }// end of interface

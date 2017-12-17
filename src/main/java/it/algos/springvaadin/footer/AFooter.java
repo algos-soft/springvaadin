@@ -1,12 +1,18 @@
 package it.algos.springvaadin.footer;
 
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.service.AColumnService;
+import it.algos.springvaadin.service.AHtmlService;
+import it.algos.springvaadin.service.ATextService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 /**
  * Created by gac on 12/06/17
@@ -25,7 +31,16 @@ import javax.annotation.PostConstruct;
 @Scope("session")
 public class AFooter extends VerticalLayout {
 
-    private final static String DEVELOPER_NAME = "Algos® ";
+    @Autowired
+    public AHtmlService html;
+
+    private final static String DEVELOPER_COMPANY = "Algos® ";
+    private final static String PROJECT = "WebAMbulanze";
+    private final static String VERSION = "v0.4";
+    private final static LocalDate DATA = LocalDate.now();
+    private final static String COMPANY = "Comitato Locale di Fidenza";
+    private final static String USER_TAG = "User: ";
+    private final static String USER_NAME = "Guido Ceresa";
     private String message = "";
     private Label label;
 
@@ -57,11 +72,14 @@ public class AFooter extends VerticalLayout {
 
 
     private void fixMessage() {
+        String message;
+        String sep = " - ";
+        String spazio = " ";
         String tag = "all companies";
         String companyCode = "";
         this.removeAllComponents();
 
-    //@todo RIMETTERE
+        //@todo RIMETTERE
 //        companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getCode() : "";
 //        if (AlgosApp.USE_MULTI_COMPANY) {
 //            if (LibText.isValid(companyCode)) {
@@ -71,7 +89,7 @@ public class AFooter extends VerticalLayout {
 //            }// end of if/else cycle
 //        }// end of if cycle
 
-    //@todo RIMETTERE
+        //@todo RIMETTERE
 //        if (LibSession.isDeveloper()) {
 //            message += " (dev)";
 //        } else {
@@ -84,7 +102,18 @@ public class AFooter extends VerticalLayout {
 //
 //        label = new LabelRosso(DEVELOPER_NAME + message);
 
-        this.addComponent(new Label(DEVELOPER_NAME));
+        String data;
+        message = html.setVerdeBold(DEVELOPER_COMPANY + sep + PROJECT) +
+                spazio +
+                html.setBold(VERSION) +
+                " del " +
+                DATA.toString() +
+                sep +
+                html.setRossoBold(COMPANY) +
+                sep +
+                USER_TAG +
+                html.setBluBold(USER_NAME);
+        this.addComponent(new Label(message, ContentMode.HTML));
     }// end of method
 
 }// end of class

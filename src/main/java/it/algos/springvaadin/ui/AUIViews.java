@@ -1,6 +1,5 @@
 package it.algos.springvaadin.ui;
 
-import it.algos.springvaadin.entity.bolla.BollaList;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import it.algos.springvaadin.entity.role.RoleList;

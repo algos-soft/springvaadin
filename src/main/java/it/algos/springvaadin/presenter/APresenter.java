@@ -169,26 +169,34 @@ public abstract class APresenter extends APresenterEvents {
         boolean unaSolaRigaSelezionata = false;
         int numRigheSelezionate = 0;
         AButton buttonEdit = null;
+        AButton buttonDelete = null;
         AEntity entityBean = null;
 
         if (list == null) {
+            log.warn("List null in APresenter.selectionChanged()");
             return;
         }// end of if cycle
+        log.warn("List null in APresenter.selectionChanged()");
 
-        //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
-        buttonEdit = list.getButton(EAButtonType.edit);
+        //--recupera le informazioni dalla Grid
         unaSolaRigaSelezionata = list.isUnaSolaRigaSelezionata();
-        buttonEdit.setEnabled(unaSolaRigaSelezionata);
         entityBean = list.getGrid().getEntityBean();
 
-        if (unaSolaRigaSelezionata) {
-            buttonEdit.setEntityBean(entityBean);
-        } else {
-            buttonEdit.setEntityBean(null);
-        }// end of if/else cycle
+        //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
+        if (list.getButton(EAButtonType.edit) != null) {
+            buttonEdit = list.getButton(EAButtonType.edit);
+            buttonEdit.setEnabled(unaSolaRigaSelezionata);
+            buttonEdit.setEntityBean(unaSolaRigaSelezionata ? entityBean : null);
+        }// end of if cycle
+
+        //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
+        if (list.getButton(EAButtonType.delete) != null) {
+            buttonDelete = list.getButton(EAButtonType.delete);
+            buttonDelete.setEnabled(unaSolaRigaSelezionata);
+            buttonDelete.setEntityBean(unaSolaRigaSelezionata ? entityBean : null);
+        }// end of if cycle
 
         //@todo RIMETTERE
-//        //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
 //        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
 //            numRigheSelezionate = view.numRigheSelezionate();
 //            if (numRigheSelezionate >= 1) {
@@ -217,22 +225,36 @@ public abstract class APresenter extends APresenterEvents {
 
 
     /**
+     * Revert (ripristina) button pressed in form
+     * Rimane nella view (Form) SENZA registrare e ripristinando i valori iniziali del record (entityBean)
+     */
+    public void revert() {
+        form.revert();
+        this.abilitaBottoniForm(false);
+    }// end of method
+
+
+    /**
+     * Cancellazione di un singolo record (entityBean)
+     * If entityBean=null, recupera dal Form il record selezionato (se riesce)
+     * Usa il service per cancellare il record selezionato
+     * Rimane nella view (List) e la ricostruisce, ricaricando i dati aggiornati dal service
+     *
+     * @param entityBean istanza da cancellare
+     */
+    public void delete(AEntity entityBean) {
+        service.delete(entityBean);
+        setList();
+    }// end of method
+
+
+    /**
      * Modificato il contenuto di un Field
      * Abilita e disabilita i bottoni Revert e Registra/Accetta del Form
      */
     @Override
     public void valueChanged() {
-        if (form.getButton(EAButtonType.revert) != null) {
-            form.getButton(EAButtonType.revert).setEnabled(true);
-        }// end of if cycle
-
-        if (form.getButton(EAButtonType.registra) != null) {
-            form.getButton(EAButtonType.registra).setEnabled(true);
-        }// end of if cycle
-
-        if (form.getButton(EAButtonType.accetta) != null) {
-            form.getButton(EAButtonType.accetta).setEnabled(true);
-        }// end of if cycle
+        this.abilitaBottoniForm(true);
     }// end of method
 
 
@@ -253,6 +275,26 @@ public abstract class APresenter extends APresenterEvents {
         }// fine del blocco try-catch
 
         fireList();
+    }// end of method
+
+
+    /**
+     * Regola lo stato dei bottoni del Form
+     *
+     * @param enabled abilitati o disabilitati
+     */
+    protected void abilitaBottoniForm(boolean enabled) {
+        if (form.getButton(EAButtonType.revert) != null) {
+            form.getButton(EAButtonType.revert).setEnabled(enabled);
+        }// end of if cycle
+
+        if (form.getButton(EAButtonType.registra) != null) {
+            form.getButton(EAButtonType.registra).setEnabled(enabled);
+        }// end of if cycle
+
+        if (form.getButton(EAButtonType.accetta) != null) {
+            form.getButton(EAButtonType.accetta).setEnabled(enabled);
+        }// end of if cycle
     }// end of method
 
 }// end of class

@@ -121,9 +121,9 @@ public abstract class APresenterEvents implements IAPresenter {
 ////            case image:
 ////                editImage(entityBean, parentField);
 ////                break;
-//            case delete:
-//                delete();
-//                break;
+            case delete:
+                delete(entityBean);
+                break;
 //            case deleteLink:
 //                deleteLink(source, target, entityBean, sourceField, type);
 //                break;
@@ -142,9 +142,9 @@ public abstract class APresenterEvents implements IAPresenter {
 //            case back:
 //                back();
 //                break;
-//            case revert:
-//                revert();
-//                break;
+            case revert:
+                revert();
+                break;
             case registra:
                 registra();
                 break;

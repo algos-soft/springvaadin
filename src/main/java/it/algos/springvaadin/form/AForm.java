@@ -382,9 +382,20 @@ public abstract class AForm extends AView implements IAForm {
     }// end of method
 
 
-        /**
-         * Componente concreto di questa interfaccia
-         */
+    /**
+     * Esegue il 'rollback' del Form
+     * Revert (ripristina) button pressed in form
+     * Usa la entityBean già presente nel form, ripristinando i valori iniziali
+     */
+    @Override
+    public void revert() {
+        binder.readBean(entityBean);
+    }// end of method
+
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
     @Override
     public AForm getForm() {
         return this;

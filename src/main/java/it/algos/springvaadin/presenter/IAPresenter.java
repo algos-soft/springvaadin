@@ -78,7 +78,7 @@ public interface IAPresenter extends IAListener {
      * Creazione o modifica di un singolo record (entityBean)
      * If entityBean=null, create a new item and edit it in a form
      * Recupera dal service tutti i dati necessari (aggiornati)
-     * Passa il controllo alla view con i dati necessari
+     * Passa il controllo alla view (Form) con i dati necessari
      *
      * @param entityBean istanza da elaborare
      */
@@ -86,11 +86,28 @@ public interface IAPresenter extends IAListener {
 
 
     /**
+     * Revert (ripristina) button pressed in form
+     * Rimane nella view (Form) SENZA registrare e ripristinando i valori iniziali del record (entityBean)
+     */
+    public void revert();
+
+
+    /**
+     * Cancellazione di un singolo record (entityBean)
+     * If entityBean=null, recupera dal Form il record selezionato (se riesce)
+     * Usa il service per cancellare il record selezionato
+     * Ritorna il controllo alla view (List)
+     *
+     * @param entityBean istanza da cancellare
+     */
+    public void delete(AEntity entityBean);
+
+
+    /**
      * Modificato il contenuto di un Field
      * Abilita e disabilita i bottoni Revert e Registra/Accetta del Form
      */
-    public void valueChanged() ;
-
+    public void valueChanged();
 
 
     /**
@@ -100,7 +117,7 @@ public interface IAPresenter extends IAListener {
      * Registra le modifiche nel DB, tramite il service
      * Usa lo SpringNavigator per cambiare view ed andare alla view AList
      */
-    public void registra() ;
+    public void registra();
 
 
 }// end of interface

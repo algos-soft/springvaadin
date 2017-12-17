@@ -41,7 +41,7 @@ public enum EAButtonType {
     linkRegistra(Cost.BOT_REGISTRA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
     registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
     revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.R, ShortcutAction.ModifierKey.ALT),
-    search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.F, ShortcutAction.ModifierKey.ALT),
+    search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.F, ShortcutAction.ModifierKey.ALT),
     showAll(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0);
 
 

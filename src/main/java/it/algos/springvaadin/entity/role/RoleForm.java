@@ -21,8 +21,13 @@ import org.springframework.context.annotation.Scope;
  * User: gac
  * Date: gio, 07-dic-2017
  * Time: 23:18
+ * Estende la Entity astratta AForm di tipo AView per visualizzare i fields
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Scope (obbligatorio = 'session')
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @SpringView (obbligatorio) per gestire la visualizzazione di questa view con SprinNavigator
+ * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
-@Slf4j
 @SpringComponent
 @Scope("session")
 @Qualifier(Cost.TAG_ROL)

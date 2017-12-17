@@ -1,27 +1,22 @@
-package it.algos.springvaadin.entity.role;
-
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Notification;
+package it.algos.springvaadin.entity.user;
+import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.service.AService;
-import it.algos.springvaadin.service.ASessionService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.bson.types.ObjectId;
+import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import java.util.List;
 
 /**
- * Project springvaadin
- * Created by Algos
- * User: gac
- * Date: ven, 08-dic-2017
- * Time: 08:41
+ * Created by gac on TIMESTAMP
  * Estende la Entity astratta AService. Layer di collegamento tra il Presenter e la Repository.
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Service (ridondante)
@@ -32,24 +27,12 @@ import java.util.List;
 @SpringComponent
 @Service
 @Scope("session")
-@Qualifier(Cost.TAG_ROL)
+@Qualifier(Cost.TAG_USE)
 @Slf4j
-public class RoleService extends AService {
+public class UserService extends AService {
 
-
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
     @Autowired
     public ATextService text;
-
-
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public ASessionService session;
-
 
     /**
      * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
@@ -57,44 +40,54 @@ public class RoleService extends AService {
      * Spring costruisce al volo, quando serve, una implementazione di RoleRepository (come previsto dal @Qualifier)
      * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
      */
-    private RoleRepository repository;
-
+    private UserRepository repository;
 
     /**
-     * Costruttore @Autowired
+     * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
-     *
-     * @param repository iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public RoleService(@Qualifier(Cost.TAG_ROL) MongoRepository repository) {
+    public UserService(@Qualifier(Cost.TAG_USE) MongoRepository repository) {
         super(repository);
-        this.repository = (RoleRepository) repository;
-        super.entityClass = Role.class;
-    }// end of Spring constructor
+        super.entityClass = User.class;
+         this.repository = (UserRepository) repository;
+   }// end of Spring constructor
 
 
     /**
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
-     * All properties
      *
-     * @param ordine di rilevanza (obbligatorio)
-     * @param codice di riferimento (obbligatorio)
+     * @param code codice di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public Role findOrCrea(int ordine, String codice) {
-        if (nonEsiste(codice)) {
+    public User findOrCrea(String code) {
+        return findOrCrea(code, "");
+    }// end of method
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param code        codice di riferimento (obbligatorio)
+     * @param descrizione (facoltativa, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public User findOrCrea(String code, String descrizione) {
+
+        if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Role) save(newEntity(ordine, codice));
+                return (User) save(newEntity(code, descrizione));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return repository.findByCode(codice);
+            return findByCode(code);
         }// end of if/else cycle
     }// end of method
 
@@ -107,8 +100,23 @@ public class RoleService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     @Override
-    public Role newEntity() {
-        return new Role(0, "");
+    public User newEntity() {
+        return newEntity("");
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * Properties obbligatorie
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param code codice di riferimento (obbligatorio)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public User newEntity(String code) {
+        return newEntity(code, "");
     }// end of method
 
 
@@ -118,18 +126,18 @@ public class RoleService extends AService {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param ordine di rilevanza (obbligatorio)
-     * @param codice di riferimento (obbligatorio)
+     * @param code        codice di riferimento (obbligatorio)
+     * @param descrizione (facoltativa, non unica)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Role newEntity(int ordine, String codice) {
-        Role entity = null;
+    public User newEntity(String code, String descrizione) {
+        User entity = null;
 
-        if (nonEsiste(codice)) {
-            entity = Role.builder().ordine(ordine).code(codice).build();
+        if (nonEsiste(code)) {
+            entity = User.builder().code(code).descrizione(descrizione).build();
         } else {
-            return repository.findByCode(codice);
+            return findByCode(code);
         }// end of if/else cycle
 
         return entity;
@@ -137,27 +145,54 @@ public class RoleService extends AService {
 
 
     /**
+     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
+     *
+     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     *
+     * @return vero se esiste, false se non trovata
+     */
+    public boolean esiste(String code) {
+        return findByCode(code) != null;
+    }// end of method
+
+
+    /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param codice di riferimento (obbligatorio)
+     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(String codice) {
-        return repository.findByCode(codice) == null;
+    public boolean nonEsiste(String code) {
+        return findByCode(code) == null;
+    }// end of method
+
+
+    /**
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param code codice di riferimento (obbligatorio)
+     *
+     * @return istanza della Entity, null se non trovata
+     */
+    public User findByCode(String code) {
+        return repository.findByCode(code);
     }// end of method
 
 
     /**
      * Returns all instances of the type
-     * La Entity è EACompanyRequired.nonUsata. Non usa Company.
+     * Usa MultiCompany, ma il developer può vedere anche tutto
      * Lista ordinata
      *
      * @return lista ordinata di tutte le entities
      */
-    @Override
-    public List<Role> findAll() {
-        return repository.findByOrderByOrdineAsc();
+    public List findAll() {
+        //if (LibSession.isDeveloper()) {
+            //return repository.findByOrderByCodeAsc();
+        //}// end of if cycle
+
+        return null;
     }// end of method
 
 
@@ -172,7 +207,7 @@ public class RoleService extends AService {
      */
     @Override
     public AEntity save(AEntity entityBean) throws Exception {
-        String codice = ((Role) entityBean).getCode();
+        String code = ((User) entityBean).getCode();
 
         if (entityBean == null) {
             return null;
@@ -181,14 +216,13 @@ public class RoleService extends AService {
         if (text.isValid(entityBean.id)) {
             return super.save(entityBean);
         } else {
-            if (nonEsiste(codice)) {
+            if (nonEsiste(code)) {
                 return super.save(entityBean);
             } else {
-                log.error("Ha cercato di salvare una entity già esistente");
+                log.error("Ha cercato di salvare una entity già esistente, ma unica");
                 return null;
             }// end of if/else cycle
         }// end of if/else cycle
     }// end of method
-
 
 }// end of class

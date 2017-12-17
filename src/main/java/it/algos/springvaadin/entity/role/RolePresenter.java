@@ -8,7 +8,6 @@ import it.algos.springvaadin.service.IAService;
 import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.toolbar.IAToolbar;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -19,8 +18,12 @@ import org.springframework.context.annotation.Scope;
  * User: gac
  * Date: gio, 07-dic-2017
  * Time: 23:15
+ * Estende la Entity astratta APresenter che gestisce la business logic
+ * Annotated with @SpringComponent (obbligatorio)
+ * Annotated with @Scope (obbligatorio = 'session')
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Costruttore con dei link @Autowired di tipo @Lazy per evitare un loop nella injection
  */
-@Slf4j
 @SpringComponent
 @Scope("session")
 @Qualifier(Cost.TAG_ROL)

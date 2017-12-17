@@ -41,7 +41,7 @@ public abstract class Cost {
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
     public final static String TAG_ROL = "role";
-    public final static String TAG_USE = "user";
+//    public final static String TAG_USE = "user";
     public final static String TAG_IND = "ind";
     public final static String TAG_STA = "stato";
     public final static String TAG_PER = "per";
@@ -49,8 +49,6 @@ public abstract class Cost {
 
     public final static String VIEW_ROL_LIST = "rolelist";
     public final static String VIEW_ROL_FORM = "roleform";
-    public final static String VIEW_BOL_LIST = "bollalist";
-    public final static String VIEW_BOL_FORM = "bollaform";
 
 
     public final static String BOT_ACCETTA = "accetta";
@@ -122,10 +120,7 @@ public abstract class Cost {
     public final static String CLICK_BOTTONI_IN_LISTA = "clickBottoniInLista";
     public final static String INFO_APP = "Algos® WAM-2.0 del 14.5.17";
 
-	public final static String TAG_PRO = "prova";
-	public final static String VIEW_PRO_LIST = "provalist";
-	public final static String VIEW_PRO_FORM = "provaform";
-	public final static String TAG_PIP = "pippo";
-	public final static String VIEW_PIP_LIST = "pippolist";
-	public final static String VIEW_PIP_FORM = "pippoform";
+	public final static String TAG_USE = "user";
+	public final static String VIEW_USE_LIST = "userlist";
+	public final static String VIEW_USE_FORM = "userform";
 }// end of static class

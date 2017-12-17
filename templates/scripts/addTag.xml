@@ -7,7 +7,7 @@
         <condition property="esisteGiaCostante">
             <matches pattern="${findRegex}" string="${newFile}"/>
         </condition>
-        <echo message="value esistente= ${value}"/>
+        <echo message="value esistente= ${esisteGiaCostante}"/>
     </target>
 
 

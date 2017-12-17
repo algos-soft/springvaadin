@@ -33,6 +33,11 @@ import static org.junit.Assert.assertEquals;
 //@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VersioneServiceTest {
 
+
+
+
+
+
 //    private static String TITOLO = "pippoz";
 //    private Versione vers1;
 //    private Versione vers2;

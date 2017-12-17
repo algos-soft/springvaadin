@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.user;
 import it.algos.springvaadin.lib.Cost;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on TIMESTAMP
  * Estende la Entity astratta APresenter che gestisce la business logic
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')
@@ -24,8 +24,8 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(@TAG@)
-public class @ENTITY@Presenter extends APresenter {
+@Qualifier(Cost.TAG_USE)
+public class UserPresenter extends APresenter {
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -33,12 +33,12 @@ public class @ENTITY@Presenter extends APresenter {
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      * Regola il modello-dati specifico
      */
-    public @ENTITY@Presenter(
-                @Lazy @Qualifier(@TAG@) IAService service,
-                @Lazy @Qualifier(@TAG@) IAList list,
-                @Lazy @Qualifier(@TAG@) IAForm form) {
+    public UserPresenter(
+                @Lazy @Qualifier(Cost.TAG_USE) IAService service,
+                @Lazy @Qualifier(Cost.TAG_USE) IAList list,
+                @Lazy @Qualifier(Cost.TAG_USE) IAForm form) {
         super(service, list, form);
-        super.entityClass = @ENTITY@.class;
+        super.entityClass = User.class;
      }// end of Spring constructor
 
 

@@ -23,11 +23,11 @@ import java.util.List;
 
 /**
  * Created by gac on 11-nov-17
- * Annotated with Lombok @Slf4j (facoltativo)
+ * Estende la Entity astratta AList di tipo AView per visualizzare la Grid
  * Annotated with @SpringComponent (obbligatorio)
- * Annotated with @@Scope (obbligatorio e di tipo 'session')
- * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
- * Annotated with @SpringView (obbligatorio per avere la view inserita nello SpringNavigator)
+ * Annotated with @Scope (obbligatorio = 'session')
+ * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @SpringView (obbligatorio) per gestire la visualizzazione di questa view con SprinNavigator
  * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
