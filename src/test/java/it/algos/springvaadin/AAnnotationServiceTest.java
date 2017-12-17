@@ -11,15 +11,13 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
-import it.algos.springvaadin.service.AAnnotationService;
-import it.algos.springvaadin.service.AArrayService;
-import it.algos.springvaadin.service.AReflectionService;
-import it.algos.springvaadin.service.ATextService;
+import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -64,6 +62,9 @@ public class AAnnotationServiceTest {
     @InjectMocks
     public ATextService text;
 
+    @InjectMocks
+    public ASessionService session;
+
     private Field reflectionJavaField;
     private String previsto = "";
     private String ottenuto = "";
@@ -74,6 +75,8 @@ public class AAnnotationServiceTest {
     private List<String> ottenutoList;
     private EAFieldType previstoType;
     private EAFieldType ottenutoType;
+    private EAFieldAccessibility previstaAccessibilità;
+    private EAFieldAccessibility ottenutaAccessibilità;
     private final static String NAME_ORDINE = "ordine";
     private final static String NAME_CODE = "code";
     private final static String HEADER_ORDINE = "#";
@@ -91,6 +94,8 @@ public class AAnnotationServiceTest {
         MockitoAnnotations.initMocks(reflection);
         MockitoAnnotations.initMocks(array);
         MockitoAnnotations.initMocks(text);
+        MockitoAnnotations.initMocks(session);
+        service.session = session;
         service.text = text;
         array.text = text;
         service.array = array;
@@ -437,6 +442,238 @@ public class AAnnotationServiceTest {
         previstoBooleano = true;
         ottenutoBooleano = service.isFocus(FIELD_CODE);
         assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the width of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the width of the field expressed in em
+     */
+    @Test
+    public void getWidth() {
+        previstoIntero = 3;
+        ottenutoIntero = service.getWidth(FIELD_ORDINE);
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previstoIntero = 12;
+        ottenutoIntero = service.getWidth(FIELD_CODE);
+        assertEquals(previstoIntero, ottenutoIntero);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the widthEM of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the width of the field expressed in em
+     */
+    @Test
+    public void getWidthEM() {
+        previsto = "3em";
+        ottenuto = service.getWidthEM(FIELD_ORDINE);
+        assertEquals(previsto, ottenuto);
+
+        previsto = "12em";
+        ottenuto = service.getWidthEM(FIELD_CODE);
+        assertEquals(previsto, ottenuto);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the status required of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return status of field
+     */
+    @Test
+    public void isRequired() {
+        previstoBooleano = false;
+        ottenutoBooleano = service.isRequired(FIELD_ORDINE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        previstoBooleano = true;
+        ottenutoBooleano = service.isRequired(FIELD_CODE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the class for the developer login.
+     * Viene usata come default, se manca il valore specifico del singolo field
+     * La Annotation @AIForm ha un suo valore di default per la property @AIForm.fieldsDev()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return accessibilità del Form
+     */
+    @Test
+    public void getFormAccessibilityDev() {
+        previstaAccessibilità = EAFieldAccessibility.allways;
+        ottenutaAccessibilità = service.getFormAccessibilityDev(ROLE_ENTITY_CLASS);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the class for the admin login.
+     * Viene usata come default, se manca il valore specifico del singolo field
+     * La Annotation @AIForm ha un suo valore di default per la property @AIForm.fieldsAdmin()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return accessibilità del Form
+     */
+    @Test
+    public void getFormAccessibilityAdmin() {
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFormAccessibilityAdmin(ROLE_ENTITY_CLASS);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the class for the user login.
+     * Viene usata come default, se manca il valore specifico del singolo field
+     * La Annotation @AIForm ha un suo valore di default per la property @AIForm.fieldsUser()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return accessibilità del Form
+     */
+    @Test
+    public void getFormAccessibilityUser() {
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFormAccessibilityUser(ROLE_ENTITY_CLASS);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the field for the developer login.
+     * La Annotation @AIField ha un suo valore di default per la property @AIField.dev()
+     * Se il field lo prevede (valore di default) ci si rifà al valore generico del Form
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return accessibilità del field
+     */
+    @Test
+    public void getFieldAccessibilityDev() {
+        previstaAccessibilità = EAFieldAccessibility.showOnly;
+        ottenutaAccessibilità = service.getFieldAccessibilityDev(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+
+        previstaAccessibilità = EAFieldAccessibility.allways;
+        ottenutaAccessibilità = service.getFieldAccessibilityDev(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the field for the admin login.
+     * La Annotation @AIField ha un suo valore di default per la property @AIField.admin()
+     * Se il field lo prevede (valore di default) ci si rifà al valore generico del Form
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return accessibilità del field
+     */
+    @Test
+    public void getFieldAccessibilityAdmin() {
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibilityAdmin(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+
+        previstaAccessibilità = EAFieldAccessibility.showOnly;
+        ottenutaAccessibilità = service.getFieldAccessibilityAdmin(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the field for the user login.
+     * La Annotation @AIField ha un suo valore di default per la property @AIField.user()
+     * Se il field lo prevede (valore di default) ci si rifà al valore generico del Form
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return accessibilità del field
+     */
+    @Test
+    public void getFieldAccessibilityUser() {
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibilityUser(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibilityUser(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the accessibility status of the field for the current login.
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return accessibilità del field
+     */
+    @Test
+    public void getFieldAccessibility() {
+        //--developer
+        session.setDeveloper(true);
+        session.setAdmin(false);
+        session.setUser(false);
+        previstaAccessibilità = EAFieldAccessibility.showOnly;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+        previstaAccessibilità = EAFieldAccessibility.allways;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+
+        //--admin
+        session.setDeveloper(false);
+        session.setAdmin(true);
+        session.setUser(false);
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+        previstaAccessibilità = EAFieldAccessibility.showOnly;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+
+        //--user
+        session.setDeveloper(false);
+        session.setAdmin(false);
+        session.setUser(true);
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_ORDINE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+        previstaAccessibilità = EAFieldAccessibility.never;
+        ottenutaAccessibilità = service.getFieldAccessibility(FIELD_CODE);
+        assertEquals(previstaAccessibilità, ottenutaAccessibilità);
     }// end of single test
 
 }// end of class

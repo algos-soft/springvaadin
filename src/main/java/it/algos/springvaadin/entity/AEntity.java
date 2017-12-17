@@ -77,7 +77,7 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.allways)
     @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime modifica;
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +23,10 @@ public class AArrayService {
     @Autowired
     public ATextService text;
 
+
     /**
      * Controlla la validità dell'array
-     * Deve essitere (not null)
+     * Deve esistere (not null)
      * Deve avere degli elementi (size > 0)
      * Il primo elemento deve essere valido
      *
@@ -35,8 +37,8 @@ public class AArrayService {
     public boolean isValid(final List array) {
         boolean status = false;
 
-        if (array != null && array.size() > 0 ) {
-            if (array.get(0)!=null) {
+        if (array != null && array.size() > 0) {
+            if (array.get(0) != null) {
                 if (array.get(0) instanceof String) {
                     status = text.isValid(array.get(0));
                 } else {
@@ -48,9 +50,10 @@ public class AArrayService {
         return status;
     }// end of method
 
+
     /**
      * Controlla la validità dell'array
-     * Deve essitere (not null)
+     * Deve esistere (not null)
      * Deve avere degli elementi (length > 0)
      * Il primo elemento deve essere una stringa valida
      *
@@ -61,10 +64,10 @@ public class AArrayService {
     public boolean isValid(final String[] array) {
         boolean status = false;
 
-        if (array != null && array.length > 0 ) {
-            if (array[0]!=null) {
+        if (array != null && array.length > 0) {
+            if (array[0] != null) {
                 if (array[0] instanceof String) {
-                    status = text.isValid((String)array[0]);
+                    status = text.isValid((String) array[0]);
                 } else {
                     status = true;
                 }// end of if/else cycle
@@ -74,5 +77,26 @@ public class AArrayService {
         return status;
     }// end of method
 
+
+    /**
+     * Aggiunge un elemento ad una List (di per se immutabile)
+     * Deve esistere (not null)
+     *
+     * @param arrayIn (List) ingresso da incrementare
+     *
+     * @return la lista aumentata di un elemento
+     */
+    public List add(final List arrayIn, Object obj) {
+        List arrayOut = null;
+        ArrayList lista = null;
+
+        if (this.isValid(arrayIn)) {
+            lista = new ArrayList(arrayIn);
+            lista.add(obj);
+            arrayOut = lista;
+        }// end of if cycle
+
+        return arrayOut;
+    }// end of method
 
 }// end of class

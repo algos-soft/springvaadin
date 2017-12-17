@@ -47,7 +47,7 @@ import javax.validation.constraints.Size;
 @Qualifier(Cost.TAG_ROL)
 @AIEntity(company = EACompanyRequired.nonUsata)
 @AIList(columns = {"ordine", "code"})
-@AIForm(fields = {"ordine", "code"})
+@AIForm(fields = {"ordine", "code"}, fieldsDev = EAFieldAccessibility.allways, fieldsAdmin = EAFieldAccessibility.never)
 public class Role extends AEntity {
 
 
@@ -63,7 +63,7 @@ public class Role extends AEntity {
      */
     @NotNull
     @Indexed()
-    @AIField(type = EAFieldType.integer, widthEM = 3, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.integer, widthEM = 3, dev = EAFieldAccessibility.showOnly, admin = EAFieldAccessibility.never)
     @AIColumn(name = "#", width = 55)
     private int ordine;
 
@@ -73,7 +73,7 @@ public class Role extends AEntity {
     @NotEmpty
     @Size()
     @Indexed()
-    @AIField(type = EAFieldType.text, required = true, focus = true, widthEM = 12, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.text, required = true, focus = true, widthEM = 12, dev = EAFieldAccessibility.allways)
     @AIColumn(width = 210)
     private String code;
 

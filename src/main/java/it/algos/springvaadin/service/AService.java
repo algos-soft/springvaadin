@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +33,14 @@ public abstract class AService implements IAService {
 
     @Autowired
     public AReflectionService reflection;
+
+
+    @Autowired
+    public ASessionService session;
+
+
+    @Autowired
+    public AArrayService array;
 
 
     //--la repository dei dati viene iniettata dal costruttore della sottoclasse concreta
@@ -168,7 +177,16 @@ public abstract class AService implements IAService {
      * @return fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
      */
     protected List<Field> getFormFields(List<String> listaNomi) {
-        List<Field> listaFields = reflection.getFormFields(entityClass, listaNomi);
+        List<Field> listaFields = null;
+
+        if (session.isDeveloper()) {
+            listaFields = reflection.getFieldsAllSuperclasses(entityClass);
+        } else {
+            if (!listaNomi.contains(Cost.PROPERTY_NOTE)) {
+                listaNomi = array.add(listaNomi, Cost.PROPERTY_NOTE);
+            }// end of if cycle
+            listaFields = reflection.getFormFields(entityClass, listaNomi);
+        }// end of if/else cycle
 
         //@todo RIMETTERE
 //        //--controllo per l'uso delle properties creazione e modifica
@@ -243,13 +261,13 @@ public abstract class AService implements IAService {
                     matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete};
                     break;
                 case noCreate:
-                    matrice = new EAButtonType[]{ EAButtonType.edit, EAButtonType.delete};
+                    matrice = new EAButtonType[]{EAButtonType.edit, EAButtonType.delete};
                     break;
                 case edit:
-                    matrice = new EAButtonType[]{ EAButtonType.edit};
+                    matrice = new EAButtonType[]{EAButtonType.edit};
                     break;
                 case show:
-                    matrice = new EAButtonType[]{ EAButtonType.show};
+                    matrice = new EAButtonType[]{EAButtonType.show};
                     break;
                 case noButtons:
                     matrice = new EAButtonType[]{};

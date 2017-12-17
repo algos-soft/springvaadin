@@ -206,9 +206,9 @@ public class AFieldFactory implements IAFieldFactory {
 //                case localdate:
 //                    field = fieldFactory.apply(ADateField.class);
 //                    break;
-//                case localdatetime:
-//                    field = fieldFactory.apply(ADateTimeField.class);
-//                    break;
+                case localdatetime:
+                    field = fieldFactory.apply(ADateTimeField.class);
+                    break;
 //                case dateNotEnabled:
 //                    field = fieldFactory.apply(ADateNotEnabledField.class);
 //                    break;
@@ -254,9 +254,9 @@ public class AFieldFactory implements IAFieldFactory {
 //                    }// end of if/else cycle
 //                    ((ALinkField) field).setButtonDelete(buttonFactory.crea(AButtonType.deleteLink, source, source, field));
 //                    break;
-//                case textarea:
-//                    field = fieldFactory.apply(ATextAreaField.class);
-//                    break;
+                case textarea:
+                    field = fieldFactory.apply(ATextAreaField.class);
+                    break;
                 default: // caso non definito
                     break;
             } // fine del blocco switch

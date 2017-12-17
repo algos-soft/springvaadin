@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Project springvaadin
@@ -106,15 +107,15 @@ public class AArrayServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
-      * Controlla la validità dell'array
-      * Deve essitere (not null)
-      * Deve avere degli elementi (length > 0)
-      * Il primo elemento deve essere una stringa valida
-      *
-      * @param array (String[]) in ingresso da controllare
-      *
-      * @return vero se l'array soddisfa le condizioni previste
-      */
+     * Controlla la validità dell'array
+     * Deve essitere (not null)
+     * Deve avere degli elementi (length > 0)
+     * Il primo elemento deve essere una stringa valida
+     *
+     * @param array (String[]) in ingresso da controllare
+     *
+     * @return vero se l'array soddisfa le condizioni previste
+     */
     @Test
     public void isValid2() {
         previstoBooleano = true;
@@ -136,5 +137,37 @@ public class AArrayServiceTest {
         assertEquals(previstoBooleano, ottenutoBooleano);
     }// end of single test
 
+    @Test
+    public void contains() {
+        previstoBooleano = true;
+        ottenutoBooleano = stringList.contains("secondo");
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        previstoBooleano = false;
+        ottenutoBooleano = stringList.contains("pippoz");
+        assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Aggiunge un elemento ad una List (di per se immutabile)
+     * Deve esistere (not null)
+     *
+     * @param arrayIn (List) ingresso da incrementare
+     *
+     * @return la lista aumentata di un elemento
+     */
+    @Test
+    public void add() {
+        List<Object> objListOttenuta;
+        Object newObj = new Object();
+
+        int previstoInt = objList.size() + 1;
+        objListOttenuta = service.add(objList, newObj);
+        assertNotNull(objListOttenuta);
+        int ottenutoInt = objListOttenuta.size();
+        assertEquals(previstoInt, ottenutoInt);
+    }// end of single test
 
 }// end of class

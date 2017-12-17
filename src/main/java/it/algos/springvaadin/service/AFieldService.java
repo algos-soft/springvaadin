@@ -50,7 +50,7 @@ public class AFieldService {
      * Create a single field.
      * The field type is chosen according to the annotation @AIField.
      *
-     * @param source          presenter di riferimento da cui vengono generati gli eventi
+     * @param source             presenter di riferimento da cui vengono generati gli eventi
      * @param reflectedJavaField di riferimento per estrarre le Annotation
      */
     @SuppressWarnings("all")
@@ -60,15 +60,15 @@ public class AFieldService {
         boolean nuovaEntity = text.isEmpty(entityBean.id);
         EAFieldType type = annotation.getFormType(reflectedJavaField);
         String caption = annotation.getFormFieldName(reflectedJavaField);
+        AIField fieldAnnotation = annotation.getAIField(reflectedJavaField);
+        String width = annotation.getWidthEM(reflectedJavaField);
+        boolean required = annotation.isRequired(reflectedJavaField);
+        boolean focus = annotation.isFocus(reflectedJavaField);
+//        boolean enabled = annotation.isFieldEnabled(reflectedJavaField, nuovaEntity);
 
         //@todo RIMETTERE
-        AIField fieldAnnotation = annotation.getAIField(reflectedJavaField);
-//        String width = annotation.getWidthEM(reflectedJavaField);
 //        int rows = annotation.getNumRows(reflectionJavaField);
-//        boolean required = annotation.isRequired(reflectionJavaField);
-        boolean focus = annotation.isFocus(reflectedJavaField);
 //        boolean visible = annotation.isFieldVisibile(reflectionJavaField, nuovaEntity);
-//        boolean enabled = annotation.isFieldEnabled(reflectionJavaField, nuovaEntity);
 //        boolean nullSelection = annotation.isNullSelectionAllowed(reflectionJavaField);
 //        boolean newItems = annotation.isNewItemsAllowed(reflectionJavaField);
 //        Class targetClazz = annotation.getClass(reflectionJavaField);
@@ -126,10 +126,10 @@ public class AFieldService {
         if (algosField != null && fieldAnnotation != null) {
 //            algosField.setVisible(visible);
 //            algosField.setEnabled(enabled);
-//            algosField.setRequiredIndicatorVisible(required);
+            algosField.setRequiredIndicatorVisible(required);
             algosField.setCaption(caption);
 //            if (text.isValid(width)) {
-//                algosField.setWidth(width);
+            algosField.setWidth(width);
 //            }// end of if cycle
 //            if (rows > 0) {
 //                algosField.setRows(rows);
@@ -155,7 +155,7 @@ public class AFieldService {
      */
     public List<AbstractValidator> creaValidatorsPre(Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
-        List<AValidator> listaTmp = creaValidators( reflectionField);
+        List<AValidator> listaTmp = creaValidators(reflectionField);
 
         for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.prima) {
@@ -173,7 +173,7 @@ public class AFieldService {
      */
     public List<AbstractValidator> creaValidatorsPost(Field reflectionField) {
         List<AbstractValidator> lista = new ArrayList();
-        List<AValidator> listaTmp = creaValidators( reflectionField);
+        List<AValidator> listaTmp = creaValidators(reflectionField);
 
         for (AValidator validator : listaTmp) {
             if (validator.posizione == Posizione.dopo) {
@@ -286,11 +286,11 @@ public class AFieldService {
         return lista;
     }// end of method
 
-    private  void addAnte(List<AValidator> lista, AbstractValidator validator) {
+    private void addAnte(List<AValidator> lista, AbstractValidator validator) {
         lista.add(new AValidator(validator, Posizione.prima));
     }// end of method
 
-    private  void addPost(List<AValidator> lista, AbstractValidator validator) {
+    private void addPost(List<AValidator> lista, AbstractValidator validator) {
         lista.add(new AValidator(validator, Posizione.dopo));
     }// end of method
 
@@ -353,7 +353,7 @@ public class AFieldService {
      *
      * @return valore dell'Annotation - Valore di default, se non la trova
      */
-    public  AIField getAnnotation(Attribute attr) {
+    public AIField getAnnotation(Attribute attr) {
         AIField fieldAnnotation = null;
         Field javaField = null;
         Annotation annotation = null;
@@ -369,7 +369,7 @@ public class AFieldService {
     }// end of method
 
 
-    private  class AValidator {
+    private class AValidator {
         AbstractValidator validator;
         Posizione posizione;
 

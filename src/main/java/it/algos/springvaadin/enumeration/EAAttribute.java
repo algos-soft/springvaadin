@@ -10,5 +10,5 @@ import lombok.extern.slf4j.Slf4j;
  * Time: 22:33
  */
 public enum EAAttribute {
-    company, debug, login, loggato, developer, admin, servletContext
+    company, debug, login, loggato, developer, admin, user, servletContext
 }// end of Enumeration
