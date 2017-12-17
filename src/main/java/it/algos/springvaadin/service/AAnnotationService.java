@@ -1,12 +1,8 @@
 package it.algos.springvaadin.service;
 
-import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.annotation.AIForm;
-import it.algos.springvaadin.annotation.AIList;
+import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.*;
 import it.algos.springvaadin.view.IAView;
@@ -15,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,7 +53,7 @@ public class AAnnotationService {
 
     /**
      * Get the specific annotation of the class.
-     * View classes
+     * Spring view class
      *
      * @param viewClazz the view class
      *
@@ -71,7 +66,20 @@ public class AAnnotationService {
 
     /**
      * Get the specific annotation of the class.
-     * Entity classes
+     * Entity class
+     *
+     * @param entityClazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public AIEntity getAIEntity(final Class<? extends AEntity> entityClazz) {
+        return entityClazz.getAnnotation(AIEntity.class);
+    }// end of method
+
+
+    /**
+     * Get the specific annotation of the class.
+     * Entity class
      *
      * @param entityClazz the entity class
      *
@@ -84,7 +92,7 @@ public class AAnnotationService {
 
     /**
      * Get the specific annotation of the class.
-     * Entity classes
+     * Entity class
      *
      * @param entityClazz the entity class
      *
@@ -211,6 +219,29 @@ public class AAnnotationService {
         }// end of if cycle
 
         return lista;
+    }// end of method
+
+
+    /**
+     * Get the roleTypeVisibility of the class.
+     * Viene usata come default, se manca il valore specifico del singolo field
+     * La Annotation @AIEntity ha un suo valore di default per la property @AIEntity.roleTypeVisibility()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return the roleTypeVisibility of the class
+     */
+    @SuppressWarnings("all")
+    public EARoleType getEntityRoleType(final Class<? extends AEntity> clazz) {
+        EARoleType roleTypeVisibility = null;
+        AIEntity annotation = this.getAIEntity(clazz);
+
+        if (annotation != null) {
+            roleTypeVisibility = annotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility != null ? roleTypeVisibility : EARoleType.guest;
     }// end of method
 
 
@@ -519,6 +550,88 @@ public class AAnnotationService {
         }// end of if cycle
 
         return status;
+    }// end of method
+
+
+    /**
+     * Get the roleTypeVisibility of the field.
+     * La Annotation @AIField ha un suo valore di default per la property @AIField.roleTypeVisibility()
+     * Se il field lo prevede (valore di default) ci si rifà al valore generico del Form
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre le Annotation
+     *
+     * @return the ARoleType of the field
+     */
+    @SuppressWarnings("all")
+    public EARoleType getFieldRoleType(final Field reflectionJavaField) {
+        EARoleType roleTypeVisibility = null;
+        AIField annotation = this.getAIField(reflectionJavaField);
+
+        if (annotation != null) {
+            roleTypeVisibility = annotation.roleTypeVisibility();
+        }// end of if cycle
+
+        if (roleTypeVisibility == EARoleType.asEntity) {
+            Class clazz = reflectionJavaField.getDeclaringClass();
+            if (AEntity.class.isAssignableFrom(clazz)) {
+                roleTypeVisibility = this.getEntityRoleType(clazz);
+            }// end of if cycle
+        }// end of if cycle
+
+        return roleTypeVisibility;
+    }// end of method
+
+
+    /**
+     * Get the visibility of the field.
+     * Controlla il ruolo del login connesso
+     *
+     * @param reflectionJavaField di riferimento per estrarre le Annotation
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public boolean isFieldVisibileRole(Field reflectionJavaField) {
+        boolean visibile = false;
+        EARoleType roleTypeVisibility = this.getFieldRoleType(reflectionJavaField);
+
+        if (roleTypeVisibility == EARoleType.asEntity) {
+            Class clazz = reflectionJavaField.getDeclaringClass();
+            if (AEntity.class.isAssignableFrom(clazz)) {
+                roleTypeVisibility = this.getEntityRoleType(clazz);
+            }// end of if cycle
+        }// end of if cycle
+
+        switch (roleTypeVisibility) {
+            case nobody:
+                visibile = false;
+                break;
+            case developer:
+                if (session.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case admin:
+                if (session.isAdmin() || session.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case user:
+                if (session.isUser() || session.isAdmin() || session.isDeveloper()) {
+                    visibile = true;
+                }// end of if cycle
+                break;
+            case guest:
+                visibile = false;
+                break;
+            default:
+                visibile = false;
+                log.warn("Switch - caso non definito");
+                break;
+        } // end of switch statement
+
+        return visibile;
     }// end of method
 
 

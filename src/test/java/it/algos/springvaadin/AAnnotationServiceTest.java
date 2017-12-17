@@ -1,37 +1,25 @@
 package it.algos.springvaadin;
 
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import it.algos.springvaadin.annotation.AIColumn;
-import it.algos.springvaadin.annotation.AIField;
-import it.algos.springvaadin.annotation.AIForm;
-import it.algos.springvaadin.annotation.AIList;
+import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
-import it.algos.springvaadin.enumeration.EAFieldAccessibility;
-import it.algos.springvaadin.enumeration.EAFieldType;
-import it.algos.springvaadin.enumeration.EAFormButton;
-import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.enumeration.*;
 import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.view.IAView;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -107,7 +95,7 @@ public class AAnnotationServiceTest {
     @SuppressWarnings("javadoc")
     /**
      * Get the specific annotation of the class.
-     * View classes
+     * Spring view class
      *
      * @param viewClazz the view class
      *
@@ -123,7 +111,23 @@ public class AAnnotationServiceTest {
     @SuppressWarnings("javadoc")
     /**
      * Get the specific annotation of the class.
-     * Entity classes
+     * Entity class
+     *
+     * @param entityClazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    @Test
+    public void getAIEntity() {
+        AIEntity ottenuto = service.getAIEntity(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenuto);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the specific annotation of the class.
+     * Entity class
      *
      * @param entityClazz the entity class
      *
@@ -139,7 +143,7 @@ public class AAnnotationServiceTest {
     @SuppressWarnings("javadoc")
     /**
      * Get the specific annotation of the class.
-     * Entity classes
+     * Entity class
      *
      * @param entityClazz the entity class
      *
@@ -507,6 +511,26 @@ public class AAnnotationServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
+     * Get the roleTypeVisibility of the class.
+     * Viene usata come default, se manca il valore specifico del singolo field
+     * La Annotation @AIEntity ha un suo valore di default per la property @AIEntity.roleTypeVisibility()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return the roleTypeVisibility of the class
+     */
+    @Test
+    public void getEntityRoleType() {
+        EARoleType roleTypeVisibilityOttenuta = null;
+        EARoleType roleTypeVisibilityPrevista = EARoleType.admin;
+        roleTypeVisibilityOttenuta = service.getEntityRoleType(ROLE_ENTITY_CLASS);
+        assertEquals(roleTypeVisibilityPrevista, roleTypeVisibilityOttenuta);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
      * Get the accessibility status of the class for the developer login.
      * Viene usata come default, se manca il valore specifico del singolo field
      * La Annotation @AIForm ha un suo valore di default per la property @AIForm.fieldsDev()
@@ -674,6 +698,63 @@ public class AAnnotationServiceTest {
         previstaAccessibilità = EAFieldAccessibility.never;
         ottenutaAccessibilità = service.getFieldAccessibility(FIELD_CODE);
         assertEquals(previstaAccessibilità, ottenutaAccessibilità);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the roleTypeVisibility of the field.
+     * La Annotation @AIField ha un suo valore di default per la property @AIField.roleTypeVisibility()
+     * Se il field lo prevede (valore di default) ci si rifà al valore generico del Form
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param reflectionJavaField di riferimento per estrarre le Annotation
+     *
+     * @return the ARoleType of the field
+     */
+    @Test
+    public void getFieldRoleType() {
+        EARoleType roleTypeVisibilityOttenuta = null;
+        EARoleType roleTypeVisibilityPrevista = EARoleType.admin;
+        roleTypeVisibilityOttenuta = service.getFieldRoleType(FIELD_ORDINE);
+        assertEquals(roleTypeVisibilityPrevista, roleTypeVisibilityOttenuta);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the visibility of the field.
+     * Controlla il ruolo del login connesso
+     *
+     * @param reflectionJavaField di riferimento per estrarre le Annotation
+     *
+     * @return the visibility of the field
+     */
+    @Test
+    public void isFieldVisibileRole() {
+        //--developer
+        session.setDeveloper(true);
+        session.setAdmin(false);
+        session.setUser(false);
+        previstoBooleano = true;
+        ottenutoBooleano = service.isFieldVisibileRole(FIELD_ORDINE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        //--admin
+        session.setDeveloper(false);
+        session.setAdmin(true);
+        session.setUser(false);
+        previstoBooleano = true;
+        ottenutoBooleano = service.isFieldVisibileRole(FIELD_ORDINE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
+
+        //--user
+        session.setDeveloper(false);
+        session.setAdmin(false);
+        session.setUser(true);
+        previstoBooleano = false;
+        ottenutoBooleano = service.isFieldVisibileRole(FIELD_ORDINE);
+        assertEquals(previstoBooleano, ottenutoBooleano);
     }// end of single test
 
 }// end of class

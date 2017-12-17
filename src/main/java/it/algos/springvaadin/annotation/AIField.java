@@ -67,7 +67,7 @@ public @interface AIField {
      * (Optional) Visibilità a secondo del ruolo dell'User collegato
      * Defaults to guest.
      */
-    EARoleType roleTypeVisibility() default EARoleType.guest;
+    EARoleType roleTypeVisibility() default EARoleType.asEntity;
 
 
     /**

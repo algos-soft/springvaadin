@@ -11,5 +11,5 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public enum EARoleType {
-    nobody, developer, admin, user, guest
+    nobody, developer, admin, user, guest, asEntity
 }// end of enumeration

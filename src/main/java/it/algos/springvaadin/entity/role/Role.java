@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.Cost;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -45,7 +46,7 @@ import javax.validation.constraints.Size;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(Cost.TAG_ROL)
-@AIEntity(company = EACompanyRequired.nonUsata)
+@AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.nonUsata)
 @AIList(columns = {"ordine", "code"})
 @AIForm(fields = {"ordine", "code"}, fieldsDev = EAFieldAccessibility.allways, fieldsAdmin = EAFieldAccessibility.never)
 public class Role extends AEntity {
