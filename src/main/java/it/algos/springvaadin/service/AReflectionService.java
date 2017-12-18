@@ -4,7 +4,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("session")
+@Scope("singleton")
 public class AReflectionService {
 
 
@@ -121,7 +121,7 @@ public class AReflectionService {
         Field[] fieldsArray = entityClazz.getDeclaredFields();
 
         for (Field field : fieldsArray) {
-            if (!field.getName().equals(Cost.PROPERTY_SERIAL)) {
+            if (!field.getName().equals(ACost.PROPERTY_SERIAL)) {
                 fieldsList.add(field);
             }// end of if cycle
         }// end of for cycle
@@ -196,16 +196,16 @@ public class AReflectionService {
             try { // prova ad eseguire il codice
                 fieldsArray = clazz.getDeclaredFields();
                 for (Field field : fieldsArray) {
-                    if (field.getName().equals(Cost.PROPERTY_ID)) {
+                    if (field.getName().equals(ACost.PROPERTY_ID)) {
                         fieldKeyId = field;
                     }// end of if cycle
-                    if (field.getName().equals(Cost.PROPERTY_COMPANY)) {
+                    if (field.getName().equals(ACost.PROPERTY_COMPANY)) {
                         fieldCompany = field;
                     }// end of if cycle
-                    if (field.getName().equals(Cost.PROPERTY_ORDINE)) {
+                    if (field.getName().equals(ACost.PROPERTY_ORDINE)) {
                         fieldOrdine = field;
                     }// end of if cycle
-                    if (!Cost.ESCLUSI.contains(field.getName())) {
+                    if (!ACost.ESCLUSI.contains(field.getName())) {
                         fieldsTmp.add(field);
                     }// end of if cycle
                 }// end of for cycle
@@ -223,7 +223,7 @@ public class AReflectionService {
                 for (String nome : listaNomi) {
                     for (Field field : fieldsTmp) {
                         fieldName = field.getName();
-                        if (text.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
+                        if (text.isValid(fieldName) && !fieldName.equals(ACost.PROPERTY_SERIAL)) {
                             if (fieldName.equals(nome)) {
                                 fieldsList.add(field);
                             }// end of if cycle
@@ -233,7 +233,7 @@ public class AReflectionService {
             } else {
                 for (Field field : fieldsTmp) {
                     fieldName = field.getName();
-                    if (text.isValid(fieldName) && !fieldName.equals(Cost.PROPERTY_SERIAL)) {
+                    if (text.isValid(fieldName) && !fieldName.equals(ACost.PROPERTY_SERIAL)) {
                         fieldsList.add(field);
                     }// end of if cycle
                 }// end of for cycle

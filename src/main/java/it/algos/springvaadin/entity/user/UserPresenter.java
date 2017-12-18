@@ -1,8 +1,7 @@
 package it.algos.springvaadin.entity.user;
-import it.algos.springvaadin.lib.Cost;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.APresenter;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.IAService;
@@ -24,7 +23,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(Cost.TAG_USE)
+@Qualifier(ACost.TAG_USE)
 public class UserPresenter extends APresenter {
 
     /**
@@ -34,9 +33,9 @@ public class UserPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public UserPresenter(
-                @Lazy @Qualifier(Cost.TAG_USE) IAService service,
-                @Lazy @Qualifier(Cost.TAG_USE) IAList list,
-                @Lazy @Qualifier(Cost.TAG_USE) IAForm form) {
+                @Lazy @Qualifier(ACost.TAG_USE) IAService service,
+                @Lazy @Qualifier(ACost.TAG_USE) IAList list,
+                @Lazy @Qualifier(ACost.TAG_USE) IAForm form) {
         super(service, list, form);
         super.entityClass = User.class;
      }// end of Spring constructor

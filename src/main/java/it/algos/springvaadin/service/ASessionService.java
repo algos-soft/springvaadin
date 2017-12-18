@@ -16,9 +16,9 @@ import javax.management.Attribute;
  * Time: 22:31
  * Classe di Libreria
  */
-@SpringComponent
-@Scope("session")
 @Slf4j
+@SpringComponent
+@Scope("singleton")
 public class ASessionService {
 
     private boolean developer=true;

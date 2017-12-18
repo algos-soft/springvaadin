@@ -9,7 +9,7 @@ import java.util.List;
  * Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
  * Altre costanti 'static' sono raggruppate nella classe it.algos.webbase.web.AlgosApp
  */
-public abstract class Cost {
+public abstract class ACost {
 
     public final static boolean DEBUG = false;
     public final static String LOGIN_INFO = "loginInfo";
@@ -31,9 +31,9 @@ public abstract class Cost {
     public final static String COMPANY_CODE = "code";
     public final static String COMPANY_UNICO = "codeCompanyUnico";
 
-    private final static String[] esclusiMatrice = {Cost.PROPERTY_SERIAL, Cost.PROPERTY_ID, Cost.PROPERTY_COMPANY};
+    private final static String[] esclusiMatrice = {ACost.PROPERTY_SERIAL, ACost.PROPERTY_ID, ACost.PROPERTY_COMPANY};
     public final static List<String> ESCLUSI = Arrays.asList(esclusiMatrice);
-    private final static String[] companyMatrice = {Cost.COMPANY_CODE, Cost.COMPANY_UNICO};
+    private final static String[] companyMatrice = {ACost.COMPANY_CODE, ACost.COMPANY_UNICO};
     public final static List<String> COMPANY_OPTIONAL = Arrays.asList(companyMatrice);
 
     public final static String TAG_VERS = "vers";

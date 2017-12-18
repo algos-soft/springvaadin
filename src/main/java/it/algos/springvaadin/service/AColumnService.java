@@ -10,7 +10,7 @@ import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import java.util.Locale;
  * Time: 11:42
  */
 @SpringComponent
-@Scope("session")
+@Scope("singleton")
 public class AColumnService {
 
 
@@ -132,7 +132,7 @@ public class AColumnService {
             colonna.setWidth(WIDTH_BYTE);
         }// end of if cycle
 
-        if (caption.equals(Cost.PROPERTY_ID)) {
+        if (caption.equals(ACost.PROPERTY_ID)) {
             colonna.setWidth(290);
         }// end of if cycle
 

@@ -7,7 +7,7 @@ import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.*;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.view.IAView;
@@ -196,11 +196,11 @@ public class AAnnotationServiceTest {
      */
     @Test
     public void getViewName() {
-        previsto = Cost.VIEW_ROL_LIST;
+        previsto = ACost.VIEW_ROL_LIST;
         ottenuto = service.getViewName(ROLE_VIEW_CLASS_LIST);
         assertEquals(previsto, ottenuto);
 
-        previsto = Cost.VIEW_ROL_FORM;
+        previsto = ACost.VIEW_ROL_FORM;
         ottenuto = service.getViewName(ROLE_VIEW_CLASS_FORM);
         assertEquals(previsto, ottenuto);
     }// end of single test

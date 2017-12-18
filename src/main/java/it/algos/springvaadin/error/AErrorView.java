@@ -7,7 +7,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;

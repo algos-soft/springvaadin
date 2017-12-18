@@ -9,7 +9,6 @@ import com.vaadin.ui.SingleSelect;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.event.AActionEvent;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AColumnService;
 import it.algos.springvaadin.service.ATextService;

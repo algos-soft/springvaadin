@@ -2,6 +2,8 @@ package it.algos.springvaadin.entity.user;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import it.algos.springvaadin.lib.ACost;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,7 +17,6 @@ import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.annotation.*;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
 
 /**
@@ -45,7 +46,7 @@ import it.algos.springvaadin.entity.AEntity;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Qualifier(Cost.TAG_USE)
+@Qualifier(ACost.TAG_USE)
 @AIEntity()
 @AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"code", "descrizione"})

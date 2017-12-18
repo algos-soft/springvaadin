@@ -7,7 +7,7 @@ import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.enumeration.EARoleType;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,7 +45,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Qualifier(Cost.TAG_ROL)
+@Qualifier(ACost.TAG_ROL)
 @AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.nonUsata)
 @AIList(columns = {"ordine", "code"})
 @AIForm(fields = {"ordine", "code"}, fieldsDev = EAFieldAccessibility.allways, fieldsAdmin = EAFieldAccessibility.never)

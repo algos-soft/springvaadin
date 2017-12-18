@@ -1,7 +1,6 @@
 package it.algos.springvaadin.entity.user;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +23,11 @@ import java.util.List;
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @@Slf4j (facoltativo) per i logs automatici
  */
+@Slf4j
 @SpringComponent
 @Service
 @Scope("session")
-@Qualifier(Cost.TAG_USE)
-@Slf4j
+@Qualifier(ACost.TAG_USE)
 public class UserService extends AService {
 
     @Autowired
@@ -48,7 +47,7 @@ public class UserService extends AService {
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
      * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      */
-    public UserService(@Qualifier(Cost.TAG_USE) MongoRepository repository) {
+    public UserService(@Qualifier(ACost.TAG_USE) MongoRepository repository) {
         super(repository);
         super.entityClass = User.class;
          this.repository = (UserRepository) repository;

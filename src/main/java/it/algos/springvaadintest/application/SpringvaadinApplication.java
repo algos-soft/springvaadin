@@ -3,6 +3,7 @@ package it.algos.springvaadintest.application;
 import com.vaadin.server.*;
 import com.vaadin.spring.server.SpringVaadinServlet;
 import it.algos.springvaadin.app.StaticContextAccessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,6 +35,7 @@ import javax.servlet.ServletException;
 @EnableMongoRepositories(basePackages = "it.algos.springvaadin")
 @ComponentScan({"it.algos.springvaadin", "it.algos.springvaadintest"})
 @EntityScan("it.algos.springvaadin.entity")
+@Slf4j
 public class SpringvaadinApplication extends SpringBootServletInitializer {
 
 

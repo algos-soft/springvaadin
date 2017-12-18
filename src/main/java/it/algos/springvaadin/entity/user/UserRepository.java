@@ -1,10 +1,9 @@
 package it.algos.springvaadin.entity.user;
-import it.algos.springvaadin.lib.Cost;
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.lib.ACost;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import it.algos.springvaadin.lib.Cost;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @SpringComponent
-@Qualifier(Cost.TAG_USE)
+@Qualifier(ACost.TAG_USE)
 public interface UserRepository extends MongoRepository<User, String> {
 
     public User findByCode(String code);

@@ -1,7 +1,7 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.FIELD_INTEGER)
+@Qualifier(ACost.FIELD_INTEGER)
 public class AIntegerField extends AField {
 
 

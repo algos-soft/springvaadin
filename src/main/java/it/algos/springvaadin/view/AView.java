@@ -7,7 +7,7 @@ import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.label.LabelRosso;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -137,7 +137,7 @@ public abstract class AView extends VerticalLayout implements IAView {
 //        if (pref.isTrue(Cost.KEY_USE_DEBUG, false)) {
 //        }// end of if cycle
 
-        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+        if (ACost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
             this.addStyleName("blueBg");
         }// end of if cycle
 

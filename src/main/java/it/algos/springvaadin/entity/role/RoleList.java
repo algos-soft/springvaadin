@@ -9,7 +9,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.IAToolbar;
@@ -32,8 +32,8 @@ import java.util.List;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(Cost.TAG_ROL)
-@SpringView(name = Cost.VIEW_ROL_LIST)
+@Qualifier(ACost.TAG_ROL)
+@SpringView(name = ACost.VIEW_ROL_LIST)
 public class RoleList extends AList {
 
 
@@ -43,7 +43,7 @@ public class RoleList extends AList {
      * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
      * Se manca il MENU_NAME, di default usa il 'name' della view
      */
-    public static final String MENU_NAME = Cost.TAG_ROL;
+    public static final String MENU_NAME = ACost.TAG_ROL;
 
 
     /**
@@ -68,8 +68,8 @@ public class RoleList extends AList {
      * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public RoleList(
-            @Lazy @Qualifier(Cost.TAG_ROL) IAPresenter presenter,
-            @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+            @Lazy @Qualifier(ACost.TAG_ROL) IAPresenter presenter,
+            @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 

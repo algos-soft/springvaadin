@@ -1,10 +1,9 @@
 package it.algos.springvaadin.entity.user;
-import it.algos.springvaadin.lib.Cost;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.form.AForm;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,8 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(Cost.TAG_USE)
-@SpringView(name = Cost.VIEW_USE_FORM)
+@Qualifier(ACost.TAG_USE)
+@SpringView(name = ACost.VIEW_USE_FORM)
 public class UserForm extends AForm {
 
 
@@ -40,7 +39,7 @@ public class UserForm extends AForm {
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-     public UserForm(@Lazy @Qualifier(Cost.TAG_USE) IAPresenter presenter, @Qualifier(Cost.BAR_FORM) IAToolbar toolbar) {
+     public UserForm(@Lazy @Qualifier(ACost.TAG_USE) IAPresenter presenter, @Qualifier(ACost.BAR_FORM) IAToolbar toolbar) {
          super(presenter, toolbar);
      }// end of Spring constructor
 

@@ -2,7 +2,7 @@ package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -20,12 +20,14 @@ import java.util.List;
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @SpringComponent
-@Qualifier(Cost.TAG_ROL)
+@Qualifier(ACost.TAG_ROL)
 public interface RoleRepository extends MongoRepository<Role, String> {
 
     public Role findByCode(String code);
 
     public List<Role> findByOrderByOrdineAsc();
+
+    public List<Role> findTop1ByOrderByOrdineDesc();
 
     public void delete(Role entityBean);
 

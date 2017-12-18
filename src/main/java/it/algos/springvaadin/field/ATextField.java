@@ -1,7 +1,7 @@
 package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Configurable("ATextField")
 @Scope("prototype")
-@Qualifier(Cost.FIELD_TEXT)
+@Qualifier(ACost.FIELD_TEXT)
 public class ATextField extends AField {
 
 

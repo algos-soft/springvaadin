@@ -6,7 +6,7 @@ import com.vaadin.ui.components.grid.ItemClickListener;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_AZ_SINGLE_CLICK)
+@Qualifier(ACost.TAG_AZ_SINGLE_CLICK)
 public class AActionSingleClick extends AAction {
 
 

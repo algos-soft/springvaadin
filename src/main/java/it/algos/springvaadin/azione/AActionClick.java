@@ -6,7 +6,7 @@ import com.vaadin.ui.components.grid.ItemClickListener;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_AZ_CLICK)
+@Qualifier(ACost.TAG_AZ_CLICK)
 public class AActionClick extends AAction {
 
     private final static long defaultTimeInterval = 50000;

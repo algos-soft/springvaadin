@@ -18,17 +18,17 @@ import java.util.List;
 /**
  * Created by gac on @TODAY@
  * Estende la Entity astratta AService. Layer di collegamento tra il Presenter e la Repository.
+ * Annotated with @@Slf4j (facoltativo) per i logs automatici
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Service (ridondante)
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
- * Annotated with @@Slf4j (facoltativo) per i logs automatici
  */
+@Slf4j
 @SpringComponent
 @Service
-@Scope("session")
+@Scope("singleton")
 @Qualifier(@TAG@)
-@Slf4j
 public class @ENTITY@Service extends AService {
 
     @Autowired

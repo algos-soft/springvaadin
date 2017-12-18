@@ -1,10 +1,9 @@
 package it.algos.springvaadin.entity.user;
-import it.algos.springvaadin.lib.Cost;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.IAToolbar;
@@ -26,8 +25,8 @@ import java.util.List;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(Cost.TAG_USE)
-@SpringView(name = Cost.VIEW_USE_LIST)
+@Qualifier(ACost.TAG_USE)
+@SpringView(name = ACost.VIEW_USE_LIST)
 public class UserList extends AList {
 
 
@@ -37,7 +36,7 @@ public class UserList extends AList {
      * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
      * Se manca il MENU_NAME, di default usa il 'name' della view
      */
-    public static final String MENU_NAME = Cost.TAG_USE;
+    public static final String MENU_NAME = ACost.TAG_USE;
 
 
     /**
@@ -62,8 +61,8 @@ public class UserList extends AList {
      * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public UserList(
-            @Lazy @Qualifier(Cost.TAG_USE) IAPresenter presenter,
-            @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+            @Lazy @Qualifier(ACost.TAG_USE) IAPresenter presenter,
+            @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 

@@ -10,7 +10,6 @@ import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.IAFieldFactory;
-import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -29,7 +28,7 @@ import java.util.List;
  * In Spring le librerie NON possono essere astratte, altrimenti si perde @PostConstruct e @Autowired
  */
 @SpringComponent
-@Scope("session")
+@Scope("singleton")
 public class AFieldService {
 
     @Autowired

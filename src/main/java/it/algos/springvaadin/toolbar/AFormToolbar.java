@@ -2,7 +2,7 @@ package it.algos.springvaadin.toolbar;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.button.AButtonFactory;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.BAR_FORM)
+@Qualifier(ACost.BAR_FORM)
 public class AFormToolbar extends AToolbar {
 
 

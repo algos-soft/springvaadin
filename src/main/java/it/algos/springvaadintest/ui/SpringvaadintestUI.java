@@ -10,7 +10,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.home.AHomeView;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.ui.AUI;
 import it.algos.springvaadintest.view.VaadintestView;
 import lombok.extern.slf4j.Slf4j;
@@ -123,7 +123,7 @@ public class SpringvaadintestUI extends AUI {
      */
     @Override
     protected void startVistaIniziale() {
-        getNavigator().navigateTo(Cost.VIEW_ROL_LIST);
+        getNavigator().navigateTo(ACost.VIEW_ROL_LIST);
     }// end of method
 
 }// end of class

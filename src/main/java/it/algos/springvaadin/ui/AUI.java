@@ -8,7 +8,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.footer.AFooter;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -118,7 +118,7 @@ public abstract class AUI extends AUIViews implements ViewDisplay {
 //            root.addStyleName("colorebase");
 //        }// end of if/else cycle
 
-        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+        if (ACost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
             root.addStyleName("pinkBg");
         }// end of if cycle
 

@@ -5,7 +5,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.themes.ValoTheme;
 import it.algos.springvaadin.button.AButton;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 
 /**
  * Project springvaadin
@@ -23,26 +23,26 @@ import it.algos.springvaadin.lib.Cost;
 public enum EAButtonType {
 
 
-    accetta(Cost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
-    conferma(Cost.BOT_CONFERMA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
-    annulla(Cost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.BACKSPACE, ShortcutAction.ModifierKey.ALT),
-    back(Cost.BOT_BACK, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
-    chooser(Cost.BOT_CHOOSER, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
-    create(Cost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.N, ShortcutAction.ModifierKey.ALT),
-    delete(Cost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_DANGER, 0, 0),
+    accetta(ACost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
+    conferma(ACost.BOT_CONFERMA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
+    annulla(ACost.BOT_ANNULLA, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.BACKSPACE, ShortcutAction.ModifierKey.ALT),
+    back(ACost.BOT_BACK, VaadinIcons.ARROW_BACKWARD, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
+    chooser(ACost.BOT_CHOOSER, VaadinIcons.SEARCH, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0),
+    create(ACost.BOT_CREATE, VaadinIcons.PLUS, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.N, ShortcutAction.ModifierKey.ALT),
+    delete(ACost.BOT_DELETE, VaadinIcons.CLOSE, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_DANGER, 0, 0),
     deleteLink("", VaadinIcons.CLOSE, true, AButton.ICON_WIDTH, ValoTheme.BUTTON_DANGER, 0, 0),
-    edit(Cost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.SPACEBAR, 0),
-    show(Cost.BOT_SHOW, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.SPACEBAR, 0),
+    edit(ACost.BOT_EDIT, VaadinIcons.EDIT, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.SPACEBAR, 0),
+    show(ACost.BOT_SHOW, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.SPACEBAR, 0),
     editLinkDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, ValoTheme.BUTTON_PRIMARY, 0, 0),
     editLinkNoDBRef("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, ValoTheme.BUTTON_PRIMARY, 0, 0),
     image("", VaadinIcons.EDIT, true, AButton.ICON_WIDTH, "", 0, 0),
-    importa(Cost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_DANGER, 0, 0),
-    linkAccetta(Cost.BOT_ACCETTA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
-    linkRegistra(Cost.BOT_REGISTRA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
-    registra(Cost.BOT_REGISTRA, VaadinIcons.DATABASE, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
-    revert(Cost.BOT_REVERT, VaadinIcons.REFRESH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.R, ShortcutAction.ModifierKey.ALT),
-    search(Cost.BOT_SEARCH, VaadinIcons.SEARCH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.F, ShortcutAction.ModifierKey.ALT),
-    showAll(Cost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0);
+    importa(ACost.BOT_IMPORT, VaadinIcons.EXTERNAL_BROWSER, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_DANGER, 0, 0),
+    linkAccetta(ACost.BOT_ACCETTA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
+    linkRegistra(ACost.BOT_REGISTRA, VaadinIcons.EDIT, true, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
+    registra(ACost.BOT_REGISTRA, VaadinIcons.DATABASE, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_PRIMARY, ShortcutAction.KeyCode.ENTER, 0),
+    revert(ACost.BOT_REVERT, VaadinIcons.REFRESH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.R, ShortcutAction.ModifierKey.ALT),
+    search(ACost.BOT_SEARCH, VaadinIcons.SEARCH, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.F, ShortcutAction.ModifierKey.ALT),
+    showAll(ACost.BOT_SHOW_ALL, VaadinIcons.ALIGN_JUSTIFY, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, 0, 0);
 
 
     private String caption;

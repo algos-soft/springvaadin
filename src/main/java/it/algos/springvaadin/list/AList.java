@@ -9,7 +9,7 @@ import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.AGrid;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.toolbar.AToolbar;
@@ -66,7 +66,7 @@ public abstract class AList extends AView implements IAList {
      * @param presenter iniettato da Spring
      * @param toolbar   iniettato da Spring
      */
-    public AList(IAPresenter presenter, @Qualifier(Cost.BAR_LIST) IAToolbar toolbar) {
+    public AList(IAPresenter presenter, @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 

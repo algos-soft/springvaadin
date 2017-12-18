@@ -3,9 +3,11 @@ package it.algos.springvaadin.bootstrap;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.service.ADataService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -26,8 +28,16 @@ import org.springframework.context.event.EventListener;
  * ATTENZIONE: in questa fase NON sono disponibili le classi che dipendono dalla UI e dalla Session
  */
 @SpringComponent
+@Scope("singleton")
 @Slf4j
 public class ABoot {
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public ADataService dataService;
 
 
     /**
@@ -36,6 +46,7 @@ public class ABoot {
      * non è controllabile
      */
     protected boolean classeAlgosBootAncoraDaEseguire = true;
+
 
     /**
      * Running logic after the Spring context has been initialized
@@ -52,7 +63,9 @@ public class ABoot {
      */
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Primo punto di ingresso dell'applicazione @EventListener ABoot.onApplicationEvent() ");
+        log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Punto di ingresso del programma @EventListener ABoot.onApplicationEvent() ");
+        this.dataService.inizia();
+
         if (this.classeAlgosBootAncoraDaEseguire) {
             this.inizializzaValoriDefault();
         }// end of if cycle
@@ -124,10 +137,10 @@ public class ABoot {
     protected void printBefore(Boot boot) {
         switch (boot) {
             case generico:
-                log.info("Application is coming up and is ready to server requests - PRIMA della chiamata del browser - start generic bootstrap code nella classe AlgosBoot");
+                log.info("Algos - Application is coming up and is ready to server requests - PRIMA della chiamata del browser - start generic bootstrap code nella classe AlgosBoot");
                 break;
             case specifico:
-                log.info("Start specific bootstrap code nella classe xxxBoot");
+                log.info("Algos - Start specific bootstrap code nella classe xxxBoot");
                 break;
         } // fine del blocco switch
     }// end of method
@@ -138,10 +151,10 @@ public class ABoot {
     protected void printAfter(Boot boot) {
         switch (boot) {
             case generico:
-                log.info("All this params can be found also in LibParams - End generic bootstrap code");
+                log.info("Algos - All this params can be found also in LibParams - End generic bootstrap code");
                 break;
             case specifico:
-                log.info("End specific bootstrap code");
+                log.info("Algos - End specific bootstrap code");
                 break;
         } // fine del blocco switch
     }// end of method

@@ -4,7 +4,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AColumnService;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
@@ -58,7 +58,7 @@ public class AFooter extends VerticalLayout {
         this.setMargin(false);
         this.setSpacing(true);
 
-        if (Cost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
+        if (ACost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
             this.addStyleName("greenBg");
         }// end of if cycle
 

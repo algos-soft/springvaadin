@@ -20,6 +20,9 @@ import java.util.List;
 public class AArrayService {
 
 
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
     @Autowired
     public ATextService text;
 

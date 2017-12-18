@@ -5,7 +5,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("session")
+@Scope("singleton")
 public abstract class AService implements IAService {
 
 
@@ -60,6 +60,17 @@ public abstract class AService implements IAService {
     public AService(MongoRepository repository) {
         this.repository = repository;
     }// end of Spring constructor
+
+
+    /**
+     * Returns the number of entities available.
+     *
+     * @return the number of entities
+     */
+    @Override
+    public int count() {
+        return (int) repository.count();
+    }// end of method
 
 
     /**
@@ -184,8 +195,8 @@ public abstract class AService implements IAService {
         if (session.isDeveloper()) {
             listaFields = reflection.getFieldsAllSuperclasses(entityClass);
         } else {
-            if (!listaNomi.contains(Cost.PROPERTY_NOTE)) {
-                listaNomi = array.add(listaNomi, Cost.PROPERTY_NOTE);
+            if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
+                listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
             }// end of if cycle
             listaFields = reflection.getFormFields(entityClass, listaNomi);
         }// end of if/else cycle

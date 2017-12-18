@@ -16,6 +16,15 @@ import java.util.List;
  */
 public interface IAService {
 
+
+    /**
+     * Returns the number of entities available.
+     *
+     * @return the number of entities
+     */
+    public int count();
+
+
     /**
      * Returns all entities of the type.
      * <p>

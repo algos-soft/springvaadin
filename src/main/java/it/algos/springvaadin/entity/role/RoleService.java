@@ -3,7 +3,7 @@ package it.algos.springvaadin.entity.role;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ASessionService;
 import it.algos.springvaadin.service.ATextService;
@@ -29,11 +29,11 @@ import java.util.List;
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @@Slf4j (facoltativo) per i logs automatici
  */
+@Slf4j
 @SpringComponent
 @Service
-@Scope("session")
-@Qualifier(Cost.TAG_ROL)
-@Slf4j
+@Scope("singleton")
+@Qualifier(ACost.TAG_ROL)
 public class RoleService extends AService {
 
 
@@ -68,11 +68,24 @@ public class RoleService extends AService {
      *
      * @param repository iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public RoleService(@Qualifier(Cost.TAG_ROL) MongoRepository repository) {
+    public RoleService(@Qualifier(ACost.TAG_ROL) MongoRepository repository) {
         super(repository);
         this.repository = (RoleRepository) repository;
         super.entityClass = Role.class;
     }// end of Spring constructor
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * Properties obbligatorie
+     *
+     * @param codice di riferimento (obbligatorio)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public Role findOrCrea(String codice) {
+        return this.findOrCrea(0, codice);
+    }// end of method
 
 
     /**
@@ -127,7 +140,7 @@ public class RoleService extends AService {
         Role entity = null;
 
         if (nonEsiste(codice)) {
-            entity = Role.builder().ordine(ordine).code(codice).build();
+            entity = Role.builder().ordine(ordine == 0 ? this.getNewOrdine() : ordine).code(codice).build();
         } else {
             return repository.findByCode(codice);
         }// end of if/else cycle
@@ -188,6 +201,25 @@ public class RoleService extends AService {
                 return null;
             }// end of if/else cycle
         }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Ordine di presentazione (obbligatorio, unico per tutte le eventuali company),
+     * viene calcolato in automatico prima del persist sul database
+     * Recupera il valore massimo della property
+     * Incrementa di uno il risultato
+     *
+     */
+    private int getNewOrdine() {
+        int ordine = 0;
+
+        List<Role> lista = repository.findTop1ByOrderByOrdineDesc();
+        if (lista != null && lista.size() == 1) {
+            ordine = lista.get(0).getOrdine();
+        }// end of if cycle
+
+        return ordine + 1;
     }// end of method
 
 

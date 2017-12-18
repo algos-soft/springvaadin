@@ -10,7 +10,6 @@ import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.IAService;

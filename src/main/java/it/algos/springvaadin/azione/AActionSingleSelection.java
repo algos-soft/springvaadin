@@ -7,7 +7,7 @@ import com.vaadin.ui.components.grid.GridSelectionModel;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 
 @SpringComponent
 @Scope("prototype")
-@Qualifier(Cost.TAG_AZ_SINGLE_SELECTION)
+@Qualifier(ACost.TAG_AZ_SINGLE_SELECTION)
 public class AActionSingleSelection extends AAction {
 
 

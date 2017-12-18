@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("session")
+@Scope("singleton")
 public class AAnnotationService {
 
 

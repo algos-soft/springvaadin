@@ -6,7 +6,6 @@ import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.grid.AGrid;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;

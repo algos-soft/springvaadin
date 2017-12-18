@@ -9,7 +9,6 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.label.LabelBold;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;

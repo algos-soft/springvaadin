@@ -4,7 +4,7 @@ import com.vaadin.data.HasValue;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextArea;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Configurable("ATextField")
 @Scope("prototype")
-@Qualifier(Cost.FIELD_TEXT_AREA)
+@Qualifier(ACost.FIELD_TEXT_AREA)
 public class ATextAreaField extends ATextField {
 
 

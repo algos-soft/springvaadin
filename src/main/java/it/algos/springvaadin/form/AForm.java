@@ -8,7 +8,7 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AFieldService;
 import it.algos.springvaadin.toolbar.AFormToolbar;
@@ -67,7 +67,7 @@ public abstract class AForm extends AView implements IAForm {
      *
      * @param presenter iniettato da Spring
      */
-    public AForm(IAPresenter presenter, @Qualifier(Cost.BAR_FORM) IAToolbar toolbar) {
+    public AForm(IAPresenter presenter, @Qualifier(ACost.BAR_FORM) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 

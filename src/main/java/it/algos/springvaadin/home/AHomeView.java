@@ -11,7 +11,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.grid.IAGrid;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Slf4j
 @Scope("session")
-@SpringView(name = Cost.TAG_HOME)
+@SpringView(name = ACost.TAG_HOME)
 public class AHomeView extends AView {
 
     //--icona del Menu

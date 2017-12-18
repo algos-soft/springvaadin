@@ -1,7 +1,7 @@
 package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.APresenter;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.IAService;
@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(Cost.TAG_ROL)
+@Qualifier(ACost.TAG_ROL)
 public class RolePresenter extends APresenter {
 
 
@@ -45,9 +45,9 @@ public class RolePresenter extends APresenter {
      * @param form iniettato da Spring
      */
     public RolePresenter(
-            @Lazy @Qualifier(Cost.TAG_ROL) IAService service,
-            @Lazy @Qualifier(Cost.TAG_ROL) IAList list,
-            @Lazy @Qualifier(Cost.TAG_ROL) IAForm form) {
+            @Lazy @Qualifier(ACost.TAG_ROL) IAService service,
+            @Lazy @Qualifier(ACost.TAG_ROL) IAList list,
+            @Lazy @Qualifier(ACost.TAG_ROL) IAForm form) {
         super(service, list, form);
         super.entityClass = Role.class;
     }// end of Spring constructor

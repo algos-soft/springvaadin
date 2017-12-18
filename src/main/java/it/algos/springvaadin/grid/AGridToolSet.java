@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.azione.AAction;
 import it.algos.springvaadin.azione.IAAction;
 import it.algos.springvaadin.event.IAListener;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -28,12 +28,12 @@ public class AGridToolSet {
 
 
     public AGridToolSet(
-            @Qualifier(Cost.TAG_AZ_ATTACH) IAAction azioneAttach,
+            @Qualifier(ACost.TAG_AZ_ATTACH) IAAction azioneAttach,
 //            @Qualifier(Cost.TAG_AZ_CLICK) IAAction azioneClick,
-            @Qualifier(Cost.TAG_AZ_SINGLE_CLICK) IAAction azioneSingleClick,
-            @Qualifier(Cost.TAG_AZ_DOPPIO_CLICK) IAAction azioneDoppioClick,
-            @Qualifier(Cost.TAG_AZ_SINGLE_SELECTION) IAAction azioneSingleSelection,
-            @Qualifier(Cost.TAG_AZ_MULTI_SELECTION) IAAction azioneMultiSelection) {
+            @Qualifier(ACost.TAG_AZ_SINGLE_CLICK) IAAction azioneSingleClick,
+            @Qualifier(ACost.TAG_AZ_DOPPIO_CLICK) IAAction azioneDoppioClick,
+            @Qualifier(ACost.TAG_AZ_SINGLE_SELECTION) IAAction azioneSingleSelection,
+            @Qualifier(ACost.TAG_AZ_MULTI_SELECTION) IAAction azioneMultiSelection) {
         this.azioneAttach = azioneAttach;
 //        this.azioneClick = azioneClick;
         this.azioneSingleClick = azioneSingleClick;
