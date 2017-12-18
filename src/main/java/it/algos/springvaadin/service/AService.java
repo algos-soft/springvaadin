@@ -8,6 +8,7 @@ import it.algos.springvaadin.enumeration.EAListButton;
 import it.algos.springvaadin.lib.Cost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
+@Scope("session")
 public abstract class AService implements IAService {
 
 

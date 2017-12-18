@@ -27,7 +27,7 @@ import java.util.Locale;
  * Time: 11:42
  */
 @SpringComponent
-@Scope("singleton")
+@Scope("session")
 public class AColumnService {
 
 

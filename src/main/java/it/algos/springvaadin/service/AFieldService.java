@@ -14,6 +14,7 @@ import it.algos.springvaadin.lib.Cost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Scope;
 
 import javax.persistence.metamodel.Attribute;
 import java.lang.annotation.Annotation;
@@ -28,6 +29,7 @@ import java.util.List;
  * In Spring le librerie NON possono essere astratte, altrimenti si perde @PostConstruct e @Autowired
  */
 @SpringComponent
+@Scope("session")
 public class AFieldService {
 
     @Autowired
@@ -64,11 +66,11 @@ public class AFieldService {
         String width = annotation.getWidthEM(reflectedJavaField);
         boolean required = annotation.isRequired(reflectedJavaField);
         boolean focus = annotation.isFocus(reflectedJavaField);
-//        boolean enabled = annotation.isFieldEnabled(reflectedJavaField, nuovaEntity);
+        boolean enabled = annotation.isFieldEnabled(reflectedJavaField, nuovaEntity);
+//        boolean visible = annotation.isFieldVisibile(reflectedJavaField, nuovaEntity);
 
         //@todo RIMETTERE
 //        int rows = annotation.getNumRows(reflectionJavaField);
-//        boolean visible = annotation.isFieldVisibile(reflectionJavaField, nuovaEntity);
 //        boolean nullSelection = annotation.isNullSelectionAllowed(reflectionJavaField);
 //        boolean newItems = annotation.isNewItemsAllowed(reflectionJavaField);
 //        Class targetClazz = annotation.getClass(reflectionJavaField);
@@ -125,7 +127,7 @@ public class AFieldService {
 //
         if (algosField != null && fieldAnnotation != null) {
 //            algosField.setVisible(visible);
-//            algosField.setEnabled(enabled);
+            algosField.setEnabled(enabled);
             algosField.setRequiredIndicatorVisible(required);
             algosField.setCaption(caption);
 //            if (text.isValid(width)) {

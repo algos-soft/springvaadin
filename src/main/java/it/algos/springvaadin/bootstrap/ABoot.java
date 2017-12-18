@@ -1,7 +1,11 @@
 package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -24,6 +28,7 @@ import org.springframework.context.event.EventListener;
 @SpringComponent
 @Slf4j
 public class ABoot {
+
 
     /**
      * Flag per assicurarsi che questa classe di inizializzazione venga eseguita PRIMA di un'eventuale sottoclasse

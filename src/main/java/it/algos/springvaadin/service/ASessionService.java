@@ -21,7 +21,7 @@ import javax.management.Attribute;
 @Slf4j
 public class ASessionService {
 
-    private boolean developer;
+    private boolean developer=true;
     private boolean admin;
     private boolean user;
 

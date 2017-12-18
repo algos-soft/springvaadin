@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @SpringComponent
-@Scope("singleton")
+@Scope("session")
 public class AAnnotationService {
 
 
@@ -634,6 +634,63 @@ public class AAnnotationService {
         return visibile;
     }// end of method
 
+
+    /**
+     * Get the enabled state of the field.
+     * Controlla la visibilità del field
+     * Controlla il grado di accesso consentito
+     * Di default true
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public boolean isFieldEnabled(Field reflectionJavaField, boolean nuovaEntity) {
+        boolean enabled = true;
+        boolean visibile = isFieldVisibileRole(reflectionJavaField);
+
+        if (visibile) {
+            enabled = isFieldEnabledAccess(reflectionJavaField, nuovaEntity);
+        }// end of if cycle
+
+        return enabled;
+    }// end of method
+
+
+    /**
+     * Get the enabled state of the field.
+     * Controlla il grado di accesso consentito
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the visibility of the field
+     */
+    @SuppressWarnings("all")
+    public  boolean isFieldEnabledAccess(Field reflectionField, boolean nuovaEntity) {
+        boolean enabled = true;
+        EAFieldAccessibility fieldAccessibility = this.getFieldAccessibility(reflectionField);
+
+        switch (fieldAccessibility) {
+            case allways:
+                enabled = true;
+                break;
+            case newOnly:
+                enabled = nuovaEntity;
+                break;
+            case showOnly:
+                enabled = false;
+                break;
+            case never:
+                enabled = false;
+                break;
+            default:
+                enabled = true;
+                break;
+        } // end of switch statement
+
+        return enabled;
+    }// end of method
 
     /**
      * Get the accessibility status of the field for the developer login.
