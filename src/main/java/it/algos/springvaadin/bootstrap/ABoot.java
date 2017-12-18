@@ -52,6 +52,7 @@ public class ABoot {
      */
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Primo punto di ingresso dell'applicazione @EventListener ABoot.onApplicationEvent() ");
         if (this.classeAlgosBootAncoraDaEseguire) {
             this.inizializzaValoriDefault();
         }// end of if cycle

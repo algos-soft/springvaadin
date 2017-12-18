@@ -148,6 +148,7 @@ public abstract class AUIParams extends UI {
      */
     @PostConstruct
     protected void inizia() {
+        log.info("Algos - Inizio sessione. Primo punto di ingresso dopo la chiamata del browser @PostConstruct AUIParams.inizia()");
         this.printBefore(AUIParams.InterfacciaUtente.generica);
         this.genericFixAndPrint();
         this.printAfter(AUIParams.InterfacciaUtente.generica);
@@ -249,7 +250,7 @@ public abstract class AUIParams extends UI {
 
         switch (ui) {
             case generica:
-                log.info("Application received the server requests - DOPO la chiamata del browser - start generic initializing code nella classe AUIParams");
+                log.info("Application received the server requests - Dopo la chiamata del browser - start generic initializing code nella classe AUIParams.printBefore()");
                 break;
             case specifica:
                 log.info("Start specific initializing code nella classe " + className);
