@@ -101,6 +101,7 @@ public abstract class AField<T> extends CustomField<Object> {
      */
     public TextField textField;
 
+
     /**
      * Costruttore base senza parametri
      * Viene utilizzato dalla Funzione -> FieldFactory in AlgosConfiguration

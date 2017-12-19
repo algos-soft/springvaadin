@@ -2,6 +2,8 @@ package it.algos.springvaadin.field;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +23,24 @@ import org.springframework.context.annotation.Scope;
 @Scope("prototype")
 @Qualifier(ACost.FIELD_TEXT)
 public class ATextField extends AField {
+
+
+    /**
+     * Costruttore @Autowired
+     */
+    public ATextField() {
+    }// end of Spring constructor
+
+
+    /**
+     * Constructor
+     */
+    public ATextField(String value) {
+        super();
+        if (textField != null) {
+            textField.setValue(value);
+        }// end of if cycle
+    }// end of constructor
 
 
     /**

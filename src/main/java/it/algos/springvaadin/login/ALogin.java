@@ -1,21 +1,23 @@
 package it.algos.springvaadin.login;
 
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.*;
 import it.algos.springvaadin.event.ALoginEvent;
 import it.algos.springvaadin.listener.ALoginListener;
 import it.algos.springvaadin.listener.ALogoutListener;
 import it.algos.springvaadin.listener.AProfileChangeListener;
+import org.springframework.context.annotation.Scope;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 
 /**
  * Main Login object (Login logic).
- * An instance of this object is created and stored in the current session
- * when getLogin() in invoked. Subsequent calls to getLogin() return the same object
- * from the session.
+ * An instance of this object is created and stored in the current session when getLogin() in invoked.
+ * Subsequent calls to getLogin() return the same object from the session.
  */
+@SpringComponent
+@Scope("session")
 public class ALogin {
 
     // key to store the Login object in the session
@@ -48,13 +50,13 @@ public class ALogin {
     private int expiryTime = DEFAULT_EXPIRY_TIME_SEC;
     private boolean renewCookiesOnLogin = DEFAULT_RENEW_COOKIES_ON_LOGIN;
 
-//    private AbsLoginForm loginForm;
+    private ALoginForm loginForm;
 //    private AbsUserProfileForm profileForm;
-//
-//    public ALogin() {
-//        loginForm = new DefaultLoginForm();
-//        profileForm = new DefaultUserProfileForm();
-//    }
+
+    public ALogin() {
+        loginForm = new DALoginForm();
+//        profileForm = new DefaultUserProfileForm(); @todo rimettere
+    }
 
     /**
      * Recupera l'oggetto Login dalla sessione.
@@ -93,15 +95,15 @@ public class ALogin {
 //        Object obj = LibSession.getAttribute(ALogin.LOGIN_KEY_IN_SESSION);
 //        return obj != null;
 //    }
-//
-//    /**
-//     * Retrieve the Login form
-//     *
-//     * @return the Login form to show
-//     */
-//    public AbsLoginForm getLoginForm() {
-//        return loginForm;
-//    }
+
+    /**
+     * Retrieve the Login form
+     *
+     * @return the Login form to show
+     */
+    public ALoginForm getLoginForm() {
+        return loginForm;
+    }
 
 //    /**
 //     * Retrieve the User Profile form
@@ -111,31 +113,29 @@ public class ALogin {
 //    public AbsUserProfileForm getUserProfileForm() {
 //        return profileForm;
 //    }
-//
-//
-//    /**
-//     * Displays the Login form
-//     */
-//    public void showLoginForm() {
-//
-//        AbsLoginForm loginForm = getLoginForm();
-//
-//        // set the login listener in the form
-//        loginForm.setLoginListener(new LoginListener() {
-//            @Override
-//            public void onUserLogin(LoginEvent e) {
-//                attemptLogin();
-//            }
-//        });
-//
-//        // retrieve login data from the cookies
-//        readCookies();
-//
-//        Window window = loginForm.getWindow();
-//        window.center();
-//        UI.getCurrent().addWindow(window);
-//
-//    }
+
+
+    /**
+     * Displays the Login form
+     */
+    public void showLoginForm() {
+
+        ALoginForm loginForm = getLoginForm();
+
+        // set the login listener in the form
+        loginForm.setLoginListener(new ALoginListener() {
+            @Override
+            public void onUserLogin(ALoginEvent e) {
+//                attemptLogin(); @todo rimettere
+            }
+        });
+
+        // retrieve login data from the cookies
+//        readCookies(); @todo rimettere
+
+        // Open it in the UI
+        UI.getCurrent().addWindow(loginForm);
+    }// end of method
 
 //    /**
 //     * Displays the user profile

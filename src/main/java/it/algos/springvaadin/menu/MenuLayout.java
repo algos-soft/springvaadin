@@ -3,13 +3,16 @@ package it.algos.springvaadin.menu;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALoginButton;
+import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.service.AAnnotationService;
+import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.service.ATextService;
 import it.algos.springvaadin.view.IAView;
@@ -33,6 +36,12 @@ public class MenuLayout extends VerticalLayout {
 //    @Autowired
 //    public PreferenzaService pref;
 //@todo RIMETTERE
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    public ALoginButton loginButton;
 
     @Autowired
     public ATextService text;
@@ -106,12 +115,9 @@ public class MenuLayout extends VerticalLayout {
      */
     public void start() {
         this.removeAllComponents();
-        this.addComponent(new ALoginButton());
 
         if (firstMenuBar.getItems().size() > 0) {
-            //@todo RIMETTERE
-//            this.addComponent(new AlgosPanel(firstMenuBar));
-            this.addComponent(firstMenuBar);
+            this.addComponent(new HorizontalLayout(firstMenuBar, loginButton));
         }// end of if cycle
 
         if (secondMenuBar.getItems().size() > 0) {
@@ -194,10 +200,9 @@ public class MenuLayout extends VerticalLayout {
                 }// end of if/else cycle
                 break;
             default:
-                log.warn("Switch - caso non definito");
+                log.error("Switch - caso '" + roleTypeVisibility.name() + "' non definito in MenuLayout.addViewBefore()");
                 break;
         } // end of switch statement
-
 
 
         //@todo CONTROLLARE SE SERVE
