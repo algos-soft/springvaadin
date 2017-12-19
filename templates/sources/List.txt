@@ -22,12 +22,14 @@ import java.util.List;
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @SpringView (obbligatorio) per gestire la visualizzazione di questa view con SprinNavigator
+ * Annotated with @AIView (facoltativo) per selezionarne la 'visibilità' secondo il ruolo dell'User collegato
  * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
 @Scope("session")
 @Qualifier(@TAG@)
 @SpringView(name = Cost.VIEW_@VIEW@_LIST)
+@AIView(roleTypeVisibility = EARoleType.developer)
 public class @ENTITY@List extends AList {
 
 

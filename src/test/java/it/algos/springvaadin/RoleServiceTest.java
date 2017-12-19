@@ -27,17 +27,17 @@ import static org.junit.Assert.assertNotNull;
 public class RoleServiceTest {
 
 
-    @InjectMocks
-    RoleRepository repository;
-
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(repository);
-        repository.deleteAll();
-    }// end of method
-
-
+//    @InjectMocks
+//    RoleRepository repository;
+//
+//
+//    @Before
+//    public void setUp() {
+//        MockitoAnnotations.initMocks(repository);
+//        repository.deleteAll();
+//    }// end of method
+//
+//
     @Test
     public void getSpringView() {
         int a=87;

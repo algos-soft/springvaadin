@@ -8,6 +8,8 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
+import it.algos.springvaadin.annotation.AIView;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
@@ -28,12 +30,14 @@ import java.util.List;
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @SpringView (obbligatorio) per gestire la visualizzazione di questa view con SprinNavigator
+ * Annotated with @AIView (facoltativo) per selezionarne la 'visibilità' secondo il ruolo dell'User collegato
  * Costruttore con un link @Autowired al IAPresenter, di tipo @Lazy per evitare un loop nella injection
  */
 @SpringComponent
 @Scope("session")
 @Qualifier(ACost.TAG_ROL)
 @SpringView(name = ACost.VIEW_ROL_LIST)
+@AIView(roleTypeVisibility = EARoleType.developer)
 public class RoleList extends AList {
 
 
@@ -65,7 +69,7 @@ public class RoleList extends AList {
      * The injected bean will only be fully created when it’s first needed.
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
-     * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param toolbar   iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public RoleList(
             @Lazy @Qualifier(ACost.TAG_ROL) IAPresenter presenter,

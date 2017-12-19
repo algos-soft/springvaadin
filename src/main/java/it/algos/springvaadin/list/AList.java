@@ -51,6 +51,7 @@ public abstract class AList extends AView implements IAList {
     @Autowired
     public RoleService service;
 
+
 //    @Autowired
 //    private APanel panel;
 

@@ -7,6 +7,7 @@ import com.vaadin.ui.Label;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.form.AForm;
 import it.algos.springvaadin.presenter.IAPresenter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,5 +50,19 @@ public interface IAView extends View {
      * @param type del bottone, secondo la Enumeration AButtonType
      */
     public AButton getButton(EAButtonType type);
+
+
+    /**
+     * Recupera la classe del modello dati (Entity)
+     *
+     * @return la classe di Entity
+     */
+    public AEntity getEntityClass();
+
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
+    public AView getView();
 
 }// end of interface

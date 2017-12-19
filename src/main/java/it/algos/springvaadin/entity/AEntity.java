@@ -33,7 +33,7 @@ import java.time.LocalDateTime;
  * Le properety sono tutte pubbliche (contrariamente alle altre classi di Entity),
  * per essere accessibili visto che mancano i 'setters'
  * <p>
- * La gestione delle property 'dataCreazione' e 'dataModifica' è automatica in AlgosServiceImpl.save()
+ * La gestione delle property 'dataCreazione' e 'dataModifica' è automatica in AService.save()
  */
 @Getter
 public abstract class AEntity implements Serializable {
@@ -77,7 +77,7 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.allways)
+    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime modifica;
 

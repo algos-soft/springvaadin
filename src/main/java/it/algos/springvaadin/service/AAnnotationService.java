@@ -5,6 +5,7 @@ import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.*;
+import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,19 @@ public class AAnnotationService {
      */
     public AIForm getAIForm(final Class<? extends AEntity> entityClazz) {
         return entityClazz.getAnnotation(AIForm.class);
+    }// end of method
+
+
+    /**
+     * Get the specific annotation of the class.
+     * Entity class
+     *
+     * @param entityClazz the entity class
+     *
+     * @return the Annotation for the specific class
+     */
+    public AIView getAIView(final Class<? extends IAView> entityClazz) {
+        return entityClazz.getAnnotation(AIView.class);
     }// end of method
 
 
@@ -223,7 +237,7 @@ public class AAnnotationService {
 
 
     /**
-     * Get the roleTypeVisibility of the class.
+     * Get the roleTypeVisibility of the Entity class.
      * Viene usata come default, se manca il valore specifico del singolo field
      * La Annotation @AIEntity ha un suo valore di default per la property @AIEntity.roleTypeVisibility()
      * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
@@ -242,6 +256,28 @@ public class AAnnotationService {
         }// end of if cycle
 
         return roleTypeVisibility != null ? roleTypeVisibility : EARoleType.guest;
+    }// end of method
+
+
+    /**
+     * Get the roleTypeVisibility of the View class.
+     * La Annotation @AIView ha un suo valore di default per la property @AIView.roleTypeVisibility()
+     * Se manca completamente l'annotation, inserisco qui un valore di default (per evitare comunque un nullo)
+     *
+     * @param clazz the entity class
+     *
+     * @return the roleTypeVisibility of the class
+     */
+    @SuppressWarnings("all")
+    public EARoleType getViewRoleType(final Class<? extends IAView> clazz) {
+        EARoleType roleTypeVisibility = null;
+        AIView annotation = this.getAIView(clazz);
+
+        if (annotation != null) {
+            roleTypeVisibility = annotation.roleTypeVisibility();
+        }// end of if cycle
+
+        return roleTypeVisibility != null ? roleTypeVisibility : EARoleType.user;
     }// end of method
 
 

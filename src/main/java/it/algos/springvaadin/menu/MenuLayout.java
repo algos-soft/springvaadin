@@ -6,7 +6,9 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALoginButton;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.service.ATextService;
@@ -104,6 +106,8 @@ public class MenuLayout extends VerticalLayout {
      */
     public void start() {
         this.removeAllComponents();
+        this.addComponent(new ALoginButton());
+
         if (firstMenuBar.getItems().size() > 0) {
             //@todo RIMETTERE
 //            this.addComponent(new AlgosPanel(firstMenuBar));
@@ -152,6 +156,7 @@ public class MenuLayout extends VerticalLayout {
         String navigatorInternalName = annotation.getViewName(viewClass);
         String captionMenuName = reflection.getPropertyStr(viewClass, MENU_NAME);
         Resource viewIcon = reflection.getPropertyRes(viewClass, "VIEW_ICON");
+        EARoleType roleTypeVisibility = annotation.getViewRoleType(viewClass);
 
         if (text.isEmpty(captionMenuName)) {
             captionMenuName = navigatorInternalName;
@@ -166,11 +171,33 @@ public class MenuLayout extends VerticalLayout {
             }// end of inner method
         };// end of anonymous inner class
 
-        if (itemToAddBefore == null) {
-            firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
-        } else {
-            firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
-        }// end of if/else cycle
+        switch (roleTypeVisibility) {
+            case user:
+                if (itemToAddBefore == null) {
+                    firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                } else {
+                    firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                }// end of if/else cycle
+                break;
+            case admin:
+                if (itemToAddBefore == null) {
+                    secondMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                } else {
+                    secondMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                }// end of if/else cycle
+                break;
+            case developer:
+                if (itemToAddBefore == null) {
+                    thirdMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                } else {
+                    thirdMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                }// end of if/else cycle
+                break;
+            default:
+                log.warn("Switch - caso non definito");
+                break;
+        } // end of switch statement
+
 
 
         //@todo CONTROLLARE SE SERVE

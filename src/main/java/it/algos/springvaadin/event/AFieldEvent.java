@@ -16,8 +16,10 @@ import org.springframework.context.ApplicationListener;
 public class AFieldEvent extends AEvent {
 
 
-    //--Obbligatorio specifica del tipo di evento
-    //--Valore modificato oppure link verso un target diverso dal field
+    /**
+     * Specifica del tipo di evento (obbligatorio)
+     * Valore modificato oppure link verso un target diverso dal field
+     */
     private EATypeField type;
 
 

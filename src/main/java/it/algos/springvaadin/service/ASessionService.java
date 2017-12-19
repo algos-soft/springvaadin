@@ -1,5 +1,6 @@
 package it.algos.springvaadin.service;
 
+import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.enumeration.EAAttribute;
@@ -21,68 +22,56 @@ import javax.management.Attribute;
 @Scope("singleton")
 public class ASessionService {
 
-    private boolean developer=true;
-    private boolean admin;
-    private boolean user;
 
     /**
-     * Regola per questa libreria unica per la sessione, l'attributo developer
+     * Regola per questa libreria, unica per la sessione, l'attributo developer
      */
     public void setDeveloper(boolean status) {
-        this.developer = status;
+        setBool(EAAttribute.developer, status);
     }// end of method
 
     /**
-     * //     * Recupera dalla sessione l'attributo developer
-     * Recupera da questa libreria unica per la sessione, l'attributo developer
+     * Recupera da questa libreria, unica per la sessione, l'attributo developer
      */
     public boolean isDeveloper() {
-        //@todo NON funziona - da implementare
-//        return isBool(EAAttribute.developer);
-        return developer;
+        return isBool(EAAttribute.developer);
     }// end of method
 
 
     /**
-     * Regola per questa libreria unica per la sessione, l'attributo admin
+     * Regola per questa libreria, unica per la sessione, l'attributo admin
      */
     public void setAdmin(boolean status) {
-        this.admin = status;
+        setBool(EAAttribute.admin, status);
     }// end of method
 
     /**
-     * //     * Recupera dalla sessione l'attributo admin
-     * Recupera da questa libreria unica per la sessione, l'attributo admin
+     * Recupera da questa libreria, unica per la sessione, l'attributo admin
      */
     public boolean isAdmin() {
-        //@todo NON funziona - da implementare
-//        return isBool(EAAttribute.admin);
-        return admin;
+        return isBool(EAAttribute.admin);
     }// end of method
 
 
     /**
-     * Regola per questa libreria unica per la sessione, l'attributo user
+     * Regola per questa libreria, unica per la sessione, l'attributo user
      */
     public void setUser(boolean status) {
-        this.user = status;
+        setBool(EAAttribute.user, status);
     }// end of method
 
     /**
-     * //     * Recupera dalla sessione l'attributo user
-     * Recupera da questa libreria unica per la sessione, l'attributo user
+     * Recupera da questa libreria, unica per la sessione, l'attributo user
      */
     public boolean isUser() {
-        //@todo NON funziona - da implementare
-//        return isBool(EAAttribute.user);
-        return user;
+        return isBool(EAAttribute.user);
     }// end of method
 
 
     /**
-     * Regola lo specifico attributo
+     * Regola per questa libreria, unica per la sessione, l'attributo specifico
      */
-    public void setBool(Attribute attributo, boolean status) {
+    public void setBool(EAAttribute attributo, boolean status) {
         VaadinSession sessione = VaadinSession.getCurrent();
 
         if (attributo != null && sessione != null) {
@@ -92,7 +81,7 @@ public class ASessionService {
 
 
     /**
-     * Recupera dalla sessione l'attributo specifico
+     * Recupera da questa libreria, unica per la sessione, l'attributo specifico
      */
     public boolean isBool(EAAttribute attributo) {
         boolean status = true;

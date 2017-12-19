@@ -3,6 +3,8 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import it.algos.springvaadin.annotation.AIView;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -27,6 +29,7 @@ import java.util.List;
 @Scope("session")
 @Qualifier(ACost.TAG_USE)
 @SpringView(name = ACost.VIEW_USE_LIST)
+@AIView(roleTypeVisibility = EARoleType.admin)
 public class UserList extends AList {
 
 

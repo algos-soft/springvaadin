@@ -121,7 +121,7 @@ public class RoleService extends AService {
      */
     @Override
     public Role newEntity() {
-        return new Role(0, "");
+        return newEntity(0, "");
     }// end of method
 
 

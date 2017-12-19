@@ -6,6 +6,7 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.form.AForm;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.menu.MenuLayout;
@@ -82,6 +83,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      */
     protected VerticalLayout topLayout;
 
+
     @Autowired
     public LabelRosso labelRosso;
 
@@ -111,6 +113,7 @@ public abstract class AView extends VerticalLayout implements IAView {
 
 
     protected IAToolbar toolbar;
+
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -372,6 +375,24 @@ public abstract class AView extends VerticalLayout implements IAView {
      */
     public AButton getButton(EAButtonType type) {
         return toolbar.getButton(type);
+    }// end of method
+
+    /**
+     * Recupera la classe del modello dati (Entity)
+     *
+     * @return la classe di Entity
+     */
+    @Override
+    public AEntity getEntityClass() {
+        return null;
+    }// end of method
+
+    /**
+     * Componente concreto di questa interfaccia
+     */
+    @Override
+    public AView getView() {
+        return null;
     }// end of method
 
 }// end of class

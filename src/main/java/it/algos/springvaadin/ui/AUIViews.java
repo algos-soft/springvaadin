@@ -2,7 +2,9 @@ package it.algos.springvaadin.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
+import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.entity.user.UserList;
 import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.view.IAView;
@@ -80,9 +82,9 @@ public abstract class AUIViews extends AUIParams {
      * Vengono usati come da relativo flag: AlgosApp.USE_LOG, AlgosApp.USE_VERS, AlgosApp.USE_PREF
      */
     protected void addVisteStandard() {
-//		menuLayout.addView(BollaList.class);
-//        menuLayout.addView(RoleNavView.class);
-//        menuLayout.addView(UserNavView.class);
+        menuLayout.addView(RoleList.class);
+        menuLayout.addView(UserList.class);
+
 //        if (LibParams.useVers()) {
 //            menuLayout.addView(Versione.class, VersioneNavView.class);
 //        }// end of if cycle

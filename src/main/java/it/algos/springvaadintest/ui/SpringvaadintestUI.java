@@ -112,8 +112,6 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-		menuLayout.addView(UserList.class);
-        menuLayout.addView(RoleList.class);
     }// end of method
 
     /**

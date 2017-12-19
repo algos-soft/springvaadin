@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -351,6 +352,12 @@ public abstract class AService implements IAService {
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
+
+        if (entityBean.creazione == null) {
+            entityBean.creazione = LocalDateTime.now();
+        }// end of if cycle
+        entityBean.modifica = LocalDateTime.now();
+
         return (AEntity) repository.save(entityBean);
     }// end of method
 
