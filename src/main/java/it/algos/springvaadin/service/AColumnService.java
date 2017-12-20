@@ -75,15 +75,19 @@ public class AColumnService {
      * @return la colonna appena creata
      */
     public void add(final Grid grid, final Field reflectionJavaField) {
+        Grid.Column colonna;
         EAFieldType type = annotation.getColumnType(reflectionJavaField);
 
         //--aggiunge una colonna di tipo Text per tutti i type, eccetto quelli indicati in questo switch statement
         //--le colonna 'saltate' qui, dovranno essere inserite come Component nella sotttoclasse xxxList.addColonna()
         switch (type) {
             case checkbox:
+            case checkboxlabel:
+            case noone:
                 break;
             default:
-                this.addNotComponent(grid, reflectionJavaField, type);
+                colonna = grid.addColumn(reflectionJavaField.getName());
+                this.add(grid, reflectionJavaField, type, colonna);
                 break;
         } // end of switch statement
 
@@ -98,9 +102,9 @@ public class AColumnService {
      * @param grid                a cui aggiungere la colonna
      * @param reflectionJavaField di riferimento per estrarre la Annotation
      * @param type                di field
+     * @param colonna             di aggiungere
      */
-    public void addNotComponent(final Grid grid, final Field reflectionJavaField, EAFieldType type) {
-        Grid.Column colonna = grid.addColumn(reflectionJavaField.getName());
+    public void add(final Grid grid, final Field reflectionJavaField, EAFieldType type, Grid.Column colonna) {
         float larGrid = 0;
         int larCol = 0;
         String caption = annotation.getColumnName(reflectionJavaField);
@@ -113,6 +117,9 @@ public class AColumnService {
 
         //--regola la  colonna appena creata
         switch (type) {
+            case checkbox:
+                width = width > 0 ? width : WIDTH_CHECK_BOX;
+                break;
             case localdate:
                 colonna.setRenderer(renderDate);
                 width = width > 0 ? width : WIDTH_LOCAL_DATE;
@@ -140,59 +147,6 @@ public class AColumnService {
         larCol = ((Double) colonna.getWidth()).intValue();
         grid.setWidth(larGrid + larCol, Sizeable.Unit.PIXELS);
     }// end of method
-
-//    //    /**
-////     * Regola una colonna
-////     * Caption, renderer e width
-////     * Restituisce la larghezza dopo le regolazioni
-////     *
-////     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
-////     * @param reflectionField di riferimento per estrarre le Annotation
-////     *
-////     * @return la larghezza della colonna come regolata
-////     */
-//    public int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
-//        if (colonna == null) {
-//            return 0;
-//        }// end of if cycle
-//
-//        String caption = annotation.getColumnName(reflectionField);
-//        EAFieldType type = annotation.getColumnType(reflectionField);
-//        int width = annotation.getColumnWith(reflectionField);
-//        width = width > 0 ? width : WIDTH_TEXT_NORMAL;
-//        DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
-//        LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
-//        LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
-//        ByteStringRenderer renderByte = new ByteStringRenderer();
-//
-//        colonna.setCaption(caption);
-//
-//        if (type == EAFieldType.localdate) {
-//            colonna.setRenderer(renderDate);
-//            colonna.setWidth(WIDTH_LOCAL_DATE);
-//        }// end of if cycle
-//
-//        if (type == EAFieldType.localdatetime) {
-//            colonna.setRenderer(renderTime);
-//            colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
-//        }// end of if cycle
-//
-//        if (type == EAFieldType.icon) {
-////            colonna.setRenderer(renderIcon);
-////            colonna.setWidth(WIDTH_TEXT_NORMAL);
-//        }// end of if cycle
-//
-//        if (type == EAFieldType.json) {
-//            colonna.setRenderer(renderByte);
-//            colonna.setWidth(WIDTH_BYTE);
-//        }// end of if cycle
-//
-//        if (caption.equals(ACost.PROPERTY_ID)) {
-//            colonna.setWidth(290);
-//        }// end of if cycle
-//
-//        return ((Double) colonna.getWidth()).intValue();
-//    }// end of method
 
 
 }// end of class

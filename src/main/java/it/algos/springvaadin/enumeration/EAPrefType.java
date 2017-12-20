@@ -60,7 +60,7 @@ public enum EAPrefType {
         }// end of method
     },// end of single enumeration
 
-    bool2("booleano", EAFieldType.checkbox) {
+    bool2("booleano", EAFieldType.checkboxlabel) {
         @Override
         public byte[] objectToBytes(Object obj) {
             byte[] bytes = new byte[0];

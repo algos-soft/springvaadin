@@ -10,7 +10,10 @@ import com.vaadin.ui.Grid;
 import it.algos.springvaadin.annotation.AIView;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.enumeration.EARoleType;
+import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.label.LabelVerde;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -105,27 +108,37 @@ public class UserList extends AList {
     private void addColonna(Class<? extends AEntity> entityClazz, String publicFieldName) {
         Grid.Column colonna;
         Field field = reflection.getField(entityClazz, publicFieldName);
+        EAFieldType type = annotation.getColumnType(field);
 
-        colonna = grid.getGrid().addComponentColumn(
-                entity -> {
-                    Object value = ((User) entity).isEnabled();
-                    Component comp = null;
-                    if (value instanceof Boolean) {
-                        comp = new CheckBox();
-                        (comp).setEnabled(false);
-                        ((CheckBox) comp).setValue((Boolean) value);
-                    }// end of if cycle
-                    return comp;
-                });//end of lambda expressions
+        if (type == EAFieldType.checkbox || type == EAFieldType.checkboxlabel) {
+            colonna = grid.getGrid().addComponentColumn(
+                    entity -> {
+                        Object value = ((User) entity).isEnabled();
+                        Component comp = null;
+                        if (value instanceof Boolean) {
 
-//        annotation.
-//
-//
-//        colonna.setCaption("OK");
+                            //--test per provare le due possibilità
+                            if (type == EAFieldType.checkbox) {
+                                comp = new CheckBox();
+                                (comp).setEnabled(false);
+                                ((CheckBox) comp).setValue((Boolean) value);
+                            } else {
+                            }// end of if/else cycle
 
+                            if (type == EAFieldType.checkboxlabel) {
+                                if ((Boolean) value) {
+                                    comp = new LabelVerde(VaadinIcons.CHECK);
+                                } else {
+                                    comp = new LabelRosso(VaadinIcons.CLOSE);
+                                }// end of if/else cycle
+                            }// end of if cycle
 
-        float lar = grid.getGrid().getWidth();
-        grid.getGrid().setWidth(lar + 150, Unit.PIXELS);
+                        }// end of if cycle
+                        return comp;
+                    });//end of lambda expressions
+            column.add(grid.getGrid(), field, EAFieldType.checkbox, colonna);
+        }// end of if cycle
+
     }// end of method
 
 }// end of class

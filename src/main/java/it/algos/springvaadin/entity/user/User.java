@@ -48,7 +48,7 @@ import it.algos.springvaadin.entity.AEntity;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_USE)
 @AIEntity()
-@AIList( dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIList(dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 public class User extends AEntity {
 
     /**
@@ -91,7 +91,7 @@ public class User extends AEntity {
     /**
      * buttonUser abilitato (facoltativo, di default true)
      */
-    @AIField(type = EAFieldType.checkbox, required = true, widthEM = 4, admin = EAFieldAccessibility.allways)
+    @AIField(type = EAFieldType.checkboxlabel, required = true, admin = EAFieldAccessibility.allways)
     @AIColumn(name = "OK")
     private boolean enabled;
 

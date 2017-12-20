@@ -19,8 +19,13 @@ public class LabelRosso extends Label {
     }// end of constructor
 
 
+    public LabelRosso(VaadinIcons icona) {
+        this(icona.getHtml());
+    }// end of constructor
+
+
     public LabelRosso(String text) {
-        super(text);
+        super(text, ContentMode.HTML);
         this.addStyleName("rosso");
     }// end of constructor
 
