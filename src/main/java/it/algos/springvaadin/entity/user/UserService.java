@@ -1,4 +1,5 @@
 package it.algos.springvaadin.entity.user;
+
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
@@ -26,7 +27,7 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Service
-@Scope("session")
+@Scope("singleton")
 @Qualifier(ACost.TAG_USE)
 public class UserService extends AService {
 
@@ -50,20 +51,20 @@ public class UserService extends AService {
     public UserService(@Qualifier(ACost.TAG_USE) MongoRepository repository) {
         super(repository);
         super.entityClass = User.class;
-         this.repository = (UserRepository) repository;
-   }// end of Spring constructor
+        this.repository = (UserRepository) repository;
+    }// end of Spring constructor
 
 
     /**
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nickname di riferimento (obbligatorio, unico per company)
      *
      * @return la entity trovata o appena creata
      */
-    public User findOrCrea(String code) {
-        return findOrCrea(code, "");
+    public User findOrCrea(String nickname) {
+        return findOrCrea(nickname, nickname);
     }// end of method
 
 
@@ -71,22 +72,22 @@ public class UserService extends AService {
      * Ricerca di una entity (la crea se non la trova)
      * All properties
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param password (obbligatoria o facoltativa, non unica)
      *
      * @return la entity trovata o appena creata
      */
-    public User findOrCrea(String code, String descrizione) {
+    public User findOrCrea(String nickname, String password) {
 
-        if (nonEsiste(code)) {
+        if (nonEsiste(nickname)) {
             try { // prova ad eseguire il codice
-                return (User) save(newEntity(code, descrizione));
+                return (User) save(newEntity(nickname, password));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return findByCode(code);
+            return findByCode(nickname);
         }// end of if/else cycle
     }// end of method
 
@@ -110,12 +111,12 @@ public class UserService extends AService {
      * Properties obbligatorie
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nickname di riferimento (obbligatorio, unico per company)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public User newEntity(String code) {
-        return newEntity(code, "");
+    public User newEntity(String nickname) {
+        return newEntity(nickname, nickname);
     }// end of method
 
 
@@ -125,18 +126,18 @@ public class UserService extends AService {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param password (obbligatoria o facoltativa, non unica)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public User newEntity(String code, String descrizione) {
+    public User newEntity(String nickname, String password) {
         User entity = null;
 
-        if (nonEsiste(code)) {
-            entity = User.builder().code(code).descrizione(descrizione).build();
+        if (nonEsiste(nickname)) {
+            entity = User.builder().nickname(nickname).password(password).enabled(true).build();
         } else {
-            return findByCode(code);
+            return findByCode(nickname);
         }// end of if/else cycle
 
         return entity;
@@ -175,7 +176,7 @@ public class UserService extends AService {
      * @return istanza della Entity, null se non trovata
      */
     public User findByCode(String code) {
-        return repository.findByCode(code);
+        return repository.findByNickname(code);
     }// end of method
 
 
@@ -187,11 +188,7 @@ public class UserService extends AService {
      * @return lista ordinata di tutte le entities
      */
     public List findAll() {
-        //if (LibSession.isDeveloper()) {
-            //return repository.findByOrderByCodeAsc();
-        //}// end of if cycle
-
-        return null;
+        return repository.findByOrderByNicknameAsc();
     }// end of method
 
 
@@ -206,7 +203,7 @@ public class UserService extends AService {
      */
     @Override
     public AEntity save(AEntity entityBean) throws Exception {
-        String code = ((User) entityBean).getCode();
+        String nickname = ((User) entityBean).getNickname();
 
         if (entityBean == null) {
             return null;
@@ -215,7 +212,7 @@ public class UserService extends AService {
         if (text.isValid(entityBean.id)) {
             return super.save(entityBean);
         } else {
-            if (nonEsiste(code)) {
+            if (nonEsiste(nickname)) {
                 return super.save(entityBean);
             } else {
                 log.error("Ha cercato di salvare una entity già esistente, ma unica");

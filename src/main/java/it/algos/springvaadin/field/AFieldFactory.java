@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
 
@@ -29,6 +30,7 @@ import java.lang.reflect.Field;
  * Eventuali altri parametri facoltativi, possono essere aggiunti.
  */
 @SpringComponent
+@Scope("singleton")
 @Slf4j
 public class AFieldFactory implements IAFieldFactory {
 
@@ -200,9 +202,9 @@ public class AFieldFactory implements IAFieldFactory {
                 case integer:
                     field = fieldFactory.apply(AIntegerField.class);
                     break;
-//                case checkbox:
-//                    field = fieldFactory.apply(ACheckBoxField.class);
-//                    break;
+                case checkbox:
+                    field = fieldFactory.apply(ACheckBoxField.class);
+                    break;
 //                case localdate:
 //                    field = fieldFactory.apply(ADateField.class);
 //                    break;
@@ -266,7 +268,7 @@ public class AFieldFactory implements IAFieldFactory {
             }// end of if cycle
 
         } catch (Exception unErrore) { // intercetta l'errore
-            log.warn(unErrore.toString());
+            log.error(unErrore.toString());
         }// fine del blocco try-catch
 
         return field;

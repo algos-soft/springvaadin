@@ -9,13 +9,15 @@ import it.algos.springvaadin.field.ACheckBoxField;
 import it.algos.springvaadin.field.ATextField;
 import it.algos.springvaadin.listener.ALoginListener;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Abstract Login form.
  */
 public abstract class ALoginForm extends AConfirmDialog {
 
     private Component usernameField;
-//    private PasswordField passField; @todo ricambiare
+    //    private PasswordField passField; @todo ricambiare
     private ATextField passField;
     private ACheckBoxField rememberField;
 
@@ -33,13 +35,14 @@ public abstract class ALoginForm extends AConfirmDialog {
      */
     public ALoginForm() {
         super(null);
-        init();
     }// end of constructor
 
+
     /**
-     * Initialization <br>
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
      */
-    protected void init() {
+    @PostConstruct
+    private void inizia() {
         FormLayout layout = new FormLayout();//@todo controllare la larghezza con AFormLayout
         layout.setWidthUndefined();
         layout.setSpacing(true);
@@ -49,17 +52,17 @@ public abstract class ALoginForm extends AConfirmDialog {
 
         //        passField = new PasswordField("Password");@todo ricambiare
         passField = new ATextField("Password");
-        passField.inizializza("alfa",null);
+        passField.inizializza("alfa", null);
         passField.setCaption("Password");
         passField.setWidthUndefined();
 
 //        passField = new TextField("Password");
         rememberField = new ACheckBoxField("Ricordami su questo computer");
-        rememberField.inizializza("beta",null);
+        rememberField.inizializza("beta", null);
         rememberField.setCaption("Ricordami su questo computer");
 
         // aggiunge i campi al layout
-//        layout.addComponent(usernameField);
+        layout.addComponent(usernameField);
         layout.addComponent(passField);
         layout.addComponent(rememberField);
 
@@ -69,6 +72,7 @@ public abstract class ALoginForm extends AConfirmDialog {
 
     /**
      * Create the component to input the username.
+     *
      * @return the username component
      */
     abstract Component createUsernameComponent();
@@ -77,19 +81,25 @@ public abstract class ALoginForm extends AConfirmDialog {
     @Override
     protected void onConfirm() {
         IAUser user = getSelectedUser();
-        if(user!=null){
+
+        if (user != null) {
             String password = passField.getValue();
-            if(user.validatePassword(password)){
+            if (user.validatePassword(password)) {
                 super.onConfirm();
                 utenteLoggato();
-            }else{
+            } else {
                 Notification.show("Login fallito", Notification.Type.WARNING_MESSAGE);
-            }
-        }
+            }// end of if/else cycle
+        }// end of if cycle
+
     }// end of method
 
 
     /**
+     * Recupera dal dialogo UI, il valore dell'utente selezionato
+     * Nel dialogo può esserci un field di tipo testo in cui scrivere il nickName dell'utente
+     * Oppure un popup con l'elenco degli utenti abilitati (per la company selezionata, se esiste)
+     *
      * @return the selected user
      */
     abstract IAUser getSelectedUser();
@@ -102,8 +112,8 @@ public abstract class ALoginForm extends AConfirmDialog {
     protected void utenteLoggato() {
         if (loginListener != null) {
             loginListener.onUserLogin(null);
-        }
-    }
+        }// end of if cycle
+    }// end of method
 
     public void setLoginListener(ALoginListener listener) {
         this.loginListener = listener;

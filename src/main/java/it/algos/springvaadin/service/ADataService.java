@@ -3,6 +3,7 @@ package it.algos.springvaadin.service;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.entity.role.RoleData;
+import it.algos.springvaadin.entity.user.UserData;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,18 @@ public class ADataService {
 
 
     /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public UserData user;
+
+
+    /**
      * Inizializzazione dei dati standard di alcune collections sul DB
      */
     public void inizia() {
         this.role.findOrCrea();
+        this.user.findOrCrea();
     }// end of method
 
 

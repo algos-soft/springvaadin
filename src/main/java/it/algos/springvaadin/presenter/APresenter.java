@@ -12,6 +12,7 @@ import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.service.AAnnotationService;
+import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.IAService;
 import it.algos.springvaadin.ui.AUIParams;
 import it.algos.springvaadin.view.AView;
@@ -35,6 +36,12 @@ import java.util.List;
 @Scope("session")
 public abstract class APresenter extends APresenterEvents {
 
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public AArrayService array;
 
     @Autowired
     AUIParams params;
@@ -105,7 +112,15 @@ public abstract class APresenter extends APresenterEvents {
         List<EAButtonType> typeButtons = null;
 
         columns = service.getListFields();
+        if (!array.isValid(columns)) {
+            log.warn("Algos - Columns. La grid: " + entityClass + " non ha colonne visibili");
+        }// end of if cycle
+
         items = service.findAll();
+        if (!array.isValid(items)) {
+            log.info("Algos - Items. La grid: " + entityClass + " non ha nessuna scheda");
+        }// end of if cycle
+
         typeButtons = service.getListTypeButtons();
 
         list.start(this, entityClass, columns, items, typeButtons);

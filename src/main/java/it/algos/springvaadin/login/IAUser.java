@@ -7,20 +7,18 @@ package it.algos.springvaadin.login;
  */
 public interface IAUser {
 
+
     /**
      * @return the user name
      */
     String getNickname();
 
-    /**
-     * @return true if this user is admin
-     */
-    boolean isAdmin();
 
     /**
      * @return the password (in clear text)
      */
     String getPassword();
+
 
     /**
      * Sets a new password
@@ -28,10 +26,12 @@ public interface IAUser {
      */
     void setPassword(String password);
 
+
     /**
      * @return the password (encrypted)
      */
     String getEncryptedPassword();
+
 
     /**
      * Validate a password for this current user.
@@ -40,6 +40,19 @@ public interface IAUser {
      * @return true if valid
      */
     boolean validatePassword(String password);
+
+
+    /**
+     * @return true if this user is admin
+     */
+    boolean isAdmin();
+
+
+    /**
+     * @return true if this user is developer
+     */
+    boolean isDeveloper();
+
 
 //    /**
 //     * Persist the user in the storage

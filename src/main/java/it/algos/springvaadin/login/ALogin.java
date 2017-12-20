@@ -12,7 +12,7 @@ import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 
 /**
- * Main Login object (Login logic).
+ * Main Login object (Login business logic).
  * An instance of this object is created and stored in the current session when getLogin() in invoked.
  * Subsequent calls to getLogin() return the same object from the session.
  */
@@ -20,8 +20,6 @@ import java.util.ArrayList;
 @Scope("session")
 public class ALogin {
 
-    // key to store the Login object in the session
-    public static final String LOGIN_KEY_IN_SESSION = "login";
 
     // defaults
     private static final int DEFAULT_EXPIRY_TIME_SEC = 604800;    // 1 week
@@ -50,60 +48,27 @@ public class ALogin {
     private int expiryTime = DEFAULT_EXPIRY_TIME_SEC;
     private boolean renewCookiesOnLogin = DEFAULT_RENEW_COOKIES_ON_LOGIN;
 
-    private ALoginForm loginForm;
+    /**
+     * Il Form di dialogo viene iniettato come 'session', dal costruttore @Autowired
+     */
+    private DALoginForm loginForm;
+
 //    private AbsUserProfileForm profileForm;
 
-    public ALogin() {
-        loginForm = new DALoginForm();
-//        profileForm = new DefaultUserProfileForm(); @todo rimettere
-    }
 
     /**
-     * Recupera l'oggetto Login dalla sessione.
-     * Se manca lo crea ora e lo registra nella sessione.
-     */
-    public static ALogin getLogin() {
-        ALogin login = new ALogin();//@todo da levare - meglio null
-//        Object obj = LibSession.getAttribute(ALogin.LOGIN_KEY_IN_SESSION);
-//        if (obj == null) {
-//            login = new ALogin();
-//            LibSession.setAttribute(ALogin.LOGIN_KEY_IN_SESSION, login);
-//        } else {
-//            try {
-//                login = (ALogin) obj;
-//            } catch (Exception e) {
-//            }
-//        }
-
-        return login;
-    }
-
-
-//    /**
-//     * Registra un oggetto Login nella sessione.
-//     */
-//    public static void setLogin(ALogin login) {
-//        LibSession.setAttribute(ALogin.LOGIN_KEY_IN_SESSION, login);
-//    }
-//
-//    /**
-//     * Verifica se l'oggetto Login esiste nella sessione.
-//     *
-//     * @return true se esiste.
-//     */
-//    public static boolean isEsisteLoginInSessione() {
-//        Object obj = LibSession.getAttribute(ALogin.LOGIN_KEY_IN_SESSION);
-//        return obj != null;
-//    }
-
-    /**
-     * Retrieve the Login form
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
-     * @return the Login form to show
+     * @param loginForm
      */
-    public ALoginForm getLoginForm() {
-        return loginForm;
-    }
+    public ALogin(DALoginForm loginForm) {
+        this.loginForm = loginForm;
+        //        profileForm = new DefaultUserProfileForm(); @todo rimettere
+    }// end of Spring constructor
+
+
+
 
 //    /**
 //     * Retrieve the User Profile form
@@ -120,15 +85,14 @@ public class ALogin {
      */
     public void showLoginForm() {
 
-        ALoginForm loginForm = getLoginForm();
 
         // set the login listener in the form
         loginForm.setLoginListener(new ALoginListener() {
             @Override
             public void onUserLogin(ALoginEvent e) {
-//                attemptLogin(); @todo rimettere
-            }
-        });
+                attemptLogin();
+            }// end of inner method
+        });// end of anonymous inner class
 
         // retrieve login data from the cookies
 //        readCookies(); @todo rimettere
@@ -161,45 +125,44 @@ public class ALogin {
 //        UI.getCurrent().addWindow(window);
 //
 //    }
-//
-//
-//    /**
-//     * Tenta il login con i dati presenti nela UI.
-//     * Se riesce, notifica i LoginListener(s)
-//     *
-//     * @return true se riuscito
-//     */
-//    public boolean attemptLogin() {
-//        boolean riuscito = false;
-//        boolean remember = false;
-//
-//        IAUser user = getLoginForm().getSelectedUser();
-//        if (user != null) {
-//            String pass = getLoginForm().getPassField().getValue();
-//            if (pass != null && !pass.isEmpty()) {
-//                if (user.validatePassword(pass)) {
-//
-//                    setUser(user);
-//                    remember = getLoginForm().getRememberField().getValue();
-//
-//                    // create/update the cookies
-//                    if (remember) {
-//                        writeCookies();
-//                    } else {
-//                        deleteCookies();
-//                    }
-//
-//                    riuscito = true;
-//                }
-//
-//            }
-//        }
-//
-//        LoginEvent e = new LoginEvent(this, riuscito, user, null, remember);
-//        fireLoginListeners(e);
-//
-//        return riuscito;
-//    }
+
+
+    /**
+     * Tenta il login con i dati presenti nella UI.
+     * Se riesce, notifica i LoginListener(s)
+     *
+     * @return true se riuscito
+     */
+    public boolean attemptLogin() {
+        boolean riuscito = false;
+        boolean remember = false;
+
+        IAUser user = loginForm.getSelectedUser();
+        if (user != null) {
+            String pass = loginForm.getPassField().getValue();
+            if (pass != null && !pass.isEmpty()) {
+                if (user.validatePassword(pass)) {
+
+                    setUser(user);
+                    remember = loginForm.getRememberField().getValue();
+
+                    // create/update the cookies
+                    if (remember) {
+//                        writeCookies();@todo rimettere
+                    } else {
+//                        deleteCookies();@todo rimettere
+                    }// end of if/else cycle
+
+                    riuscito = true;
+                }// end of if cycle
+            }// end of if cycle
+        }// end of if cycle
+
+        ALoginEvent evento = new ALoginEvent(this, riuscito, user, null, remember);
+        fireLoginListeners(evento);
+
+        return riuscito;
+    }// end of method
 
 
 //    /**
@@ -420,7 +383,7 @@ public class ALogin {
      */
     public void addLogoutListener(ALogoutListener l) {
         logoutListeners.add(l);
-    }
+    }// end of method
 
     /**
      * Adds a ProfileChangeListener
@@ -428,7 +391,7 @@ public class ALogin {
      */
     public void addProfileListener(AProfileChangeListener l) {
         profileListeners.add(l);
-    }
+    }// end of method
 
     /**
      * Sets the ProfileChangeListener
@@ -436,22 +399,22 @@ public class ALogin {
     public void setProfileListener(AProfileChangeListener l) {
         profileListeners.clear();
         addProfileListener(l);
-    }
+    }// end of method
 
     /**
      * @return true if a user is logged
      */
     public boolean isLogged() {
         return (getUser() != null);
-    }
+    }// end of method
 
     public IAUser getUser() {
         return user;
-    }
+    }// end of method
 
     public void setUser(IAUser user) {
         this.user = user;
-    }
+    }// end of method
 
 
     /**
@@ -467,9 +430,9 @@ public class ALogin {
             ArrayList<ALoginListener> listenersCopy = (ArrayList<ALoginListener>) loginListeners.clone();
             for (ALoginListener listener : listenersCopy) {
                 listener.onUserLogin(e);
-            }
-        }
-    }
+            }// end of for cycle
+        }// end of if cycle
+    }// end of method
 
 
-}
+}// end of class

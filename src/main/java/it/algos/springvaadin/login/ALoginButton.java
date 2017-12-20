@@ -23,26 +23,61 @@ import org.springframework.context.annotation.Scope;
 import javax.annotation.PostConstruct;
 
 /**
- * Menubar di gestione login
+ * Menubar di gestione del login
  * <p>
- * Se si è loggati, mostra il nome dell'utente ed un popup per modifica e logout <br>
- * Se non si è loggati, mostra un bottone per fare il login <br>
+ * Se si è loggati, mostra il nome dell'utente ed un popup per modificare il profilo-utente e logout <br>
+ * Se non si è loggati, mostra un bottone per eseguire il login <br>
  */
 @SpringComponent
 @Scope("session")
 public class ALoginButton extends MenuBar {
 
-    private MenuItem loginItem; // il menuItem di login
+
+    /**
+     * La classe di 'business logic' viene iniettata come 'session', dal costruttore @Autowired
+     */
+    private ALogin login;
+
+
+    /**
+     * Rappresentazione grafica del bottone/comando
+     */
+    private MenuItem loginItem;
+
+
+    /**
+     * Costruttore @Autowired
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     *
+     * @param login business logic
+     */
+    public ALoginButton(ALogin login) {
+        this.login = login;
+    }// end of Spring constructor
 
 
     /**
      * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
-     * Aggiunge i listener al Login
+     * Aggiunge i listeners al bottone/comando
+     * Updates the UI based on the current Login state
      */
     @PostConstruct
     private void inizia() {
+        this.addStyleName("blue");
 
-        getLogin().addLoginListener(new ALoginListener() {
+        //--stato iniziale del bottone/comando
+        loginItem = this.addItem("", null, null);
+
+        addListeners();
+        updateUI();
+    }// end of method
+
+
+    /**
+     * Aggiunge i listeners al bottone/comando
+     */
+    private void addListeners() {
+        login.addLoginListener(new ALoginListener() {
             @Override
             public void onUserLogin(ALoginEvent e) {
                 updateUI();
@@ -50,7 +85,7 @@ public class ALoginButton extends MenuBar {
         });// end of anonymous inner class
 
 
-        getLogin().addLogoutListener(new ALogoutListener() {
+        login.addLogoutListener(new ALogoutListener() {
             @Override
             public void onUserLogout(ALogoutEvent e) {
                 updateUI();
@@ -58,18 +93,12 @@ public class ALoginButton extends MenuBar {
         });// end of anonymous inner class
 
 
-        getLogin().setProfileListener(new AProfileChangeListener() {
+        login.setProfileListener(new AProfileChangeListener() {
             @Override
             public void profileChanged(AProfileChangeEvent e) {
                 updateUI();
             }// end of inner method
         });// end of anonymous inner class
-
-
-        loginItem = this.addItem("", null, null);
-        this.addStyleName("blue");
-
-        updateUI();
     }// end of method
 
 
@@ -77,11 +106,9 @@ public class ALoginButton extends MenuBar {
      * Updates the UI based on the current Login state
      */
     private void updateUI() {
-        IAUser user = getLogin().getUser();
-        Resource exitIcon;
+        IAUser user = login.getUser();
 
         if (user == null) {
-
             loginItem.setText("Login");
             loginItem.removeChildren();
             loginItem.setIcon(VaadinIcons.SIGN_IN);
@@ -101,19 +128,17 @@ public class ALoginButton extends MenuBar {
             loginItem.addItem("Il mio profilo...", VaadinIcons.USER, new Command() {
                 @Override
                 public void menuSelected(MenuItem selectedItem) {
-//                    myProfileCommandSelected();@todo rimettere
+                    myProfileCommandSelected();
                 }// end of inner method
             });// end of anonymous inner class
 
-            exitIcon = VaadinIcons.SIGN_OUT;
-            loginItem.addItem("Logout", exitIcon, new Command() {
+            loginItem.addItem("Logout", VaadinIcons.SIGN_OUT, new Command() {
                 @Override
                 public void menuSelected(MenuItem selectedItem) {
-//                    logoutCommandSelected();@todo rimettere
+                    logoutCommandSelected();
                 }// end of inner method
             });// end of anonymous inner class
         }// end of if/else cycle
-
 
     }// end of method
 
@@ -122,24 +147,24 @@ public class ALoginButton extends MenuBar {
      * Login button pressed
      */
     protected void loginCommandSelected() {
-        getLogin().showLoginForm();
+        login.showLoginForm();
     }// end of method
 
-//    /**
-//     * Logout button pressed
-//     */
-//    private void logoutCommandSelected() {
-//        getLogin().logout();
-//        updateUI();
-//    }// end of method
-//
-//    private void myProfileCommandSelected() {
-//        getLogin().showUserProfile();
-//    }// end of method
+
+    /**
+     * Logout button pressed
+     */
+    private void logoutCommandSelected() {
+//        login.logout();
+        updateUI();
+    }// end of method
 
 
-    public ALogin getLogin() {
-        return ALogin.getLogin();
+    /**
+     * Profilo utente button pressed
+     */
+    private void myProfileCommandSelected() {
+//        login.showUserProfile();
     }// end of method
 
 

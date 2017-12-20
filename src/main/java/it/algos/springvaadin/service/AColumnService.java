@@ -1,15 +1,21 @@
 package it.algos.springvaadin.service;
 
 import com.sun.deploy.panel.ExceptionListDialog;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.renderers.LocalDateRenderer;
 import com.vaadin.ui.renderers.LocalDateTimeRenderer;
 import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.renderer.ByteStringRenderer;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 /**
@@ -57,6 +64,7 @@ public class AColumnService {
 
     /**
      * Aggiunge una colonna
+     * Nella Grid le colonne possono essere di due tipi: Text o Component
      *
      * @param grid                a cui aggiungere la colonna
      * @param reflectionJavaField di riferimento per estrarre la Annotation
@@ -69,17 +77,19 @@ public class AColumnService {
 
         switch (type) {
             case checkbox:
-//                 colonna = grid.addComponentColumn(servizio -> {
-//                     Component comp = null;
-//                     boolean orario = ((Servizio) servizio).isOrario();
-//                     if (orario) {
-//                         comp = new LabelVerde(VaadinIcons.CHECK);
-//                     } else {
-//                         comp = new LabelRosso(VaadinIcons.CLOSE);
-//                     }// end of if/else cycle
-//                     return comp;
-//                 });//end of lambda expressions
-                colonna = grid.addColumn(reflectionJavaField.getName());
+
+//                 colonna = grid.addComponentColumn(
+//                        entity -> {
+//                            Object value = ((User)entity).isEnabled();
+//                            Component comp = null;
+//                             if (value instanceof Boolean) {
+//                                            comp = new CheckBox();
+//                                            (comp).setEnabled(false);
+//                                            ((CheckBox) comp).setValue((Boolean) value);
+//                                        }// end of if cycle
+//                            return comp;
+//                        });//end of lambda expressions
+//                colonna = grid.addColumn(reflectionJavaField.getName());
                 break;
             default:
                 colonna = grid.addColumn(reflectionJavaField.getName());
@@ -100,6 +110,10 @@ public class AColumnService {
      * @return la larghezza della colonna come regolata
      */
     public int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
+        if (colonna == null) {
+            return 0;
+        }// end of if cycle
+
         String caption = annotation.getColumnName(reflectionField);
         EAFieldType type = annotation.getColumnType(reflectionField);
         int width = annotation.getColumnWith(reflectionField);

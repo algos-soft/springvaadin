@@ -168,9 +168,9 @@ public abstract class APresenterEvents implements IAPresenter {
     protected void onGridAction(EATypeAction type, AEntity entityBean) {
         //@todo RIMETTERE
         switch (type) {
-//            case attach:
+            case attach:
 //                click();
-//                break;
+                break;
 //            case click:
 //                click();
 //                break;

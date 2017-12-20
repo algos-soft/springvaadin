@@ -17,8 +17,8 @@ import java.util.List;
 @Qualifier(ACost.TAG_USE)
 public interface UserRepository extends MongoRepository<User, String> {
 
-    public User findByCode(String code);
+    public User findByNickname(String nickname);
 
-    public List<User> findByOrderByCodeAsc();
+    public List<User> findByOrderByNicknameAsc();
 
 }// end of class

@@ -94,7 +94,7 @@ public class AGrid extends Grid implements IAGrid {
     public void inizia(IAPresenter presenter, Class<? extends AEntity> beanType, List<Field> columns, List items, int numeroRighe) {
         this.presenter = presenter;
         this.setBeanType(beanType != null ? beanType : Role.class);
-        this.setRowHeight(50);
+        this.setRowHeight(40);
         this.addColumns(columns);
 
         if (items != null && items.size() > 0) {

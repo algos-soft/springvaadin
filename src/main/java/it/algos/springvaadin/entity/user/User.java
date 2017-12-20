@@ -48,8 +48,7 @@ import it.algos.springvaadin.entity.AEntity;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_USE)
 @AIEntity()
-@AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
-@AIForm(fields = {"code", "descrizione"})
+@AIList( dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 public class User extends AEntity {
 
     /**
@@ -59,36 +58,42 @@ public class User extends AEntity {
 
 
     /**
-     * codice di riferimento (obbligatorio)
+     * nickname di riferimento (obbligatorio, unico per company)
      */
     @NotEmpty
-    @Size(min = 2, max = 20)
+    @Size(min = 3, max = 20)
     @Indexed()
     @AIField(
             type = EAFieldType.text,
             required = true,
             focus = true,
-            name = "Codice",
-            widthEM = 9,
-            admin = EAFieldAccessibility.allways,
-            user = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "Code", width = 120)
-    private String code;
-
+            name = "NickName",
+            widthEM = 12)
+    @AIColumn(name = "Nick", width = 300)
+    private String nickname;
 
 
     /**
-     * descrizione (facoltativa)
+     * password (obbligatoria o facoltativa, non unica)
      */
+    @Size(min = 3, max = 20)
     @AIField(
             type = EAFieldType.text,
             required = true,
-            name = "Descrizione completa",
-            widthEM = 26,
+            name = "Password",
+            widthEM = 12,
             admin = EAFieldAccessibility.allways,
             user = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "Descrizione", width = 500)
-    private String descrizione;
+    @AIColumn(name = "Password", width = 200)
+    private String password;
+
+
+    /**
+     * buttonUser abilitato (facoltativo, di default true)
+     */
+    @AIField(type = EAFieldType.checkbox, required = true, widthEM = 4, admin = EAFieldAccessibility.allways)
+    @AIColumn(name = "OK")
+    private boolean enabled;
 
 
     /**
@@ -96,7 +101,7 @@ public class User extends AEntity {
      */
     @Override
     public String toString() {
-        return getCode();
+        return nickname;
     }// end of method
 
 
