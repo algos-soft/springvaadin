@@ -38,7 +38,7 @@ public @interface AIColumn {
     /**
      * (Optional) The width of the field.
      * Defaults to 0
-     * Viene regolato in AColumnService.regolaAnnotationAndGetLarghezza()
+     * Viene regolato in AColumnService.add()
      */
     int width() default 0;
 

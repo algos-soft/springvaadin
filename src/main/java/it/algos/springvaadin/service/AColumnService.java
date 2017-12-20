@@ -2,6 +2,7 @@ package it.algos.springvaadin.service;
 
 import com.sun.deploy.panel.ExceptionListDialog;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Sizeable;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -73,87 +74,125 @@ public class AColumnService {
      *
      * @return la colonna appena creata
      */
-    public Grid.Column add(final Grid grid, final Field reflectionJavaField) {
-        Grid.Column colonna = null;
+    public void add(final Grid grid, final Field reflectionJavaField) {
         EAFieldType type = annotation.getColumnType(reflectionJavaField);
 
+        //--aggiunge una colonna di tipo Text per tutti i type, eccetto quelli indicati in questo switch statement
+        //--le colonna 'saltate' qui, dovranno essere inserite come Component nella sotttoclasse xxxList.addColonna()
         switch (type) {
             case checkbox:
-        //@todo INFO - Inserire colonna nella classe specifica xxxList
-//                 colonna = grid.addComponentColumn(
-//                        entity -> {
-//                            Object value = ((User)entity).isEnabled();
-//                            Component comp = null;
-//                             if (value instanceof Boolean) {
-//                                            comp = new CheckBox();
-//                                            (comp).setEnabled(false);
-//                                            ((CheckBox) comp).setValue((Boolean) value);
-//                                        }// end of if cycle
-//                            return comp;
-//                        });//end of lambda expressions
-//                colonna = grid.addColumn(reflectionJavaField.getName());
                 break;
             default:
-                colonna = grid.addColumn(reflectionJavaField.getName());
+                this.addNotComponent(grid, reflectionJavaField, type);
                 break;
         } // end of switch statement
 
-        return colonna;
     }// end of method
 
-//    /**
-//     * Regola una colonna
-//     * Caption, renderer e width
-//     * Restituisce la larghezza dopo le regolazioni
-//     *
-//     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
-//     * @param reflectionField di riferimento per estrarre le Annotation
-//     *
-//     * @return la larghezza della colonna come regolata
-//     */
-    public int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
-        if (colonna == null) {
-            return 0;
-        }// end of if cycle
 
-        String caption = annotation.getColumnName(reflectionField);
-        EAFieldType type = annotation.getColumnType(reflectionField);
-        int width = annotation.getColumnWith(reflectionField);
+    /**
+     * Aggiunge e regola una colonna
+     * Caption, renderer e width
+     * Regola la larghezza della Grid dopo ogni aggiunta di una nuova colonna
+     *
+     * @param grid                a cui aggiungere la colonna
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     * @param type                di field
+     */
+    public void addNotComponent(final Grid grid, final Field reflectionJavaField, EAFieldType type) {
+        Grid.Column colonna = grid.addColumn(reflectionJavaField.getName());
+        float larGrid = 0;
+        int larCol = 0;
+        String caption = annotation.getColumnName(reflectionJavaField);
+        int width = annotation.getColumnWith(reflectionJavaField);
 
         DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
         LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
         LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
         ByteStringRenderer renderByte = new ByteStringRenderer();
 
-        colonna.setCaption(caption);
-        colonna.setWidth(width > 0 ? width : WIDTH_TEXT_NORMAL);
-
-        if (type == EAFieldType.localdate) {
-            colonna.setRenderer(renderDate);
-            colonna.setWidth(WIDTH_LOCAL_DATE);
-        }// end of if cycle
-
-        if (type == EAFieldType.localdatetime) {
-            colonna.setRenderer(renderTime);
-            colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
-        }// end of if cycle
-
-        if (type == EAFieldType.icon) {
+        //--regola la  colonna appena creata
+        switch (type) {
+            case localdate:
+                colonna.setRenderer(renderDate);
+                width = width > 0 ? width : WIDTH_LOCAL_DATE;
+                break;
+            case localdatetime:
+                colonna.setRenderer(renderTime);
+                width = width > 0 ? width : WIDTH_LOCAL_DATE_TIME;
+                break;
+            case icon:
 //            colonna.setRenderer(renderIcon);
 //            colonna.setWidth(WIDTH_TEXT_NORMAL);
-        }// end of if cycle
+                break;
+            case json:
+                colonna.setRenderer(renderByte);
+                width = width > 0 ? width : WIDTH_BYTE;
+                break;
+            default:
+                colonna.setWidth(WIDTH_TEXT_NORMAL);
+                break;
+        } // end of switch statement
+        colonna.setWidth(width);
+        colonna.setCaption(caption);
 
-        if (type == EAFieldType.json) {
-            colonna.setRenderer(renderByte);
-            colonna.setWidth(WIDTH_BYTE);
-        }// end of if cycle
-
-        if (caption.equals(ACost.PROPERTY_ID)) {
-            colonna.setWidth(290);
-        }// end of if cycle
-
-        return ((Double) colonna.getWidth()).intValue();
+        larGrid = grid.getWidth();
+        larCol = ((Double) colonna.getWidth()).intValue();
+        grid.setWidth(larGrid + larCol, Sizeable.Unit.PIXELS);
     }// end of method
+
+//    //    /**
+////     * Regola una colonna
+////     * Caption, renderer e width
+////     * Restituisce la larghezza dopo le regolazioni
+////     *
+////     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
+////     * @param reflectionField di riferimento per estrarre le Annotation
+////     *
+////     * @return la larghezza della colonna come regolata
+////     */
+//    public int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
+//        if (colonna == null) {
+//            return 0;
+//        }// end of if cycle
+//
+//        String caption = annotation.getColumnName(reflectionField);
+//        EAFieldType type = annotation.getColumnType(reflectionField);
+//        int width = annotation.getColumnWith(reflectionField);
+//        width = width > 0 ? width : WIDTH_TEXT_NORMAL;
+//        DateRenderer render = new DateRenderer("%1$te-%1$tb-%1$tY", Locale.ITALIAN);
+//        LocalDateRenderer renderDate = new LocalDateRenderer("d-MMM-u", Locale.ITALIAN);
+//        LocalDateTimeRenderer renderTime = new LocalDateTimeRenderer("d-MMM-uu HH:mm", Locale.ITALIAN);
+//        ByteStringRenderer renderByte = new ByteStringRenderer();
+//
+//        colonna.setCaption(caption);
+//
+//        if (type == EAFieldType.localdate) {
+//            colonna.setRenderer(renderDate);
+//            colonna.setWidth(WIDTH_LOCAL_DATE);
+//        }// end of if cycle
+//
+//        if (type == EAFieldType.localdatetime) {
+//            colonna.setRenderer(renderTime);
+//            colonna.setWidth(WIDTH_LOCAL_DATE_TIME);
+//        }// end of if cycle
+//
+//        if (type == EAFieldType.icon) {
+////            colonna.setRenderer(renderIcon);
+////            colonna.setWidth(WIDTH_TEXT_NORMAL);
+//        }// end of if cycle
+//
+//        if (type == EAFieldType.json) {
+//            colonna.setRenderer(renderByte);
+//            colonna.setWidth(WIDTH_BYTE);
+//        }// end of if cycle
+//
+//        if (caption.equals(ACost.PROPERTY_ID)) {
+//            colonna.setWidth(290);
+//        }// end of if cycle
+//
+//        return ((Double) colonna.getWidth()).intValue();
+//    }// end of method
 
 
 }// end of class

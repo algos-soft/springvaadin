@@ -118,10 +118,10 @@ public class UserList extends AList {
                     return comp;
                 });//end of lambda expressions
 
-        annotation.
-
-
-        colonna.setCaption("OK");
+//        annotation.
+//
+//
+//        colonna.setCaption("OK");
 
 
         float lar = grid.getGrid().getWidth();
