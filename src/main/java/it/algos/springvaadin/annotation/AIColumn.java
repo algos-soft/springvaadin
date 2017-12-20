@@ -37,9 +37,10 @@ public @interface AIColumn {
 
     /**
      * (Optional) The width of the field.
-     * Defaults to 150
+     * Defaults to 0
+     * Viene regolato in AColumnService.regolaAnnotationAndGetLarghezza()
      */
-    int width() default 150;
+    int width() default 0;
 
 
     /**

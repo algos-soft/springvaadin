@@ -10,6 +10,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AColumnService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +35,19 @@ import java.util.List;
 public class AGrid extends Grid implements IAGrid {
 
 
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public AArrayService array;
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
     @Autowired
     public AColumnService columnService;
+
 
     /**
      * Property iniettata nel costruttore
@@ -147,32 +159,37 @@ public class AGrid extends Grid implements IAGrid {
      * @param columns visibili ed ordinate della Grid
      */
     public void addColumns(List<Field> columns) {
-        Grid.Column colonna = null;
         Class<? extends AEntity> clazz = this.getBeanType();
-        int lar = 0;
+//        int lar = 0;
 
         if (this.getColumns() != null && this.getColumns().size() > 0) {
             this.removeAllColumns();
         }// end of if cycle
 
-        if (columns != null && columns.size() > 0) {
+        if (array.isValid(columns)) {
             for (Field field : columns) {
-                try { // prova ad eseguire il codice
-                    colonna = columnService.add(this, field);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                }// fine del blocco try-catch
-                lar += columnService.regolaAnnotationAndGetLarghezza(colonna, field);
+                columnService.add(this, field);
             }// end of for cycle
         }// end of if cycle
 
-        //--spazio per la colonna automatica di selezione
-        //@todo RIMETTERE
-//        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
-//            lar += 50;
+//        if (columns != null && columns.size() > 0) {
+//            for (Field field : columns) {
+//                try { // prova ad eseguire il codice
+//                    colonna = columnService.add(this, field);
+//                } catch (Exception unErrore) { // intercetta l'errore
+//                    log.error(unErrore.toString());
+//                }// fine del blocco try-catch
+//                lar += columnService.regolaAnnotationAndGetLarghezza(colonna, field);
+//            }// end of for cycle
 //        }// end of if cycle
-
-        this.setWidth(lar + "px");
+//
+//        //--spazio per la colonna automatica di selezione
+//        //@todo RIMETTERE
+////        if (pref.isTrue(Cost.KEY_USE_SELEZIONE_MULTIPLA_GRID)) {
+////            lar += 50;
+////        }// end of if cycle
+//
+//        this.setWidth(lar + "px");
     }// end of method
 
 

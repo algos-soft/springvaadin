@@ -63,8 +63,10 @@ public class AColumnService {
 
 
     /**
-     * Aggiunge una colonna
+     * Aggiunge e regola una colonna
      * Nella Grid le colonne possono essere di due tipi: Text o Component
+     * Caption, renderer e width
+     * Regola la larghezza della Grid dopo ogni aggiunta di una nuova colonna
      *
      * @param grid                a cui aggiungere la colonna
      * @param reflectionJavaField di riferimento per estrarre la Annotation
@@ -77,7 +79,7 @@ public class AColumnService {
 
         switch (type) {
             case checkbox:
-
+        //@todo INFO - Inserire colonna nella classe specifica xxxList
 //                 colonna = grid.addComponentColumn(
 //                        entity -> {
 //                            Object value = ((User)entity).isEnabled();
@@ -99,16 +101,16 @@ public class AColumnService {
         return colonna;
     }// end of method
 
-    /**
-     * Regola una colonna
-     * Caption, renderer e width
-     * Restituisce la larghezza dopo le regolazioni
-     *
-     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
-     * @param reflectionField di riferimento per estrarre le Annotation
-     *
-     * @return la larghezza della colonna come regolata
-     */
+//    /**
+//     * Regola una colonna
+//     * Caption, renderer e width
+//     * Restituisce la larghezza dopo le regolazioni
+//     *
+//     * @param colonna         appena costruita, da regolare se ci sono Annoattion diverse dallo standard
+//     * @param reflectionField di riferimento per estrarre le Annotation
+//     *
+//     * @return la larghezza della colonna come regolata
+//     */
     public int regolaAnnotationAndGetLarghezza(Grid.Column colonna, Field reflectionField) {
         if (colonna == null) {
             return 0;

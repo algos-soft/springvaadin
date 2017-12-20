@@ -1,9 +1,15 @@
 package it.algos.springvaadin.entity.user;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
 import it.algos.springvaadin.annotation.AIView;
+import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
@@ -14,6 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -61,7 +68,7 @@ public class UserList extends AList {
      * The injected bean will only be fully created when it’s first needed.
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
-     * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param toolbar   iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
     public UserList(
             @Lazy @Qualifier(ACost.TAG_USE) IAPresenter presenter,
@@ -70,5 +77,55 @@ public class UserList extends AList {
     }// end of Spring constructor
 
 
+    /**
+     * Crea il corpo centrale della view
+     * Componente grafico obbligatorio
+     * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
+     *
+     * @param source
+     * @param entityClazz di riferimento, sottoclasse concreta di AEntity
+     * @param columns     visibili ed ordinate della Grid
+     * @param items       da visualizzare nella Grid
+     */
+    @Override
+    protected void creaBody(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        super.creaBody(source, entityClazz, columns, items);
+
+        this.addColonna(entityClazz, "enabled");
+    }// end of method
+
+
+    /**
+     * Aggiunge una collan di tipo Component
+     * Il recupero del valore è specifico per ogni singola colonna (non riesco a generalizzare)
+     *
+     * @param entityClazz     di riferimento, sottoclasse concreta di AEntity
+     * @param publicFieldName property statica e pubblica
+     */
+    private void addColonna(Class<? extends AEntity> entityClazz, String publicFieldName) {
+        Grid.Column colonna;
+        Field field = reflection.getField(entityClazz, publicFieldName);
+
+        colonna = grid.getGrid().addComponentColumn(
+                entity -> {
+                    Object value = ((User) entity).isEnabled();
+                    Component comp = null;
+                    if (value instanceof Boolean) {
+                        comp = new CheckBox();
+                        (comp).setEnabled(false);
+                        ((CheckBox) comp).setValue((Boolean) value);
+                    }// end of if cycle
+                    return comp;
+                });//end of lambda expressions
+
+        annotation.
+
+
+        colonna.setCaption("OK");
+
+
+        float lar = grid.getGrid().getWidth();
+        grid.getGrid().setWidth(lar + 150, Unit.PIXELS);
+    }// end of method
 
 }// end of class
