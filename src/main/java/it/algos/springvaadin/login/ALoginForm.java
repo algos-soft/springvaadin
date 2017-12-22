@@ -1,5 +1,6 @@
 package it.algos.springvaadin.login;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
@@ -7,18 +8,23 @@ import com.vaadin.ui.Window;
 import it.algos.springvaadin.dialog.AConfirmDialog;
 import it.algos.springvaadin.field.ACheckBoxField;
 import it.algos.springvaadin.field.ATextField;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.listener.ALoginListener;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
 /**
  * Abstract Login form.
  */
+@SpringComponent
+@Scope("session")
 public abstract class ALoginForm extends AConfirmDialog {
 
-    private Component usernameField;
+    protected Component usernameField;
     //    private PasswordField passField; @todo ricambiare
-    private ATextField passField;
+    protected ATextField passField;
     private ACheckBoxField rememberField;
 
     /**
@@ -86,8 +92,12 @@ public abstract class ALoginForm extends AConfirmDialog {
             String password = passField.getValue();
             if (user.validatePassword(password)) {
                 super.onConfirm();
+                Notification.show("Login valido", Notification.Type.HUMANIZED_MESSAGE);
                 utenteLoggato();
+                LibVaadin.getUI().getNavigator().navigateTo(ACost.VIEW_USE_LIST);
+                LibVaadin.getUI().getNavigator().navigateTo(ACost.VIEW_HOME);
             } else {
+                passField.textField.setValue("");
                 Notification.show("Login fallito", Notification.Type.WARNING_MESSAGE);
             }// end of if/else cycle
         }// end of if cycle
@@ -103,6 +113,7 @@ public abstract class ALoginForm extends AConfirmDialog {
      * @return the selected user
      */
     abstract IAUser getSelectedUser();
+
 
     /**
      * Evento generato quando si modifica l'utente loggato <br>
@@ -125,9 +136,9 @@ public abstract class ALoginForm extends AConfirmDialog {
 
     abstract void setUsername(String name);
 
-    public void setPassword(String password) {
-        passField.setValue(password);
-    }
+//    public void setPassword(String password) {
+//        passField.setValue(password);
+//    }
 
     public void setRemember(boolean remember) {
         rememberField.setValue(remember);

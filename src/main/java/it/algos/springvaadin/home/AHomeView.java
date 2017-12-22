@@ -10,14 +10,22 @@ import com.vaadin.ui.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.entity.user.UserService;
+import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.lib.LibImage;
+import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.list.AList;
+import it.algos.springvaadin.login.ALogin;
+import it.algos.springvaadin.menu.MenuHome;
+import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -34,8 +42,24 @@ import java.util.List;
  */
 @Slf4j
 @Scope("session")
-@SpringView(name = ACost.TAG_HOME)
+@SpringView(name = ACost.VIEW_HOME)
 public class AHomeView extends AView {
+
+    /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public ALogin login;
+
+    /**
+     * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * Un eventuale menuBar specifica può essere iniettata dalla sottoclasse concreta
+     * Le sottoclassi possono aggiungere/modificare i menu che verranno ripristinati all'uscita della view
+     * Componente grafico obbligatorio
+     */
+    @Autowired
+    protected MenuHome menuLayoutHome;
+
 
     //--icona del Menu
     public static final Resource VIEW_ICON = VaadinIcons.HOME;
@@ -50,7 +74,7 @@ public class AHomeView extends AView {
      * Costruttore @Autowired (nella superclasse)
      */
     public AHomeView() {
-        super(null,null);
+        super(null, null);
     }// end of Spring constructor
 
 
@@ -63,33 +87,55 @@ public class AHomeView extends AView {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        //--Regolazioni comuni a tutte le views
-        super.enter(event);
-
-        //--menu specifico di questa view. Verrà rimosso in uscita della view
-        menuLayout.addViewBefore(viewForThisModuleOnly, RoleList.class);
-
-        //--Non essendoci il Presenter, passa il controllo direttamente alla superclasse di questa view
-//        super.start(null, null, null, null,null,null);
-    }// end of method
-
-    /**
-     * Crea il corpo centrale della view
-     * Componente grafico obbligatorio
-     * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
-     */
-    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        bodyLayout.setContent(new Label(htlm.setRossoBold("Home"), ContentMode.HTML));
+        this.start();
     }// end of method
 
 
     /**
-     * Elimina il menuLayout dalla vista 'uscente'
+     * Creazione di una view con splash screen
      */
-    @Override
-    public void removeComponents() {
-        super.removeComponents();
-        menuLayout.removeView(viewForThisModuleOnly);
+    public void start() {
+        this.removeAllComponents();
+
+        //--componente grafico obbligatorio
+        if (login.isLogged()) {
+            menuLayout = creaMenu();
+            this.addComponent(menuLayout);
+        } else {
+            menuLayoutHome.start();
+            this.addComponent(menuLayoutHome);
+        }// end of if/else cycle
+
+        //--componente grafico obbligatorio
+        this.bodyLayout.setContent(getImage());
+        this.addComponent(bodyLayout);
+
+        this.setExpandRatio(bodyLayout, 1);
     }// end of method
+
+
+    private Layout getImage() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(false);
+        layout.setSizeFull();
+        int larImage = 650;
+        int altImage = 400;
+        double delta = 1.5;
+        int lar = ((Double)(larImage * delta)).intValue();
+        int alt =  ((Double)(altImage * delta)).intValue();
+
+        Resource resource = LibResource.getImgResource("amb3.jpg");
+        Image image = LibImage.getImage(resource);
+        image.setWidth(lar, Unit.PIXELS);
+        image.setHeight(alt, Unit.PIXELS);
+//        layout.setWidth(650 * 2, Unit.PIXELS);
+//        layout.setHeight(400 * 2, Unit.PIXELS);
+
+        layout.addComponent(image);
+        layout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
+
+        return layout;
+    }// end of method
+
 
 }// end of class

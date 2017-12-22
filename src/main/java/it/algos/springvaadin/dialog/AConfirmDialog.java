@@ -1,5 +1,6 @@
 package it.algos.springvaadin.dialog;
 
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -39,7 +40,7 @@ public class AConfirmDialog extends ADialog {
 		getToolbar().setComponentAlignment(cancelButton, com.vaadin.ui.Alignment.MIDDLE_CENTER);
 
 		confirmButton = new Button("Conferma");
-		confirmButton.setClickShortcut(KeyCode.ENTER);
+		confirmButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 //		confirmButton.addStyleName(Reindeer.BUTTON_DEFAULT);//@todo controllare
 		confirmButton.addClickListener(new ClickListener() {
 			@Override

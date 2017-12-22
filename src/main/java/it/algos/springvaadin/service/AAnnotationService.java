@@ -35,6 +35,13 @@ public class AAnnotationService {
      * Libreria di servizio. Inietta da Spring come 'singleton'
      */
     @Autowired
+    public AReflectionService reflection;
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
     public ATextService text;
 
 
@@ -205,7 +212,9 @@ public class AAnnotationService {
 
         if (array.isValid(columns)) {
             lista = Arrays.asList(columns);
-        }// end of if cycle
+        } else {
+            lista = reflection.getFieldsNameEntityOnly(clazz);
+        }// end of if/else cycle
 
         return lista;
     }// end of method
@@ -230,7 +239,9 @@ public class AAnnotationService {
 
         if (array.isValid(fields)) {
             lista = Arrays.asList(fields);
-        }// end of if cycle
+        } else {
+            lista = reflection.getFieldsNameEntityOnly(clazz);
+        }// end of if/else cycle
 
         return lista;
     }// end of method
@@ -532,6 +543,26 @@ public class AAnnotationService {
 
 
     /**
+     * Get the class of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the class for the specific column
+     */
+    @SuppressWarnings("all")
+    public Class getComboClass(Field reflectionJavaField) {
+        Class linkClazz = null;
+        AIField annotation = this.getAIField(reflectionJavaField);
+
+        if (annotation != null) {
+            linkClazz = annotation.clazz();
+        }// end of if cycle
+
+        return linkClazz;
+    }// end of method
+
+
+    /**
      * Get the width of the property.
      *
      * @param reflectionJavaField di riferimento per estrarre la Annotation
@@ -703,7 +734,7 @@ public class AAnnotationService {
      * @return the visibility of the field
      */
     @SuppressWarnings("all")
-    public  boolean isFieldEnabledAccess(Field reflectionField, boolean nuovaEntity) {
+    public boolean isFieldEnabledAccess(Field reflectionField, boolean nuovaEntity) {
         boolean enabled = true;
         EAFieldAccessibility fieldAccessibility = this.getFieldAccessibility(reflectionField);
 

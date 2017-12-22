@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.springvaadin.entity.company.CompanyList;
 import it.algos.springvaadin.entity.user.UserList;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
@@ -112,6 +113,19 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
+		menuLayout.addView(CompanyList.class);
     }// end of method
 
     /**
@@ -121,7 +135,7 @@ public class SpringvaadintestUI extends AUI {
      */
     @Override
     protected void startVistaIniziale() {
-        getNavigator().navigateTo(ACost.VIEW_ROL_LIST);
+        getNavigator().navigateTo(ACost.VIEW_HOME);
     }// end of method
 
 }// end of class

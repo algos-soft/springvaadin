@@ -1,6 +1,8 @@
 package it.algos.springvaadin.entity.user;
 
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
@@ -30,6 +32,12 @@ import java.util.List;
 @Scope("singleton")
 @Qualifier(ACost.TAG_USE)
 public class UserService extends AService {
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     public ATextService text;
@@ -78,16 +86,45 @@ public class UserService extends AService {
      * @return la entity trovata o appena creata
      */
     public User findOrCrea(String nickname, String password) {
+        return findOrCrea(nickname, nickname, (Role) null);
+    }// end of method
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param role     (obbligatoria, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public User findOrCrea(String nickname, Role role) {
+        return findOrCrea(nickname, nickname, role);
+    }// end of method
+
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * All properties
+     *
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param password (obbligatoria o facoltativa, non unica)
+     * @param role     (obbligatoria, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public User findOrCrea(String nickname, String password, Role role) {
 
         if (nonEsiste(nickname)) {
             try { // prova ad eseguire il codice
-                return (User) save(newEntity(nickname, password));
+                return (User) save(newEntity(nickname, password, role));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return findByCode(nickname);
+            return findByNickname(nickname);
         }// end of if/else cycle
     }// end of method
 
@@ -123,7 +160,7 @@ public class UserService extends AService {
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
-     * All properties
+     * Properties obbligatorie
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param nickname di riferimento (obbligatorio, unico per company)
@@ -132,12 +169,29 @@ public class UserService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     public User newEntity(String nickname, String password) {
+        return newEntity(nickname, password, null);
+    }// end of method
+
+
+    /**
+     * Creazione in memoria di una nuova entity che NON viene salvata
+     * Eventuali regolazioni iniziali delle property
+     * All properties
+     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     *
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param password (obbligatoria o facoltativa, non unica)
+     * @param role     (obbligatoria, non unica)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public User newEntity(String nickname, String password, Role role) {
         User entity = null;
 
         if (nonEsiste(nickname)) {
-            entity = User.builder().nickname(nickname).password(password).enabled(true).build();
+            entity = User.builder().nickname(nickname).password(password).role(role != null ? role : roleService.getUser()).enabled(true).build();
         } else {
-            return findByCode(nickname);
+            return findByNickname(nickname);
         }// end of if/else cycle
 
         return entity;
@@ -147,36 +201,36 @@ public class UserService extends AService {
     /**
      * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param nickname di riferimento (obbligatorio, unico per company)
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean esiste(String code) {
-        return findByCode(code) != null;
+    public boolean esiste(String nickname) {
+        return findByNickname(nickname) != null;
     }// end of method
 
 
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param nickname di riferimento (obbligatorio, unico per company)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(String code) {
-        return findByCode(code) == null;
+    public boolean nonEsiste(String nickname) {
+        return findByNickname(nickname) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nickname di riferimento (obbligatorio, unico per company)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public User findByCode(String code) {
-        return repository.findByNickname(code);
+    public User findByNickname(String nickname) {
+        return repository.findByNickname(nickname);
     }// end of method
 
 
@@ -219,6 +273,19 @@ public class UserService extends AService {
                 return null;
             }// end of if/else cycle
         }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Controlla che esiste un utente con questo nickname e questa password
+     *
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param password (obbligatoria o facoltativa, non unica)
+     *
+     * @return la nuova entity appena creata (non salvata)
+     */
+    public boolean check(String nickname, String password) {
+        return repository.findByNicknameAndPassword(nickname, password) != null;
     }// end of method
 
 }// end of class

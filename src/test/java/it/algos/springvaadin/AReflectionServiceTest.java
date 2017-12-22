@@ -76,6 +76,8 @@ public class AReflectionServiceTest {
         annotation.array = array;
         service.annotation = annotation;
         service.text = text;
+        annotation.reflection = service;
+        service.array = array;
     }// end of method
 
 
@@ -257,6 +259,24 @@ public class AReflectionServiceTest {
         reflectionJavaField = ottenutoList.get(1);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
-    }// end of static method
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
+     */
+    @Test
+    public void getFieldsNameEntityOnly() {
+        List<String> listaNomiOttenuta = service.getFieldsNameEntityOnly(ROLE_ENTITY_CLASS);
+        assertNotNull(listaNomiOttenuta);
+        previstoIntero = 2;
+        ottenutoIntero = listaNomiOttenuta.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+    }// end of single test
 
 }// end of class

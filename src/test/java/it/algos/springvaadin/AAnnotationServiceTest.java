@@ -7,6 +7,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.enumeration.*;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibArray;
@@ -66,13 +67,16 @@ public class AAnnotationServiceTest {
     private EAFieldAccessibility ottenutaAccessibilità;
     private final static String NAME_ORDINE = "ordine";
     private final static String NAME_CODE = "code";
+    private final static String NAME_ROLE = "role";
     private final static String HEADER_ORDINE = "#";
     private final static String HEADER_CODE = "Code";
     private static Field FIELD_ORDINE;
     private static Field FIELD_CODE;
+    private static Field FIELD_ROLE;
     private static Class<? extends IAView> ROLE_VIEW_CLASS_LIST = RoleList.class;
     private static Class<? extends IAView> ROLE_VIEW_CLASS_FORM = RoleForm.class;
     private static Class<? extends AEntity> ROLE_ENTITY_CLASS = Role.class;
+    private static Class<? extends AEntity> ROLE_USER_CLASS = User.class;
 
     @Before
     public void setUp() {
@@ -82,12 +86,15 @@ public class AAnnotationServiceTest {
         MockitoAnnotations.initMocks(array);
         MockitoAnnotations.initMocks(text);
         MockitoAnnotations.initMocks(session);
+        service.reflection = reflection;
         service.session = session;
         service.text = text;
         array.text = text;
         service.array = array;
-        FIELD_ORDINE = reflection.getField(Role.class, NAME_ORDINE);
-        FIELD_CODE = reflection.getField(Role.class, NAME_CODE);
+        reflection.array=array;
+        FIELD_ORDINE = reflection.getField(ROLE_ENTITY_CLASS, NAME_ORDINE);
+        FIELD_CODE = reflection.getField(ROLE_ENTITY_CLASS, NAME_CODE);
+        FIELD_ROLE = reflection.getField(ROLE_USER_CLASS, NAME_ROLE);
     }// end of method
 
 
@@ -135,7 +142,7 @@ public class AAnnotationServiceTest {
     @Test
     public void getAIList() {
         AIList ottenuto = service.getAIList(ROLE_ENTITY_CLASS);
-        assertNotNull(ottenuto);
+        assertNull(ottenuto);
     }// end of single test
 
 
@@ -465,6 +472,21 @@ public class AAnnotationServiceTest {
         ottenutoBooleano = service.isFocus(FIELD_CODE);
         assertEquals(previstoBooleano, ottenutoBooleano);
     }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the class of the property.
+     *
+     * @param reflectionJavaField di riferimento per estrarre la Annotation
+     *
+     * @return the class for the specific column
+     */
+    public void getComboClass() {
+        Class previstoClass = Role.class;
+        Class ottenutoClass = service.getComboClass(FIELD_CODE);
+        assertEquals(previstoClass, ottenutoClass);
+    }// end of method
 
 
     @SuppressWarnings("javadoc")

@@ -1,7 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-import it.algos.springvaadin.lib.Cost;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;

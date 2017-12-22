@@ -1,11 +1,17 @@
 package it.algos.springvaadin.login;
 
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.event.ALoginEvent;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.listener.ALoginListener;
 import it.algos.springvaadin.listener.ALogoutListener;
 import it.algos.springvaadin.listener.AProfileChangeListener;
+import it.algos.springvaadin.service.ATextService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.servlet.http.Cookie;
@@ -19,6 +25,13 @@ import java.util.ArrayList;
 @SpringComponent
 @Scope("session")
 public class ALogin {
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public UserService userService;
 
 
     // defaults
@@ -68,8 +81,6 @@ public class ALogin {
     }// end of Spring constructor
 
 
-
-
 //    /**
 //     * Retrieve the User Profile form
 //     *
@@ -96,6 +107,9 @@ public class ALogin {
 
         // retrieve login data from the cookies
 //        readCookies(); @todo rimettere
+
+        loginForm.nameField.textField.setValue("");
+        loginForm.passField.textField.setValue("");
 
         // Open it in the UI
         UI.getCurrent().addWindow(loginForm);
@@ -135,28 +149,43 @@ public class ALogin {
      */
     public boolean attemptLogin() {
         boolean riuscito = false;
+        boolean valido = false;
         boolean remember = false;
 
-        IAUser user = loginForm.getSelectedUser();
-        if (user != null) {
-            String pass = loginForm.getPassField().getValue();
-            if (pass != null && !pass.isEmpty()) {
-                if (user.validatePassword(pass)) {
+        String nickname = loginForm.getNickname();
+        String password = loginForm.getPassword();
+        valido = userService.check(nickname, password);
 
-                    setUser(user);
-                    remember = loginForm.getRememberField().getValue();
+        if (valido) {
+            Notification.show("Login", "Valido", Notification.Type.HUMANIZED_MESSAGE);
+        } else {
+            Notification.show("Login", "Non valido", com.vaadin.ui.Notification.Type.WARNING_MESSAGE);
+        }// end of if/else cycle
 
-                    // create/update the cookies
-                    if (remember) {
-//                        writeCookies();@todo rimettere
-                    } else {
-//                        deleteCookies();@todo rimettere
-                    }// end of if/else cycle
 
-                    riuscito = true;
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
+        this.user = loginForm.getSelectedUser();
+//        setUser(user);
+
+        //        if (user != null) {
+//            String pass = loginForm.getPassField().getValue();
+//            if (pass != null && !pass.isEmpty()) {
+//                if (user.validatePassword(pass)) {
+//
+//                    setUser(user);
+//                    remember = loginForm.getRememberField().getValue();
+//
+//                    // create/update the cookies
+//                    if (remember) {
+////                        writeCookies();@todo rimettere
+//                    } else {
+////                        deleteCookies();@todo rimettere
+//                    }// end of if/else cycle
+//
+//                    riuscito = true;
+//                }// end of if cycle
+//            }// end of if cycle
+//        }// end of if cycle
+//
 
         ALoginEvent evento = new ALoginEvent(this, riuscito, user, null, remember);
         fireLoginListeners(evento);
@@ -165,20 +194,22 @@ public class ALogin {
     }// end of method
 
 
-//    /**
-//     * Logout the current user
-//     */
-//    public void logout() {
+    /**
+     * Logout the current user
+     */
+    public void logout() {
 //        UserIF oldUser = this.user;
-//        this.user = null;
+        this.user = null;
 //        LogoutEvent e = new LogoutEvent(this, oldUser);
 //        for (LogoutListener l : logoutListeners) {
 //            l.onUserLogout(e);
 //        }
 //        deleteCookies();//@todo aggiunta di gac 12.2.17
-//    }
-//
-//
+        LibVaadin.getUI().getNavigator().navigateTo(ACost.VIEW_USE_LIST);
+        LibVaadin.getUI().getNavigator().navigateTo(ACost.VIEW_HOME);
+    }// end of method
+
+
 //    /**
 //     * Reads data from the fields and writes the cookies
 //     */

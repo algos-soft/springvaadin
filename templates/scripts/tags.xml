@@ -13,7 +13,7 @@
     <property name="tagService" value="Service"/>
     <property name="dirEntity" value="entity"/>
     <property name="dirLib" value="lib"/>
-    <property name="tagCost" value="Cost"/>
+    <property name="tagCost" value="ACost"/>
     <property name="tagSrc" value="templates/sources"/>
     <property name="tagMain" value="src/main"/>
     <property name="tagIdea" value="${tagMain}/java"/>

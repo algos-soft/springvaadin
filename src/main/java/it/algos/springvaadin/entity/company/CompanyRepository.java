@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.company;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,17 +8,17 @@ import it.algos.springvaadin.lib.ACost;
 import java.util.List;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on TIMESTAMP
  * Estende la l'interaccia MongoRepository col casting alla Entity relativa di questa repository
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @SpringComponent
-@Qualifier(@TAG@)
-public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
+@Qualifier(ACost.TAG_COM)
+public interface CompanyRepository extends MongoRepository<Company, String> {
 
-    public @ENTITY@ findByCode(String code);
+    public Company findByCode(String code);
 
-    public List<@ENTITY@> findByOrderByCodeAsc();
+    public List<Company> findByOrderByCodeAsc();
 
 }// end of class

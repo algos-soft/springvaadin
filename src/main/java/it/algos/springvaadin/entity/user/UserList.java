@@ -39,7 +39,7 @@ import java.util.List;
 @Scope("session")
 @Qualifier(ACost.TAG_USE)
 @SpringView(name = ACost.VIEW_USE_LIST)
-@AIView(roleTypeVisibility = EARoleType.developer)
+@AIView(roleTypeVisibility = EARoleType.admin)
 public class UserList extends AList {
 
 

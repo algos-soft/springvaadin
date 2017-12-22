@@ -82,6 +82,34 @@ public class AArrayService {
 
 
     /**
+     * Controlla che l'array sia nullo o vuoto
+     * Non deve esistere (null)
+     * Se esiste, non deve avere elementi (size = 0)
+     *
+     * @param array (List) in ingresso da controllare
+     *
+     * @return vero se l'array soddisfa le condizioni previste
+     */
+    public boolean isEmpty(final List array) {
+        return !isValid(array);
+    }// end of method
+
+
+    /**
+     * Controlla che l'array sia nullo o vuoto
+     * Non deve esistere (null)
+     * Se esiste, non deve avere elementi (size = 0)
+     *
+     * @param array (List) in ingresso da controllare
+     *
+     * @return vero se l'array soddisfa le condizioni previste
+     */
+    public boolean isEmpty(final String[] array) {
+        return !isValid(array);
+    }// end of method
+
+
+    /**
      * Aggiunge un elemento ad una List (di per se immutabile)
      * Deve esistere (not null)
      *

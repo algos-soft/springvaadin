@@ -37,17 +37,16 @@ public abstract class ACost {
     public final static List<String> COMPANY_OPTIONAL = Arrays.asList(companyMatrice);
 
     public final static String TAG_VERS = "vers";
-    public final static String TAG_COMP = "comp";
     public final static String TAG_LOG = "log";
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
     public final static String TAG_ROL = "role";
-//    public final static String TAG_USE = "user";
     public final static String TAG_IND = "ind";
     public final static String TAG_STA = "stato";
     public final static String TAG_PER = "per";
     public final static String TAG_PRE = "pref";
 
+    public final static String VIEW_HOME = "home";
     public final static String VIEW_ROL_LIST = "rolelist";
     public final static String VIEW_ROL_FORM = "roleform";
 
@@ -123,5 +122,8 @@ public abstract class ACost {
 
 	public final static String TAG_USE = "user";
 	public final static String VIEW_USE_LIST = "userlist";
-	public final static String VIEW_USE_FORM = "userform";
+    public final static String VIEW_USE_FORM = "userform";
+	public final static String TAG_COM = "company";
+    public final static String VIEW_COM_LIST = "companylist";
+	public final static String VIEW_COM_FORM = "companyform";
 }// end of static class

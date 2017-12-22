@@ -5,6 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Notification;
 import it.algos.springvaadin.annotation.AIView;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.event.ALoginEvent;
@@ -155,7 +156,7 @@ public class ALoginButton extends MenuBar {
      * Logout button pressed
      */
     private void logoutCommandSelected() {
-//        login.logout();
+        login.logout();
         updateUI();
     }// end of method
 
@@ -164,6 +165,8 @@ public class ALoginButton extends MenuBar {
      * Profilo utente button pressed
      */
     private void myProfileCommandSelected() {
+        Notification.show("Profile", "Caming soon...", Notification.Type.HUMANIZED_MESSAGE);
+
 //        login.showUserProfile();
     }// end of method
 

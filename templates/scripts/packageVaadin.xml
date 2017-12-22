@@ -52,7 +52,7 @@
         <property name="newEntiy" value="newEntiy"/>
         <property name="entitySuperclass" value="entitySuperclass"/>
         <property name="companyRequired" value="companyRequired"/>
-        <property name="tag" value="Cost.TAG_${newTag}"/>
+        <property name="tag" value="ACost.TAG_${newTag}"/>
         <property name="tagView" value="${newTag}"/>
         <echo message="tagView = ${tagView}"/>
         <property name="TIMESTAMP" value="TIMESTAMP"/>
@@ -79,7 +79,7 @@
     <target name="cost" depends="init,fixVaadin">
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
-            <param name="findRegex" value="&#10;${tagAddCost}TAG_${newTag}"/>
+            <param name="findRegex" value=" TAG_${newTag} "/>
             <param name="token" value="${tagFindEndFile}"/>
             <param name="value"
                    value="&#10;&#009;${tagAddCost}TAG_${newTag} = &quot;${newPackage}&quot;;${tagFindEndFile}"/>
@@ -87,7 +87,7 @@
 
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
-            <param name="findRegex" value="&#10;${tagAddCost}VIEW_${tagView}_LIST"/>
+            <param name="findRegex" value="VIEW_${tagView}_LIST"/>
             <param name="token" value="${tagFindEndFile}"/>
             <param name="value"
                    value="&#10;&#009;${tagAddCost}VIEW_${tagView}_LIST = &quot;${newPackage}list&quot;;${tagFindEndFile}"/>
@@ -95,7 +95,7 @@
 
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
-            <param name="findRegex" value="&#10;${tagAddCost}VIEW_${tagView}_FORM"/>
+            <param name="findRegex" value="VIEW_${tagView}_FORM"/>
             <param name="token" value="${tagFindEndFile}"/>
             <param name="value"
                    value="&#10;&#009;${tagAddCost}VIEW_${tagView}_FORM = &quot;${newPackage}form&quot;;${tagFindEndFile}"/>
@@ -104,11 +104,6 @@
 
 
     <target name="menu" depends="init,fixVaadin">
-        <echo message="checkMenu - file = ${destUI}"/>
-        <echo message="checkMenu - findRegex = ${regexMenu}${newEntity}List\.class\);"/>
-        <echo message="checkMenu - token = ${tokenMenu}"/>
-        <echo message="checkMenu - value = ${tokenMenu}&#10;&#009;&#009;${replaceMenu}${newEntity}List.class);"/>
-
         <antcall target="addCost">
             <param name="file" value="${destUI}"/>
             <param name="findRegex" value="${regexImportMenu}"/>

@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.IAService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -21,6 +22,12 @@ import org.springframework.context.annotation.Scope;
 @Scope("singleton")
 public class UserData extends AData {
 
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    private RoleService roleService;
 
     /**
      * Il service iniettato dal costruttore, in modo che sia disponibile nella superclasse,
@@ -67,12 +74,13 @@ public class UserData extends AData {
      * Creazione degli users di PROVA
      */
     public void creaUsers() {
-        service.findOrCrea("gac");
-        service.findOrCrea("alex");
-        service.findOrCrea("ospite");
-        service.findOrCrea("admin");
-        service.findOrCrea("developer");
-        service.findOrCrea("guest");
+        service.findOrCrea("gac", roleService.getDev());
+        service.findOrCrea("alex", roleService.getDev());
+        service.findOrCrea("developer", roleService.getDev());
+        service.findOrCrea("admin", roleService.getAdmin());
+        service.findOrCrea("volontario", roleService.getUser());
+        service.findOrCrea("ospite", roleService.getGuest());
+        service.findOrCrea("guest", roleService.getGuest());
     }// end of method
 
 

@@ -1,4 +1,5 @@
 package it.algos.springvaadin.entity.user;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.lib.ACost;
 import org.bson.types.ObjectId;
@@ -20,5 +21,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     public User findByNickname(String nickname);
 
     public List<User> findByOrderByNicknameAsc();
+
+    public User findByNicknameAndPassword(String nickname, String password);
 
 }// end of class

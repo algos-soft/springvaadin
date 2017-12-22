@@ -8,6 +8,7 @@ import it.algos.springvaadin.annotation.AIField;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.event.IAListener;
+import it.algos.springvaadin.field.AComboField;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.IAFieldFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,8 @@ public class AFieldService {
     public AAnnotationService annotation;
 
 
-//    @Autowired
-//    private MongoService mongoService;
+    @Autowired
+    private AMongoService mongoService;
 
     /**
      * Create a single field.
@@ -66,13 +67,13 @@ public class AFieldService {
         boolean required = annotation.isRequired(reflectedJavaField);
         boolean focus = annotation.isFocus(reflectedJavaField);
         boolean enabled = annotation.isFieldEnabled(reflectedJavaField, nuovaEntity);
+        Class targetClazz = annotation.getComboClass(reflectedJavaField);
 //        boolean visible = annotation.isFieldVisibile(reflectedJavaField, nuovaEntity);
 
         //@todo RIMETTERE
 //        int rows = annotation.getNumRows(reflectionJavaField);
 //        boolean nullSelection = annotation.isNullSelectionAllowed(reflectionJavaField);
 //        boolean newItems = annotation.isNewItemsAllowed(reflectionJavaField);
-//        Class targetClazz = annotation.getClass(reflectionJavaField);
 
         if (type == EAFieldType.text.noone) {
             return null;
@@ -88,12 +89,13 @@ public class AFieldService {
             algosField = fieldFactory.crea(source, type, reflectedJavaField, entityBean);
         }// end of if cycle
 
+        if (type == EAFieldType.combo && targetClazz != null && algosField != null) {
+            items = mongoService.findAll(targetClazz);
+            ((AComboField) algosField).fixCombo(items, false, false);
+        }// end of if cycle
+
+
         //@todo RIMETTERE
-//        if (type == EAFieldType.combo && targetClazz != null && algosField != null) {
-//            items = mongoService.findAll(targetClazz);
-//            ((AComboField) algosField).fixCombo(items, nullSelection, newItems);
-//        }// end of if cycle
-//
 //        if (type == EAFieldType.enumeration && targetClazz != null && algosField != null) {
 //            if (targetClazz.isEnum()) {
 //                items = new ArrayList(Arrays.asList(targetClazz.getEnumConstants()));

@@ -67,10 +67,10 @@ public class RoleData extends AData {
      * Creazione dei ruoli
      */
     public void creaRuoli() {
-        service.findOrCrea("ROLE_DEVELOPER");
-        service.findOrCrea("ROLE_ADMIN");
-        service.findOrCrea("ROLE_USER");
-        service.findOrCrea("ROLE_GUEST");
+        service.findOrCrea(RoleService.DEV);
+        service.findOrCrea(RoleService.ADMIN);
+        service.findOrCrea(RoleService.USER);
+        service.findOrCrea(RoleService.GUEST);
     }// end of method
 
 

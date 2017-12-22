@@ -46,7 +46,7 @@ public abstract class AEntity implements Serializable {
      * NON va usato @NotEmpty, perchè altrimenti binder.validate().isOk() va in errore
      * Ci pensa Mongo a riempire il valore
      */
-    @AIField(name = "Key", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIField(name = "Key", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public String id;
 
@@ -66,7 +66,7 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = EAFieldType.localdatetime, name = "Creazione della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.localdatetime, name = "Creazione della scheda", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime creazione;
 
@@ -77,7 +77,7 @@ public abstract class AEntity implements Serializable {
      * Regolato uguale per tutta l'applicazione col flag KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA
      * Field visibile solo al developer
      */
-    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
+    @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
     @AIColumn(roleTypeVisibility = EARoleType.nobody)
     public LocalDateTime modifica;
 

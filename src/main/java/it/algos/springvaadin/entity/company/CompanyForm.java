@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.company;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.field.AField;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on TIMESTAMP
  * Estende la Entity astratta AForm di tipo AView per visualizzare i fields
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')
@@ -22,9 +22,9 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(@TAG@)
-@SpringView(name = ACost.VIEW_@VIEW@_FORM)
-public class @ENTITY@Form extends AForm {
+@Qualifier(ACost.TAG_COM)
+@SpringView(name = ACost.VIEW_COM_FORM)
+public class CompanyForm extends AForm {
 
 
     /**
@@ -39,7 +39,7 @@ public class @ENTITY@Form extends AForm {
      *
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-     public @ENTITY@Form(@Lazy @Qualifier(@TAG@) IAPresenter presenter, @Qualifier(ACost.BAR_FORM) IAToolbar toolbar) {
+     public CompanyForm(@Lazy @Qualifier(ACost.TAG_COM) IAPresenter presenter, @Qualifier(ACost.BAR_FORM) IAToolbar toolbar) {
          super(presenter, toolbar);
      }// end of Spring constructor
 

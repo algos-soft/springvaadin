@@ -1,15 +1,10 @@
-package it.algos.springvaadin.entity.user;
+package it.algos.springvaadin.entity.company;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import it.algos.springvaadin.entity.role.Role;
-import it.algos.springvaadin.lib.ACost;
-import it.algos.springvaadin.login.IAUser;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.context.annotation.Scope;
 import lombok.*;
@@ -20,6 +15,7 @@ import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.entity.AEntity;
 
 /**
@@ -42,17 +38,18 @@ import it.algos.springvaadin.entity.AEntity;
  * Le singole property sono annotate con @AIField (obbligatorio per il tipo di Field) e @AIColumn (facoltativo)
  */
 @SpringComponent
-@Document(collection = "user")
+@Document(collection = "company")
 @Scope("session")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Qualifier(ACost.TAG_USE)
+@Qualifier(ACost.TAG_COM)
 @AIEntity()
-@AIList(dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
-public class User extends AEntity implements IAUser {
+@AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIForm(fields = {"code", "descrizione"})
+public class Company extends AEntity {
 
     /**
      * versione della classe per la serializzazione
@@ -61,51 +58,36 @@ public class User extends AEntity implements IAUser {
 
 
     /**
-     * nickname di riferimento (obbligatorio, unico per company)
+     * codice di riferimento (obbligatorio)
      */
     @NotEmpty
-    @Size(min = 3, max = 20)
+    @Size(min = 2, max = 20)
     @Indexed()
     @AIField(
             type = EAFieldType.text,
             required = true,
             focus = true,
-            name = "NickName",
-            widthEM = 12)
-    @AIColumn(name = "Nick", width = 300)
-    private String nickname;
+            name = "Codice",
+            widthEM = 9,
+            admin = EAFieldAccessibility.allways,
+            user = EAFieldAccessibility.showOnly)
+    @AIColumn(name = "Code", width = 120)
+    private String code;
+
 
 
     /**
-     * password (obbligatoria o facoltativa, non unica)
+     * descrizione (facoltativa)
      */
-    @Size(min = 3, max = 20)
     @AIField(
             type = EAFieldType.text,
             required = true,
-            widthEM = 12,
+            name = "Descrizione completa",
+            widthEM = 26,
             admin = EAFieldAccessibility.allways,
             user = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "Password", width = 200)
-    private String password;
-
-
-    /**
-     * ruolo (obbligatorio, non unico)
-     * riferimento dinamico con @DBRef (obbligatorio per il ComboBox)
-     */
-    @DBRef
-    @AIField(type = EAFieldType.combo, required = true, clazz = Role.class)
-    @AIColumn(name = "Ruolo", width = 200)
-    private Role role;
-
-
-    /**
-     * buttonUser abilitato (facoltativo, di default true)
-     */
-    @AIField(type = EAFieldType.checkboxlabel, required = true, admin = EAFieldAccessibility.allways)
-    @AIColumn(name = "OK")
-    private boolean enabled;
+    @AIColumn(name = "Descrizione", width = 500)
+    private String descrizione;
 
 
     /**
@@ -113,53 +95,8 @@ public class User extends AEntity implements IAUser {
      */
     @Override
     public String toString() {
-        return nickname;
+        return getCode();
     }// end of method
 
-    /**
-     * @return the password (encrypted)
-     */
-    @Override
-    public String getEncryptedPassword() {
-        return null;
-    }// end of method
-
-
-    /**
-     * Validate a password for this current user.
-     *
-     * @param password the password
-     *
-     * @return true if valid
-     */
-    @Override
-    public boolean validatePassword(String password) {
-        boolean valid = false;
-
-        if (isEnabled()) {
-            if (this.password.equals(password)) {
-                valid = true;
-            }// end of if cycle
-        }// end of if cycle
-
-        return valid;
-    }// end of method
-
-
-    /**
-     * @return true if this user is admin
-     */
-    @Override
-    public boolean isAdmin() {
-        return false;
-    }// end of method
-
-    /**
-     * @return true if this user is developer
-     */
-    @Override
-    public boolean isDeveloper() {
-        return false;
-    }// end of method
 
 }// end of entity class

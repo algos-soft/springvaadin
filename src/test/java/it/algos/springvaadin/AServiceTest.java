@@ -82,10 +82,13 @@ public class AServiceTest {
         MockitoAnnotations.initMocks(array);
         annotation.text = text;
         annotation.array = array;
+        annotation.reflection = reflection;
+        annotation.reflection.array = array;
         reflection.text = text;
         reflection.annotation = annotation;
         array.text = text;
         service.annotation = annotation;
+        service.annotation.reflection = reflection;
         service.reflection = reflection;
         service.entityClass = ROLE_ENTITY_CLASS;
     }// end of method

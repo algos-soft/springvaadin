@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.company;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.icons.VaadinIcons;
@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * Created by gac on @TODAY@
+ * Created by gac on TIMESTAMP
  * Estende la Entity astratta AList di tipo AView per visualizzare la Grid
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')
@@ -28,10 +28,10 @@ import java.util.List;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(@TAG@)
-@SpringView(name = ACost.VIEW_@VIEW@_LIST)
+@Qualifier(ACost.TAG_COM)
+@SpringView(name = ACost.VIEW_COM_LIST)
 @AIView(roleTypeVisibility = EARoleType.developer)
-public class @ENTITY@List extends AList {
+public class CompanyList extends AList {
 
 
     /**
@@ -40,7 +40,7 @@ public class @ENTITY@List extends AList {
      * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
      * Se manca il MENU_NAME, di default usa il 'name' della view
      */
-    public static final String MENU_NAME = @TAG@;
+    public static final String MENU_NAME = ACost.TAG_COM;
 
 
     /**
@@ -64,8 +64,8 @@ public class @ENTITY@List extends AList {
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public @ENTITY@List(
-            @Lazy @Qualifier(@TAG@) IAPresenter presenter,
+    public CompanyList(
+            @Lazy @Qualifier(ACost.TAG_COM) IAPresenter presenter,
             @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor

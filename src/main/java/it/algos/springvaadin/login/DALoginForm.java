@@ -2,6 +2,7 @@ package it.algos.springvaadin.login;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Component;
+import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.field.ATextField;
 import it.algos.springvaadin.field.IAFieldFactory;
@@ -18,10 +19,15 @@ import javax.annotation.PostConstruct;
 public class DALoginForm extends ALoginForm {
 
 
-//    @Autowired
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public UserService userService;
+
     private IAFieldFactory fieldFactory;
 
-    private ATextField nameField;
+    public ATextField nameField;
 
 
     /**
@@ -51,23 +57,25 @@ public class DALoginForm extends ALoginForm {
      *
      * @return the selected user
      */
-    public IAUser getSelectedUser(){
-        String nome = nameField.getValue();
-        IAUser user = null;
-//         user = Utente.read(nome);//@todo da sviluppare
+    public IAUser getSelectedUser() {
+        String nickname = nameField.getValue();
+        IAUser user = userService.findByNickname(nickname);
+
         return user;
     }// end of method
 
 
     /**
      * Create the component to input the username.
+     *
      * @return the username component
      */
-    public Component createUsernameComponent(){
-        nameField= (ATextField)fieldFactory.crea(null, EAFieldType.text,null,null);
-        nameField.inizializza("Username",null);
+    public Component createUsernameComponent() {
+        nameField = (ATextField) fieldFactory.crea(null, EAFieldType.text, null, null);
+        nameField.inizializza("Username", null);
         nameField.setWidth("15em");
         nameField.setCaption("Username");
+        nameField.setFocus(true);
 
         return nameField;
     }// end of method
@@ -76,6 +84,27 @@ public class DALoginForm extends ALoginForm {
         nameField.setValue(name);
     }// end of method
 
+
+    public String getNickname() {
+        String value = "";
+
+        if (nameField != null) {
+            value = nameField.getValue();
+        }// end of if cycle
+
+        return value;
+    }// end of method
+
+
+    public String getPassword() {
+        String value = "";
+
+        if (passField != null) {
+            value = passField.getValue();
+        }// end of if cycle
+
+        return value;
+    }// end of method
 
 
 }// end of class

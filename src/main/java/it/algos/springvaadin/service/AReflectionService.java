@@ -27,10 +27,19 @@ import java.util.List;
 public class AReflectionService {
 
 
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public AArrayService array;
+
     @Autowired
     public AAnnotationService annotation;
 
 
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
     @Autowired
     public ATextService text;
 
@@ -131,6 +140,28 @@ public class AReflectionService {
 
 
     /**
+     * All field names di una EntityClass
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
+     */
+    public List<String> getFieldsNameEntityOnly(final Class<? extends AEntity> entityClazz) {
+        List<String> nameList = null;
+        List<Field> fieldsList = this.getFieldsEntityOnly(entityClazz);
+
+        if (array.isValid(fieldsList)) {
+            nameList = new ArrayList<>();
+            for (Field field : fieldsList) {
+                nameList.add(field.getName());
+            }// end of for cycle
+        }// end of if cycle
+
+        return nameList;
+    }// end of method
+
+
+    /**
      * Fields dichiarati nella Entity
      * Compresa la entityClazz
      * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
@@ -148,13 +179,13 @@ public class AReflectionService {
      * Fields per le Campi del Form dichiarati nella Entity
      * Considera solo quelli della listaNomi indicata Tutti, se listaNomi=null
      *
-     * @param entityClazz   da cui estrarre i fields
-     * @param listaNomi     dei fields da considerare. Tutti, se listaNomi=null
+     * @param entityClazz da cui estrarre i fields
+     * @param listaNomi   dei fields da considerare. Tutti, se listaNomi=null
      *
      * @return lista di fields da considerare per Form
      */
     @SuppressWarnings("all")
-    public  List<Field> getFormFields(Class<? extends AEntity> entityClazz, List<String> listaNomi) {
+    public List<Field> getFormFields(Class<? extends AEntity> entityClazz, List<String> listaNomi) {
         List<Field> fieldsList = new ArrayList<>();
         List<Field> fieldsTmp = this.getFieldsAllSuperclasses(entityClazz);
 

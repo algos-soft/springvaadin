@@ -203,6 +203,7 @@ public class AFieldFactory implements IAFieldFactory {
                     field = fieldFactory.apply(AIntegerField.class);
                     break;
                 case checkbox:
+                case checkboxlabel:
                     field = fieldFactory.apply(ACheckBoxField.class);
                     break;
 //                case localdate:
@@ -237,9 +238,9 @@ public class AFieldFactory implements IAFieldFactory {
 //                    //@todo PATCH vale solo per preferenza
 //
 //                    break;
-//                case combo:
-//                    field = fieldFactory.apply(AComboField.class);
-//                    break;
+                case combo:
+                    field = fieldFactory.apply(AComboField.class);
+                    break;
 //                case radio:
 //                    field = fieldFactory.apply(ARadioField.class);
 //                    break;
@@ -260,6 +261,7 @@ public class AFieldFactory implements IAFieldFactory {
                     field = fieldFactory.apply(ATextAreaField.class);
                     break;
                 default: // caso non definito
+                    log.warn("Switch - caso '" + type.name() + "' non definito in AFieldFactory.crea()");
                     break;
             } // fine del blocco switch
 
