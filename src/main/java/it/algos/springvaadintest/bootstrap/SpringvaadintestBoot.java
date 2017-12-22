@@ -61,6 +61,7 @@ public class SpringvaadintestBoot extends ABoot {
     @EventListener
 //    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        this.iniziaData();
         this.inizializzaValoriDefault();
     }// end of method
 
@@ -69,7 +70,6 @@ public class SpringvaadintestBoot extends ABoot {
      * Inizializzazione dei dati standard di alcune collections sul DB
      */
     protected void iniziaData() {
-        super.iniziaData();
         this.company.findOrCrea();
     }// end of method
 

@@ -3,6 +3,7 @@ package it.algos.springvaadin.entity.user;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.IAUser;
@@ -50,9 +51,9 @@ import it.algos.springvaadin.entity.AEntity;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_USE)
-@AIEntity()
+@AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.facoltativa)
 @AIList(dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
-public class User extends AEntity implements IAUser {
+public class User extends ACEntity implements IAUser {
 
     /**
      * versione della classe per la serializzazione
@@ -97,7 +98,7 @@ public class User extends AEntity implements IAUser {
     @DBRef
     @AIField(type = EAFieldType.combo, required = true, clazz = Role.class)
     @AIColumn(name = "Ruolo", width = 200)
-    private Role role;
+    public Role role;
 
 
     /**

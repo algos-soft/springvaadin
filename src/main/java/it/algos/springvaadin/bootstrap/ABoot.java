@@ -75,7 +75,7 @@ public class ABoot {
         log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Punto di ingresso del programma @EventListener ABoot.onApplicationEvent() ");
 
         if (this.classeAlgosBootAncoraDaEseguire) {
-            this.iniziaData();
+            this.iniziaDataStandard();
             this.inizializzaValoriDefault();
         }// end of if cycle
     }// end of method
@@ -84,7 +84,7 @@ public class ABoot {
     /**
      * Inizializzazione dei dati standard di alcune collections sul DB
      */
-    protected void iniziaData() {
+    protected void iniziaDataStandard() {
         this.role.findOrCrea();
         this.user.findOrCrea();
     }// end of method

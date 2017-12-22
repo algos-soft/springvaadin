@@ -9,6 +9,7 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.login.ALoginButton;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.service.AAnnotationService;
@@ -42,6 +43,14 @@ public class MenuLayout extends VerticalLayout {
      */
     @Autowired
     public ALoginButton loginButton;
+
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    public ALogin login;
+
 
     @Autowired
     public ATextService text;
@@ -116,17 +125,17 @@ public class MenuLayout extends VerticalLayout {
     public void start() {
         this.removeAllComponents();
 
-        if (firstMenuBar.getItems().size() > 0) {
+        if (login.isUser() && firstMenuBar.getItems().size() > 0) {
             this.addComponent(new HorizontalLayout(firstMenuBar, loginButton));
         }// end of if cycle
 
-        if (secondMenuBar.getItems().size() > 0) {
+        if (login.isAdmin() && secondMenuBar.getItems().size() > 0) {
             //@todo RIMETTERE
 //            this.addComponent(new AlgosPanel(secondMenuBar));
             this.addComponent(secondMenuBar);
         }// end of if cycle
 
-        if (thirdMenuBar.getItems().size() > 0) {
+        if (login.isDeveloper() && thirdMenuBar.getItems().size() > 0) {
             //@todo RIMETTERE
 //            this.addComponent(new AlgosPanel(thirdMenuBar));
             this.addComponent(thirdMenuBar);
@@ -186,6 +195,7 @@ public class MenuLayout extends VerticalLayout {
                 }// end of if/else cycle
                 break;
             case admin:
+//                if (login.isAdmin()) {
                 if (itemToAddBefore == null) {
                     secondMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
                 } else {
@@ -193,6 +203,7 @@ public class MenuLayout extends VerticalLayout {
                 }// end of if/else cycle
                 break;
             case developer:
+//                if (login.isDeveloper()) {
                 if (itemToAddBefore == null) {
                     thirdMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
                 } else {

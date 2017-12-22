@@ -51,6 +51,7 @@ public abstract class AlgosApp {
      */
     public final static String IMG_FOLDER_NAME = "VAADIN/img/";
 
+
     /**
      * Costante globale dell'applicazione. Business logic. Modificabile.
      * Fixed in AlgosSpringBoot.afterPropertiesSet()

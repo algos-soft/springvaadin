@@ -30,8 +30,10 @@ import java.util.List;
 @Qualifier(ACost.TAG_COM)
 public class CompanyService extends AService {
 
+
     @Autowired
     public ATextService text;
+
 
     /**
      * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
@@ -40,6 +42,7 @@ public class CompanyService extends AService {
      * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
      */
     private CompanyRepository repository;
+
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -181,17 +184,14 @@ public class CompanyService extends AService {
 
     /**
      * Returns all instances of the type
-     * Usa MultiCompany, ma il developer può vedere anche tutto
+     * La Entity è EACompanyRequired.nonUsata. Non usa Company.
      * Lista ordinata
      *
      * @return lista ordinata di tutte le entities
      */
+    @Override
     public List findAll() {
-        //if (LibSession.isDeveloper()) {
-            //return repository.findByOrderByCodeAsc();
-        //}// end of if cycle
-
-        return null;
+        return repository.findByOrderByCodeAsc();
     }// end of method
 
 

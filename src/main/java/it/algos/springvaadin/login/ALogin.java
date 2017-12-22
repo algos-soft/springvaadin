@@ -3,7 +3,9 @@ package it.algos.springvaadin.login;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.entity.user.UserService;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.event.ALoginEvent;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibVaadin;
@@ -68,6 +70,7 @@ public class ALogin {
 
 //    private AbsUserProfileForm profileForm;
 
+    private EARoleType typeLogged;
 
     /**
      * Costruttore @Autowired
@@ -164,7 +167,7 @@ public class ALogin {
 
 
         this.user = loginForm.getSelectedUser();
-//        setUser(user);
+        this.typeLogged = EARoleType.getType(((User) user).role.getCode());
 
         //        if (user != null) {
 //            String pass = loginForm.getPassField().getValue();
@@ -447,6 +450,22 @@ public class ALogin {
         this.user = user;
     }// end of method
 
+
+    public EARoleType getTypeLogged() {
+        return typeLogged;
+    }// end of method
+
+    public boolean isUser() {
+        return getTypeLogged() == EARoleType.user || isAdmin();
+    }// end of method
+
+    public boolean isAdmin() {
+        return getTypeLogged() == EARoleType.admin || isDeveloper();
+    }// end of method
+
+    public boolean isDeveloper() {
+        return getTypeLogged() == EARoleType.developer;
+    }// end of method
 
     /**
      * Notifica i LoginListeners.

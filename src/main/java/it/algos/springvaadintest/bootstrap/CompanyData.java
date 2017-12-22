@@ -68,9 +68,9 @@ public class CompanyData extends AData {
      * Creazione delle compamies
      */
     public void creaCompanies() {
-//        service.findOrCrea(RoleService.DEV);
-//        service.findOrCrea(RoleService.ADMIN);
-//        service.findOrCrea(RoleService.USER);
+        service.findOrCrea("Algos","Algos s.r.l.");
+        service.findOrCrea("demo","Company di prova");
+        service.findOrCrea("test","Altra company");
 //        service.findOrCrea(RoleService.GUEST);
     }// end of method
 

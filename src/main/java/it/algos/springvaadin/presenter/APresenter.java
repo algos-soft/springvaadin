@@ -112,12 +112,12 @@ public abstract class APresenter extends APresenterEvents {
         List<EAButtonType> typeButtons = null;
 
         columns = service.getListFields();
-        if (!array.isValid(columns)) {
+        if (array.isEmpty(columns)) {
             log.warn("Algos - Columns. La grid: " + entityClass + " non ha colonne visibili");
         }// end of if cycle
 
         items = service.findAll();
-        if (!array.isValid(items)) {
+        if (array.isEmpty(items)) {
             log.info("Algos - Items. La grid: " + entityClass + " non ha nessuna scheda");
         }// end of if cycle
 
