@@ -3,6 +3,7 @@ package it.algos.springvaadintest.bootstrap;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.bootstrap.ABoot;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -22,14 +23,14 @@ import org.springframework.context.event.EventListener;
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
-@SpringComponent
 @Slf4j
+@SpringComponent
 public class SpringvaadintestBoot extends ABoot {
 
 
-//    @Autowired
-//    protected CompanyData companyData;
-//
+    @Autowired
+    protected CompanyData company;
+
 //    @Autowired
 //    private StatoData statoData;
 
@@ -44,7 +45,7 @@ public class SpringvaadintestBoot extends ABoot {
 //        companyData.creaAll();
     }// end of method
 
-     /**
+    /**
      * Running logic after the Spring context has been initialized
      * Any class that use this @EventListener annotation,
      * will be executed before the application is up and its onApplicationEvent method will be called
@@ -61,6 +62,15 @@ public class SpringvaadintestBoot extends ABoot {
 //    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         this.inizializzaValoriDefault();
+    }// end of method
+
+
+    /**
+     * Inizializzazione dei dati standard di alcune collections sul DB
+     */
+    protected void iniziaData() {
+        super.iniziaData();
+        this.company.findOrCrea();
     }// end of method
 
 

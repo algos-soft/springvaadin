@@ -104,6 +104,11 @@
 
 
     <target name="menu" depends="init,fixVaadin">
+        <echo message="checkMenu - file = ${destUI}"/>
+        <echo message="checkMenu - findRegex = ${regexMenu}${newEntity}List\.class\)"/>
+        <echo message="checkMenu - token = ${tokenMenu}"/>
+        <echo message="checkMenu - value = ${tokenMenu}&#10;&#009;&#009;${replaceMenu}${newEntity}List.class);"/>
+
         <antcall target="addCost">
             <param name="file" value="${destUI}"/>
             <param name="findRegex" value="${regexImportMenu}"/>
@@ -113,7 +118,7 @@
 
         <antcall target="addCost">
             <param name="file" value="${destUI}"/>
-            <param name="findRegex" value="${regexMenu}${newEntity}List\.class\);"/>
+            <param name="findRegex" value="${regexMenu}${newEntity}List\.class\)"/>
             <param name="token" value="${tokenMenu}"/>
             <param name="value" value="${tokenMenu}&#10;&#009;&#009;${replaceMenu}${newEntity}List.class);"/>
         </antcall>

@@ -62,7 +62,7 @@ public class UserData extends AData {
         if (nessunRecordEsistente()) {
             creaUsers();
             numRec = service.count();
-            log.warn("Algos - Creazione dati iniziali @EventListener ABoot.onApplicationEvent() -> ADataService.inizia() -> UserData.findOrCrea(): " + numRec + " schede");
+            log.warn("Algos - Creazione dati iniziali @EventListener ABoot.onApplicationEvent() -> iniziaData.inizia() -> UserData.findOrCrea(): " + numRec + " schede");
         } else {
             numRec = service.count();
             log.info("Algos - Data. La collezion User è presente: " + numRec + " schede");

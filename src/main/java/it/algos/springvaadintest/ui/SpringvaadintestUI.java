@@ -114,18 +114,6 @@ public class SpringvaadintestUI extends AUI {
      */
     protected void addVisteSpecifiche() {
 		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
-		menuLayout.addView(CompanyList.class);
     }// end of method
 
     /**

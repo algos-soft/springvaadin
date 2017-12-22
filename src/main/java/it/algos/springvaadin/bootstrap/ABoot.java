@@ -2,8 +2,9 @@ package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.entity.role.RoleData;
 import it.algos.springvaadin.entity.role.RoleService;
-import it.algos.springvaadin.service.ADataService;
+import it.algos.springvaadin.entity.user.UserData;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,25 @@ import org.springframework.context.event.EventListener;
  * <p>
  * ATTENZIONE: in questa fase NON sono disponibili le classi che dipendono dalla UI e dalla Session
  */
+@Slf4j
 @SpringComponent
 @Scope("singleton")
-@Slf4j
 public class ABoot {
 
 
     /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
+     * Inietta da Spring come 'singleton'
      */
     @Autowired
-    public ADataService dataService;
+    public RoleData role;
+
+
+    /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public UserData user;
+
 
 
     /**
@@ -64,12 +73,22 @@ public class ABoot {
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
         log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Punto di ingresso del programma @EventListener ABoot.onApplicationEvent() ");
-        this.dataService.inizia();
 
         if (this.classeAlgosBootAncoraDaEseguire) {
+            this.iniziaData();
             this.inizializzaValoriDefault();
         }// end of if cycle
     }// end of method
+
+
+    /**
+     * Inizializzazione dei dati standard di alcune collections sul DB
+     */
+    protected void iniziaData() {
+        this.role.findOrCrea();
+        this.user.findOrCrea();
+    }// end of method
+
 
     /**
      * Prima vengono regolati i valori standard di default
@@ -82,6 +101,7 @@ public class ABoot {
         this.printAfter(Boot.generico);
         this.classeAlgosBootAncoraDaEseguire = false;
     }// end of method
+
 
     /**
      * Regola alcuni flag dell'applicazione

@@ -1,11 +1,12 @@
-package it.algos.springvaadin.entity.role;
+package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.data.AData;
+import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.IAService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -13,13 +14,13 @@ import org.springframework.context.annotation.Scope;
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Date: dom, 12-nov-2017
- * Time: 14:54
+ * Date: ven, 22-dic-2017
+ * Time: 10:41
  */
 @Slf4j
 @SpringComponent
 @Scope("singleton")
-public class RoleData extends AData {
+public class CompanyData extends AData {
 
 
     /**
@@ -28,7 +29,7 @@ public class RoleData extends AData {
      * Spring costruisce al volo, quando serve, una implementazione di IAService (come previsto dal @Qualifier)
      * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
      */
-    private RoleService service;
+    private CompanyService service;
 
 
     /**
@@ -39,9 +40,9 @@ public class RoleData extends AData {
      *
      * @param service iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public RoleData(@Qualifier(ACost.TAG_ROL) IAService service) {
+    public CompanyData(@Qualifier(ACost.TAG_COM) IAService service) {
         super(service);
-        this.service = (RoleService) service;
+        this.service = (CompanyService) service;
     }// end of Spring constructor
 
 
@@ -53,25 +54,24 @@ public class RoleData extends AData {
         int numRec = 0;
 
         if (nessunRecordEsistente()) {
-            creaRuoli();
+            creaCompanies();
             numRec = service.count();
-            log.warn("Algos - Creazione dati iniziali @EventListener ABoot.onApplicationEvent() -> iniziaData.inizia() -> RoleData.findOrCrea(): " + numRec + " schede");
+            log.warn("Algos - Creazione dati iniziali @EventListener ABoot.onApplicationEvent() -> iniziaData.inizia() -> CompanyData.findOrCrea(): " + numRec + " schede");
         } else {
             numRec = service.count();
-            log.info("Algos - Data. La collezion Role è presente: " + numRec + " schede");
+            log.info("Algos - Data. La collezion Company è presente: " + numRec + " schede");
         }// end of if/else cycle
     }// end of method
 
 
     /**
-     * Creazione dei ruoli
+     * Creazione delle compamies
      */
-    public void creaRuoli() {
-        service.findOrCrea(RoleService.DEV);
-        service.findOrCrea(RoleService.ADMIN);
-        service.findOrCrea(RoleService.USER);
-        service.findOrCrea(RoleService.GUEST);
+    public void creaCompanies() {
+//        service.findOrCrea(RoleService.DEV);
+//        service.findOrCrea(RoleService.ADMIN);
+//        service.findOrCrea(RoleService.USER);
+//        service.findOrCrea(RoleService.GUEST);
     }// end of method
-
 
 }// end of class
