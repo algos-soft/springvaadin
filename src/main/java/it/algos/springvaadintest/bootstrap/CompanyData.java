@@ -23,6 +23,11 @@ import org.springframework.context.annotation.Scope;
 public class CompanyData extends AData {
 
 
+    public final static String ALGOS = "algos";
+    public final static String DEMO = "demo";
+    public final static String TEST = "test";
+
+
     /**
      * Il service iniettato dal costruttore, in modo che sia disponibile nella superclasse,
      * dove viene usata l'interfaccia IAService
@@ -68,9 +73,9 @@ public class CompanyData extends AData {
      * Creazione delle compamies
      */
     public void creaCompanies() {
-        service.findOrCrea("Algos","Algos s.r.l.");
-        service.findOrCrea("demo","Company di prova");
-        service.findOrCrea("test","Altra company");
+        service.findOrCrea(ALGOS,"Algos s.r.l.");
+        service.findOrCrea(DEMO,"Company di prova");
+        service.findOrCrea(TEST,"Altra company");
 //        service.findOrCrea(RoleService.GUEST);
     }// end of method
 

@@ -5,7 +5,9 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
@@ -125,21 +127,32 @@ public class MenuLayout extends VerticalLayout {
     public void start() {
         this.removeAllComponents();
 
-        if (login.isUser() && firstMenuBar.getItems().size() > 0) {
-            this.addComponent(new HorizontalLayout(firstMenuBar, loginButton));
-        }// end of if cycle
+        if (AlgosApp.USE_SECURITY) {
+            if (login.isUser() && firstMenuBar.getItems().size() > 0) {
+                this.addComponent(new HorizontalLayout(firstMenuBar, loginButton));
+            }// end of if/else cycle
 
-        if (login.isAdmin() && secondMenuBar.getItems().size() > 0) {
-            //@todo RIMETTERE
-//            this.addComponent(new AlgosPanel(secondMenuBar));
-            this.addComponent(secondMenuBar);
-        }// end of if cycle
+            if (login.isAdmin() && secondMenuBar.getItems().size() > 0) {
+                this.addComponent(secondMenuBar);
+            }// end of if cycle
 
-        if (login.isDeveloper() && thirdMenuBar.getItems().size() > 0) {
-            //@todo RIMETTERE
-//            this.addComponent(new AlgosPanel(thirdMenuBar));
-            this.addComponent(thirdMenuBar);
-        }// end of if cycle
+            if (login.isDeveloper() && thirdMenuBar.getItems().size() > 0) {
+                this.addComponent(thirdMenuBar);
+            }// end of if cycle
+        } else {
+            if (firstMenuBar.getItems().size() > 0) {
+                this.addComponent(firstMenuBar);
+            }// end of if/else cycle
+
+//            if (secondMenuBar.getItems().size() > 0) {
+//                this.addComponent(secondMenuBar);
+//            }// end of if cycle
+//
+//            if (thirdMenuBar.getItems().size() > 0) {
+//                this.addComponent(thirdMenuBar);
+//            }// end of if cycle
+        }// end of if/else cycle
+
     }// end of method
 
     /**
@@ -186,34 +199,42 @@ public class MenuLayout extends VerticalLayout {
             }// end of inner method
         };// end of anonymous inner class
 
-        switch (roleTypeVisibility) {
-            case user:
-                if (itemToAddBefore == null) {
-                    firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
-                } else {
-                    firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
-                }// end of if/else cycle
-                break;
-            case admin:
+        if (AlgosApp.USE_SECURITY) {
+            switch (roleTypeVisibility) {
+                case user:
+                    if (itemToAddBefore == null) {
+                        firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                    } else {
+                        firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                    }// end of if/else cycle
+                    break;
+                case admin:
 //                if (login.isAdmin()) {
-                if (itemToAddBefore == null) {
-                    secondMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
-                } else {
-                    secondMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
-                }// end of if/else cycle
-                break;
-            case developer:
+                    if (itemToAddBefore == null) {
+                        secondMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                    } else {
+                        secondMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                    }// end of if/else cycle
+                    break;
+                case developer:
 //                if (login.isDeveloper()) {
-                if (itemToAddBefore == null) {
-                    thirdMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
-                } else {
-                    thirdMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
-                }// end of if/else cycle
-                break;
-            default:
-                log.error("Switch - caso '" + roleTypeVisibility.name() + "' non definito in MenuLayout.addViewBefore()");
-                break;
-        } // end of switch statement
+                    if (itemToAddBefore == null) {
+                        thirdMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+                    } else {
+                        thirdMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+                    }// end of if/else cycle
+                    break;
+                default:
+                    log.error("Switch - caso '" + roleTypeVisibility.name() + "' non definito in MenuLayout.addViewBefore()");
+                    break;
+            } // end of switch statement
+        } else {
+            if (itemToAddBefore == null) {
+                firstMenuBar.addItem(captionMenuName, viewIcon, viewCommand);
+            } else {
+                firstMenuBar.addItemBefore(captionMenuName, viewIcon, viewCommand, itemToAddBefore);
+            }// end of if/else cycle
+        }// end of if/else cycle
 
 
         //@todo CONTROLLARE SE SERVE

@@ -65,6 +65,8 @@ public class AAnnotationServiceTest {
     private EAFieldType ottenutoType;
     private EAFieldAccessibility previstaAccessibilità;
     private EAFieldAccessibility ottenutaAccessibilità;
+    private EACompanyRequired previstoCompany;
+    private EACompanyRequired ottenutoCompany;
     private final static String NAME_ORDINE = "ordine";
     private final static String NAME_CODE = "code";
     private final static String NAME_ROLE = "role";
@@ -91,7 +93,7 @@ public class AAnnotationServiceTest {
         service.text = text;
         array.text = text;
         service.array = array;
-        reflection.array=array;
+        reflection.array = array;
         FIELD_ORDINE = reflection.getField(ROLE_ENTITY_CLASS, NAME_ORDINE);
         FIELD_CODE = reflection.getField(ROLE_ENTITY_CLASS, NAME_CODE);
         FIELD_ROLE = reflection.getField(ROLE_USER_CLASS, NAME_ROLE);
@@ -257,11 +259,11 @@ public class AAnnotationServiceTest {
      */
     @Test
     public void getListColumns() {
-        String[] stringArray = {"ordine", "code"};
-        List<String> previstoList = LibArray.fromString(stringArray);
+//        String[] stringArray = {"ordine", "code"};
+//        List<String> previstoList = LibArray.fromString(stringArray);
 
         ottenutoList = service.getListColumns(ROLE_ENTITY_CLASS);
-        assertEquals(previstoList, ottenutoList);
+        assertNull(ottenutoList);
     }// end of single test
 
 
@@ -275,11 +277,11 @@ public class AAnnotationServiceTest {
      */
     @Test
     public void getFormFieldsName() {
-        String[] stringArray = {"ordine", "code"};
-        List<String> previstoList = LibArray.fromString(stringArray);
+//        String[] stringArray = {"ordine", "code"};
+//        List<String> previstoList = LibArray.fromString(stringArray);
 
         ottenutoList = service.getFormFieldsName(ROLE_ENTITY_CLASS);
-        assertEquals(previstoList, ottenutoList);
+        assertNull(ottenutoList);
     }// end of single test
 
 
@@ -546,6 +548,24 @@ public class AAnnotationServiceTest {
         previstoBooleano = true;
         ottenutoBooleano = service.isRequired(FIELD_CODE);
         assertEquals(previstoBooleano, ottenutoBooleano);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Get the status 'nonUsata, facoltativa, obbligatoria' of the class.
+     *
+     * @param clazz the entity class
+     */
+    @Test
+    public void getCompanyRequired() {
+        previstoCompany = EACompanyRequired.nonUsata;
+        ottenutoCompany = service.getCompanyRequired(ROLE_ENTITY_CLASS);
+        assertEquals(previstoCompany, ottenutoCompany);
+
+        previstoCompany = EACompanyRequired.facoltativa;
+        ottenutoCompany = service.getCompanyRequired(ROLE_USER_CLASS);
+        assertEquals(previstoCompany, ottenutoCompany);
     }// end of single test
 
 

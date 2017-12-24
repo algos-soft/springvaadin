@@ -1,6 +1,7 @@
 package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.bootstrap.ABoot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,15 @@ public class SpringvaadintestBoot extends ABoot {
 
     @Autowired
     protected CompanyData company;
+
+
+    /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public UserData user;
+
+
 
 //    @Autowired
 //    private StatoData statoData;
@@ -71,6 +81,7 @@ public class SpringvaadintestBoot extends ABoot {
      */
     protected void iniziaData() {
         this.company.findOrCrea();
+        this.user.findOrCrea();
     }// end of method
 
 
@@ -81,14 +92,13 @@ public class SpringvaadintestBoot extends ABoot {
      */
 //    @Override
     protected void inizializzaValoriDefault() {
-//@todo RIMETTERE
-//        if (super.classeAlgosBootAncoraDaEseguire) {
-//            super.inizializzaValoriDefault();
-//        }// end of if cycle
-//
-//        this.printBefore(Boot.specifico);
-//        this.specificFixAndPrint();
-//        this.printAfter(Boot.specifico);
+        if (super.classeAlgosBootAncoraDaEseguire) {
+            super.inizializzaValoriDefault();
+        }// end of if cycle
+
+        this.printBefore(Boot.specifico);
+        this.specificFixAndPrint();
+        this.printAfter(Boot.specifico);
     }// end of method
 
 
@@ -97,22 +107,22 @@ public class SpringvaadintestBoot extends ABoot {
      * Valori specifici
      * Stampa a video (productionMode) i valori per controllo
      */
-    private void specificFixAndPrint() {
-        //@todo RIMETTERE
-//        AlgosApp.USE_DEBUG = false;
-//        log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
-//
-//        AlgosApp.USE_SECURITY = true;
-//        log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
-//
-//        AlgosApp.USE_MULTI_COMPANY = true;
-//        log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
-//
-//        AlgosApp.USE_VERS = true;
-//        log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
-//
-//        AlgosApp.USE_LOG = true;
-//        log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+    protected void specificFixAndPrint() {
+
+        AlgosApp.USE_DEBUG = false;
+        log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
+
+        AlgosApp.USE_SECURITY = true;//@todo RIMETTERE a TRUE
+        log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
+
+        AlgosApp.USE_MULTI_COMPANY = true;
+        log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
+
+        AlgosApp.USE_VERS = false;//@todo RIMETTERE a TRUE;
+        log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+
+        AlgosApp.USE_LOG = false;//@todo RIMETTERE a TRUE;
+        log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
     }// end of method
 
 }// end of class

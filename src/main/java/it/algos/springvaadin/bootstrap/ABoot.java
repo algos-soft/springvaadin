@@ -1,10 +1,10 @@
 package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleData;
 import it.algos.springvaadin.entity.role.RoleService;
-import it.algos.springvaadin.entity.user.UserData;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +39,6 @@ public class ABoot {
      */
     @Autowired
     public RoleData role;
-
-
-    /**
-     * Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public UserData user;
 
 
 
@@ -86,7 +79,6 @@ public class ABoot {
      */
     protected void iniziaDataStandard() {
         this.role.findOrCrea();
-        this.user.findOrCrea();
     }// end of method
 
 
@@ -110,16 +102,16 @@ public class ABoot {
      * Stampa a video (productionMode) i valori per controllo
      */
     private void genericFixAndPrint() {
+        AlgosApp.USE_DEBUG = false;
+        log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
+
+        AlgosApp.USE_MULTI_COMPANY = false;
+        log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
+
+        AlgosApp.USE_SECURITY = false;
+        log.info("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
+
         //@todo RIMETTERE
-//        AlgosApp.USE_DEBUG = false;
-//        log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
-//
-//        AlgosApp.USE_MULTI_COMPANY = false;
-//        log.info("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
-//
-//        AlgosApp.USE_SECURITY = false;
-//        log.info("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
-//
 //        AlgosApp.USE_LOGIN_OBBLIGATORIO = false;
 //        log.info("AlgosApp.USE_LOGIN_OBBLIGATORIO: " + AlgosApp.USE_LOGIN_OBBLIGATORIO);
 //
@@ -128,13 +120,13 @@ public class ABoot {
 //
 //        AlgosApp.USE_CHECK_COOKIES = true;
 //        log.info("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
-//
-//        AlgosApp.USE_VERS = true;
-//        log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
-//
-//        AlgosApp.USE_LOG = false;
-//        log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
-//
+
+        AlgosApp.USE_VERS = true;
+        log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
+
+        AlgosApp.USE_LOG = false;
+        log.info("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
+
 //        AlgosApp.USE_PREF = false;
 //        log.info("AlgosApp.USE_PREF: " + AlgosApp.USE_PREF);
 

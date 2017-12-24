@@ -1,6 +1,8 @@
 package it.algos.springvaadin.entity.user;
 
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
@@ -33,14 +35,17 @@ import java.util.List;
 @Qualifier(ACost.TAG_USE)
 public class UserService extends AService {
 
+
     /**
      * Libreria di servizio. Inietta da Spring come 'singleton'
      */
     @Autowired
     private RoleService roleService;
 
+
     @Autowired
     public ATextService text;
+
 
     /**
      * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
@@ -49,6 +54,7 @@ public class UserService extends AService {
      * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
      */
     private UserRepository repository;
+
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -78,7 +84,7 @@ public class UserService extends AService {
 
     /**
      * Ricerca di una entity (la crea se non la trova)
-     * All properties
+     * Properties obbligatorie
      *
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password (obbligatoria o facoltativa, non unica)
@@ -86,13 +92,13 @@ public class UserService extends AService {
      * @return la entity trovata o appena creata
      */
     public User findOrCrea(String nickname, String password) {
-        return findOrCrea(nickname, nickname, (Role) null);
+        return findOrCrea((Company) null, nickname, nickname, (Role) null);
     }// end of method
 
 
     /**
      * Ricerca di una entity (la crea se non la trova)
-     * All properties
+     * Properties obbligatorie
      *
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param role     (obbligatoria, non unica)
@@ -100,25 +106,44 @@ public class UserService extends AService {
      * @return la entity trovata o appena creata
      */
     public User findOrCrea(String nickname, Role role) {
-        return findOrCrea(nickname, nickname, role);
+        return findOrCrea((Company) null, nickname, nickname, role);
+    }// end of method
+
+    /**
+     * Ricerca di una entity (la crea se non la trova)
+     * Properties obbligatorie
+     *
+     * @param company  di riferimento (facoltativa visto che è EACompanyRequired.facoltativa)
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     * @param role     (obbligatoria, non unica)
+     *
+     * @return la entity trovata o appena creata
+     */
+    public User findOrCrea(Company company, String nickname, Role role) {
+        return findOrCrea(company, nickname, nickname, role);
     }// end of method
 
 
     /**
      * Ricerca di una entity (la crea se non la trova)
      * All properties
+     * La company può essere facoltativa
+     * Diventa obbligatoria se l'applicazione è AlgosApp.USE_MULTI_COMPANY
+     * Se manca la prende dalla sessione
+     * Se è obbligatoria e manca anche dalla sessione, va in errore
      *
+     * @param company  di riferimento (facoltativa visto che è EACompanyRequired.facoltativa)
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password (obbligatoria o facoltativa, non unica)
      * @param role     (obbligatoria, non unica)
      *
      * @return la entity trovata o appena creata
      */
-    public User findOrCrea(String nickname, String password, Role role) {
+    public User findOrCrea(Company company, String nickname, String password, Role role) {
 
         if (nonEsiste(nickname)) {
             try { // prova ad eseguire il codice
-                return (User) save(newEntity(nickname, password, role));
+                return (User) save(newEntity(company, nickname, password, role));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -169,7 +194,7 @@ public class UserService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     public User newEntity(String nickname, String password) {
-        return newEntity(nickname, password, null);
+        return newEntity((Company) null, nickname, password, null);
     }// end of method
 
 
@@ -178,18 +203,24 @@ public class UserService extends AService {
      * Eventuali regolazioni iniziali delle property
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     * La company può essere facoltativa
+     * Diventa obbligatoria se l'applicazione è AlgosApp.USE_MULTI_COMPANY
+     * Se manca la prende dalla sessione
+     * Se è obbligatoria e manca anche dalla sessione, va in errore
      *
+     * @param company  di riferimento (facoltativa visto che è EACompanyRequired.facoltativa)
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password (obbligatoria o facoltativa, non unica)
      * @param role     (obbligatoria, non unica)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public User newEntity(String nickname, String password, Role role) {
+    public User newEntity(Company company, String nickname, String password, Role role) {
         User entity = null;
 
         if (nonEsiste(nickname)) {
             entity = User.builder().nickname(nickname).password(password).role(role != null ? role : roleService.getUser()).enabled(true).build();
+            entity.company = company;
         } else {
             return findByNickname(nickname);
         }// end of if/else cycle

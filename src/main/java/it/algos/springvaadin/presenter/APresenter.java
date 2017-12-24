@@ -3,12 +3,15 @@ package it.algos.springvaadin.presenter;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.event.AEvent;
+import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.service.AAnnotationService;
@@ -284,11 +287,12 @@ public abstract class APresenter extends APresenterEvents {
 
         try { // prova ad eseguire il codice
             service.save(newModifiedBean);
+            fireList();
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
+            Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
         }// fine del blocco try-catch
 
-        fireList();
     }// end of method
 
 

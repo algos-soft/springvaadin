@@ -15,6 +15,7 @@ import it.algos.springvaadin.listener.AProfileChangeListener;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * Subsequent calls to getLogin() return the same object from the session.
  */
 @SpringComponent
-@Scope("session")
+@Scope(value = "session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ALogin {
 
 

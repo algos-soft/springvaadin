@@ -7,6 +7,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
@@ -51,8 +52,9 @@ public class AHomeView extends AView {
     @Autowired
     public ALogin login;
 
+
     /**
-     * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * Contenitore grafico per la barra di menu principale
      * Un eventuale menuBar specifica può essere iniettata dalla sottoclasse concreta
      * Le sottoclassi possono aggiungere/modificare i menu che verranno ripristinati all'uscita della view
      * Componente grafico obbligatorio
@@ -98,12 +100,17 @@ public class AHomeView extends AView {
         this.removeAllComponents();
 
         //--componente grafico obbligatorio
-        if (login.isLogged()) {
+        if (AlgosApp.USE_SECURITY) {
+            if (login.isLogged()) {
+                menuLayout = creaMenu();
+                this.addComponent(menuLayout);
+            } else {
+                menuLayoutHome.start();
+                this.addComponent(menuLayoutHome);
+            }// end of if/else cycle
+        } else {
             menuLayout = creaMenu();
             this.addComponent(menuLayout);
-        } else {
-            menuLayoutHome.start();
-            this.addComponent(menuLayoutHome);
         }// end of if/else cycle
 
         //--componente grafico obbligatorio

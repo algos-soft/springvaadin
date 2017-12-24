@@ -1,8 +1,10 @@
-package it.algos.springvaadin.entity.user;
+package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.data.AData;
+import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.IAService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,13 @@ public class UserData extends AData {
      */
     @Autowired
     private RoleService roleService;
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    private CompanyService companyService;
 
     /**
      * Il service iniettato dal costruttore, in modo che sia disponibile nella superclasse,
@@ -74,13 +83,13 @@ public class UserData extends AData {
      * Creazione degli users di PROVA
      */
     public void creaUsers() {
-        service.findOrCrea("gac", roleService.getDev());
-        service.findOrCrea("alex", roleService.getDev());
-        service.findOrCrea("developer", roleService.getDev());
-        service.findOrCrea("admin", roleService.getAdmin());
-        service.findOrCrea("volontario", roleService.getUser());
-        service.findOrCrea("ospite", roleService.getGuest());
-        service.findOrCrea("guest", roleService.getGuest());
+        service.findOrCrea(companyService.findByCode(CompanyData.ALGOS),"gac", roleService.getDev());
+        service.findOrCrea(companyService.findByCode(CompanyData.ALGOS),"alex", roleService.getDev());
+        service.findOrCrea(companyService.findByCode(CompanyData.DEMO),"developer", roleService.getDev());
+        service.findOrCrea(companyService.findByCode(CompanyData.DEMO),"admin", roleService.getAdmin());
+        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"volontario", roleService.getUser());
+        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"ospite", roleService.getGuest());
+        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"guest", roleService.getGuest());
     }// end of method
 
 

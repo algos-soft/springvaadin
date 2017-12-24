@@ -1,11 +1,18 @@
 package it.algos.springvaadin.service;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFormButton;
 import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.exception.NotCompanyEntityException;
+import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -44,6 +51,17 @@ public abstract class AService implements IAService {
 
     @Autowired
     public AArrayService array;
+
+
+    @Autowired
+    public ATextService text;
+
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    public ALogin login;
 
 
     //--la repository dei dati viene iniettata dal costruttore della sottoclasse concreta
@@ -194,7 +212,7 @@ public abstract class AService implements IAService {
         List<Field> listaFields = null;
 
         if (session.isDeveloper()) {
-            listaFields = reflection.getFieldsAllSuperclasses(entityClass);
+            listaFields = reflection.getFields(entityClass, null, true, displayCompany());
         } else {
             if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
                 listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
@@ -237,22 +255,22 @@ public abstract class AService implements IAService {
      */
     public boolean displayCompany() {
 
-//        //--Deve essere true il flag useMultiCompany
-//        if (!LibParams.useMultiCompany()) {
-//            return false;
-//        }// end of if cycle
-//
-//        //--La Entity deve estendere ACompanyEntity
-//        if (!ACompanyEntity.class.isAssignableFrom(entityClass)) {
-//            return false;
-//        }// end of if cycle
-//
-//        //--L'buttonUser collegato deve essere developer
-//        if (!LibSession.isDeveloper()) {
-//            return false;
-//        }// end of if cycle
+        //--Deve essere true il flag useMultiCompany
+        if (!AlgosApp.USE_MULTI_COMPANY) {
+            return false;
+        }// end of if cycle
 
-        return false;
+        //--La Entity deve estendere ACompanyEntity
+        if (!ACEntity.class.isAssignableFrom(entityClass)) {
+            return false;
+        }// end of if cycle
+
+        //--L'User collegato deve essere developer
+        if (!login.isDeveloper()) {
+            return false;
+        }// end of if cycle
+
+        return true;
     }// end of static method
 
 
@@ -345,22 +363,95 @@ public abstract class AService implements IAService {
      * as the save operation might have changed the entity instance completely.
      * <p>
      * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
-     * Controlla se la collection (table) usa la company
+     * Controlla se la collection (table) usa la company: può essere
+     * a)EACompanyRequired.nonUsata
+     * b)EACompanyRequired.facoltativa
+     * c)EACompanyRequired.obbligatoria
      *
      * @param entityBean da salvare
      *
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
+        EACompanyRequired tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
 
+        //--opportunità di usare una idKey specifica
+        if (text.isEmpty(entityBean.id)) {
+            creaIdKeySpecifica(entityBean);
+        }// end of if cycle
+
+
+        //--inserisce il valore della data attuale per una nuova scheda
         if (entityBean.creazione == null) {
             entityBean.creazione = LocalDateTime.now();
         }// end of if cycle
+
+        // --inserisce il valore della data attuale per la modifica di una scheda
         entityBean.modifica = LocalDateTime.now();
 
-        return (AEntity) repository.save(entityBean);
+       //--Controlla se l'applicazione usa le company
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            switch (tableCompanyRequired) {
+                case nonUsata:
+                    return (AEntity) repository.save(entityBean);
+                case facoltativa:
+                    return (AEntity) repository.save(entityBean);
+                case obbligatoria:
+                    if (checkCompany(entityBean, false)) {
+                        return (AEntity) repository.save(entityBean);
+                    } else {
+                        log.warn("Entity non creata perché manca la Company (obbligatoria)");
+                        return null;
+                    }// end of if/else cycle
+                default:
+                    log.warn("Switch - caso non definito");
+                    return (AEntity) repository.save(entityBean);
+            } // end of switch statement
+        } else {
+            return (AEntity) repository.save(entityBean);
+        }// end of if/else cycle
     }// end of method
 
+
+    /**
+     * Opportunità di usare una idKey specifica.
+     * Invocato appena prima del save(), solo per una nuova entity
+     *
+     * @param entityBean da salvare
+     */
+    protected void creaIdKeySpecifica(AEntity entityBean) {
+    }// end of method
+
+
+    /**
+     * Controlla che la entity estenda ACompanyEntity
+     * Se manca la company, cerca di usare quella della sessione (se esiste)
+     * Se la campany manca ancora, lancia l'eccezione
+     * Controlla che la gestione della chiave unica sia soddisfatta
+     */
+    private boolean checkCompany(AEntity entity, boolean usaCodeCompanyUnico) throws Exception {
+        ACEntity companyEntity;
+        Company company;
+        String codeCompanyUnico;
+
+        if (entity instanceof ACEntity) {
+            companyEntity = (ACEntity) entity;
+            company = companyEntity.getCompany();
+        } else {
+            throw new NotCompanyEntityException(entityClass);
+        }// end of if/else cycle
+
+        if (company == null) {
+//            company = LibSession.getCompany();@todo rimettere
+//            companyEntity.setCompany(company);
+        }// end of if cycle
+
+        if (companyEntity.getCompany() == null) {
+            throw new NullCompanyException();
+        }// end of if cycle
+
+        return true;
+    }// end of method
 
     /**
      * Deletes a given entity.

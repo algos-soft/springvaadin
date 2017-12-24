@@ -29,7 +29,7 @@ public class ACEntity extends AEntity {
     @DBRef
     @AIField(type = EAFieldType.combo, clazz = Company.class, dev = EAFieldAccessibility.newOnly, admin = EAFieldAccessibility.showOnly)
     @AIColumn(name = "Company", width = 115)
-    private Company company;
+    public Company company;
 
 
 }// end of class

@@ -212,9 +212,7 @@ public class AAnnotationService {
 
         if (array.isValid(columns)) {
             lista = Arrays.asList(columns);
-        } else {
-            lista = reflection.getFieldsNameEntityOnly(clazz);
-        }// end of if/else cycle
+        }// end of if cycle
 
         return lista;
     }// end of method
@@ -239,11 +237,27 @@ public class AAnnotationService {
 
         if (array.isValid(fields)) {
             lista = Arrays.asList(fields);
-        } else {
-            lista = reflection.getFieldsNameEntityOnly(clazz);
-        }// end of if/else cycle
+        }// end of if cycle
 
         return lista;
+    }// end of method
+
+
+    /**
+     * Get the status 'nonUsata, facoltativa, obbligatoria' of the class.
+     *
+     * @param clazz the entity class
+     */
+    @SuppressWarnings("all")
+    public  EACompanyRequired getCompanyRequired(final Class<? extends AEntity> clazz) {
+        EACompanyRequired companyRequired = EACompanyRequired.nonUsata;
+        AIEntity annotation = getAIEntity(clazz);
+
+        if (annotation != null) {
+            companyRequired = annotation.company();
+        }// end of if cycle
+
+        return companyRequired;
     }// end of method
 
 

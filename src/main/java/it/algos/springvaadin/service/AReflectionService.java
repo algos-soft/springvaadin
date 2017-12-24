@@ -3,6 +3,7 @@ package it.algos.springvaadin.service;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
@@ -162,9 +163,34 @@ public class AReflectionService {
 
 
     /**
+     * All field names di una EntityClass
+     * Compresa la entityClazz
+     * Comprese tutte le superclassi (fino a AEntity e AEntity)
+     *
+     * @param entityClazz su cui operare la riflessione
+     *
+     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
+     */
+    @Deprecated
+    public List<String> getFieldsNameAll(final Class<? extends AEntity> entityClazz) {
+        List<String> nameList = null;
+        List<Field> fieldsList = this.getFieldsAllSuperclasses(entityClazz);
+
+        if (array.isValid(fieldsList)) {
+            nameList = new ArrayList<>();
+            for (Field field : fieldsList) {
+                nameList.add(field.getName());
+            }// end of for cycle
+        }// end of if cycle
+
+        return nameList;
+    }// end of method
+
+
+    /**
      * Fields dichiarati nella Entity
      * Compresa la entityClazz
-     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     * Comprese tutte le superclassi (fino a AEntity e AEntity)
      *
      * @param entityClazz da cui estrarre i fields
      *
@@ -272,20 +298,19 @@ public class AReflectionService {
         }// end of if cycle
 
 
-        //@todo RIMETTERE
-//        //--se la entity è di tipo ACompanyEntity, aggiunge (all'inizio) il field di riferimento
-//        //--se esiste il field ''ordine'', company viene messo dopo ordine
-//        if (addKeyCompany && ACompanyEntity.class.isAssignableFrom(entityClazz)) {
-//            if (fieldCompany != null) {
-//                if (fieldOrdine != null) {
-//                    fieldsList.add(fieldsList.indexOf(fieldOrdine) + 1, fieldCompany);
-//                } else {
-//                    fieldsList.add(0, fieldCompany);
-//                }// end of if/else cycle
-//            } else {
-//                log.warn("Non ho trovato il field company");
-//            }// end of if/else cycle
-//        }// end of if cycle
+        //--se la entity è di tipo ACEntity, aggiunge (all'inizio) il field di riferimento
+        //--se esiste il field ''ordine'', company viene messo dopo ordine
+        if (addKeyCompany && ACEntity.class.isAssignableFrom(entityClazz)) {
+            if (fieldCompany != null) {
+                if (fieldOrdine != null) {
+                    fieldsList.add(fieldsList.indexOf(fieldOrdine) + 1, fieldCompany);
+                } else {
+                    fieldsList.add(0, fieldCompany);
+                }// end of if/else cycle
+            } else {
+                log.warn("Non ho trovato il field company");
+            }// end of if/else cycle
+        }// end of if cycle
 
 
         //--se il flag booleano addKeyID è true, aggiunge (all'inizio) il field keyId

@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.company.CompanyList;
 import it.algos.springvaadin.entity.user.UserList;
 import com.vaadin.annotations.Theme;
@@ -113,7 +114,9 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-		menuLayout.addView(CompanyList.class);
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            menuLayout.addView(CompanyList.class);
+        }// end of if cycle
     }// end of method
 
     /**
