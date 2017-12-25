@@ -176,25 +176,6 @@ public class AAnnotationService {
 
 
     /**
-     * Get the status listShowsID of the class.
-     *
-     * @param clazz the entity class
-     *
-     * @return status of class - default false
-     */
-    public boolean isListShowsID(final Class<? extends AEntity> clazz) {
-        boolean status = false;
-        AIList annotation = this.getAIList(clazz);
-
-        if (annotation != null) {
-            status = annotation.showsID();
-        }// end of if cycle
-
-        return status;
-    }// end of method
-
-
-    /**
      * Colonne visibili (e ordinate) nella Grid
      *
      * @param clazz the entity class
@@ -432,43 +413,44 @@ public class AAnnotationService {
      *
      * @return the visibility of the column
      */
+   @Deprecated
     public boolean isColumnVisibile(final Field reflectionJavaField) {
         boolean visibile = false;
-        EARoleType roleTypeVisibility = EARoleType.nobody;
-        AIColumn annotation = this.getAIColumn(reflectionJavaField);
-
-        if (annotation != null) {
-            roleTypeVisibility = annotation.roleTypeVisibility();
-        }// end of if cycle
-
-        switch (roleTypeVisibility) {
-            case nobody:
-                visibile = false;
-                break;
-            case developer:
-                //@todo RIMETTERE
-
-//                if (LibSession.isDeveloper()) {
-                visibile = true;
-//                }// end of if cycle
-                break;
-            case admin:
-                //@todo RIMETTERE
-
-                //                if (LibSession.isAdmin()) {
-                visibile = true;
-//                }// end of if cycle
-                break;
-            case user:
-                visibile = true;
-                break;
-            case guest:
-                visibile = true;
-                break;
-            default:
-                visibile = true;
-                break;
-        } // end of switch statement
+//        EARoleType roleTypeVisibility = EARoleType.nobody;
+//        AIColumn annotation = this.getAIColumn(reflectionJavaField);
+//
+//        if (annotation != null) {
+//            roleTypeVisibility = annotation.roleTypeVisibility();
+//        }// end of if cycle
+//
+//        switch (roleTypeVisibility) {
+//            case nobody:
+//                visibile = false;
+//                break;
+//            case developer:
+//                //@todo RIMETTERE
+//
+////                if (LibSession.isDeveloper()) {
+//                visibile = true;
+////                }// end of if cycle
+//                break;
+//            case admin:
+//                //@todo RIMETTERE
+//
+//                //                if (LibSession.isAdmin()) {
+//                visibile = true;
+////                }// end of if cycle
+//                break;
+//            case user:
+//                visibile = true;
+//                break;
+//            case guest:
+//                visibile = true;
+//                break;
+//            default:
+//                visibile = true;
+//                break;
+//        } // end of switch statement
 
         return visibile;
     }// end of method
@@ -882,36 +864,36 @@ public class AAnnotationService {
     }// end of method
 
 
-    /**
-     * Get the status of visibility for the field of ACompanyEntity.
-     * <p>
-     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
-     * Controlla se la collection (table) usa la company
-     * Controlla se l'buttonUser collegato è un developer
-     *
-     * @param clazz the entity class
-     *
-     * @return status - default true
-     */
-    public boolean isCompanyFieldVisible(final Class<? extends AEntity> clazz) {
-        boolean status = true;
-
-        //@todo RIMETTERE
-
-//        if (!AlgosApp.USE_MULTI_COMPANY) {
-//            return false;
-//        }// end of if cycle
+//    /**
+//     * Get the status of visibility for the field of ACompanyEntity.
+//     * <p>
+//     * Controlla se l'applicazione usa le company - flag  AlgosApp.USE_MULTI_COMPANY=true
+//     * Controlla se la collection (table) usa la company
+//     * Controlla se l'buttonUser collegato è un developer
+//     *
+//     * @param clazz the entity class
+//     *
+//     * @return status - default true
+//     */
+//    public boolean isCompanyFieldVisible(final Class<? extends AEntity> clazz) {
+//        boolean status = true;
 //
-//        if (LibAnnotation.companyType(clazz) == ACompanyRequired.nonUsata) {
-//            return false;
-//        }// end of if cycle
+//        //@todo RIMETTERE
 //
-//        if (!LibSession.isDeveloper()) {
-//            return false;
-//        }// end of if cycle
-
-        return status;
-    }// end of method
+////        if (!AlgosApp.USE_MULTI_COMPANY) {
+////            return false;
+////        }// end of if cycle
+////
+////        if (LibAnnotation.companyType(clazz) == ACompanyRequired.nonUsata) {
+////            return false;
+////        }// end of if cycle
+////
+////        if (!LibSession.isDeveloper()) {
+////            return false;
+////        }// end of if cycle
+//
+//        return status;
+//    }// end of method
 
 
     /**

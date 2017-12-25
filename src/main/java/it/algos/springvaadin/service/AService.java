@@ -109,6 +109,7 @@ public abstract class AService implements IAService {
         return repository.findAll();
     }// end of method
 
+
     /**
      * Colonne visibili (e ordinate) nella Grid
      * Sovrascrivibile
@@ -116,9 +117,8 @@ public abstract class AService implements IAService {
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
-     * 4) Se trova AEntity->@AIList(showsID = true), questo viene aggiunto, indipendentemente dalla lista
      * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
-     * Ad esempio: company della classe ACompanyEntity
+     * Ad esempio: company della classe ACompanyEntity (se è previsto e se è un developer)
      *
      * @return lista di fields visibili nella Grid
      */
@@ -131,13 +131,9 @@ public abstract class AService implements IAService {
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         listaNomi = this.getListFieldsName();
 
-        //--Se non trova nulla, usa tutti i campi (senza ID, a meno che la classe Entity->@Annotation preveda l'ID)
-        listaField = reflection.getListColumns(entityClass, listaNomi, displayCompany());
-
-//        //--il developer vede tutto (si potrebbe migliorare)
-//        if (LibSession.isDeveloper()) {
-//            listaNomi = LibReflection.getListVisibleColumnNames(entityClass, true, true);
-//        }// end of if cycle
+        //--Se non trova nulla, usa tutti i campi (senza ID, senza note, senza creazione, senza modifica)
+        //--rimanda ad un metodo separato per poterlo sovrascrivere
+        listaField = getListFields(listaNomi);
 
         return listaField;
     }// end of method
@@ -148,10 +144,24 @@ public abstract class AService implements IAService {
      * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
      * Sovrascrivibile
      *
-     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIList() nella Entity
      */
     protected List<String> getListFieldsName() {
         return annotation.getListColumns(entityClass);
+    }// end of method
+
+
+    /**
+     * Fields da usare come columns della Grid
+     * Se listaNomi è nulla, usa tutti i campi (senza ID, senza note, senza creazione, senza modifica)
+     * Sovrascrivibile
+     *
+     * @param listaNomi da considerare. Può essere nulla.
+     *
+     * @return lista di fields visibili nella Grid
+     */
+    protected List<Field> getListFields(List<String> listaNomi) {
+        return reflection.getListFields(entityClass, listaNomi);
     }// end of method
 
 
@@ -212,7 +222,7 @@ public abstract class AService implements IAService {
         List<Field> listaFields = null;
 
         if (session.isDeveloper()) {
-            listaFields = reflection.getFields(entityClass, null, true, displayCompany());
+            listaFields = reflection.getFields(entityClass, null, true, false);
         } else {
             if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
                 listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
@@ -247,31 +257,31 @@ public abstract class AService implements IAService {
     }// end of method
 
 
-    /**
-     * Flag.
-     * Deve essere true il flag useMultiCompany
-     * La Entity deve estendere ACompanyEntity
-     * L'buttonUser collegato deve essere developer
-     */
-    public boolean displayCompany() {
-
-        //--Deve essere true il flag useMultiCompany
-        if (!AlgosApp.USE_MULTI_COMPANY) {
-            return false;
-        }// end of if cycle
-
-        //--La Entity deve estendere ACompanyEntity
-        if (!ACEntity.class.isAssignableFrom(entityClass)) {
-            return false;
-        }// end of if cycle
-
-        //--L'User collegato deve essere developer
-        if (!login.isDeveloper()) {
-            return false;
-        }// end of if cycle
-
-        return true;
-    }// end of static method
+//    /**
+//     * Flag.
+//     * Deve essere true il flag useMultiCompany
+//     * La Entity deve estendere ACompanyEntity
+//     * L'buttonUser collegato deve essere developer
+//     */
+//    public boolean displayCompany() {
+//
+//        //--Deve essere true il flag useMultiCompany
+//        if (!AlgosApp.USE_MULTI_COMPANY) {
+//            return false;
+//        }// end of if cycle
+//
+//        //--La Entity deve estendere ACompanyEntity
+//        if (!ACEntity.class.isAssignableFrom(entityClass)) {
+//            return false;
+//        }// end of if cycle
+//
+//        //--L'User collegato deve essere developer
+//        if (!login.isDeveloper()) {
+//            return false;
+//        }// end of if cycle
+//
+//        return true;
+//    }// end of static method
 
 
     /**
@@ -389,7 +399,7 @@ public abstract class AService implements IAService {
         // --inserisce il valore della data attuale per la modifica di una scheda
         entityBean.modifica = LocalDateTime.now();
 
-       //--Controlla se l'applicazione usa le company
+        //--Controlla se l'applicazione usa le company
         if (AlgosApp.USE_MULTI_COMPANY) {
             switch (tableCompanyRequired) {
                 case nonUsata:

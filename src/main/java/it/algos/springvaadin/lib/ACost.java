@@ -31,6 +31,8 @@ public abstract class ACost {
     public final static String COMPANY_CODE = "code";
     public final static String COMPANY_UNICO = "codeCompanyUnico";
 
+    private final static String[] esclusiAll = {PROPERTY_ID, PROPERTY_SERIAL, PROPERTY_COMPANY, PROPERTY_NOTE, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
+    public final static List<String> ESCLUSI_ALL = Arrays.asList(esclusiAll);
     private final static String[] esclusiMatrice = {ACost.PROPERTY_SERIAL, ACost.PROPERTY_ID, ACost.PROPERTY_COMPANY};
     public final static List<String> ESCLUSI = Arrays.asList(esclusiMatrice);
     private final static String[] companyMatrice = {ACost.COMPANY_CODE, ACost.COMPANY_UNICO};
@@ -120,10 +122,10 @@ public abstract class ACost {
     public final static String CLICK_BOTTONI_IN_LISTA = "clickBottoniInLista";
     public final static String INFO_APP = "Algos® WAM-2.0 del 14.5.17";
 
-	public final static String TAG_USE = "user";
-	public final static String VIEW_USE_LIST = "userlist";
+    public final static String TAG_USE = "user";
+    public final static String VIEW_USE_LIST = "userlist";
     public final static String VIEW_USE_FORM = "userform";
-	public final static String TAG_COM = "company";
+    public final static String TAG_COM = "company";
     public final static String VIEW_COM_LIST = "companylist";
-	public final static String VIEW_COM_FORM = "companyform";
+    public final static String VIEW_COM_FORM = "companyform";
 }// end of static class

@@ -233,20 +233,20 @@ public class AAnnotationServiceTest {
     }// end of single test
 
 
-    @SuppressWarnings("javadoc")
-    /**
-     * Get the status listShowsID of the class.
-     *
-     * @param clazz the entity class
-     *
-     * @return status of class - default false
-     */
-    @Test
-    public void isListShowsID() {
-        previstoBooleano = false;
-        ottenutoBooleano = service.isListShowsID(ROLE_ENTITY_CLASS);
-        assertEquals(previstoBooleano, ottenutoBooleano);
-    }// end of single test
+//    @SuppressWarnings("javadoc")
+//    /**
+//     * Get the status listShowsID of the class.
+//     *
+//     * @param clazz the entity class
+//     *
+//     * @return status of class - default false
+//     */
+//    @Test
+//    public void isListShowsID() {
+//        previstoBooleano = false;
+//        ottenutoBooleano = service.isListShowsID(ROLE_ENTITY_CLASS);
+//        assertEquals(previstoBooleano, ottenutoBooleano);
+//    }// end of single test
 
 
     @SuppressWarnings("javadoc")

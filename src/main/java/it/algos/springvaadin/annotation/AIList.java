@@ -18,12 +18,6 @@ import java.lang.annotation.Target;
 public @interface AIList {
 
 
-    /**
-     * (Optional) Status (shows the ID property as column) .
-     * Defaults to false.
-     */
-    boolean showsID() default false;
-
 
     /**
      * (Optional) The width of the ID column.

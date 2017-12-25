@@ -47,7 +47,7 @@ public abstract class AEntity implements Serializable {
      * Ci pensa Mongo a riempire il valore
      */
     @AIField(name = "Key", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = EARoleType.nobody)
+    @AIColumn()
     public String id;
 
 
@@ -55,7 +55,7 @@ public abstract class AEntity implements Serializable {
      * Eventuali note (facoltativo)
      */
     @AIField(type = EAFieldType.textarea, widthEM = 24, admin = EAFieldAccessibility.allways, user = EAFieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = EARoleType.nobody)
+    @AIColumn()
     public String note;
 
 
@@ -67,7 +67,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @AIField(type = EAFieldType.localdatetime, name = "Creazione della scheda", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = EARoleType.nobody)
+    @AIColumn()
     public LocalDateTime creazione;
 
 
@@ -78,7 +78,7 @@ public abstract class AEntity implements Serializable {
      * Field visibile solo al developer
      */
     @AIField(type = EAFieldType.localdatetime, name = "Ultima modifica della scheda", required = true, roleTypeVisibility = EARoleType.developer, dev = EAFieldAccessibility.showOnly)
-    @AIColumn(roleTypeVisibility = EARoleType.nobody)
+    @AIColumn()
     public LocalDateTime modifica;
 
 }// end of entity abstract class

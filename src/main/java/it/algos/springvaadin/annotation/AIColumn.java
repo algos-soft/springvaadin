@@ -29,11 +29,13 @@ public @interface AIColumn {
      */
     EAFieldType type() default EAFieldType.ugualeAlField;
 
+
     /**
      * (Optional) The name of the field.
      * Defaults to the property or field name.
      */
     String name() default "";
+
 
     /**
      * (Optional) The width of the field.
@@ -43,10 +45,10 @@ public @interface AIColumn {
     int width() default 0;
 
 
-    /**
-     * (Optional) Visibilità a secondo del ruolo dell'User collegato
-     * Defaults to guest.
-     */
-    EARoleType roleTypeVisibility() default EARoleType.guest;
+//    /**
+//     * (Optional) Visibilità a secondo del ruolo dell'User collegato
+//     * Defaults to guest.
+//     */
+//    EARoleType roleTypeVisibility() default EARoleType.guest;
 
 }// end of interface annotation

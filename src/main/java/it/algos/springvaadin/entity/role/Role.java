@@ -67,6 +67,7 @@ public class Role extends AEntity {
     @AIColumn(name = "#", width = 55)
     private int ordine;
 
+
     /**
      * codice di riferimento (obbligatorio, unico)
      */

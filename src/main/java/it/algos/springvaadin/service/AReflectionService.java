@@ -3,9 +3,11 @@ package it.algos.springvaadin.service;
 import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIColumn;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +36,7 @@ public class AReflectionService {
     @Autowired
     public AArrayService array;
 
+
     @Autowired
     public AAnnotationService annotation;
 
@@ -43,6 +46,13 @@ public class AReflectionService {
      */
     @Autowired
     public ATextService text;
+
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    public ALogin login;
 
 
     /**
@@ -105,6 +115,7 @@ public class AReflectionService {
      * @param entityClazz     classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public Field getField(final Class<? extends AEntity> entityClazz, final String publicFieldName) {
         Field field = null;
 
@@ -126,6 +137,7 @@ public class AReflectionService {
      *
      * @return lista di fields da considerare per List e Form
      */
+    @Deprecated
     public List<Field> getFieldsEntityOnly(Class<? extends AEntity> entityClazz) {
         ArrayList<Field> fieldsList = new ArrayList<>();
         Field[] fieldsArray = entityClazz.getDeclaredFields();
@@ -147,6 +159,7 @@ public class AReflectionService {
      *
      * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
      */
+    @Deprecated
     public List<String> getFieldsNameEntityOnly(final Class<? extends AEntity> entityClazz) {
         List<String> nameList = null;
         List<Field> fieldsList = this.getFieldsEntityOnly(entityClazz);
@@ -196,6 +209,7 @@ public class AReflectionService {
      *
      * @return lista di fields da considerare per List e Form
      */
+    @Deprecated
     public List<Field> getFieldsAllSuperclasses(Class<? extends AEntity> entityClazz) {
         return getFields(entityClazz, null, true, false);
     }// end of method
@@ -237,6 +251,7 @@ public class AReflectionService {
      *
      * @return lista di fields da considerare per List e Form
      */
+    @Deprecated
     public List<Field> getFields(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyID, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
         Class<?> clazz = entityClazz;
@@ -246,7 +261,7 @@ public class AReflectionService {
         Field fieldCompany = null;
         Field fieldOrdine = null;
         String fieldName;
-        boolean useCompany = annotation.isCompanyFieldVisible(entityClazz);
+        boolean useCompany = false;
 
         //--recupera tutti i fields della entity e di tutte le superclassi
         while (clazz != Object.class) {
@@ -330,6 +345,76 @@ public class AReflectionService {
 
     /**
      * Fields per le Columns della List (Grid) dichiarati nella Entity
+     * Fields da usare come columns della Grid
+     * Se listaNomi è nulla, usa tutti i campi (senza ID, senza note, senza creazione, senza modifica)
+     * Compresa la entity
+     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
+     *
+     * @param entityClazz da cui estrarre i fields
+     * @param listaNomi   dei fields da considerare. Tutti, se listaNomi=null
+     *
+     * @return lista di fields visibili nella Grid
+     */
+    public List<Field> getListFields(Class<? extends AEntity> entityClazz, List<String> listaNomi) {
+        ArrayList<Field> fieldsList = new ArrayList<>();
+        Class<?> clazz = entityClazz;
+        ArrayList<Field> fieldsTmp = new ArrayList<>();
+        Field[] fieldsArray = null;
+        Field fieldCompany = null;
+        String fieldName;
+        boolean useCompany = displayCompany(entityClazz);
+
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
+            try { // prova ad eseguire il codice
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (field.getName().equals(ACost.PROPERTY_COMPANY)) {
+                        fieldCompany = field;
+                    } else {
+                        fieldsTmp.add(field);
+                    }// end of if/else cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
+
+        //--controlla che i fields siano quelli richiesti
+        //--se la lista dei nomi dei fields è nulla, li prende tutti
+        if (array.isValid(fieldsTmp)) {
+            if (text.isValid(listaNomi)) {
+                for (String nome : listaNomi) {
+                    for (Field field : fieldsTmp) {
+                        fieldName = field.getName();
+                        if (text.isValid(fieldName) && fieldName.equals(nome)) {
+                            fieldsList.add(field);
+                        }// end of if cycle
+                    }// end of for cycle
+                }// end of for cycle
+            } else {
+                for (Field field : fieldsTmp) {
+                    fieldName = field.getName();
+                    if (text.isValid(fieldName) && !ACost.ESCLUSI_ALL.contains(fieldName)) {
+                        fieldsList.add(field);
+                    }// end of if cycle
+                }// end of for cycle
+            }// end of if/else cycle
+        }// end of if cycle
+
+
+        //--se la entity è di tipo ACEntity, aggiunge (all'inizio) il field di riferimento
+        if (useCompany && fieldCompany != null) {
+            fieldsList.add(0, fieldCompany);
+        }// end of if cycle
+
+        return fieldsList;
+    }// end of method
+
+
+    /**
+     * Fields per le Columns della List (Grid) dichiarati nella Entity
      * Compresa la entity
      * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
      *
@@ -339,19 +424,48 @@ public class AReflectionService {
      *
      * @return lista di fields da considerare per List
      */
+    @Deprecated
     public List<Field> getListColumns(Class<? extends AEntity> entityClazz, List<String> listaNomi, boolean addKeyCompany) {
         ArrayList<Field> fieldsList = new ArrayList<>();
-        boolean addKeyID = annotation.isListShowsID(entityClazz);
-        List<Field> fieldsTmp = this.getFields(entityClazz, listaNomi, addKeyID, addKeyCompany);
-
-        for (Field field : fieldsTmp) {
-            if (annotation.isColumnVisibile(field)) {
-                fieldsList.add(field);
-            }// end of if cycle
-        }// end of for cycle
+//        boolean addKeyID = annotation.isListShowsID(entityClazz);
+//        List<Field> fieldsTmp = this.getFields(entityClazz, listaNomi, addKeyID, addKeyCompany);
+//
+//        for (Field field : fieldsTmp) {
+//            if (annotation.isColumnVisibile(field)) {
+//                fieldsList.add(field);
+//            }// end of if cycle
+//        }// end of for cycle
 
         return fieldsList;
     }// end of method
 
+
+    /**
+     * Flag.
+     * Deve essere true il flag useMultiCompany
+     * La Entity deve estendere ACompanyEntity
+     * L'user collegato deve essere developer
+     *
+     * @param entityClazz da cui estrarre i fields
+     */
+    public boolean displayCompany(Class<? extends AEntity> entityClazz) {
+
+        //--Deve essere true il flag useMultiCompany
+        if (!AlgosApp.USE_MULTI_COMPANY) {
+            return false;
+        }// end of if cycle
+
+        //--La Entity deve estendere ACompanyEntity
+        if (!ACEntity.class.isAssignableFrom(entityClazz)) {
+            return false;
+        }// end of if cycle
+
+        //--L'User collegato deve essere developer
+        if (!login.isDeveloper()) {
+            return false;
+        }// end of if cycle
+
+        return true;
+    }// end of static method
 
 }// end of class
