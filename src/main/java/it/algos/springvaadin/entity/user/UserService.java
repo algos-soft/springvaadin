@@ -92,7 +92,7 @@ public class UserService extends AService {
      * @return la entity trovata o appena creata
      */
     public User findOrCrea(String nickname, String password) {
-        return findOrCrea((Company) null, nickname, nickname, (Role) null);
+        return findOrCrea((Company) null, nickname, password, (Role) null);
     }// end of method
 
 
@@ -108,6 +108,7 @@ public class UserService extends AService {
     public User findOrCrea(String nickname, Role role) {
         return findOrCrea((Company) null, nickname, nickname, role);
     }// end of method
+
 
     /**
      * Ricerca di una entity (la crea se non la trova)
@@ -140,7 +141,6 @@ public class UserService extends AService {
      * @return la entity trovata o appena creata
      */
     public User findOrCrea(Company company, String nickname, String password, Role role) {
-
         if (nonEsiste(nickname)) {
             try { // prova ad eseguire il codice
                 return (User) save(newEntity(company, nickname, password, role));

@@ -225,70 +225,8 @@ public abstract class AService implements IAService {
      */
     protected List<Field> getFormFields(List<String> listaNomi) {
         return reflection.getFormFields(entityClass, listaNomi);
+        }// end of method
 
-//        List<Field> listaFields = null;
-//
-//        if (session.isDeveloper()) {
-//            listaFields = reflection.getFields(entityClass, null, true, false);
-//        } else {
-//            if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
-//                listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
-//            }// end of if cycle
-//            listaFields = reflection.getFormFields(entityClass, listaNomi);
-//        }// end of if/else cycle
-
-        //@todo RIMETTERE
-//        //--controllo per l'uso delle properties creazione e modifica
-//        if (pref.isFalse(Cost.KEY_USE_PROPERTY_CREAZIONE_AND_MODIFICA)) {
-//            Field fieldCreazione = null;
-//            Field fieldModifica = null;
-//
-//            for (Field field : listaProperties) {
-//                if (field.getName().equals(Cost.PROPERTY_CREAZIONE)) {
-//                    fieldCreazione = field;
-//                }// end of if cycle
-//                if (field.getName().equals(Cost.PROPERTY_MODIFICA)) {
-//                    fieldModifica = field;
-//                }// end of if cycle
-//            }// end of for cycle
-//
-//            if (fieldCreazione != null) {
-//                listaProperties.remove(fieldCreazione);
-//            }// end of if cycle
-//            if (fieldModifica != null) {
-//                listaProperties.remove(fieldModifica);
-//            }// end of if cycle
-//        }// end of if cycle
-
-//        return listaFields;
-    }// end of method
-
-
-//    /**
-//     * Flag.
-//     * Deve essere true il flag useMultiCompany
-//     * La Entity deve estendere ACompanyEntity
-//     * L'buttonUser collegato deve essere developer
-//     */
-//    public boolean displayCompany() {
-//
-//        //--Deve essere true il flag useMultiCompany
-//        if (!AlgosApp.USE_MULTI_COMPANY) {
-//            return false;
-//        }// end of if cycle
-//
-//        //--La Entity deve estendere ACompanyEntity
-//        if (!ACEntity.class.isAssignableFrom(entityClass)) {
-//            return false;
-//        }// end of if cycle
-//
-//        //--L'User collegato deve essere developer
-//        if (!login.isDeveloper()) {
-//            return false;
-//        }// end of if cycle
-//
-//        return true;
-//    }// end of static method
 
 
     /**

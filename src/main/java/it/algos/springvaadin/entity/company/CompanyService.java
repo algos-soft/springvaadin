@@ -1,4 +1,5 @@
 package it.algos.springvaadin.entity.company;
+
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
@@ -53,8 +54,8 @@ public class CompanyService extends AService {
     public CompanyService(@Qualifier(ACost.TAG_COM) MongoRepository repository) {
         super(repository);
         super.entityClass = Company.class;
-         this.repository = (CompanyRepository) repository;
-   }// end of Spring constructor
+        this.repository = (CompanyRepository) repository;
+    }// end of Spring constructor
 
 
     /**
@@ -80,7 +81,6 @@ public class CompanyService extends AService {
      * @return la entity trovata o appena creata
      */
     public Company findOrCrea(String code, String descrizione) {
-
         if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
                 return (Company) save(newEntity(code, descrizione));

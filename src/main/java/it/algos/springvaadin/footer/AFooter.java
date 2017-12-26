@@ -5,10 +5,12 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.service.AColumnService;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -31,16 +33,28 @@ import java.time.LocalDate;
 @Scope("session")
 public class AFooter extends VerticalLayout {
 
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    @Lazy
+    public ALogin login;
+
     @Autowired
     public AHtmlService html;
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    public ATextService text;
+
 
     private final static String DEVELOPER_COMPANY = "Algos® ";
     private final static String PROJECT = "WebAMbulanze";
     private final static String VERSION = "v0.4";
     private final static LocalDate DATA = LocalDate.now();
-    private final static String COMPANY = "Comitato Locale di Fidenza";
     private final static String USER_TAG = "User: ";
-    private final static String USER_NAME = "Guido Ceresa";
     private String message = "";
     private Label label;
 
@@ -62,21 +76,22 @@ public class AFooter extends VerticalLayout {
             this.addStyleName("greenBg");
         }// end of if cycle
 
-        this.fixMessage();
+        this.start();
     }// end of method
 
     public void setAppMessage(String message) {
         this.message = message;
-        this.fixMessage();
+        this.start();
     }// end of method
 
 
-    private void fixMessage() {
+    public void start() {
         String message;
         String sep = " - ";
         String spazio = " ";
         String tag = "all companies";
-        String companyCode = "";
+        String companyName = login.getCompany() != null ? login.getCompany().getDescrizione() : "";
+        String userName = login.getUser() != null ? login.getUser().getNickname() : "";
         this.removeAllComponents();
 
         //@todo RIMETTERE
@@ -86,6 +101,7 @@ public class AFooter extends VerticalLayout {
 //                message += " - " + companyCode;
 //            } else {
 //                message += " - " + tag;
+
 //            }// end of if/else cycle
 //        }// end of if cycle
 
@@ -103,16 +119,20 @@ public class AFooter extends VerticalLayout {
 //        label = new LabelRosso(DEVELOPER_NAME + message);
 
         String data;
-        message = html.setVerdeBold(DEVELOPER_COMPANY + sep + PROJECT) +
-                spazio +
-                html.setBold(VERSION) +
-                " del " +
-                DATA.toString() +
-                sep +
-                html.setRossoBold(COMPANY) +
-                sep +
-                USER_TAG +
-                html.setBluBold(USER_NAME);
+        message = html.setVerdeBold(DEVELOPER_COMPANY + sep + PROJECT);
+        message += spazio;
+        message += html.setBold(VERSION);
+        message += " del ";
+        message += DATA.toString();
+        if (text.isValid(companyName)) {
+            message += sep;
+            message += html.setRossoBold(companyName);
+        }// end of if cycle
+        if (text.isValid(userName)) {
+            message += sep;
+            message += USER_TAG;
+            message += html.setBluBold(userName);
+        }// end of if cycle
         this.addComponent(new Label(message, ContentMode.HTML));
     }// end of method
 

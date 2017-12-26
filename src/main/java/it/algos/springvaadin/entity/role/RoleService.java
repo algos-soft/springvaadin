@@ -97,10 +97,9 @@ public class RoleService extends AService {
 
     /**
      * Ricerca di una entity (la crea se non la trova)
-     * Properties obbligatorie
      * All properties
      *
-     * @param ordine di rilevanza (obbligatorio)
+     * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
      * @param codice di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
@@ -138,7 +137,7 @@ public class RoleService extends AService {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param ordine di rilevanza (obbligatorio)
+     * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
      * @param codice di riferimento (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)

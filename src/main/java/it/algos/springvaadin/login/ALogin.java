@@ -3,10 +3,13 @@ package it.algos.springvaadin.login;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.event.ALoginEvent;
+import it.algos.springvaadin.footer.AFooter;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibVaadin;
 import it.algos.springvaadin.listener.ALoginListener;
@@ -14,6 +17,7 @@ import it.algos.springvaadin.listener.ALogoutListener;
 import it.algos.springvaadin.listener.AProfileChangeListener;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -26,7 +30,7 @@ import java.util.ArrayList;
  * Subsequent calls to getLogin() return the same object from the session.
  */
 @SpringComponent
-@Scope(value = "session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ALogin {
 
 
@@ -35,6 +39,14 @@ public class ALogin {
      */
     @Autowired
     public UserService userService;
+
+
+    /**
+     * Inietta da Spring come 'session'
+     */
+    @Autowired
+    @Lazy
+    public AFooter footer;
 
 
     // defaults
@@ -72,6 +84,8 @@ public class ALogin {
 //    private AbsUserProfileForm profileForm;
 
     private EARoleType typeLogged;
+
+    private Company company;
 
     /**
      * Costruttore @Autowired
@@ -169,6 +183,10 @@ public class ALogin {
 
         this.user = loginForm.getSelectedUser();
         this.typeLogged = EARoleType.getType(((User) user).role.getCode());
+        if (this.user != null) {
+            this.setCompany(((User) this.user).getCompany());
+        }// end of if cycle
+        footer.start();
 
         //        if (user != null) {
 //            String pass = loginForm.getPassField().getValue();
@@ -469,6 +487,22 @@ public class ALogin {
 
     public boolean isDeveloper() {
         return getTypeLogged() == EARoleType.developer;
+    }// end of method
+
+    public Company getCompany() {
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            return company;
+        } else {
+            return null;
+        }// end of if/else cycle
+    }// end of method
+
+    public void setCompany(Company company) {
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            this.company = company;
+        } else {
+            this.company = null;
+        }// end of if/else cycle
     }// end of method
 
     /**
