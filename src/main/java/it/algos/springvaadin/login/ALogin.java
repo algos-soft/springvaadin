@@ -451,6 +451,9 @@ public class ALogin {
         this.user = user;
     }// end of method
 
+    public void setTypeLogged(EARoleType typeLogged) {
+        this.typeLogged = typeLogged;
+    }
 
     public EARoleType getTypeLogged() {
         return typeLogged;

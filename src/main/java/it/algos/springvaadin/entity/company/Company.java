@@ -47,8 +47,8 @@ import it.algos.springvaadin.entity.AEntity;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_COM)
 @AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.nonUsata)
-@AIList(columns = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch)
-@AIForm(fields = {"code", "descrizione"})
+@AIList( dev = EAListButton.standard, admin = EAListButton.noSearch)
+@AIForm()
 public class Company extends AEntity {
 
     /**

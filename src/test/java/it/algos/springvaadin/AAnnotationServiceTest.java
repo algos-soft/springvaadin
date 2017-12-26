@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
-public class AAnnotationServiceTest {
+public class AAnnotationServiceTest extends ATest {
 
 
     @InjectMocks
@@ -53,32 +53,6 @@ public class AAnnotationServiceTest {
     @InjectMocks
     public ASessionService session;
 
-    private Field reflectionJavaField;
-    private String previsto = "";
-    private String ottenuto = "";
-    private boolean previstoBooleano;
-    private boolean ottenutoBooleano;
-    private int previstoIntero = 0;
-    private int ottenutoIntero = 0;
-    private List<String> ottenutoList;
-    private EAFieldType previstoType;
-    private EAFieldType ottenutoType;
-    private EAFieldAccessibility previstaAccessibilità;
-    private EAFieldAccessibility ottenutaAccessibilità;
-    private EACompanyRequired previstoCompany;
-    private EACompanyRequired ottenutoCompany;
-    private final static String NAME_ORDINE = "ordine";
-    private final static String NAME_CODE = "code";
-    private final static String NAME_ROLE = "role";
-    private final static String HEADER_ORDINE = "#";
-    private final static String HEADER_CODE = "Code";
-    private static Field FIELD_ORDINE;
-    private static Field FIELD_CODE;
-    private static Field FIELD_ROLE;
-    private static Class<? extends IAView> ROLE_VIEW_CLASS_LIST = RoleList.class;
-    private static Class<? extends IAView> ROLE_VIEW_CLASS_FORM = RoleForm.class;
-    private static Class<? extends AEntity> ROLE_ENTITY_CLASS = Role.class;
-    private static Class<? extends AEntity> ROLE_USER_CLASS = User.class;
 
     @Before
     public void setUp() {
@@ -96,7 +70,7 @@ public class AAnnotationServiceTest {
         reflection.array = array;
         FIELD_ORDINE = reflection.getField(ROLE_ENTITY_CLASS, NAME_ORDINE);
         FIELD_CODE = reflection.getField(ROLE_ENTITY_CLASS, NAME_CODE);
-        FIELD_ROLE = reflection.getField(ROLE_USER_CLASS, NAME_ROLE);
+        FIELD_ROLE = reflection.getField(USER_ENTITY_CLASS, NAME_ROLE);
     }// end of method
 
 
@@ -143,8 +117,13 @@ public class AAnnotationServiceTest {
      */
     @Test
     public void getAIList() {
-        AIList ottenuto = service.getAIList(ROLE_ENTITY_CLASS);
-        assertNull(ottenuto);
+        AIList ottenuto;
+
+        ottenuto = service.getAIList(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenuto);
+
+        ottenuto = service.getAIList(USER_ENTITY_CLASS);
+        assertNotNull(ottenuto);
     }// end of single test
 
 
@@ -252,35 +231,44 @@ public class AAnnotationServiceTest {
     @SuppressWarnings("javadoc")
     /**
      * Colonne visibili (e ordinate) nella Grid
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@AIList prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
      *
      * @param clazz the entity class
      *
-     * @return lista di colonne visibili nella Grid
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIList() nella Entity
      */
     @Test
-    public void getListColumns() {
-//        String[] stringArray = {"ordine", "code"};
-//        List<String> previstoList = LibArray.fromString(stringArray);
+    public void getListFieldsName() {
+        String[] stringArray = {"ordine", "code"};
+        previstoList = LibArray.fromString(stringArray);
 
-        ottenutoList = service.getListColumns(ROLE_ENTITY_CLASS);
+        ottenutoList = service.getListFieldsName(ROLE_ENTITY_CLASS);
+        assertEquals(previstoList, ottenutoList);
+
+        ottenutoList = service.getListFieldsName(USER_ENTITY_CLASS);
         assertNull(ottenutoList);
     }// end of single test
 
 
     @SuppressWarnings("javadoc")
     /**
-     * Fields visibili (e ordinati) nel Form
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@AIForm prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
      *
-     * @param clazz the entity class
-     *
-     * @return lista di fields visibili nel Form
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
      */
     @Test
     public void getFormFieldsName() {
-//        String[] stringArray = {"ordine", "code"};
-//        List<String> previstoList = LibArray.fromString(stringArray);
+        String[] stringArray = {"ordine", "code"};
+         previstoList = LibArray.fromString(stringArray);
 
         ottenutoList = service.getFormFieldsName(ROLE_ENTITY_CLASS);
+        assertEquals(previstoList, ottenutoList);
+
+        ottenutoList = service.getFormFieldsName(USER_ENTITY_CLASS);
         assertNull(ottenutoList);
     }// end of single test
 
@@ -563,8 +551,8 @@ public class AAnnotationServiceTest {
         ottenutoCompany = service.getCompanyRequired(ROLE_ENTITY_CLASS);
         assertEquals(previstoCompany, ottenutoCompany);
 
-        previstoCompany = EACompanyRequired.facoltativa;
-        ottenutoCompany = service.getCompanyRequired(ROLE_USER_CLASS);
+        previstoCompany = EACompanyRequired.obbligatoria;
+        ottenutoCompany = service.getCompanyRequired(USER_ENTITY_CLASS);
         assertEquals(previstoCompany, ottenutoCompany);
     }// end of single test
 

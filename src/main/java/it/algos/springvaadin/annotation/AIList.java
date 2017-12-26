@@ -27,10 +27,10 @@ public @interface AIList {
 
 
     /**
-     * (Optional) List of visible columns on Grid
+     * (Optional) List of visible fields on Form
      * Defaults to all.
      */
-    String[] columns() default "";
+    String[] fields() default "";
 
 
     /**

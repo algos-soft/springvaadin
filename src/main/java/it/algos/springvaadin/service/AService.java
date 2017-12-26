@@ -127,7 +127,7 @@ public abstract class AService implements IAService {
         List<Field> listaField = null;
         List<String> listaNomi = null;
 
-        //--Se la classe Entity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        //--Se la classe AEntity->@AIList prevede una lista specifica, usa quella lista (con o senza ID)
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         listaNomi = this.getListFieldsName();
 
@@ -141,22 +141,24 @@ public abstract class AService implements IAService {
 
     /**
      * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
-     * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * Se la classe AEntity->@AIList prevede una lista specifica, usa quella lista (con o senza ID)
      * Sovrascrivibile
      *
      * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIList() nella Entity
      */
     protected List<String> getListFieldsName() {
-        return annotation.getListColumns(entityClass);
+        return annotation.getListFieldsName(entityClass);
     }// end of method
 
 
     /**
-     * Fields da usare come columns della Grid
+     * Fields dichiarati nella Entity, da usare come columns della Grid (List)
      * Se listaNomi è nulla, usa tutti i campi (senza ID, senza note, senza creazione, senza modifica)
-     * Sovrascrivibile
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Se la company è prevista (AlgosApp.USE_MULTI_COMPANY, login.isDeveloper() e entityClazz derivata da ACEntity),
+     * la posiziona come prima colonna a sinistra
      *
-     * @param listaNomi da considerare. Può essere nulla.
+     * @param listaNomi dei fields da considerare. Tutti, se listaNomi=null
      *
      * @return lista di fields visibili nella Grid
      */
@@ -172,9 +174,8 @@ public abstract class AService implements IAService {
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIForm(fields = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIForm, usa tutti i campi della AEntity (senza ID)
-     * 4) Se trova AEntity->@AIForm(showsID = true), questo viene aggiunto, indipendentemente dalla lista
      * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
-     * Ad esempio: company della classe ACompanyEntity
+     * Ad esempio: company della classe ACompanyEntity (se è previsto e se è un developer)
      *
      * @return lista di fields visibili nel Form
      */
@@ -183,12 +184,13 @@ public abstract class AService implements IAService {
         List<Field> listaField = null;
         List<String> listaNomi = null;
 
-        //--Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+        //--Se la classe AEntity->@AIForm prevede una lista specifica, usa quella lista (con o senza ID)
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         listaNomi = this.getFormFieldsName();
 
-        //--Se non trova nulla, usa tutti i campi
-        //--Nel Form il developer vede SEMPRE la keyId, non Enabled
+        //--Se non trova nulla, usa tutti i campi:
+        //--user = senza ID, senza note, senza creazione, senza modifica
+        //--developer = con ID, con note, con creazione, con modifica
         //--rimanda ad un metodo separato per poterlo sovrascrivere
         listaField = this.getFormFields(listaNomi);
 
@@ -198,7 +200,7 @@ public abstract class AService implements IAService {
 
     /**
      * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
-     * Se la classe AEntity->@Annotation prevede una lista specifica, usa quella lista (con o senza ID)
+     * Se la classe AEntity->@AIForm prevede una lista specifica, usa quella lista (con o senza ID)
      * Sovrascrivibile
      *
      * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
@@ -209,26 +211,31 @@ public abstract class AService implements IAService {
 
 
     /**
-     * Java Reflected Fields estratti dalle @Annotation della Entity
-     * Se la lista nomi è nulla, usa tutte le properties (fields)
-     * Nel Form il developer vede SEMPRE la keyId, non Enabled
-     * Sovrascrivibile
+     * Fields dichiarati nella Entity, da usare come campi del Form
+     * Se listaNomi è nulla, usa tutti i campi:
+     * user = senza ID, senza note, senza creazione, senza modifica
+     * developer = con ID, con note, con creazione, con modifica
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Se la company è prevista (AlgosApp.USE_MULTI_COMPANY, login.isDeveloper() e entityClazz derivata da ACEntity),
+     * la posiziona come secondo campo in alto, dopo la keyID
      *
-     * @param listaNomi per estrarre i Java Reflected Fields dalle @Annotation della Entity
+     * @param listaNomi dei fields da considerare. Tutti, se listaNomi=null
      *
-     * @return fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
+     * @return lista di fields visibili nel Form
      */
     protected List<Field> getFormFields(List<String> listaNomi) {
-        List<Field> listaFields = null;
+        return reflection.getFormFields(entityClass, listaNomi);
 
-        if (session.isDeveloper()) {
-            listaFields = reflection.getFields(entityClass, null, true, false);
-        } else {
-            if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
-                listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
-            }// end of if cycle
-            listaFields = reflection.getFormFields(entityClass, listaNomi);
-        }// end of if/else cycle
+//        List<Field> listaFields = null;
+//
+//        if (session.isDeveloper()) {
+//            listaFields = reflection.getFields(entityClass, null, true, false);
+//        } else {
+//            if (!listaNomi.contains(ACost.PROPERTY_NOTE)) {
+//                listaNomi = array.add(listaNomi, ACost.PROPERTY_NOTE);
+//            }// end of if cycle
+//            listaFields = reflection.getFormFields(entityClass, listaNomi);
+//        }// end of if/else cycle
 
         //@todo RIMETTERE
 //        //--controllo per l'uso delle properties creazione e modifica
@@ -253,7 +260,7 @@ public abstract class AService implements IAService {
 //            }// end of if cycle
 //        }// end of if cycle
 
-        return listaFields;
+//        return listaFields;
     }// end of method
 
 

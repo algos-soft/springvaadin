@@ -177,18 +177,21 @@ public class AAnnotationService {
 
     /**
      * Colonne visibili (e ordinate) nella Grid
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@AIList prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
      *
      * @param clazz the entity class
      *
-     * @return lista di colonne visibili nella Grid
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIList() nella Entity
      */
-    public List<String> getListColumns(final Class<? extends AEntity> clazz) {
+    public List<String> getListFieldsName(final Class<? extends AEntity> clazz) {
         List<String> lista = null;
         String[] columns = null;
         AIList annotation = this.getAIList(clazz);
 
         if (annotation != null) {
-            columns = annotation.columns();
+            columns = annotation.fields();
         }// end of if cycle
 
         if (array.isValid(columns)) {
@@ -200,11 +203,11 @@ public class AAnnotationService {
 
 
     /**
-     * Fields visibili (e ordinati) nel Form
+     * Nomi dei fields da considerare per estrarre i Java Reflected Field dalle @Annotation della Entity
+     * Se la classe AEntity->@AIForm prevede una lista specifica, usa quella lista (con o senza ID)
+     * Sovrascrivibile
      *
-     * @param clazz the entity class
-     *
-     * @return lista di fields visibili nel Form
+     * @return nomi dei fields, oppure null se non esiste l'Annotation specifica @AIForm() nella Entity
      */
     @SuppressWarnings("all")
     public List<String> getFormFieldsName(final Class<? extends AEntity> clazz) {
@@ -230,7 +233,7 @@ public class AAnnotationService {
      * @param clazz the entity class
      */
     @SuppressWarnings("all")
-    public  EACompanyRequired getCompanyRequired(final Class<? extends AEntity> clazz) {
+    public EACompanyRequired getCompanyRequired(final Class<? extends AEntity> clazz) {
         EACompanyRequired companyRequired = EACompanyRequired.nonUsata;
         AIEntity annotation = getAIEntity(clazz);
 
@@ -413,7 +416,7 @@ public class AAnnotationService {
      *
      * @return the visibility of the column
      */
-   @Deprecated
+    @Deprecated
     public boolean isColumnVisibile(final Field reflectionJavaField) {
         boolean visibile = false;
 //        EARoleType roleTypeVisibility = EARoleType.nobody;

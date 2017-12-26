@@ -1,9 +1,12 @@
 package it.algos.springvaadin;
 
 import com.vaadin.server.Resource;
+import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.LibArray;
+import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AReflectionService;
@@ -31,7 +34,7 @@ import static org.junit.Assert.assertNotNull;
  * Time: 11:39
  */
 @Slf4j
-public class AReflectionServiceTest {
+public class AReflectionServiceTest extends ATest {
 
 
     @InjectMocks
@@ -50,21 +53,9 @@ public class AReflectionServiceTest {
     public AArrayService array;
 
 
-    private Field reflectionJavaField;
-    private String previsto = "";
-    private String ottenuto = "";
-    private int previstoIntero = 0;
-    private int ottenutoIntero = 0;
-    private final static String FIELD_NAME_KEY = "id";
-    private final static String FIELD_NAME_ORDINE = "ordine";
-    private final static String FIELD_NAME_CODE = "code";
-    private final static String FIELD_NAME_NOTE = "note";
-    private final static String FIELD_NAME_CREAZIONE = "creazione";
-    private final static String FIELD_NAME_MODIFICA = "modifica";
-    private Field FIELD_ORDINE;
-    private Field FIELD_CODE;
-    private List<Field> ottenutoList;
-    private static Class<? extends AEntity> ROLE_ENTITY_CLASS = Role.class;
+    @InjectMocks
+    public ALogin login;
+
 
     @Before
     public void setUp() {
@@ -72,12 +63,15 @@ public class AReflectionServiceTest {
         MockitoAnnotations.initMocks(annotation);
         MockitoAnnotations.initMocks(text);
         MockitoAnnotations.initMocks(array);
+        MockitoAnnotations.initMocks(login);
         array.text = text;
         annotation.array = array;
         service.annotation = annotation;
         service.text = text;
         annotation.reflection = service;
         service.array = array;
+        service.login = login;
+        AlgosApp.USE_MULTI_COMPANY = true;
     }// end of method
 
 
@@ -149,79 +143,136 @@ public class AReflectionServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
-     /**
-     * Fields dichiarati nella Entity
-     * Solo la entityClazz indicata
+     * Fields dichiarati nella Entity, da usare come columns della Grid (List)
+     * Se listaNomi è nulla, usa tutti i campi (senza ID, senza note, senza creazione, senza modifica)
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Se la company è prevista (AlgosApp.USE_MULTI_COMPANY, login.isDeveloper() e entityClazz derivata da ACEntity),
+     * la posiziona come prima colonna a sinistra
      *
      * @param entityClazz da cui estrarre i fields
+     * @param listaNomi   dei fields da considerare. Tutti, se listaNomi=null
      *
-     * @return lista di fields da considerare per List e Form
+     * @return lista di fields visibili nella Grid
      */
     @Test
-    public void getFieldsEntityOnly() {
+    public void getListFields() {
+        String[] stringArray = {"ordine", "code"};
+        ottenutoList = LibArray.fromString(stringArray);
+
         previstoIntero = 2;
-        ottenutoList = service.getFieldsEntityOnly(ROLE_ENTITY_CLASS);
-        assertNotNull(ottenutoList);
-        ottenutoIntero = ottenutoList.size();
+        ottenutoFieldList = service.getListFields(ROLE_ENTITY_CLASS, ottenutoList);
+        ottenutoIntero = ottenutoFieldList.size();
         assertEquals(previstoIntero, ottenutoIntero);
 
         previsto = FIELD_NAME_ORDINE;
-        reflectionJavaField = ottenutoList.get(0);
+        reflectionJavaField = ottenutoFieldList.get(0);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
         previsto = FIELD_NAME_CODE;
-        reflectionJavaField = ottenutoList.get(1);
+        reflectionJavaField = ottenutoFieldList.get(1);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
-    }// end of single test
 
 
-    @SuppressWarnings("javadoc")
-    /**
-     * Fields dichiarati nella Entity
-     * Compresa la entityClazz
-     * Comprese tutte le superclassi (fino a ACompanyEntity e AEntity)
-     *
-     * @param entityClazz da cui estrarre i fields
-     *
-     * @return lista di fields da considerare per List e Form
-     */
-    @Test
-    public void getFieldsAllSuperclasses() {
-        previstoIntero = 6;
-        ottenutoList = service.getFieldsAllSuperclasses(ROLE_ENTITY_CLASS);
-        assertNotNull(ottenutoList);
-        ottenutoIntero = ottenutoList.size();
+        previstoIntero = 2;
+        ottenutoFieldList = service.getListFields(ROLE_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
         assertEquals(previstoIntero, ottenutoIntero);
 
-        previsto = FIELD_NAME_KEY;
-        reflectionJavaField = ottenutoList.get(0);
-        ottenuto = reflectionJavaField.getName();
-        assertEquals(previsto, ottenuto);
-
         previsto = FIELD_NAME_ORDINE;
-        reflectionJavaField = ottenutoList.get(1);
+        reflectionJavaField = ottenutoFieldList.get(0);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
         previsto = FIELD_NAME_CODE;
-        reflectionJavaField = ottenutoList.get(2);
+        reflectionJavaField = ottenutoFieldList.get(1);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
-        previsto = FIELD_NAME_NOTE;
-        reflectionJavaField = ottenutoList.get(3);
+
+        login.setTypeLogged(EARoleType.user);
+        previstoIntero = 4;
+        ottenutoFieldList = service.getListFields(USER_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_NICKNAME;
+        reflectionJavaField = ottenutoFieldList.get(0);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
-        previsto = FIELD_NAME_CREAZIONE;
-        reflectionJavaField = ottenutoList.get(4);
+        previsto = FIELD_NAME_PASSWORD;
+        reflectionJavaField = ottenutoFieldList.get(1);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
-        previsto = FIELD_NAME_MODIFICA;
-        reflectionJavaField = ottenutoList.get(5);
+        previsto = FIELD_NAME_ROLE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ENABLED;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.admin);
+        previstoIntero = 4;
+        ottenutoFieldList = service.getListFields(USER_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_NICKNAME;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_PASSWORD;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ROLE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ENABLED;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.developer);
+        previstoIntero = 5;
+        ottenutoFieldList = service.getListFields(USER_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_COMPANY;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NICKNAME;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_PASSWORD;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ROLE;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ENABLED;
+        reflectionJavaField = ottenutoFieldList.get(4);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
     }// end of single test
@@ -242,41 +293,184 @@ public class AReflectionServiceTest {
      */
     @Test
     public void getFormFields() {
-        List<String> listaNomi = annotation.getFormFieldsName(ROLE_ENTITY_CLASS);
+        String[] stringArray = {"ordine", "code"};
+        ottenutoList = LibArray.fromString(stringArray);
 
         previstoIntero = 2;
-        ottenutoList = service.getFormFields(ROLE_ENTITY_CLASS, listaNomi);
-        assertNotNull(ottenutoList);
-        ottenutoIntero = ottenutoList.size();
+        ottenutoFieldList = service.getFormFields(ROLE_ENTITY_CLASS, ottenutoList);
+        ottenutoIntero = ottenutoFieldList.size();
         assertEquals(previstoIntero, ottenutoIntero);
 
         previsto = FIELD_NAME_ORDINE;
-        reflectionJavaField = ottenutoList.get(0);
+        reflectionJavaField = ottenutoFieldList.get(0);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
 
         previsto = FIELD_NAME_CODE;
-        reflectionJavaField = ottenutoList.get(1);
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.admin);
+        previstoIntero = 3;
+        ottenutoFieldList = service.getFormFields(ROLE_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_ORDINE;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CODE;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NOTE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.developer);
+        previstoIntero = 6;
+        ottenutoFieldList = service.getFormFields(ROLE_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_KEY;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ORDINE;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CODE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NOTE;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CREAZIONE;
+        reflectionJavaField = ottenutoFieldList.get(4);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_MODIFICA;
+        reflectionJavaField = ottenutoFieldList.get(5);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.admin);
+        previstoIntero = 5;
+        ottenutoFieldList = service.getFormFields(USER_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_NICKNAME;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_PASSWORD;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ROLE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ENABLED;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NOTE;
+        reflectionJavaField = ottenutoFieldList.get(4);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.developer);
+        previstoIntero = 9;
+        ottenutoFieldList = service.getFormFields(USER_ENTITY_CLASS, null);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_KEY;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_COMPANY;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NICKNAME;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_PASSWORD;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ROLE;
+        reflectionJavaField = ottenutoFieldList.get(4);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ENABLED;
+        reflectionJavaField = ottenutoFieldList.get(5);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NOTE;
+        reflectionJavaField = ottenutoFieldList.get(6);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CREAZIONE;
+        reflectionJavaField = ottenutoFieldList.get(7);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_MODIFICA;
+        reflectionJavaField = ottenutoFieldList.get(8);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
     }// end of single test
 
 
-    @SuppressWarnings("javadoc")
-    /**
-     * All field names di una EntityClass
-     *
-     * @param entityClazz su cui operare la riflessione
-     *
-     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
-     */
-    @Test
-    public void getFieldsNameEntityOnly() {
-        List<String> listaNomiOttenuta = service.getFieldsNameEntityOnly(ROLE_ENTITY_CLASS);
-        assertNotNull(listaNomiOttenuta);
-        previstoIntero = 2;
-        ottenutoIntero = listaNomiOttenuta.size();
-        assertEquals(previstoIntero, ottenutoIntero);
-    }// end of single test
+//    @SuppressWarnings("javadoc")
+//    /**
+//     * All field names di una EntityClass
+//     *
+//     * @param entityClazz su cui operare la riflessione
+//     *
+//     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
+//     */
+//    @Test
+//    public void getFieldsNameEntityOnly() {
+//        List<String> listaNomiOttenuta = service.getFieldsNameEntityOnly(ROLE_ENTITY_CLASS);
+//        assertNotNull(listaNomiOttenuta);
+//        previstoIntero = 2;
+//        ottenutoIntero = listaNomiOttenuta.size();
+//        assertEquals(previstoIntero, ottenutoIntero);
+//    }// end of single test
 
 }// end of class

@@ -19,11 +19,11 @@ import java.lang.annotation.Target;
 public @interface AIForm {
 
 
-    /**
-     * (Optional) Status (shows the ID property field) .
-     * Defaults to false.
-     */
-    boolean showsID() default false;
+//    /**
+//     * (Optional) Status (shows the ID property field) .
+//     * Defaults to false.
+//     */
+//    boolean showsID() default false;
 
 
     /**

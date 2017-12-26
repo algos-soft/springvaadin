@@ -47,7 +47,8 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_ROL)
 @AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.nonUsata)
-@AIForm( fieldsDev = EAFieldAccessibility.allways, fieldsAdmin = EAFieldAccessibility.never)
+@AIList(fields = {"ordine", "code"})
+@AIForm(fields = {"ordine", "code"},fieldsDev = EAFieldAccessibility.allways, fieldsAdmin = EAFieldAccessibility.never)
 public class Role extends AEntity {
 
 

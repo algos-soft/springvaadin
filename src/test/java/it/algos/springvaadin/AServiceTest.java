@@ -35,7 +35,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
-public class AServiceTest {
+public class AServiceTest extends ATest {
 
     @InjectMocks
     private RoleService service;
@@ -117,21 +117,68 @@ public class AServiceTest {
     /**
      * Colonne visibili (e ordinate) nella Grid
      * Sovrascrivibile
-     * La colonna ID normalmente non si visualizza
+     * La colonna key ID normalmente non si visualizza
      * 1) Se questo metodo viene sovrascritto, si utilizza la lista della sottoclasse specifica (con o senza ID)
      * 2) Se la classe AEntity->@AIList(columns = ...) prevede una lista specifica, usa quella lista (con o senza ID)
      * 3) Se non trova AEntity->@AIList, usa tutti i campi della AEntity (senza ID)
-     * 4) Se trova AEntity->@AIList(showsID = true), questo viene aggiunto, indipendentemente dalla lista
      * 5) Vengono visualizzati anche i campi delle superclassi della classe AEntity
-     * Ad esempio: company della classe ACompanyEntity
+     * Ad esempio: company della classe ACompanyEntity (se è previsto e se è un developer)
      *
      * @return lista di fields visibili nella Grid
      */
     @Test
     public void getListFields() {
-        previstoList = null;
         ottenutoList = service.getListFields();
-        int a = 87;
+        assertNotNull(ottenutoList);
+        ottenutoIntero = ottenutoList.size();
+
+        if (annotation.getAIList(ROLE_ENTITY_CLASS) != null) {
+            previstoIntero = 2;
+            assertEquals(previstoIntero, ottenutoIntero);
+
+            previsto = FIELD_NAME_ORDINE;
+            reflectionJavaField = ottenutoList.get(0);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_CODE;
+            reflectionJavaField = ottenutoList.get(1);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+        } else {
+            previstoIntero = 6;
+            assertEquals(previstoIntero, ottenutoIntero);
+
+            previsto = FIELD_NAME_KEY;
+            reflectionJavaField = ottenutoList.get(0);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_ORDINE;
+            reflectionJavaField = ottenutoList.get(1);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_CODE;
+            reflectionJavaField = ottenutoList.get(2);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_NOTE;
+            reflectionJavaField = ottenutoList.get(3);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_CREAZIONE;
+            reflectionJavaField = ottenutoList.get(4);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+
+            previsto = FIELD_NAME_MODIFICA;
+            reflectionJavaField = ottenutoList.get(5);
+            ottenuto = reflectionJavaField.getName();
+            assertEquals(previsto, ottenuto);
+        }// end of if/else cycle
     }// end of method
 
 
@@ -147,7 +194,7 @@ public class AServiceTest {
         List<EAButtonType> ottenutoLista;
         EAButtonType[] matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete, EAButtonType.search};
         List<EAButtonType> previstoLista = Arrays.asList(matrice);
-        ottenutoLista= service.getListTypeButtons();
+        ottenutoLista = service.getListTypeButtons();
         assertEquals(previstoLista, ottenutoLista);
     }// end of method
 
@@ -164,7 +211,7 @@ public class AServiceTest {
         List<EAButtonType> ottenutoLista;
         EAButtonType[] matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.registra};
         List<EAButtonType> previstoLista = Arrays.asList(matrice);
-        ottenutoLista= service.getFormTypeButtons();
+        ottenutoLista = service.getFormTypeButtons();
         assertEquals(previstoLista, ottenutoLista);
     }// end of method
 

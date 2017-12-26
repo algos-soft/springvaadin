@@ -31,8 +31,12 @@ public abstract class ACost {
     public final static String COMPANY_CODE = "code";
     public final static String COMPANY_UNICO = "codeCompanyUnico";
 
-    private final static String[] esclusiAll = {PROPERTY_ID, PROPERTY_SERIAL, PROPERTY_COMPANY, PROPERTY_NOTE, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
-    public final static List<String> ESCLUSI_ALL = Arrays.asList(esclusiAll);
+    private final static String[] esclusiList = {PROPERTY_ID, PROPERTY_SERIAL, PROPERTY_COMPANY, PROPERTY_NOTE, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
+    public final static List<String> ESCLUSI_LIST = Arrays.asList(esclusiList);
+
+    private final static String[] esclusiForm = {PROPERTY_ID, PROPERTY_SERIAL, PROPERTY_COMPANY, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
+    public final static List<String> ESCLUSI_FORM = Arrays.asList(esclusiForm);
+
     private final static String[] esclusiMatrice = {ACost.PROPERTY_SERIAL, ACost.PROPERTY_ID, ACost.PROPERTY_COMPANY};
     public final static List<String> ESCLUSI = Arrays.asList(esclusiMatrice);
     private final static String[] companyMatrice = {ACost.COMPANY_CODE, ACost.COMPANY_UNICO};
