@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.stato;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -47,8 +48,8 @@ import it.algos.springvaadin.entity.AEntity;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_STA)
 @AIEntity()
-@AIList(fields = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
-@AIForm(fields = {"code", "descrizione"})
+@AIList(dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIForm()
 public class Stato extends AEntity {
 
     /**
@@ -58,36 +59,70 @@ public class Stato extends AEntity {
 
 
     /**
-     * codice di riferimento (obbligatorio)
+     * ordine di nuovo (obbligatorio, unico, con controllo automatico prima del save se è zero, non modificabile)
+     * inserito automaticamente
+     * se si cancella una entity, rimane il 'buco' del numero
      */
-    @NotEmpty
-    @Size(min = 2, max = 20)
-    @Indexed()
-    @AIField(
-            type = EAFieldType.text,
-            required = true,
-            focus = true,
-            name = "Codice",
-            widthEM = 9,
-            admin = EAFieldAccessibility.allways,
-            user = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "Code", width = 120)
-    private String code;
-
+    @NotNull
+    @Indexed(unique = true)
+    @AIField(type = EAFieldType.integer, help = "Ordine di stato. Unico e normalmente progressivo")
+    @AIColumn(name = "#", width = 55)
+    private int ordine;
 
 
     /**
-     * descrizione (facoltativa)
+     * nome corrente completo, non ufficiale (obbligatorio ed unico). Codifica ISO 3166/MA
      */
-    @AIField(
-            type = EAFieldType.text,
-            required = true,
-            name = "Descrizione completa",
-            widthEM = 26,
-            admin = EAFieldAccessibility.allways,
-            user = EAFieldAccessibility.showOnly)
-    @AIColumn(name = "Descrizione", width = 500)
-    private String descrizione;
+    @NotEmpty
+    @Indexed(unique = true)
+    @Size(min = 4)
+    @AIField(type = EAFieldType.text, required = true, focus = true, firstCapital = true, help = "Codifica ISO 3166/MA")
+    @AIColumn(width = 250)
+    private String nome;
+
+
+    /**
+     * codice alfabetico di 2 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-2
+     * 249 codici assegnati
+     */
+    @NotEmpty
+    @Indexed(unique = true)
+    @Size(min = 2, max = 2)
+    @AIField(type = EAFieldType.text, widthEM = 6, allUpper = true, onlyLetter = true, help = "Codifica ISO 3166-1 alpha-2")
+    @AIColumn(width = 100)
+    private String alfaDue;
+
+
+    /**
+     * codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
+     * 249 codici assegnati
+     */
+    @NotEmpty
+    @Indexed(unique = true)
+    @Size(min = 3, max = 3)
+    @AIField(type = EAFieldType.text, widthEM = 6, allUpper = true, onlyLetter = true, help = "Codifica ISO 3166-1 alpha-3")
+    @AIColumn(width = 100)
+    private String alfaTre;
+
+
+    /**
+     * codice numerico di 3 cifre numeriche (facoltativo, vuoto oppure unico). Codifica ISO 3166-1 numerico
+     * 249 codici assegnati
+     */
+    @Indexed(unique = false)
+    @Size(min = 3, max = 3)
+    @AIField(type = EAFieldType.text, widthEM = 6, onlyNumber = true, help = "Codifica ISO 3166-1 numerico")
+    @AIColumn(width = 100, name = "Code")
+    private String numerico;
+
+
+    /**
+     * immagine bandiera (facoltativo, unico).
+     */
+    @Indexed(unique = false)
+    @AIField(type = EAFieldType.image, widthEM = 8)
+    @AIColumn(width = 100)
+    private byte[] bandiera;
 
 
     /**
@@ -95,7 +130,7 @@ public class Stato extends AEntity {
      */
     @Override
     public String toString() {
-        return getCode();
+        return getNome();
     }// end of method
 
 

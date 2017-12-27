@@ -5,6 +5,7 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleData;
 import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.entity.stato.StatoData;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,13 @@ public class ABoot {
      */
     @Autowired
     public RoleData role;
+
+
+    /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public StatoData stato;
 
 
 
@@ -79,6 +87,7 @@ public class ABoot {
      */
     protected void iniziaDataStandard() {
         this.role.findOrCrea();
+        this.stato.findOrCrea();
     }// end of method
 
 

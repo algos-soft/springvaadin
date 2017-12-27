@@ -1,5 +1,7 @@
 package it.algos.springvaadin.entity.stato;
+
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
@@ -53,20 +55,20 @@ public class StatoService extends AService {
     public StatoService(@Qualifier(ACost.TAG_STA) MongoRepository repository) {
         super(repository);
         super.entityClass = Stato.class;
-         this.repository = (StatoRepository) repository;
-   }// end of Spring constructor
+        this.repository = (StatoRepository) repository;
+    }// end of Spring constructor
 
 
     /**
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return la entity trovata o appena creata
      */
-    public Stato findOrCrea(String code) {
-        return findOrCrea(code, "");
+    public Stato findOrCrea(String nome) {
+        return findOrCrea(0, nome, "", "", "", (byte[]) null);
     }// end of method
 
 
@@ -74,22 +76,25 @@ public class StatoService extends AService {
      * Ricerca di una entity (la crea se non la trova)
      * All properties
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param ordine   di presentazione (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
+     * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
+     * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
+     * @param numerico codice numerico di 3 cifre numeriche (facoltativo, vuoto oppure unico). Codifica ISO 3166-1 numerico
+     * @param bandiera immagine (facoltativo, unico).
      *
      * @return la entity trovata o appena creata
      */
-    public Stato findOrCrea(String code, String descrizione) {
-
-        if (nonEsiste(code)) {
+    public Stato findOrCrea(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
+        if (nonEsiste(nome)) {
             try { // prova ad eseguire il codice
-                return (Stato) save(newEntity(code, descrizione));
+                return (Stato) save(newEntity(ordine, nome, alfaDue, alfaTre, numerico, bandiera));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return findByCode(code);
+            return findByNome(nome);
         }// end of if/else cycle
     }// end of method
 
@@ -113,12 +118,12 @@ public class StatoService extends AService {
      * Properties obbligatorie
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Stato newEntity(String code) {
-        return newEntity(code, "");
+    public Stato newEntity(String nome) {
+        return newEntity(0, nome, "", "", "", (byte[]) null);
     }// end of method
 
 
@@ -128,18 +133,22 @@ public class StatoService extends AService {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param ordine   di presentazione (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
+     * @param nome     corrente completo, non ufficiale (obbligatorio ed unico)
+     * @param alfaDue  codice alfabetico di 2 cifre (obbligatorio, unico)
+     * @param alfaTre  codice alfabetico di 3 cifre (obbligatorio, unico). Codifica ISO 3166-1 alpha-3
+     * @param numerico codice numerico di 3 cifre numeriche (facoltativo, vuoto oppure unico). Codifica ISO 3166-1 numerico
+     * @param bandiera immagine (facoltativo, unico).
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Stato newEntity(String code, String descrizione) {
+    public Stato newEntity(int ordine, String nome, String alfaDue, String alfaTre, String numerico, byte[] bandiera) {
         Stato entity = null;
 
-        if (nonEsiste(code)) {
-            entity = Stato.builder().code(code).descrizione(descrizione).build();
+        if (nonEsiste(nome)) {
+            entity = Stato.builder().ordine(ordine).nome(nome).alfaDue(alfaDue).alfaTre(alfaTre).numerico(numerico).bandiera(bandiera).build();
         } else {
-            return findByCode(code);
+            return findByNome(nome);
         }// end of if/else cycle
 
         return entity;
@@ -149,38 +158,37 @@ public class StatoService extends AService {
     /**
      * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return vero se esiste, false se non trovata
      */
-    public boolean esiste(String code) {
-        return findByCode(code) != null;
+    public boolean esiste(String nome) {
+        return findByNome(nome) != null;
     }// end of method
 
 
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param code sigla di riferimento interna (interna, obbligatoria ed unica per la company)
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(String code) {
-        return findByCode(code) == null;
+    public boolean nonEsiste(String nome) {
+        return findByNome(nome) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param nome corrente completo, non ufficiale (obbligatorio ed unico)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Stato findByCode(String code) {
-        return repository.findByCode(code);
+    public Stato findByNome(String nome) {
+        return repository.findByNome(nome);
     }// end of method
-
 
 
     /**
@@ -192,7 +200,7 @@ public class StatoService extends AService {
      */
     @Override
     public List findAll() {
-        return repository.findByOrderByCodeAsc();
+        return repository.findByOrderByNomeAsc();
     }// end of method
 
 
@@ -207,7 +215,7 @@ public class StatoService extends AService {
      */
     @Override
     public AEntity save(AEntity entityBean) throws Exception {
-        String code = ((Stato) entityBean).getCode();
+        String code = ((Stato) entityBean).getNome();
 
         if (entityBean == null) {
             return null;

@@ -17,8 +17,8 @@ import java.util.List;
 @Qualifier(ACost.TAG_STA)
 public interface StatoRepository extends MongoRepository<Stato, String> {
 
-    public Stato findByCode(String code);
+    public Stato findByNome(String nome);
 
-    public List<Stato> findByOrderByCodeAsc();
+    public List<Stato> findByOrderByNomeAsc();
 
 }// end of class
