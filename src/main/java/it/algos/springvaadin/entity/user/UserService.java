@@ -6,6 +6,7 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,12 @@ public class UserService extends AService {
      */
     @Autowired
     private RoleService roleService;
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    private ALogin login;
 
 
     @Autowired
@@ -273,7 +280,11 @@ public class UserService extends AService {
      * @return lista ordinata di tutte le entities
      */
     public List findAll() {
-        return repository.findByOrderByNicknameAsc();
+        if (login.isDeveloper()) {
+            return repository.findByOrderByNicknameAsc();
+        } else {
+            return repository.findByCompanyOrderByNicknameAsc(login.getCompany());
+        }// end of if/else cycle
     }// end of method
 
 

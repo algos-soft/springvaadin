@@ -4,6 +4,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.springvaadin.enumeration.EARoleType;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.service.AColumnService;
@@ -54,6 +55,8 @@ public class AFooter extends VerticalLayout {
     private final static String PROJECT = "WebAMbulanze";
     private final static String VERSION = "v0.4";
     private final static LocalDate DATA = LocalDate.now();
+    private final static String DEV_TAG = "Dev: ";
+    private final static String ADMIN_TAG = "Admin: ";
     private final static String USER_TAG = "User: ";
     private String message = "";
     private Label label;
@@ -126,12 +129,25 @@ public class AFooter extends VerticalLayout {
         message += DATA.toString();
         if (text.isValid(companyName)) {
             message += sep;
-            message += html.setRossoBold(companyName);
+            message += html.setBluBold(companyName);
         }// end of if cycle
         if (text.isValid(userName)) {
-            message += sep;
-            message += USER_TAG;
-            message += html.setBluBold(userName);
+            switch (login.getTypeLogged()) {
+                case user:
+                    message += sep;
+                    message += html.setBluBold(USER_TAG + userName);
+                    break;
+                case admin:
+                    message += sep;
+                    message += html.setVerdeBold(ADMIN_TAG + userName);
+                    break;
+                case developer:
+                    message += sep;
+                    message += html.setRossoBold(DEV_TAG + userName);
+                    break;
+                default:
+                    break;
+            } // end of switch statement
         }// end of if cycle
         this.addComponent(new Label(message, ContentMode.HTML));
     }// end of method

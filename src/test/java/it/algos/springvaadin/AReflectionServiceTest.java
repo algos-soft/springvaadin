@@ -336,6 +336,43 @@ public class AReflectionServiceTest extends ATest {
 
         login.setTypeLogged(EARoleType.developer);
         previstoIntero = 6;
+        ottenutoFieldList = service.getFormFields(ROLE_ENTITY_CLASS, ottenutoList);
+        ottenutoIntero = ottenutoFieldList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        previsto = FIELD_NAME_KEY;
+        reflectionJavaField = ottenutoFieldList.get(0);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_ORDINE;
+        reflectionJavaField = ottenutoFieldList.get(1);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CODE;
+        reflectionJavaField = ottenutoFieldList.get(2);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_NOTE;
+        reflectionJavaField = ottenutoFieldList.get(3);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_CREAZIONE;
+        reflectionJavaField = ottenutoFieldList.get(4);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+        previsto = FIELD_NAME_MODIFICA;
+        reflectionJavaField = ottenutoFieldList.get(5);
+        ottenuto = reflectionJavaField.getName();
+        assertEquals(previsto, ottenuto);
+
+
+        login.setTypeLogged(EARoleType.developer);
+        previstoIntero = 6;
         ottenutoFieldList = service.getFormFields(ROLE_ENTITY_CLASS, null);
         ottenutoIntero = ottenutoFieldList.size();
         assertEquals(previstoIntero, ottenutoIntero);

@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.springvaadin.entity.stato;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,18 +38,18 @@ import it.algos.springvaadin.entity.AEntity;
  * Le singole property sono annotate con @AIField (obbligatorio per il tipo di Field) e @AIColumn (facoltativo)
  */
 @SpringComponent
-@Document(collection = "@PACKAGE@")
+@Document(collection = "stato")
 @Scope("session")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Qualifier(@TAG@)
+@Qualifier(ACost.TAG_STA)
 @AIEntity()
 @AIList(fields = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"code", "descrizione"})
-public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
+public class Stato extends AEntity {
 
     /**
      * versione della classe per la serializzazione

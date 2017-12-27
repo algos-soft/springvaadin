@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="packageVaadin" default="all">
+<project name="packageVaadin" default="allNoCompany">
     <import file="tags.xml">
     </import>
     <import file="script.xml">
@@ -155,7 +155,7 @@
     </target>
 
     <target name="service" depends="init">
-        <property name="srcFile" value="${pathSrc}/${tagService}${tagTxt}"/>
+        <property name="srcFile" value="${pathSrc}/${tagServiceSrc}${tagTxt}"/>
         <property name="destFile" value="${pathPack}/${newEntity}${tagService}${tagJava}"/>
         <ant antfile="copyFile.xml" target="copy"/>
     </target>
@@ -177,7 +177,21 @@
     </target>
 
 
-    <target name="all" depends="init,fixVaadin">
+    <target name="allNoCompany" depends="init,fixVaadin">
+        <property name="tagServiceSrc" value="${tagService}"/>
+        <antcall target="creaDir">
+        </antcall>
+        <antcall target="cost">
+        </antcall>
+        <antcall target="menu">
+        </antcall>
+        <antcall target="creaFiles">
+        </antcall>
+    </target>
+
+
+    <target name="allCompany" depends="init,fixVaadin">
+        <property name="tagServiceSrc" value="${tagService}Company"/>
         <antcall target="creaDir">
         </antcall>
         <antcall target="cost">

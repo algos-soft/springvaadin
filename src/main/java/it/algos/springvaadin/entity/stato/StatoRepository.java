@@ -1,11 +1,9 @@
-package it.algos.springvaadin.entity.user;
-
+package it.algos.springvaadin.entity.stato;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.lib.ACost;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import it.algos.springvaadin.lib.ACost;
 
 import java.util.List;
 
@@ -16,15 +14,11 @@ import java.util.List;
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @SpringComponent
-@Qualifier(ACost.TAG_USE)
-public interface UserRepository extends MongoRepository<User, String> {
+@Qualifier(ACost.TAG_STA)
+public interface StatoRepository extends MongoRepository<Stato, String> {
 
-    public User findByNickname(String nickname);
+    public Stato findByCode(String code);
 
-    public List<User> findByOrderByNicknameAsc();
-
-    public List<User> findByCompanyOrderByNicknameAsc(Company company);
-
-    public User findByNicknameAndPassword(String nickname, String password);
+    public List<Stato> findByOrderByCodeAsc();
 
 }// end of class
