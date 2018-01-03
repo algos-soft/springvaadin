@@ -146,7 +146,7 @@ public class StatoService extends AService {
         Stato entity = null;
 
         if (nonEsiste(nome)) {
-            entity = Stato.builder().ordine(ordine).nome(nome).alfaDue(alfaDue).alfaTre(alfaTre).numerico(numerico).bandiera(bandiera).build();
+            entity = Stato.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).nome(nome).alfaDue(alfaDue).alfaTre(alfaTre).numerico(numerico).bandiera(bandiera).build();
         } else {
             return findByNome(nome);
         }// end of if/else cycle
@@ -231,6 +231,24 @@ public class StatoService extends AService {
                 return null;
             }// end of if/else cycle
         }// end of if/else cycle
+    }// end of method
+
+
+    /**
+     * Ordine di presentazione (obbligatorio, unico per tutte le eventuali company),
+     * viene calcolato in automatico prima del persist sul database
+     * Recupera il valore massimo della property
+     * Incrementa di uno il risultato
+     */
+    private int getNewOrdine() {
+        int ordine = 0;
+
+        List<Stato> lista = repository.findTop1ByOrderByOrdineDesc();
+        if (lista != null && lista.size() == 1) {
+            ordine = lista.get(0).getOrdine();
+        }// end of if cycle
+
+        return ordine + 1;
     }// end of method
 
 }// end of class

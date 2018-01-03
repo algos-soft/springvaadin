@@ -146,7 +146,7 @@ public class RoleService extends AService {
         Role entity = null;
 
         if (nonEsiste(codice)) {
-            entity = Role.builder().ordine(ordine == 0 ? this.getNewOrdine() : ordine).code(codice).build();
+            entity = Role.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(codice).build();
         } else {
             return findByCode(codice);
         }// end of if/else cycle

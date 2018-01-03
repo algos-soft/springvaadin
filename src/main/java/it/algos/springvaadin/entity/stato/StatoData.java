@@ -4,6 +4,9 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.data.AData;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.lib.LibResource;
+import it.algos.springvaadin.service.AArrayService;
+import it.algos.springvaadin.service.AFileService;
 import it.algos.springvaadin.service.ATextService;
 import it.algos.springvaadin.service.IAService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -26,7 +32,6 @@ import java.util.List;
 public class StatoData extends AData {
 
 
-
     /**
      * Il service iniettato dal costruttore, in modo che sia disponibile nella superclasse,
      * dove viene usata l'interfaccia IAService
@@ -35,6 +40,11 @@ public class StatoData extends AData {
      */
     private StatoService service;
 
+    @Autowired
+    public AFileService file;
+
+    @Autowired
+    public AArrayService array;
 
     /**
      * Costruttore @Autowired
@@ -73,12 +83,65 @@ public class StatoData extends AData {
      */
     private void creaStati() {
         String fileName = "Stati";
-        List<String> righe = LibFile.readResources(fileName);
-        this.deleteAll();
+        List<String> righe = file.readText(fileName);
 
-        for (String riga : righe) {
-            creaStato(riga);
-        }// end of for cycle
+        if (array.isValid(righe)) {
+            service.deleteAll();
+            for (String riga : righe) {
+                creaStato(riga);
+            }// end of for cycle
+        }// end of if cycle
+
+    }// end of method
+
+
+    /**
+     * Creazione di un singolo stato
+     */
+    private boolean creaStato(String riga) {
+        String[] parti = riga.split(",");
+        Stato stato;
+        int ordine = 0;
+        String nome = "";
+        String alfaDue = "";
+        String alfaTre = "";
+        String numerico = "";
+        byte[] bandiera = null;
+        String suffix = ".png";
+
+        if (parti.length > 0) {
+            nome = parti[0];
+        }// end of if cycle
+        if (parti.length > 1) {
+            alfaDue = parti[1];
+        }// end of if cycle
+        if (parti.length > 2) {
+            alfaTre = parti[2];
+            bandiera = file.getImgBytes(alfaTre.toUpperCase() + suffix);
+        }// end of if cycle
+        if (parti.length > 3) {
+            numerico = parti[3];
+        }// end of if cycle
+
+        stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico, bandiera);
+
+        try { // prova ad eseguire il codice
+            stato = (Stato) service.save(stato);
+            if (bandiera == null || bandiera.length == 0) {
+                log.warn("Stato: " + riga + " - Manca la bandiera");
+            } else {
+                log.info("Stato: " + riga + " - Tutto OK");
+            }// end of if/else cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+            try { // prova ad eseguire il codice
+                stato = service.newEntity(ordine, nome, alfaDue, alfaTre, numerico, new byte[0]);
+                log.warn("Stato: " + riga + " - Dimensioni bandiera eccessive");
+            } catch (Exception unErrore2) { // intercetta l'errore
+                log.error("Stato: " + riga + " - Non sono riuscito a crearlo");
+            }// fine del blocco try-catch
+        }// fine del blocco try-catch
+
+        return stato != null;
     }// end of method
 
 }// end of class

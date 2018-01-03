@@ -21,4 +21,6 @@ public interface StatoRepository extends MongoRepository<Stato, String> {
 
     public List<Stato> findByOrderByNomeAsc();
 
+    public List<Stato> findTop1ByOrderByOrdineDesc();
+
 }// end of class

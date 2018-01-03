@@ -425,4 +425,14 @@ public abstract class AService implements IAService {
         return true;
     }// end of method
 
+
+    /**
+     * Deletes all entities of the collection.
+     */
+    @Override
+    public boolean deleteAll() {
+        repository.deleteAll();
+        return repository.count() == 0;
+    }// end of method
+
 }// end of class
