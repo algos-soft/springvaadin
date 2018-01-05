@@ -134,4 +134,9 @@ public abstract class ACost {
     public final static String VIEW_COM_FORM = "companyform";
 	public final static String VIEW_STA_LIST = "statolist";
 	public final static String VIEW_STA_FORM = "statoform";
+	public final static String VIEW_LOG_LIST = "loglist";
+	public final static String VIEW_LOG_FORM = "logform";
+	public final static String TAG_PRO = "prova";
+	public final static String VIEW_PRO_LIST = "provalist";
+	public final static String VIEW_PRO_FORM = "provaform";
 }// end of static class

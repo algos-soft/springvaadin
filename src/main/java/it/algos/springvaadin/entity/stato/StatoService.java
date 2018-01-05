@@ -200,7 +200,7 @@ public class StatoService extends AService {
      */
     @Override
     public List findAll() {
-        return repository.findByOrderByNomeAsc();
+        return repository.findByOrderByOrdineAsc();
     }// end of method
 
 

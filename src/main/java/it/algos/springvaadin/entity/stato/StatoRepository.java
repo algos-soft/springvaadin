@@ -19,7 +19,7 @@ public interface StatoRepository extends MongoRepository<Stato, String> {
 
     public Stato findByNome(String nome);
 
-    public List<Stato> findByOrderByNomeAsc();
+    public List<Stato> findByOrderByOrdineAsc();
 
     public List<Stato> findTop1ByOrderByOrdineDesc();
 

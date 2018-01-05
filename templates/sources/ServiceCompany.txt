@@ -1,18 +1,17 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
-import it.algos.springvaadin.lib.LibText;
+
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.entity.ACompanyEntity;
-import it.algos.springvaadin.lib.LibSession;
+import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.lib.Cost;
-import it.algos.springvaadin.lib.LibAvviso;
-import it.algos.springvaadin.service.AlgosServiceImpl;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.service.AService;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -24,9 +23,13 @@ import java.util.List;
 @Service
 @Qualifier(@TAG@)
 @Slf4j
-public class @ENTITY@Service extends AlgosServiceImpl {
+public class @ENTITY@Service extends AService {
+
 
     private @ENTITY@Repository repository;
+
+    @Autowired
+    public ATextService text;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -36,6 +39,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      */
     public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
         super(repository);
+        super.entityClass = @ENTITY@.class;
         this.repository = (@ENTITY@Repository) repository;
     }// end of Spring constructor
 
@@ -56,32 +60,27 @@ public class @ENTITY@Service extends AlgosServiceImpl {
     /**
      * Ricerca di una entity (la crea se non la trova)
      * All properties
+     * La company può essere facoltativa
+     * Diventa obbligatoria se l'applicazione è AlgosApp.USE_MULTI_COMPANY
+     * Se manca la prende dal Login
+     * Se è obbligatoria e manca anche nel Login, va in errore
      *
-     * @param company     (obbligatoria, se manca usa quella presente in LibSession, se manca anche quella non esegue)
+     * @param company     di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
      * @param code        codice di riferimento (obbligatorio)
      * @param descrizione (facoltativa, non unica)
      *
      * @return la entity trovata o appena creata
      */
-    public @ENTITY@  findOrCrea(Company company, String code, String descrizione) {
-        if (company == null) {
-            company = LibSession.getCompany();
-        }// end of if cycle
-
-        if (company != null) {
-            if (nonEsiste(company, code)) {
-                try { // prova ad eseguire il codice
-                    return (@ENTITY@ ) save(newEntity(company, code, descrizione));
-                } catch (Exception unErrore) { // intercetta l'errore
-                    log.error(unErrore.toString());
-                    return null;
-                }// fine del blocco try-catch
-            } else {
-                return findByCompanyAndCode(company, code);
-            }// end of if/else cycle
+    public @ENTITY@ findOrCrea(Company company, String code, String descrizione) {
+        if (nonEsiste(company, code)) {
+            try { // prova ad eseguire il codice
+                return (@ENTITY@) save(newEntity(company, code, descrizione));
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+                return null;
+            }// fine del blocco try-catch
         } else {
-            log.error("findOrCrea senza Company");
-            return null;
+            return findByCompanyAndCode(company, code);
         }// end of if/else cycle
     }// end of method
 
@@ -119,8 +118,12 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * Eventuali regolazioni iniziali delle property
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
+     * La company può essere facoltativa
+     * Diventa obbligatoria se l'applicazione è AlgosApp.USE_MULTI_COMPANY
+     * Se manca la prende dal Login
+     * Se è obbligatoria e manca anche nel Login, va in errore
      *
-     * @param company     (obbligatoria, se manca usa quella presente in LibSession, se manca anche quella non esegue)
+     * @param company  di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
      * @param code        codice di riferimento (obbligatorio)
      * @param descrizione (facoltativa, non unica)
      *
@@ -128,21 +131,12 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      */
     public @ENTITY@ newEntity(Company company, String code, String descrizione) {
         @ENTITY@ entity = null;
-        if (company == null) {
-            company = LibSession.getCompany();
-        }// end of if cycle
 
-        if (company != null) {
-            if (nonEsiste(company, code)) {
-                entity = new @ENTITY@(
-                        code,
-                        descrizione);
-                entity.setCompany(company);
-            } else {
-                return findByCompanyAndCode(company, code);
-            }// end of if/else cycle
+        if (nonEsiste(company, code)) {
+            entity = @ENTITY@.builder().code(code).descrizione(descrizione).build();
+            entity.company = company != null ? company : login.getCompany();
         } else {
-            log.error("newEntity senza Company");
+            return findByCompanyAndCode(company, code);
         }// end of if/else cycle
 
         return entity;
@@ -183,20 +177,20 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * @return istanza della Entity, null se non trovata
      */
     public @ENTITY@ findByCode(String code) {
-        return findByCompanyAndCode(LibSession.getCompany(), code);
+        return this.findByCompanyAndCode((Company) null, code);
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param company ACompanyRequired.obbligatoria
+     * @param company di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
      * @param code    di riferimento interno (obbligatorio ed unico)
      *
      * @return istanza della Entity, null se non trovata
      */
     public @ENTITY@ findByCompanyAndCode(Company company, String code) {
-        return repository.findByCompanyAndCode(company, code);
+        return repository.findByCompanyAndCode(company != null ? company : login.getCompany(), code);
     }// end of method
 
 
@@ -208,21 +202,11 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      * @return lista ordinata di tutte le entities
      */
     public List findAll() {
-        if (LibSession.isDeveloper()) {
+        if (login.isDeveloper()) {
             return repository.findByOrderByCodeAsc();
-        }// end of if cycle
-
-        return null;
-    }// end of method
-
-
-    /**
-     * Returns all instances of the current company.
-     *
-     * @return selected entities
-     */
-    public List findAllByCompany() {
-        return findAllByCompany(LibSession.getCompany());
+        } else {
+            return repository.findByCompanyOrderByCodeAsc(login.getCompany());
+        }// end of if/else cycle
     }// end of method
 
 
@@ -246,6 +230,7 @@ public class @ENTITY@Service extends AlgosServiceImpl {
     }// end of method
 
 
+
     /**
      * Saves a given entity.
      * Use the returned instance for further operations
@@ -257,14 +242,10 @@ public class @ENTITY@Service extends AlgosServiceImpl {
      */
     @Override
     public AEntity save(AEntity entityBean) throws Exception {
-        Company company = ((ACompanyEntity) entityBean).getCompany();
+        Company company = ((ACEntity) entityBean).getCompany();
         String code = ((@ENTITY@) entityBean).getCode();
 
-        if (entityBean == null) {
-            return null;
-        }// end of if cycle
-
-        if (LibText.isValid(entityBean.id)) {
+        if (text.isValid(entityBean.id)) {
             return super.save(entityBean);
         } else {
             if (nonEsiste(company, code)) {

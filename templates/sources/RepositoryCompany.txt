@@ -1,10 +1,10 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
-@IMPORT_COST@
+
 import com.vaadin.spring.annotation.SpringComponent;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import it.algos.springvaadin.lib.Cost;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.entity.company.Company;
 
 import java.util.List;

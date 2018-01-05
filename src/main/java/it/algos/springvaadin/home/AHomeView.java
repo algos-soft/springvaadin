@@ -23,6 +23,7 @@ import it.algos.springvaadin.menu.MenuHome;
 import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.AResourceService;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,10 @@ public class AHomeView extends AView {
      */
     @Autowired
     public ALogin login;
+
+
+    @Autowired
+    public AResourceService resource;
 
 
     /**
@@ -122,6 +127,7 @@ public class AHomeView extends AView {
 
 
     private Layout getImage() {
+        String nomeRisorsaConSuffisso="amb3.jpg";
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(false);
         layout.setSizeFull();
@@ -131,8 +137,7 @@ public class AHomeView extends AView {
         int lar = ((Double)(larImage * delta)).intValue();
         int alt =  ((Double)(altImage * delta)).intValue();
 
-        Resource resource = LibResource.getImgResource("amb3.jpg");
-        Image image = LibImage.getImage(resource);
+        Image image = resource.getImage(nomeRisorsaConSuffisso);
         image.setWidth(lar, Unit.PIXELS);
         image.setHeight(alt, Unit.PIXELS);
 //        layout.setWidth(650 * 2, Unit.PIXELS);

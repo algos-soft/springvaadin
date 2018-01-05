@@ -40,8 +40,6 @@
         <property name="pathEntity" value="${pathAlgos}/${nomeBaseFrameworkLower}/${dirEntity}"/>
         <property name="pathLib" value="${pathAlgos}/${nomeBaseFrameworkLower}/${dirLib}"/>
         <property name="pathPack" value="${pathEntity}/${newPackage}"/>
-
-        <property name="entitySuperclass" value="AEntity"/>
     </target>
 
 
@@ -50,7 +48,6 @@
         <property name="thisProject" value="thisProject"/>
         <property name="newPackage" value="newPackage"/>
         <property name="newEntiy" value="newEntiy"/>
-        <property name="entitySuperclass" value="entitySuperclass"/>
         <property name="companyRequired" value="companyRequired"/>
         <property name="tag" value="ACost.TAG_${newTag}"/>
         <property name="tagView" value="${newTag}"/>
@@ -125,7 +122,7 @@
     </target>
 
     <target name="entity" depends="init">
-        <property name="srcFile" value="${pathSrc}/${tagEntity}${tagTxt}"/>
+        <property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>
         <property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>
         <ant antfile="copyFile.xml" target="copy"/>
     </target>
@@ -149,7 +146,7 @@
     </target>
 
     <target name="repository" depends="init">
-        <property name="srcFile" value="${pathSrc}/${tagRepository}${tagTxt}"/>
+        <property name="srcFile" value="${pathSrc}/${tagRepositorySrc}${tagTxt}"/>
         <property name="destFile" value="${pathPack}/${newEntity}${tagRepository}${tagJava}"/>
         <ant antfile="copyFile.xml" target="copy"/>
     </target>
@@ -178,7 +175,10 @@
 
 
     <target name="allNoCompany" depends="init,fixVaadin">
+        <property name="entitySuperclass" value="AEntity"/>
+        <property name="tagEntitySrc" value="${tagEntity}"/>
         <property name="tagServiceSrc" value="${tagService}"/>
+        <property name="tagRepositorySrc" value="${tagRepository}"/>
         <antcall target="creaDir">
         </antcall>
         <antcall target="cost">
@@ -191,7 +191,10 @@
 
 
     <target name="allCompany" depends="init,fixVaadin">
+        <property name="entitySuperclass" value="ACEntity"/>
+        <property name="tagEntitySrc" value="${tagEntity}Company"/>
         <property name="tagServiceSrc" value="${tagService}Company"/>
+        <property name="tagRepositorySrc" value="${tagRepository}Company"/>
         <antcall target="creaDir">
         </antcall>
         <antcall target="cost">

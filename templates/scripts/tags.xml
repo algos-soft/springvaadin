@@ -10,6 +10,7 @@
     <property name="tagList" value="List"/>
     <property name="tagPresenter" value="Presenter"/>
     <property name="tagRepository" value="Repository"/>
+    <property name="tagEntity" value="Entity"/>
     <property name="tagService" value="Service"/>
     <property name="dirEntity" value="entity"/>
     <property name="dirLib" value="lib"/>

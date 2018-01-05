@@ -137,7 +137,7 @@ public class AColumnService {
                 width = width > 0 ? width : WIDTH_BYTE;
                 break;
             default:
-                colonna.setWidth(WIDTH_TEXT_NORMAL);
+                width = width > 0 ? width : WIDTH_TEXT_NORMAL;
                 break;
         } // end of switch statement
         colonna.setWidth(width);

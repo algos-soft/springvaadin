@@ -6,7 +6,7 @@ import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibResource;
 import it.algos.springvaadin.service.AArrayService;
-import it.algos.springvaadin.service.AFileService;
+import it.algos.springvaadin.service.AResourceService;
 import it.algos.springvaadin.service.ATextService;
 import it.algos.springvaadin.service.IAService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class StatoData extends AData {
     private StatoService service;
 
     @Autowired
-    public AFileService file;
+    public AResourceService resource;
 
     @Autowired
     public AArrayService array;
@@ -83,7 +83,7 @@ public class StatoData extends AData {
      */
     private void creaStati() {
         String fileName = "Stati";
-        List<String> righe = file.readText(fileName);
+        List<String> righe = resource.readText(fileName);
 
         if (array.isValid(righe)) {
             service.deleteAll();
@@ -117,7 +117,7 @@ public class StatoData extends AData {
         }// end of if cycle
         if (parti.length > 2) {
             alfaTre = parti[2];
-            bandiera = file.getImgBytes(alfaTre.toUpperCase() + suffix);
+            bandiera = resource.getImgBytes(alfaTre.toUpperCase() + suffix);
         }// end of if cycle
         if (parti.length > 3) {
             numerico = parti[3];

@@ -21,6 +21,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     public User findByNickname(String nickname);
 
+    public User findByCompanyAndNickname(Company company, String nickname);
+
     public List<User> findByOrderByNicknameAsc();
 
     public List<User> findByCompanyOrderByNicknameAsc(Company company);
