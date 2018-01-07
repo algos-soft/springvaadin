@@ -2,6 +2,7 @@ package it.algos.springvaadin.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.entity.logtype.LogtypeData;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleData;
 import it.algos.springvaadin.entity.role.RoleService;
@@ -49,6 +50,13 @@ public class ABoot {
     public StatoData stato;
 
 
+    /**
+     * Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public LogtypeData logtype;
+
+
 
     /**
      * Flag per assicurarsi che questa classe di inizializzazione venga eseguita PRIMA di un'eventuale sottoclasse
@@ -88,6 +96,7 @@ public class ABoot {
     protected void iniziaDataStandard() {
         this.role.findOrCrea();
         this.stato.findOrCrea();
+        this.logtype.findOrCrea();
     }// end of method
 
 

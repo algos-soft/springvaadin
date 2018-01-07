@@ -2,6 +2,7 @@ package it.algos.springvaadin.service;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.enumeration.EAFirstChar;
+import it.algos.springvaadin.enumeration.EAPrefType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Scope;
  * Classe di Libreria
  * Gestione e formattazione di stringhe di testo
  */
+@Slf4j
 @SpringComponent
 @Scope("singleton")
 public class ATextService {
@@ -218,7 +220,7 @@ public class ATextService {
     }// end of  method
 
 
-    public  boolean isNumber(String value) {
+    public boolean isNumber(String value) {
         boolean status = true;
         char[] caratteri = value.toCharArray();
 
@@ -240,5 +242,74 @@ public class ATextService {
     private static boolean isNumber(char ch) {
         return ch >= '0' && ch <= '9';
     }// end of method
+
+
+    public String getModifiche(Object oldValue, Object newValue) {
+        return getModifiche(oldValue, newValue, EAPrefType.string);
+    } // fine del metodo
+
+
+    public String getModifiche(Object oldValue, Object newValue, EAPrefType type) {
+        String tatNew = "Aggiunto: ";
+        String tatEdit = "Modificato: ";
+        String tatDel = "Cancellato: ";
+        String tagSep = " -> ";
+
+        if (oldValue == null && newValue == null) {
+            return "";
+        }// end of if cycle
+
+        if (oldValue instanceof String && newValue instanceof String) {
+            if (this.isEmpty((String) oldValue) && isEmpty((String) newValue)) {
+                return "";
+            }// end of if cycle
+
+            if (isValid((String) oldValue) && isEmpty((String) newValue)) {
+                return tatDel + oldValue.toString();
+            }// end of if cycle
+
+            if (isEmpty((String) oldValue) && isValid((String) newValue)) {
+                return tatNew + newValue.toString();
+            }// end of if cycle
+
+            if (!oldValue.equals(newValue)) {
+                return tatEdit + oldValue.toString() + tagSep + newValue.toString();
+            }// end of if cycle
+        } else {
+            if (oldValue != null && newValue != null && oldValue.getClass() == newValue.getClass()) {
+                if (!oldValue.equals(newValue)) {
+                    if (oldValue instanceof byte[]) {
+                        try { // prova ad eseguire il codice
+                            return tatEdit + type.bytesToObject((byte[]) oldValue) + tagSep + type.bytesToObject((byte[]) newValue);
+                        } catch (Exception unErrore) { // intercetta l'errore
+                            log.error(unErrore.toString() + " LibText.getDescrizione() - Sembra che il PrefType non sia del tipo corretto");
+                            return "";
+                        }// fine del blocco try-catch
+                    } else {
+                        return tatEdit + oldValue.toString() + tagSep + newValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+            } else {
+                if (oldValue != null && newValue == null) {
+                    if (oldValue instanceof byte[]) {
+                        return "";
+                    } else {
+                        return tatDel + oldValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+
+                if (newValue != null && oldValue == null) {
+                    if (newValue instanceof byte[]) {
+                        return "";
+                    } else {
+                        return tatNew + newValue.toString();
+                    }// end of if/else cycle
+                }// end of if cycle
+            }// end of if/else cycle
+        }// end of if/else cycle
+
+        return "";
+    }// end of method
+
 
 }// end of class

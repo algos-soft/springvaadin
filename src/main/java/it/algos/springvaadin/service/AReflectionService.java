@@ -6,6 +6,7 @@ import it.algos.springvaadin.annotation.AIColumn;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
 import lombok.extern.slf4j.Slf4j;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Project springvaadin
@@ -56,11 +55,56 @@ public class AReflectionService {
 
 
     /**
+     * Mappa di tutti i valori delle properties di una classe
+     *
+     * @param entityBean oggetto su cui operare la riflessione
+     */
+    public Map<String, Object> getPropertyMap(final Role entityBean) {
+        Map<String, Object> mappa = null;
+        List<String> listaNomi = getAllFieldsName(entityBean.getClass());
+        Object value;
+
+        if (array.isValid(listaNomi)) {
+            mappa = new LinkedHashMap<>();
+            for (String publicFieldName : listaNomi) {
+                value = getPropertyValue(entityBean, publicFieldName);
+                mappa.put(publicFieldName, value);
+            }// end of for cycle
+        }// end of if cycle
+
+        return mappa;
+    }// end of method
+
+
+    /**
+     * Valore della property di una classe
+     *
+     * @param entityBean oggetto su cui operare la riflessione
+     */
+    public Object getPropertyValue(final AEntity entityBean, final String publicFieldName) {
+        Object value = null;
+        Class<?> clazz = entityBean.getClass();
+
+        try { // prova ad eseguire il codice
+            Field field = clazz.getDeclaredField(publicFieldName);
+            if (field != null) {
+                field.setAccessible(true);
+                value = field.get(entityBean);
+            }// end of if cycle
+        } catch (Exception unErrore) { // intercetta l'errore
+        }// fine del blocco try-catch
+
+        return value;
+    }// end of method
+
+
+    /**
      * Valore della property statica di una classe
      *
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public Object getPropertyValue(final Class<?> clazz, final String publicFieldName) {
         Object value = null;
 
@@ -79,6 +123,7 @@ public class AReflectionService {
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public Resource getPropertyRes(final Class<?> clazz, final String publicFieldName) {
         Resource value = null;
         Object obj = getPropertyValue(clazz, publicFieldName);
@@ -97,6 +142,7 @@ public class AReflectionService {
      * @param clazz           classe su cui operare la riflessione
      * @param publicFieldName property statica e pubblica
      */
+    @Deprecated
     public String getPropertyStr(final Class<?> clazz, final String publicFieldName) {
         String value = "";
         Object obj = getPropertyValue(clazz, publicFieldName);
@@ -128,6 +174,38 @@ public class AReflectionService {
         return field;
     }// end of method
 
+
+    /**
+     * Fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    public List<String> getAllFieldsName(Class<? extends AEntity> entityClazz) {
+        List<String> listaNomi = new ArrayList<>();
+        Class<?> clazz = entityClazz;
+        Field[] fieldsArray = null;
+
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
+            try { // prova ad eseguire il codice
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (!field.getName().equals(ACost.PROPERTY_SERIAL)) {
+                        listaNomi.add(field.getName());
+                    }// end of if cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
+
+        return listaNomi;
+    }// end of method
 
 
     /**

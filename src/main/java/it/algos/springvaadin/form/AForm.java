@@ -401,4 +401,11 @@ public abstract class AForm extends AView implements IAForm {
         return this;
     }// end of method
 
+    /**
+     * Entity bean
+     */
+    public AEntity getBean() {
+        return entityBean;
+    }// end of method
+
 }// end of class

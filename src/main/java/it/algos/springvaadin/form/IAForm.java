@@ -61,4 +61,10 @@ public interface IAForm extends IAView {
      */
     public AForm getForm();
 
+
+    /**
+     * Entity bean
+     */
+    public AEntity getBean();
+
 }// end of interface

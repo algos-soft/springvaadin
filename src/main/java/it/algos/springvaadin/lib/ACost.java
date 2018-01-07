@@ -44,6 +44,7 @@ public abstract class ACost {
 
     public final static String TAG_VERS = "vers";
     public final static String TAG_LOG = "log";
+    public final static String TAG_LOGTYPE = "logtype";
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
     public final static String TAG_ROL = "role";
@@ -134,8 +135,10 @@ public abstract class ACost {
     public final static String VIEW_COM_FORM = "companyform";
 	public final static String VIEW_STA_LIST = "statolist";
 	public final static String VIEW_STA_FORM = "statoform";
-	public final static String VIEW_LOG_LIST = "loglist";
-	public final static String VIEW_LOG_FORM = "logform";
+    public final static String VIEW_LOG_LIST = "loglist";
+    public final static String VIEW_LOG_FORM = "logform";
+    public final static String VIEW_LOGTYPE_LIST = "logtypelist";
+    public final static String VIEW_LOGTYPE_FORM = "logtypeform";
 	public final static String TAG_PRO = "prova";
 	public final static String VIEW_PRO_LIST = "provalist";
 	public final static String VIEW_PRO_FORM = "provaform";

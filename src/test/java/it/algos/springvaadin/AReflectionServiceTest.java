@@ -4,7 +4,10 @@ import com.vaadin.server.Resource;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
+import it.algos.springvaadin.entity.role.RoleRepository;
+import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.enumeration.EARoleType;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.lib.LibArray;
 import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.service.AAnnotationService;
@@ -17,10 +20,14 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -57,6 +64,14 @@ public class AReflectionServiceTest extends ATest {
     public ALogin login;
 
 
+    @InjectMocks
+    public Role role;
+
+
+    @InjectMocks
+    public RoleService roleService;
+
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -64,6 +79,8 @@ public class AReflectionServiceTest extends ATest {
         MockitoAnnotations.initMocks(text);
         MockitoAnnotations.initMocks(array);
         MockitoAnnotations.initMocks(login);
+        MockitoAnnotations.initMocks(role);
+        MockitoAnnotations.initMocks(roleService);
         array.text = text;
         annotation.array = array;
         service.annotation = annotation;
@@ -84,9 +101,58 @@ public class AReflectionServiceTest extends ATest {
      */
     @Test
     public void getPropertyValue() {
-        Object value = service.getPropertyValue(ROLE_ENTITY_CLASS, FIELD_NAME_ORDINE);
-        int a = 87;
-        //@todo NON FUNZIONA
+        previstoIntero = 17;
+        previsto = "PippozBelloz";
+        Object value;
+        Role entity = Role.builder().ordine(previstoIntero).code(previsto).build();
+
+        value = service.getPropertyValue(entity, FIELD_NAME_ORDINE);
+        assertNotNull(value);
+        assertTrue(value instanceof Integer);
+        ottenutoIntero = (Integer) value;
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        value = service.getPropertyValue(entity, FIELD_NAME_CODE);
+        assertNotNull(value);
+        assertTrue(value instanceof String);
+        ottenuto = (String) value;
+        assertEquals(previsto, ottenuto);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Mappa di tutti i valori delle properties di una classe
+     *
+     * @param entityBean oggetto su cui operare la riflessione
+     */
+    @Test
+    public void getPropertyMap() {
+        Map previstoMappa;
+        Map ottenutoMappa;
+        previstoIntero = 17;
+        int ottenutoSize;
+        int previstoSize = 6;
+        previsto = "PippozBelloz";
+        Object value;
+        Role entity = Role.builder().ordine(previstoIntero).code(previsto).build();
+
+        ottenutoMappa = service.getPropertyMap(entity);
+        assertNotNull(ottenutoMappa);
+        ottenutoSize = ottenutoMappa.size();
+        assertEquals(previstoSize, ottenutoSize);
+
+        value = ottenutoMappa.get(FIELD_NAME_ORDINE);
+        assertNotNull(value);
+        assertTrue(value instanceof Integer);
+        ottenutoIntero = (Integer) value;
+        assertEquals(previstoIntero, ottenutoIntero);
+
+        value = ottenutoMappa.get(FIELD_NAME_CODE);
+        assertNotNull(value);
+        assertTrue(value instanceof String);
+        ottenuto = (String) value;
+        assertEquals(previsto, ottenuto);
     }// end of single test
 
 
@@ -493,21 +559,23 @@ public class AReflectionServiceTest extends ATest {
     }// end of single test
 
 
-//    @SuppressWarnings("javadoc")
-//    /**
-//     * All field names di una EntityClass
-//     *
-//     * @param entityClazz su cui operare la riflessione
-//     *
-//     * @return tutte i fieldNames editabili, elencati in ordine di inserimento nella AEntity
-//     */
-//    @Test
-//    public void getFieldsNameEntityOnly() {
-//        List<String> listaNomiOttenuta = service.getFieldsNameEntityOnly(ROLE_ENTITY_CLASS);
-//        assertNotNull(listaNomiOttenuta);
-//        previstoIntero = 2;
-//        ottenutoIntero = listaNomiOttenuta.size();
-//        assertEquals(previstoIntero, ottenutoIntero);
-//    }// end of single test
+    @SuppressWarnings("javadoc")
+    /**
+     * Fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    @Test
+    public void getAllFieldsName() {
+        previstoIntero = 6;
+        ottenutoList = service.getAllFieldsName(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenutoList);
+        ottenutoIntero = ottenutoList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+    }// end of single test
+
 
 }// end of class

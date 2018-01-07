@@ -10,6 +10,7 @@ import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.grid.AGrid;
 import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AColumnService;
@@ -71,6 +72,10 @@ public abstract class AList extends AView implements IAList {
      */
     @Autowired
     protected AColumnService column;
+
+
+    @Autowired
+    protected ALogin login;
 
 //    @Autowired
 //    private APanel panel;

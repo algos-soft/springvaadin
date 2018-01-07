@@ -7,16 +7,18 @@ import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.log.LogService;
+import it.algos.springvaadin.entity.logtype.Logtype;
 import it.algos.springvaadin.entity.role.RoleForm;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EALogLevel;
+import it.algos.springvaadin.enumeration.EAPrefType;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.list.IAList;
-import it.algos.springvaadin.service.AAnnotationService;
-import it.algos.springvaadin.service.AArrayService;
-import it.algos.springvaadin.service.IAService;
+import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.ui.AUIParams;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Project springvaadin
@@ -46,11 +50,29 @@ public abstract class APresenter extends APresenterEvents {
     @Autowired
     public AArrayService array;
 
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
     @Autowired
-    AUIParams params;
+    public AReflectionService reflection;
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public AAnnotationService annotation;
+
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public ATextService text;
 
     @Autowired
-    AAnnotationService annotation;
+    AUIParams params;
 
     /**
      * Il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
@@ -75,6 +97,9 @@ public abstract class APresenter extends APresenterEvents {
      */
     protected IAForm form;
 
+
+    @Autowired
+    private LogService logger;
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -283,10 +308,20 @@ public abstract class APresenter extends APresenterEvents {
      * Usa lo SpringNavigator per cambiare view ed andare alla view AList
      */
     public void registra() {
-        AEntity newModifiedBean = form.commit();
+        AEntity oldBean = getBean();
+        AEntity modifiedBean = form.commit();
+        Map mappa = null;
+        boolean nuovaEntity = false;
 
         try { // prova ad eseguire il codice
-            service.save(newModifiedBean);
+            service.save(modifiedBean);
+            nuovaEntity = text.isEmpty(modifiedBean.id);
+            if (nuovaEntity){
+                logger.logNew(modifiedBean);
+            } else {
+                mappa = chekDifferences(oldBean, modifiedBean);
+                logDifferences(mappa, modifiedBean, nuovaEntity);
+            }// end of if/else cycle
             fireList();
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
@@ -295,6 +330,50 @@ public abstract class APresenter extends APresenterEvents {
 
     }// end of method
 
+
+    public void logDifferences(Map<String, String> mappa, AEntity modifiedBean, boolean nuovaEntity) {
+        String descrizione;
+
+        for (String publicFieldName : mappa.keySet()) {
+            descrizione = modifiedBean + " - " + publicFieldName + "\n" + mappa.get(publicFieldName);
+            logger.logEdit(modifiedBean, descrizione);
+        }// end of for cycle
+
+    }// end of method
+
+
+    public AEntity getBean() {
+        AEntity oldBean = null;
+        String oldId = form.getBean().getId();
+        if (text.isValid(oldId)) {
+            oldBean = (AEntity) service.find(oldId);
+        }// end of if cycle
+        return oldBean;
+    }// end of method
+
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
+        return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
+    }// end of method
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
+        Map<String, String> mappa = new LinkedHashMap();
+        List<String> listaNomi = reflection.getAllFieldsName(oldBean.getClass());
+        Object oldValue;
+        Object newValue;
+        String descrizione = "";
+
+        for (String publicFieldName : listaNomi) {
+//            oldValue = reflection.getPropertyValue(oldBean.getClass(), publicFieldName);
+//            newValue = reflection.getPropertyValue(modifiedBean.getClass(), publicFieldName);
+//            descrizione = text.getModifiche(oldValue, newValue, type);
+            if (text.isValid(descrizione)) {
+                mappa.put(publicFieldName, descrizione);
+            }// end of if cycle
+        }// end of for cycle
+
+        return mappa;
+    }// end of method
 
     /**
      * Regola lo stato dei bottoni del Form

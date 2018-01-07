@@ -4,6 +4,7 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -26,6 +27,17 @@ public interface IAService {
 
 
     /**
+     * Retrieves an entity by its id.
+     *
+     * @param id must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public AEntity find(String id);
+
+    /**
      * Returns all entities of the type.
      * <p>
      * Senza filtri
@@ -38,6 +50,7 @@ public interface IAService {
      * @return all entities
      */
     public List<? extends AEntity> findAll();
+
 
     /**
      * Colonne visibili (e ordinate) nella Grid

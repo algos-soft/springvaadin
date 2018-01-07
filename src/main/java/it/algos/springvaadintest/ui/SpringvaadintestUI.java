@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.springvaadin.entity.logtype.LogtypeList;
 import it.algos.springvaadin.entity.log.LogList;
 import it.algos.springvaadin.entity.stato.StatoList;
 import it.algos.springvaadin.app.AlgosApp;
@@ -116,6 +117,7 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+		menuLayout.addView(LogtypeList.class);
 		menuLayout.addView(LogList.class);
 		menuLayout.addView(StatoList.class);
         if (AlgosApp.USE_MULTI_COMPANY) {

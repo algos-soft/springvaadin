@@ -64,7 +64,7 @@ public class RoleService extends AService {
      * Spring costruisce al volo, quando serve, una implementazione di RoleRepository (come previsto dal @Qualifier)
      * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
      */
-    private RoleRepository repository;
+    public RoleRepository repository;
 
 
     /**
@@ -86,12 +86,12 @@ public class RoleService extends AService {
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public Role findOrCrea(String codice) {
-        return this.findOrCrea(0, codice);
+    public Role findOrCrea(String code) {
+        return this.findOrCrea(0, code);
     }// end of method
 
 
@@ -100,20 +100,20 @@ public class RoleService extends AService {
      * All properties
      *
      * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
-     * @param codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public Role findOrCrea(int ordine, String codice) {
-        if (nonEsiste(codice)) {
+    public Role findOrCrea(int ordine, String code) {
+        if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Role) save(newEntity(ordine, codice));
+                return (Role) save(newEntity(ordine, code));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
             }// fine del blocco try-catch
         } else {
-            return findByCode(codice);
+            return findByCode(code);
         }// end of if/else cycle
     }// end of method
 
@@ -138,17 +138,17 @@ public class RoleService extends AService {
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
-     * @param codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Role newEntity(int ordine, String codice) {
+    public Role newEntity(int ordine, String code) {
         Role entity = null;
 
-        if (nonEsiste(codice)) {
-            entity = Role.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(codice).build();
+        if (nonEsiste(code)) {
+            entity = Role.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(code).build();
         } else {
-            return findByCode(codice);
+            return findByCode(code);
         }// end of if/else cycle
 
         return entity;
@@ -158,24 +158,24 @@ public class RoleService extends AService {
     /**
      * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
      *
-     * @param codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return vero se non esiste, false se trovata
      */
-    public boolean nonEsiste(String codice) {
-        return findByCode(codice) == null;
+    public boolean nonEsiste(String code) {
+        return findByCode(code) == null;
     }// end of method
 
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
      *
-     * @param codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Role findByCode(String codice) {
-        return repository.findByCode(codice);
+    public Role findByCode(String code) {
+        return repository.findByCode(code);
     }// end of method
 
 

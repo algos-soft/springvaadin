@@ -93,6 +93,20 @@ public abstract class AService implements IAService {
 
 
     /**
+     * Retrieves an entity by its id.
+     *
+     * @param id must not be {@literal null}.
+     *
+     * @return the entity with the given id or {@literal null} if none found
+     *
+     * @throws IllegalArgumentException if {@code id} is {@literal null}
+     */
+    public AEntity find(String id){
+        return (AEntity) repository.findOne(id);
+    }// end of method
+
+
+    /**
      * Returns all entities of the type.
      * <p>
      * Senza filtri
