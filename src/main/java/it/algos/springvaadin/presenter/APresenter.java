@@ -310,36 +310,36 @@ public abstract class APresenter extends APresenterEvents {
     public void registra() {
         AEntity oldBean = getBean();
         AEntity modifiedBean = form.commit();
-        Map mappa = null;
-        boolean nuovaEntity = false;
 
         try { // prova ad eseguire il codice
-            service.save(modifiedBean);
-            nuovaEntity = text.isEmpty(modifiedBean.id);
-            if (nuovaEntity){
-                logger.logNew(modifiedBean);
-            } else {
-                mappa = chekDifferences(oldBean, modifiedBean);
-                logDifferences(mappa, modifiedBean, nuovaEntity);
-            }// end of if/else cycle
+            service.save(oldBean,modifiedBean);
             fireList();
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
             Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
         }// fine del blocco try-catch
-
     }// end of method
 
 
-    public void logDifferences(Map<String, String> mappa, AEntity modifiedBean, boolean nuovaEntity) {
-        String descrizione;
-
-        for (String publicFieldName : mappa.keySet()) {
-            descrizione = modifiedBean + " - " + publicFieldName + "\n" + mappa.get(publicFieldName);
-            logger.logEdit(modifiedBean, descrizione);
-        }// end of for cycle
-
-    }// end of method
+//    public void logDifferences(Map<String, String> mappa, AEntity modifiedBean, boolean nuovaEntity) {
+//        String note;
+//        String aCapo = "\n";
+//        String clazz = text.primaMaiuscola(modifiedBean.getClass().getSimpleName());
+//
+//        for (String publicFieldName : mappa.keySet()) {
+//            note = "";
+//            note += clazz;
+//            note += ": ";
+//            note += modifiedBean;
+//            note += aCapo;
+//            note += "Property: ";
+//            note += text.primaMaiuscola(publicFieldName);
+//            note += aCapo;
+//            note += mappa.get(publicFieldName);
+//            logger.logEdit(modifiedBean, note);
+//        }// end of for cycle
+//
+//    }// end of method
 
 
     public AEntity getBean() {
@@ -352,28 +352,28 @@ public abstract class APresenter extends APresenterEvents {
     }// end of method
 
 
-    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
-        return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
-    }// end of method
-
-    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
-        Map<String, String> mappa = new LinkedHashMap();
-        List<String> listaNomi = reflection.getAllFieldsName(oldBean.getClass());
-        Object oldValue;
-        Object newValue;
-        String descrizione = "";
-
-        for (String publicFieldName : listaNomi) {
-//            oldValue = reflection.getPropertyValue(oldBean.getClass(), publicFieldName);
-//            newValue = reflection.getPropertyValue(modifiedBean.getClass(), publicFieldName);
+//    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
+//        return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
+//    }// end of method
+//
+//    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
+//        Map<String, String> mappa = new LinkedHashMap();
+//        List<String> listaNomi = reflection.getAllFieldsNameNoCrono(oldBean.getClass());
+//        Object oldValue;
+//        Object newValue;
+//        String descrizione = "";
+//
+//        for (String publicFieldName : listaNomi) {
+//            oldValue = reflection.getPropertyValue(oldBean, publicFieldName);
+//            newValue = reflection.getPropertyValue(modifiedBean, publicFieldName);
 //            descrizione = text.getModifiche(oldValue, newValue, type);
-            if (text.isValid(descrizione)) {
-                mappa.put(publicFieldName, descrizione);
-            }// end of if cycle
-        }// end of for cycle
-
-        return mappa;
-    }// end of method
+//            if (text.isValid(descrizione)) {
+//                mappa.put(publicFieldName, descrizione);
+//            }// end of if cycle
+//        }// end of for cycle
+//
+//        return mappa;
+//    }// end of method
 
     /**
      * Regola lo stato dei bottoni del Form

@@ -91,6 +91,94 @@ public class AReflectionServiceTest extends ATest {
         AlgosApp.USE_MULTI_COMPANY = true;
     }// end of method
 
+    @SuppressWarnings("javadoc")
+    /**
+     * Nomi dei fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa la property: PROPERTY_SERIAL
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    @Test
+    public void getAllFieldsName() {
+        previstoIntero = 6;
+        ottenutoList = service.getAllFieldsName(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenutoList);
+        ottenutoIntero = ottenutoList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+    }// end of single test
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Nomi dei fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa le properties: PROPERTY_SERIAL, PROPERTY_CREAZIONE, PROPERTY_MODIFICA
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    @Test
+    public void getAllFieldsNameNoCrono() {
+        previstoIntero = 4;
+        ottenutoList = service.getAllFieldsNameNoCrono(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenutoList);
+        ottenutoIntero = ottenutoList.size();
+        assertEquals(previstoIntero, ottenutoIntero);
+    }// end of single test
+
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa la property: PROPERTY_SERIAL
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    @Test
+    public void getAllFields() {
+        int ottenutoSize;
+        int previstoSize = 6;
+
+        ottenutoFieldList = service.getAllFields(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenutoFieldList);
+        ottenutoSize = ottenutoFieldList.size();
+        assertEquals(previstoSize, ottenutoSize);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa le properties: PROPERTY_SERIAL, PROPERTY_CREAZIONE, PROPERTY_MODIFICA
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    @Test
+    public void getAllFieldsNoCrono() {
+        int ottenutoSize;
+        int previstoSize = 4;
+
+        ottenutoFieldList = service.getAllFieldsNoCrono(ROLE_ENTITY_CLASS);
+        assertNotNull(ottenutoFieldList);
+        ottenutoSize = ottenutoFieldList.size();
+        assertEquals(previstoSize, ottenutoSize);
+    }// end of single test
+
+
 
     @SuppressWarnings("javadoc")
     /**
@@ -101,10 +189,13 @@ public class AReflectionServiceTest extends ATest {
      */
     @Test
     public void getPropertyValue() {
+        String previstoNote = "Note seminascoste";
+        String ottenutoNote;
         previstoIntero = 17;
         previsto = "PippozBelloz";
         Object value;
         Role entity = Role.builder().ordine(previstoIntero).code(previsto).build();
+        entity.note = previstoNote;
 
         value = service.getPropertyValue(entity, FIELD_NAME_ORDINE);
         assertNotNull(value);
@@ -117,6 +208,12 @@ public class AReflectionServiceTest extends ATest {
         assertTrue(value instanceof String);
         ottenuto = (String) value;
         assertEquals(previsto, ottenuto);
+
+        value = service.getPropertyValue(entity, FIELD_NAME_NOTE);
+        assertNotNull(value);
+        assertTrue(value instanceof String);
+        ottenutoNote = (String) value;
+        assertEquals(previstoNote, ottenutoNote);
     }// end of single test
 
 
@@ -556,25 +653,6 @@ public class AReflectionServiceTest extends ATest {
         reflectionJavaField = ottenutoFieldList.get(8);
         ottenuto = reflectionJavaField.getName();
         assertEquals(previsto, ottenuto);
-    }// end of single test
-
-
-    @SuppressWarnings("javadoc")
-    /**
-     * Fields dichiarati nella Entity
-     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
-     *
-     * @param entityClazz da cui estrarre i fields
-     *
-     * @return lista di fields della Entity e di tutte le supeclassi
-     */
-    @Test
-    public void getAllFieldsName() {
-        previstoIntero = 6;
-        ottenutoList = service.getAllFieldsName(ROLE_ENTITY_CLASS);
-        assertNotNull(ottenutoList);
-        ottenutoIntero = ottenutoList.size();
-        assertEquals(previstoIntero, ottenutoIntero);
     }// end of single test
 
 

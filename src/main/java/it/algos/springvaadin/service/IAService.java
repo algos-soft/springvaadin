@@ -125,6 +125,19 @@ public interface IAService {
 
 
     /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param oldBean      previus state
+     * @param modifiedBean to be saved
+     *
+     * @return the saved entity
+     */
+    public AEntity save(AEntity oldBean, AEntity modifiedBean) throws Exception;
+
+
+    /**
      * Deletes a given entity.
      *
      * @param entityBean must not be null

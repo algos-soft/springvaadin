@@ -58,12 +58,12 @@ public class ABoot {
 
 
 
-    /**
-     * Flag per assicurarsi che questa classe di inizializzazione venga eseguita PRIMA di un'eventuale sottoclasse
-     * Questo dovuto al fatto che l'ordine di 'chiamata' delle classi che usano l'Annotation @EventListener,
-     * non è controllabile
-     */
-    protected boolean classeAlgosBootAncoraDaEseguire = true;
+//    /**
+//     * Flag per assicurarsi che questa classe di inizializzazione venga eseguita PRIMA di un'eventuale sottoclasse
+//     * Questo dovuto al fatto che l'ordine di 'chiamata' delle classi che usano l'Annotation @EventListener,
+//     * non è controllabile
+//     */
+//    protected boolean classeAlgosBootAncoraDaEseguire = true;
 
 
     /**
@@ -79,25 +79,17 @@ public class ABoot {
      * <p>
      * Stampa a video (productionMode) i valori per controllo
      */
-    @EventListener
+//    @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Punto di ingresso del programma @EventListener ABoot.onApplicationEvent() ");
-
-        if (this.classeAlgosBootAncoraDaEseguire) {
-            this.iniziaDataStandard();
-            this.inizializzaValoriDefault();
-        }// end of if cycle
+//        log.info("Algos - Servlet and context. La sessione NON è ancora attiva. Punto di ingresso del programma @EventListener ABoot.onApplicationEvent() ");
+//
+////        if (this.classeAlgosBootAncoraDaEseguire) {
+//            this.inizializzaValoriDefault();
+//            this.iniziaDataStandard();
+////        }// end of if cycle
     }// end of method
 
 
-    /**
-     * Inizializzazione dei dati standard di alcune collections sul DB
-     */
-    protected void iniziaDataStandard() {
-        this.role.findOrCrea();
-        this.stato.findOrCrea();
-        this.logtype.findOrCrea();
-    }// end of method
 
 
     /**
@@ -109,7 +101,17 @@ public class ABoot {
         this.printBefore(Boot.generico);
         this.genericFixAndPrint();
         this.printAfter(Boot.generico);
-        this.classeAlgosBootAncoraDaEseguire = false;
+//        this.classeAlgosBootAncoraDaEseguire = false;
+    }// end of method
+
+
+    /**
+     * Inizializzazione dei dati standard di alcune collections sul DB
+     */
+    protected void iniziaDataStandard() {
+        this.logtype.findOrCrea();
+        this.role.findOrCrea();
+        this.stato.findOrCrea();
     }// end of method
 
 
@@ -120,6 +122,9 @@ public class ABoot {
      * Stampa a video (productionMode) i valori per controllo
      */
     private void genericFixAndPrint() {
+        AlgosApp.SETUP_TIME = true;
+        log.info("AlgosApp.SETUP_TIME: " + AlgosApp.SETUP_TIME);
+
         AlgosApp.USE_DEBUG = false;
         log.info("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 

@@ -31,6 +31,9 @@ public abstract class ACost {
     public final static String COMPANY_CODE = "code";
     public final static String COMPANY_UNICO = "codeCompanyUnico";
 
+    private final static String[] esclusiAll = {PROPERTY_SERIAL, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
+    public final static List<String> ESCLUSI_ALL = Arrays.asList(esclusiAll);
+
     private final static String[] esclusiList = {PROPERTY_ID, PROPERTY_SERIAL, PROPERTY_COMPANY, PROPERTY_NOTE, PROPERTY_CREAZIONE, PROPERTY_MODIFICA};
     public final static List<String> ESCLUSI_LIST = Arrays.asList(esclusiList);
 
@@ -133,13 +136,13 @@ public abstract class ACost {
     public final static String TAG_COM = "company";
     public final static String VIEW_COM_LIST = "companylist";
     public final static String VIEW_COM_FORM = "companyform";
-	public final static String VIEW_STA_LIST = "statolist";
-	public final static String VIEW_STA_FORM = "statoform";
+    public final static String VIEW_STA_LIST = "statolist";
+    public final static String VIEW_STA_FORM = "statoform";
     public final static String VIEW_LOG_LIST = "loglist";
     public final static String VIEW_LOG_FORM = "logform";
     public final static String VIEW_LOGTYPE_LIST = "logtypelist";
     public final static String VIEW_LOGTYPE_FORM = "logtypeform";
-	public final static String TAG_PRO = "prova";
-	public final static String VIEW_PRO_LIST = "provalist";
-	public final static String VIEW_PRO_FORM = "provaform";
+    public final static String TAG_PRO = "prova";
+    public final static String VIEW_PRO_LIST = "provalist";
+    public final static String VIEW_PRO_FORM = "provaform";
 }// end of static class

@@ -56,7 +56,7 @@ public abstract class AEntity implements Serializable {
      */
     @AIField(type = EAFieldType.textarea, widthEM = 24, admin = EAFieldAccessibility.allways, user = EAFieldAccessibility.showOnly)
     @AIColumn()
-    public String note;
+    public String note = "";
 
 
     /**

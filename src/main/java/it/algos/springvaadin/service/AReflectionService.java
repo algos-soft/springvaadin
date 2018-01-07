@@ -84,14 +84,17 @@ public class AReflectionService {
     public Object getPropertyValue(final AEntity entityBean, final String publicFieldName) {
         Object value = null;
         Class<?> clazz = entityBean.getClass();
+        List<Field> fieldsList = getAllFieldsNoCrono(entityBean.getClass());
 
         try { // prova ad eseguire il codice
-            Field field = clazz.getDeclaredField(publicFieldName);
-            if (field != null) {
-                field.setAccessible(true);
-                value = field.get(entityBean);
-            }// end of if cycle
+            for (Field field : fieldsList) {
+                if (field.getName().equals(publicFieldName)) {
+                    field.setAccessible(true);
+                    value = field.get(entityBean);
+                }// end of if cycle
+            }// end of for cycle
         } catch (Exception unErrore) { // intercetta l'errore
+            int a = 87;
         }// fine del blocco try-catch
 
         return value;
@@ -178,6 +181,75 @@ public class AReflectionService {
     /**
      * Fields dichiarati nella Entity
      * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa la property: PROPERTY_SERIAL
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    public List<Field> getAllFields(Class<? extends AEntity> entityClazz) {
+        List<Field> listaFields = new ArrayList<>();
+        Class<?> clazz = entityClazz;
+        Field[] fieldsArray = null;
+
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
+            try { // prova ad eseguire il codice
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (!field.getName().equals(ACost.PROPERTY_SERIAL)) {
+                        listaFields.add(field);
+                    }// end of if cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
+
+        return listaFields;
+    }// end of method
+
+
+    /**
+     * Fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa le properties: PROPERTY_SERIAL, PROPERTY_CREAZIONE, PROPERTY_MODIFICA
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    public List<Field> getAllFieldsNoCrono(Class<? extends AEntity> entityClazz) {
+        List<Field> listaFields = new ArrayList<>();
+        Class<?> clazz = entityClazz;
+        Field[] fieldsArray = null;
+
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
+            try { // prova ad eseguire il codice
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (!ACost.ESCLUSI_ALL.contains(field.getName())) {
+                        listaFields.add(field);
+                    }// end of if cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
+
+        return listaFields;
+    }// end of method
+
+
+    /**
+     * Nomi dei fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa la property: PROPERTY_SERIAL
      * Non ordinati
      *
      * @param entityClazz da cui estrarre i fields
@@ -195,6 +267,40 @@ public class AReflectionService {
                 fieldsArray = clazz.getDeclaredFields();
                 for (Field field : fieldsArray) {
                     if (!field.getName().equals(ACost.PROPERTY_SERIAL)) {
+                        listaNomi.add(field.getName());
+                    }// end of if cycle
+                }// end of for cycle
+            } catch (Exception unErrore) { // intercetta l'errore
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+            clazz = clazz.getSuperclass();
+        }// end of while cycle
+
+        return listaNomi;
+    }// end of method
+
+
+    /**
+     * Nomi dei fields dichiarati nella Entity
+     * Comprende la entity e tutte le superclassi (fino a ACEntity e AEntity)
+     * Esclusa le properties: PROPERTY_SERIAL, PROPERTY_CREAZIONE, PROPERTY_MODIFICA
+     * Non ordinati
+     *
+     * @param entityClazz da cui estrarre i fields
+     *
+     * @return lista di fields della Entity e di tutte le supeclassi
+     */
+    public List<String> getAllFieldsNameNoCrono(Class<? extends AEntity> entityClazz) {
+        List<String> listaNomi = new ArrayList<>();
+        Class<?> clazz = entityClazz;
+        Field[] fieldsArray = null;
+
+        //--recupera tutti i fields della entity e di tutte le superclassi
+        while (clazz != Object.class) {
+            try { // prova ad eseguire il codice
+                fieldsArray = clazz.getDeclaredFields();
+                for (Field field : fieldsArray) {
+                    if (!ACost.ESCLUSI_ALL.contains(field.getName())) {
                         listaNomi.add(field.getName());
                     }// end of if cycle
                 }// end of for cycle

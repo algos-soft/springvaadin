@@ -1,6 +1,7 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.HasValue;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
@@ -8,9 +9,11 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.field.ATextAreaField;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AFieldService;
+import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.toolbar.AFormToolbar;
 import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.toolbar.AToolbar;
@@ -24,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Project springvaadin
@@ -43,6 +47,11 @@ public abstract class AForm extends AView implements IAForm {
 //    protected AFormToolbar toolbar;
     public AEntity entityBean;
 
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+    @Autowired
+    public AReflectionService reflection;
 
     /**
      * Caption informativa posizionata prima del body con lo scorrevole dei fileds
@@ -368,12 +377,21 @@ public abstract class AForm extends AView implements IAForm {
      */
     @Override
     public AEntity commit() {
+        Object value = null;
+        ATextAreaField textArea;
+
         try { // prova ad eseguire il codice
             binder.writeBean(entityBean);
 
             //--@todo PATCH perché il binder non prende (ancora) i fields della superclasse
-//            AField field = getField("note");
-//            entityBean.note = (String) field.getValue();
+            for (Object obj : binder.getFields().toArray()) {
+                if (obj instanceof ATextAreaField) {
+                    textArea = (ATextAreaField) obj;
+                    value = textArea.getValue();
+                }// end of if cycle
+            }// end of for cycle
+
+            entityBean.note = (String) value;
         } catch (Exception unErrore) { // intercetta l'errore
             int errore = 87;
         }// fine del blocco try-catch

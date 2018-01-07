@@ -67,6 +67,7 @@ public class LogtypeData extends AData {
      * Creazione dei ruoli
      */
     public void creaRuoli() {
+        service.findOrCrea(LogtypeService.SETUP);
         service.findOrCrea(LogtypeService.NEW);
         service.findOrCrea(LogtypeService.EDIT);
         service.findOrCrea(LogtypeService.DELETE);

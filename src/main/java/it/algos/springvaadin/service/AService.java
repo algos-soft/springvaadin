@@ -5,10 +5,8 @@ import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.enumeration.EACompanyRequired;
-import it.algos.springvaadin.enumeration.EAFormButton;
-import it.algos.springvaadin.enumeration.EAListButton;
+import it.algos.springvaadin.entity.log.LogService;
+import it.algos.springvaadin.enumeration.*;
 import it.algos.springvaadin.exception.NotCompanyEntityException;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
@@ -20,9 +18,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Project springvaadin
@@ -63,6 +59,8 @@ public abstract class AService implements IAService {
     @Autowired
     public ALogin login;
 
+    @Autowired
+    private LogService logger;
 
     //--la repository dei dati viene iniettata dal costruttore della sottoclasse concreta
     public MongoRepository repository;
@@ -101,7 +99,7 @@ public abstract class AService implements IAService {
      *
      * @throws IllegalArgumentException if {@code id} is {@literal null}
      */
-    public AEntity find(String id){
+    public AEntity find(String id) {
         return (AEntity) repository.findOne(id);
     }// end of method
 
@@ -239,8 +237,7 @@ public abstract class AService implements IAService {
      */
     protected List<Field> getFormFields(List<String> listaNomi) {
         return reflection.getFormFields(entityClass, listaNomi);
-        }// end of method
-
+    }// end of method
 
 
     /**
@@ -342,45 +339,138 @@ public abstract class AService implements IAService {
      * @return the saved entity
      */
     public AEntity save(AEntity entityBean) throws Exception {
-        EACompanyRequired tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
+        return save((AEntity) null, entityBean);
+    }// end of method
+
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param oldBean      previus state
+     * @param modifiedBean to be saved
+     *
+     * @return the saved entity
+     */
+    public AEntity save(AEntity oldBean, AEntity modifiedBean) throws Exception {
+        AEntity savedBean = null;
+        EACompanyRequired tableCompanyRequired = annotation.getCompanyRequired(modifiedBean.getClass());
+        Map mappa = null;
+        boolean nuovaEntity = false;
 
         //--opportunità di usare una idKey specifica
-        if (text.isEmpty(entityBean.id)) {
-            creaIdKeySpecifica(entityBean);
+        if (text.isEmpty(modifiedBean.id)) {
+            creaIdKeySpecifica(modifiedBean);
         }// end of if cycle
 
-
         //--inserisce il valore della data attuale per una nuova scheda
-        if (entityBean.creazione == null) {
-            entityBean.creazione = LocalDateTime.now();
+        if (modifiedBean.creazione == null) {
+            modifiedBean.creazione = LocalDateTime.now();
         }// end of if cycle
 
         // --inserisce il valore della data attuale per la modifica di una scheda
-        entityBean.modifica = LocalDateTime.now();
+        modifiedBean.modifica = LocalDateTime.now();
 
         //--Controlla se l'applicazione usa le company
         if (AlgosApp.USE_MULTI_COMPANY) {
             switch (tableCompanyRequired) {
                 case nonUsata:
-                    return (AEntity) repository.save(entityBean);
+                    savedBean = (AEntity) repository.save(modifiedBean);
                 case facoltativa:
-                    return (AEntity) repository.save(entityBean);
+                    savedBean = (AEntity) repository.save(modifiedBean);
                 case obbligatoria:
-                    if (checkCompany(entityBean, false)) {
-                        return (AEntity) repository.save(entityBean);
+                    if (checkCompany(modifiedBean, false)) {
+                        savedBean = (AEntity) repository.save(modifiedBean);
                     } else {
                         log.warn("Entity non creata perché manca la Company (obbligatoria)");
-                        return null;
+                        savedBean = null;
                     }// end of if/else cycle
                 default:
                     log.warn("Switch - caso non definito");
-                    return (AEntity) repository.save(entityBean);
+                    savedBean = (AEntity) repository.save(modifiedBean);
             } // end of switch statement
         } else {
-            return (AEntity) repository.save(entityBean);
+            savedBean = (AEntity) repository.save(modifiedBean);
+        }// end of if/else cycle
+
+        if (!modifiedBean.getClass().getSimpleName().equals("Log")) {
+            nuovaEntity = oldBean == null || text.isEmpty(modifiedBean.id);
+            if (nuovaEntity) {
+                logNewBean(modifiedBean);
+            } else {
+                mappa = chekDifferences(oldBean, modifiedBean);
+                logDifferences(mappa, modifiedBean);
+            }// end of if/else cycle
+        }// end of if cycle
+
+        return savedBean;
+    }// end of method
+
+    public void logNewBean(AEntity modifiedBean) {
+        String note;
+        String clazz = text.primaMaiuscola(modifiedBean.getClass().getSimpleName());
+
+        note = "";
+        note += clazz;
+        note += ": ";
+        note += modifiedBean;
+
+        if (AlgosApp.SETUP_TIME) {
+            logger.logSetup(modifiedBean, note);
+        } else {
+            logger.logNew(modifiedBean, note);
         }// end of if/else cycle
     }// end of method
 
+
+    public void logDifferences(Map<String, String> mappa, AEntity modifiedBean) {
+        String note;
+        String aCapo = "\n";
+        String clazz = text.primaMaiuscola(modifiedBean.getClass().getSimpleName());
+
+        for (String publicFieldName : mappa.keySet()) {
+            note = "";
+            note += clazz;
+            note += ": ";
+            note += modifiedBean;
+            note += aCapo;
+            note += "Property: ";
+            note += text.primaMaiuscola(publicFieldName);
+            note += aCapo;
+            note += mappa.get(publicFieldName);
+
+            if (AlgosApp.SETUP_TIME) {
+                logger.logSetup(modifiedBean, note);
+            } else {
+                logger.logEdit(modifiedBean, note);
+            }// end of if/else cycle
+        }// end of for cycle
+    }// end of method
+
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
+        return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
+    }// end of method
+
+    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
+        Map<String, String> mappa = new LinkedHashMap();
+        List<String> listaNomi = reflection.getAllFieldsNameNoCrono(oldBean.getClass());
+        Object oldValue;
+        Object newValue;
+        String descrizione = "";
+
+        for (String publicFieldName : listaNomi) {
+            oldValue = reflection.getPropertyValue(oldBean, publicFieldName);
+            newValue = reflection.getPropertyValue(modifiedBean, publicFieldName);
+            descrizione = text.getModifiche(oldValue, newValue, type);
+            if (text.isValid(descrizione)) {
+                mappa.put(publicFieldName, descrizione);
+            }// end of if cycle
+        }// end of for cycle
+
+        return mappa;
+    }// end of method
 
     /**
      * Opportunità di usare una idKey specifica.

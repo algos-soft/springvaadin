@@ -40,21 +40,6 @@ public class SpringvaadintestBoot extends ABoot {
     public UserData user;
 
 
-
-//    @Autowired
-//    private StatoData statoData;
-
-    /**
-     * Metodo invocato subito DOPO il costruttore (chiamato da Spring)
-     * (si può usare qualsiasi firma)
-     * Controlla
-     */
-//    @PostConstruct
-    private void check() {
-//        statoData.creaAll();
-//        companyData.creaAll();
-    }// end of method
-
     /**
      * Running logic after the Spring context has been initialized
      * Any class that use this @EventListener annotation,
@@ -69,10 +54,10 @@ public class SpringvaadintestBoot extends ABoot {
      * Stampa a video (productionMode) i valori per controllo
      */
     @EventListener
-//    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        super.inizializzaValoriDefault();
         this.iniziaData();
-        this.inizializzaValoriDefault();
+        this.inizializzaValori();
     }// end of method
 
 
@@ -80,6 +65,7 @@ public class SpringvaadintestBoot extends ABoot {
      * Inizializzazione dei dati standard di alcune collections sul DB
      */
     protected void iniziaData() {
+        super.iniziaDataStandard();
         this.company.findOrCrea();
         this.user.findOrCrea();
     }// end of method
@@ -91,10 +77,10 @@ public class SpringvaadintestBoot extends ABoot {
      * sia stato eseguito una ed una sola volta, può modificare le impostazioni/regolazioni di base
      */
 //    @Override
-    protected void inizializzaValoriDefault() {
-        if (super.classeAlgosBootAncoraDaEseguire) {
-            super.inizializzaValoriDefault();
-        }// end of if cycle
+    protected void inizializzaValori() {
+//        if (super.classeAlgosBootAncoraDaEseguire) {
+//            super.inizializzaValoriDefault();
+//        }// end of if cycle
 
         this.printBefore(Boot.specifico);
         this.specificFixAndPrint();
@@ -108,6 +94,8 @@ public class SpringvaadintestBoot extends ABoot {
      * Stampa a video (productionMode) i valori per controllo
      */
     protected void specificFixAndPrint() {
+        AlgosApp.SETUP_TIME = false;
+        log.info("AlgosApp.SETUP_TIME: " + AlgosApp.SETUP_TIME);
 
         AlgosApp.USE_DEBUG = false;
         log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);

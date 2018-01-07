@@ -64,6 +64,14 @@ public abstract class AlgosApp {
     /**
      * Costante globale dell'applicazione. Business logic. Modificabile.
      * Fixed in AlgosSpringBoot.afterPropertiesSet()
+     * Will be overwritten at the end of BootStrap
+     */
+    public static boolean SETUP_TIME;
+
+
+    /**
+     * Costante globale dell'applicazione. Business logic. Modificabile.
+     * Fixed in AlgosSpringBoot.afterPropertiesSet()
      * Can be overwritten on local xxxSpringBoot.afterPropertiesSet() method
      */
     public static boolean USE_DEBUG;
@@ -143,7 +151,6 @@ public abstract class AlgosApp {
      * Can be overwritten on local xxxSpringBoot.afterPropertiesSet() method
      */
     public static boolean USE_PREF;
-
 
 
     /**
