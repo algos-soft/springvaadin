@@ -51,7 +51,6 @@ public abstract class ACost {
     public final static String TAG_HELP = "help";
     public final static String TAG_HOME = "home";
     public final static String TAG_ROL = "role";
-    public final static String TAG_IND = "ind";
     public final static String TAG_STA = "stato";
     public final static String TAG_PER = "per";
     public final static String TAG_PRE = "pref";
@@ -145,6 +144,7 @@ public abstract class ACost {
     public final static String TAG_PRO = "prova";
     public final static String VIEW_PRO_LIST = "provalist";
     public final static String VIEW_PRO_FORM = "provaform";
-	public final static String VIEW_IND_LIST = "indirizzolist";
-	public final static String VIEW_IND_FORM = "indirizzoform";
+	public final static String TAG_ADD = "address";
+	public final static String VIEW_ADD_LIST = "addresslist";
+	public final static String VIEW_ADD_FORM = "addressform";
 }// end of static class
