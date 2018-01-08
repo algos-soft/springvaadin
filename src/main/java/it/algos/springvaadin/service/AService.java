@@ -377,8 +377,10 @@ public abstract class AService implements IAService {
             switch (tableCompanyRequired) {
                 case nonUsata:
                     savedBean = (AEntity) repository.save(modifiedBean);
+                    break;
                 case facoltativa:
                     savedBean = (AEntity) repository.save(modifiedBean);
+                    break;
                 case obbligatoria:
                     if (checkCompany(modifiedBean, false)) {
                         savedBean = (AEntity) repository.save(modifiedBean);
@@ -386,9 +388,11 @@ public abstract class AService implements IAService {
                         log.warn("Entity non creata perché manca la Company (obbligatoria)");
                         savedBean = null;
                     }// end of if/else cycle
+                    break;
                 default:
                     log.warn("Switch - caso non definito");
                     savedBean = (AEntity) repository.save(modifiedBean);
+                    break;
             } // end of switch statement
         } else {
             savedBean = (AEntity) repository.save(modifiedBean);
@@ -524,11 +528,24 @@ public abstract class AService implements IAService {
     @Override
     public boolean delete(AEntity entityBean) {
         repository.delete(entityBean.getId());
+        logDeleteBean(entityBean);
 
         //@todo aggiungere controllo se il record è stato cancellato
         return true;
     }// end of method
 
+
+    public void logDeleteBean(AEntity deletedBean) {
+        String note;
+        String clazz = text.primaMaiuscola(deletedBean.getClass().getSimpleName());
+
+        note = "";
+        note += clazz;
+        note += ": ";
+        note += deletedBean;
+
+        logger.logDelete(deletedBean, note);
+    }// end of method
 
     /**
      * Deletes all entities of the collection.

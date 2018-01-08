@@ -256,19 +256,6 @@ public class LogService extends AService {
 
 
     /**
-     * Registra un log di una nuova entity
-     * Di default è di livello info
-     * Di default la company è quella di login
-     *
-     * @param newBean: nuova entity appena creata
-     * @param note:    dettagli della scheda
-     */
-    public void logNew(AEntity newBean, String note) {
-        this.logBase(EALogLevel.info, typeService.getNew(), newBean);
-    }// fine del metodo
-
-
-    /**
      * Registra un log di una entity modificata
      * Di default è di livello debug
      * Di default la company è quella di login
@@ -282,6 +269,19 @@ public class LogService extends AService {
 
 
     /**
+     * Registra un log di una nuova entity
+     * Di default è di livello info
+     * Di default la company è quella di login
+     *
+     * @param newBean: nuova entity appena creata
+     * @param note:    dettagli della scheda
+     */
+    public void logNew(AEntity newBean, String note) {
+        findOrCrea(EALogLevel.info, typeService.getNew(), newBean.getClass().getSimpleName(), note);
+    }// fine del metodo
+
+
+    /**
      * Registra un log di una entity modificata
      * Di default è di livello info
      * Di default la company è quella di login
@@ -291,6 +291,19 @@ public class LogService extends AService {
      */
     public void logEdit(AEntity modifiedBean, String note) {
         findOrCrea(EALogLevel.info, typeService.getEdit(), modifiedBean.getClass().getSimpleName(), note);
+    }// fine del metodo
+
+
+    /**
+     * Registra un log della cancellazione di una entity
+     * Di default è di livello info
+     * Di default la company è quella di login
+     *
+     * @param deletedBean: entity appena cancellata
+     * @param note:        dettagli della scheda
+     */
+    public void logDelete(AEntity deletedBean, String note) {
+        findOrCrea(EALogLevel.info, typeService.getDelete(), deletedBean.getClass().getSimpleName(), note);
     }// fine del metodo
 
     /**
