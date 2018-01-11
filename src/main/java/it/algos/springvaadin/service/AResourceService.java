@@ -4,15 +4,14 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Image;
-import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.lib.ByteStreamResource;
-import it.algos.springvaadin.lib.LibResource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Scope;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,57 +30,63 @@ public class AResourceService {
     /**
      * Legge il contenuto di un file di testo
      *
-     * @param nomeFile di testo
-     *
+     * @param filename di testo
      * @return testo diviso per righe
      */
-    public List<String> readText(String nomeFile) {
-        List<String> righe = null;
-        String suffix = ".txt";
-        String pathTxt = AlgosApp.RESOURCES_FOLDER_NAME + nomeFile + suffix;
-        Path filePath = Paths.get(pathTxt);
-
-        try { // prova ad eseguire il codice
-            righe = Files.readAllLines(filePath);
-        } catch (Exception unErrore) { // intercetta l'errore
-        }// fine del blocco try-catch
-
-        return righe;
-    }// end of method
+    public List<String> readAllLines(String filename) {
+        byte[] bytes = getTextBytes(filename);
+        String string = new String(bytes);
+        String[] rows=string.split("\n");
+        List<String> lines = Arrays.asList(rows);
+        return lines;
+    }
 
 
     /**
-     * Legge una risorsa come byte array.
+     * Read a resource as a byte array.
      *
-     * @param nomeRisorsaConSuffisso
-     *
-     * @return il corrispondente byte array.
+     * @param resPath the resource path inside the resources folder
+     * @param resName the resource name
+     * @return the corresponding byte array.
      */
-    public byte[] getImgBytes(String nomeRisorsaConSuffisso) {
+    private byte[] getResourceBytes(String resPath, String resName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(resPath+"/"+resName);
         byte[] bytes = new byte[0];
-        String pathTxt = AlgosApp.IMG_FOLDER_NAME + nomeRisorsaConSuffisso;
-
-        try { // prova ad eseguire il codice
-            bytes = Files.readAllBytes(Paths.get(pathTxt));
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
+        try {
+            bytes = IOUtils.toByteArray(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return bytes;
     }// end of method
 
 
     /**
-     * Create an Image from a file
+     * Read an image as a byte array.
      * <p>
      *
-     * @param nomeRisorsaConSuffisso
-     *
-     * @return the image
+     * @param resName the image name
+     * @return the byte array.
      */
-    public Image getImage(String nomeRisorsaConSuffisso) {
-        return getImage(this.getImgBytes(nomeRisorsaConSuffisso));
-    }// end of method
+    public byte[] getImageBytes(String resName) {
+        return getResourceBytes("img",resName);
+    }
+
+
+    /**
+     * Read an image as Image.
+     * <p>
+     *
+     * @param resName the image name
+     * @return the Image.
+     */
+    public Image getImage(String resName) {
+        byte[] bytes=getResourceBytes("img",resName);
+        return getImage(bytes);
+    }
+
 
 
     /**
@@ -115,6 +120,18 @@ public class AResourceService {
 
 
     /**
+     * Read a text file as a byte array.
+     * <p>
+     *
+     * @param resName the file name
+     * @return the byte array.
+     */
+    public byte[] getTextBytes(String resName) {
+        return getResourceBytes("txt",resName);
+    }
+
+
+    /**
      * Create a StreamResource from a byte array
      *
      * @param bytes the byte array
@@ -134,6 +151,6 @@ public class AResourceService {
         resource = new StreamResource(streamSource, resName);
 
         return resource;
-    }// end of method
+    }
 
-}// end of singleton class
+}
