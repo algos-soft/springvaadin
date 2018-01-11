@@ -1,5 +1,7 @@
 package it.algos.springvaadintest.ui;
 
+import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.spring.annotation.VaadinSessionScope;
 import it.algos.springvaadin.entity.address.AddressList;
 import it.algos.springvaadin.entity.logtype.LogtypeList;
 import it.algos.springvaadin.entity.log.LogList;
@@ -36,73 +38,9 @@ import javax.annotation.PostConstruct;
 @SpringUI()
 @SpringViewDisplay()
 @Slf4j
-@Scope("session")
+@VaadinSessionScope
 public class SpringvaadintestUI extends AUI {
 
-//    /**
-//     * Metodo invocato DOPO il costruttore e PRIMA del metodo init(VaadinRequest request)
-//     * Serve per regolare eventuali parametri utilizzati nel metodo init(VaadinRequest request)
-//     * Stampa a video (productionMode) i valori per controllo
-//     */
-//    @PostConstruct
-//    @Override
-//    protected void inizia() {
-
-//    /**
-//     * Initializes this UI.
-//     * This method is intended to build the view and configure non-component functionality.
-//     * Performing the initialization in a constructor is not suggested as the state of the UI
-//     * is not properly set up when the constructor is invoked.
-//     * <p>
-//     * The {@link VaadinRequest} can be used to get information about the request that caused this UI to be created.
-//     * </p>
-//     * Se viene sovrascritto dalla sottoclasse, deve (DEVE) richiamare anche il metodo della superclasse
-//     * di norma DOPO aver effettuato alcune regolazioni <br>
-//     * Nella sottoclasse specifica viene eventualmente regolato il nome del modulo di partenza <br>
-//     *
-//     * @param request the Vaadin request that caused this UI to be created
-//     */
-//    @Override
-//    protected void init(VaadinRequest request) {
-//        super.init(request);
-//
-//        String message = "Algos® ";
-//        String companyCode = LibSession.getCompany() != null ? LibSession.getCompany().getCode() : "";
-//        if (AlgosApp.USE_MULTI_COMPANY && LibText.isValid(companyCode)) {
-//            message += " - " + companyCode;
-//        }// end of if cycle
-//        footer.setAppMessage("SpringVaadintest 1.0");
-//        log.info("Versione dell'applicazione: SpringVaadintest 1.0");
-//
-//        super.printBefore(InterfacciaUtente.specifica);
-//        this.specificFixAndPrint();
-//        super.printAfter(InterfacciaUtente.specifica);
-//    }// end of method
-//
-//
-//    /**
-//     * Regola alcuni flag specifici dell'applicazione che riguardano l'annotation video
-//     * Can be overwritten on local xxxUI.specificFixAndPrint() method of subclass
-//     * Stampa a video (productionMode) i valori per controllo
-//     */
-//    protected void specificFixAndPrint() {
-//
-//        super.gridSelectionMode = Grid.SelectionMode.MULTI;
-//        log.info("AUIParams.gridSelectionMode: " + super.gridSelectionMode);
-//
-//        super.displayToolTips = true;
-//        log.info("AUIParams.displayToolTips: " + super.displayToolTips);
-//
-//        super.usaSeparateFormDialog = false;
-//        log.info("AUIParams.usaSeparateFormDialog: " + super.usaSeparateFormDialog);
-//
-//        super.usaDialoghiVerbosi = true;
-//        log.info("AUIParams.usaDialoghiVerbosi: " + super.usaDialoghiVerbosi);
-//
-//        super.usaBottoniColorati = true;
-//        log.info("AUIParams.usaBottoniColorati: " + super.usaBottoniColorati);
-//
-//    }// end of method
 
     /**
      * Creazione delle viste (moduli) specifiche dell'applicazione.
@@ -118,10 +56,10 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-		menuLayout.addView(AddressList.class);
-		menuLayout.addView(LogtypeList.class);
-		menuLayout.addView(LogList.class);
-		menuLayout.addView(StatoList.class);
+        menuLayout.addView(AddressList.class);
+        menuLayout.addView(LogtypeList.class);
+        menuLayout.addView(LogList.class);
+        menuLayout.addView(StatoList.class);
         if (AlgosApp.USE_MULTI_COMPANY) {
             menuLayout.addView(CompanyList.class);
         }// end of if cycle

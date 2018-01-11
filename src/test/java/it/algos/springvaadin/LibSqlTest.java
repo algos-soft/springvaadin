@@ -3,7 +3,6 @@ package it.algos.springvaadin;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import static org.mockito.Mockito.*;
 
