@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="projectUpdate" default="alfa">
+    <import file="projectUpdate.xml"></import>
+
+    <!--<target name="beta">-->
+        <!--<ant antfile="testdue.xml" target="provetta"/>-->
+    <!--</target>-->
+
+    <!--<target name="alfa" depends="beta" description="Controllo della variabili">-->
+        <!--<echo message="primo"/>-->
+    <!--</target>-->
+
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="projectNew" default="all">
+    <!--<import file="testdue.xml"></import>-->
+
+    <!--Valori sicuramente da regolare in un nuovo modulo-->
+    <property name="newEntity" value="xxx"/>
+    <!--Fine dei valori obbligatori-->
+
+    <!--Valori probabilmente accettabili in un nuovo modulo-->
+    <property name="currentProject" value="Utente"/>
+    <property name="nomeBaseFramework" value="springvaadin"/>
+    <!--Fine dei valori facoltativi-->
+
+    <target name="all">
+        <!--<ant antfile="testdue.xml" target="provetta"/>-->
+    </target>
+
+    <target name="test"  description="Controllo della variabili">
+        <echo message="Test di projectNew"/>
+    </target>
+
+</project>

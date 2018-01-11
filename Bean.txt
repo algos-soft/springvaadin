@@ -1,0 +1,76 @@
+Come istanziare un oggetto che non è @Component mantenendo le injection:
+
+Problema:
+=========
+
+Voglio istanziare questo oggetto:
+
+public class MyObject {
+
+    @Autowired
+    private MyComponent component;
+}
+
+
+ma se uso new MyObject() non ho l'injection.
+
+
+Soluzione:
+=========
+
+1) creo una classe @Configuration
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import java.util.function.Function;
+
+@Configuration
+public class SpringConfiguration {
+
+    @Bean
+    public Function<Class<? extends MyObject>, MyObject> myObjectBeanFactory() {
+        return obj -> instantiateMyObject(obj);
+    }
+
+
+    @Bean
+    @Scope(value = "prototype")
+    MyObject instantiateMyObject(Class<? extends MyObject> clazz) {
+        MyObject obj=null;
+        try {
+            obj=clazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+
+}
+
+
+2) Inietto il bean myObjectBeanFactory nella classe che deve istanziare l'oggetto
+
+    @Autowired
+    private Function<Class<? extends MyObject>, MyObject> myObjectBeanFactory;
+
+3) Istanzio l'oggetto tramite il mio beanfactory.
+
+    ...
+    MyObject myObj = myObjectBeanFactory.apply(MyObject.class);
+    ...
+
+
+NOTE:
+=====
+
+MyObject è sempre istanziato come prototype.
+
+MyObject può essere classe anche astratta o interfaccia.
+In questo modo posso istanziare qualsiasi implementazione:
+
+    MyInterface myObj = myObjectBeanFactory.apply(MyImplementation.class);
