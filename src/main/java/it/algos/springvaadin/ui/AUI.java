@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Scope;
  * Costruisce un layout standard (modificabile nello specifico per la gioia di Alex)
  * Delega ad altre classi l'implementazione effettiva degli specifici layout
  */
-@SpringViewDisplay()
+//@SpringViewDisplay()
 @Slf4j
 public abstract class AUI extends AUIViews implements ViewDisplay {
 

@@ -1,5 +1,6 @@
 package it.algos.springvaadintest.ui;
 
+import it.algos.nomeBaseFrameworkLower.entity.prova.ProvaList;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.spring.annotation.VaadinSessionScope;
 import it.algos.springvaadin.entity.address.AddressList;
@@ -56,6 +57,7 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+		menuLayout.addView(ProvaList.class);
         menuLayout.addView(AddressList.class);
         menuLayout.addView(LogtypeList.class);
         menuLayout.addView(LogList.class);

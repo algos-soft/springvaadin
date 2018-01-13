@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
 @ComponentScan({"it.algos.springvaadin", "it.algos.@PACKAGE@"})
 @EntityScan({"it.algos.springvaadin.entity", "it.algos.@PACKAGE@.entity"})
+@AIScript(sovrascrivibile = true)
 public class @PROJECT@Application {
 
     /**

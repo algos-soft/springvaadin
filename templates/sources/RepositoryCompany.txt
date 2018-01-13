@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.entity.company.Company;
-
 import java.util.List;
+import it.algos.springvaadin.annotation.*;
+@IMPORT_COST@
 
 /**
- * Created by gac on @TODAY@
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
 @SpringComponent
 @Qualifier(@TAG@)
+@AIScript(sovrascrivibile = false)
 public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
 
     public @ENTITY@ findByCompanyAndCode(Company company, String code);

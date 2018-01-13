@@ -15,11 +15,14 @@ import it.algos.springvaadin.enumeration.EACompanyRequired;
 import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.annotation.*;
-import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.entity.AEntity;
+@IMPORT_COST@
 
 /**
- * Created by gac on 11-nov-17
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Estende la Entity astratta AEntity che contiene la key property ObjectId
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Document (facoltativo) per avere un nome della collection (DB Mongo) diverso dal nome della Entity
@@ -49,6 +52,7 @@ import it.algos.springvaadin.entity.AEntity;
 @AIEntity(roleTypeVisibility = EARoleType.user, company = EACompanyRequired.nonUsata)
 @AIList(fields = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"code", "descrizione"})
+@AIScript(sovrascrivibile = false)
 public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
 
     /**

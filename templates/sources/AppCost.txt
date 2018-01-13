@@ -1,11 +1,16 @@
 package it.algos.@LOWERPROJECT@.application;
 
 /**
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Repository di costanti dello specifico progetto
  * <p>
  * Costanti per leggere/scrivere sempre uguale nelle mappe, negli attributi, nei cookies, nelle property
  * Altre costanti 'static' sono raggruppate nella classe it.algos.webbase.web.AlgosApp
  */
-public abstract class PCost {
+@AIScript(sovrascrivibile = false)
+public abstract class AppCost {
 
 }// end of static class

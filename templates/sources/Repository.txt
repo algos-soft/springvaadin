@@ -1,20 +1,25 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import it.algos.springvaadin.lib.ACost;
-
 import java.util.List;
+import it.algos.springvaadin.annotation.*;
+@IMPORT_COST@
 
 /**
- * Created by gac on @TODAY@
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Estende la l'interaccia MongoRepository col casting alla Entity relativa di questa repository
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @SpringComponent
 @Qualifier(@TAG@)
+@AIScript(sovrascrivibile = false)
 public interface @ENTITY@Repository extends MongoRepository<@ENTITY@, String> {
 
     public @ENTITY@ findByCode(String code);

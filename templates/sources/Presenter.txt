@@ -1,7 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.presenter.APresenter;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.IAService;
@@ -12,9 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
+import it.algos.springvaadin.annotation.*;
+@IMPORT_COST@
 
 /**
- * Created by gac on @TODAY@
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Estende la Entity astratta APresenter che gestisce la business logic
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')
@@ -24,6 +28,7 @@ import org.springframework.context.annotation.Scope;
 @SpringComponent
 @Scope("session")
 @Qualifier(@TAG@)
+@AIScript(sovrascrivibile = true)
 public class @ENTITY@Presenter extends APresenter {
 
     /**

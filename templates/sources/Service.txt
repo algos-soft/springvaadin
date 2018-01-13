@@ -1,21 +1,26 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import java.util.List;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-
-import java.util.List;
+import it.algos.springvaadin.annotation.*;
+@IMPORT_COST@
 
 /**
- * Created by gac on @TODAY@
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Estende la Entity astratta AService. Layer di collegamento tra il Presenter e la Repository.
  * Annotated with @@Slf4j (facoltativo) per i logs automatici
  * Annotated with @SpringComponent (obbligatorio)
@@ -28,6 +33,7 @@ import java.util.List;
 @Service
 @Scope("singleton")
 @Qualifier(@TAG@)
+@AIScript(sovrascrivibile = false)
 public class @ENTITY@Service extends AService {
 
 

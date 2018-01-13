@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="packageVaadin" default="allNoCompany">
+<project name="packageVaadin" default="packageSenzaCompany">
     <import file="tags.xml">
     </import>
     <import file="script.xml">
@@ -11,34 +11,38 @@
     <import file="copyFile.xml">
     </import>
 
+    <tstamp>
+        <format property="date" pattern="yyyy-MM-dd_HH:mm:ss"/>
+    </tstamp>
+
     <!--Valori sicuramente da regolare in un nuovo modulo-->
     <input
-            message="Nome del nuovo package per SpringVaadin (iniziale maiuscola):"
+            message="Nome del nuovo package (iniziale maiuscola) da inserire nel frammework SpringVaadin:"
             addproperty="newPackageRaw"
             defaultvalue="Prova"
     />
     <!--Fine dei valori obbligatori-->
 
     <!--Valori probabilmente accettabili in un nuovo modulo-->
-    <property name="nomeBaseFrameworkRaw" value="spriNgvaaDIN"/>
+    <property name="nomeBaseFrameworkRaw" value="springvaadin"/>
     <property name="nomeBaseTest" value="springvaadintest"/>
     <!--Fine dei valori facoltativi-->
 
 
     <target name="init" description="Regolazioni generali (sempre valide)">
         <ucfirst text="${nomeBaseFrameworkRaw}" to="nomeBaseFrameworkUpper"/>
-        <lower text="${nomeBaseFrameworkRaw}" to="nomeBaseFrameworkLower"/>
+        <lower text="${nomeBaseFrameworkRaw}" to="projectLower"/>
 
         <ucfirst text="${newPackageRaw}" to="newEntity"/>
         <lower text="${newPackageRaw}" to="newPackage"/>
         <trechars text="${newPackageRaw}" to="newTag"/>
 
         <property name="risalita" value="/../../.."/>
-        <property name="pathBaseFramework" value="${basedir}${risalita}/${nomeBaseFrameworkLower}"/>
+        <property name="pathBaseFramework" value="${basedir}${risalita}/${projectLower}"/>
         <property name="pathSrc" value="${pathBaseFramework}/${tagSrc}"/>
         <property name="pathAlgos" value="${pathBaseFramework}/${tagPathJava}"/>
-        <property name="pathEntity" value="${pathAlgos}/${nomeBaseFrameworkLower}/${dirEntity}"/>
-        <property name="pathLib" value="${pathAlgos}/${nomeBaseFrameworkLower}/${dirLib}"/>
+        <property name="pathEntity" value="${pathAlgos}/${projectLower}/${dirEntity}"/>
+        <property name="pathLib" value="${pathAlgos}/${projectLower}/${dirLib}"/>
         <property name="pathPack" value="${pathEntity}/${newPackage}"/>
     </target>
 
@@ -50,18 +54,19 @@
         <property name="newEntiy" value="newEntiy"/>
         <property name="companyRequired" value="companyRequired"/>
         <property name="tag" value="ACost.TAG_${newTag}"/>
-        <property name="tagView" value="${newTag}"/>
-        <echo message="tagView = ${tagView}"/>
+        <property name="tagView" value="ACost.VIEW_${newTag}"/>
         <property name="TIMESTAMP" value="TIMESTAMP"/>
-        <property name="importCost" value="importCost"/>
+        <property name="importCost" value="import it.algos.springvaadin.lib.ACost;"/>
         <property name="destCost" value="${pathLib}/${tagCost}${tagJava}"/>
         <lower text="${nomeBaseTest}" to="newTest"/>
         <ucfirst text="${nomeBaseTest}" to="newTestUpper"/>
         <property name="pathBaseTest" value="${pathAlgos}/${nomeBaseTest}"/>
         <property name="pathTestUI" value="${pathBaseTest}/ui"/>
         <property name="destUI" value="${pathTestUI}/${newTestUpper}UI${tagJava}"/>
-        <property name="regexImportMenu" value="import it\.algos\.${nomeBaseFrameworkLower}\.${dirEntity}\.${newPackage}\.${newEntity}List;"/>
-        <property name="tagImportMenu" value="import it.algos.${nomeBaseFrameworkLower}.${dirEntity}.${newPackage}.${newEntity}List;"/>
+        <property name="regexImportMenu"
+                  value="import it\.algos\.${nomeBaseFrameworkLower}\.${dirEntity}\.${newPackage}\.${newEntity}List;"/>
+        <property name="tagImportMenu"
+                  value="import it.algos.${nomeBaseFrameworkLower}.${dirEntity}.${newPackage}.${newEntity}List;"/>
         <property name="tagPackageUI" value="package it.algos.${newTest}.ui;&#10;"/>
     </target>
 
@@ -84,18 +89,18 @@
 
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
-            <param name="findRegex" value="VIEW_${tagView}_LIST"/>
+            <param name="findRegex" value="VIEW_${newTag}_LIST"/>
             <param name="token" value="${tagFindEndFile}"/>
             <param name="value"
-                   value="&#10;&#009;${tagAddCost}VIEW_${tagView}_LIST = &quot;${newPackage}list&quot;;${tagFindEndFile}"/>
+                   value="&#10;&#009;${tagAddCost}VIEW_${newTag}_LIST = &quot;${newPackage}list&quot;;${tagFindEndFile}"/>
         </antcall>
 
         <antcall target="addCost">
             <param name="file" value="${destCost}"/>
-            <param name="findRegex" value="VIEW_${tagView}_FORM"/>
+            <param name="findRegex" value="VIEW_${newTag}_FORM"/>
             <param name="token" value="${tagFindEndFile}"/>
             <param name="value"
-                   value="&#10;&#009;${tagAddCost}VIEW_${tagView}_FORM = &quot;${newPackage}form&quot;;${tagFindEndFile}"/>
+                   value="&#10;&#009;${tagAddCost}VIEW_${newTag}_FORM = &quot;${newPackage}form&quot;;${tagFindEndFile}"/>
         </antcall>
     </target>
 
@@ -174,7 +179,7 @@
     </target>
 
 
-    <target name="allNoCompany" depends="init,fixVaadin">
+    <target name="packageSenzaCompany" depends="init,fixVaadin">
         <property name="entitySuperclass" value="AEntity"/>
         <property name="tagEntitySrc" value="${tagEntity}"/>
         <property name="tagServiceSrc" value="${tagService}"/>
@@ -190,7 +195,7 @@
     </target>
 
 
-    <target name="allCompany" depends="init,fixVaadin">
+    <target name="packageConCompany" depends="init,fixVaadin">
         <property name="entitySuperclass" value="ACEntity"/>
         <property name="tagEntitySrc" value="${tagEntity}Company"/>
         <property name="tagServiceSrc" value="${tagService}Company"/>
@@ -228,5 +233,117 @@
         <echo message="tagImportMenu = ${tagImportMenu}"/>
 
     </target>
+
+
+    <!--<target name="check" depends="init,fixVaadin" description="Controlla il flag sovrascrivibile del file">-->
+        <!--&lt;!&ndash;<property name="tagEntitySrc" value="${tagEntity}Company"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<echo message="srcFile = ${srcFile}"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<echo message="destFile = ${destFile}"/>&ndash;&gt;-->
+
+        <!--<property name="tagEntitySrc" value="${tagEntity}Company"/>-->
+        <!--<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>-->
+        <!--<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>-->
+
+        <!--&lt;!&ndash;<loadfile property="testoFile"&ndash;&gt;-->
+        <!--&lt;!&ndash;srcFile="${destFile}"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<echo message="${message}"/>&ndash;&gt;&ndash;&gt;-->
+
+        <!--<condition property="isEsiste">-->
+            <!--<available file="${destFile}"/>-->
+        <!--</condition>-->
+        <!--<condition property="isTagTrue">-->
+            <!--<matches pattern="@AIScript\(sovrascrivibile = true\)" string="${testoFile}"/>-->
+        <!--</condition>-->
+        <!--<condition property="isSovrascrivibile">-->
+            <!--<and>-->
+                <!--<isfalse value="${isEsiste}"/>-->
+                <!--<istrue value="${isTagTrue}"/>-->
+            <!--</and>-->
+        <!--</condition>-->
+
+        <!--<echo message="isEsiste = ${isEsiste}"/>-->
+        <!--<echo message="isTagTrue = ${isTagTrue}"/>-->
+        <!--<echo message="isSovrascrivibile = ${isSovrascrivibile}"/>-->
+
+        <!--&lt;!&ndash;<fail message="No world in the greeting!" if="isSovrascrivibile"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ant antfile="copyFile.xml" target="copy"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<copy file="${srcFile}" tofile="${destFile}" overwrite="true">&ndash;&gt;-->
+        <!--&lt;!&ndash;</copy>&ndash;&gt;-->
+    <!--</target>-->
+
+    <!--<target name="testcopy" depends="init,fixVaadin,check" if="${isSovrascrivibile}">-->
+        <!--<echo message="destFile = ${destFile}"/>-->
+        <!--<ant antfile="copyFile.xml" target="copy"/>-->
+    <!--</target>-->
+
+
+    <!--<target name="esiste" depends="init,fixVaadin">-->
+        <!--<property name="entitySuperclass" value="ACEntity"/>-->
+        <!--<property name="tagEntitySrc" value="${tagEntity}Company"/>-->
+        <!--<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>-->
+        <!--<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>-->
+
+        <!--<condition property="isEsiste">-->
+            <!--<available file="${destFile}"/>-->
+        <!--</condition>-->
+        <!--<echo message="destFile dentro esiste = ${destFile}"/>-->
+        <!--<echo message="isEsiste dentro esiste = ${isEsiste}"/>-->
+    <!--</target>-->
+
+
+    <!--<target name="tagTrue" depends="init,fixVaadin,esiste" if="${isEsiste}">-->
+        <!--<property name="entitySuperclass" value="ACEntity"/>-->
+        <!--<property name="tagEntitySrc" value="${tagEntity}Company"/>-->
+        <!--<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>-->
+        <!--<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>-->
+
+        <!--<echo message="destFile dentro tagTrue = ${destFile}"/>-->
+
+        <!--<loadfile property="testoFile" srcFile="${destFile}"/>-->
+        <!--<condition property="isTagTrue">-->
+            <!--<matches pattern="@AIScript\(sovrascrivibile = true\)" string="${testoFile}"/>-->
+        <!--</condition>-->
+
+        <!--<echo message="isTagTrue dentro tagTrue = ${isTagTrue}"/>-->
+    <!--</target>-->
+
+
+    <!--<target name="sovrascrivibile" depends="init,fixVaadin,esiste,tagTrue">-->
+        <!--<property name="entitySuperclass" value="ACEntity"/>-->
+        <!--<property name="tagEntitySrc" value="${tagEntity}Company"/>-->
+        <!--<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>-->
+        <!--<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>-->
+
+        <!--<echo message="destFile dentro sovrascrivibile = ${destFile}"/>-->
+
+        <!--<condition property="isSovrascrivibile">-->
+            <!--<or>-->
+                <!--<isfalse value="${isEsiste}"/>-->
+                <!--<istrue value="${isTagTrue}"/>-->
+            <!--</or>-->
+        <!--</condition>-->
+        <!--<echo message="isSovrascrivibile dentro sovrascrivibile = ${isSovrascrivibile}"/>-->
+    <!--</target>-->
+
+
+    <!--<target name="zTest" depends="init,fixVaadin,esiste,tagTrue,sovrascrivibile" if="isSovrascrivibile">-->
+        <!--<property name="entitySuperclass" value="ACEntity"/>-->
+        <!--<property name="tagEntitySrc" value="${tagEntity}Company"/>-->
+        <!--<property name="srcFile" value="${pathSrc}/${tagEntitySrc}${tagTxt}"/>-->
+        <!--<property name="destFile" value="${pathPack}/${newEntity}${tagJava}"/>-->
+
+        <!--&lt;!&ndash;<fail message="No world in the greeting!" if="isSovrascrivibile"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ant antfile="copyFile.xml" target="copy"/>&ndash;&gt;-->
+
+        <!--<echo message="isEsiste = ${isEsiste}"/>-->
+        <!--<echo message="isTagTrue = ${isTagTrue}"/>-->
+        <!--<echo message="isSovrascrivibile = ${isSovrascrivibile}"/>-->
+
+        <!--<ant antfile="copyFile.xml" target="copy"/>-->
+    <!--</target>-->
+
 
 </project>

@@ -12,17 +12,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
+import it.algos.springvaadin.annotation.*;
+@IMPORT_COST@
 
 /**
- * Created by gac on @TODAY@
+ * Project @LOWERPROJECT@
+ * Created by Algos
+ * User: @USER@
+ * Date: @DATE@
  * Annotated with @Service (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  */
+@Slf4j
 @Service
 @Qualifier(@TAG@)
-@Slf4j
+@AIScript(sovrascrivibile = false)
 public class @ENTITY@Service extends AService {
 
 
