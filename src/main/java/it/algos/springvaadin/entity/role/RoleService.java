@@ -3,6 +3,9 @@ package it.algos.springvaadin.entity.role;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.address.Address;
+import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
@@ -27,14 +30,14 @@ import java.util.List;
  * Estende la Entity astratta AService. Layer di collegamento tra il Presenter e la Repository.
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Service (ridondante)
- * Annotated with @Scope (obbligatorio = 'session')
+ * Annotated with @Scope (obbligatorio = 'singleton')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Annotated with @@Slf4j (facoltativo) per i logs automatici
  */
 @Slf4j
 @SpringComponent
 @Service
-@Scope("session")
+@Scope("singleton")
 @Qualifier(ACost.TAG_ROL)
 public class RoleService extends AService {
 
@@ -69,38 +72,24 @@ public class RoleService extends AService {
     }// end of Spring constructor
 
 
-//    /**
-//     * Creazione nel MongoDB di una entity (solo se non la trova)
-//     * Properties obbligatorie
-//     *
-//     * @param code di riferimento (obbligatorio)
-//     */
-//    public Role newSave(String code) {
-//        if (findByKeyUnica(code) == null) {
-//            try { // prova ad eseguire il codice
-//                return  (Role)save(newEntity(0, code));
-//            } catch (Exception unErrore) { // intercetta l'errore
-//                log.error(unErrore.toString());
-//            }// fine del blocco try-catch
-//        } else {
-//            return null;
-//        }// end of if/else cycle
-//        return null;
-//    }// end of method
-//
 
     /**
-     * Creazione nel MongoDB di una entity (solo se non la trova)
+     * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param code di riferimento (obbligatorio)
+     * @param code di riferimento interno (obbligatorio ed unico)
+     *
+     * @return la entity trovata o appena creata
      */
-    public Role newSave(String code) {
-        if (findByKeyUnica(code) == null) {
-            return (Role) save(newEntity(0, code));
-        } else {
-            return null;
-        }// end of if/else cycle
+    public Role findOrCrea(String code) {
+        Role entity = findByKeyUnica(code);
+
+        if (entity == null) {
+            entity = newEntity(0, code);
+            save(entity);
+        }// end of if cycle
+
+        return entity;
     }// end of method
 
 
@@ -172,7 +161,7 @@ public class RoleService extends AService {
      */
     @Override
     protected boolean isEsisteEntityKeyUnica(AEntity entityBean) {
-        return findByKeyUnica(((Role) entityBean).getCode()) == null;
+        return findByKeyUnica(((Role) entityBean).getCode()) != null;
     }// end of method
 
 

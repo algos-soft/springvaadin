@@ -338,7 +338,7 @@ public abstract class AService implements IAService {
      *
      * @return the saved entity
      */
-    public AEntity save(AEntity entityBean) throws Exception {
+    public AEntity save(AEntity entityBean) {
         return save((AEntity) null, entityBean);
     }// end of method
 
@@ -353,14 +353,14 @@ public abstract class AService implements IAService {
      *
      * @return the saved entity
      */
-    public AEntity save(AEntity oldBean, AEntity modifiedBean) throws Exception {
+    public AEntity save(AEntity oldBean, AEntity modifiedBean) {
         AEntity savedBean = null;
         EACompanyRequired tableCompanyRequired = annotation.getCompanyRequired(modifiedBean.getClass());
         Map mappa = null;
-        boolean nuovaEntity = false;
+        boolean nuovaEntity = oldBean == null || text.isEmpty(modifiedBean.id);
 
         //--opportunità di controllare (per le nuove schede) che la key unica non esista già.
-        if (isEsisteEntityKeyUnica(modifiedBean)) {
+        if (nuovaEntity && isEsisteEntityKeyUnica(modifiedBean)) {
             return null;
         }// end of if cycle
 
@@ -387,12 +387,16 @@ public abstract class AService implements IAService {
                     savedBean = (AEntity) repository.save(modifiedBean);
                     break;
                 case obbligatoria:
-                    if (checkCompany(modifiedBean, false)) {
-                        savedBean = (AEntity) repository.save(modifiedBean);
-                    } else {
-                        log.warn("Entity non creata perché manca la Company (obbligatoria)");
-                        savedBean = null;
-                    }// end of if/else cycle
+                    try { // prova ad eseguire il codice
+                        if (checkCompany(modifiedBean, false)) {
+                            savedBean = (AEntity) repository.save(modifiedBean);
+                        } else {
+                            log.warn("Entity non creata perché manca la Company (obbligatoria)");
+                            savedBean = null;
+                        }// end of if/else cycle
+                    } catch (Exception unErrore) { // intercetta l'errore
+                        log.error(unErrore.toString());
+                    }// fine del blocco try-catch
                     break;
                 default:
                     log.warn("Switch - caso non definito");
@@ -404,7 +408,6 @@ public abstract class AService implements IAService {
         }// end of if/else cycle
 
         if (!modifiedBean.getClass().getSimpleName().equals("Log")) {
-            nuovaEntity = oldBean == null || text.isEmpty(modifiedBean.id);
             if (nuovaEntity) {
                 logNewBean(modifiedBean);
             } else {

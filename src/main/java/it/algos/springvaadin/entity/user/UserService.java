@@ -317,7 +317,7 @@ public class UserService extends AService {
      *
      * @return the saved entity
      */
-    public AEntity save(AEntity entityBean) throws Exception {
+    public AEntity save(AEntity entityBean)  {
         Company company = ((ACEntity) entityBean).getCompany();
         String nickname = ((User) entityBean).getNickname();
 

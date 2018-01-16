@@ -214,7 +214,7 @@ public class StatoService extends AService {
      * @return the saved entity
      */
     @Override
-    public AEntity save(AEntity entityBean) throws Exception {
+    public AEntity save(AEntity entityBean)  {
         String code = ((Stato) entityBean).getNome();
 
         if (entityBean == null) {
