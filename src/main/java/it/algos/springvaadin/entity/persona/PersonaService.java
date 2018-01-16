@@ -35,10 +35,14 @@ import it.algos.springvaadin.lib.ACost;
 public class PersonaService extends AService {
 
 
+    /**
+     * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
+     * dove viene usata l'interfaccia MongoRepository
+     * Spring costruisce al volo, quando serve, una implementazione di RoleRepository (come previsto dal @Qualifier)
+     * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
+     */
     private PersonaRepository repository;
 
-    @Autowired
-    public ATextService text;
 
     /**
      * Costruttore @Autowired (nella superclasse)
@@ -48,8 +52,8 @@ public class PersonaService extends AService {
      */
     public PersonaService(@Qualifier(ACost.TAG_PER) MongoRepository repository) {
         super(repository);
-        super.entityClass = Persona.class;
         this.repository = (PersonaRepository) repository;
+        super.entityClass = Persona.class;
     }// end of Spring constructor
 
 

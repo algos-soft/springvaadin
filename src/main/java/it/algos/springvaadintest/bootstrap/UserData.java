@@ -83,13 +83,13 @@ public class UserData extends AData {
      * Creazione degli users di PROVA
      */
     public void creaUsers() {
-        service.findOrCrea(companyService.findByCode(CompanyData.ALGOS),"gac", roleService.getDev());
-        service.findOrCrea(companyService.findByCode(CompanyData.ALGOS),"alex", roleService.getDev());
-        service.findOrCrea(companyService.findByCode(CompanyData.DEMO),"developer", roleService.getDev());
-        service.findOrCrea(companyService.findByCode(CompanyData.DEMO),"admin", roleService.getAdmin());
-        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"volontario", roleService.getUser());
-        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"ospite", roleService.getGuest());
-        service.findOrCrea(companyService.findByCode(CompanyData.TEST),"guest", roleService.getGuest());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.ALGOS),"gac", roleService.getDev());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.ALGOS),"alex", roleService.getDev());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.DEMO),"developer", roleService.getDev());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.DEMO),"admin", roleService.getAdmin());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"volontario", roleService.getUser());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"ospite", roleService.getGuest());
+        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"guest", roleService.getGuest());
     }// end of method
 
 

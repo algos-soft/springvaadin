@@ -109,8 +109,8 @@ public class ABoot {
      * Inizializzazione dei dati standard di alcune collections sul DB
      */
     protected void iniziaDataStandard() {
-        this.logtype.findOrCrea();
         this.role.findOrCrea();
+        this.logtype.findOrCrea();
         this.stato.findOrCrea();
     }// end of method
 

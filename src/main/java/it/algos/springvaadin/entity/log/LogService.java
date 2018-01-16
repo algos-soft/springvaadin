@@ -46,8 +46,8 @@ public class LogService extends AService {
      */
     public LogService(@Qualifier(ACost.TAG_LOG) MongoRepository repository) {
         super(repository);
-        super.entityClass = Log.class;
         this.repository = (LogRepository) repository;
+        super.entityClass = Log.class;
     }// end of Spring constructor
 
 

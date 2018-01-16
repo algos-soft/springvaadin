@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Notification;
+import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.address.Address;
 import it.algos.springvaadin.entity.company.Company;
@@ -39,6 +40,7 @@ import java.util.List;
 @Service
 @Scope("singleton")
 @Qualifier(ACost.TAG_ROL)
+@AIScript(sovrascrivibile = false)
 public class RoleService extends AService {
 
 
@@ -137,19 +139,6 @@ public class RoleService extends AService {
      */
     public Role findByKeyUnica(String code) {
         return repository.findByCode(code);
-    }// end of method
-
-
-    /**
-     * Returns all instances of the type
-     * La Entity è EACompanyRequired.nonUsata. Non usa Company.
-     * Lista ordinata
-     *
-     * @return lista ordinata di tutte le entities
-     */
-    @Override
-    public List<Role> findAll() {
-        return repository.findByOrderByOrdineAsc();
     }// end of method
 
 

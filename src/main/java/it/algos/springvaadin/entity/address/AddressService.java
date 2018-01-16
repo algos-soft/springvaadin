@@ -1,4 +1,5 @@
 package it.algos.springvaadin.entity.address;
+import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.lib.ACost;
@@ -21,19 +22,18 @@ import java.util.List;
  * Annotated with @@Slf4j (facoltativo) per i logs automatici
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Service (ridondante)
+ * Annotated with @Scope (obbligatorio = 'singleton')
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  */
 @Slf4j
 @SpringComponent
 @Service
-@Scope("session")
+@Scope("singleton")
 @Qualifier(ACost.TAG_ADD)
+@AIScript(sovrascrivibile = false)
 public class AddressService extends AService {
 
-
-    @Autowired
-    public ATextService text;
 
 
     /**
@@ -53,41 +53,9 @@ public class AddressService extends AService {
      */
     public AddressService(@Qualifier(ACost.TAG_ADD) MongoRepository repository) {
         super(repository);
-        super.entityClass = Address.class;
         this.repository = (AddressRepository) repository;
+        super.entityClass = Address.class;
     }// end of Spring constructor
-
-
-    /**
-     * Ricerca di una entity (la crea se non la trova)
-     * Properties obbligatorie
-     *
-     * @return la entity trovata o appena creata
-     */
-    public Address findOrCrea() {
-        return findOrCrea("", "", "", (Stato) null);
-    }// end of method
-
-
-    /**
-     * Ricerca di una entity (la crea se non la trova)
-     * All properties
-     *
-     * @param indirizzo: via, nome e numero (obbligatoria, non unica)
-     * @param localita:  località (obbligatoria, non unica)
-     * @param cap:       codice di avviamento postale (obbligatoria, non unica)
-     * @param stato:     stato (obbligatoria, non unica)
-     *
-     * @return la entity trovata o appena creata
-     */
-    public Address findOrCrea(String indirizzo, String localita, String cap, Stato stato) {
-        try { // prova ad eseguire il codice
-            return (Address) save(newEntity(indirizzo, localita, cap, stato));
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-            return null;
-        }// fine del blocco try-catch
-    }// end of method
 
 
     /**
@@ -117,24 +85,7 @@ public class AddressService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     public Address newEntity(String indirizzo, String localita, String cap, Stato stato) {
-        Address entity = null;
-
-        entity = Address.builder().indirizzo(indirizzo).localita(localita).cap(cap).stato(stato).build();
-
-        return entity;
-    }// end of method
-
-
-    /**
-     * Returns all instances of the type
-     * La Entity è EACompanyRequired.nonUsata. Non usa Company.
-     * Lista ordinata
-     *
-     * @return lista ordinata di tutte le entities
-     */
-    @Override
-    public List findAll() {
-        return repository.findAll();
+        return Address.builder().indirizzo(indirizzo).localita(localita).cap(cap).stato(stato).build();
     }// end of method
 
 
