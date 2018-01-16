@@ -109,7 +109,7 @@ public class SpringvaadintestBoot extends ABoot {
         AlgosApp.USE_VERS = false;//@todo RIMETTERE a TRUE;
         log.debug("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);
 
-        AlgosApp.USE_LOG = false;//@todo RIMETTERE a TRUE;
+        AlgosApp.USE_LOG = true;
         log.debug("AlgosApp.USE_LOG: " + AlgosApp.USE_LOG);
     }// end of method
 

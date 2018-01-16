@@ -78,14 +78,12 @@ public class LogList extends AList {
      */
     @Override
     protected void fixCaption(Class<? extends AEntity> entityClazz, List items) {
+        super.fixCaption(entityClazz, items);
         if (login.isDeveloper()) {
-            super.fixCaption(entityClazz, items);
             caption += "</br>Lista visibile solo all'admin che vede SOLO le schede della sua company";
             caption += "</br>Usa la company (se AlgosApp.USE_MULTI_COMPANY=true) che è obbligatoria";
             caption += "</br>Solo il developer vede queste note";
-        } else {
-            super.caption = "Operazioni effettuate";
-        }// end of if/else cycle
+        }// end of if cycle
     }// end of method
 
 

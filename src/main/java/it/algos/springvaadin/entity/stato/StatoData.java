@@ -77,7 +77,7 @@ public class StatoData extends AData {
      */
     private void creaStati() {
         String fileName = "stati.txt";
-        List<String> righe = resource.readAllLines(fileName);
+        List<String> righe = resource.readText(fileName);
 
         if (array.isValid(righe)) {
             service.deleteAll();
@@ -111,7 +111,7 @@ public class StatoData extends AData {
         }// end of if cycle
         if (parti.length > 2) {
             alfaTre = parti[2];
-            bandiera = resource.getImageBytes(alfaTre.toUpperCase() + suffix);
+            bandiera = resource.getImgBytes(alfaTre.toUpperCase() + suffix);
         }// end of if cycle
         if (parti.length > 3) {
             numerico = parti[3];

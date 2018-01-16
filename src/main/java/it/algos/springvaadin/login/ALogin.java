@@ -486,7 +486,11 @@ public class ALogin {
     }// end of method
 
     public boolean isDeveloper() {
-        return getTypeLogged() == EARoleType.developer;
+        if (AlgosApp.USE_SECURITY) {
+            return getTypeLogged() == EARoleType.developer;
+        } else {
+            return true;
+        }// end of if/else cycle
     }// end of method
 
     public Company getCompany() {

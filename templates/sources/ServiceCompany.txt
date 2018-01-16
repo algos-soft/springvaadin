@@ -141,7 +141,7 @@ public class @ENTITY@Service extends AService {
             entity = @ENTITY@.builder().code(code).descrizione(descrizione).build();
             entity.company = company != null ? company : login.getCompany();
         } else {
-            return findByCompanyAndCode(company, code);
+            entity = findByCompanyAndCode(company, code);
         }// end of if/else cycle
 
         return entity;

@@ -1,6 +1,8 @@
 package it.algos.springvaadin.entity.company;
 
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.address.Address;
+import it.algos.springvaadin.entity.persona.Persona;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
@@ -62,12 +64,13 @@ public class CompanyService extends AService {
      * Ricerca di una entity (la crea se non la trova)
      * Properties obbligatorie
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param code        di riferimento interno (obbligatorio ed unico)
+     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
      *
      * @return la entity trovata o appena creata
      */
-    public Company findOrCrea(String code) {
-        return findOrCrea(code, "");
+    public Company findOrCrea(String code, String descrizione) {
+        return findOrCrea(code, descrizione, (Persona) null, "", "", (Address) null);
     }// end of method
 
 
@@ -75,15 +78,19 @@ public class CompanyService extends AService {
      * Ricerca di una entity (la crea se non la trova)
      * All properties
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
+     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
+     * @param contatto    persona di riferimento (facoltativo)
+     * @param telefono    della company (facoltativo)
+     * @param email       della company (facoltativo)
+     * @param indirizzo   della company (facoltativo)
      *
      * @return la entity trovata o appena creata
      */
-    public Company findOrCrea(String code, String descrizione) {
+    public Company findOrCrea(String code, String descrizione, Persona contatto, String telefono, String email, Address indirizzo) {
         if (nonEsiste(code)) {
             try { // prova ad eseguire il codice
-                return (Company) save(newEntity(code, descrizione));
+                return (Company) save(newEntity(code, descrizione, contatto, telefono, email, indirizzo));
             } catch (Exception unErrore) { // intercetta l'errore
                 log.error(unErrore.toString());
                 return null;
@@ -101,24 +108,8 @@ public class CompanyService extends AService {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    @Override
     public Company newEntity() {
-        return newEntity("");
-    }// end of method
-
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     * Properties obbligatorie
-     * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
-     *
-     * @param code codice di riferimento (obbligatorio)
-     *
-     * @return la nuova entity appena creata (non salvata)
-     */
-    public Company newEntity(String code) {
-        return newEntity(code, "");
+        return newEntity("", "", (Persona) null, "", "", (Address) null);
     }// end of method
 
 
@@ -128,16 +119,20 @@ public class CompanyService extends AService {
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
-     * @param code        codice di riferimento (obbligatorio)
-     * @param descrizione (facoltativa, non unica)
+     * @param code        di riferimento interno (obbligatorio ed unico)
+     * @param descrizione ragione sociale o descrizione della company (visibile - obbligatoria)
+     * @param contatto    persona di riferimento (facoltativo)
+     * @param telefono    della company (facoltativo)
+     * @param email       della company (facoltativo)
+     * @param indirizzo   della company (facoltativo)
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Company newEntity(String code, String descrizione) {
+    public Company newEntity(String code, String descrizione, Persona contatto, String telefono, String email, Address indirizzo) {
         Company entity = null;
 
         if (nonEsiste(code)) {
-            entity = Company.builder().code(code).descrizione(descrizione).build();
+            entity = Company.builder().code(code).descrizione(descrizione).contatto(contatto).telefono(telefono).email(email).indirizzo(indirizzo).build();
         } else {
             return findByCode(code);
         }// end of if/else cycle

@@ -27,18 +27,15 @@ import it.algos.springvaadin.annotation.*;
  * Annotated with @Service (ridondante)
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @Slf4j
 @SpringComponent
 @Service
-@Scope("singleton")
+@Scope("session")
 @Qualifier(@TAG@)
 @AIScript(sovrascrivibile = false)
 public class @ENTITY@Service extends AService {
-
-
-    @Autowired
-    public ATextService text;
 
 
     /**
@@ -58,20 +55,20 @@ public class @ENTITY@Service extends AService {
      */
     public @ENTITY@Service(@Qualifier(@TAG@) MongoRepository repository) {
         super(repository);
-        super.entityClass = @ENTITY@.class;
         this.repository = (@ENTITY@Repository) repository;
-    }// end of Spring constructor
+        super.entityClass = @ENTITY@.class;
+   }// end of Spring constructor
 
 
     /**
-     * Ricerca di una entity (la crea se non la trova)
+     * Creazione nel MongoDB di una entity (solo se non la trova)
      * Properties obbligatorie
      *
-     * @param code codice di riferimento (obbligatorio)
+     * @param code di riferimento (obbligatorio)
      *
      * @return la entity trovata o appena creata
      */
-    public @ENTITY@ findOrCrea(String code) {
+    public @ENTITY@ newSave(String code) {
         return findOrCrea(code, "");
     }// end of method
 
@@ -144,7 +141,7 @@ public class @ENTITY@Service extends AService {
         if (nonEsiste(code)) {
             entity = @ENTITY@.builder().code(code).descrizione(descrizione).build();
         } else {
-            return findByCode(code);
+            entity = findByCode(code);
         }// end of if/else cycle
 
         return entity;

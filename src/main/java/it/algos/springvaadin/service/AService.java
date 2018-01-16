@@ -359,6 +359,11 @@ public abstract class AService implements IAService {
         Map mappa = null;
         boolean nuovaEntity = false;
 
+        //--opportunità di controllare (per le nuove schede) che la key unica non esista già.
+        if (isEsisteEntityKeyUnica(modifiedBean)) {
+            return null;
+        }// end of if cycle
+
         //--opportunità di usare una idKey specifica
         if (text.isEmpty(modifiedBean.id)) {
             creaIdKeySpecifica(modifiedBean);
@@ -411,6 +416,17 @@ public abstract class AService implements IAService {
         return savedBean;
     }// end of method
 
+    /**
+     * Opportunità di controllare (per le nuove schede) che la key unica non esista già.
+     * Invocato appena prima del save(), solo per una nuova entity
+     *
+     * @param entityBean nuova da creare
+     */
+    protected boolean isEsisteEntityKeyUnica(AEntity entityBean) {
+        return false;
+    }// end of method
+
+
     public void logNewBean(AEntity modifiedBean) {
         String note;
         String clazz = text.primaMaiuscola(modifiedBean.getClass().getSimpleName());
@@ -456,6 +472,7 @@ public abstract class AService implements IAService {
     protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
         return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
     }// end of method
+
 
     protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
         Map<String, String> mappa = new LinkedHashMap();

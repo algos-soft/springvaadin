@@ -1,9 +1,12 @@
-package it.algos.springvaadin.entity.company;
+package it.algos.springvaadin.entity.persona;
+
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.Resource;
-import it.algos.springvaadin.lib.ACost;
+import javax.annotation.PostConstruct;
+import java.util.List;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.annotation.AIView;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -12,12 +15,15 @@ import it.algos.springvaadin.enumeration.EARoleType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
+import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.lib.ACost;
 
 /**
- * Created by gac on TIMESTAMP
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: 2018-01-14_06:46:57
  * Estende la Entity astratta AList di tipo AView per visualizzare la Grid
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')
@@ -28,10 +34,11 @@ import java.util.List;
  */
 @SpringComponent
 @Scope("session")
-@Qualifier(ACost.TAG_COM)
-@SpringView(name = ACost.VIEW_COM_LIST)
+@Qualifier(ACost.TAG_PER)
+@SpringView(name = ACost.VIEW_PER_LIST)
 @AIView(roleTypeVisibility = EARoleType.developer)
-public class CompanyList extends AList {
+@AIScript(sovrascrivibile = true)
+public class PersonaList extends AList {
 
 
     /**
@@ -40,7 +47,7 @@ public class CompanyList extends AList {
      * Nella menuBar appare invece visibile il MENU_NAME, indicato qui
      * Se manca il MENU_NAME, di default usa il 'name' della view
      */
-    public static final String MENU_NAME = ACost.TAG_COM;
+    public static final String MENU_NAME = ACost.TAG_PER;
 
 
     /**
@@ -64,12 +71,29 @@ public class CompanyList extends AList {
      * @param presenter iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param toolbar iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      */
-    public CompanyList(
-            @Lazy @Qualifier(ACost.TAG_COM) IAPresenter presenter,
+    public PersonaList(
+            @Lazy @Qualifier(ACost.TAG_PER) IAPresenter presenter,
             @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
         super(presenter, toolbar);
     }// end of Spring constructor
 
 
+
+    /**
+     * Crea la scritta esplicativa
+     * Può essere sovrascritto per un'intestazione specifica (caption) della grid
+     */
+    @Override
+    protected void fixCaption(Class<? extends AEntity> entityClazz, List items) {
+        super.fixCaption(entityClazz, items);
+        if (login.isDeveloper()) {
+            caption += "Non dovrebbero esserci schede.";
+            caption += "</br>Lista visibile solo al developer";
+            caption += "</br>NON usa direttamente la company";
+            caption += "</br>La company però è facoltativa in modo che le sottoclassi (eventuali) possano usarla";
+            caption += "</br>L'entity è 'embedded' nelle collezioni che la usano (no @Annotation property DbRef)";
+            caption += "</br>In pratica questa lista non dovrebbe mai essere usata (serve come test o per le sottoclassi specifiche)";
+        }// end of if cycle
+    }// end of method
 
 }// end of class

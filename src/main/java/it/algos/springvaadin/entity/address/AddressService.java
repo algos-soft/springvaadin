@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Service
-@Scope("singleton")
+@Scope("session")
 @Qualifier(ACost.TAG_ADD)
 public class AddressService extends AService {
 

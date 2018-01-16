@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.Notification;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.user.User;
+import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ASessionService;
@@ -33,23 +34,9 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Service
-@Scope("singleton")
+@Scope("session")
 @Qualifier(ACost.TAG_ROL)
 public class RoleService extends AService {
-
-
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public ATextService text;
-
-
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public ASessionService session;
 
 
     public final static String DEV = "developer";
@@ -82,38 +69,37 @@ public class RoleService extends AService {
     }// end of Spring constructor
 
 
+//    /**
+//     * Creazione nel MongoDB di una entity (solo se non la trova)
+//     * Properties obbligatorie
+//     *
+//     * @param code di riferimento (obbligatorio)
+//     */
+//    public Role newSave(String code) {
+//        if (findByKeyUnica(code) == null) {
+//            try { // prova ad eseguire il codice
+//                return  (Role)save(newEntity(0, code));
+//            } catch (Exception unErrore) { // intercetta l'errore
+//                log.error(unErrore.toString());
+//            }// fine del blocco try-catch
+//        } else {
+//            return null;
+//        }// end of if/else cycle
+//        return null;
+//    }// end of method
+//
+
     /**
-     * Ricerca di una entity (la crea se non la trova)
+     * Creazione nel MongoDB di una entity (solo se non la trova)
      * Properties obbligatorie
      *
      * @param code di riferimento (obbligatorio)
-     *
-     * @return la entity trovata o appena creata
      */
-    public Role findOrCrea(String code) {
-        return this.findOrCrea(0, code);
-    }// end of method
-
-
-    /**
-     * Ricerca di una entity (la crea se non la trova)
-     * All properties
-     *
-     * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
-     * @param code di riferimento (obbligatorio)
-     *
-     * @return la entity trovata o appena creata
-     */
-    public Role findOrCrea(int ordine, String code) {
-        if (nonEsiste(code)) {
-            try { // prova ad eseguire il codice
-                return (Role) save(newEntity(ordine, code));
-            } catch (Exception unErrore) { // intercetta l'errore
-                log.error(unErrore.toString());
-                return null;
-            }// fine del blocco try-catch
+    public Role newSave(String code) {
+        if (findByKeyUnica(code) == null) {
+            return (Role) save(newEntity(0, code));
         } else {
-            return findByCode(code);
+            return null;
         }// end of if/else cycle
     }// end of method
 
@@ -138,32 +124,18 @@ public class RoleService extends AService {
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
      *
      * @param ordine di rilevanza (obbligatorio, unico, con inserimento automatico se è zero, non modificabile)
-     * @param code di riferimento (obbligatorio)
+     * @param code   di riferimento (obbligatorio)
      *
      * @return la nuova entity appena creata (non salvata)
      */
     public Role newEntity(int ordine, String code) {
-        Role entity = null;
+        Role entity = findByKeyUnica(code);
 
-        if (nonEsiste(code)) {
+        if (entity == null) {
             entity = Role.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(code).build();
-        } else {
-            return findByCode(code);
-        }// end of if/else cycle
+        }// end of if cycle
 
         return entity;
-    }// end of method
-
-
-    /**
-     * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-     *
-     * @param code di riferimento (obbligatorio)
-     *
-     * @return vero se non esiste, false se trovata
-     */
-    public boolean nonEsiste(String code) {
-        return findByCode(code) == null;
     }// end of method
 
 
@@ -174,7 +146,7 @@ public class RoleService extends AService {
      *
      * @return istanza della Entity, null se non trovata
      */
-    public Role findByCode(String code) {
+    public Role findByKeyUnica(String code) {
         return repository.findByCode(code);
     }// end of method
 
@@ -193,32 +165,14 @@ public class RoleService extends AService {
 
 
     /**
-     * Saves a given entity.
-     * Use the returned instance for further operations
-     * as the save operation might have changed the entity instance completely.
+     * Opportunità di controllare (per le nuove schede) che la key unica non esista già.
+     * Invocato appena prima del save(), solo per una nuova entity
      *
-     * @param entityBean da salvare
-     *
-     * @return the saved entity
+     * @param entityBean nuova da creare
      */
     @Override
-    public AEntity save(AEntity entityBean) throws Exception {
-        String codice = ((Role) entityBean).getCode();
-
-        if (entityBean == null) {
-            return null;
-        }// end of if cycle
-
-        if (text.isValid(entityBean.id)) {
-            return super.save(entityBean);
-        } else {
-            if (nonEsiste(codice)) {
-                return super.save(entityBean);
-            } else {
-                log.error("Ha cercato di salvare una entity già esistente");
-                return null;
-            }// end of if/else cycle
-        }// end of if/else cycle
+    protected boolean isEsisteEntityKeyUnica(AEntity entityBean) {
+        return findByKeyUnica(((Role) entityBean).getCode()) == null;
     }// end of method
 
 
@@ -246,7 +200,7 @@ public class RoleService extends AService {
      * @return entity richiesta
      */
     public Role getDev() {
-        return findByCode(DEV);
+        return findByKeyUnica(DEV);
     }// end of method
 
 
@@ -256,7 +210,7 @@ public class RoleService extends AService {
      * @return entity richiesta
      */
     public Role getAdmin() {
-        return findByCode(ADMIN);
+        return findByKeyUnica(ADMIN);
     }// end of method
 
 
@@ -266,7 +220,7 @@ public class RoleService extends AService {
      * @return entity richiesta
      */
     public Role getUser() {
-        return findByCode(USER);
+        return findByKeyUnica(USER);
     }// end of method
 
 
@@ -276,7 +230,7 @@ public class RoleService extends AService {
      * @return entity richiesta
      */
     public Role getGuest() {
-        return findByCode(GUEST);
+        return findByKeyUnica(GUEST);
     }// end of method
 
 }// end of class
