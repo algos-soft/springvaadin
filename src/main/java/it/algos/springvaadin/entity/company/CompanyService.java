@@ -4,6 +4,7 @@ import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.address.Address;
 import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
@@ -26,6 +27,7 @@ import java.util.List;
  * Annotated with @Service (ridondante)
  * Annotated with @Scope (obbligatorio = 'singleton')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @Slf4j
 @SpringComponent
@@ -145,6 +147,18 @@ public class CompanyService extends AService {
 
 
     /**
+     * Opportunità di controllare (per le nuove schede) che la key unica non esista già.
+     * Invocato appena prima del save(), solo per una nuova entity
+     *
+     * @param entityBean nuova da creare
+     */
+    @Override
+    protected boolean isEsisteEntityKeyUnica(AEntity entityBean) {
+        return findByKeyUnica(((Company) entityBean).getCode()) != null;
+    }// end of method
+
+
+    /**
      * Returns all instances of the type
      * La Entity è EACompanyRequired.nonUsata. Non usa Company.
      * Lista ordinata
@@ -155,6 +169,5 @@ public class CompanyService extends AService {
     public List findAll() {
         return repository.findByOrderByCodeAsc();
     }// end of method
-
 
 }// end of class

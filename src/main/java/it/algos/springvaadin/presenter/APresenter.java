@@ -312,8 +312,9 @@ public abstract class APresenter extends APresenterEvents {
         AEntity modifiedBean = form.commit();
 
         try { // prova ad eseguire il codice
-            service.save(oldBean,modifiedBean);
-            fireList();
+            if (service.save(oldBean, modifiedBean) != null) {
+                fireList();
+            }// end of if cycle
         } catch (Exception unErrore) { // intercetta l'errore
             log.error(unErrore.toString());
             Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
@@ -321,25 +322,6 @@ public abstract class APresenter extends APresenterEvents {
     }// end of method
 
 
-//    public void logDifferences(Map<String, String> mappa, AEntity modifiedBean, boolean nuovaEntity) {
-//        String note;
-//        String aCapo = "\n";
-//        String clazz = text.primaMaiuscola(modifiedBean.getClass().getSimpleName());
-//
-//        for (String publicFieldName : mappa.keySet()) {
-//            note = "";
-//            note += clazz;
-//            note += ": ";
-//            note += modifiedBean;
-//            note += aCapo;
-//            note += "Property: ";
-//            note += text.primaMaiuscola(publicFieldName);
-//            note += aCapo;
-//            note += mappa.get(publicFieldName);
-//            logger.logEdit(modifiedBean, note);
-//        }// end of for cycle
-//
-//    }// end of method
 
 
     public AEntity getBean() {
@@ -351,29 +333,6 @@ public abstract class APresenter extends APresenterEvents {
         return oldBean;
     }// end of method
 
-
-//    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean) {
-//        return chekDifferences(oldBean, modifiedBean, (EAPrefType) null);
-//    }// end of method
-//
-//    protected Map<String, String> chekDifferences(AEntity oldBean, AEntity modifiedBean, EAPrefType type) {
-//        Map<String, String> mappa = new LinkedHashMap();
-//        List<String> listaNomi = reflection.getAllFieldsNameNoCrono(oldBean.getClass());
-//        Object oldValue;
-//        Object newValue;
-//        String descrizione = "";
-//
-//        for (String publicFieldName : listaNomi) {
-//            oldValue = reflection.getPropertyValue(oldBean, publicFieldName);
-//            newValue = reflection.getPropertyValue(modifiedBean, publicFieldName);
-//            descrizione = text.getModifiche(oldValue, newValue, type);
-//            if (text.isValid(descrizione)) {
-//                mappa.put(publicFieldName, descrizione);
-//            }// end of if cycle
-//        }// end of for cycle
-//
-//        return mappa;
-//    }// end of method
 
     /**
      * Regola lo stato dei bottoni del Form

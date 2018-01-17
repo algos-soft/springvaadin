@@ -25,6 +25,9 @@ import java.util.List;
  * Annotated with @Scope (obbligatorio = 'singleton')
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
+ * Le entity sono SEMPRE 'embedded' dentro un'altra collection
+ * Non esiste 'KeyUnica' e quindi non ha senso il metodo findOrCrea() (tipico degli altri XxxService)
  */
 @Slf4j
 @SpringComponent

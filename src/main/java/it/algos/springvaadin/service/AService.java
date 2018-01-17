@@ -1,12 +1,14 @@
 package it.algos.springvaadin.service;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.Notification;
 import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.log.LogService;
 import it.algos.springvaadin.enumeration.*;
+import it.algos.springvaadin.exception.DuplicateException;
 import it.algos.springvaadin.exception.NotCompanyEntityException;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
@@ -361,6 +363,7 @@ public abstract class AService implements IAService {
 
         //--opportunità di controllare (per le nuove schede) che la key unica non esista già.
         if (nuovaEntity && isEsisteEntityKeyUnica(modifiedBean)) {
+            Notification.show("Nuova scheda", DuplicateException.MESSAGE, Notification.Type.ERROR_MESSAGE);
             return null;
         }// end of if cycle
 

@@ -25,6 +25,7 @@ import java.util.List;
  * Annotated with @Service (ridondante)
  * Annotated with @Scope (obbligatorio = 'singleton')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @Slf4j
 @SpringComponent
