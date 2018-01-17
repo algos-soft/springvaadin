@@ -37,15 +37,6 @@ public class AddressService extends AService {
 
 
     /**
-     * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
-     * dove viene usata l'interfaccia MongoRepository
-     * Spring costruisce al volo, quando serve, una implementazione di RoleRepository (come previsto dal @Qualifier)
-     * Qui si una una interfaccia locale (col casting nel costruttore) per usare i metodi specifici
-     */
-    private AddressRepository repository;
-
-
-    /**
      * Costruttore @Autowired (nella superclasse)
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      * Si usa un @Qualifier(), per avere la sottoclasse specifica
@@ -53,7 +44,6 @@ public class AddressService extends AService {
      */
     public AddressService(@Qualifier(ACost.TAG_ADD) MongoRepository repository) {
         super(repository);
-        this.repository = (AddressRepository) repository;
         super.entityClass = Address.class;
     }// end of Spring constructor
 

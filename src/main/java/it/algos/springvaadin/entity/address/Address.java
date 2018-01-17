@@ -54,6 +54,7 @@ import it.algos.springvaadin.entity.AEntity;
 @AIEntity(roleTypeVisibility = EARoleType.user, company = EACompanyRequired.nonUsata)
 @AIList(fields = {"indirizzo", "localita", "cap", "stato"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"indirizzo", "localita", "cap", "stato"})
+@AIScript(sovrascrivibile = false)
 public class Address extends AEntity {
 
     /**
