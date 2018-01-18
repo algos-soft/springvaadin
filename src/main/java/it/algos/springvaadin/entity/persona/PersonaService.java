@@ -28,7 +28,7 @@ import it.algos.springvaadin.lib.ACost;
  * Annotated with @Service (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
  * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
- * Le entity POSSONO essere 'embedded' dentro un'altra collection
+ * Le entity SONO 'embedded' dentro un'altra collection
  * Sottoclassi specifiche possono NON essere 'embedded' ed avere una 'KeyUnica' su nome e cognome
  */
 @Slf4j
@@ -61,47 +61,6 @@ public class PersonaService extends AService {
 
 
     /**
-     * Ricerca e nuovo di una entity (la crea se non la trova)
-     * Properties obbligatorie
-     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
-     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
-     *
-     * @param nome:    obbligatorio
-     * @param cognome: obbligatorio
-     *
-     * @return la entity trovata o appena creata
-     */
-    public Persona findOrCrea(String nome, String cognome) {
-        return findOrCrea((Company) null, nome, cognome, "", "", (Address) null);
-    }// end of method
-
-
-    /**
-     * Ricerca e nuovo di una entity (la crea se non la trova)
-     * All properties
-     * Le entites di questa collezione sono 'embedded', quindi non ha senso controllare se esiste già nella collezione
-     * Metodo tenuto per 'omogeneità' e per poter 'switchare' a @DBRef in qualunque momento la collezione che usa questa property
-     *
-     * @param company    di riferimento (facoltativa visto che è EACompanyRequired.facoltativa)
-     * @param nome:      obbligatorio
-     * @param cognome:   obbligatorio
-     * @param telefono:  facoltativo
-     * @param email:     facoltativo
-     * @param indirizzo: via, nome e numero (facoltativo)
-     *
-     * @return la entity trovata o appena creata
-     */
-    public Persona findOrCrea(Company company, String nome, String cognome, String telefono, String email, Address indirizzo) {
-        try { // prova ad eseguire il codice
-            return (Persona) save(newEntity(company, nome, cognome, telefono, email, indirizzo));
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-            return null;
-        }// fine del blocco try-catch
-    }// end of method
-
-
-    /**
      * Creazione in memoria di una nuova entity che NON viene salvata
      * Eventuali regolazioni iniziali delle property
      * Senza properties per compatibilità con la superclasse
@@ -126,7 +85,7 @@ public class PersonaService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     public Persona newEntity(String nome, String cognome) {
-        return newEntity((Company) null, nome, cognome, "", "", (Address) null);
+        return newEntity(nome, cognome, "", "", (Address) null);
     }// end of method
 
 
@@ -148,7 +107,7 @@ public class PersonaService extends AService {
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Persona newEntity(Company company, String nome, String cognome, String telefono, String email, Address indirizzo) {
+    public Persona newEntity(String nome, String cognome, String telefono, String email, Address indirizzo) {
         Persona entity = null;
 
         entity = Persona.builder()
@@ -159,7 +118,7 @@ public class PersonaService extends AService {
                 .indirizzo(indirizzo)
                 .build();
 
-        return (Persona) addCompany(entity);
+        return entity;
     }// end of method
 
 

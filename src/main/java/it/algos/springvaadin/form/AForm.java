@@ -104,6 +104,27 @@ public abstract class AForm extends AView implements IAForm {
 
 
     /**
+     * Creazione di una view (AForm) contenente i fields
+     * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
+     * Ricrea tutto ogni volta che la view diventa attiva
+     * La view comprende:
+     * 1) Menu: Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * 2) Top: Contenitore grafico per la caption
+     * 3) Body: Corpo centrale della view. Utilizzando un Panel, si ottine l'effetto scorrevole
+     * 4) Bottom - Barra dei bottoni inferiore
+     *
+     * @param source              di riferimento per gli eventi
+     * @param entityClazz         di riferimento, sottoclasse concreta di AEntity
+     * @param entityBean          di riferimento
+     * @param reflectedJavaFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
+     * @param typeButtons         lista di (tipi di) bottoni visibili nella toolbar della view AList
+     */
+    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, AEntity entityBean, List<Field> reflectedJavaFields, List<EAButtonType> typeButtons) {
+        this.entityBean = entityBean;
+        super.start(source, entityClazz, entityBean, reflectedJavaFields, typeButtons);
+    }// end of method
+
+    /**
      * Crea la scritta esplicativa
      * Può essere sovrascritto per un'intestazione specifica (caption) della grid
      */
