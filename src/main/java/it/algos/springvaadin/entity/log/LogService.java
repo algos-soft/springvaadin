@@ -36,8 +36,6 @@ public class LogService extends AService {
 
     private LogRepository repository;
 
-    @Autowired
-    public ATextService text;
 
     @Autowired
     public LogtypeService typeService;
@@ -89,7 +87,6 @@ public class LogService extends AService {
      */
     public Log newCrea(EALogLevel livello, Logtype type, String descrizione, String note) {
         Log entity = newEntity(livello, type, descrizione, note);
-
         return (Log) save(entity);
     }// end of method
 
@@ -103,25 +100,9 @@ public class LogService extends AService {
      */
     @Override
     public Log newEntity() {
-        return newEntity((Company) null, (EALogLevel) null, (Logtype) null, "", (LocalDateTime) null, "");
+        return newEntity((EALogLevel) null, (Logtype) null, "", "");
     }// end of method
 
-
-    /**
-     * Creazione in memoria di una nuova entity che NON viene salvata
-     * Eventuali regolazioni iniziali delle property
-     * Properties obbligatorie
-     *
-     * @param livello:     rilevanza del log
-     * @param type:        raggruppamento logico dei log per categorie di eventi
-     * @param descrizione: completa in forma testuale
-     * @param note:        specifiche di dettaglio dell'evento
-     *
-     * @return la nuova entity appena creata (non salvata)
-     */
-    public Log newEntity(EALogLevel livello, Logtype type, String descrizione, String note) {
-        return newEntity((Company) null, livello, type, descrizione, (LocalDateTime) null, note);
-    }// end of method
 
     /**
      * Creazione in memoria di una nuova entity che NON viene salvata
@@ -133,65 +114,26 @@ public class LogService extends AService {
      * Se manca la prende dal Login
      * Se è obbligatoria e manca anche nel Login, va in errore
      *
-     * @param company      di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
      * @param livello:     rilevanza del log
      * @param type:        raggruppamento logico dei log per categorie di eventi
      * @param descrizione: completa in forma testuale
-     * @param evento:      data dell'evento di log
      * @param note:        specifiche di dettaglio dell'evento
      *
      * @return la nuova entity appena creata (non salvata)
      */
-    public Log newEntity(Company company, EALogLevel livello, Logtype type, String descrizione, LocalDateTime evento, String note) {
+    public Log newEntity(EALogLevel livello, Logtype type, String descrizione, String note) {
         Log entity = null;
 
         entity = Log.builder()
                 .livello(livello != null ? livello : EALogLevel.debug)
                 .type(type)
                 .descrizione(descrizione)
-                .evento(evento != null ? evento : LocalDateTime.now())
+                .evento(LocalDateTime.now())
                 .build();
-
-        try { // prova ad eseguire il codice
-            if (login != null) {
-                entity.company = company != null ? company : login.getCompany();
-            }// end of if cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
         entity.note = note;
 
-        return entity;
+        return (Log) addCompany(entity);
     }// end of method
-
-
-//    /**
-//     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
-//     *
-//     * @param company di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
-//     * @param evento: data dell'evento di log
-//     *
-//     * @return istanza della Entity, null se non trovata
-//     */
-//    public Log findByCompanyAndEvento(Company company, LocalDateTime evento) {
-//        return repository.findByCompanyAndEvento(company != null ? company : login.getCompany(), evento);
-//    }// end of method
-
-
-//    /**
-//     * Returns all instances of the type
-//     * Usa MultiCompany, ma il developer può vedere anche tutto
-//     * Lista ordinata
-//     *
-//     * @return lista ordinata di tutte le entities
-//     */
-//    public List findAll() {
-//        if (login.isDeveloper()) {
-//            return repository.findByOrderByEventoAsc();
-//        } else {
-//            return repository.findByCompanyOrderByEventoAsc(login.getCompany());
-//        }// end of if/else cycle
-//    }// end of method
 
 
     /**
@@ -209,33 +151,10 @@ public class LogService extends AService {
         if (company == null) {
             return findAll();
         } else {
-            return repository.findByCompanyOrderByEventoAsc(company);
+            return repository.findByCompanyOrderByEventoDesc(company);
         }// end of if/else cycle
     }// end of method
 
-
-//    /**
-//     * Saves a given entity.
-//     * Use the returned instance for further operations
-//     * as the save operation might have changed the entity instance completely.
-//     *
-//     * @param entityBean da salvare
-//     *
-//     * @return the saved entity
-//     */
-//    @Override
-//    public AEntity save(AEntity entityBean) throws Exception {
-//        Company company = ((ACEntity) entityBean).getCompany();
-////        String code = ((Log) entityBean).getCode();
-//
-//        if (text.isValid(entityBean.id)) {
-//            return super.save(entityBean);
-//        } else {
-//            log.error("Ha cercato di salvare una entity già esistente per questa company");
-//            return null;
-//        }// end of if/else cycle
-//
-//    }// end of method
 
     /**
      * Returns all instances of the type

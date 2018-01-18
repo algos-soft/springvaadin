@@ -24,6 +24,7 @@ import it.algos.springvaadin.lib.ACost;
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
  * Costruttore con dei link @Autowired di tipo @Lazy per evitare un loop nella injection
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @SpringComponent
 @Scope("session")

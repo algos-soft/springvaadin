@@ -127,7 +127,14 @@ public class CompanyService extends AService {
         Company entity = findByKeyUnica(code);
 
         if (entity == null) {
-            entity = Company.builder().code(code).descrizione(descrizione).contatto(contatto).telefono(telefono).email(email).indirizzo(indirizzo).build();
+            entity = Company.builder()
+                    .code(code)
+                    .descrizione(descrizione)
+                    .contatto(contatto)
+                    .telefono(telefono)
+                    .email(email)
+                    .indirizzo(indirizzo)
+                    .build();
         }// end of if cycle
 
         return entity;

@@ -231,7 +231,12 @@ public class UserService extends AService {
         User entity = null;
 
         if (nonEsiste(company, nickname)) {
-            entity = User.builder().nickname(nickname).password(password).role(role != null ? role : roleService.getUser()).enabled(true).build();
+            entity = User.builder()
+                    .nickname(nickname)
+                    .password(password)
+                    .role(role != null ? role : roleService.getUser())
+                    .enabled(true)
+                    .build();
             entity.company = company != null ? company : login.getCompany();
         } else {
             return findByCompanyAndNickname(company, nickname);

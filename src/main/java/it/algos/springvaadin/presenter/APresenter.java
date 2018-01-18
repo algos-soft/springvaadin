@@ -170,9 +170,14 @@ public abstract class APresenter extends APresenterEvents {
      * @param entityBean istanza da creare/elaborare
      */
     public void fireForm(AEntity entityBean) {
-        form.getForm().entityBean = entityBean != null ? entityBean : service.newEntity();
-        Class clazz = form.getViewComponent().getClass();
-        params.getNavigator().navigateTo(annotation.getViewName(clazz));
+        if (entityBean == null) {
+            entityBean = service.newEntity();
+        }// end of if cycle
+
+        if (entityBean != null) {
+            Class clazz = form.getViewComponent().getClass();
+            params.getNavigator().navigateTo(annotation.getViewName(clazz));
+        }// end of if cycle
     }// end of method
 
 
@@ -320,8 +325,6 @@ public abstract class APresenter extends APresenterEvents {
             Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
         }// fine del blocco try-catch
     }// end of method
-
-
 
 
     public AEntity getBean() {

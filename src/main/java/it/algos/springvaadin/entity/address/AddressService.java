@@ -78,7 +78,12 @@ public class AddressService extends AService {
      * @return la nuova entity appena creata (non salvata)
      */
     public Address newEntity(String indirizzo, String localita, String cap, Stato stato) {
-        return Address.builder().indirizzo(indirizzo).localita(localita).cap(cap).stato(stato).build();
+        return Address.builder()
+                .indirizzo(indirizzo)
+                .localita(localita)
+                .cap(cap)
+                .stato(stato)
+                .build();
     }// end of method
 
 

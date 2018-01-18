@@ -326,6 +326,54 @@ public abstract class AService implements IAService {
 
 
     /**
+     * Se la nuova entity usa la company, la recupera dal login
+     * Se la campany manca, lancia l'eccezione
+     *
+     * @param entityBean da creare
+     */
+    protected AEntity addCompany(AEntity entityBean) {
+        Company company;
+        EACompanyRequired tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
+
+        //--se la EntityClass non estende ACCompany, nopn deve fare nulla
+        if (!(entityBean instanceof ACEntity)) {
+            return entityBean;
+        }// end of if cycle
+
+        //--controlla l'obbligatorietà della Company
+        tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
+        switch (tableCompanyRequired) {
+            case nonUsata:
+                log.error("C'è una discrepanza tra 'extends ACEntity' della classe " + entityBean.getClass().getSimpleName() + " e l'annotation @AIEntity della classe stessa");
+                break;
+            case facoltativa:
+                company = login.getCompany();
+                if (company != null) {
+                    ((ACEntity) entityBean).company = company;
+                } else {
+                    if (AlgosApp.USE_MULTI_COMPANY) {
+                        log.info("Nuova scheda senza company (facoltativa)");
+                    }// end of if cycle
+                }// end of if/else cycle
+                break;
+            case obbligatoria:
+                company = login.getCompany();
+                if (company != null) {
+                    ((ACEntity) entityBean).company = company;
+                } else {
+                    entityBean = null;
+                    log.error(NullCompanyException.MESSAGE);
+                    Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
+                }// end of if/else cycle
+                break;
+            default:
+                break;
+        } // end of switch statement
+
+        return entityBean;
+    }// end of method
+
+    /**
      * Saves a given entity.
      * Use the returned instance for further operations
      * as the save operation might have changed the entity instance completely.
@@ -511,10 +559,13 @@ public abstract class AService implements IAService {
 
     /**
      * Controlla che la entity estenda ACompanyEntity
-     * Se manca la company, cerca di usare quella della sessione (se esiste)
+     * Se manca la company, cerca di usare quella del login (se esiste)
      * Se la campany manca ancora, lancia l'eccezione
-     * Controlla che la gestione della chiave unica sia soddisfatta
+     * //     * Controlla che la gestione della chiave unica sia soddisfatta
+     *
+     * @param entity da salvare
      */
+    @Deprecated
     private boolean checkCompany(AEntity entity, boolean usaCodeCompanyUnico) throws Exception {
         ACEntity companyEntity;
         Company company;

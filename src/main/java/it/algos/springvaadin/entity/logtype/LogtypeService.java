@@ -112,7 +112,10 @@ public class LogtypeService extends AService {
         Logtype entity = findByKeyUnica(code);
 
         if (entity == null) {
-            entity = Logtype.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(code).build();
+            entity = Logtype.builder()
+                    .ordine(ordine != 0 ? ordine : this.getNewOrdine())
+                    .code(code)
+                    .build();
         }// end of if cycle
 
         return entity;

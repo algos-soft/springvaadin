@@ -27,6 +27,9 @@ import it.algos.springvaadin.lib.ACost;
  * Date: 2018-01-14_06:46:57
  * Annotated with @Service (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
+ * Le entity POSSONO essere 'embedded' dentro un'altra collection
+ * Sottoclassi specifiche possono NON essere 'embedded' ed avere una 'KeyUnica' su nome e cognome
  */
 @Slf4j
 @Service
@@ -107,7 +110,7 @@ public class PersonaService extends AService {
      */
     @Override
     public Persona newEntity() {
-        return newEntity("","");
+        return newEntity("", "");
     }// end of method
 
 
@@ -148,16 +151,15 @@ public class PersonaService extends AService {
     public Persona newEntity(Company company, String nome, String cognome, String telefono, String email, Address indirizzo) {
         Persona entity = null;
 
-        try { // prova ad eseguire il codice
-            entity = Persona.builder().nome(nome).cognome(cognome).telefono(telefono).email(email).indirizzo(indirizzo).build();
-            if (login != null) {
-                entity.company = company != null ? company : login.getCompany();
-            }// end of if cycle
-        } catch (Exception unErrore) { // intercetta l'errore
-            log.error(unErrore.toString());
-        }// fine del blocco try-catch
+        entity = Persona.builder()
+                .nome(nome)
+                .cognome(cognome)
+                .telefono(telefono)
+                .email(email)
+                .indirizzo(indirizzo)
+                .build();
 
-        return entity;
+        return (Persona) addCompany(entity);
     }// end of method
 
 

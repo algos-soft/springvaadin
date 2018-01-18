@@ -129,7 +129,14 @@ public class StatoService extends AService {
         Stato entity = findByKeyUnica(nome);
 
         if (entity == null) {
-            entity = Stato.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).nome(nome).alfaDue(alfaDue).alfaTre(alfaTre).numerico(numerico).bandiera(bandiera).build();
+            entity = Stato.builder()
+                    .ordine(ordine != 0 ? ordine : this.getNewOrdine())
+                    .nome(nome)
+                    .alfaDue(alfaDue)
+                    .alfaTre(alfaTre)
+                    .numerico(numerico)
+                    .bandiera(bandiera)
+                    .build();
         }// end of if cycle
 
         return entity;

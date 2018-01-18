@@ -17,6 +17,7 @@ import it.algos.springvaadin.lib.ACost;
  * Date: 2018-01-14_06:46:57
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Qualifier, per individuare la classe specifica da iniettare come interfaccia
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @SpringComponent
 @Qualifier(ACost.TAG_PER)

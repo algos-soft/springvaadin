@@ -123,7 +123,10 @@ public class RoleService extends AService {
         Role entity = findByKeyUnica(code);
 
         if (entity == null) {
-            entity = Role.builder().ordine(ordine != 0 ? ordine : this.getNewOrdine()).code(code).build();
+            entity = Role.builder()
+                    .ordine(ordine != 0 ? ordine : this.getNewOrdine())
+                    .code(code)
+                    .build();
         }// end of if cycle
 
         return entity;
