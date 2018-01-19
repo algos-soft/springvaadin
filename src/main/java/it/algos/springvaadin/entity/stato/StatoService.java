@@ -1,5 +1,6 @@
 package it.algos.springvaadin.entity.stato;
 
+import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.lib.ACost;
@@ -24,18 +25,17 @@ import java.util.List;
  * Annotated with @Service (ridondante)
  * Annotated with @Scope (obbligatorio = 'session')
  * Annotated with @Qualifier (obbligatorio) per permettere a Spring di istanziare la sottoclasse specifica
+ * Annotated with @AIScript (facoltativo) per controllare la ri-creazione di questo file nello script del framework
  */
 @Slf4j
 @SpringComponent
 @Service
 @Scope("singleton")
 @Qualifier(ACost.TAG_STA)
+@AIScript(sovrascrivibile = false)
 public class StatoService extends AService {
 
 
-//    @Autowired
-//    public ATextService text;
-//
 
     /**
      * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,

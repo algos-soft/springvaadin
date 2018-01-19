@@ -172,7 +172,7 @@ public class ALogin {
 
         String nickname = loginForm.getNickname();
         String password = loginForm.getPassword();
-        valido = userService.check(nickname, password);
+        valido = userService.passwordValida(nickname, password);
 
         if (valido) {
             Notification.show("Login", "Valido", Notification.Type.HUMANIZED_MESSAGE);

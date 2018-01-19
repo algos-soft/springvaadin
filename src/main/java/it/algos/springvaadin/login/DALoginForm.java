@@ -59,7 +59,7 @@ public class DALoginForm extends ALoginForm {
      */
     public IAUser getSelectedUser() {
         String nickname = nameField.getValue();
-        IAUser user = userService.findByNickname(nickname);
+        IAUser user = userService.findByKeyUnica(nickname);
 
         return user;
     }// end of method
