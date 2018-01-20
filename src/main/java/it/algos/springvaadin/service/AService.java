@@ -341,34 +341,34 @@ public abstract class AService implements IAService {
         }// end of if cycle
 
         //--controlla l'obbligatorietà della Company
-        tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
-        switch (tableCompanyRequired) {
-            case nonUsata:
-                log.error("C'è una discrepanza tra 'extends ACEntity' della classe " + entityBean.getClass().getSimpleName() + " e l'annotation @AIEntity della classe stessa");
-                break;
-            case facoltativa:
-                company = login.getCompany();
-                if (company != null) {
-                    ((ACEntity) entityBean).company = company;
-                } else {
-                    if (AlgosApp.USE_MULTI_COMPANY) {
+        if (AlgosApp.USE_MULTI_COMPANY) {
+            tableCompanyRequired = annotation.getCompanyRequired(entityBean.getClass());
+            switch (tableCompanyRequired) {
+                case nonUsata:
+                    log.error("C'è una discrepanza tra 'extends ACEntity' della classe " + entityBean.getClass().getSimpleName() + " e l'annotation @AIEntity della classe stessa");
+                    break;
+                case facoltativa:
+                    company = login.getCompany();
+                    if (company != null) {
+                        ((ACEntity) entityBean).company = company;
+                    } else {
                         log.info("Nuova scheda senza company (facoltativa)");
-                    }// end of if cycle
-                }// end of if/else cycle
-                break;
-            case obbligatoria:
-                company = login.getCompany();
-                if (company != null) {
-                    ((ACEntity) entityBean).company = company;
-                } else {
-                    entityBean = null;
-                    log.error(NullCompanyException.MESSAGE);
-                    Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
-                }// end of if/else cycle
-                break;
-            default:
-                break;
-        } // end of switch statement
+                    }// end of if/else cycle
+                    break;
+                case obbligatoria:
+                    company = login.getCompany();
+                    if (company != null) {
+                        ((ACEntity) entityBean).company = company;
+                    } else {
+                        entityBean = null;
+                        log.error(NullCompanyException.MESSAGE);
+                        Notification.show("Nuova scheda", NullCompanyException.MESSAGE, Notification.Type.ERROR_MESSAGE);
+                    }// end of if/else cycle
+                    break;
+                default:
+                    break;
+            } // end of switch statement
+        }// end of if cycle
 
         return entityBean;
     }// end of method
@@ -410,9 +410,11 @@ public abstract class AService implements IAService {
         boolean nuovaEntity = oldBean == null || text.isEmpty(modifiedBean.id);
 
         //--opportunità di controllare (per le nuove schede) che la key unica non esista già.
-        if (nuovaEntity && isEsisteEntityKeyUnica(modifiedBean)) {
-            Notification.show("Nuova scheda", DuplicateException.MESSAGE, Notification.Type.ERROR_MESSAGE);
-            return null;
+        if (nuovaEntity) {
+            if (isEsisteEntityKeyUnica(modifiedBean)) {
+                Notification.show("Nuova scheda", DuplicateException.MESSAGE, Notification.Type.ERROR_MESSAGE);
+                return null;
+            }// end of if cycle
         }// end of if cycle
 
         //--opportunità di usare una idKey specifica

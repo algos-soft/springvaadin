@@ -170,14 +170,10 @@ public abstract class APresenter extends APresenterEvents {
      * @param entityBean istanza da creare/elaborare
      */
     public void fireForm(AEntity entityBean) {
-        if (entityBean == null) {
-            entityBean = service.newEntity();
-        }// end of if cycle
+        form.getForm().entityBean = entityBean != null ? entityBean : service.newEntity();
 
-        if (entityBean != null) {
-            Class clazz = form.getViewComponent().getClass();
-            params.getNavigator().navigateTo(annotation.getViewName(clazz));
-        }// end of if cycle
+        Class clazz = form.getViewComponent().getClass();
+        params.getNavigator().navigateTo(annotation.getViewName(clazz));
     }// end of method
 
 
@@ -194,14 +190,13 @@ public abstract class APresenter extends APresenterEvents {
      * Passa il controllo alla view con i dati necessari
      */
     public void setForm() {
-        AEntity entityBean = form.getForm().entityBean != null ? form.getForm().entityBean : service.newEntity();
         List<Field> fields = null;
         List<EAButtonType> typeButtons = null;
 
         fields = service.getFormFields();
         typeButtons = service.getFormTypeButtons();
 
-        form.start(this, entityClass, entityBean, fields, typeButtons);
+        form.start(this, entityClass, fields, typeButtons);
     }// end of method
 
 
