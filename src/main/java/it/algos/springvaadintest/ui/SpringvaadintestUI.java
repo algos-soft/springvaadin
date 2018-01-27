@@ -59,6 +59,7 @@ public class SpringvaadintestUI extends AUI {
     protected void addVisteSpecifiche() {
     }// end of method
 
+
     /**
      * Lancio della vista iniziale
      * Chiamato DOPO aver finito di costruire il MenuLayout e la AlgosUI
@@ -66,7 +67,7 @@ public class SpringvaadintestUI extends AUI {
      */
     @Override
     protected void startVistaIniziale() {
-        getNavigator().navigateTo(ACost.VIEW_HOME);
+        getNavigator().navigateTo(ACost.VIEW_ROL_LIST);
     }// end of method
 
 }// end of class

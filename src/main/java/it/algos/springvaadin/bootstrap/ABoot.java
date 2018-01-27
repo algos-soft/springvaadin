@@ -140,9 +140,9 @@ public class ABoot {
 //
 //        AlgosApp.USE_CHECK_PARAMS = true;
 //        log.info("AlgosApp.USE_CHECK_PARAMS: " + AlgosApp.USE_CHECK_PARAMS);
-//
-//        AlgosApp.USE_CHECK_COOKIES = true;
-//        log.info("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
+
+        AlgosApp.USE_CHECK_COOKIES = true;
+        log.info("AlgosApp.USE_CHECK_COOKIES: " + AlgosApp.USE_CHECK_COOKIES);
 
         AlgosApp.USE_VERS = true;
         log.info("AlgosApp.USE_VERS: " + AlgosApp.USE_VERS);

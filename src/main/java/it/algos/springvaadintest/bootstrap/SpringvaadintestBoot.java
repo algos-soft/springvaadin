@@ -100,10 +100,10 @@ public class SpringvaadintestBoot extends ABoot {
         AlgosApp.USE_DEBUG = false;
         log.debug("AlgosApp.USE_DEBUG: " + AlgosApp.USE_DEBUG);
 
-        AlgosApp.USE_SECURITY = false;//@todo RIMETTERE a TRUE
+        AlgosApp.USE_SECURITY = true;//@todo RIMETTERE a TRUE
         log.debug("AlgosApp.USE_SECURITY: " + AlgosApp.USE_SECURITY);
 
-        AlgosApp.USE_MULTI_COMPANY = false;
+        AlgosApp.USE_MULTI_COMPANY = true;
         log.debug("AlgosApp.USE_MULTI_COMPANY: " + AlgosApp.USE_MULTI_COMPANY);
 
         AlgosApp.USE_VERS = false;//@todo RIMETTERE a TRUE;

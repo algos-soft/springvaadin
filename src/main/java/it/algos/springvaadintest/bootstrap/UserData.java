@@ -2,8 +2,11 @@ package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.data.AData;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
+import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
+import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.IAService;
@@ -83,14 +86,29 @@ public class UserData extends AData {
      * Creazione degli users di PROVA
      */
     public void creaUsers() {
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.ALGOS),"gac", roleService.getDev());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.ALGOS),"alex", roleService.getDev());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.DEMO),"developer", roleService.getDev());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.DEMO),"admin", roleService.getAdmin());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"volontario", roleService.getUser());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"ospite", roleService.getGuest());
-//        service.findOrCrea(companyService.findByKeyUnica(CompanyData.TEST),"guest", roleService.getGuest());
+        User entity;
+        Company companyAlgos = companyService.findByKeyUnica(CompanyData.ALGOS);
+        Company companyDemo = companyService.findByKeyUnica(CompanyData.DEMO);
+        Company companyTest = companyService.findByKeyUnica(CompanyData.TEST);
+
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyAlgos, "gac", roleService.getDev());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyAlgos, "alex", roleService.getDev());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyDemo, "developer", roleService.getAdmin());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyDemo, "admin", roleService.getDev());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyTest, "volontario", roleService.getUser());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyTest, "ospite", roleService.getUser());
+        creaSingoloUserSenzaLaCompanyDellaSessione(companyTest, "guest", roleService.getUser());
     }// end of method
 
+
+    public void creaSingoloUserSenzaLaCompanyDellaSessione(Company company, String nickname, Role role) {
+        User entity = null;
+
+        if (company != null) {
+            entity = User.builder().nickname(nickname).password(nickname).role(role).enabled(true).build();
+            entity.company = company;
+            service.save(entity);
+        }// end of if cycle
+    }// end of method
 
 }// end of class

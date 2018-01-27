@@ -7,9 +7,11 @@ import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.address.Address;
 import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.service.AFieldService;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ASessionService;
 import it.algos.springvaadin.service.ATextService;
@@ -50,6 +52,9 @@ public class RoleService extends AService {
     public final static String USER = "user";
     public final static String GUEST = "guest";
 
+
+    @Autowired
+    protected ATextService text;
 
     /**
      * La repository viene iniettata dal costruttore, in modo che sia disponibile nella superclasse,
@@ -157,6 +162,25 @@ public class RoleService extends AService {
         return findByKeyUnica(((Role) entityBean).getCode()) != null;
     }// end of method
 
+
+    /**
+     * Saves a given entity.
+     * Use the returned instance for further operations
+     * as the save operation might have changed the entity instance completely.
+     *
+     * @param entityBean da salvare
+     *
+     * @return the saved entity
+     */
+    @Override
+    public AEntity save(AEntity entityBean) {
+
+        if (text.isEmpty(entityBean.id)) {
+            entityBean.id = ((Role)entityBean).getCode();
+        }// end of if cycle
+
+        return super.save(entityBean);
+    }// end of method
 
     /**
      * Ordine di presentazione (obbligatorio, unico per tutte le eventuali company),

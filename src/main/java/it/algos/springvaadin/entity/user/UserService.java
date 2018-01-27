@@ -192,10 +192,7 @@ public class UserService extends AService {
      * Eventuali regolazioni iniziali delle property
      * All properties
      * Gli argomenti (parametri) della new Entity DEVONO essere ordinati come nella Entity (costruttore lombok)
-     * La company può essere facoltativa
-     * Diventa obbligatoria se l'applicazione è AlgosApp.USE_MULTI_COMPANY
-     * Se manca la prende dal Login
-     * Se è obbligatoria e manca anche nel Login, va in errore
+     * La company viene controllata nel metodo AService.addCompany()
      *
      * @param nickname di riferimento (obbligatorio, unico per company)
      * @param password (obbligatoria o facoltativa, non unica)
@@ -219,31 +216,17 @@ public class UserService extends AService {
     }// end of method
 
 
-//    /**
-//     * Controlla che esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-//     *
-//     * @param company  di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
-//     * @param nickname di riferimento (obbligatorio, unico per company)
-//     *
-//     * @return vero se esiste, false se non trovata
-//     */
-//    public boolean esiste(Company company, String nickname) {
-//        return findByCompanyAndNickname(company, nickname) != null;
-//    }// end of method
-//
-//
-//    /**
-//     * Controlla che non esista una istanza della Entity usando la property specifica (obbligatoria ed unica)
-//     *
-//     * @param company  di riferimento (obbligatoria visto che è EACompanyRequired.obbligatoria)
-//     * @param nickname di riferimento (obbligatorio, unico per company)
-//     *
-//     * @return vero se non esiste, false se trovata
-//     */
-//    public boolean nonEsiste(Company company, String nickname) {
-//        return findByCompanyAndNickname(company, nickname) == null;
-//    }// end of method
 
+    /**
+     * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
+     *
+     * @param nickname di riferimento (obbligatorio, unico per company)
+     *
+     * @return istanza della Entity, null se non trovata
+     */
+    public User findByNick(String nickname) {
+        return repository.findByNickname(nickname);
+    }// end of method
 
     /**
      * Recupera una istanza della Entity usando la query della property specifica (obbligatoria ed unica)
@@ -286,36 +269,6 @@ public class UserService extends AService {
     }// end of method
 
 
-//    /**
-//     * Saves a given entity.
-//     * Use the returned instance for further operations
-//     * as the save operation might have changed the entity instance completely.
-//     *
-//     * @param entityBean da salvare
-//     *
-//     * @return the saved entity
-//     */
-//    public AEntity save(AEntity entityBean) {
-//        Company company = ((ACEntity) entityBean).getCompany();
-//        String nickname = ((User) entityBean).getNickname();
-//
-//        if (entityBean == null) {
-//            return null;
-//        }// end of if cycle
-//
-//        if (text.isValid(entityBean.id)) {
-//            return super.save(entityBean);
-//        } else {
-//            if (nonEsiste(company, nickname)) {
-//                return super.save(entityBean);
-//            } else {
-//                log.error("Ha cercato di salvare una entity già esistente, ma unica");
-//                return null;
-//            }// end of if/else cycle
-//        }// end of if/else cycle
-//    }// end of method
-
-
     /**
      * Controlla che esiste un utente con questo nickname e questa password
      *
@@ -326,7 +279,7 @@ public class UserService extends AService {
      */
     public boolean passwordValida(String nickname, String password) {
         boolean valida = false;
-        User entity = findByKeyUnica(nickname);
+        User entity = findByNick(nickname);
 
         if (entity != null) {
             valida = entity.getPassword().equals(password);

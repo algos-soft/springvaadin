@@ -62,7 +62,7 @@ public class @ENTITY@Service extends AService {
 
     /**
      * Ricerca di una entity (la crea se non la trova)
-     * Properties obbligatorie
+     * All properties
      *
      * @param code di riferimento interno (obbligatorio ed unico)
      *
@@ -123,8 +123,10 @@ public class @ENTITY@Service extends AService {
         @ENTITY@ entity = findByKeyUnica(code);
 
         if (entity == null) {
-            entity = @ENTITY@.builder().code(code).descrizione(descrizione).build();
-            entity = (code);
+            entity = @ENTITY@.builder()
+                    .code(code)
+                    .descrizione(descrizione)
+                    .build();
         }// end of if cycle
 
         return entity;
