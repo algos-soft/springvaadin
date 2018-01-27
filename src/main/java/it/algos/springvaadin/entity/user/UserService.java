@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
+import it.algos.springvaadin.service.ALoginService;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ import java.util.List;
 @Scope("singleton")
 @Qualifier(ACost.TAG_USE)
 @AIScript(sovrascrivibile = false)
-public class UserService extends AService {
+public class UserService extends ALoginService {
 
 
     /**
@@ -224,7 +225,7 @@ public class UserService extends AService {
      *
      * @return istanza della Entity, null se non trovata
      */
-    public User findByNick(String nickname) {
+    public User findByNickname(String nickname) {
         return repository.findByNickname(nickname);
     }// end of method
 
@@ -279,7 +280,7 @@ public class UserService extends AService {
      */
     public boolean passwordValida(String nickname, String password) {
         boolean valida = false;
-        User entity = findByNick(nickname);
+        User entity = findByNickname(nickname);
 
         if (entity != null) {
             valida = entity.getPassword().equals(password);

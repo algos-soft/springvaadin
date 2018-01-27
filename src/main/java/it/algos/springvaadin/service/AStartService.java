@@ -85,7 +85,7 @@ public class AStartService {
         }// end of if cycle
 
         nickname= nickname.replaceAll("/xspc/"," ");
-        user = userService.findByNick(nickname);
+        user = userService.findByNickname(nickname);
         if (user != null && userService.passwordValida(nickname, password)) {
             login.esegueLogin(nickname, password);
             loginButton.updateUI();

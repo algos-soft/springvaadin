@@ -6,7 +6,14 @@ import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.field.ATextField;
 import it.algos.springvaadin.field.IAFieldFactory;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.presenter.IAPresenter;
+import it.algos.springvaadin.service.ALoginService;
+import it.algos.springvaadin.service.AService;
+import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -19,12 +26,6 @@ import javax.annotation.PostConstruct;
 public class DALoginForm extends ALoginForm {
 
 
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public UserService userService;
-
     private IAFieldFactory fieldFactory;
 
     public ATextField nameField;
@@ -33,12 +34,30 @@ public class DALoginForm extends ALoginForm {
     /**
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+     * Si usa un @Qualifier(), per avere la sottoclasse specifica
+     * Si usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     * Use @Lazy to avoid the Circular Dependency
+     * A simple way to break the cycle is saying Spring to initialize one of the beans lazily.
+     * That is: instead of fully initializing the bean, it will create a proxy to inject it into the other bean.
+     * The injected bean will only be fully created when it’s first needed.
      *
+     * @param service      iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param fieldFactory
      */
-    public DALoginForm(IAFieldFactory fieldFactory) {
+    public DALoginForm(@Qualifier(ACost.TAG_USE) ALoginService service, IAFieldFactory fieldFactory) {
+        super(service);
         this.fieldFactory = fieldFactory;
     }// end of Spring constructor
+
+//    /**
+//     * Costruttore @Autowired
+//     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
+//     *
+//     * @param fieldFactory
+//     */
+//    public DALoginForm(IAFieldFactory fieldFactory) {
+//        this.fieldFactory = fieldFactory;
+//    }// end of Spring constructor
 
 
     /**
@@ -60,7 +79,7 @@ public class DALoginForm extends ALoginForm {
      */
     public IAUser getSelectedUser() {
         String nickname = nameField.getValue();
-        IAUser user = userService.findByNick(nickname);
+        IAUser user = userService.findByNickname(nickname);
 
         return user;
     }// end of method
@@ -81,8 +100,10 @@ public class DALoginForm extends ALoginForm {
         return nameField;
     }// end of method
 
-    public void setUsername(String name) {
-        nameField.setValue(name);
+    public void setNickname(String name) {
+        if (nameField != null) {
+            nameField.setValue(name);
+        }// end of if cycle
     }// end of method
 
 
@@ -94,6 +115,13 @@ public class DALoginForm extends ALoginForm {
         }// end of if cycle
 
         return value;
+    }// end of method
+
+
+    public void setPassword(String name) {
+        if (passField != null) {
+            passField.setValue(name);
+        }// end of if cycle
     }// end of method
 
 

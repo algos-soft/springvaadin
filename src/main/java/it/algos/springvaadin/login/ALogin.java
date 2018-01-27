@@ -16,6 +16,7 @@ import it.algos.springvaadin.listener.ALoginListener;
 import it.algos.springvaadin.listener.ALogoutListener;
 import it.algos.springvaadin.listener.AProfileChangeListener;
 import it.algos.springvaadin.service.ACookieService;
+import it.algos.springvaadin.service.ALoginService;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -35,11 +36,11 @@ import java.util.ArrayList;
 public class ALogin {
 
 
-    /**
-     * Libreria di servizio. Inietta da Spring come 'singleton'
-     */
-    @Autowired
-    public UserService userService;
+    //    /**
+//     * Libreria di servizio. Inietta da Spring come 'singleton'
+//     */
+//    @Autowired
+    public ALoginService userService;
 
 
     /**
@@ -87,7 +88,7 @@ public class ALogin {
     /**
      * Il Form di dialogo viene iniettato come 'session', dal costruttore @Autowired
      */
-    private DALoginForm loginForm;
+    private ALoginForm loginForm;
 
 //    private AbsUserProfileForm profileForm;
 
@@ -99,9 +100,11 @@ public class ALogin {
      * Costruttore @Autowired
      * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation
      *
+     * @param userService
      * @param loginForm
      */
-    public ALogin(DALoginForm loginForm) {
+    public ALogin(ALoginService userService, DALoginForm loginForm) {
+        this.userService = userService;
         this.loginForm = loginForm;
         //        profileForm = new DefaultUserProfileForm(); @todo rimettere
     }// end of Spring constructor
@@ -132,8 +135,8 @@ public class ALogin {
         // retrieve login data from the cookies
 //        readCookies(); @todo rimettere
 
-        loginForm.nameField.textField.setValue("");
-        loginForm.passField.textField.setValue("");
+        loginForm.setNickname("");
+        loginForm.setPassword("");
 
         // Open it in the UI
         UI.getCurrent().addWindow(loginForm);
@@ -230,8 +233,8 @@ public class ALogin {
      */
     public boolean esegueLogin(String nickname, String password) {
         boolean valido = userService.passwordValida(nickname, password);
-        IAUser user = userService.findByNick(nickname);
-        this.user=user;
+        IAUser user = userService.findByNickname(nickname);
+        this.user = user;
         this.typeLogged = EARoleType.getType(((User) user).role.getCode());
 
         if (this.user != null) {
