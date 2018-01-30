@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.user.User;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.IAUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -49,7 +50,7 @@ public abstract class ALoginService extends AService {
      *
      * @return istanza della Entity, null se non trovata
      */
-    public abstract User findByNickname(String nickname);
+    public abstract IAUser findByNickname(String nickname);
 
 
     /**

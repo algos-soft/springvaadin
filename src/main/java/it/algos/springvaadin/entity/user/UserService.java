@@ -9,6 +9,7 @@ import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
+import it.algos.springvaadin.login.IAUser;
 import it.algos.springvaadin.service.ALoginService;
 import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.service.ATextService;
@@ -225,7 +226,7 @@ public class UserService extends ALoginService {
      *
      * @return istanza della Entity, null se non trovata
      */
-    public User findByNickname(String nickname) {
+    public IAUser findByNickname(String nickname) {
         return repository.findByNickname(nickname);
     }// end of method
 
@@ -280,7 +281,7 @@ public class UserService extends ALoginService {
      */
     public boolean passwordValida(String nickname, String password) {
         boolean valida = false;
-        User entity = findByNickname(nickname);
+        IAUser entity = findByNickname(nickname);
 
         if (entity != null) {
             valida = entity.getPassword().equals(password);
