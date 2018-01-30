@@ -20,9 +20,12 @@ import com.vaadin.ui.Grid;
 import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.login.ALogin;
+import it.algos.springvaadin.login.ALoginForm;
 import it.algos.springvaadin.ui.AUI;
 import it.algos.springvaadintest.view.VaadintestView;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -41,6 +44,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @VaadinSessionScope
 public class SpringvaadintestUI extends AUI {
+
 
 
     /**

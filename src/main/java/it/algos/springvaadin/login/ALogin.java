@@ -20,6 +20,7 @@ import it.algos.springvaadin.service.ALoginService;
 import it.algos.springvaadin.service.ATextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -32,7 +33,8 @@ import java.util.ArrayList;
  * Subsequent calls to getLogin() return the same object from the session.
  */
 @SpringComponent
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Primary
+@Scope(value = "singleton")
 public class ALogin {
 
 
@@ -88,7 +90,7 @@ public class ALogin {
     /**
      * Il Form di dialogo viene iniettato come 'session', dal costruttore @Autowired
      */
-    private ALoginForm loginForm;
+    public ALoginForm loginForm;
 
 //    private AbsUserProfileForm profileForm;
 

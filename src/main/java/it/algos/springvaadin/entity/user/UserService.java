@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Service
-@Scope("singleton")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Qualifier(ACost.TAG_USE)
 @AIScript(sovrascrivibile = false)
 public class UserService extends ALoginService {
@@ -51,8 +52,8 @@ public class UserService extends ALoginService {
     /**
      * Libreria di servizio. Inietta da Spring come 'singleton'
      */
-    @Autowired
-    private ALogin login;
+//    @Autowired
+//    private ALogin login;
 
 
     /**
@@ -215,7 +216,6 @@ public class UserService extends ALoginService {
 
         return (User) addCompany(entity);
     }// end of method
-
 
 
     /**

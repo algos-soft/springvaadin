@@ -13,7 +13,6 @@ import it.algos.springvaadin.service.AService;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -100,6 +99,7 @@ public class DALoginForm extends ALoginForm {
         return nameField;
     }// end of method
 
+    @Override
     public void setNickname(String name) {
         if (nameField != null) {
             nameField.setValue(name);
@@ -107,6 +107,7 @@ public class DALoginForm extends ALoginForm {
     }// end of method
 
 
+    @Override
     public String getNickname() {
         String value = "";
 
@@ -118,6 +119,7 @@ public class DALoginForm extends ALoginForm {
     }// end of method
 
 
+    @Override
     public void setPassword(String name) {
         if (passField != null) {
             passField.setValue(name);
@@ -125,6 +127,7 @@ public class DALoginForm extends ALoginForm {
     }// end of method
 
 
+    @Override
     public String getPassword() {
         String value = "";
 

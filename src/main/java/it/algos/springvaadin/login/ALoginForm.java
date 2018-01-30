@@ -70,7 +70,7 @@ public abstract class ALoginForm extends AConfirmDialog {
      */
     public ALoginForm(ALoginService service) {
         super(null);
-        this.userService=service;
+        this.userService = service;
     }// end of constructor
 
 
@@ -112,7 +112,9 @@ public abstract class ALoginForm extends AConfirmDialog {
      *
      * @return the username component
      */
-    abstract Component createUsernameComponent();
+    protected Component createUsernameComponent() {
+        return null;
+    }// end of method
 
 
     @Override
@@ -170,7 +172,9 @@ public abstract class ALoginForm extends AConfirmDialog {
      *
      * @return the selected user
      */
-    abstract IAUser getSelectedUser();
+    protected IAUser getSelectedUser() {
+        return null;
+    }// end of method
 
 
     /**
@@ -186,16 +190,25 @@ public abstract class ALoginForm extends AConfirmDialog {
 
     public void setLoginListener(ALoginListener listener) {
         this.loginListener = listener;
-    }
+    }// end of method
 
     public Window getWindow() {
         return this;
-    }
+    }// end of method
 
-    abstract void setNickname(String name);
-    abstract void setPassword(String password);
-    abstract String getNickname();
-    abstract String getPassword();
+    protected void setNickname(String name) {
+    }// end of method
+
+    protected void setPassword(String password) {
+    }// end of method
+
+    protected String getNickname() {
+        return null;
+    }// end of method
+
+    protected String getPassword() {
+        return null;
+    }// end of method
 
 //    public void setPassword(String password) {
 //        passField.setValue(password);
