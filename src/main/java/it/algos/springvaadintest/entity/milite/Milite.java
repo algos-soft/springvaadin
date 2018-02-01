@@ -63,7 +63,7 @@ import java.util.List;
 @AIList(fields = {"nome", "cognome"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"nome", "cognome"})
 @AIScript(sovrascrivibile = false)
-public class Milite extends ACEntity implements IAUser {
+public class Milite extends Persona implements IAUser {
 
     /**
      * versione della classe per la serializzazione
@@ -118,42 +118,6 @@ public class Milite extends ACEntity implements IAUser {
     @AIColumn(name = "OK")
     private boolean enabled;
 
-
-
-    /**
-     * nome (obbligatorio, non unica)
-     */
-    @NotEmpty
-    @Size(min = 4, max = 40)
-    @AIField(type = EAFieldType.text, required = true, focus = true, firstCapital = true)
-    @AIColumn(width = 200)
-    private String nome;
-
-
-    /**
-     * cognome (obbligatorio, non unica)
-     */
-    @NotEmpty
-    @AIField(type = EAFieldType.text, required = true, firstCapital = true)
-    @AIColumn(width = 200)
-    private String cognome;
-
-
-    /**
-     * telefono (facoltativo)
-     */
-    @AIField(type = EAFieldType.text)
-    @AIColumn(width = 160)
-    private String telefono;
-
-
-    /**
-     * posta elettronica (facoltativo)
-     */
-    @Email
-    @AIField(type = EAFieldType.email, widthEM = 24)
-    @AIColumn(width = 350, name = "Mail")
-    private String email;
 
 
     /**

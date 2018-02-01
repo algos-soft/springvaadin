@@ -18,6 +18,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.Grid;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.footer.AFooter;
 import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
@@ -67,6 +68,16 @@ public class SpringvaadintestUI extends AUI {
                 login.loginForm.userService = militeService;
             }// end of if cycle
         }// end of if cycle
+    }// end of method
+
+
+    /**
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void fixProjectFooter() {
+        AFooter.PROJECT = "Springvaadin";
+        AFooter.VERSION = "0.1";
     }// end of method
 
     /**

@@ -2,7 +2,10 @@ package it.algos.springvaadintest.entity.milite;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.entity.address.Address;
 import it.algos.springvaadin.entity.company.Company;
+import it.algos.springvaadin.entity.persona.Persona;
+import it.algos.springvaadin.entity.persona.PersonaService;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
@@ -48,6 +51,10 @@ public class MiliteService extends ALoginService {
      */
     @Autowired
     private RoleService roleService;
+
+
+    @Autowired
+    private PersonaService personaService;
 
 
     /**
@@ -193,7 +200,11 @@ public class MiliteService extends ALoginService {
         Milite entity = findByKeyUnica(nickname);
 
         if (entity == null) {
-            entity = new Milite(nickname, password, role, true, nome, cognome, telefono, email);
+            entity = new Milite();
+            entity.setNickname(nickname);
+            entity.setPassword(password);
+            entity.setRole(role);
+            entity.setEnabled(true);
             entity.setNome(nome);
             entity.setCognome(cognome);
             entity.setTelefono(telefono);
