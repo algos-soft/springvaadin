@@ -24,5 +24,7 @@ import it.algos.springvaadin.lib.ACost;
 @AIScript(sovrascrivibile = false)
 public interface PersonaRepository extends MongoRepository<Persona, String> {
 
+    public Persona findByNome(String nickname);
+    public Persona findByCompanyAndNome(Company company, String nickname);
 
 }// end of class

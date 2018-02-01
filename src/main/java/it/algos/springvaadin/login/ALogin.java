@@ -194,9 +194,9 @@ public class ALogin {
 
 
         this.user = loginForm.getSelectedUser();
-        this.typeLogged = EARoleType.getType(((User) user).role.getCode());
         if (this.user != null) {
-            this.setCompany(((User) this.user).getCompany());
+            this.typeLogged = EARoleType.getType(user.getRole().getCode());
+            this.setCompany(this.user.getCompany());
         }// end of if cycle
         footer.start();
 

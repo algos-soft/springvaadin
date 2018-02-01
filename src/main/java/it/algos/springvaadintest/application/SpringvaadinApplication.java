@@ -31,11 +31,11 @@ import javax.servlet.ServletException;
  * <p>
  * Questa classe non fa praticamente niente se non avere le Annotation riportate qui
  */
-@SpringBootApplication
-@EnableMongoRepositories(basePackages = "it.algos.springvaadin")
-@ComponentScan({"it.algos.springvaadin", "it.algos.springvaadintest"})
-@EntityScan("it.algos.springvaadin.entity")
 @Slf4j
+@SpringBootApplication
+@EnableMongoRepositories({"it.algos.springvaadin.entity", "it.algos.springvaadintest.entity"})
+@ComponentScan({"it.algos.springvaadin", "it.algos.springvaadintest"})
+@EntityScan({"it.algos.springvaadin.entity", "it.algos.springvaadintest.entity"})
 public class SpringvaadinApplication extends SpringBootServletInitializer {
 
 

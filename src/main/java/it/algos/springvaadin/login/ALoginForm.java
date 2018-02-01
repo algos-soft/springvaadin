@@ -38,7 +38,6 @@ public abstract class ALoginForm extends AConfirmDialog {
     /**
      * Libreria di servizio. Inietta da Spring come 'singleton'
      */
-//    @Autowired
     public ALoginService userService;
 
     @Autowired
@@ -136,8 +135,7 @@ public abstract class ALoginForm extends AConfirmDialog {
             }// end of if/else cycle
 
             if (rememberField.getValue()) {
-                User userVaadin = (User) user;
-                writeCookies(user.getNickname(), password, userVaadin.company);
+                writeCookies(user.getNickname(), password, user.getCompany());
             }// end of if cycle
 
         }// end of if cycle

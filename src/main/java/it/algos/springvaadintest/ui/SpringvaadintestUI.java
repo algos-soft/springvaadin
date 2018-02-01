@@ -27,6 +27,7 @@ import it.algos.springvaadintest.view.VaadintestView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import it.algos.springvaadintest.entity.milite.*;
 
 import javax.annotation.PostConstruct;
 
@@ -46,6 +47,27 @@ import javax.annotation.PostConstruct;
 public class SpringvaadintestUI extends AUI {
 
 
+    @Autowired
+    private TestLoginForm loginForm;
+
+
+    @Autowired
+    private MiliteService militeService;
+
+
+    /**
+     * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
+     */
+    @PostConstruct
+    private void cambiaLogin() {
+        if (login != null && loginForm != null) {
+            login.loginForm = loginForm;
+            if (militeService != null) {
+                login.userService = militeService;
+                login.loginForm.userService = militeService;
+            }// end of if cycle
+        }// end of if cycle
+    }// end of method
 
     /**
      * Creazione delle viste (moduli) specifiche dell'applicazione.
@@ -61,6 +83,7 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+        menuLayout.addView(MiliteList.class);
     }// end of method
 
 

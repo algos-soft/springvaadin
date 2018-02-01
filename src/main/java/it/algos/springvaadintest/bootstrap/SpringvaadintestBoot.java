@@ -37,7 +37,7 @@ public class SpringvaadintestBoot extends ABoot {
      * Inietta da Spring come 'singleton'
      */
     @Autowired
-    public UserData user;
+    public MiliteData utente;
 
 
     /**
@@ -67,7 +67,7 @@ public class SpringvaadintestBoot extends ABoot {
     protected void iniziaData() {
         super.iniziaDataStandard();
         this.company.findOrCrea();
-        this.user.findOrCrea();
+        this.utente.findOrCrea();
     }// end of method
 
 
