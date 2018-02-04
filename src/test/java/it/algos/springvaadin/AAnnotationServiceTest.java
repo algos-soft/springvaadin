@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -263,7 +264,7 @@ public class AAnnotationServiceTest extends ATest {
     @Test
     public void getFormFieldsName() {
         String[] stringArray = {"ordine", "code"};
-         previstoList = LibArray.fromString(stringArray);
+        previstoList = LibArray.fromString(stringArray);
 
         ottenutoList = service.getFormFieldsName(ROLE_ENTITY_CLASS);
         assertEquals(previstoList, ottenutoList);
@@ -590,7 +591,7 @@ public class AAnnotationServiceTest extends ATest {
     @Test
     public void getViewRoleType() {
         EARoleType roleTypeVisibilityOttenuta = null;
-        EARoleType roleTypeVisibilityPrevista = EARoleType.developer;
+        EARoleType roleTypeVisibilityPrevista = EARoleType.user;
         roleTypeVisibilityOttenuta = service.getViewRoleType(ROLE_VIEW_CLASS_LIST);
         assertEquals(roleTypeVisibilityPrevista, roleTypeVisibilityOttenuta);
 

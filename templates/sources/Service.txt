@@ -1,5 +1,6 @@
 package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AService;

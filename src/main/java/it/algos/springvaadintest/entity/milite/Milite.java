@@ -60,7 +60,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_MIL)
 @AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.obbligatoria)
-@AIList(fields = {"nome", "cognome"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
+@AIList(fields = {"nome", "cognome", "enabled"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"nome", "cognome"})
 @AIScript(sovrascrivibile = false)
 public class Milite extends Persona implements IAUser {
@@ -117,7 +117,6 @@ public class Milite extends Persona implements IAUser {
     @AIField(type = EAFieldType.checkboxlabel, required = true, admin = EAFieldAccessibility.allways)
     @AIColumn(name = "OK")
     private boolean enabled;
-
 
 
     /**

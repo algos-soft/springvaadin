@@ -23,6 +23,7 @@ import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.login.ALoginForm;
+import it.algos.springvaadin.service.AStartService;
 import it.algos.springvaadin.ui.AUI;
 import it.algos.springvaadintest.view.VaadintestView;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,10 @@ public class SpringvaadintestUI extends AUI {
     private MiliteService militeService;
 
 
+    @Autowired
+    private AStartService startService;
+
+
     /**
      * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
      */
@@ -66,6 +71,7 @@ public class SpringvaadintestUI extends AUI {
             if (militeService != null) {
                 login.userService = militeService;
                 login.loginForm.userService = militeService;
+                startService.userService = militeService;
             }// end of if cycle
         }// end of if cycle
     }// end of method
@@ -94,7 +100,7 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-        menuLayout.addView(MiliteList.class);
+        menuLayout.addView(Milite.class, MiliteList.class);
     }// end of method
 
 

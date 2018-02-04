@@ -87,7 +87,9 @@ public class AReflectionServiceTest extends ATest {
         service.text = text;
         annotation.reflection = service;
         service.array = array;
+        login.setTypeLogged(EARoleType.user);
         service.login = login;
+        AlgosApp.USE_SECURITY = true;
         AlgosApp.USE_MULTI_COMPANY = true;
     }// end of method
 
@@ -130,7 +132,6 @@ public class AReflectionServiceTest extends ATest {
         ottenutoIntero = ottenutoList.size();
         assertEquals(previstoIntero, ottenutoIntero);
     }// end of single test
-
 
 
     @SuppressWarnings("javadoc")
@@ -177,7 +178,6 @@ public class AReflectionServiceTest extends ATest {
         ottenutoSize = ottenutoFieldList.size();
         assertEquals(previstoSize, ottenutoSize);
     }// end of single test
-
 
 
     @SuppressWarnings("javadoc")
