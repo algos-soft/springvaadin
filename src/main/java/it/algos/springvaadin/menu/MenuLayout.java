@@ -21,6 +21,7 @@ import it.algos.springvaadin.service.ATextService;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +35,8 @@ import java.util.List;
 @Slf4j
 @SpringComponent
 @Scope("session")
-public class MenuLayout extends VerticalLayout {
+@Qualifier(ACost.TAG_MENU_LAYOUT)
+public class MenuLayout extends AMenu {
 
 //    @Autowired
 //    public PreferenzaService pref;
@@ -122,7 +124,7 @@ public class MenuLayout extends VerticalLayout {
 
 
     /**
-     * avvia la menubar, dopo aver aggiunto tutte le viste
+     * Avvia la menubar, dopo aver aggiunto tutte le viste
      */
     public void start() {
         this.removeAllComponents();
@@ -154,6 +156,20 @@ public class MenuLayout extends VerticalLayout {
         }// end of if/else cycle
 
     }// end of method
+
+    /**
+     * Adds a view to the firstMenuBar
+     * Chechk if the logged buttonUser is enabled to views this view
+     *
+     * @param viewClazz the view class to adds
+     */
+    public void addView(Class<? extends IAView> viewClazz) {
+        EARoleType roleTypeVisibility = annotation.getViewRoleType(viewClazz);
+        if (roleTypeVisibility != null) {
+            addView(roleTypeVisibility, viewClazz);
+        }// end of if cycle
+    }// end of method
+
 
     /**
      * Adds a view to the firstMenuBar

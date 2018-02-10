@@ -52,7 +52,7 @@ import it.algos.springvaadin.entity.AEntity;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Qualifier(ACost.TAG_USE)
-@AIEntity(roleTypeVisibility = EARoleType.admin, company = EACompanyRequired.obbligatoria)
+@AIEntity(roleTypeVisibility = EARoleType.developer, company = EACompanyRequired.obbligatoria)
 @AIList(dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIScript(sovrascrivibile = false)
 public class User extends ACEntity implements IAUser {

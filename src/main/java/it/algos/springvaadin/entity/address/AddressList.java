@@ -37,7 +37,6 @@ import it.algos.springvaadin.lib.ACost;
 @Scope("session")
 @Qualifier(ACost.TAG_ADD)
 @SpringView(name = ACost.VIEW_ADD_LIST)
-@AIView(roleTypeVisibility = EARoleType.developer)
 @AIScript(sovrascrivibile = true)
 public class AddressList extends AList {
 

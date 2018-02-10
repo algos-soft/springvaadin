@@ -78,7 +78,7 @@ public abstract class AUIViews extends AUIParams {
     protected void addAllViste() {
 //        //--l'eventuale menu Home è sempre il primo
 //        if (usaItemMenuHome) {
-        menuLayout.addView(EARoleType.guest, AHomeView.class);
+        menuLayout.addView( AHomeView.class);
 //        }// end of if cycle
 
         this.addVisteStandard();
