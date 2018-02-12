@@ -82,7 +82,7 @@ public class Persona extends ACEntity {
     /**
      * cognome (obbligatorio, non unica)
      */
-    @NotEmpty
+//    @NotEmpty
     @AIField(type = EAFieldType.text, required = true, firstCapital = true)
     @AIColumn(width = 200)
     private String cognome;

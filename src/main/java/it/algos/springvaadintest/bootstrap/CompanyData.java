@@ -2,6 +2,7 @@ package it.algos.springvaadintest.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.data.AData;
+import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.role.RoleService;
 import it.algos.springvaadin.lib.ACost;
@@ -73,10 +74,11 @@ public class CompanyData extends AData {
      * Creazione delle compamies
      */
     public void creaCompanies() {
-        service.findOrCrea(ALGOS,"Algos s.r.l.");
-        service.findOrCrea(DEMO,"Company di prova");
-        service.findOrCrea(TEST,"Altra company");
+        service.findOrCrea(ALGOS, "Algos s.r.l.");
+        service.findOrCrea(DEMO, "Company di prova");
+        service.findOrCrea(TEST, "Altra company");
 //        service.findOrCrea(RoleService.GUEST);
     }// end of method
+
 
 }// end of class
