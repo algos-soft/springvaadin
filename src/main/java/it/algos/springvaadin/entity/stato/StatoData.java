@@ -76,15 +76,15 @@ public class StatoData extends AData {
      * Creazione di una collezione di stati
      */
     private void creaStati() {
-//        String fileName = "stati.txt";
-//        List<String> righe = resource.readText(fileName);
-//
-//        if (array.isValid(righe)) {
-//            service.deleteAll();
-//            for (String riga : righe) {
-//                creaStato(riga);
-//            }// end of for cycle
-//        }// end of if cycle
+        String fileName = "stati.txt";
+        List<String> righe = resource.readAllLines(fileName);
+
+        if (array.isValid(righe)) {
+            service.deleteAll();
+            for (String riga : righe) {
+                creaStato(riga);
+            }// end of for cycle
+        }// end of if cycle
     }// end of method
 
 
@@ -92,37 +92,41 @@ public class StatoData extends AData {
      * Creazione di un singolo stato
      */
     private void creaStato(String riga) {
-//        String[] parti = riga.split(",");
-//        Stato stato;
-//        int ordine = 0;
-//        String nome = "";
-//        String alfaDue = "";
-//        String alfaTre = "";
-//        String numerico = "";
-//        byte[] bandiera = null;
-//        String suffix = ".png";
-//
-//        if (parti.length > 0) {
-//            nome = parti[0];
-//        }// end of if cycle
-//        if (parti.length > 1) {
-//            alfaDue = parti[1];
-//        }// end of if cycle
-//        if (parti.length > 2) {
-//            alfaTre = parti[2];
-//            bandiera = resource.getImgBytes(alfaTre.toUpperCase() + suffix);
-//        }// end of if cycle
-//        if (parti.length > 3) {
-//            numerico = parti[3];
-//        }// end of if cycle
-//
-//        service.findOrCrea(ordine, nome, alfaDue, alfaTre, numerico, bandiera);
-//
-//        if (bandiera == null || bandiera.length == 0) {
-//            log.warn("Stato: " + riga + " - Manca la bandiera");
-//        } else {
-//            log.info("Stato: " + riga + " - Tutto OK");
-//        }// end of if/else cycle
+        String[] parti = riga.split(",");
+        Stato stato;
+        int ordine = 0;
+        String nome = "";
+        String alfaDue = "";
+        String alfaTre = "";
+        String numerico = "";
+        byte[] bandiera = null;
+        String suffix = ".png";
+
+        if (parti.length > 0) {
+            nome = parti[0];
+        }// end of if cycle
+        if (parti.length > 1) {
+            alfaDue = parti[1];
+        }// end of if cycle
+        if (parti.length > 2) {
+            alfaTre = parti[2];
+            bandiera = resource.getImageBytes(alfaTre.toUpperCase() + suffix);
+        }// end of if cycle
+        if (parti.length > 3) {
+            numerico = parti[3];
+        }// end of if cycle
+
+        try { // prova ad eseguire il codice
+            service.findOrCrea(ordine, nome, alfaDue, alfaTre, numerico, bandiera);
+        } catch (Exception unErrore) { // intercetta l'errore
+            log.error(unErrore.toString());
+        }// fine del blocco try-catch
+
+        if (bandiera == null || bandiera.length == 0) {
+            log.warn("Stato: " + riga + " - Manca la bandiera");
+        } else {
+            log.info("Stato: " + riga + " - Tutto OK");
+        }// end of if/else cycle
     }// end of method
 
 }// end of class

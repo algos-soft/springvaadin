@@ -33,77 +33,20 @@ public class AResourceService {
 
 
     /**
-     * Legge il contenuto di un file di testo
-     *
-     * @param filename di testo
-     * @return testo diviso per righe
-     */
-    public List<String> readAllLines(String filename) {
-        byte[] bytes = getTextBytes(filename);
-        String string = new String(bytes);
-        String[] rows=string.split("\n");
-        List<String> lines = Arrays.asList(rows);
-        return lines;
-    }
-
-
-    /**
-     * Read a resource as a byte array.
-     *
-     * @param resPath the resource path inside the resources folder
-     * @param resName the resource name
-     * @return the corresponding byte array.
-     */
-    private byte[] getResourceBytes(String resPath, String resName) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(resPath+"/"+resName);
-        byte[] bytes = new byte[0];
-        try {
-            bytes = IOUtils.toByteArray(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bytes;
-    }// end of method
-
-
-    /**
-     * Read an image as a byte array.
-     * <p>
-     *
-     * @param resName the image name
-     * @return the byte array.
-     */
-    public byte[] getImageBytes(String resName) {
-        return getResourceBytes("img",resName);
-    }
-
-
-    /**
      * Read an image as Image.
-     * <p>
      *
-     * @param resName the image name
+     * @param resImageName the image name
+     *
      * @return the Image.
      */
-    public Image getImage(String resName) {
-        byte[] bytes=getResourceBytes("img",resName);
-        return getImage(bytes);
-    }
+    public Image getImage(String resImageName) {
+        Image image = null;
+        byte[] bytes = getImageBytes(resImageName);
 
+        if (bytes != null && bytes.length > 0) {
+            image = getImage(bytes);
+        }// end of if cycle
 
-
-    /**
-     * Create an Image from a resource
-     * <p>
-     *
-     * @param resource the resource
-     *
-     * @return the image
-     */
-    public Image getImage(final Resource resource) {
-        Image image = new Image(null, resource);
         return image;
     }// end of method
 
@@ -117,22 +60,109 @@ public class AResourceService {
      * @return the image
      */
     public Image getImage(final byte[] bytes) {
-        Image image = new Image();
+        Image image = null;
         StreamResource resource = this.getStream(bytes);
-        image.setSource(resource);
+
+        if (resource != null) {
+            image = new Image();
+            image.setSource(resource);
+        }// end of if cycle
+
         return image;
     }// end of method
 
 
     /**
-     * Read a text file as a byte array.
-     * <p>
+     * Legge il contenuto di un file di testo
      *
-     * @param resName the file name
+     * @param fileName di testo
+     *
+     * @return testo diviso per righe
+     */
+    public List<String> readAllLines(String fileName) {
+        List<String> lines = null;
+        String stringa;
+        String[] righe=null;
+        byte[] bytes = getTextBytes(fileName);
+
+        if (bytes != null && bytes.length > 0) {
+            stringa = new String(bytes);
+            righe = stringa.split("\n");
+        }// end of if cycle
+
+        if (righe != null && righe.length > 0) {
+            lines = Arrays.asList(righe);
+        }// end of if cycle
+
+        return lines;
+    }// end of method
+
+
+    /**
+     * Read a resource as a byte array.
+     *
+     * @param resLocalPath the resource local path inside the resources folder
+     * @param resName      the resource name
+     *
+     * @return the corresponding byte array.
+     */
+    private byte[] getResourceBytes(String resLocalPath, String resName) {
+        byte[] bytes = new byte[0];
+        InputStream inputStream = null;
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        if (classLoader != null) {
+            inputStream = classLoader.getResourceAsStream(resLocalPath + "/" + resName);
+        }// end of if cycle
+
+        if (inputStream!=null) {
+            try { // prova ad eseguire il codice
+                bytes = IOUtils.toByteArray(inputStream);
+            } catch (IOException unErrore) { // intercetta l'errore
+                unErrore.printStackTrace();
+                log.error(unErrore.toString());
+            }// fine del blocco try-catch
+        }// end of if cycle
+
+        return bytes;
+    }// end of method
+
+
+    /**
+     * Read an image as a byte array.
+     *
+     * @param resImageName the image file name
+     *
      * @return the byte array.
      */
-    public byte[] getTextBytes(String resName) {
-        return getResourceBytes("txt",resName);
+    public byte[] getImageBytes(String resImageName) {
+        return getResourceBytes(AlgosApp.IMG_FOLDER_NAME, resImageName);
+    }// end of method
+
+
+    /**
+     * Read a text file as a byte array.
+     *
+     * @param resTextName the text file name
+     *
+     * @return the byte array.
+     */
+    public byte[] getTextBytes(String resTextName) {
+        return getResourceBytes(AlgosApp.TEXT_FOLDER_NAME, resTextName);
+    }// end of method
+
+
+    /**
+     * Create an Image from a resource
+     * <p>
+     *
+     * @param resource the resource
+     *
+     * @return the image
+     */
+    public Image getImage(final Resource resource) {
+        Image image = new Image(null, resource);
+        return image;
     }
 
 
@@ -158,4 +188,4 @@ public class AResourceService {
         return resource;
     }
 
-}
+}// end of service class

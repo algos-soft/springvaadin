@@ -225,6 +225,7 @@ public abstract class AUIParams extends UI {
         if (AlgosApp.USE_CHECK_COOKIES) {
             startService.checkCookies(request);
         }// end of if cycle
+
     }// end of method
 
 

@@ -116,7 +116,7 @@ public class AHomeView extends AView {
 
 
     private Layout getImage() {
-        String nomeRisorsaConSuffisso = "amb3.jpg";
+        String nomeImmagineConSuffisso = "amb3.jpg";
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(false);
         layout.setSizeFull();
@@ -126,11 +126,9 @@ public class AHomeView extends AView {
         int lar = ((Double) (larImage * delta)).intValue();
         int alt = ((Double) (altImage * delta)).intValue();
 
-        Image image = resource.getImage(nomeRisorsaConSuffisso);
+        Image image = resource.getImage(nomeImmagineConSuffisso);
         image.setWidth(lar, Unit.PIXELS);
         image.setHeight(alt, Unit.PIXELS);
-//        layout.setWidth(650 * 2, Unit.PIXELS);
-//        layout.setHeight(400 * 2, Unit.PIXELS);
 
         layout.addComponent(image);
         layout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);

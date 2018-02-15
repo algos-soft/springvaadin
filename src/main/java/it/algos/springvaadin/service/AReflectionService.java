@@ -504,6 +504,6 @@ public class AReflectionService {
         }// end of if cycle
 
         return true;
-    }// end of static method
+    }// end of method
 
-}// end of class
+}// end of service class
