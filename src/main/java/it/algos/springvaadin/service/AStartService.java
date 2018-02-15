@@ -63,7 +63,6 @@ public class AStartService {
     public void checkCookies(VaadinRequest request) {
         Cookie[] requestCookies = request.getCookies();
         IAUser user;
-        boolean valido;
         String nickname = "";
         String password = "";
         String company = "";
@@ -84,13 +83,25 @@ public class AStartService {
             }// end of for cycle
         }// end of if cycle
 
-        nickname= nickname.replaceAll("/xspc/"," ");
+        checkUtente(nickname, password);
+    }// end of static method
+
+
+    public boolean checkUtente(String nickname, String password) {
+        IAUser user;
+        boolean valido = false;
+
+        nickname = nickname.replaceAll("/xspc/", " ");
         user = userService.findByNickname(nickname);
         if (user != null && userService.passwordValida(nickname, password)) {
             login.esegueLogin(nickname, password);
             loginButton.updateUI();
+            valido = true;
         }// end of if cycle
-    }// end of static method
+
+        return valido;
+    }// end of  method
+
 
 //    /**
 //     * Controlla il login della security

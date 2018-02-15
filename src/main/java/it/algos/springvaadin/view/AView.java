@@ -237,7 +237,9 @@ public abstract class AView extends VerticalLayout implements IAView {
 
         //--componente grafico obbligatorio
         menuLayout = creaMenu();
-        this.addComponent(menuLayout.getMenu());
+        if (menuLayout != null) {
+            this.addComponent(menuLayout.getMenu());
+        }// end of if cycle
 
         //--componente grafico facoltativo
         topLayout = creaTop(entityClazz, null);
@@ -368,7 +370,9 @@ public abstract class AView extends VerticalLayout implements IAView {
      */
     @Override
     public void removeComponents() {
-        this.removeComponent(menuLayout.getMenu());
+        if (menuLayout != null) {
+            this.removeComponent(menuLayout.getMenu());
+        }// end of if cycle
     }// end of method
 
 

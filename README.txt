@@ -8,15 +8,34 @@ New Project
 1) Selezionare maven; click Next (non selezionare Create from archetype)
    Group: it.algos.nomeBaseProgetto (minuscolo)
    Artifact: nomeBaseProgetto (minuscolo)
+   Cliccale Finish due volte
+
 2) Copiare da springvaadin lo script templates.scripts.newProject.xml ed inserirlo a livello base del nuovo progetto
+
 3) Aprire il file da AntBuild, inserire il nomeBaseProgetto adeguato (seconda riga, iniziale maiuscola);
    lanciare 'creaProgettoECancellaScript';
    dopo il lancio il file si auto-cancella
-4) Eseguire Maven -> Import Changes
-5) Aprire Project Structure -> Modules e selezionare come Excluded la cartella 'scripts'
-6) Il database Mongo è perfattamente funzionante col nome (minuscolo) di nomeBaseProgetto.
-   ISi può modificare il nome del DB in src.main.resources.application.properties->spring.data.mongodb.database
-7) Il progetto è perfettamente funzionante e 'risponde' alla porta 8080.
+
+4) Viene creata:
+    - una cartella (a livello base) con gli script di UpDate di Springvaadin e di creazione di nuovi package
+    - una cartella main.java.it.algos.springvaadin con i sorgenti del framework di base.
+        - Per aggiornarlo, lanciare lo script updateProject
+    - una cartella main.java.it.algos.nomeBaseProgetto con la struttura del nuovo progetto
+    - una cartella resources
+    - una cartella webapp
+    - una cartella test
+    - un file pom.wml
+
+5) Eseguire Maven -> Import Changes
+
+6) Aprire Project Structure -> Modules:
+    - selezionare come Excluded la cartella 'scripts'
+    - selezionare come Test la cartella 'test'
+
+7) Il database Mongo è perfettamente funzionante col nome (minuscolo) di nomeBaseProgetto.
+   Si può modificare il nome del DB in src.main.resources.application.properties->spring.data.mongodb.database
+
+8) Il progetto è perfettamente funzionante e 'risponde' alla porta 8080.
    In alternativa, aprire EditConfiguration ed inserire -Dserver.port=8090 in VM options
 
 XxxApplication contiene il metodo 'main' che è il punto di ingresso dell'applicazione Java
