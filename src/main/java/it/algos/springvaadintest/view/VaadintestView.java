@@ -1,23 +1,11 @@
 package it.algos.springvaadintest.view;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.label.LabelBold;
-import it.algos.springvaadin.menu.MenuLayout;
-import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
-import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * Project springvaadin

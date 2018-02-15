@@ -1,17 +1,7 @@
 package it.algos.springvaadin.presenter;
 
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.event.AButtonEvent;
-import it.algos.springvaadin.event.AEvent;
-import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.event.IAListener;
-import it.algos.springvaadin.field.AField;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationListener;
-
-import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * Project springvaadin

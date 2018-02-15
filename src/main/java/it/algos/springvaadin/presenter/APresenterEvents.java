@@ -1,10 +1,7 @@
 package it.algos.springvaadin.presenter;
 
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Window;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.enumeration.EAFieldType;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.enumeration.EATypeField;
 import it.algos.springvaadin.event.AActionEvent;
@@ -14,7 +11,6 @@ import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.field.AField;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 
@@ -53,7 +49,7 @@ public abstract class APresenterEvents implements IAPresenter {
         }// end of if cycle
 
         if (event instanceof AActionEvent && targetClazz == thisClazz) {
-            onGridAction(event.getActionType(), entityBean);
+            onGridAction((AActionEvent) event);
         }// end of if cycle
 
     }// end of method
@@ -87,7 +83,7 @@ public abstract class APresenterEvents implements IAPresenter {
      * @param event the event to respond to
      */
     private void onListEvent(AButtonEvent event) {
-        EAButtonType type = event.getButtonType();
+        EATypeButton type = event.getButtonType();
         Class thisClazz = this.getClass();
         Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
         ApplicationListener source = event.getSource();
@@ -162,11 +158,17 @@ public abstract class APresenterEvents implements IAPresenter {
      * Handle an action event
      * Vedi enum EATypeAction
      *
-     * @param type       Obbligatorio specifica del tipo di evento
-     * @param entityBean Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
+     * @param event the event to respond to
      */
-    protected void onGridAction(EATypeAction type, AEntity entityBean) {
-        //@todo RIMETTERE
+    protected void onGridAction(AActionEvent event) {
+        EATypeAction type = event.getActionType();
+        Class thisClazz = this.getClass();
+        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
+        ApplicationListener source = event.getSource();
+        ApplicationListener target = event.getTarget();
+        AEntity entityBean = event.getEntityBean();
+        AField sourceField = event.getSourceField();
+
         switch (type) {
             case attach:
 //                click();

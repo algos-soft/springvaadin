@@ -1,11 +1,10 @@
 package it.algos.springvaadin.event;
 
-import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeAction;
 import it.algos.springvaadin.enumeration.EATypeField;
 import it.algos.springvaadin.field.AField;
-import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
@@ -77,9 +76,9 @@ public abstract class AEvent extends ApplicationEvent {
     }// end of method
 
 
-    public EAButtonType getButtonType() {
-        if (type != null && type instanceof EAButtonType) {
-            return (EAButtonType) type;
+    public EATypeButton getButtonType() {
+        if (type != null && type instanceof EATypeButton) {
+            return (EATypeButton) type;
         } else {
             return null;
         }// end of if/else cycle

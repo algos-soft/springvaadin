@@ -1,35 +1,22 @@
 package it.algos.springvaadin.presenter;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
-import it.algos.springvaadin.app.AlgosApp;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.log.LogService;
-import it.algos.springvaadin.entity.logtype.Logtype;
-import it.algos.springvaadin.entity.role.RoleForm;
-import it.algos.springvaadin.entity.role.RoleList;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.enumeration.EALogLevel;
-import it.algos.springvaadin.enumeration.EAPrefType;
-import it.algos.springvaadin.event.AEvent;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.form.IAForm;
 import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.ui.AUIParams;
-import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Project springvaadin
@@ -137,7 +124,7 @@ public abstract class APresenter extends APresenterEvents {
     public void setList() {
         List items = null;
         List<Field> columns = null;
-        List<EAButtonType> typeButtons = null;
+        List<EATypeButton> typeButtons = null;
 
         columns = service.getListFields();
         if (array.isEmpty(columns)) {
@@ -191,7 +178,7 @@ public abstract class APresenter extends APresenterEvents {
      */
     public void setForm() {
         List<Field> fields = null;
-        List<EAButtonType> typeButtons = null;
+        List<EATypeButton> typeButtons = null;
 
         fields = service.getFormFields();
         typeButtons = service.getFormTypeButtons();
@@ -225,15 +212,15 @@ public abstract class APresenter extends APresenterEvents {
         entityBean = list.getGrid().getEntityBean();
 
         //--il bottone Edit viene abilitato se c'è UNA SOLA riga selezionata
-        if (list.getButton(EAButtonType.edit) != null) {
-            buttonEdit = list.getButton(EAButtonType.edit);
+        if (list.getButton(EATypeButton.edit) != null) {
+            buttonEdit = list.getButton(EATypeButton.edit);
             buttonEdit.setEnabled(unaSolaRigaSelezionata);
             buttonEdit.setEntityBean(unaSolaRigaSelezionata ? entityBean : null);
         }// end of if cycle
 
         //--il bottone Delete viene abilitato in funzione della modalità di selezione adottata
-        if (list.getButton(EAButtonType.delete) != null) {
-            buttonDelete = list.getButton(EAButtonType.delete);
+        if (list.getButton(EATypeButton.delete) != null) {
+            buttonDelete = list.getButton(EATypeButton.delete);
             buttonDelete.setEnabled(unaSolaRigaSelezionata);
             buttonDelete.setEntityBean(unaSolaRigaSelezionata ? entityBean : null);
         }// end of if cycle
@@ -338,16 +325,16 @@ public abstract class APresenter extends APresenterEvents {
      * @param enabled abilitati o disabilitati
      */
     protected void abilitaBottoniForm(boolean enabled) {
-        if (form.getButton(EAButtonType.revert) != null) {
-            form.getButton(EAButtonType.revert).setEnabled(enabled);
+        if (form.getButton(EATypeButton.revert) != null) {
+            form.getButton(EATypeButton.revert).setEnabled(enabled);
         }// end of if cycle
 
-        if (form.getButton(EAButtonType.registra) != null) {
-            form.getButton(EAButtonType.registra).setEnabled(enabled);
+        if (form.getButton(EATypeButton.registra) != null) {
+            form.getButton(EATypeButton.registra).setEnabled(enabled);
         }// end of if cycle
 
-        if (form.getButton(EAButtonType.accetta) != null) {
-            form.getButton(EAButtonType.accetta).setEnabled(enabled);
+        if (form.getButton(EATypeButton.accetta) != null) {
+            form.getButton(EATypeButton.accetta).setEnabled(enabled);
         }// end of if cycle
     }// end of method
 

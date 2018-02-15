@@ -20,7 +20,7 @@ import it.algos.springvaadin.lib.ACost;
  * Enumeration utilizzata per 'marcare' un evento, in fase di generazione
  * Enumeration utilizzata per 'riconoscerlo' nel metodo onApplicationEvent()
  */
-public enum EAButtonType {
+public enum EATypeButton {
 
 
     accetta(ACost.BOT_ACCETTA, VaadinIcons.CHECK, false, AButton.NORMAL_WIDTH, ValoTheme.BUTTON_FRIENDLY, ShortcutAction.KeyCode.ENTER, 0),
@@ -57,7 +57,7 @@ public enum EAButtonType {
     /**
      * Costruttore interno dell'Enumeration
      */
-    EAButtonType(String caption, Resource icon, boolean enabled, String width, String style, int keyCode, int modifier) {
+    EATypeButton(String caption, Resource icon, boolean enabled, String width, String style, int keyCode, int modifier) {
         this.setCaption(caption);
         this.setIcon(icon);
         this.setEnabled(enabled);

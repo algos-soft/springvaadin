@@ -1,13 +1,12 @@
 package it.algos.springvaadin.form;
 
 import com.vaadin.data.Binder;
-import com.vaadin.data.HasValue;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.ATextAreaField;
 import it.algos.springvaadin.lib.ACost;
@@ -15,11 +14,8 @@ import it.algos.springvaadin.menu.IAMenu;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AFieldService;
-import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.AReflectionService;
 import it.algos.springvaadin.toolbar.AFormToolbar;
-import it.algos.springvaadin.toolbar.AListToolbar;
-import it.algos.springvaadin.toolbar.AToolbar;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import it.algos.springvaadin.view.AView;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +26,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Project springvaadin
@@ -376,7 +371,7 @@ public abstract class AForm extends AView implements IAForm {
      * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
      */
     @Override
-    protected VerticalLayout creaBottom(IAPresenter source, List<EAButtonType> typeButtons) {
+    protected VerticalLayout creaBottom(IAPresenter source, List<EATypeButton> typeButtons) {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);
         bottomLayout.setHeightUndefined();

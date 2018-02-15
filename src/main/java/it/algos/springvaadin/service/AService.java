@@ -11,7 +11,6 @@ import it.algos.springvaadin.enumeration.*;
 import it.algos.springvaadin.exception.DuplicateException;
 import it.algos.springvaadin.exception.NotCompanyEntityException;
 import it.algos.springvaadin.exception.NullCompanyException;
-import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,29 +255,29 @@ public abstract class AService implements IAService {
      *
      * @return lista (type) di bottoni visibili nella toolbar della view AList
      */
-    public List<EAButtonType> getListTypeButtons() {
+    public List<EATypeButton> getListTypeButtons() {
         EAListButton listaBottoni = annotation.getListBotton(entityClass);
-        EAButtonType[] matrice = null;
+        EATypeButton[] matrice = null;
 
         if (listaBottoni != null) {
             switch (listaBottoni) {
                 case standard:
-                    matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete, EAButtonType.search};
+                    matrice = new EATypeButton[]{EATypeButton.create, EATypeButton.edit, EATypeButton.delete, EATypeButton.search};
                     break;
                 case noSearch:
-                    matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete};
+                    matrice = new EATypeButton[]{EATypeButton.create, EATypeButton.edit, EATypeButton.delete};
                     break;
                 case noCreate:
-                    matrice = new EAButtonType[]{EAButtonType.edit, EAButtonType.delete};
+                    matrice = new EATypeButton[]{EATypeButton.edit, EATypeButton.delete};
                     break;
                 case edit:
-                    matrice = new EAButtonType[]{EAButtonType.edit};
+                    matrice = new EATypeButton[]{EATypeButton.edit};
                     break;
                 case show:
-                    matrice = new EAButtonType[]{EAButtonType.show};
+                    matrice = new EATypeButton[]{EATypeButton.show};
                     break;
                 case noButtons:
-                    matrice = new EAButtonType[]{};
+                    matrice = new EATypeButton[]{};
                     break;
                 default:
                     log.warn("Switch - caso non definito");
@@ -296,20 +295,20 @@ public abstract class AService implements IAService {
      *
      * @return lista (type) di bottoni visibili nella toolbar della view AForm
      */
-    public List<EAButtonType> getFormTypeButtons() {
+    public List<EATypeButton> getFormTypeButtons() {
         EAFormButton listaBottoni = annotation.getFormBotton(entityClass);
-        EAButtonType[] matrice = null;
+        EATypeButton[] matrice = null;
 
         if (listaBottoni != null) {
             switch (listaBottoni) {
                 case standard:
-                    matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.registra};
+                    matrice = new EATypeButton[]{EATypeButton.annulla, EATypeButton.revert, EATypeButton.registra};
                     break;
                 case show:
-                    matrice = new EAButtonType[]{EAButtonType.annulla};
+                    matrice = new EATypeButton[]{EATypeButton.annulla};
                     break;
                 case conferma:
-                    matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.conferma};
+                    matrice = new EATypeButton[]{EATypeButton.annulla, EATypeButton.revert, EATypeButton.conferma};
                     break;
                 default:
                     log.warn("Switch - caso non definito");

@@ -5,18 +5,15 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EAButtonType;
-import it.algos.springvaadin.form.AForm;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.label.LabelRosso;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.menu.IAMenu;
-import it.algos.springvaadin.menu.MenuLayout;
 import it.algos.springvaadin.panel.APanel;
 import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AArrayService;
 import it.algos.springvaadin.service.AHtmlService;
 import it.algos.springvaadin.service.ATextService;
-import it.algos.springvaadin.toolbar.AListToolbar;
 import it.algos.springvaadin.toolbar.IAToolbar;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,7 +185,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      * @param items       da visualizzare nella Grid
      * @param typeButtons lista di (tipi di) bottoni visibili nella toolbar della view AList
      */
-    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EAButtonType> typeButtons) {
+    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EATypeButton> typeButtons) {
         this.removeAllComponents();
 
         //--componente grafico obbligatorio
@@ -232,7 +229,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      * @param reflectedJavaFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      * @param typeButtons         lista di (tipi di) bottoni visibili nella toolbar della view AList
      */
-    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> reflectedJavaFields, List<EAButtonType> typeButtons) {
+    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> reflectedJavaFields, List<EATypeButton> typeButtons) {
         this.removeAllComponents();
 
         //--componente grafico obbligatorio
@@ -340,7 +337,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      * Componente grafico facoltativo. Normalmente presente (AList e AForm), ma non obbligatorio.
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
      */
-    protected VerticalLayout creaBottom(IAPresenter source, List<EAButtonType> typeButtons) {
+    protected VerticalLayout creaBottom(IAPresenter source, List<EATypeButton> typeButtons) {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);
         bottomLayout.setHeightUndefined();
@@ -382,7 +379,7 @@ public abstract class AView extends VerticalLayout implements IAView {
      *
      * @param type del bottone, secondo la Enumeration AButtonType
      */
-    public AButton getButton(EAButtonType type) {
+    public AButton getButton(EATypeButton type) {
         return toolbar.getButton(type);
     }// end of method
 

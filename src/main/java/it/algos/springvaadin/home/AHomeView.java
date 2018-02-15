@@ -1,41 +1,23 @@
 package it.algos.springvaadin.home;
 
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import it.algos.springvaadin.annotation.AIView;
 import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.RoleForm;
-import it.algos.springvaadin.entity.role.RoleList;
-import it.algos.springvaadin.entity.user.UserService;
-import it.algos.springvaadin.enumeration.EAButtonType;
 import it.algos.springvaadin.enumeration.EARoleType;
-import it.algos.springvaadin.grid.IAGrid;
 import it.algos.springvaadin.lib.ACost;
-import it.algos.springvaadin.lib.LibImage;
-import it.algos.springvaadin.lib.LibResource;
-import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.menu.MenuHome;
-import it.algos.springvaadin.menu.MenuLayout;
-import it.algos.springvaadin.panel.APanel;
-import it.algos.springvaadin.presenter.IAPresenter;
 import it.algos.springvaadin.service.AResourceService;
 import it.algos.springvaadin.view.AView;
 import it.algos.springvaadin.view.IAView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-
-import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * Project springvaadin

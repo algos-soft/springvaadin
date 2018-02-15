@@ -1,21 +1,16 @@
 package it.algos.springvaadin;
 
-import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.role.Role;
-import it.algos.springvaadin.entity.role.RoleList;
 import it.algos.springvaadin.entity.role.RoleService;
-import it.algos.springvaadin.enumeration.EAButtonType;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.service.*;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -191,9 +186,9 @@ public class AServiceTest extends ATest {
      */
     @Test
     public void getListTypeButtons() {
-        List<EAButtonType> ottenutoLista;
-        EAButtonType[] matrice = new EAButtonType[]{EAButtonType.create, EAButtonType.edit, EAButtonType.delete, EAButtonType.search};
-        List<EAButtonType> previstoLista = Arrays.asList(matrice);
+        List<EATypeButton> ottenutoLista;
+        EATypeButton[] matrice = new EATypeButton[]{EATypeButton.create, EATypeButton.edit, EATypeButton.delete, EATypeButton.search};
+        List<EATypeButton> previstoLista = Arrays.asList(matrice);
         ottenutoLista = service.getListTypeButtons();
         assertEquals(previstoLista, ottenutoLista);
     }// end of method
@@ -208,9 +203,9 @@ public class AServiceTest extends ATest {
      */
     @Test
     public void getFormTypeButtons() {
-        List<EAButtonType> ottenutoLista;
-        EAButtonType[] matrice = new EAButtonType[]{EAButtonType.annulla, EAButtonType.revert, EAButtonType.registra};
-        List<EAButtonType> previstoLista = Arrays.asList(matrice);
+        List<EATypeButton> ottenutoLista;
+        EATypeButton[] matrice = new EATypeButton[]{EATypeButton.annulla, EATypeButton.revert, EATypeButton.registra};
+        List<EATypeButton> previstoLista = Arrays.asList(matrice);
         ottenutoLista = service.getFormTypeButtons();
         assertEquals(previstoLista, ottenutoLista);
     }// end of method
