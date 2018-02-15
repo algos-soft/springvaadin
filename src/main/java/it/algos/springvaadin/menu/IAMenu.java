@@ -1,8 +1,5 @@
 package it.algos.springvaadin.menu;
 
-import it.algos.springvaadin.list.AList;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Project springvaadin
  * Created by Algos

@@ -1,14 +1,15 @@
 package it.algos.springvaadintest.entity.milite;
+
 import com.vaadin.spring.annotation.SpringComponent;
+import it.algos.springvaadin.annotation.AIScript;
+import it.algos.springvaadin.form.IAForm;
+import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.list.IAList;
 import it.algos.springvaadin.presenter.APresenter;
 import it.algos.springvaadin.service.IAService;
-import it.algos.springvaadin.list.IAList;
-import it.algos.springvaadin.form.IAForm;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import it.algos.springvaadin.annotation.*;
-import it.algos.springvaadin.lib.ACost;
 
 /**
  * Project springvaadin

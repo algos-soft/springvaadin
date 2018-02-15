@@ -1,8 +1,8 @@
 package it.algos.springvaadin.event;
 
 
-import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.entity.AEntity;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.field.AField;
 
 /**

@@ -1,8 +1,8 @@
 package it.algos.springvaadin.presenter;
 
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.enumeration.EATypeAction;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.enumeration.EATypeField;
 import it.algos.springvaadin.event.AActionEvent;
 import it.algos.springvaadin.event.AButtonEvent;
@@ -176,6 +176,9 @@ public abstract class APresenterEvents implements IAPresenter {
 //            case click:
 //                click();
 //                break;
+            case editLink:
+//                this.fireForm(entityBean,source,target);
+                break;
             case doppioClick:
                 this.fireForm(entityBean);
                 break;

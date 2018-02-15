@@ -1,7 +1,6 @@
 package it.algos.springvaadin.menu;
 
 import com.vaadin.ui.VerticalLayout;
-import it.algos.springvaadin.list.AList;
 import lombok.extern.slf4j.Slf4j;
 
 /**

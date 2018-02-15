@@ -1,35 +1,18 @@
 package it.algos.springvaadintest.ui;
 
-import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.spring.annotation.VaadinSessionScope;
-import it.algos.springvaadin.entity.address.AddressList;
-import it.algos.springvaadin.entity.logtype.LogtypeList;
-import it.algos.springvaadin.entity.log.LogList;
-import it.algos.springvaadin.entity.persona.PersonaList;
-import it.algos.springvaadin.entity.stato.StatoList;
-import it.algos.springvaadin.app.AlgosApp;
-import it.algos.springvaadin.entity.company.CompanyList;
-import it.algos.springvaadin.entity.user.UserList;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
-import com.vaadin.ui.Grid;
-import it.algos.springvaadin.entity.role.RoleList;
+import com.vaadin.spring.annotation.VaadinSessionScope;
 import it.algos.springvaadin.footer.AFooter;
-import it.algos.springvaadin.home.AHomeView;
 import it.algos.springvaadin.lib.ACost;
-import it.algos.springvaadin.login.ALogin;
-import it.algos.springvaadin.login.ALoginForm;
 import it.algos.springvaadin.service.AStartService;
 import it.algos.springvaadin.ui.AUI;
-import it.algos.springvaadintest.view.VaadintestView;
+import it.algos.springvaadintest.entity.milite.Milite;
+import it.algos.springvaadintest.entity.milite.MiliteList;
+import it.algos.springvaadintest.entity.milite.MiliteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import it.algos.springvaadintest.entity.milite.*;
 
 import javax.annotation.PostConstruct;
 

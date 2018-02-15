@@ -155,8 +155,8 @@ public class AAnnotationServiceTest extends ATest {
      */
     @Test
     public void getAIView() {
-        AIView ottenutoList = service.getAIView(ROLE_VIEW_CLASS_LIST);
-        assertNotNull(ottenutoList);
+//        AIView ottenutoList = service.getAIView(ROLE_VIEW_CLASS_LIST);
+//        assertNotNull(ottenutoList);
 
         AIView ottenutoForm = service.getAIView(ROLE_VIEW_CLASS_FORM);
         assertNull(ottenutoForm);
@@ -572,7 +572,7 @@ public class AAnnotationServiceTest extends ATest {
     @Test
     public void getEntityRoleType() {
         EARoleType roleTypeVisibilityOttenuta = null;
-        EARoleType roleTypeVisibilityPrevista = EARoleType.admin;
+        EARoleType roleTypeVisibilityPrevista = EARoleType.developer;
         roleTypeVisibilityOttenuta = service.getEntityRoleType(ROLE_ENTITY_CLASS);
         assertEquals(roleTypeVisibilityPrevista, roleTypeVisibilityOttenuta);
     }// end of single test
@@ -787,7 +787,7 @@ public class AAnnotationServiceTest extends ATest {
     @Test
     public void getFieldRoleType() {
         EARoleType roleTypeVisibilityOttenuta = null;
-        EARoleType roleTypeVisibilityPrevista = EARoleType.admin;
+        EARoleType roleTypeVisibilityPrevista = EARoleType.developer;
         roleTypeVisibilityOttenuta = service.getFieldRoleType(FIELD_ORDINE);
         assertEquals(roleTypeVisibilityPrevista, roleTypeVisibilityOttenuta);
     }// end of single test

@@ -1,19 +1,10 @@
 package it.algos.springvaadin.entity.role;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Notification;
 import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.entity.address.Address;
-import it.algos.springvaadin.entity.company.Company;
-import it.algos.springvaadin.entity.persona.Persona;
-import it.algos.springvaadin.entity.stato.Stato;
-import it.algos.springvaadin.entity.user.User;
-import it.algos.springvaadin.exception.NullCompanyException;
 import it.algos.springvaadin.lib.ACost;
-import it.algos.springvaadin.service.AFieldService;
 import it.algos.springvaadin.service.AService;
-import it.algos.springvaadin.service.ASessionService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

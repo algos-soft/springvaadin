@@ -6,7 +6,6 @@ import it.algos.springvaadin.entity.company.Company;
 import it.algos.springvaadin.entity.company.CompanyService;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleService;
-import it.algos.springvaadin.entity.user.UserService;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.IAService;
 import it.algos.springvaadintest.entity.milite.Milite;

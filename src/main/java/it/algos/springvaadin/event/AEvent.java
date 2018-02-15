@@ -1,8 +1,8 @@
 package it.algos.springvaadin.event;
 
-import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeAction;
+import it.algos.springvaadin.enumeration.EATypeButton;
 import it.algos.springvaadin.enumeration.EATypeField;
 import it.algos.springvaadin.field.AField;
 import org.springframework.context.ApplicationEvent;
@@ -34,6 +34,7 @@ public abstract class AEvent extends ApplicationEvent {
 
     //--Opzionale (entityBean) in elaborazione. Ha senso solo per alcuni eventi
     protected AEntity entityBean;
+
 
     //--Opzionale (field) in elaborazione. Ha senso solo per alcuni eventi
     protected AField sourceField;
