@@ -165,6 +165,7 @@ public class LogService extends AService {
         return repository.findByOrderByEventoDesc();
     }// end of method
 
+
     /**
      * Registra un log di una entity modificata
      * Di default è di livello debug

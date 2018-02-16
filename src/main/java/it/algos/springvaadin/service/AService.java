@@ -423,6 +423,7 @@ public abstract class AService implements IAService {
         if (nuovaEntity) {
             if (isEsisteEntityKeyUnica(modifiedBean)) {
                 Notification.show("Nuova scheda", DuplicateException.MESSAGE, Notification.Type.ERROR_MESSAGE);
+                log.error("Ha cercato di salvare una entity già esistente, ma unica");
                 return null;
             }// end of if cycle
         }// end of if cycle
