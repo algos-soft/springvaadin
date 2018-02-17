@@ -13,6 +13,7 @@ import it.algos.springvaadin.service.*;
 import it.algos.springvaadin.ui.AUIParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Scope;
 
 import java.lang.reflect.Field;
@@ -109,6 +110,15 @@ public abstract class APresenter extends APresenterEvents {
 
 
     /**
+     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     */
+    public void fireList() {
+        Class clazz = list.getViewComponent().getClass();
+        params.getNavigator().navigateTo(annotation.getViewName(clazz));
+    }// end of method
+
+
+    /**
      * Gestione di una Lista visualizzata con una Grid
      * Metodo invocato da:
      * 1) una view quando diventa attiva
@@ -143,11 +153,12 @@ public abstract class APresenter extends APresenterEvents {
 
 
     /**
-     * Usa lo SpringNavigator per cambiare view ed andare alla view AList
+     * Usa lo SpringNavigator per cambiare view ed andare ad AForm
+     *
+     * @param entityBean istanza da creare/elaborare
      */
-    public void fireList() {
-        Class clazz = list.getViewComponent().getClass();
-        params.getNavigator().navigateTo(annotation.getViewName(clazz));
+    public void fireForm(AEntity entityBean) {
+        fireForm(entityBean, null);
     }// end of method
 
 
@@ -155,9 +166,11 @@ public abstract class APresenter extends APresenterEvents {
      * Usa lo SpringNavigator per cambiare view ed andare ad AForm
      *
      * @param entityBean istanza da creare/elaborare
+     * @param source     presenter che ha chiamato questo form
      */
-    public void fireForm(AEntity entityBean) {
+    public void fireForm(AEntity entityBean, IAPresenter source) {
         form.getForm().entityBean = entityBean != null ? entityBean : service.newEntity();
+        form.getForm().source = source != null ? source : this;
 
         Class clazz = form.getViewComponent().getClass();
         params.getNavigator().navigateTo(annotation.getViewName(clazz));
@@ -183,7 +196,7 @@ public abstract class APresenter extends APresenterEvents {
         fields = service.getFormFields();
         typeButtons = service.getFormTypeButtons();
 
-        form.start(this, entityClass, fields, typeButtons);
+        form.start(entityClass, fields, typeButtons);
     }// end of method
 
 

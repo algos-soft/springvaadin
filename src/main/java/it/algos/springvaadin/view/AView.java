@@ -66,6 +66,12 @@ public abstract class AView extends VerticalLayout implements IAView {
 
 
     /**
+     * Chiamante di questo fvorm (di solito il presenter)
+     */
+    public IAPresenter source;
+
+
+    /**
      * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
      * Un eventuale menuBar specifica può essere iniettata dalla sottoclasse concreta
      * Le sottoclassi possono aggiungere/modificare i menu che verranno ripristinati all'uscita della view
@@ -224,12 +230,11 @@ public abstract class AView extends VerticalLayout implements IAView {
      * 3) Body: Corpo centrale della view. Utilizzando un Panel, si ottine l'effetto scorrevole
      * 4) Bottom - Barra dei bottoni inferiore
      *
-     * @param source              presenter di riferimento per i componenti da cui vengono generati gli eventi
      * @param entityClazz         di riferimento, sottoclasse concreta di AEntity
      * @param reflectedJavaFields previsti nel modello dati della Entity più eventuali aggiunte della sottoclasse
      * @param typeButtons         lista di (tipi di) bottoni visibili nella toolbar della view AList
      */
-    public void start(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> reflectedJavaFields, List<EATypeButton> typeButtons) {
+    public void start(Class<? extends AEntity> entityClazz, List<Field> reflectedJavaFields, List<EATypeButton> typeButtons) {
         this.removeAllComponents();
 
         //--componente grafico obbligatorio

@@ -177,7 +177,7 @@ public abstract class APresenterEvents implements IAPresenter {
 //                click();
 //                break;
             case editLink:
-//                this.fireForm(entityBean,source,target);
+                this.fireForm(entityBean, (IAPresenter)source);
                 break;
             case doppioClick:
                 this.fireForm(entityBean);

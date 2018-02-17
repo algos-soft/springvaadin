@@ -2,6 +2,7 @@ package it.algos.springvaadin.entity.address;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.annotation.*;
+import it.algos.springvaadin.entity.ACEntity;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.entity.stato.Stato;
 import it.algos.springvaadin.enumeration.EACompanyRequired;
@@ -52,7 +53,7 @@ import javax.validation.constraints.Size;
 @AIList(fields = {"indirizzo", "localita", "cap", "stato"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"indirizzo", "localita", "cap", "stato"})
 @AIScript(sovrascrivibile = false)
-public class Address extends AEntity {
+public class Address extends ACEntity {
 
     /**
      * versione della classe per la serializzazione
