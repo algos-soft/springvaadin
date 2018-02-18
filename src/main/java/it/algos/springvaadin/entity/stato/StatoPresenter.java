@@ -33,12 +33,11 @@ public class StatoPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public StatoPresenter(
-                @Lazy @Qualifier(ACost.TAG_STA) IAService service,
-                @Lazy @Qualifier(ACost.TAG_STA) IAList list,
-                @Lazy @Qualifier(ACost.TAG_STA) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Stato.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_STA) IAService service,
+            @Lazy @Qualifier(ACost.TAG_STA) IAList list,
+            @Lazy @Qualifier(ACost.TAG_STA) IAForm form) {
+        super(Stato.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class

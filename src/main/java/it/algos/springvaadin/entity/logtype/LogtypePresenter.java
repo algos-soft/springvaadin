@@ -33,12 +33,11 @@ public class LogtypePresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public LogtypePresenter(
-                @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAService service,
-                @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAList list,
-                @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Logtype.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAService service,
+            @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAList list,
+            @Lazy @Qualifier(ACost.TAG_LOGTYPE) IAForm form) {
+        super(Logtype.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class

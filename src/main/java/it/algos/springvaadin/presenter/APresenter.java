@@ -110,6 +110,26 @@ public abstract class APresenter extends APresenterEvents {
         this.form = form;
     }// end of Spring constructor
 
+    /**
+     * Costruttore @Autowired (nella sottoclasse concreta)
+     * In the newest Spring release, it’s constructor does not need to be annotated with @Autowired annotation.
+     * L' @Autowired (esplicito o implicito) funziona SOLO per UN costruttore
+     * Se ci sono DUE o più costruttori, va in errore
+     * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
+     * La sottoclasse usa un @Qualifier(), per avere la sottoclasse specifica
+     * La sottoclasse usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
+     *
+     * @param service iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param list    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     * @param form    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
+     */
+    public APresenter(Class<? extends AEntity> entityClass,IAService service, IAList list, IAForm form) {
+        this.entityClass = entityClass;
+        this.service = service;
+        this.list = list;
+        this.form = form;
+    }// end of Spring constructor
+
 
     /**
      * Usa lo SpringNavigator per cambiare view ed andare alla view AList

@@ -31,12 +31,11 @@ public class UserPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public UserPresenter(
-                @Lazy @Qualifier(ACost.TAG_USE) IAService service,
-                @Lazy @Qualifier(ACost.TAG_USE) IAList list,
-                @Lazy @Qualifier(ACost.TAG_USE) IAForm form) {
-        super(service, list, form);
-        super.entityClass = User.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_USE) IAService service,
+            @Lazy @Qualifier(ACost.TAG_USE) IAList list,
+            @Lazy @Qualifier(ACost.TAG_USE) IAForm form) {
+        super(User.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class

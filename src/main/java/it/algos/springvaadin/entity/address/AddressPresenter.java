@@ -36,12 +36,11 @@ public class AddressPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public AddressPresenter(
-                @Lazy @Qualifier(ACost.TAG_ADD) IAService service,
-                @Lazy @Qualifier(ACost.TAG_ADD) IAList list,
-                @Lazy @Qualifier(ACost.TAG_ADD) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Address.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_ADD) IAService service,
+            @Lazy @Qualifier(ACost.TAG_ADD) IAList list,
+            @Lazy @Qualifier(ACost.TAG_ADD) IAForm form) {
+        super(Address.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class

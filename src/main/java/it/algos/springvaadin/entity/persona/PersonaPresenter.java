@@ -36,12 +36,11 @@ public class PersonaPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public PersonaPresenter(
-                @Lazy @Qualifier(ACost.TAG_PER) IAService service,
-                @Lazy @Qualifier(ACost.TAG_PER) IAList list,
-                @Lazy @Qualifier(ACost.TAG_PER) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Persona.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_PER) IAService service,
+            @Lazy @Qualifier(ACost.TAG_PER) IAList list,
+            @Lazy @Qualifier(ACost.TAG_PER) IAForm form) {
+        super(Persona.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class

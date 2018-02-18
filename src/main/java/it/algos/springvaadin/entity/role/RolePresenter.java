@@ -49,8 +49,8 @@ public class RolePresenter extends APresenter {
             @Lazy @Qualifier(ACost.TAG_ROL) IAService service,
             @Lazy @Qualifier(ACost.TAG_ROL) IAList list,
             @Lazy @Qualifier(ACost.TAG_ROL) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Role.class;
+        super(Role.class,service, list, form);
+//        super.entityClass = Role.class;
     }// end of Spring constructor
 
 

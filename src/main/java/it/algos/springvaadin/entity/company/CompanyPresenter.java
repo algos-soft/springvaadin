@@ -33,12 +33,11 @@ public class CompanyPresenter extends APresenter {
      * Regola il modello-dati specifico
      */
     public CompanyPresenter(
-                @Lazy @Qualifier(ACost.TAG_COM) IAService service,
-                @Lazy @Qualifier(ACost.TAG_COM) IAList list,
-                @Lazy @Qualifier(ACost.TAG_COM) IAForm form) {
-        super(service, list, form);
-        super.entityClass = Company.class;
-     }// end of Spring constructor
+            @Lazy @Qualifier(ACost.TAG_COM) IAService service,
+            @Lazy @Qualifier(ACost.TAG_COM) IAList list,
+            @Lazy @Qualifier(ACost.TAG_COM) IAForm form) {
+        super(Company.class, service, list, form);
+    }// end of Spring constructor
 
 
 }// end of class
