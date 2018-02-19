@@ -69,6 +69,12 @@ public abstract class APresenter extends APresenterEvents {
 
 
     /**
+     * Il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
+     */
+    protected Class<? extends AEntity> entityClass;
+
+
+    /**
      * Il service (contenente la repository) viene iniettato dal costruttore della sottoclasse concreta
      */
     public IAService service;
@@ -86,11 +92,6 @@ public abstract class APresenter extends APresenterEvents {
     protected IAForm form;
 
 
-    /**
-     * Il modello-dati specifico viene regolato dalla sottoclasse nel costruttore
-     */
-    protected Class<? extends AEntity> entityClass;
-
 
     /**
      * Costruttore @Autowired (nella sottoclasse concreta)
@@ -101,6 +102,7 @@ public abstract class APresenter extends APresenterEvents {
      * La sottoclasse usa un @Qualifier(), per avere la sottoclasse specifica
      * La sottoclasse usa una costante statica, per essere sicuri di scrivere sempre uguali i riferimenti
      *
+     * @param entityClass iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param service iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param list    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
      * @param form    iniettato da Spring come sottoclasse concreta specificata dal @Qualifier
