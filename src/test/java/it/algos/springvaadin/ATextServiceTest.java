@@ -261,6 +261,47 @@ public class ATextServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
+     * Elimina il testo da tagFinale in poi
+     * <p>
+     * Esegue solo se il testo è valido
+     * Se tagInterrompi è vuoto, restituisce il testo
+     * Elimina spazi vuoti iniziali e finali
+     *
+     * @param testoIn   ingresso
+     * @param tagInterrompi da dove inizia il testo da eliminare
+     *
+     * @return test ridotto in uscita
+     */
+    @Test
+    public void levaCodaDa() {
+        sorgente = " Levare questa fine Non ";
+        tag = "N";
+        previsto = "Levare questa fine";
+        ottenuto = service.levaCodaDa(sorgente, tag);
+        assertEquals(previsto, ottenuto);
+
+        sorgente = "Non Levare questa fine ";
+        tag = "";
+        previsto = "Non Levare questa fine";
+        ottenuto = service.levaCodaDa(sorgente, tag);
+        assertEquals(previsto, ottenuto);
+
+        sorgente = "Non Levare questa fine ";
+        tag = "questa";
+        previsto = "Non Levare";
+        ottenuto = service.levaCodaDa(sorgente, tag);
+        assertEquals(previsto, ottenuto);
+
+        sorgente = "Non Levare questa fine ";
+        tag = "NonEsisteQuestoTag";
+        previsto = "Non Levare questa fine";
+        ottenuto = service.levaCodaDa(sorgente, tag);
+        assertEquals(previsto, ottenuto);
+    }// end of single test
+
+
+    @SuppressWarnings("javadoc")
+    /**
      * Sostituisce nel testo tutte le occorrenze di oldTag con newTag.
      * Esegue solo se il testo è valido
      * Esegue solo se il oldTag è valido

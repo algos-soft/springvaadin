@@ -9,7 +9,9 @@ import it.algos.springvaadin.event.AButtonEvent;
 import it.algos.springvaadin.event.AEvent;
 import it.algos.springvaadin.event.AFieldEvent;
 import it.algos.springvaadin.field.AField;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -23,6 +25,9 @@ public abstract class APresenterEvents implements IAPresenter {
 
     @Autowired
     protected ApplicationEventPublisher publisher;
+
+    @Autowired
+    protected ATextService text;
 
 
     /**
@@ -39,16 +44,24 @@ public abstract class APresenterEvents implements IAPresenter {
         ApplicationListener target = event.getTarget();
         AEntity entityBean = event.getEntityBean();
         AField sourceField = event.getSourceField();
+        String thisClassName = this.getClass().getCanonicalName();
+        String targetClassName = event.getTarget().getClass().getCanonicalName();
 
-        if (event instanceof AFieldEvent && targetClazz == thisClazz) {
+        Object targetObject = event.getTarget();
+        if (AopUtils.isAopProxy(targetObject)) {
+            targetClassName = targetObject.toString();
+            targetClassName = text.levaCodaDa(targetClassName, "@");
+        }// end of if cycle
+
+        if (event instanceof AFieldEvent && targetClassName.equals(thisClassName)) {
             onFieldEvent((AFieldEvent) event, source, target, entityBean, sourceField);
         }// end of if cycle
 
-        if (event instanceof AButtonEvent && targetClazz == thisClazz) {
+        if (event instanceof AButtonEvent && targetClassName.equals(thisClassName)) {
             onListEvent((AButtonEvent) event);
         }// end of if cycle
 
-        if (event instanceof AActionEvent && targetClazz == thisClazz) {
+        if (event instanceof AActionEvent && targetClassName.equals(thisClassName)) {
             onGridAction((AActionEvent) event);
         }// end of if cycle
 
