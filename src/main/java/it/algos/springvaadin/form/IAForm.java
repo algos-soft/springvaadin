@@ -19,7 +19,6 @@ public interface IAForm extends IAView {
 
 
 
-
     /**
      * Creazione di una view (AForm) contenente i fields
      * Metodo invocato dal Presenter (dopo che ha elaborato i dati da visualizzare)
