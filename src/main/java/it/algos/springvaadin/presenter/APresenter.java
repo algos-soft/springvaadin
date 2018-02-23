@@ -369,6 +369,10 @@ public abstract class APresenter extends APresenterEvents {
         if (form.getButton(EATypeButton.accetta) != null) {
             form.getButton(EATypeButton.accetta).setEnabled(enabled);
         }// end of if cycle
+
+        if (form.getButton(EATypeButton.conferma) != null) {
+            form.getButton(EATypeButton.conferma).setEnabled(enabled);
+        }// end of if cycle
     }// end of method
 
 }// end of class

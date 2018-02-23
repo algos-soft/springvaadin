@@ -177,10 +177,6 @@ public abstract class AView extends VerticalLayout implements IAView {
     }// end of method
 
 
-
-
-
-
     /**
      * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
      * Un eventuale menuBar specifica può essere iniettata dalla sottoclasse concreta

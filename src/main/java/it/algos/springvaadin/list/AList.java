@@ -150,7 +150,7 @@ public abstract class AList extends AView implements IAList {
      * 3) Body: Corpo centrale della view. Utilizzando un Panel, si ottine l'effetto scorrevole
      * 4) Bottom - Barra dei bottoni inferiore
      *
-     * @param source      presenter che ha chiamato questa view ed a cui fare ritorno (di solito il gestore)
+     * @param source      presenter che ha chiamato questa view ed a cui fare ritorno (di default il gestore)
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid

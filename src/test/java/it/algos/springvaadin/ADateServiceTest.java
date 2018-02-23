@@ -68,6 +68,16 @@ public class ADateServiceTest extends ATest {
         MockitoAnnotations.initMocks(service);
     }// end of method
 
+    @Before
+    public void tearDown() {
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Data settimanale lunga: "+service.getWeekLong(LOCAL_DATE_UNO));
+        System.out.println("Data settimanale breve: "+service.getDayWeekShort(LOCAL_DATE_UNO));
+        System.out.println("");
+        System.out.println("");
+    }// end of method
+
 
     @SuppressWarnings("javadoc")
     /**
@@ -497,6 +507,14 @@ public class ADateServiceTest extends ATest {
         int numGiorno=LocalDate.now().getDayOfYear();
         localDataOttenuta = service.getLocalDateByDay(numGiorno);
         assertEquals(localDataOttenuta, localDataPrevista);
+    }// end of single test
+
+
+    @Test
+    public void formattazione() {
+        System.out.println("");
+        System.out.println("");
+        System.out.println(service.getWeekLong(LOCAL_DATE_UNO));
     }// end of single test
 
 }// end of class
