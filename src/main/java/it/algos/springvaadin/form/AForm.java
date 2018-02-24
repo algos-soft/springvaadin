@@ -109,8 +109,8 @@ public abstract class AForm extends AView implements IAForm {
         super.enter(event);
 
         //--Passa il controllo al gestore che gestisce questa view
-        if (gestore != null) {
-            gestore.setForm();
+        if (source != null) {
+            source.setForm();
         }// end of if cycle
     }// end of method
 
@@ -420,7 +420,7 @@ public abstract class AForm extends AView implements IAForm {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);
         bottomLayout.setHeightUndefined();
-        toolbar.inizializza(source, typeButtons);
+        toolbar.inizializza(source,source, typeButtons);
 
 //        fixToolbar();
 

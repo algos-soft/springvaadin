@@ -51,51 +51,57 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
 
 
     /**
-     * Metodo invocato da restart() di Form e List
+     * Metodo invocato da restart() di List e Form
      * Seleziona i bottoni da mostrare nella toolbar
      * Crea i bottoni (iniettandogli il publisher)
      * Aggiunge i bottoni al contenitore grafico
-     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Inietta nei bottoni i parametri obbligatori (gestore e target)
      *
-     * @param source  dell'evento generato dai bottoni
+     * @param gestore     dell'evento generato dai bottoni
+     * @param target      del presenter a cui indirizzare l'azione del bottone
      * @param typeButtons da visualizzare
      */
-    public void inizializza(IAPresenter source, List<EATypeButton> typeButtons) {
+    public void inizializza(IAPresenter gestore, IAPresenter target, List<EATypeButton> typeButtons) {
         this.deleteAllButtons();
 
         for (EATypeButton singleTypeButton : typeButtons) {
-            creaAddButton(singleTypeButton, source);
+            creaAddButton(gestore, target, singleTypeButton);
         }// end of for cycle
 
     }// end of method
 
-
-    /**
-     * Metodo invocato da restart() di Form, nella classe LinkToolbar
-     * Crea i bottoni (iniettandogli il publisher)
-     * Aggiunge i bottoni al contenitore grafico
-     * Inietta nei bottoni il parametro obbligatorio (source)
-     *
-     * @param source      dell'evento generato dal bottone
-     * @param target
-     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
-     */
-//    @Override
-    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
-    }// end of method
+//@todo tenere
+//    /**
+//     * Metodo invocato da restart() di Form, nella classe LinkToolbar
+//     * Crea i bottoni (iniettandogli il publisher)
+//     * Aggiunge i bottoni al contenitore grafico
+//     * Inietta nei bottoni il parametro obbligatorio (source)
+//     *
+//     * @param source      dell'evento generato dal bottone
+//     * @param target
+//     * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
+//     */
+//    public void inizializza(ApplicationListener source, ApplicationListener target, AEntity entityBean, AField sourceField) {
+//    }// end of method
 
 
     /**
      * Crea il bottone nella factory AButtonFactory (iniettandogli il publisher)
-     * Inietta nei bottoni il parametro obbligatorio (source)
+     * Inietta nei bottoni i parametri obbligatori (gestore e target)
      * Aggiunge il bottone alla prima riga (default) del contenitore grafico
      *
-     * @param type   del bottone, secondo la Enumeration AButtonType
-     * @param source dell'evento generato dal bottone
+     * @param gestore dell'evento generato dai bottoni
+     * @param target  del presenter a cui indirizzare l'azione del bottone
+     * @param type    del bottone, secondo la Enumeration AButtonType
      */
-//    @Override
-    public AButton creaAddButton(EATypeButton type, IAPresenter source) {
-        return creaAddButton(type, source, source, (AEntity) null, (AField) null);
+    public AButton creaAddButton(IAPresenter gestore, IAPresenter target, EATypeButton type) {
+        AButton button = buttonFactory.crea(type, gestore, target, null, null);
+
+        if (button != null) {
+            primaRiga.addComponent(button);
+        }// end of if cycle
+
+        return button;
     }// end of method
 
 

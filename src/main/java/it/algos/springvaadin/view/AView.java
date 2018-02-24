@@ -66,13 +66,13 @@ public abstract class AView extends VerticalLayout implements IAView {
     /**
      * Gestore principale per la 'business logic' del modulo, iniettato da Spring nel costruttore
      */
-    public IAPresenter gestore;
+    public IAPresenter source;
 
 
     /**
-     * Chiamante di questa view (di solito il gestore)
+     * Chiamante (eventuale) di questa view, da parte di un altro modulo (di default il source)
      */
-    public IAPresenter source;
+    public IAPresenter target;
 
 
     /**
@@ -132,11 +132,11 @@ public abstract class AView extends VerticalLayout implements IAView {
      * Se ci sono DUE o più costruttori, va in errore
      * Se ci sono DUE costruttori, di cui uno senza parametri, inietta quello senza parametri
      *
-     * @param gestore iniettato da Spring
+     * @param source iniettato da Spring
      */
-    public AView(IAPresenter gestore, IAToolbar toolbar) {
+    public AView(IAPresenter source, IAToolbar toolbar) {
         super();
-        this.gestore = gestore;
+        this.source = source;
         this.toolbar = toolbar;
     }// end of Spring constructor
 

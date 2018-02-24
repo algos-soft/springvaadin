@@ -116,8 +116,8 @@ public abstract class AList extends AView implements IAList {
         super.enter(event);
 
         //--Passa il controllo al gestore che gestisce questa view
-        if (gestore != null) {
-            gestore.setList();
+        if (source != null) {
+            source.setList();
         }// end of if cycle
     }// end of method
 
@@ -138,7 +138,7 @@ public abstract class AList extends AView implements IAList {
      */
     @Override
     public void start(Class<? extends AEntity> entityClazz, List<Field> columns, List items, List<EATypeButton> typeButtons) {
-        start(gestore, entityClazz, columns, items, typeButtons);
+        start(source, entityClazz, columns, items, typeButtons);
     }// end of method
 
     /**
@@ -242,7 +242,7 @@ public abstract class AList extends AView implements IAList {
         VerticalLayout bottomLayout = new VerticalLayout();
         bottomLayout.setMargin(false);
         bottomLayout.setHeightUndefined();
-        toolbar.inizializza(source, typeButtons);
+        toolbar.inizializza(source, source, typeButtons);
 
 //        fixToolbar();
 

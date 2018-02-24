@@ -205,15 +205,15 @@ public class AFieldFactory implements IAFieldFactory {
                 case checkboxlabel:
                     field = fieldFactory.apply(ACheckBoxField.class);
                     break;
-//                case localdate:
-//                    field = fieldFactory.apply(ADateField.class);
-//                    break;
+                case localdate:
+                    field = fieldFactory.apply(ADateField.class);
+                    break;
                 case localdatetime:
                     field = fieldFactory.apply(ADateTimeField.class);
                     break;
-//                case dateNotEnabled:
-//                    field = fieldFactory.apply(ADateNotEnabledField.class);
-//                    break;
+                case dateNotEnabled:
+                    field = fieldFactory.apply(ADateNotEnabledField.class);
+                    break;
 //                case image:
 //                    field = fieldFactory.apply(AImageField.class);
 //                    field.setButton(buttonFactory.crea(AButtonType.image, source, targetImageAutowired, field));

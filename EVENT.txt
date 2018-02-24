@@ -1,0 +1,59 @@
+Ciclo degli eventi
+
+1) Ogni 'modulo' (package) ha 2 presenter:
+    source - presenter gestore principale per la 'business logic' del modulo
+    target - presenter chiamante di una view del modulo (di default il gestore)
+
+2) Se si chiam una view (List o Form) dall'interno del modulo, i 2 presenter coincidono
+
+3) Le views hanno come property:
+    source - fisso creato da Spring
+    target - variabile in runtime e regolato dal presenter 'target' che chiama la view,
+        prima di invocare getUI().getNavigator().navigateTo(xxx)
+
+4) Se si chiamo un Form da altro modulo,
+    'target' è il modulo chiamante
+    'source' è il modulo corrente del form
+
+5) I bottoni ricevono e mantengono come property:
+    source - presenter che gestisce l'azione immediata del bottone
+    target - presenter a cui andare (eventualmente) dopo aver eseguito l'azione
+
+6) Gli eventi si attivano nell'istanza di APresenterEvents del presenter 'source'
+
+7) Gli eventi 'passano avanti' il 'target' dell'evento, per (eventuali) azioni successive
+
+
+
+
+
+
+
+
+
+
+Ciclo degli eventi
+
+1) Ogni 'modulo' (package) ha 3 presenter:
+    gestore - presenter gestore principale per la 'business logic' del modulo
+    source - presenter chiamante di una view del modulo (di default il gestore)
+    target - presenter a cui indirizzare l'azione del bottone (di default il gestore)
+
+2) Se si chiam una view (List o Form) dall'interno del modulo, i 3 presenter coincidono
+
+3) Le views hanno come property:
+    gestore - fisso creato da Spring
+    source - variabile in runtime e regolato dal presenter 'sorce' che chiama la view,
+        prima di invocare getUI().getNavigator().navigateTo(xxx)
+
+4) Se si chiamo un Form da altro modulo,
+    'gestore' è il modulo del form
+    'source' è il modulo chiamante
+
+5) I bottoni ricevono e mantengono come property:
+    target - presenter che gestisce l'azione del bottone
+    source - presenter a cui andare DOPO aver eseguito l'azione
+
+
+
+    'target' il modulo dove ritornare (di default uguale a 'source')
