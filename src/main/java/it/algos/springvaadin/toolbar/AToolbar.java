@@ -113,7 +113,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
 //    @Override
-    public AButton creaAddButton(EATypeButton type, IAPresenter source, IAListener target, AEntity entityBean, AField sourceField) {
+    public AButton creaAddButton(EATypeButton type, IAPresenter source, IAPresenter target, AEntity entityBean, AField sourceField) {
         AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {
@@ -132,7 +132,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param source dell'evento generato dal bottone
      */
 //    @Override
-    public AButton creaAddButtonSecondaRiga(EATypeButton type, IAListener source) {
+    public AButton creaAddButtonSecondaRiga(EATypeButton type, IAPresenter source) {
         if (this.getComponentCount() == 1) {
             this.addComponent(secondaRiga);
         }// end of if cycle
@@ -149,7 +149,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * @param sourceField di un altro modulo che ha richiesto, tramite bottone, la visualizzazione del form
      */
 //    @Override
-    public AButton creaAddButtonSecondaRiga(EATypeButton type, IAListener source, IAListener target, AEntity entityBean, AField sourceField) {
+    public AButton creaAddButtonSecondaRiga(EATypeButton type, IAPresenter source, IAPresenter target, AEntity entityBean, AField sourceField) {
         AButton button = buttonFactory.crea(type, source, target, sourceField, entityBean);
 
         if (button != null) {

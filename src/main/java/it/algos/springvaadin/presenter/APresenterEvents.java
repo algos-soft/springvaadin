@@ -32,6 +32,8 @@ public abstract class APresenterEvents implements IAPresenter {
 
     /**
      * Handle an application event.
+     * Source è il presenter (questo) che deve gestire l'azione
+     * Target è il presenter a cui andare dopo aver eseguito l'azione prevista
      *
      * @param event to respond to
      */
@@ -45,23 +47,24 @@ public abstract class APresenterEvents implements IAPresenter {
         AEntity entityBean = event.getEntityBean();
         AField sourceField = event.getSourceField();
         String thisClassName = this.getClass().getCanonicalName();
-        String targetClassName = event.getTarget().getClass().getCanonicalName();
+        String sourceClassName=event.getSourceClassName();
+//        String sourceClassName = event.getSource().getClass().getCanonicalName();
 
-        Object targetObject = event.getTarget();
-        if (AopUtils.isAopProxy(targetObject)) {
-            targetClassName = targetObject.toString();
-            targetClassName = text.levaCodaDa(targetClassName, "@");
-        }// end of if cycle
+//        Object sourceObject = event.getSource();
+//        if (AopUtils.isAopProxy(sourceObject)) {
+//            sourceClassName = sourceObject.toString();
+//            sourceClassName = text.levaCodaDa(sourceClassName, "@");
+//        }// end of if cycle
 
-        if (event instanceof AFieldEvent && targetClassName.equals(thisClassName)) {
+        if (event instanceof AFieldEvent && sourceClassName.equals(thisClassName)) {
             onFieldEvent((AFieldEvent) event, source, target, entityBean, sourceField);
         }// end of if cycle
 
-        if (event instanceof AButtonEvent && targetClassName.equals(thisClassName)) {
+        if (event instanceof AButtonEvent && sourceClassName.equals(thisClassName)) {
             onListEvent((AButtonEvent) event);
         }// end of if cycle
 
-        if (event instanceof AActionEvent && targetClassName.equals(thisClassName)) {
+        if (event instanceof AActionEvent && sourceClassName.equals(thisClassName)) {
             onGridAction((AActionEvent) event);
         }// end of if cycle
 
@@ -190,7 +193,7 @@ public abstract class APresenterEvents implements IAPresenter {
 //                click();
 //                break;
             case editLink:
-                this.fireForm(entityBean, (IAPresenter)source);
+                this.fireForm(entityBean, (IAPresenter) source);
                 break;
             case doppioClick:
                 this.fireForm(entityBean);

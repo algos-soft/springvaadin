@@ -10,6 +10,7 @@ import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.field.AComboField;
 import it.algos.springvaadin.field.AField;
 import it.algos.springvaadin.field.IAFieldFactory;
+import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -53,7 +54,7 @@ public class AFieldService {
      * @param reflectedJavaField di riferimento per estrarre le Annotation
      */
     @SuppressWarnings("all")
-    public AField create(IAListener source, Field reflectedJavaField, AEntity entityBean) {
+    public AField create(IAPresenter source, Field reflectedJavaField, AEntity entityBean) {
         AField algosField = null;
         List items = null;
         boolean nuovaEntity = text.isEmpty(entityBean.id);

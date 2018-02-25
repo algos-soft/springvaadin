@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springvaadin.azione.IAAction;
 import it.algos.springvaadin.event.IAListener;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.presenter.IAPresenter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 
@@ -46,7 +47,7 @@ public class AGridToolSet {
      *
      * @param algosGrid di riferimento
      */
-    public void addAllListeners(IAGrid algosGrid) {
+    public void IAPresenter(IAGrid algosGrid) {
         azioneAttach.addListener(algosGrid);
 //        azioneClick.addListener(algosGrid);
         azioneSingleClick.addListener(algosGrid);
@@ -62,7 +63,7 @@ public class AGridToolSet {
      * @param source di riferimento del componente che genera gli eventi
      * @param target di riferimento per il componente che ascolta gli eventi
      */
-    public void addAllSourcesTargets(IAListener source, IAListener target) {
+    public void addAllSourcesTargets(IAPresenter source, IAPresenter target) {
         azioneAttach.setSourceTarget(source, target);
 //        azioneClick.setSourceTarget(source, target);
         azioneSingleClick.setSourceTarget(source, target);
