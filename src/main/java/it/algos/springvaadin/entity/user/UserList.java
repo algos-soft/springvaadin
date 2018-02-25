@@ -83,14 +83,13 @@ public class UserList extends AList {
      * Componente grafico obbligatorio
      * Sovrascritto nella sottoclasse della view specifica (AList, AForm, ...)
      *
-     * @param source
      * @param entityClazz di riferimento, sottoclasse concreta di AEntity
      * @param columns     visibili ed ordinate della Grid
      * @param items       da visualizzare nella Grid
      */
     @Override
-    protected void creaBody(IAPresenter source, Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
-        super.creaBody(source, entityClazz, columns, items);
+    protected void creaBody(Class<? extends AEntity> entityClazz, List<Field> columns, List items) {
+        super.creaBody(entityClazz, columns, items);
 
         this.addColonna(entityClazz, "enabled");
     }// end of method
