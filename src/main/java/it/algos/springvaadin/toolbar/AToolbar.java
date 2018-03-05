@@ -57,15 +57,15 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni i parametri obbligatori (gestore e target)
      *
-     * @param gestore     dell'evento generato dai bottoni
+     * @param source     dell'evento generato dai bottoni
      * @param target      del presenter a cui indirizzare l'azione del bottone
      * @param typeButtons da visualizzare
      */
-    public void inizializza(IAPresenter gestore, IAPresenter target, List<EATypeButton> typeButtons) {
+    public void inizializza(IAPresenter source, IAPresenter target, List<EATypeButton> typeButtons) {
         this.deleteAllButtons();
 
         for (EATypeButton singleTypeButton : typeButtons) {
-            creaAddButton(gestore, target, singleTypeButton);
+            creaAddButton(source, target, singleTypeButton);
         }// end of for cycle
 
     }// end of method
@@ -90,12 +90,12 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
      * Inietta nei bottoni i parametri obbligatori (gestore e target)
      * Aggiunge il bottone alla prima riga (default) del contenitore grafico
      *
-     * @param gestore dell'evento generato dai bottoni
+     * @param source dell'evento generato dai bottoni
      * @param target  del presenter a cui indirizzare l'azione del bottone
      * @param type    del bottone, secondo la Enumeration AButtonType
      */
-    public AButton creaAddButton(IAPresenter gestore, IAPresenter target, EATypeButton type) {
-        AButton button = buttonFactory.crea(type, gestore, target, null, null);
+    public AButton creaAddButton(IAPresenter source, IAPresenter target, EATypeButton type) {
+        AButton button = buttonFactory.crea(type, source, target, null, null);
 
         if (button != null) {
             primaRiga.addComponent(button);

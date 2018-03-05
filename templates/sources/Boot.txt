@@ -1,7 +1,8 @@
 package it.algos.@LOWERPROJECT@.bootstrap;
 
 import com.vaadin.spring.annotation.SpringComponent;
-import it.algos.springvaadin.app.AlgosApp;
+import it.algos.springvaadin.annotation.AIScript;
+import it.algos.springvaadin.app.AApp;
 import it.algos.springvaadin.bootstrap.AlgosBoot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -13,11 +14,23 @@ import org.springframework.stereotype.Component;
  * Created by Algos
  * User: @USER@
  * Date: @DATE@
+ * Regolazione di flag specifici dell'applicazione
+ * Setup non-UI logic here
+ * This class will be executed on container startup when the application is ready to server requests.
+ * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat)
+ * Eseguita quindi ad ogni avvio/attivazione del server e NON ad ogni sessione
+ * <p>
+ * In order to create a class that acts like a bootstrap for the application,
+ * that class needs to implements the @EventListener annotation
+ * Any class that implements the @EventListener annotation will be executed before the application is up
+ * and its onApplicationEvent method will be called
+ * <p>
+ * ATTENZIONE: in questa fase NON sono disponibili le Librerie e le classi che dipendono dalla UI e dalla Session
  */
-@SpringComponent
 @Slf4j
+@SpringComponent
 @AIScript(sovrascrivibile = false)
-public class @PROJECT@Boot extends AlgosBoot {
+public class @PROJECT@Boot extends ABoot {
 
      /**
      * Running logic after the Spring context has been initialized

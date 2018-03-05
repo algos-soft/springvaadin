@@ -102,7 +102,7 @@ public abstract class AEvent extends ApplicationEvent {
     }// end of method
 
 
-    public IAListener getTarget() {
+    public IAPresenter getTarget() {
         return target;
     }// end of method
 

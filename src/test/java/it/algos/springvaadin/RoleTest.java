@@ -1,8 +1,10 @@
 package it.algos.springvaadin;
 
 import com.vaadin.spring.annotation.SpringView;
+import it.algos.springvaadin.app.SpringMongoConfiguration;
 import it.algos.springvaadin.entity.role.Role;
 import it.algos.springvaadin.entity.role.RoleList;
+import it.algos.springvaadin.entity.role.RoleRepository;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.service.AAnnotationService;
 import it.algos.springvaadin.service.AArrayService;
@@ -15,6 +17,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,23 +36,31 @@ import static org.junit.Assert.assertNotNull;
  * Time: 08:14
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration()
+@ContextConfiguration(classes = SpringMongoConfiguration.class)
 public class RoleTest {
 
     @InjectMocks
     private Role entity;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
+
+
+//    @InjectMocks
+//    RoleRepository repository;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+//        MockitoAnnotations.initMocks(repository);
 //        MockitoAnnotations.initMocks(entity);
     }// end of method
 
 
     @SuppressWarnings("javadoc")
     @Test
-    public void getSpringView() throws SQLException {
+    public void getSpringView()  {
         // specify mock behave when method called
 //        when(entity.save(any(Invoice.class))).thenReturn(Long.valueOf(1)); }// end of single test
     }

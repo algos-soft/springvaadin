@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 @Theme("algos")
 @SpringUI()
 @SpringViewDisplay()
-public class @PROJECT@UI extends AlgosUI {
+public class @PROJECT@UI extends AUI {
 
 
     /**

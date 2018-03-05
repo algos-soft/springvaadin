@@ -47,7 +47,7 @@ public class AGridToolSet {
      *
      * @param algosGrid di riferimento
      */
-    public void IAPresenter(IAGrid algosGrid) {
+    public void addAllListeners(IAGrid algosGrid) {
         azioneAttach.addListener(algosGrid);
 //        azioneClick.addListener(algosGrid);
         azioneSingleClick.addListener(algosGrid);

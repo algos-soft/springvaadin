@@ -4,6 +4,8 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.spring.annotation.VaadinSessionScope;
+import it.algos.springvaadin.app.FactoryLabel;
+import it.algos.springvaadin.app.Tool;
 import it.algos.springvaadin.footer.AFooter;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AStartService;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * Created by gac on 30/05/17.
@@ -44,6 +47,12 @@ public class SpringvaadintestUI extends AUI {
     private AStartService startService;
 
 
+    @Autowired
+    private Tool tool;
+
+//    @Resource(name = "&tool")
+//    private FactoryLabel toolFactory;
+
     /**
      * Metodo @PostConstruct invocato (da Spring) subito DOPO il costruttore (si può usare qualsiasi firma)
      */
@@ -65,6 +74,7 @@ public class SpringvaadintestUI extends AUI {
      */
     @PostConstruct
     private void fixProjectFooter() {
+        Object alfa= tool;
         AFooter.PROJECT = "Springvaadin";
         AFooter.VERSION = "0.1";
     }// end of method

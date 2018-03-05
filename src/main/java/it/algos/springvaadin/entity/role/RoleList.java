@@ -5,6 +5,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.SpringView;
 import it.algos.springvaadin.annotation.AIScript;
+import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.list.AList;
 import it.algos.springvaadin.presenter.IAPresenter;
@@ -12,6 +13,8 @@ import it.algos.springvaadin.toolbar.IAToolbar;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
+
+import java.util.List;
 
 /**
  * Created by gac on 11-nov-17
@@ -65,8 +68,22 @@ public class RoleList extends AList {
     public RoleList(
             @Lazy @Qualifier(ACost.TAG_ROL) IAPresenter gestore,
             @Qualifier(ACost.BAR_LIST) IAToolbar toolbar) {
-        super( gestore, toolbar);
+        super(gestore, toolbar);
     }// end of Spring constructor
 
+
+    /**
+     * Crea la scritta esplicativa
+     * Può essere sovrascritto per un'intestazione specifica (caption) della grid
+     */
+    @Override
+    protected void fixCaption(Class<? extends AEntity> entityClazz, List items) {
+        super.fixCaption(entityClazz, items);
+        if (login.isDeveloper()) {
+            caption += "</br>Lista visibile solo al developer";
+            caption += "</br>Non usa la company";
+            caption += "</br>Ha senso solo se l'applicazione usa la security";
+        }// end of if cycle
+    }// end of method
 
 }// end of class

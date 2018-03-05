@@ -18,6 +18,7 @@
                 <filter token="IMPORT_COST" value="${importCost}"/>
                 <filter token="USER" value="${user.name}"/>
                 <filter token="DATE" value="${date}"/>
+                <filter token="TODAY" value="${date}"/>
             </filterset>
         </copy>
         <echo message="Copiato ${srcFile} in ${destFile}"/>

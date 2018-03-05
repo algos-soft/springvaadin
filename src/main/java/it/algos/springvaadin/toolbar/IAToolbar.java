@@ -30,11 +30,11 @@ public interface IAToolbar {
      * Aggiunge i bottoni al contenitore grafico
      * Inietta nei bottoni i parametri obbligatori (gestore e target)
      *
-     * @param gestore     dell'evento generato dai bottoni
+     * @param source     dell'evento generato dai bottoni
      * @param target      del presenter a cui indirizzare l'azione del bottone
      * @param typeButtons da visualizzare
      */
-    public void inizializza(IAPresenter gestore, IAPresenter target, List<EATypeButton> typeButtons);
+    public void inizializza(IAPresenter source, IAPresenter target, List<EATypeButton> typeButtons);
 
 
 //    /**

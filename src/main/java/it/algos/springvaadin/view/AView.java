@@ -6,7 +6,7 @@ import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.enumeration.EATypeButton;
-import it.algos.springvaadin.label.LabelRosso;
+import it.algos.springvaadin.label.ALabelRosso;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.login.ALogin;
 import it.algos.springvaadin.menu.IAMenu;
@@ -119,7 +119,7 @@ public abstract class AView extends VerticalLayout implements IAView {
 
 
     @Autowired
-    public LabelRosso labelRosso;
+    public ALabelRosso ALabelRosso;
 
     /**
      * Caption sovrastante il body della view
@@ -230,11 +230,11 @@ public abstract class AView extends VerticalLayout implements IAView {
         //--gestione delle scritte in rosso sopra il body
         this.fixCaption(entityClazz, items);
         if (text.isValid(caption)) {
-            labelRosso.setValue(caption);
+            ALabelRosso.setValue(caption);
             topLayout = new VerticalLayout();
             topLayout.setMargin(false);
             topLayout.setHeightUndefined();
-            topLayout.addComponent(labelRosso);
+            topLayout.addComponent(ALabelRosso);
 
             //@todo RIMETTERE
 //            if (LibParams.usaAvvisiColorati()) {

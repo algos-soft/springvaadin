@@ -39,22 +39,15 @@ public abstract class APresenterEvents implements IAPresenter {
      */
     @Override
     public void onApplicationEvent(AEvent event) {
-        Class thisClazz = this.getClass();
-        Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
-        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
+//        Class thisClazz = this.getClass();
+//        Class sourceClazz = event.getSource() != null ? event.getSource().getClass() : null;
+//        Class targetClazz = event.getTarget() != null ? event.getTarget().getClass() : null;
         ApplicationListener source = event.getSource();
         ApplicationListener target = event.getTarget();
         AEntity entityBean = event.getEntityBean();
         AField sourceField = event.getSourceField();
         String thisClassName = this.getClass().getCanonicalName();
-        String sourceClassName=event.getSourceClassName();
-//        String sourceClassName = event.getSource().getClass().getCanonicalName();
-
-//        Object sourceObject = event.getSource();
-//        if (AopUtils.isAopProxy(sourceObject)) {
-//            sourceClassName = sourceObject.toString();
-//            sourceClassName = text.levaCodaDa(sourceClassName, "@");
-//        }// end of if cycle
+        String sourceClassName = event.getSourceClassName();
 
         if (event instanceof AFieldEvent && sourceClassName.equals(thisClassName)) {
             onFieldEvent((AFieldEvent) event, source, target, entityBean, sourceField);
@@ -149,7 +142,7 @@ public abstract class APresenterEvents implements IAPresenter {
 //                importa();
 //                break;
             case annulla:
-                this.fireList();
+                event.getTarget().fireList();
                 break;
 //            case back:
 //                back();
@@ -157,12 +150,30 @@ public abstract class APresenterEvents implements IAPresenter {
             case revert:
                 revert();
                 break;
-            case registra:
+            case accetta:
                 registra();
                 break;
-//            case accetta:
-//                accetta();
-//                break;
+            case conferma:
+                if (registra()) {
+                    event.getTarget().fireList();
+                }// end of if cycle
+                break;
+            case registra:
+                if (registra()) {
+                    event.getTarget().fireList();
+                }// end of if cycle
+                break;
+            case linkAccetta:
+                registra();
+                break;
+            case linkConferma:
+                if (registra()) {
+                    event.getTarget().fireList();
+                }// end of if cycle
+                break;
+            case linkRegistra:
+                registra();
+                break;
             default: // caso non definito
                 log.warn("Switch - caso '" + type.name() + "' non definito in APresenterEvents.onListEvent()");
                 break;
@@ -193,7 +204,7 @@ public abstract class APresenterEvents implements IAPresenter {
 //                click();
 //                break;
             case editLink:
-                this.fireForm(entityBean, (IAPresenter) source);
+                this.fireForm(entityBean, (IAPresenter) target);
                 break;
             case doppioClick:
                 this.fireForm(entityBean);

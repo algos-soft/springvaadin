@@ -2,7 +2,6 @@ package it.algos.springvaadin.label;
 
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.Label;
 import it.algos.springvaadin.service.AHtmlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,21 +15,17 @@ import org.springframework.context.annotation.Scope;
  */
 @SpringComponent
 @Scope("prototype")
-public class LabelBold extends Label {
-
-    /**
-     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
-     */
-    @Autowired
-    protected AHtmlService htlm;
+public class ALabelBold extends ALabel {
 
 
-    public LabelBold() {
-        this("");
+    public ALabelBold(AHtmlService htlm) {
+        this(htlm, "");
     }// end of constructor
 
-    public LabelBold(String text) {
+    @Autowired
+    public ALabelBold(AHtmlService htlm, String text) {
         super();
+        this.htlm = htlm;
         this.setContentMode(ContentMode.HTML);
 
         this.setValue(text);
@@ -40,7 +35,9 @@ public class LabelBold extends Label {
     public void setValue(String value) {
         if (htlm != null) {
             super.setValue(htlm.setBold(value));
-        }// end of if cycle
+        } else {
+            super.setValue(value);
+        }// end of if/else cycle
     }// end of method
 
 }// end of class

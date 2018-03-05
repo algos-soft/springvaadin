@@ -2,6 +2,7 @@ package it.algos.springvaadin.list;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.springvaadin.entity.AEntity;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -221,17 +223,52 @@ public abstract class AList extends AView implements IAList {
     }// end of method
 
 
-//    /**
-//     * Abilita o disabilita lo specifico bottone della Toolbar
-//     *
-//     * @param type   del bottone, secondo la Enumeration EATypeButton
-//     * @param status abilitare o disabilitare
-//     */
-//    @Override
-//    public void enableButton(EATypeButton type, boolean status){
-//        toolbar.enableButton(type, status);
-//    }// end of method
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID      della colonna da spostare
+     * @param columnIdPrima della colonna prima della quale devo inserire la colonna da spostare
+     */
+    protected void spostaColonnaPrima(String columnID, String columnIdPrima) {
+        spostaColonna(columnID, columnIdPrima, false);
+    }// end of method
 
+
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID     della colonna da spostare
+     * @param columnIdDopo della colonna dopo la quale devo inserire la colonna da spostare
+     */
+    protected void spostaColonnaDopo(String columnID, String columnIdDopo) {
+        spostaColonna(columnID, columnIdDopo, true);
+    }// end of method
+
+
+    /**
+     * Sposta una colonna nella posizione richiesta
+     *
+     * @param columnID    della colonna da spostare
+     * @param columnCheck della colonna prima/dopo la quale devo inserire la colonna da spostare
+     */
+    private void spostaColonna(String columnID, String columnCheck, boolean dopo) {
+        String[] matrice = null;
+        List<Grid.Column> listaColonne = grid.getGrid().getColumns();
+        ArrayList lista = new ArrayList();
+        for (Grid.Column col : listaColonne) {
+            lista.add(col.getId());
+        }// end of for cycle
+        lista.remove(columnID);
+        int pos = lista.indexOf(columnCheck);
+        if (pos != -1) {
+            if (dopo) {
+                pos++;
+            }// end of if cycle
+            lista.add(pos, columnID);
+            matrice = (String[]) lista.toArray(new String[lista.size()]);
+            grid.getGrid().setColumnOrder(matrice);
+        }// end of if cycle
+    }// end of method
 
     /**
      * Componente concreto di questa interfaccia
