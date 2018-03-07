@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="copyFile" default="copy">
+
+    <target name="copy" description="Copia il singolo file passato come parametro">
+        <copy file="${srcFile}" tofile="${destFile}" overwrite="true">
+            <filterset>
+                <filter token="LOWERPROJECT" value="${projectLower}"/>
+                <filter token="PROJECT" value="${newPackage}"/>
+                <filter token="PACKAGE" value="${newPackage}"/>
+                <filter token="ENTITY" value="${newEntity}"/>
+                <filter token="ENTITYSUPERCLASS" value="${entitySuperclass}"/>
+                <filter token="COMPANYREQUIRED" value="${companyRequired}"/>
+                <filter token="TAG" value="${tag}"/>
+                <filter token="TAG_VIEW" value="${tagView}"/>
+                <filter token="VIEW" value="${tagView}"/>
+                <filter token="TODAY" value="${TIMESTAMP}"/>
+                <filter token="IMPORT_COST" value="${importCost}"/>
+                <filter token="USER" value="${user.name}"/>
+                <filter token="DATE" value="${date}"/>
+                <filter token="TODAY" value="${date}"/>
+            </filterset>
+        </copy>
+        <echo message="Copiato ${srcFile} in ${destFile}"/>
+    </target>
+
+</project>

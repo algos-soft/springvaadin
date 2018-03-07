@@ -31,7 +31,7 @@ public abstract class AToolbar extends VerticalLayout implements IAToolbar {
     protected HorizontalLayout secondaRiga = new HorizontalLayout();
 
     /**
-     * Factory per la nuovo dei bottoni
+     * Factory per la creazione dei bottoni
      * Autowired nel costruttore
      */
     private AButtonFactory buttonFactory;

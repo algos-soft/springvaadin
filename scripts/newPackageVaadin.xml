@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="newPackageVaadin" default="packageSenzaCompany">
+    <import file="base/replace.xml">
+    </import>
+
+    <tstamp>
+        <format property="today" pattern="dd-MM-yyyy_HH:mm:ss"/>
+    </tstamp>
+
+    <target name="packageSenzaCompany" depends="">
+    </target>
+
+
+</project>

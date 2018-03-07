@@ -68,6 +68,7 @@ public abstract class ACost {
     public final static String VIEW_ROL_LIST = "rolelist";
     public final static String VIEW_ROL_FORM = "roleform";
 
+    public final static String VIEW_TEMPLATES = "templates";
 
     public final static String BOT_ACCETTA = "accetta";
     public final static String BOT_CONFERMA = "conferma";
