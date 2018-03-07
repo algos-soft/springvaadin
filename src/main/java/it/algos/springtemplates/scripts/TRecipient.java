@@ -1,7 +1,8 @@
 package it.algos.springtemplates.scripts;
 
-import com.vaadin.ui.Window;
-import lombok.extern.slf4j.Slf4j;
+import it.algos.springtemplates.enumeration.Chiave;
+
+import java.util.Map;
 
 /**
  * Project springvaadin
@@ -11,5 +12,5 @@ import lombok.extern.slf4j.Slf4j;
  * Time: 08:07
  */
 public interface TRecipient {
-    public void gotInput(String inputText, Window dialogWindow);
+    public void gotInput(Map<Chiave, Object> mappaInput);
 }// end of interface

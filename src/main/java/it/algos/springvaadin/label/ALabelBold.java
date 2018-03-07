@@ -13,19 +13,15 @@ import org.springframework.context.annotation.Scope;
  * Date: ven, 01-set-2017
  * Time: 08:31
  */
-@SpringComponent
-@Scope("prototype")
 public class ALabelBold extends ALabel {
 
 
-    public ALabelBold(AHtmlService htlm) {
-        this(htlm, "");
+    public ALabelBold() {
+        this( "");
     }// end of constructor
 
-    @Autowired
-    public ALabelBold(AHtmlService htlm, String text) {
+    public ALabelBold( String text) {
         super();
-        this.htlm = htlm;
         this.setContentMode(ContentMode.HTML);
 
         this.setValue(text);
@@ -33,11 +29,7 @@ public class ALabelBold extends ALabel {
 
     @Override
     public void setValue(String value) {
-        if (htlm != null) {
-            super.setValue(htlm.setBold(value));
-        } else {
-            super.setValue(value);
-        }// end of if/else cycle
+        super.setValue("<strong>" + value + "</strong>");
     }// end of method
 
 }// end of class

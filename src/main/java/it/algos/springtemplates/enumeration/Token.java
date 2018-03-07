@@ -14,6 +14,7 @@ import java.util.Map;
 public enum Token {
 
     lowerProject("LOWERPROJECT"),
+    lowerModulo("LOWERMODULO"),
     packageName("PACKAGE"),
     importCost("IMPORT_COST"),
     user("USER"),

@@ -10,15 +10,16 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.spring.annotation.VaadinSessionScope;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import it.algos.springtemplates.enumeration.Chiave;
 import it.algos.springtemplates.scripts.TDialogo;
 import it.algos.springtemplates.scripts.TElabora;
 import it.algos.springtemplates.scripts.TRecipient;
 import it.algos.springvaadin.button.AButtonFactory;
-import it.algos.springvaadin.dialog.AEditDialog;
 import it.algos.springvaadin.lib.ACost;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 /**
  * Project springvaadin
@@ -35,13 +36,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SpringtemplatesUI extends UI implements ViewDisplay {
 
 
-
     //--crea la UI di base, un VerticalLayout
     protected VerticalLayout root;
 
     private String nomeProgetto;
     private String nomePackage = "";
     private boolean usaCompany = false;
+
+
+    /**
+     * Dialogo di creazione
+     */
+    @Autowired
+    private TDialogo dialogo;
 
 
     /**
@@ -92,62 +99,24 @@ public class SpringtemplatesUI extends UI implements ViewDisplay {
         root.setSizeFull();
         root.setMargin(new MarginInfo(true, false, false, true));
 
-        if (ACost.DEBUG) {// @TODO costante provvisoria da sostituire con preferenzeService
-            root.addStyleName("pinkBg");
-        }// end of if cycle
-
         this.setContent(root);
-
         getNavigator().navigateTo(ACost.VIEW_TEMPLATES);
     }// end of method
 
 
     @Override
     public void showView(View view) {
-        this.nomeProgetto();
-    }// end of method
-
-
-    private void nomeProgetto() {
-        new TDialogo(buttonFactory,  new TRecipient() {
+        dialogo.start(new TRecipient() {
             @Override
-            public void gotInput(String input, Window win) {
-                nomeProgetto = input;
-                usaCompany();
+            public void gotInput(Map<Chiave, Object> mappaInput) {
+                elabora(mappaInput);
             }// end of inner method
         });// end of anonymous inner class
     }// end of method
 
 
-    private void nomePackage() {
-        new AEditDialog(buttonFactory, "Package", "Ruolo", new AEditDialog.Recipient() {
-            @Override
-            public void gotInput(String input, Window win) {
-                nomePackage = input;
-                elabora();
-            }// end of inner method
-        });// end of anonymous inner class
-    }// end of method
-
-
-    private void usaCompany() {
-        new AEditDialog(buttonFactory, "Company", new AEditDialog.Recipient() {
-            @Override
-            public void gotInput(String input, Window win) {
-                if (input.equals("si")) {
-                    usaCompany = true;
-                } else {
-                    usaCompany = false;
-                }// end of if/else cycle
-                elabora();
-            }// end of inner method
-        });// end of anonymous inner class
-    }// end of method
-
-
-    private void elabora() {
-//        Notification.show("Progetto: ", nomeProgetto + " - " + (usaCompany ? "true" : "false"), Notification.Type.HUMANIZED_MESSAGE);
-        elabora.newPackage(nomePackage, usaCompany);
+    private void elabora(Map<Chiave, Object> mappaInput) {
+        elabora.newPackage(mappaInput);
     }// end of method
 
 

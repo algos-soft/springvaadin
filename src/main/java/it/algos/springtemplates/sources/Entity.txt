@@ -1,4 +1,4 @@
-package it.algos.@LOWERPROJECT@.entity.@PACKAGE@;
+package it.algos.@LOWERMODULO@.entity.@PACKAGE@;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,9 +18,9 @@ import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.AEntity;
 import it.algos.springvaadin.lib.ACost;
 @IMPORT_COST@
-pippo
+
 /**
- * Project @LOWERPROJECT@
+ * Project @LOWERMODULO@
  * Created by Algos
  * User: @USER@
  * Date: @TODAY@
@@ -55,13 +55,17 @@ pippo
 @AIList(fields = {"code", "descrizione"}, dev = EAListButton.standard, admin = EAListButton.noSearch, user = EAListButton.show)
 @AIForm(fields = {"code", "descrizione"})
 @AIScript(sovrascrivibile = false)
-public class @ENTITY@ extends @ENTITYSUPERCLASS@ {
+public class @ENTITY@ extends AEntity {
+
 
     /**
      * versione della classe per la serializzazione
      */
     private final static long serialVersionUID = 1L;
 
+    //@TODO
+    // Le properties riportate sono INDICATIVE e possono/debbono essere sostituite
+    //@TODO
 
     /**
      * codice di riferimento (obbligatorio)

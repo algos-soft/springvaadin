@@ -2,16 +2,23 @@ package it.algos.springtemplates.scripts;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.*;
+import it.algos.springtemplates.enumeration.Chiave;
 import it.algos.springtemplates.enumeration.Progetto;
 import it.algos.springvaadin.button.AButton;
 import it.algos.springvaadin.button.AButtonFactory;
-import it.algos.springvaadin.dialog.AEditDialog;
+import it.algos.springvaadin.component.AHorizontalLayout;
 import it.algos.springvaadin.enumeration.EATypeButton;
+import it.algos.springvaadin.label.ALabelRosso;
+import it.algos.springvaadin.label.ALabelVerdeBold;
 import it.algos.springvaadin.lib.LibVaadin;
+import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Project springvaadin
@@ -22,8 +29,14 @@ import org.springframework.context.annotation.Scope;
  */
 @Slf4j
 @SpringComponent
-@Scope("prototype")
+@Scope("singleton")
 public class TDialogo extends Window implements ApplicationListener {
+
+    /**
+     * Libreria di servizio. Inietta da Spring come 'singleton'
+     */
+//    @Autowired
+    public ATextService text;
 
     private static String CAPTION_A = "Creazione di un nuovo package";
     private static String CAPTION_B = "Modifica di un package esistente";
@@ -31,70 +44,58 @@ public class TDialogo extends Window implements ApplicationListener {
     private TRecipient recipient;
 
     private ComboBox fieldComboProgetti;
-    private TextField fieldTextPackage = new TextField();
-    private CheckBox fieldCheckBoxCompany = new CheckBox();
-    private TextField fieldTextEntity = new TextField(); // suggerito
-    private TextField fieldTextTag = new TextField(); // suggerito
-    private CheckBox fieldCheckBoxSovrascrive = new CheckBox();
+    private TextField fieldTextPackage;
+    private TextField fieldTextEntity; // suggerito
+    private TextField fieldTextTag; // suggerito
+    private CheckBox fieldCheckBoxCompany;
+    private CheckBox fieldCheckBoxSovrascrive;
 
     /**
      * Factory per la creazione dei bottoni
      */
     private AButtonFactory buttonFactory;
 
-    private VerticalLayout layout = new VerticalLayout();
+    private final Window winDialog = this;
+    private VerticalLayout layoutRoot;
+    private VerticalLayout layoutCaption;
+    private VerticalLayout layoutBody;
+    private AHorizontalLayout layoutFooter;
     private AButton buttonAnnulla;
     private AButton buttonAccetta;
 
+    private Map<Chiave, Object> mappaInput = new HashMap<>();
 
-    public TDialogo() {
-    }// end of constructor
-
-
-    public TDialogo(AButtonFactory buttonFactory, TRecipient recipient) {
-        this(buttonFactory, "", "", recipient);
-    }// end of constructor
-
-    public TDialogo(AButtonFactory buttonFactory, String message, TRecipient recipient) {
-        this(buttonFactory, message, "", recipient);
-    }// end of constructor
-
-
-    public TDialogo(AButtonFactory buttonFactory, String message, String promptPackage, TRecipient recipient) {
-        super();
+    public TDialogo(AButtonFactory buttonFactory, ATextService text) {
         this.buttonFactory = buttonFactory;
-        inizia(message, promptPackage, recipient);
+        this.text = text;
     }// end of constructor
 
+    public void start(TRecipient recipient) {
+        this.start("", "", recipient);
+    }// end of method
 
-    public void inizia(String message, String promptPackage, TRecipient recipient) {
+    public void start(String message, String promptPackage, TRecipient recipient) {
         this.recipient = recipient;
-        final Window winDialog = this;
 
         this.setModal(true);
         this.setResizable(false);
         this.setClosable(false);
-        this.setWidth("24em");
-        this.setHeight("16em");
+        this.setWidth("22em");
+        this.setHeight("34em");
 
-        layout.setMargin(true);
-        layout.setSpacing(true);
+        layoutRoot = new VerticalLayout();
+        layoutRoot.setMargin(true);
+        layoutRoot.setSpacing(true);
 
-        if (message.equals("")) {
-            layout.addComponent(new Label(CAPTION_A));
-            layout.addComponent(new Label(CAPTION_B));
-        } else {
-            layout.addComponent(new Label(message));
-        }// end of if/else cycle
+        layoutRoot.addComponent(creaCaption(message));
+        layoutRoot.addComponent(creaBody(promptPackage));
+        layoutRoot.addComponent(creaFooter());
 
-        buttonAnnulla = buttonFactory.crea(EATypeButton.annulla, null, null, null, null);
-        buttonAccetta = buttonFactory.crea(EATypeButton.accetta, null, null, null, null);
-
-        layout.addComponent(creaCombo());
-        layout.addComponent(new HorizontalLayout(buttonAnnulla, buttonAccetta));
-//        field.focus();
+        fieldTextPackage.focus();
+        fieldTextPackage.selectAll();
         this.center();
-        this.setContent(layout);
+        this.setContent(layoutRoot);
+
         try { // prova ad eseguire il codice
             LibVaadin.getUI().addWindow(this);
         } catch (Exception unErrore) { // intercetta l'errore
@@ -104,10 +105,155 @@ public class TDialogo extends Window implements ApplicationListener {
     }// end of method
 
 
+    public VerticalLayout creaCaption(String message) {
+        layoutCaption = new VerticalLayout();
+        layoutCaption.setMargin(false);
+        layoutCaption.setSpacing(false);
+
+        if (message.equals("")) {
+            layoutCaption.addComponent(new ALabelVerdeBold(CAPTION_A));
+        } else {
+            layoutCaption.addComponent(new ALabelRosso(message));
+        }// end of if/else cycle
+
+        return layoutCaption;
+    }// end of method
+
+
+    public VerticalLayout creaBody(String promptPackage) {
+        layoutBody = new VerticalLayout();
+        layoutBody.setMargin(false);
+        layoutBody.setSpacing(true);
+        VerticalLayout bodyLayout = new VerticalLayout();
+        bodyLayout.setMargin(false);
+        bodyLayout.setSpacing(true);
+
+        bodyLayout.addComponent(new Label());
+        bodyLayout.addComponent(creaCombo());
+        bodyLayout.addComponent(creaPackage(promptPackage));
+        bodyLayout.addComponent(creaEntity());
+        bodyLayout.addComponent(creaTag());
+        bodyLayout.addComponent(creaCompany());
+        bodyLayout.addComponent(creaSovrascrive());
+
+        sincronizza();
+
+        layoutBody.addComponent(bodyLayout);
+        layoutBody.setExpandRatio(bodyLayout, 1);
+        return layoutBody;
+    }// end of method
+
+
     public ComboBox creaCombo() {
         fieldComboProgetti = new ComboBox();
+        Progetto[] progetti = Progetto.values();
+        String caption = "Progetto";
+
+        fieldComboProgetti.setEmptySelectionAllowed(false);
+        fieldComboProgetti.setCaption(caption);
+        fieldComboProgetti.setItems(progetti);
+        fieldComboProgetti.setValue(Progetto.templates);
 
         return fieldComboProgetti;
+    }// end of method
+
+
+    public TextField creaPackage(String promptPackage) {
+        fieldTextPackage = new TextField();
+        String caption = "Package";
+
+        fieldTextPackage.setCaption(caption);
+        fieldTextPackage.setValue(promptPackage.equals("") ? "prova" : promptPackage);
+
+        // Handle changes in the value
+        fieldTextPackage.addValueChangeListener(event -> sincronizza());
+
+        return fieldTextPackage;
+    }// end of method
+
+
+    public TextField creaEntity() {
+        fieldTextEntity = new TextField();
+        fieldTextEntity.setCaption("Entity");
+        return fieldTextEntity;
+    }// end of method
+
+
+    public TextField creaTag() {
+        fieldTextTag = new TextField();
+        fieldTextTag.setCaption("Tag");
+        return fieldTextTag;
+    }// end of method
+
+
+    public CheckBox creaCompany() {
+        fieldCheckBoxCompany = new CheckBox();
+        fieldCheckBoxCompany.setCaption("Utilizza MultiCompany");
+        return fieldCheckBoxCompany;
+    }// end of method
+
+
+    public CheckBox creaSovrascrive() {
+        fieldCheckBoxSovrascrive = new CheckBox();
+        fieldCheckBoxSovrascrive.setCaption("Sovrascrive il file esistente");
+        return fieldCheckBoxSovrascrive;
+    }// end of method
+
+
+    public AHorizontalLayout creaFooter() {
+        buttonAnnulla = buttonFactory.crea(EATypeButton.annulla, null, null, null, null);
+        buttonAccetta = buttonFactory.crea(EATypeButton.accetta, null, null, null, null);
+
+        layoutFooter = new AHorizontalLayout(buttonAnnulla, new Label(), buttonAccetta);
+        layoutFooter.setSpacing(true);
+        layoutFooter.setMargin(true);
+
+        buttonAnnulla.addClickListener(new Button.ClickListener() {
+            public void buttonClick(Button.ClickEvent event) {
+                winDialog.close();
+            }// end of inner method
+        });// end of anonymous inner class
+
+        buttonAccetta.setEnabled(true);
+        buttonAccetta.addClickListener(new Button.ClickListener() {
+            public void buttonClick(Button.ClickEvent event) {
+                setMappa();
+                recipient.gotInput(mappaInput);
+                winDialog.close();
+            }// end of inner method
+        });// end of anonymous inner class
+
+        return layoutFooter;
+    }// end of method
+
+    public void sincronizza() {
+        String valueFromPackage = fieldTextPackage.getValue();
+        String valueForEntity = text.primaMaiuscola(valueFromPackage);
+        String valueForTag = "";
+
+        if (valueFromPackage.length() < 3) {
+            valueForTag = valueFromPackage;
+        } else {
+            valueForTag = valueFromPackage.substring(0, 3);
+        }// end of if/else cycle
+        valueForTag = valueForTag.toUpperCase();
+
+        fieldTextEntity.setValue(valueForEntity);
+        fieldTextTag.setValue(valueForTag);
+
+        setMappa();
+    }// end of method
+
+
+    public void setMappa() {
+        if (mappaInput != null) {
+            mappaInput.put(Chiave.nameProject, fieldComboProgetti.getValue());
+            mappaInput.put(Chiave.namePackageLower, fieldTextPackage.getValue().toLowerCase());
+            mappaInput.put(Chiave.nameEntityFirstUpper, text.primaMaiuscola(fieldTextEntity.getValue()));
+            mappaInput.put(Chiave.tagBreveTreChar, fieldTextTag.getValue());
+            mappaInput.put(Chiave.usaCompany, fieldCheckBoxCompany.getValue());
+            mappaInput.put(Chiave.usaSovrascrive, fieldCheckBoxSovrascrive.getValue());
+        }// end of if cycle
     }// end of method
 
 

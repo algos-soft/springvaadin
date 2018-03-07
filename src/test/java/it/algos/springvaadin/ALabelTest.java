@@ -88,7 +88,7 @@ public class ALabelTest extends ATest {
     @Test
     public void aLabelBold() {
         previsto = HTML_BOLD;
-        label = new ALabelBold(html, TEXT_BOLD);
+        label = new ALabelBold( TEXT_BOLD);
         assertNotNull(label);
         assertTrue(label instanceof Label);
         ottenuto = label.toString();

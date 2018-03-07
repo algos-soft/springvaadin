@@ -11,24 +11,25 @@ import org.springframework.context.annotation.Scope;
  * Date: mer, 28-feb-2018
  * Time: 12:51
  */
-@SpringComponent
-@Scope("prototype")
-public class ALabelVerdeBold  {
+//@SpringComponent
+//@Scope("prototype")
+public class ALabelVerdeBold  extends ALabelBold{
 
 
     public ALabelVerdeBold() {
+        this("");
     }// end of constructor
 
 
-//    public ALabelVerdeBold(VaadinIcons icona) {
-//        this(icona.getHtml());
-//    }// end of constructor
-//
-//
-//    public ALabelVerdeBold(String text) {
-//        super();
-//        this.addStyleName("verde");
-//    }// end of constructor
-//
+    public ALabelVerdeBold(VaadinIcons icona) {
+        this(icona.getHtml());
+    }// end of constructor
+
+
+    public ALabelVerdeBold(String text) {
+        super(text);
+        this.addStyleName("verde");
+    }// end of constructor
+
 
 }// end of class

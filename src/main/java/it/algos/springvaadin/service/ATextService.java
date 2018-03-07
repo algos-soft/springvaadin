@@ -197,7 +197,7 @@ public class ATextService {
         if (this.isValid(testoOut) && this.isValid(tagInterrompi)) {
             tagInterrompi = tagInterrompi.trim();
             if (testoOut.contains(tagInterrompi)) {
-                testoOut = testoOut.substring(0, testoOut.indexOf(tagInterrompi));
+                testoOut = testoOut.substring(0, testoOut.lastIndexOf(tagInterrompi));
             }// fine del blocco if
         }// fine del blocco if
 

@@ -243,7 +243,6 @@ public class AFileService {
      */
     public boolean creaDirectory(String nomeCompletoDirectory) {
         boolean creata = false;
-        nomeCompletoDirectory = nomeCompletoDirectory.toLowerCase();
 
         creata = new File(nomeCompletoDirectory).mkdir();
         if (creata) {

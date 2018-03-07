@@ -16,14 +16,7 @@ import org.springframework.context.annotation.Scope;
  * Time: 11:29
  */
 @Slf4j
-@SpringComponent
-@Scope("prototype")
 public class ALabel extends Label {
-
-    /**
-     * Service (@Scope = 'singleton'). Unica per tutta l'applicazione. Usata come libreria.
-     */
-    protected AHtmlService htlm;
 
 
     public ALabel() {

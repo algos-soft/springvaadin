@@ -1,13 +1,17 @@
 package it.algos.springvaadin.label;
 
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.spring.annotation.SpringComponent;
-import org.springframework.context.annotation.Scope;
+import lombok.extern.slf4j.Slf4j;
 
-@SpringComponent
-@Scope("prototype")
-public class ALabelRosso extends ALabel {
-
+/**
+ * Project springvaadin
+ * Created by Algos
+ * User: gac
+ * Date: mer, 07-mar-2018
+ * Time: 08:39
+ */
+@Slf4j
+public class ALabelRosso extends ALabel{
 
     public ALabelRosso() {
         this("");
@@ -23,6 +27,5 @@ public class ALabelRosso extends ALabel {
         super(text);
         this.addStyleName("rosso");
     }// end of constructor
-
 
 }// end of class
