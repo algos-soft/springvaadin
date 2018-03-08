@@ -32,6 +32,8 @@ import java.util.Map;
 @Scope("singleton")
 public class TDialogo extends Window implements ApplicationListener {
 
+    private static Progetto PROGETTO_STANDARD_SUGGERITO = Progetto.templates;
+    private static String NOME_PACKAGE_STANDARD_SUGGERITO = "prova";
     /**
      * Libreria di servizio. Inietta da Spring come 'singleton'
      */
@@ -152,7 +154,7 @@ public class TDialogo extends Window implements ApplicationListener {
         fieldComboProgetti.setEmptySelectionAllowed(false);
         fieldComboProgetti.setCaption(caption);
         fieldComboProgetti.setItems(progetti);
-        fieldComboProgetti.setValue(Progetto.templates);
+        fieldComboProgetti.setValue(PROGETTO_STANDARD_SUGGERITO);
 
         return fieldComboProgetti;
     }// end of method
@@ -163,7 +165,7 @@ public class TDialogo extends Window implements ApplicationListener {
         String caption = "Package";
 
         fieldTextPackage.setCaption(caption);
-        fieldTextPackage.setValue(promptPackage.equals("") ? "prova" : promptPackage);
+        fieldTextPackage.setValue(promptPackage.equals("") ? NOME_PACKAGE_STANDARD_SUGGERITO : promptPackage);
 
         // Handle changes in the value
         fieldTextPackage.addValueChangeListener(event -> sincronizza());

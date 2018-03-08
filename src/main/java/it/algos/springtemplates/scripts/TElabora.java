@@ -5,6 +5,7 @@ import it.algos.springtemplates.enumeration.Chiave;
 import it.algos.springtemplates.enumeration.Componente;
 import it.algos.springtemplates.enumeration.Progetto;
 import it.algos.springtemplates.enumeration.Token;
+import it.algos.springvaadin.annotation.AIScript;
 import it.algos.springvaadin.service.AFileService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -139,8 +140,7 @@ public class TElabora {
     private void creaClasse(Componente componente, Map<Chiave, Object> mappaInput) {
         String nomeFileTextSorgente = "";
         String pathFileTextSorgente = "";
-        String pathClasseJava = "";
-        String sourceText = "";
+        String sourceTemplatesText = "";
 
         if (mappaInput.containsKey(Chiave.nameEntityFirstUpper)) {
             this.nameEntityFirstUpper = (String) mappaInput.get(Chiave.nameEntityFirstUpper);
@@ -154,9 +154,78 @@ public class TElabora {
         }// end of if/else cycle
 
         pathFileTextSorgente = pathSource + SEP + nomeFileTextSorgente;
-        sourceText = file.leggeFile(pathFileTextSorgente);
+        sourceTemplatesText = file.leggeFile(pathFileTextSorgente);
 
+        this.checkAndWriteFile(componente, mappaInput, sourceTemplatesText);
+    }// end of method
+
+
+    private void checkAndWriteFile(Componente componente, Map<Chiave, Object> mappaInput, String sourceTemplatesText) {
+        String fileNameJava = "";
+        String pathFileJava;
+        String oldFileText = "";
+
+        fileNameJava = nameEntityFirstUpper + componente.getJavaClassName();
+        pathFileJava = pathPackage + SEP + fileNameJava;
+
+        if (mappaInput.containsKey(Chiave.usaSovrascrive) && (boolean) mappaInput.get(Chiave.usaSovrascrive)) {
+            this.writeFile(pathFileJava, sourceTemplatesText);
+            System.out.println(fileNameJava + " esisteva già ed è stato modificato");
+        } else {
+            oldFileText = file.leggeFile(pathFileJava);
+            if (text.isValid(oldFileText)) {
+                if (checkFile(componente, oldFileText)) {
+                    this.writeFile(pathFileJava, sourceTemplatesText);
+                    System.out.println(fileNameJava + " esisteva già ed è stato modificato");
+                } else {
+                    System.out.println(fileNameJava + " esisteva già e NON è stato modificato");
+                }// end of if/else cycle
+            } else {
+                this.writeFile(pathFileJava, sourceTemplatesText);
+                System.out.println(fileNameJava + " non esisteva ed è stato creato");
+            }// end of if/else cycle
+        }// end of if/else cycle
+    }// end of method
+
+
+    private boolean checkFile(Componente componente, String oldFileText) {
+        boolean sovrascrivibile = true;
+        String fileNameJava = "";
+        String pathFileJava;
+        String tagUno = "@AIScript(sovrascrivibile";
+        String tagDue = "=";
+        String tagTre = ")";
+        int posIni;
+        int posEnd;
+        String estratto;
+
+        if (oldFileText.contains(tagUno)) {
+            sovrascrivibile = false;
+            posIni = oldFileText.indexOf(tagUno);
+            posIni = oldFileText.indexOf(tagDue, posIni);
+            posEnd = oldFileText.indexOf(tagTre, posIni);
+            estratto = oldFileText.substring(posIni, posEnd);
+            estratto = text.levaTesta(estratto, tagDue);
+
+            if (estratto.equals("true")) {
+                sovrascrivibile = true;
+            }// end of if cycle
+        }// end of if cycle
+
+        return sovrascrivibile;
+    }// end of method
+
+
+    private void writeFile(String pathFileJava, String sourceTemplatesText) {
+        String replacedText = "";
+        replacedText = replaceText(sourceTemplatesText);
+        file.scriveFile(pathFileJava, replacedText, true);
+    }// end of method
+
+
+    private String replaceText(String sourceText) {
         Map<Token, String> mappa = new HashMap<>();
+
         mappa.put(Token.lowerProject, nameProject);
         mappa.put(Token.lowerModulo, nameModulo);
         mappa.put(Token.packageName, namePackageLower);
@@ -165,10 +234,8 @@ public class TElabora {
         mappa.put(Token.today, LocalDate.now().toString());
         mappa.put(Token.tag, "ACost.TAG_ROL");
         mappa.put(Token.entity, nameEntityFirstUpper);
-        String replacedText = Token.replaceAll(sourceText, mappa);
 
-        pathClasseJava = pathPackage + SEP + nameEntityFirstUpper + componente.getJavaClassName();
-        file.scriveFile(pathClasseJava, replacedText, true);
+        return Token.replaceAll(sourceText, mappa);
     }// end of method
 
 
