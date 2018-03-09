@@ -14,8 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Project springvaadin
@@ -275,6 +274,17 @@ public class AFileServiceTest extends ATest {
 
         service.deleteFile(nomeFile);
         System.out.println("*leggeFile - fine");
+
+        nomeFile = "/Users/gac/Documents/IdeaProjects/springvaadin/src/main/java/it/algos/springtemplates/application/AppCost.java";
+        testoOttenuto = service.leggeFile(nomeFile);
+        assertNotNull(testoOttenuto);
+        assertTrue(testoOttenuto.length()>0);
+        System.out.println(testoOttenuto);
+
+        nomeFile = "/Users/gac/Documents/IdeaProjects/springvaadin/src/main/java/it/algos/springtemplates.application.AppCost.java";
+        testoOttenuto = service.leggeFile(nomeFile);
+        assertEquals("", testoOttenuto);
+        assertTrue(testoOttenuto.length()==0);
     }// end of method
 
 }// end of class

@@ -16,7 +16,6 @@ import it.algos.springvaadin.enumeration.EAFieldAccessibility;
 import it.algos.springvaadin.enumeration.EAFieldType;
 import it.algos.springvaadin.annotation.*;
 import it.algos.springvaadin.entity.AEntity;
-import it.algos.springvaadin.lib.ACost;
 @IMPORT_COST@
 
 /**

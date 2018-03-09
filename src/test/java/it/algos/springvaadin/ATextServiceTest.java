@@ -35,7 +35,7 @@ public class ATextServiceTest {
     private String tag = "";
     private String oldTag = "";
     private String newTag = "";
-
+    private int pos;
 
     @InjectMocks
     private ATextService service;
@@ -102,12 +102,12 @@ public class ATextServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
-      * Controlla che sia una stringa e che sia valida.
-      *
-      * @param obj in ingresso da controllare
-      *
-      * @return vero se la stringa esiste è non è vuota
-      */
+     * Controlla che sia una stringa e che sia valida.
+     *
+     * @param obj in ingresso da controllare
+     *
+     * @return vero se la stringa esiste è non è vuota
+     */
     @Test
     public void isValidObj() {
         Object obj = new Label();
@@ -129,16 +129,16 @@ public class ATextServiceTest {
 
     @SuppressWarnings("javadoc")
     /**
-      * Forza il primo carattere della stringa al carattere maiuscolo
-      * <p>
-      * Se la stringa è nulla, ritorna un nullo
-      * Se la stringa è vuota, ritorna una stringa vuota
-      * Elimina spazi vuoti iniziali e finali
-      *
-      * @param testo in ingresso
-      *
-      * @return test formattato in uscita
-      */
+     * Forza il primo carattere della stringa al carattere maiuscolo
+     * <p>
+     * Se la stringa è nulla, ritorna un nullo
+     * Se la stringa è vuota, ritorna una stringa vuota
+     * Elimina spazi vuoti iniziali e finali
+     *
+     * @param testo in ingresso
+     *
+     * @return test formattato in uscita
+     */
     @Test
     public void primaMaiuscola() {
         sorgente = "TUTTO MAIUSCOLO ";
@@ -335,6 +335,31 @@ public class ATextServiceTest {
         newTag = "";
         previsto = "Devo  cancellare tutte le";
         ottenuto = service.sostituisce(sorgente, oldTag, newTag);
+        assertEquals(previsto, ottenuto);
+    }// end of single test
+
+    @SuppressWarnings("javadoc")
+    /**
+     * Inserisce nel testo alla posizione indicata
+     * Esegue solo se il testo è valido
+     * Esegue solo se il newTag è valido
+     * Elimina spazi vuoti iniziali e finali
+     *
+     * @param testoIn ingresso da elaborare
+     * @param newTag  da inserire
+     * @param pos     di inserimento
+     *
+     * @return testo modificato
+     */
+    @Test
+    public void inserisce() {
+        tag = "tutte";
+        newTag = "pippoz";
+        sorgente = "Devo oldTag cancellare tutte le oldTag";
+        previsto = "Devo oldTag cancellare " + newTag + "tutte le oldTag";
+
+        pos = sorgente.indexOf(tag);
+        ottenuto = service.inserisce(sorgente, newTag, pos);
         assertEquals(previsto, ottenuto);
     }// end of single test
 

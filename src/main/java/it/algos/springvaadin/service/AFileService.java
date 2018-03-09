@@ -349,6 +349,9 @@ public class AFileService {
         String aCapo = "\n";
         String currentLine;
 
+        //-- non va, perché se arriva it/algos/Alfa.java becca anche il .java
+//        nameFileToBeRead=  nameFileToBeRead.replaceAll("\\.","/");
+
         try (BufferedReader br = new BufferedReader(new FileReader(nameFileToBeRead))) {
             while ((currentLine = br.readLine()) != null) {
                 testo += currentLine;

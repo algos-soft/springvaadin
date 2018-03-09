@@ -2,10 +2,11 @@ package it.algos.springtemplates.scripts;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import it.algos.springtemplates.enumeration.Chiave;
-import it.algos.springtemplates.enumeration.Componente;
+import it.algos.springtemplates.enumeration.Task;
 import it.algos.springtemplates.enumeration.Progetto;
 import it.algos.springtemplates.enumeration.Token;
 import it.algos.springvaadin.annotation.AIScript;
+import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AFileService;
 import it.algos.springvaadin.service.ATextService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,26 +44,48 @@ public class TElabora {
     public ATextService text;
 
     private static String SEP = "/";
+    private static String JAVA_SUFFIX = ".java";
+    private static String LIST_VIEW_SUFFIX = "List";
+    private static String FORM_VIEW_SUFFIX = "Form";
+    private static String TAG = "TAG_";
+    private static String VIEW = "VIEW_";
+    private static String NAME_COST = "Acost";
+    private static String NAME_APP_COST = "AppCost";
+    private static String IMPORT = "import it.algos.";
     private static String PATH_MAIN = "/src/main";
     private static String PATH_JAVA = PATH_MAIN + "/java/it/algos";
     private static String MODULO_BASE = "springvaadin";
     private static String MODULO_TEMPLATES = "springtemplates";
-    private static String NOME_SOURCES = "sources";
-    private static String NOME_ENTITY = "entity";
+    private static String DIR_SOURCES = "sources";
+    private static String DIR_ENTITY = "entity";
+    private static String DIR_APP = "application";
+    private static String DIR_LIB = "lib";
+    private static String DIR_UI = "ui";
+
 
     private String nameProject;             //--dal dialogo di input
     private String nameProjectLower;        //--dal dialogo di input
     private String nameModulo;              //--dalla enumeration Progetto
     private String namePackageLower;        //--dal dialogo di input
     private String nameEntityFirstUpper;    //--dal dialogo di input
+    private String tagBreveTreChar;         //--dal dialogo di input
 
     private String userDir;         //--di sistema
     private String pathRoot;        //--userDir meno MODULO_BASE
     private String pathProject;     //--pathRoot più nameProject (usato come radice per pom.xml e README.text)
     private String pathMain;        //--pathProject più PATH_MAIN (usato come radice per resources e webapp)
     private String pathModulo;      //--pathMain più PATH_JAVA più nameProject (usato come radice per i files java)
-    private String pathEntity;      //--pathModulo più NOME_ENTITY
+    private String pathApplication; //--pathModulo più DIR_APP
+    private String pathUI;          //--pathModulo più DIR_UI
+    private String pathEntity;      //--pathModulo più DIR_ENTITY
     private String pathPackage;     //--pathEntity più namePackage
+
+    private String nameCost;        //--NAME_COST (springvaadin) o NAME_APP_COST (altri progetti)
+    private String dirCost;         //--DIR_LIB (springvaadin) o DIR_APP (altri progetti)
+    private String pathFileCost;    //--pathModulo più lib (springvaadin) o application (altri progetti)
+    private String qualifier;       //--NAME_COST (springvaadin) o NAME_APP_COST (altri progetti) più TAG più tagBreveTreChar
+    private String qualifierView;   //--NAME_COST (springvaadin) o NAME_APP_COST (altri progetti) più VIEW più tagBreveTreChar
+    private String importCost;
 
     private String pathSource;      //--pathRoot più PATH_JAVA più MODULO_TEMPLATES più NOME_SOURCES
 
@@ -78,8 +101,11 @@ public class TElabora {
     public void newPackage(Map<Chiave, Object> mappaInput) {
         this.regola();
         this.regolaProgetto(mappaInput);
-        this.creaDirectory(mappaInput);
-        this.creaClassi(mappaInput);
+        this.regolaTag(mappaInput);
+        this.creaDirectory();
+        this.creaTasks(mappaInput);
+        this.addPackageMenu();
+        this.addTagCostanti();
     }// end of method
 
 
@@ -90,7 +116,7 @@ public class TElabora {
         this.userDir = System.getProperty("user.dir");
         this.pathRoot = text.levaCodaDa(userDir, SEP);
 
-        this.pathSource = userDir + SEP + PATH_JAVA + SEP + MODULO_TEMPLATES + SEP + NOME_SOURCES;
+        this.pathSource = userDir + SEP + PATH_JAVA + SEP + MODULO_TEMPLATES + SEP + DIR_SOURCES;
     }// end of method
 
 
@@ -108,19 +134,45 @@ public class TElabora {
                 this.nameModulo = progetto.getNameModulo();
                 this.pathProject = pathRoot + SEP + nameProject;
                 this.pathModulo = pathProject + PATH_JAVA + SEP + nameModulo;
-                this.pathEntity = pathModulo + SEP + NOME_ENTITY;
+                this.pathApplication = pathModulo + SEP + DIR_APP;
+                this.pathEntity = pathModulo + SEP + DIR_ENTITY;
+                this.pathUI = pathModulo + SEP + DIR_UI;
             }// end of if cycle
         }// end of if cycle
 
     }// end of method
 
 
-    private boolean creaDirectory(Map<Chiave, Object> mappaInput) {
+    private void regolaTag(Map<Chiave, Object> mappaInput) {
+        Progetto progetto;
 
         if (mappaInput.containsKey(Chiave.namePackageLower)) {
             this.namePackageLower = (String) mappaInput.get(Chiave.namePackageLower);
         }// end of if cycle
 
+        if (mappaInput.containsKey(Chiave.tagBreveTreChar)) {
+            this.tagBreveTreChar = (String) mappaInput.get(Chiave.tagBreveTreChar);
+        }// end of if cycle
+
+        if (mappaInput.containsKey(Chiave.nameProject)) {
+            progetto = (Progetto) mappaInput.get(Chiave.nameProject);
+            if (progetto != null) {
+                if (progetto == Progetto.vaadin) {
+                    nameCost = NAME_COST;
+                    dirCost = DIR_LIB;
+                } else {
+                    nameCost = NAME_APP_COST;
+                    dirCost = DIR_APP;
+                }// end of if/else cycle
+                qualifier = nameCost + "." + TAG + tagBreveTreChar;
+                qualifierView = nameCost + "." + VIEW + tagBreveTreChar;
+                importCost = IMPORT + nameModulo + "." + dirCost + "." + nameCost + ";";
+                pathFileCost = pathModulo + "/" + dirCost + "/" + nameCost + JAVA_SUFFIX;
+            }// end of if cycle
+        }// end of if cycle
+    }// end of method
+
+    private boolean creaDirectory() {
         if (text.isValid(namePackageLower)) {
             this.pathPackage = pathEntity + SEP + namePackageLower;
             return file.creaDirectory(pathPackage);
@@ -130,14 +182,14 @@ public class TElabora {
     }// end of method
 
 
-    private void creaClassi(Map<Chiave, Object> mappaInput) {
-//        for (NomeClasse nome : NomeClasse.values()) {
-//        }// end of for cycle
-        creaClasse(Componente.entity, mappaInput);
+    private void creaTasks(Map<Chiave, Object> mappaInput) {
+        for (Task task : Task.values()) {
+            creaTask(task, mappaInput);
+        }// end of for cycle
     }// end of method
 
 
-    private void creaClasse(Componente componente, Map<Chiave, Object> mappaInput) {
+    private void creaTask(Task task, Map<Chiave, Object> mappaInput) {
         String nomeFileTextSorgente = "";
         String pathFileTextSorgente = "";
         String sourceTemplatesText = "";
@@ -145,9 +197,9 @@ public class TElabora {
         if (mappaInput.containsKey(Chiave.nameEntityFirstUpper)) {
             this.nameEntityFirstUpper = (String) mappaInput.get(Chiave.nameEntityFirstUpper);
             if (mappaInput.containsKey(Chiave.usaCompany) && (boolean) mappaInput.get(Chiave.usaCompany)) {
-                nomeFileTextSorgente = componente.getSourceNameCompany();
+                nomeFileTextSorgente = task.getSourceNameCompany();
             } else {
-                nomeFileTextSorgente = componente.getSourceName();
+                nomeFileTextSorgente = task.getSourceName();
             }// end of if/else cycle
         } else {
             return;
@@ -156,16 +208,16 @@ public class TElabora {
         pathFileTextSorgente = pathSource + SEP + nomeFileTextSorgente;
         sourceTemplatesText = file.leggeFile(pathFileTextSorgente);
 
-        this.checkAndWriteFile(componente, mappaInput, sourceTemplatesText);
+        this.checkAndWriteFile(task, mappaInput, sourceTemplatesText);
     }// end of method
 
 
-    private void checkAndWriteFile(Componente componente, Map<Chiave, Object> mappaInput, String sourceTemplatesText) {
+    private void checkAndWriteFile(Task task, Map<Chiave, Object> mappaInput, String sourceTemplatesText) {
         String fileNameJava = "";
         String pathFileJava;
         String oldFileText = "";
 
-        fileNameJava = nameEntityFirstUpper + componente.getJavaClassName();
+        fileNameJava = nameEntityFirstUpper + task.getJavaClassName();
         pathFileJava = pathPackage + SEP + fileNameJava;
 
         if (mappaInput.containsKey(Chiave.usaSovrascrive) && (boolean) mappaInput.get(Chiave.usaSovrascrive)) {
@@ -174,7 +226,7 @@ public class TElabora {
         } else {
             oldFileText = file.leggeFile(pathFileJava);
             if (text.isValid(oldFileText)) {
-                if (checkFile(componente, oldFileText)) {
+                if (checkFile(oldFileText)) {
                     this.writeFile(pathFileJava, sourceTemplatesText);
                     System.out.println(fileNameJava + " esisteva già ed è stato modificato");
                 } else {
@@ -188,7 +240,7 @@ public class TElabora {
     }// end of method
 
 
-    private boolean checkFile(Componente componente, String oldFileText) {
+    private boolean checkFile(String oldFileText) {
         boolean sovrascrivibile = true;
         String fileNameJava = "";
         String pathFileJava;
@@ -229,13 +281,110 @@ public class TElabora {
         mappa.put(Token.lowerProject, nameProject);
         mappa.put(Token.lowerModulo, nameModulo);
         mappa.put(Token.packageName, namePackageLower);
-        mappa.put(Token.importCost, "");
         mappa.put(Token.user, "Gac");
         mappa.put(Token.today, LocalDate.now().toString());
-        mappa.put(Token.tag, "ACost.TAG_ROL");
+        mappa.put(Token.tag, qualifier);
+        mappa.put(Token.tagView, qualifierView);
         mappa.put(Token.entity, nameEntityFirstUpper);
+        mappa.put(Token.importCost, importCost);
 
         return Token.replaceAll(sourceText, mappa);
+    }// end of method
+
+
+    private void addPackageMenu() {
+        String fileNameUIClass = "";
+        String pathFileUIClass = "";
+
+        fileNameUIClass = text.primaMaiuscola(nameModulo) + "UI";
+        pathFileUIClass = pathUI + SEP + fileNameUIClass + JAVA_SUFFIX;
+
+        addVisteSpecifichePackage(fileNameUIClass, pathFileUIClass);
+        addImportPackage(pathFileUIClass, nameEntityFirstUpper);
+        addImportPackage(pathFileUIClass, nameEntityFirstUpper + LIST_VIEW_SUFFIX);
+    }// end of method
+
+
+    private void addVisteSpecifichePackage(String fileNameUIClass, String pathFileUIClass) {
+        String aCapo = "\n\t\t";
+        String tagPackage = "";
+        String tagMethod = "protected void addVisteSpecifiche() {";
+        String textUIClass = file.leggeFile(pathFileUIClass);
+
+        if (isEsisteMetodo(fileNameUIClass, textUIClass, tagMethod)) {
+            tagPackage = "menuLayout.addView(" + nameEntityFirstUpper + ".class, " + nameEntityFirstUpper + "List.class);";
+
+            if (textUIClass.contains(tagPackage)) {
+            } else {
+                textUIClass = text.sostituisce(textUIClass, tagMethod, tagMethod + aCapo + tagPackage);
+                file.scriveFile(pathFileUIClass, textUIClass, true);
+
+                System.out.println("Il package " + text.primaMaiuscola(namePackageLower) + " è stato aggiunto al menu");
+            }// end of if/else cycle
+        }// end of if cycle
+    }// end of method
+
+
+    private boolean isEsisteMetodo(String fileNameUIClass, String textUIClass, String tagMethod) {
+        boolean esiste = false;
+
+        if (textUIClass.contains(tagMethod)) {
+            esiste = true;
+        } else {
+            System.out.println("Nella classe iniziale " + fileNameUIClass + " manca il metodo " + tagMethod);
+        }// end of if/else cycle
+
+        return esiste;
+    }// end of method
+
+
+    private void addImportPackage(String pathFileUIClass, String fileNameClass) {
+        String aCapo = "\n";
+        String tagImport = "";
+        String tagInizioInserimento = "\n/**";
+        int posIni = 0;
+        String textUIClass = file.leggeFile(pathFileUIClass);
+
+        tagImport = "import it.algos." + nameModulo + ".entity." + namePackageLower + "." + fileNameClass + ";";
+
+        if (textUIClass.contains(tagImport)) {
+        } else {
+            posIni = textUIClass.indexOf(tagInizioInserimento);
+            textUIClass = text.inserisce(textUIClass, tagImport, posIni);
+            file.scriveFile(pathFileUIClass, textUIClass, true);
+
+            System.out.println("L'import del file " + fileNameClass + " è stato inserito negli import iniziali");
+        }// end of if/else cycle
+    }// end of method
+
+
+    private void addTagCostanti() {
+        this.addTagCost(TAG + tagBreveTreChar, namePackageLower);
+        this.addTagCost(VIEW + tagBreveTreChar + "_" + LIST_VIEW_SUFFIX.toUpperCase(), namePackageLower + LIST_VIEW_SUFFIX);
+        this.addTagCost(VIEW + tagBreveTreChar + "_" + FORM_VIEW_SUFFIX.toUpperCase(), namePackageLower + FORM_VIEW_SUFFIX);
+    }// end of method
+
+    private void addTagCost(String tag, String value) {
+        String aCapo = "\n\t";
+        String tagFind = "public abstract class " + nameCost + " {";
+        String tagStatic = "";
+        String textCostClass = file.leggeFile(pathFileCost);
+        int posIni = 0;
+
+        tagStatic = "public final static String " + tag + " = \"" + value + "\";";
+
+        if (textCostClass.contains(tagStatic)) {
+        } else {
+            posIni = textCostClass.indexOf(tagFind);
+            posIni = posIni + tagFind.length();
+            tagStatic = aCapo + tagStatic;
+
+            textCostClass = text.inserisce(textCostClass, tagStatic, posIni);
+            file.scriveFile(pathFileCost, textCostClass, true);
+
+            System.out.println("La costante statica TAG_" + tag + " è stata inserita nel file " + nameCost);
+        }// end of if/else cycle
+
     }// end of method
 
 

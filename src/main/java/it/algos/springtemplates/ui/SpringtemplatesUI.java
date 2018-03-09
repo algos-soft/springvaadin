@@ -16,11 +16,13 @@ import it.algos.springtemplates.scripts.TElabora;
 import it.algos.springtemplates.scripts.TRecipient;
 import it.algos.springvaadin.button.AButtonFactory;
 import it.algos.springvaadin.lib.ACost;
+import it.algos.springvaadin.menu.MenuLayout;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
-
+import it.algos.springtemplates.entity.prova.Prova;
+import it.algos.springtemplates.entity.prova.ProvaList;
 /**
  * Project springvaadin
  * Created by Algos
@@ -35,6 +37,13 @@ import java.util.Map;
 @VaadinSessionScope
 public class SpringtemplatesUI extends UI implements ViewDisplay {
 
+
+    /**
+     * Contenitore grafico per la barra di menu principale e per il menu/bottone del Login
+     * A seconda del layout può essere posizionato in alto, oppure a sinistra
+     */
+    @Autowired
+    protected MenuLayout menuLayout;
 
     //--crea la UI di base, un VerticalLayout
     protected VerticalLayout root;
@@ -103,6 +112,23 @@ public class SpringtemplatesUI extends UI implements ViewDisplay {
         getNavigator().navigateTo(ACost.VIEW_TEMPLATES);
     }// end of method
 
+
+    /**
+     * Creazione delle viste (moduli) specifiche dell'applicazione.
+     * La superclasse AlgosUIParams crea (flag true/false) le viste (moduli) usate da tutte le applicazioni
+     * I flag si regolano in @PostConstruct:init()
+     * <p>
+     * Aggiunge al menu generale, le viste (moduli) disponibili alla partenza dell'applicazione
+     * Ogni modulo può eventualmente modificare il proprio menu
+     * <p>
+     * Deve (DEVE) essere sovrascritto dalla sottoclasse
+     * Chiama il metodo  addView(...) della superclasse per ogni vista (modulo)
+     * La vista viene aggiunta alla barra di menu principale (di partenza)
+     * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
+     */
+    protected void addVisteSpecifiche() {
+		menuLayout.addView(Prova.class, ProvaList.class);
+    }// end of method
 
     @Override
     public void showView(View view) {

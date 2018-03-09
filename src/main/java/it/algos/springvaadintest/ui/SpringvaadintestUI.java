@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import it.algos.springvaadintest.entity.prova.Prova;
+import it.algos.springvaadintest.entity.prova.ProvaList;
 
 /**
  * Created by gac on 30/05/17.
@@ -93,6 +95,7 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
+		menuLayout.addView(Prova.class, ProvaList.class);
         menuLayout.addView(Milite.class, MiliteList.class);
     }// end of method
 

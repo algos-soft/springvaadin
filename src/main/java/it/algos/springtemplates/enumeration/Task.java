@@ -1,27 +1,31 @@
 package it.algos.springtemplates.enumeration;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Date: mar, 06-mar-2018
- * Time: 09:38
+ * Date: gio, 08-mar-2018
+ * Time: 08:05
  */
-public enum Componente {
+@Slf4j
+public enum Task {
+
 
     entity("Entity", "EntityCompany", ""),
     list("List", "List", "List"),
-    form("Form", "Form", "Form"),
-    presenter("Presenter", "Presenter", "Presenter"),
-    repository("Repository", "RepositoryCompany", "Repository"),
-    service("Service", "ServiceCompany", "Service");
-
+//    form("Form", "Form", "Form"),
+//    presenter("Presenter", "Presenter", "Presenter"),
+//    repository("Repository", "RepositoryCompany", "Repository"),
+//    service("Service", "ServiceCompany", "Service");
+;
     private String source;
     private String sourceCompany;
     private String suffix;
 
 
-    Componente(String source, String sourceCompany, String suffix) {
+    Task(String source, String sourceCompany, String suffix) {
         this.setSource(source);
         this.setSourceCompany(sourceCompany);
         this.setSuffix(suffix);

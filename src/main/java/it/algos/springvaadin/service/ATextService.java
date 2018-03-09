@@ -186,7 +186,7 @@ public class ATextService {
      * Se tagInterrompi è vuoto, restituisce il testo
      * Elimina spazi vuoti iniziali e finali
      *
-     * @param testoIn   ingresso
+     * @param testoIn       ingresso
      * @param tagInterrompi da dove inizia il testo da eliminare
      *
      * @return test ridotto in uscita
@@ -240,6 +240,33 @@ public class ATextService {
 
                 testoOut = prima + rimane;
             }// fine del blocco if
+        }// fine del blocco if
+
+        return testoOut.trim();
+    }// end of  method
+
+    /**
+     * Inserisce nel testo alla posizione indicata
+     * Esegue solo se il testo è valido
+     * Esegue solo se il newTag è valido
+     * Elimina spazi vuoti iniziali e finali
+     *
+     * @param testoIn ingresso da elaborare
+     * @param newTag  da inserire
+     * @param pos     di inserimento
+     *
+     * @return testo modificato
+     */
+    public String inserisce(String testoIn, String newTag, int pos) {
+        String testoOut = testoIn;
+        String prima = "";
+        String dopo = "";
+
+        if (this.isValid(testoIn) && this.isValid(newTag)) {
+            prima = testoIn.substring(0, pos);
+            dopo = testoIn.substring(pos );
+
+            testoOut = prima + newTag + dopo;
         }// fine del blocco if
 
         return testoOut.trim();

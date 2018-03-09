@@ -1,14 +1,17 @@
 package it.algos.springtemplates.enumeration;
 
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Project springvaadin
  * Created by Algos
  * User: gac
- * Date: mer, 07-mar-2018
- * Time: 07:42
+ * Date: gio, 08-mar-2018
+ * Time: 08:23
  */
+@Slf4j
 public enum Progetto {
+
 
     vaadin("springvaadin", "springvaadin"),
     templates("springvaadin", "springtemplates"),

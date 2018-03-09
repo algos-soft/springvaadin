@@ -20,6 +20,7 @@ public enum Token {
     user("USER"),
     today("TODAY"),
     tag("TAG"),
+    tagView("TAG_VIEW"),
     entity("ENTITY"),
     entitySuperclass("ENTITYSUPERCLASS");
 
