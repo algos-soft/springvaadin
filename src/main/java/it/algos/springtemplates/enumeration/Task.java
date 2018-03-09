@@ -15,11 +15,11 @@ public enum Task {
 
     entity("Entity", "EntityCompany", ""),
     list("List", "List", "List"),
-//    form("Form", "Form", "Form"),
-//    presenter("Presenter", "Presenter", "Presenter"),
-//    repository("Repository", "RepositoryCompany", "Repository"),
-//    service("Service", "ServiceCompany", "Service");
-;
+    form("Form", "Form", "Form"),
+    presenter("Presenter", "Presenter", "Presenter"),
+    repository("Repository", "RepositoryCompany", "Repository"),
+    service("Service", "ServiceCompany", "Service");
+
     private String source;
     private String sourceCompany;
     private String suffix;

@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 import it.algos.springtemplates.entity.prova.Prova;
 import it.algos.springtemplates.entity.prova.ProvaList;
+
 /**
  * Project springvaadin
  * Created by Algos

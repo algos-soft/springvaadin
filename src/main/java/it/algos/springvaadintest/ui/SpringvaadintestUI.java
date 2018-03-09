@@ -4,8 +4,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.spring.annotation.VaadinSessionScope;
-import it.algos.springvaadin.app.FactoryLabel;
-import it.algos.springvaadin.app.Tool;
 import it.algos.springvaadin.footer.AFooter;
 import it.algos.springvaadin.lib.ACost;
 import it.algos.springvaadin.service.AStartService;
@@ -18,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import it.algos.springvaadintest.entity.prova.Prova;
-import it.algos.springvaadintest.entity.prova.ProvaList;
 
 /**
  * Created by gac on 30/05/17.
@@ -49,9 +45,6 @@ public class SpringvaadintestUI extends AUI {
     private AStartService startService;
 
 
-    @Autowired
-    private Tool tool;
-
 //    @Resource(name = "&tool")
 //    private FactoryLabel toolFactory;
 
@@ -76,7 +69,6 @@ public class SpringvaadintestUI extends AUI {
      */
     @PostConstruct
     private void fixProjectFooter() {
-        Object alfa= tool;
         AFooter.PROJECT = "Springvaadin";
         AFooter.VERSION = "0.1";
     }// end of method
@@ -95,7 +87,6 @@ public class SpringvaadintestUI extends AUI {
      * La vista viene aggiunta allo SpringViewProvider usato da SpringNavigator
      */
     protected void addVisteSpecifiche() {
-		menuLayout.addView(Prova.class, ProvaList.class);
         menuLayout.addView(Milite.class, MiliteList.class);
     }// end of method
 

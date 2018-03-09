@@ -28,9 +28,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  */
 @Slf4j
 @SpringBootApplication
-@ComponentScan({"it.algos.springtemplates","it.algos.springvaadin"})
-@EntityScan({"it.algos.springtemplates","it.algos.springvaadin.entity"})
-@EnableMongoRepositories({"it.algos.springvaadin.entity", "it.algos.springvaadintest.entity"})
+@ComponentScan({"it.algos.springvaadin","it.algos.springtemplates"})
+@EntityScan({"it.algos.springvaadin.entity","it.algos.springtemplates.entity"})
+@EnableMongoRepositories({"it.algos.springvaadin.entity", "it.algos.springtemplates.entity"})
 public class SpringtemplatesApplication extends SpringBootServletInitializer {
 
 

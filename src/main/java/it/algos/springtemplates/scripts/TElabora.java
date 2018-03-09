@@ -49,13 +49,14 @@ public class TElabora {
     private static String FORM_VIEW_SUFFIX = "Form";
     private static String TAG = "TAG_";
     private static String VIEW = "VIEW_";
-    private static String NAME_COST = "Acost";
+    private static String NAME_COST = "ACost";
     private static String NAME_APP_COST = "AppCost";
     private static String IMPORT = "import it.algos.";
     private static String PATH_MAIN = "/src/main";
     private static String PATH_JAVA = PATH_MAIN + "/java/it/algos";
     private static String MODULO_BASE = "springvaadin";
     private static String MODULO_TEMPLATES = "springtemplates";
+    private static String MODULO_TEST = "springvaadintest";
     private static String DIR_SOURCES = "sources";
     private static String DIR_ENTITY = "entity";
     private static String DIR_APP = "application";
@@ -69,6 +70,7 @@ public class TElabora {
     private String namePackageLower;        //--dal dialogo di input
     private String nameEntityFirstUpper;    //--dal dialogo di input
     private String tagBreveTreChar;         //--dal dialogo di input
+    private String nameModuloUI;
 
     private String userDir;         //--di sistema
     private String pathRoot;        //--userDir meno MODULO_BASE
@@ -76,7 +78,7 @@ public class TElabora {
     private String pathMain;        //--pathProject più PATH_MAIN (usato come radice per resources e webapp)
     private String pathModulo;      //--pathMain più PATH_JAVA più nameProject (usato come radice per i files java)
     private String pathApplication; //--pathModulo più DIR_APP
-    private String pathUI;          //--pathModulo più DIR_UI
+    private String pathModuloUI;    //--pathModulo più DIR_UI specifico per springvaadin
     private String pathEntity;      //--pathModulo più DIR_ENTITY
     private String pathPackage;     //--pathEntity più namePackage
 
@@ -131,12 +133,13 @@ public class TElabora {
             if (progetto != null) {
                 this.nameProject = progetto.getNameProject();
                 this.nameProjectLower = nameProject.toLowerCase();
-                this.nameModulo = progetto.getNameModulo();
                 this.pathProject = pathRoot + SEP + nameProject;
+                this.nameModulo = progetto.getNameModulo();
+                this.nameModuloUI=nameModulo;
                 this.pathModulo = pathProject + PATH_JAVA + SEP + nameModulo;
                 this.pathApplication = pathModulo + SEP + DIR_APP;
                 this.pathEntity = pathModulo + SEP + DIR_ENTITY;
-                this.pathUI = pathModulo + SEP + DIR_UI;
+                this.pathModuloUI = pathModulo + SEP + DIR_UI;
             }// end of if cycle
         }// end of if cycle
 
@@ -160,6 +163,8 @@ public class TElabora {
                 if (progetto == Progetto.vaadin) {
                     nameCost = NAME_COST;
                     dirCost = DIR_LIB;
+                    this.nameModuloUI=MODULO_TEST;
+                    this.pathModuloUI = pathProject + PATH_JAVA + SEP + MODULO_TEST + SEP + DIR_UI;
                 } else {
                     nameCost = NAME_APP_COST;
                     dirCost = DIR_APP;
@@ -296,8 +301,8 @@ public class TElabora {
         String fileNameUIClass = "";
         String pathFileUIClass = "";
 
-        fileNameUIClass = text.primaMaiuscola(nameModulo) + "UI";
-        pathFileUIClass = pathUI + SEP + fileNameUIClass + JAVA_SUFFIX;
+        fileNameUIClass = text.primaMaiuscola(nameModuloUI) + "UI";
+        pathFileUIClass = pathModuloUI + SEP + fileNameUIClass + JAVA_SUFFIX;
 
         addVisteSpecifichePackage(fileNameUIClass, pathFileUIClass);
         addImportPackage(pathFileUIClass, nameEntityFirstUpper);
@@ -350,6 +355,7 @@ public class TElabora {
         if (textUIClass.contains(tagImport)) {
         } else {
             posIni = textUIClass.indexOf(tagInizioInserimento);
+            tagImport = tagImport + aCapo;
             textUIClass = text.inserisce(textUIClass, tagImport, posIni);
             file.scriveFile(pathFileUIClass, textUIClass, true);
 
@@ -367,19 +373,21 @@ public class TElabora {
     private void addTagCost(String tag, String value) {
         String aCapo = "\n\t";
         String tagFind = "public abstract class " + nameCost + " {";
-        String tagStatic = "";
+        String tagStaticFind = "";
+        String tagStaticReplace = "";
         String textCostClass = file.leggeFile(pathFileCost);
         int posIni = 0;
 
-        tagStatic = "public final static String " + tag + " = \"" + value + "\";";
+        tagStaticFind = "public final static String " + tag;
+        tagStaticReplace = tagStaticFind + " = \"" + value + "\";";
 
-        if (textCostClass.contains(tagStatic)) {
+        if (textCostClass.contains(tagStaticFind)) {
         } else {
             posIni = textCostClass.indexOf(tagFind);
             posIni = posIni + tagFind.length();
-            tagStatic = aCapo + tagStatic;
+            tagStaticReplace = aCapo + tagStaticReplace;
 
-            textCostClass = text.inserisce(textCostClass, tagStatic, posIni);
+            textCostClass = text.inserisce(textCostClass, tagStaticReplace, posIni);
             file.scriveFile(pathFileCost, textCostClass, true);
 
             System.out.println("La costante statica TAG_" + tag + " è stata inserita nel file " + nameCost);

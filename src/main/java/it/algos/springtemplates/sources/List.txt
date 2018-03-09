@@ -23,7 +23,7 @@ import it.algos.springvaadin.lib.ACost;
  * Project @LOWERMODULO@
  * Created by Algos
  * User: @USER@
- * Date: @DATE@
+ * Date: @TODAY@
  * Estende la Entity astratta AList di tipo AView per visualizzare la Grid
  * Annotated with @SpringComponent (obbligatorio)
  * Annotated with @Scope (obbligatorio = 'session')

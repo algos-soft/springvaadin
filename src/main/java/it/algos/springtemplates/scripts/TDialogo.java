@@ -197,7 +197,7 @@ public class TDialogo extends Window implements ApplicationListener {
 
     public CheckBox creaSovrascrive() {
         fieldCheckBoxSovrascrive = new CheckBox();
-        fieldCheckBoxSovrascrive.setCaption("Sovrascrive il file esistente");
+        fieldCheckBoxSovrascrive.setCaption("Sovrascrive tutti i files esistenti del package");
         return fieldCheckBoxSovrascrive;
     }// end of method
 

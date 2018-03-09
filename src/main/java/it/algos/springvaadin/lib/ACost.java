@@ -10,7 +10,6 @@ import java.util.List;
  * Altre costanti 'static' sono raggruppate nella classe it.algos.webbase.web.AlgosApp
  */
 public abstract class ACost {
-
     public final static boolean DEBUG = false;
     public final static String LOGIN_INFO = "loginInfo";
 
@@ -154,9 +153,6 @@ public abstract class ACost {
 	public final static String TAG_ADD = "address";
 	public final static String VIEW_ADD_LIST = "addresslist";
 	public final static String VIEW_ADD_FORM = "addressform";
-	public final static String TAG_PRO = "prova";
-	public final static String VIEW_PRO_LIST = "provalist";
-	public final static String VIEW_PRO_FORM = "provaform";
 	public final static String VIEW_PER_LIST = "personalist";
 	public final static String VIEW_PER_FORM = "personaform";
 	public final static String TAG_MIL = "militi";
